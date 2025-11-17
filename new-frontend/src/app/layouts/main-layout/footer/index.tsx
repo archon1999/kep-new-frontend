@@ -36,7 +36,7 @@ const Footer = () => {
             component="p"
             sx={{
               lineHeight: 1.6,
-              fontWeight: 'light',
+              fontWeight: 'medium',
               color: 'text.secondary',
             }}
           >
