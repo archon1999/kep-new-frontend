@@ -1,5 +1,6 @@
-import { Box, Divider, Link, Stack, Typography } from '@mui/material';
-import dayjs from 'dayjs';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+
+import IconifyIcon from 'shared/components/base/IconifyIcon';
 
 const Footer = () => {
   return (
@@ -29,41 +30,42 @@ const Footer = () => {
             fontWeight: 'light',
             color: 'text.secondary',
             display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: 'center',
+            gap: 1,
           }}
         >
-          <Box component="span" whiteSpace="nowrap">
-            Thank you for creating with
-            <Box component="strong" mx={0.5}>
-              Aurora{' '}
-            </Box>
-          </Box>
-
-          <Box component="span" whiteSpace="nowrap">
-            <Box component="span" display={{ xs: 'none', sm: 'inline' }}>
-              |
-            </Box>{' '}
-            {dayjs().year()} ©
-            <Link
-              href="https://themewagon.com/"
-              target="_blank"
-              sx={{ textDecoration: 'none', mx: 0.5 }}
-            >
-              ThemeWagon
-            </Link>
-          </Box>
+          KEP.uz ©
         </Typography>
 
-        <Typography
-          variant="caption"
-          component="p"
-          sx={{
-            fontWeight: 'light',
-            color: 'text.secondary',
-          }}
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={1.5}
+          flexWrap="wrap"
+          justifyContent={{ xs: 'center', sm: 'flex-end' }}
         >
-          v{import.meta.env.VITE_APP_VERSION}
-        </Typography>
+          <Typography
+            variant="caption"
+            component="p"
+            sx={{
+              fontWeight: 'light',
+              color: 'text.secondary',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+            }}
+          >
+            Powered by
+          </Typography>
+
+          <Stack direction="row" alignItems="center" spacing={1.25} flexWrap="wrap" rowGap={1}>
+            <IconifyIcon icon="logos:python" width={24} />
+            <IconifyIcon icon="devicon:django" width={24} />
+            <IconifyIcon icon="logos:react" width={24} />
+            <IconifyIcon icon="logos:material-ui" width={24} />
+            <Box component="img" src="/aurora.svg" alt="Aurora logo" sx={{ height: 20 }} />
+          </Stack>
+        </Stack>
       </Stack>
     </>
   );
