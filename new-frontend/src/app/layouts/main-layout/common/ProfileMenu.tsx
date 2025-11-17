@@ -50,7 +50,10 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
   // Demo user data used for development purposes
   const user = useMemo(() => sessionUser || demoUser, [sessionUser]);
   const username = useMemo(() => user?.username || user?.name || user?.email || 'User', [user]);
-  const fullName = useMemo(() => user?.fullName || user?.name || user?.email || '', [user]);
+  const combinedName = useMemo(
+    () => [user?.firstName, user?.lastName].filter(Boolean).join(' '),
+    [user],
+  );
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -158,9 +161,9 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
             >
               {username}
             </Typography>
-            {fullName && (
+            {combinedName && (
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {fullName}
+                {combinedName}
               </Typography>
             )}
           </Box>

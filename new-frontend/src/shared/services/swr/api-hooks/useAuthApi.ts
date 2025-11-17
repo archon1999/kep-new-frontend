@@ -7,17 +7,15 @@ import axiosFetcher from 'shared/services/axios/axiosFetcher';
 import useSWR, { SWRConfiguration } from 'swr';
 import useSWRMutation from 'swr/mutation';
 import { sendPasswordResetLinkFetcher } from '../dummyFetcher';
+import { UserAuth } from 'shared/api/orval/generated/endpoints';
 
-export interface User {
-  id: number | string;
-  username?: string;
-  fullName?: string;
+export type User = UserAuth & {
+  id?: number | string;
   name?: string;
   email?: string;
   avatar?: null | string;
-  type?: string;
   designation?: string;
-}
+};
 
 export const useGetCurrentUser = (config?: SWRConfiguration<User | null>) => {
   const result = useSWR<User | null>(
