@@ -45,7 +45,7 @@ export const contacts = [
 
 export const tags = [
   'Calender',
-  'Starter',
+  'Home',
   'Back',
   'Procrastination',
   'Support',
@@ -91,7 +91,7 @@ export const breadcrumbs = [
       href: '#!',
     },
     {
-      label: 'Starter',
+      label: 'Home',
       href: '#!',
       active: true,
     },
