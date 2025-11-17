@@ -7,7 +7,7 @@ import {
   SET_CONFIG,
   settingsReducer,
 } from 'app/reducers/SettingsReducer';
-import { Config, initialConfig } from 'config';
+import { Config, initialConfig } from 'app/config.ts';
 import { getItemFromStore } from 'shared/lib/utils';
 
 interface SettingsContextInterFace {

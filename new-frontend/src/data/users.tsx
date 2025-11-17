@@ -1,5 +1,5 @@
 import { User } from 'app/types/users';
-import { initialConfig } from 'config';
+import { initialConfig } from 'app/config.ts';
 
 const avatar = (index: number) => `${initialConfig.assetsDir}/images/avatar/${index}.webp`;
 

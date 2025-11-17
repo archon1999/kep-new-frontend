@@ -1,6 +1,6 @@
 import { Theme, avatarClasses } from '@mui/material';
 import { Components } from '@mui/material/styles';
-import { initialConfig } from 'config';
+import { initialConfig } from 'app/config.ts';
 
 export const Avatar: Components<Omit<Theme, 'components'>>['MuiAvatar'] = {
   defaultProps: {},

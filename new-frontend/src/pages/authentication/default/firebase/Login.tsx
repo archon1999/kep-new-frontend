@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import { useAuth } from 'app/providers/AuthProvider';
 import paths, { rootPaths } from 'app/routes/paths';
-import { defaultJwtAuthCredentials } from 'config';
+import { defaultJwtAuthCredentials } from 'app/config.ts';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import LoginForm, {
   LoginFormValues,

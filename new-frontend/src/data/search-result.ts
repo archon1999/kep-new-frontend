@@ -1,4 +1,4 @@
-import { initialConfig } from 'config';
+import { initialConfig } from 'app/config.ts';
 import { users } from './users';
 
 export const files = [

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import { PaletteOptions } from '@mui/material/styles';
-import { ThemeMode } from 'config';
+import { ThemeMode } from 'app/config.ts';
 import { darkPalette } from './darkPalette';
 import { lightPalette } from './lightPalette';
 

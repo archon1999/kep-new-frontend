@@ -5,7 +5,7 @@ import {
   SidenavType,
   SupportedLocales,
   initialConfig,
-} from 'config';
+} from 'app/config.ts';
 import { mainDrawerWidth } from 'shared/lib/constants';
 import { setItemToStore } from 'shared/lib/utils';
 

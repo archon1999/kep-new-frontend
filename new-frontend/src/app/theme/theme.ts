@@ -4,7 +4,7 @@ import * as locales from '@mui/material/locale';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 import type {} from '@mui/x-data-grid/themeAugmentation';
 import createPalette from 'app/theme/palette';
-import { SupportedLocales } from 'config';
+import { SupportedLocales } from 'app/config.ts';
 import Accordion, { AccordionDetails, AccordionSummary } from './components/Accordion';
 import Alert from './components/Alert';
 import AppBar from './components/AppBar';

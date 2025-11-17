@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useColorScheme } from '@mui/material';
-import { ThemeMode } from 'config';
+import { ThemeMode } from 'app/config.ts';
 
 export const useThemeMode = () => {
   const { mode, systemMode, setMode } = useColorScheme();

@@ -1,7 +1,7 @@
 import { Box, Button, Stack, SxProps, Typography } from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { SET_NAV_COLOR } from 'app/reducers/SettingsReducer';
-import { NavColor } from 'config';
+import { NavColor } from 'app/config.ts';
 
 interface ItemProps {
   label: string;

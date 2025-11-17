@@ -1,4 +1,4 @@
-import { SupportedLocales } from 'config';
+import { SupportedLocales } from 'app/config.ts';
 
 export interface SupportedLanguage {
   label: string;

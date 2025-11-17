@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { FormControlLabel, Radio } from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import { TopnavType } from 'config';
+import { TopnavType } from 'app/config.ts';
 import SettingsItem from './SettingsItem';
 import SettingsPanelRadioGroup from './SettingsPanelRadioGroup';
 

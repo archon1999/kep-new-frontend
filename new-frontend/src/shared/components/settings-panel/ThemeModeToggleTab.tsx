@@ -1,6 +1,6 @@
 import { SyntheticEvent } from 'react';
 import { Tab, Tabs, tabClasses, tabsClasses } from '@mui/material';
-import { ThemeMode } from 'config';
+import { ThemeMode } from 'app/config.ts';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useThemeMode } from 'shared/hooks/useThemeMode';
 import { cssVarRgba } from 'shared/lib/utils';

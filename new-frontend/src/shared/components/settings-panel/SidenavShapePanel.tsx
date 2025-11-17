@@ -3,7 +3,7 @@ import { FormControlLabel, Radio } from '@mui/material';
 import { useSettingsPanelContext } from 'app/providers/SettingsPanelProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { SET_SIDENAV_SHAPE } from 'app/reducers/SettingsReducer';
-import { SidenavType } from 'config';
+import { SidenavType } from 'app/config.ts';
 import SettingsItem from './SettingsItem';
 import SettingsPanelRadioGroup from './SettingsPanelRadioGroup';
 

@@ -33,7 +33,6 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/react-in-jsx-scope': 'off',
       'react/no-unescaped-entities': 'off',
       'prettier/prettier': ['error', { endOfLine: 'auto' }],

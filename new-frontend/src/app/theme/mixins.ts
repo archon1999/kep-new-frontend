@@ -1,6 +1,6 @@
 import { MixinsOptions } from '@mui/material';
 import { Breakpoint } from '@mui/material';
-import { TopnavType } from 'config';
+import { TopnavType } from 'app/config.ts';
 
 declare module '@mui/material/styles' {
   interface Mixins {

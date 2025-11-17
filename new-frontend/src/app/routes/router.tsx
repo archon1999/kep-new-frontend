@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Outlet, RouteObject, createBrowserRouter, useLocation } from 'react-router';
-import App from 'App';
+import App from 'app/App.tsx';
 import AuthLayout from 'app/layouts/auth-layout';
 import DefaultAuthLayout from 'app/layouts/auth-layout/DefaultAuthLayout';
 import MainLayout from 'app/layouts/main-layout';

@@ -1,5 +1,5 @@
 import { Alert, Box, Typography } from '@mui/material';
-import { defaultJwtAuthCredentials } from 'config';
+import { defaultJwtAuthCredentials } from 'app/config.ts';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 
 const DefaultCredentialAlert = () => {

@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { Notification } from 'app/types/notification';
-import { initialConfig } from 'config';
+import { initialConfig } from 'app/config.ts';
 import dayjs from 'dayjs';
 import { users } from './users';
 

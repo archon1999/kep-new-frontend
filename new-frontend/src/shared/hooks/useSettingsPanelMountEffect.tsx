@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
-import { SettingsPanelConfig, useSettingsPanelContext } from 'app/providers/SettingsPanelProvider';
-import { Config } from 'config';
+import { Config } from 'app/config.ts';
+import {
+  SettingsPanelConfig,
+  useSettingsPanelContext,
+} from 'app/providers/SettingsPanelProvider.tsx';
 
 const useSettingsPanelMountEffect = (effects: Partial<SettingsPanelConfig>) => {
   const { settingsPanelConfig, setSettingsPanelConfig } = useSettingsPanelContext();
