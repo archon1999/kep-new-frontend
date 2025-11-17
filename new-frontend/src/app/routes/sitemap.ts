@@ -1,5 +1,5 @@
 import { SxProps } from '@mui/material';
-import { rootPaths } from './paths';
+import paths, { rootPaths } from './paths';
 
 export interface SubMenuItem {
   name: string;
@@ -36,6 +36,35 @@ const sitemap: MenuItem[] = [
         pathName: 'home',
         icon: 'material-symbols:home-rounded',
         active: true,
+      },
+    ],
+  },
+  {
+    id: 'engagement',
+    subheader: 'Engagement',
+    key: 'engagement',
+    icon: 'solar:stars-line-duotone',
+    items: [
+      {
+        name: 'Kepcoin',
+        key: 'kepcoin',
+        path: paths.kepcoin,
+        pathName: 'kepcoin',
+        icon: 'solar:wallet-2-bold-duotone',
+      },
+      {
+        name: 'Notifications',
+        key: 'notifications',
+        path: paths.notifications,
+        pathName: 'notifications',
+        icon: 'solar:bell-bing-bold-duotone',
+      },
+      {
+        name: 'Daily tasks',
+        key: 'dailyTasks',
+        path: paths.dailyTasks,
+        pathName: 'dailyTasks',
+        icon: 'solar:calendar-bold-duotone',
       },
     ],
   },

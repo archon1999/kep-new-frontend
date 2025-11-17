@@ -1,0 +1,45 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="560" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5CE1E6" stop-opacity="0.92" />
+      <stop offset="0.4" stop-color="#6A8BFF" stop-opacity="0.85" />
+      <stop offset="1" stop-color="#9D6BFF" stop-opacity="0.92" />
+    </linearGradient>
+    <linearGradient id="card" x1="180" y1="94" x2="430" y2="276" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.94" />
+      <stop offset="1" stop-color="#E8F5FF" stop-opacity="0.7" />
+    </linearGradient>
+    <filter id="shadow" x="56" y="36" width="528" height="288" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur" />
+    </filter>
+  </defs>
+  <rect x="64" y="52" width="512" height="256" rx="42" fill="url(#bg)" opacity="0.4" />
+  <rect x="64" y="52" width="512" height="256" rx="42" fill="url(#bg)" filter="url(#shadow)" opacity="0.6" />
+  <rect x="108" y="86" width="424" height="212" rx="34" fill="#0A0F1E" opacity="0.6" />
+  <rect x="132" y="108" width="376" height="180" rx="28" fill="url(#card)" />
+  <rect x="172" y="132" width="296" height="20" rx="10" fill="#0F1329" opacity="0.08" />
+  <rect x="172" y="162" width="248" height="14" rx="7" fill="#0F1329" opacity="0.08" />
+  <g opacity="0.9">
+    <rect x="180" y="194" width="80" height="52" rx="18" fill="#6A8BFF" opacity="0.25" />
+    <rect x="192" y="204" width="56" height="32" rx="12" fill="#6A8BFF" />
+    <path d="M210 230h12c6.6 0 12-5.4 12-12s-5.4-12-12-12h-12v24Z" fill="#F9FBFF" />
+    <path d="M222 212h-6v6h6c1.7 0 3-1.3 3-3s-1.3-3-3-3Z" fill="#6A8BFF" />
+  </g>
+  <g opacity="0.92">
+    <rect x="286" y="194" width="80" height="52" rx="18" fill="#FFB84D" opacity="0.25" />
+    <rect x="298" y="204" width="56" height="32" rx="12" fill="#FFB84D" />
+    <path d="M326 224c-6.1 0-11-4.9-11-11s4.9-11 11-11 11 4.9 11 11-4.9 11-11 11Zm0-6c2.8 0 5-2.2 5-5s-2.2-5-5-5-5 2.2-5 5 2.2 5 5 5Z" fill="#3D2B1F" />
+  </g>
+  <g opacity="0.92">
+    <rect x="392" y="194" width="80" height="52" rx="18" fill="#5CE1E6" opacity="0.25" />
+    <rect x="404" y="204" width="56" height="32" rx="12" fill="#5CE1E6" />
+    <path d="M418 225.5 428 212l10 13.5h-20Z" fill="#0E3035" />
+    <path d="M418 213h20v6h-20v-6Z" fill="#0E3035" />
+  </g>
+  <rect x="332" y="138" width="118" height="12" rx="6" fill="#0F1329" opacity="0.08" />
+  <rect x="172" y="250" width="200" height="12" rx="6" fill="#0F1329" opacity="0.06" />
+  <rect x="380" y="250" width="100" height="12" rx="6" fill="#0F1329" opacity="0.06" />
+  <circle cx="142" cy="130" r="10" fill="#5CE1E6" opacity="0.8" />
+  <circle cx="142" cy="160" r="10" fill="#6A8BFF" opacity="0.8" />
+  <circle cx="142" cy="190" r="10" fill="#FFB84D" opacity="0.8" />
+</svg>

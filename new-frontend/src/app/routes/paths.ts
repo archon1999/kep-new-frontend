@@ -35,7 +35,9 @@ const paths = {
 
   defaultLoggedOut: `/${rootPaths.authRoot}/default/logged-out`,
   pricingColumn: `/${rootPaths.pricingRoot}/column`,
-  notifications: `/${rootPaths.pagesRoot}/notifications`, //? update path
+  notifications: `/${rootPaths.pagesRoot}/notifications`,
+  kepcoin: `/${rootPaths.pagesRoot}/kepcoin`,
+  dailyTasks: `/${rootPaths.pagesRoot}/daily-tasks`,
 
   404: `/${rootPaths.errorRoot}/404`,
 };
