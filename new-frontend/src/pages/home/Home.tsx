@@ -7,7 +7,7 @@ import starter from 'assets/json/starter.json';
 import { useThemeMode } from 'hooks/useThemeMode';
 import Lottie from 'lottie-react';
 
-const Starter = () => {
+const Home = () => {
   const { t } = useTranslation();
   const { isDark } = useThemeMode();
 
@@ -58,7 +58,7 @@ const Starter = () => {
                 fontWeight: 500,
               }}
             >
-              Edit me!
+              Welcome home!
             </Typography>
             <Button variant="contained" color="primary" sx={{ width: 1 }}>
               Get Started
@@ -109,4 +109,4 @@ const Starter = () => {
   );
 };
 
-export default Starter;
+export default Home;

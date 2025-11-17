@@ -12,7 +12,7 @@ import paths, { rootPaths } from './paths';
 // import GuestGurad from 'components/guard/GuestGurad';
 // import Splash from 'components/loading/Splash';
 
-const Starter = lazy(() => import('pages/others/Starter'));
+const Home = lazy(() => import('pages/home/Home'));
 
 const LoggedOut = lazy(() => import('pages/authentication/default/LoggedOut'));
 
@@ -62,7 +62,7 @@ export const routes: RouteObject[] = [
         children: [
           {
             index: true,
-            element: <Starter />,
+            element: <Home />,
           },
         ],
       },
