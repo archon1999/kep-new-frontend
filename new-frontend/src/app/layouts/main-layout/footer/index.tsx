@@ -1,6 +1,6 @@
-import { Box, Divider, Stack, Typography } from '@mui/material';
-import dayjs from 'dayjs';
+import { Box, Divider, Stack, Tooltip, Typography } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import Logo from 'shared/components/common/Logo';
 
 const Footer = () => {
   const techIcons = [
@@ -29,17 +29,20 @@ const Footer = () => {
           },
         ]}
       >
-        <Typography
-          variant="caption"
-          component="p"
-          sx={{
-            lineHeight: 1.6,
-            fontWeight: 'light',
-            color: 'text.secondary',
-          }}
-        >
-          KEP.uz © {dayjs().year()}
-        </Typography>
+        <Stack direction="row" alignItems="center" columnGap={1.25}>
+          <Logo showName={false} sx={{ width: 26, height: 40 }} />
+          <Typography
+            variant="caption"
+            component="p"
+            sx={{
+              lineHeight: 1.6,
+              fontWeight: 'light',
+              color: 'text.secondary',
+            }}
+          >
+            KEP.uz ©
+          </Typography>
+        </Stack>
 
         <Stack
           direction="row"
@@ -54,15 +57,21 @@ const Footer = () => {
           </Typography>
 
           {techIcons.map(({ icon, label }) => (
-            <IconifyIcon key={icon} icon={icon} title={label} width={22} height={22} />
+            <Tooltip key={icon} title={label} arrow>
+              <Box component="span" sx={{ display: 'inline-flex' }}>
+                <IconifyIcon icon={icon} width={22} height={22} />
+              </Box>
+            </Tooltip>
           ))}
 
-          <Box
-            component="img"
-            src="/aurora.svg"
-            alt="Aurora"
-            sx={{ height: 20, width: 20, objectFit: 'contain' }}
-          />
+          <Tooltip title="Aurora" arrow>
+            <Box
+              component="img"
+              sx={{ height: 20, width: 20, objectFit: 'contain', display: 'inline-flex' }}
+              src="/aurora.svg"
+              alt="Aurora"
+            />
+          </Tooltip>
         </Stack>
       </Stack>
     </>
