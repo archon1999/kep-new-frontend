@@ -1,6 +1,5 @@
-import { QueryClient, QueryCache, MutationCache } from '@tanstack/react-query';
-
-import { notifyError, normalizeError, isCanceled } from 'shared/api';
+import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
+import { isCanceled, normalizeError, notifyError } from 'shared/api';
 
 export const queryCache = new QueryCache({
   onError: (error, query) => {

@@ -1716,13 +1716,6 @@ export const getSnippetsAPI = () => {
     );
   };
 
-  const apiProblemsList = (
-    params?: ApiProblemsListParams,
-    options?: SecondParameter<typeof axiosMutator<ApiProblemsList200>>,
-  ) => {
-    return axiosMutator<ApiProblemsList200>({ url: `/api/problems/list/`, method: 'GET', params }, options);
-  };
-
   const apiProblemsMostViewed = (
     params?: ApiProblemsMostViewedParams,
     options?: SecondParameter<typeof axiosMutator<ApiProblemsMostViewed200>>,
