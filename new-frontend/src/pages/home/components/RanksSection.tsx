@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Box, Card, CardContent, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useUserRatings } from '../hooks';

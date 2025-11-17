@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useHomeNews } from '../hooks';
 
