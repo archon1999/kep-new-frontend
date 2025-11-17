@@ -1,110 +1,55 @@
-import { useTranslation } from 'react-i18next';
-import { Button, Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Lottie from 'lottie-react';
-import starterDark from 'shared/assets/json/starter-dark.json';
-import starter from 'shared/assets/json/starter.json';
-import { useThemeMode } from 'shared/hooks/useThemeMode';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid2';
+import Stack from '@mui/material/Stack';
+import BirthdaysSection from './components/BirthdaysSection';
+import HomeHeader from './components/HomeHeader';
+import NewsSection from './components/NewsSection';
+import PostsSection from './components/PostsSection';
+import RanksSection from './components/RanksSection';
+import SystemSection from './components/SystemSection';
+import TopRatingSection from './components/TopRatingSection';
+import UsersChartCard from './components/UsersChartCard';
 
 const Home = () => {
-  const { t } = useTranslation();
-  const { isDark } = useThemeMode();
-
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        alignContent: { md: 'center' },
-        height: 1,
-        py: 10,
-      }}
-    >
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(12, 1fr)',
-          gridTemplateRows: { md: '1fr' },
-        }}
-      >
-        <Paper
-          sx={{
-            gridColumn: { xs: '1/-1', md: '7/12', lg: '7/11', xl: '7/10' },
-            gridRow: { md: '1/-1' },
-            p: { xs: 3, lg: 5 },
-            position: 'relative',
-            order: { xs: 1, md: 0 },
-          }}
-          background={1}
-        >
-          <Paper sx={{ position: 'absolute', inset: 0, height: '25%', width: 1 }} />
-          <Box
-            sx={{
-              width: 1,
-              maxWidth: '25rem',
-              margin: '0 auto',
-              textAlign: 'center',
-              position: 'relative',
-            }}
-          >
-            <Box>
-              <Lottie animationData={isDark ? starterDark : starter} />
-            </Box>
-            <Typography
-              variant="h6"
-              sx={{
-                color: 'text.secondary',
-                mb: 2,
-                fontWeight: 500,
-              }}
-            >
-              Welcome home!
-            </Typography>
-            <Button variant="contained" color="primary" sx={{ width: 1 }}>
-              Get Started
-            </Button>
-          </Box>
-        </Paper>
-        <Paper
-          sx={{
-            gridColumn: { xs: '1/-1', md: '2/7', lg: '3/7', xl: '4/7' },
-            gridRow: { md: '1/-1' },
-            p: { xs: 3, lg: 5 },
-            position: 'relative',
-          }}
-        >
-          <Paper
-            background={1}
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              height: '25%',
-              width: 1,
-              display: { xs: 'none', md: 'block' },
-            }}
-          />
-          <Stack
-            direction="column"
-            sx={{
-              justifyContent: { md: 'flex-end' },
-              rowGap: 1,
-              textAlign: { xs: 'center', md: 'end' },
-              height: 1,
-              position: 'relative',
-            }}
-          >
-            <Typography variant="h3" sx={{ fontWeight: 'light', color: 'primary.main' }}>
-              {t('create')}
-            </Typography>
-            <Typography variant="h3" sx={{ fontWeight: 'light', color: 'text.secondary' }}>
-              {t('something')}
-            </Typography>
-            <Typography variant="h3" sx={{ fontWeight: 'light', color: 'text.secondary' }}>
-              {t('beautiful')}
-            </Typography>
-          </Stack>
-        </Paper>
-      </Box>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100%', py: 3 }}>
+      <Container maxWidth="lg">
+        <Stack spacing={3}>
+          <HomeHeader />
+          <Grid container spacing={3}>
+            <Grid xs={12}>
+              <RanksSection />
+            </Grid>
+            <Grid xs={12}>
+              <NewsSection />
+            </Grid>
+            <Grid xs={12}>
+              <Grid container spacing={3}>
+                <Grid xs={12} md={4}>
+                  <TopRatingSection />
+                </Grid>
+                <Grid xs={12} md={4}>
+                  <SystemSection />
+                </Grid>
+                <Grid xs={12} md={4}>
+                  <UsersChartCard />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid xs={12}>
+              <Grid container spacing={3}>
+                <Grid xs={12} md={3}>
+                  <BirthdaysSection />
+                </Grid>
+                <Grid xs={12} md={9}>
+                  <PostsSection />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Stack>
+      </Container>
     </Box>
   );
 };
