@@ -20,7 +20,7 @@ interface SessionUser extends User {
 interface AuthJwtContextInterface {
   sessionUser: SessionUser | null;
   setSessionUser: Dispatch<SetStateAction<User | null>>;
-  setSession: (user: SessionUser | null, token?: string) => void;
+  setSession: (user: SessionUser | null) => void;
   signout: () => void;
 }
 
@@ -32,11 +32,8 @@ const AuthJwtProvider = ({ children }: PropsWithChildren) => {
   const { data } = useGetCurrentUser();
 
   const setSession = useCallback(
-    (user: User | null, token?: string) => {
+    (user: User | null) => {
       setSessionUser(user);
-      if (token) {
-        localStorage.setItem('auth_token', token);
-      }
     },
     [setSessionUser],
   );
@@ -44,7 +41,6 @@ const AuthJwtProvider = ({ children }: PropsWithChildren) => {
   const signout = useCallback(() => {
     setSessionUser(null);
     removeItemFromStore('session_user');
-    removeItemFromStore('auth_token');
     if (sessionUser?.provider === 'firebase') {
       firebaseAuth.signOut();
     }

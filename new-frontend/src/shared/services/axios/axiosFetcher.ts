@@ -35,12 +35,14 @@ const axiosFetcher = async (
     method: config?.method || 'get',
     data: extraArg?.arg,
     ...config,
-  }).finally(() => {
-    if (interceptors) {
-      axiosInstance.interceptors.response.eject(interceptors);
-      interceptors = null;
-    }
-  });
+  })
+    .then((response) => (response.data?.data ? response.data.data : response.data))
+    .finally(() => {
+      if (interceptors) {
+        axiosInstance.interceptors.response.eject(interceptors);
+        interceptors = null;
+      }
+    });
 
   return res;
 };

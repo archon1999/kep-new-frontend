@@ -1,8 +1,17 @@
-import axios, { type AxiosInstance, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
+import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
 
-import { refreshTokenRequest, authStore } from 'modules/auth';
+const baseURL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '/api';
+const basicAuthLogin = import.meta.env.VITE_BASIC_AUTH_LOGIN;
+const basicAuthPassword = import.meta.env.VITE_BASIC_AUTH_PASSWORD;
+const shouldUseBasicAuth = import.meta.env.DEV;
 
-const baseURL = import.meta.env.VITE_API_BASE_URL || '';
+const getBasicAuthHeader = () => {
+  if (!basicAuthLogin || !basicAuthPassword) return null;
+
+  const encodedCredentials = btoa(`${basicAuthLogin}:${basicAuthPassword}`);
+
+  return `Basic ${encodedCredentials}`;
+};
 
 export const instance: AxiosInstance = axios.create({
   baseURL,
@@ -15,89 +24,30 @@ export const instance: AxiosInstance = axios.create({
 
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = authStore.getState().getAccessToken();
+    const headers = { ...(config.headers || {}) } as Record<string, string>;
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    if (shouldUseBasicAuth) {
+      const basicAuthHeader = getBasicAuthHeader();
 
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  },
-);
-
-let isRefreshing = false;
-let failedQueue: Array<{
-  resolve: (value?: unknown) => void;
-  reject: (reason?: unknown) => void;
-}> = [];
-
-const processQueue = (error: Error | null, token: string | null = null) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
+      if (basicAuthHeader) {
+        headers.Authorization = basicAuthHeader;
+      }
     } else {
-      prom.resolve(token);
+      delete headers.Authorization;
     }
-  });
 
-  failedQueue = [];
-};
+    return { ...config, headers };
+  },
+  (error) => Promise.reject(error),
+);
 
 instance.interceptors.response.use(
-  (response: AxiosResponse) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    const isRefreshRequest = originalRequest?.url?.includes('/auth/refresh') || originalRequest?._isRefreshRequest;
-
-    const isLoginRequest = originalRequest?.url?.includes('/auth/login') || originalRequest?._isLoginRequest;
-
-    if (error.response?.status === 401 && !originalRequest._retry && !isRefreshRequest && !isLoginRequest) {
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then((token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            return instance(originalRequest);
-          })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
-      }
-
-      originalRequest._retry = true;
-      isRefreshing = true;
-
-      try {
-        const response = await refreshTokenRequest();
-        const newAccessToken = response.access_token;
-
-        if (newAccessToken) {
-          authStore.getState().setAccessToken(newAccessToken);
-
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
-          processQueue(null, newAccessToken);
-
-          isRefreshing = false;
-
-          return instance(originalRequest);
-        }
-      } catch (refreshError) {
-        processQueue(refreshError as Error, null);
-        authStore.getState().logout();
-
-        isRefreshing = false;
-        window.location.href = '/';
-
-        return Promise.reject(refreshError);
-      }
-    }
-
-    return Promise.reject(error);
-  },
+  (response) => response,
+  (error) =>
+    Promise.reject({
+      status: error.response?.status,
+      data: error.response?.data || error.message,
+    }),
 );
+
+export default instance;

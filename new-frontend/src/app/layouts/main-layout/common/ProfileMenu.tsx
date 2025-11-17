@@ -9,7 +9,6 @@ import {
   MenuItem,
   MenuItemProps,
   Stack,
-  Switch,
   SxProps,
   Typography,
   listClasses,
@@ -24,7 +23,7 @@ import { demoUser } from 'app/providers/auth-provider/AuthJwtProvider';
 import paths, { authPaths } from 'app/routes/paths';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import StatusAvatar from 'shared/components/base/StatusAvatar';
-import { useThemeMode } from 'shared/hooks/useThemeMode';
+import { useLogOutUser } from 'shared/services/swr/api-hooks/useAuthApi';
 
 interface ProfileMenuProps {
   type?: 'default' | 'slim';
@@ -45,12 +44,13 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
     config: { textDirection },
   } = useSettingsContext();
 
-  const { isDark, setThemeMode } = useThemeMode();
-
   const { sessionUser, signout } = useAuth();
+  const { trigger: logoutUser } = useLogOutUser();
 
   // Demo user data used for development purposes
   const user = useMemo(() => sessionUser || demoUser, [sessionUser]);
+  const username = useMemo(() => user?.username || user?.name || user?.email || 'User', [user]);
+  const fullName = useMemo(() => user?.fullName || user?.name || user?.email || '', [user]);
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -60,7 +60,8 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
     setAnchorEl(null);
   };
 
-  const handleSignout = () => {
+  const handleSignout = async () => {
+    await logoutUser().catch(() => {});
     signout();
     navigate(paths.defaultLoggedOut);
     handleClose();
@@ -70,45 +71,51 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
     <Button
       color="neutral"
       variant="text"
-      shape="circle"
       onClick={handleClick}
       sx={[
         {
           height: 44,
-          width: 44,
+          px: 1,
+          minWidth: 0,
         },
         type === 'slim' && {
           height: 30,
-          width: 30,
-          minWidth: 30,
+          minHeight: 30,
+          px: 0.5,
         },
       ]}
     >
-      <StatusAvatar
-        alt={user.name}
-        status="online"
-        src={user.avatar ?? undefined}
-        sx={[
-          {
-            width: 40,
-            height: 40,
-            border: 2,
-            borderColor: 'background.paper',
-          },
-          type === 'slim' && { width: 24, height: 24, border: 1, borderColor: 'background.paper' },
-        ]}
-      />
+      <Stack direction="row" alignItems="center" spacing={1.25} sx={{ flex: 1 }}>
+        <StatusAvatar
+          alt={username}
+          status="online"
+          src={user.avatar ?? undefined}
+          sx={[
+            {
+              width: 40,
+              height: 40,
+              border: 2,
+              borderColor: 'background.paper',
+            },
+            type === 'slim' && {
+              width: 26,
+              height: 26,
+              border: 1,
+              borderColor: 'background.paper',
+            },
+          ]}
+        />
+        {(type !== 'slim' || upSm) && (
+          <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
+            {username}
+          </Typography>
+        )}
+      </Stack>
     </Button>
   );
   return (
     <>
-      {type === 'slim' && upSm ? (
-        <Button color="neutral" variant="text" size="small" onClick={handleClick}>
-          {user.name}
-        </Button>
-      ) : (
-        menuButton
-      )}
+      {menuButton}
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
@@ -137,7 +144,7 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
         >
           <StatusAvatar
             status="online"
-            alt={user.name}
+            alt={username}
             src={user.avatar ?? undefined}
             sx={{ width: 48, height: 48 }}
           />
@@ -149,65 +156,29 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
                 mb: 0.5,
               }}
             >
-              {user.name}
+              {username}
             </Typography>
-            {user.designation && (
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  color: 'warning.main',
-                }}
-              >
-                {user.designation}
-                <IconifyIcon
-                  icon="material-symbols:diamond-rounded"
-                  color="warning.main"
-                  sx={{ verticalAlign: 'text-bottom', ml: 0.5 }}
-                />
+            {fullName && (
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {fullName}
               </Typography>
             )}
           </Box>
         </Stack>
         <Divider />
         <Box sx={{ py: 1 }}>
-          <ProfileMenuItem icon="material-symbols:accessible-forward-rounded" onClick={handleClose}>
-            Accessibility
+          <ProfileMenuItem icon="solar:user-circle-bold" onClick={handleClose}>
+            Profile
           </ProfileMenuItem>
-
-          <ProfileMenuItem icon="material-symbols:settings-outline-rounded" onClick={handleClose}>
-            Preferences
-          </ProfileMenuItem>
-
-          <ProfileMenuItem
-            onClick={() => setThemeMode()}
-            icon="material-symbols:dark-mode-outline-rounded"
-          >
-            Dark mode
-            <Switch checked={isDark} onChange={() => setThemeMode()} sx={{ ml: 'auto' }} />
-          </ProfileMenuItem>
-        </Box>
-        <Divider />
-        <Box sx={{ py: 1 }}>
-          <ProfileMenuItem
-            icon="material-symbols:manage-accounts-outline-rounded"
-            onClick={handleClose}
-            href="#!"
-          >
-            Account Settings
-          </ProfileMenuItem>
-          <ProfileMenuItem
-            icon="material-symbols:question-mark-rounded"
-            onClick={handleClose}
-            href="#!"
-          >
-            Help Center
+          <ProfileMenuItem icon="solar:settings-linear" onClick={handleClose}>
+            Settings
           </ProfileMenuItem>
         </Box>
         <Divider />
         <Box sx={{ py: 1 }}>
           {sessionUser ? (
             <ProfileMenuItem onClick={handleSignout} icon="material-symbols:logout-rounded">
-              Sign Out
+              Logout
             </ProfileMenuItem>
           ) : (
             <ProfileMenuItem href={authPaths.login} icon="material-symbols:login-rounded">
