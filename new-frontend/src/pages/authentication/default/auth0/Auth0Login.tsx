@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button, Link, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import ViewOnlyAlert from 'components/sections/authentications/common/ViewOnlyAlert';
+import ViewOnlyAlert from 'shared/components/sections/authentications/common/ViewOnlyAlert';
 
 const Auth0Login = () => {
   const { loginWithRedirect } = useAuth0();

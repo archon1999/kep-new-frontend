@@ -1,5 +1,5 @@
 import { Box, Button, Link, Stack, Typography } from '@mui/material';
-import { authPaths } from 'routes/paths';
+import { authPaths } from 'app/routes/paths';
 
 const LoggedOut = () => {
   return (

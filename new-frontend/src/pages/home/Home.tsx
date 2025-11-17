@@ -4,8 +4,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import starterDark from 'assets/json/starter-dark.json';
 import starter from 'assets/json/starter.json';
-import { useThemeMode } from 'hooks/useThemeMode';
 import Lottie from 'lottie-react';
+import { useThemeMode } from 'shared/hooks/useThemeMode';
 
 const Home = () => {
   const { t } = useTranslation();

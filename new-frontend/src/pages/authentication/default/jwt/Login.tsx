@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router';
+import { useAuth } from 'app/providers/AuthProvider';
+import paths, { rootPaths } from 'app/routes/paths';
 import { defaultJwtAuthCredentials } from 'config';
-import { useAuth } from 'providers/AuthProvider';
-import paths, { rootPaths } from 'routes/paths';
-import { useLoginUser } from 'services/swr/api-hooks/useAuthApi';
-import LoginForm, { LoginFormValues } from 'components/sections/authentications/default/LoginForm';
+import LoginForm, {
+  LoginFormValues,
+} from 'shared/components/sections/authentications/default/LoginForm';
+import { useLoginUser } from 'shared/services/swr/api-hooks/useAuthApi';
 
 const Login = () => {
   const { setSession } = useAuth();

@@ -1,6 +1,6 @@
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { firebaseAuth } from 'services/firebase/firebase';
-import ForgotPasswordForm from 'components/sections/authentications/default/ForgotPasswordForm';
+import ForgotPasswordForm from 'shared/components/sections/authentications/default/ForgotPasswordForm';
+import { firebaseAuth } from 'shared/services/firebase/firebase';
 
 const ForgotPassword = () => {
   const handleSendResetLink = async ({ email }: { email: string }) => {

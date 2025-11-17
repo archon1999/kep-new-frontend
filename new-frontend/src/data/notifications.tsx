@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
+import { Notification } from 'app/types/notification';
 import { initialConfig } from 'config';
 import dayjs from 'dayjs';
-import { Notification } from 'types/notification';
 import { users } from './users';
 
 export const notificationBadge = {
