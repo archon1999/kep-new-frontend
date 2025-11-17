@@ -48,8 +48,8 @@ export default tseslint.config(
       'react-hooks/refs': 'off',
       'react-hooks/set-state-in-effect': 'off',
       'react-hooks/use-memo': 'off',
-      'react-hooks/immutability':'off',
-      'react-hooks/incompatible-library':'off',
+      'react-hooks/immutability': 'off',
+      'react-hooks/incompatible-library': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': [

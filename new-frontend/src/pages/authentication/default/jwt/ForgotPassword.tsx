@@ -1,5 +1,5 @@
-import { useSendPasswordResetLink } from 'services/swr/api-hooks/useAuthApi';
-import ForgotPasswordForm from 'components/sections/authentications/default/ForgotPasswordForm';
+import ForgotPasswordForm from 'shared/components/sections/authentications/default/ForgotPasswordForm';
+import { useSendPasswordResetLink } from 'shared/services/swr/api-hooks/useAuthApi';
 
 const ForgotPassword = () => {
   const { trigger: sendResetLink } = useSendPasswordResetLink();

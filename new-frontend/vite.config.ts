@@ -26,7 +26,13 @@ export default ({ mode }) => {
     },
     server: {
       host: '0.0.0.0',
-      port: Number(process.env.VITE_APP_PORT || 5001),
+      port: 4200,
+      proxy: {
+        '/api': {
+          target: 'https://kep.uz/api',
+          changeOrigin: true,
+        },
+      },
     },
     base: process.env.VITE_BASENAME || '/',
   });

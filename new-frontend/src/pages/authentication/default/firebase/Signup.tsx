@@ -1,10 +1,10 @@
+import { useAuth } from 'app/providers/AuthProvider';
+import paths from 'app/routes/paths';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { useAuth } from 'providers/AuthProvider';
-import paths from 'routes/paths';
-import { firebaseAuth } from 'services/firebase/firebase';
 import SignupForm, {
   SignupFormValues,
-} from 'components/sections/authentications/default/SignupForm';
+} from 'shared/components/sections/authentications/default/SignupForm';
+import { firebaseAuth } from 'shared/services/firebase/firebase';
 
 const Signup = () => {
   const { setSession } = useAuth();

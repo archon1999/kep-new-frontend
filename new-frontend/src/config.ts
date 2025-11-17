@@ -1,4 +1,4 @@
-import { mainDrawerWidth } from 'lib/constants';
+import { mainDrawerWidth } from 'shared/lib/constants';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type NavigationMenuType = 'sidenav' | 'topnav' | 'combo';
