@@ -1,7 +1,15 @@
-import { Box, Divider, Link, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import IconifyIcon from 'shared/components/base/IconifyIcon';
 
 const Footer = () => {
+  const techIcons = [
+    { icon: 'logos:python', label: 'Python' },
+    { icon: 'logos:django-icon', label: 'Django' },
+    { icon: 'logos:react', label: 'React' },
+    { icon: 'logos:material-ui', label: 'MUI' },
+  ];
+
   return (
     <>
       <Divider />
@@ -10,7 +18,6 @@ const Footer = () => {
         sx={[
           {
             columnGap: 2,
-            rowGap: 0.5,
             bgcolor: 'background.default',
             justifyContent: { xs: 'center', sm: 'space-between' },
             alignItems: 'center',
@@ -18,6 +25,7 @@ const Footer = () => {
             py: 1,
             px: { xs: 3, md: 5 },
             textAlign: { xs: 'center', sm: 'left' },
+            rowGap: 1,
           },
         ]}
       >
@@ -28,42 +36,34 @@ const Footer = () => {
             lineHeight: 1.6,
             fontWeight: 'light',
             color: 'text.secondary',
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
           }}
         >
-          <Box component="span" whiteSpace="nowrap">
-            Thank you for creating with
-            <Box component="strong" mx={0.5}>
-              Aurora{' '}
-            </Box>
-          </Box>
-
-          <Box component="span" whiteSpace="nowrap">
-            <Box component="span" display={{ xs: 'none', sm: 'inline' }}>
-              |
-            </Box>{' '}
-            {dayjs().year()} ©
-            <Link
-              href="https://themewagon.com/"
-              target="_blank"
-              sx={{ textDecoration: 'none', mx: 0.5 }}
-            >
-              ThemeWagon
-            </Link>
-          </Box>
+          KEP.uz © {dayjs().year()}
         </Typography>
 
-        <Typography
-          variant="caption"
-          component="p"
-          sx={{
-            fontWeight: 'light',
-            color: 'text.secondary',
-          }}
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          flexWrap="wrap"
+          columnGap={1}
+          rowGap={0.5}
         >
-          v{import.meta.env.VITE_APP_VERSION}
-        </Typography>
+          <Typography variant="caption" component="span" color="text.secondary">
+            Powered by
+          </Typography>
+
+          {techIcons.map(({ icon, label }) => (
+            <IconifyIcon key={icon} icon={icon} title={label} width={22} height={22} />
+          ))}
+
+          <Box
+            component="img"
+            src="/aurora.svg"
+            alt="Aurora"
+            sx={{ height: 20, width: 20, objectFit: 'contain' }}
+          />
+        </Stack>
       </Stack>
     </>
   );
