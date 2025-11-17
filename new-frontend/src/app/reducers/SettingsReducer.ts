@@ -34,6 +34,7 @@ export type ACTIONTYPE =
 
 export const settingsReducer = (state: Config, action: ACTIONTYPE) => {
   let updatedState: Partial<Config> = {};
+  const rtlLocales: SupportedLocales[] = [];
 
   switch (action.type) {
     case SET_CONFIG: {
@@ -60,7 +61,7 @@ export const settingsReducer = (state: Config, action: ACTIONTYPE) => {
     case SET_LOCALE: {
       updatedState = {
         locale: action.payload,
-        textDirection: action.payload === 'ar-SA' ? 'rtl' : 'ltr',
+        textDirection: rtlLocales.includes(action.payload) ? 'rtl' : 'ltr',
       };
       break;
     }
