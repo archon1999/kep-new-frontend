@@ -59,7 +59,7 @@ export const apiEndpoints = {
   register: '/auth/register',
   login: '/auth/login',
   logout: '/auth/logout',
-  profile: '/auth/profile',
+  profile: '/me',
   getUsers: '/users',
   forgotPassword: '/auth/forgot-password',
   setPassword: '/auth/set-password',

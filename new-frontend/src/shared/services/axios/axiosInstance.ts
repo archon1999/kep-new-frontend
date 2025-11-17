@@ -1,20 +1,48 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
+
+const BASIC_AUTH_LOGIN = import.meta.env.VITE_BASIC_AUTH_LOGIN;
+const BASIC_AUTH_PASSWORD = import.meta.env.VITE_BASIC_AUTH_PASSWORD;
+const SHOULD_USE_BASIC_AUTH = import.meta.env.DEV;
+
+const getBasicAuthHeader = () => {
+  if (!BASIC_AUTH_LOGIN || !BASIC_AUTH_PASSWORD) return null;
+
+  const encodedCredentials = btoa(`${BASIC_AUTH_LOGIN}:${BASIC_AUTH_PASSWORD}`);
+
+  return `Basic ${encodedCredentials}`;
+};
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
 });
 
-// Adding authorization header to axios instance if session exists
+// Adding authorization header based on environment
 axiosInstance.interceptors.request.use(async (config) => {
-  const authToken = localStorage.getItem('auth_token');
+  const headers = { ...(config.headers || {}) } as Record<string, string>;
 
-  if (authToken) {
-    config.headers.Authorization = `Bearer ${authToken}`;
+  if (SHOULD_USE_BASIC_AUTH) {
+    const basicAuthHeader = getBasicAuthHeader();
+
+    if (basicAuthHeader) {
+      headers.Authorization = basicAuthHeader;
+    }
+  } else {
+    const authToken = localStorage.getItem('auth_token');
+
+    if (authToken) {
+      headers.Authorization = `Bearer ${authToken}`;
+    } else {
+      delete headers.Authorization;
+    }
   }
-  return config;
+
+  return {
+    ...config,
+    headers,
+  };
 });
 
 axiosInstance.interceptors.response.use(

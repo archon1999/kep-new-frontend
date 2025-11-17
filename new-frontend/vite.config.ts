@@ -29,7 +29,7 @@ export default ({ mode }) => {
       port: 4200,
       proxy: {
         '/api': {
-          target: 'https://kep.uz/api',
+          target: 'https://kep.uz',
           changeOrigin: true,
         },
       },
