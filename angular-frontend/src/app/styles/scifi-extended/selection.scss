@@ -1,0 +1,10 @@
+@import 'styles/kep-imports';
+
+:focus {
+  outline: none;
+}
+
+::selection {
+  color: var(--primary);
+  background: rgba(var(--primary-rgb), 0.1);
+}
