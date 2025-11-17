@@ -16,7 +16,7 @@ const Login = () => {
       throw new Error(error.data.message);
     });
     if (res) {
-      setSession(res.user, res.authToken);
+      setSession(res);
       navigate(rootPaths.root);
     }
   };

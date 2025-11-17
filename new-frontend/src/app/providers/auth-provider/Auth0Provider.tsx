@@ -21,7 +21,7 @@ interface SessionUser extends User {
 interface Auth0ContextInterface {
   sessionUser: SessionUser | null;
   setSessionUser: Dispatch<SetStateAction<User | null>>;
-  setSession: (user: SessionUser | null, token?: string) => void;
+  setSession: (user: SessionUser | null) => void;
   signout: () => void;
 }
 
@@ -32,25 +32,21 @@ const Auth0Provider = ({ children }: PropsWithChildren) => {
   const { user, isLoading, logout } = useAuth0();
 
   const setSession = useCallback(
-    (user: User | null, token?: string) => {
+    (user: User | null) => {
       setSessionUser(user);
-      if (token) {
-        localStorage.setItem('auth_token', token);
-      }
     },
     [setSessionUser],
   );
 
   const signout = useCallback(() => {
     removeItemFromStore('session_user');
-    removeItemFromStore('auth_token');
     if (sessionUser?.provider === 'firebase') {
       setSessionUser(null);
       firebaseAuth.signOut();
     } else {
       logout();
     }
-  }, [setSessionUser, sessionUser]);
+  }, [logout, sessionUser]);
 
   useEffect(() => {
     if (user) {

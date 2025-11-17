@@ -10,9 +10,11 @@ import { sendPasswordResetLinkFetcher } from '../dummyFetcher';
 
 export interface User {
   id: number | string;
-  name: string;
-  email: string;
-  avatar: null | string;
+  username?: string;
+  fullName?: string;
+  name?: string;
+  email?: string;
+  avatar?: null | string;
   type?: string;
   designation?: string;
 }
@@ -33,21 +35,16 @@ export const useGetCurrentUser = (config?: SWRConfiguration<User | null>) => {
 };
 
 export const useLoginUser = () => {
-  const mutation = useSWRMutation<
-    {
-      authToken: string;
-      user: User;
-    },
-    any,
-    any,
-    LoginFormValues
-  >([apiEndpoints.login, { method: 'post' }], axiosFetcher);
+  const mutation = useSWRMutation<User, any, any, LoginFormValues>(
+    [apiEndpoints.login, { method: 'post' }],
+    axiosFetcher,
+  );
 
   return mutation;
 };
 
 export const useRegisterUser = () => {
-  const mutation = useSWRMutation<any, any, any, SignupFormValues>(
+  const mutation = useSWRMutation<User, any, any, SignupFormValues>(
     [apiEndpoints.register, { method: 'post' }],
     axiosFetcher,
   );
