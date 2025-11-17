@@ -1,8 +1,8 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
-import animation404Dark from 'assets/json/404-dark.json';
-import animation404 from 'assets/json/404.json';
-import { useThemeMode } from 'hooks/useThemeMode';
 import Lottie from 'lottie-react';
+import animation404Dark from 'shared/assets/json/404-dark.json';
+import animation404 from 'shared/assets/json/404.json';
+import { useThemeMode } from 'shared/hooks/useThemeMode';
 
 const Page404 = () => {
   const { isDark } = useThemeMode();

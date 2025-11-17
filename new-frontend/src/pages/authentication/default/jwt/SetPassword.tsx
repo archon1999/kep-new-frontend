@@ -1,7 +1,7 @@
-import { useSetPassword } from 'services/swr/api-hooks/useAuthApi';
 import SetPasswordForm, {
   SetPasswordFormValues,
-} from 'components/sections/authentications/default/SetPassworForm';
+} from 'shared/components/sections/authentications/default/SetPassworForm';
+import { useSetPassword } from 'shared/services/swr/api-hooks/useAuthApi';
 
 const SetPassword = () => {
   const { trigger: setPassword } = useSetPassword();

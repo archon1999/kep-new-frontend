@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router';
-import { useAuth } from 'providers/AuthProvider';
-import paths, { rootPaths } from 'routes/paths';
-import { useRegisterUser } from 'services/swr/api-hooks/useAuthApi';
+import { useAuth } from 'app/providers/AuthProvider';
+import paths, { rootPaths } from 'app/routes/paths';
 import SignupForm, {
   SignupFormValues,
-} from 'components/sections/authentications/default/SignupForm';
+} from 'shared/components/sections/authentications/default/SignupForm';
+import { useRegisterUser } from 'shared/services/swr/api-hooks/useAuthApi';
 
 const Signup = () => {
   const { setSession } = useAuth();

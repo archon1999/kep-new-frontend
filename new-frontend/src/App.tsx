@@ -1,12 +1,12 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { Outlet, useLocation } from 'react-router';
-import useIcons from 'hooks/useIcons';
-import { useThemeMode } from 'hooks/useThemeMode';
-import AuthProvider from 'providers/AuthProvider';
-import { useSettingsContext } from 'providers/SettingsProvider';
-import { REFRESH } from 'reducers/SettingsReducer';
-import SettingPanelToggler from 'components/settings-panel/SettingPanelToggler';
-import SettingsPanel from 'components/settings-panel/SettingsPanel';
+import AuthProvider from 'app/providers/AuthProvider';
+import { useSettingsContext } from 'app/providers/SettingsProvider';
+import { REFRESH } from 'app/reducers/SettingsReducer';
+import SettingPanelToggler from 'shared/components/settings-panel/SettingPanelToggler';
+import SettingsPanel from 'shared/components/settings-panel/SettingsPanel';
+import useIcons from 'shared/hooks/useIcons';
+import { useThemeMode } from 'shared/hooks/useThemeMode';
 
 const App = () => {
   const { pathname } = useLocation();
