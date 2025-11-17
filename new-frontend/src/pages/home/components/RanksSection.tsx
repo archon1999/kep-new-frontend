@@ -42,13 +42,20 @@ const RanksSection = () => {
     const ratings = (data as unknown as Record<string, RatingDetails>) || {};
 
     return rankTemplates.map((template) => {
-      const rating = ratings[template.key] || {};
+      const rating = ratings[template.key] ?? null;
+      const isRatingObject = typeof rating === 'object' && rating !== null;
+
+      const normalizedValue = isRatingObject ? rating.value : rating;
+      const value =
+        typeof normalizedValue === 'number' || typeof normalizedValue === 'string'
+          ? normalizedValue
+          : undefined;
 
       return {
         ...template,
-        value: rating.value ?? rating,
-        rank: rating.rank,
-        percentile: rating.percentile,
+        value,
+        rank: isRatingObject ? rating.rank : undefined,
+        percentile: isRatingObject ? rating.percentile : undefined,
       };
     });
   }, [data]);
