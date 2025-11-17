@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "pretty": "prettier --write ."
+    "pretty": "prettier --write .",
+    "orval:gen-api": "orval --config orval.config.ts"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.8.0",
@@ -66,6 +67,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "gh-pages": "^6.3.0",
     "globals": "^16.4.0",
+    "orval": "^6.30.0",
     "prettier": "^3.6.2",
     "sass": "^1.93.2",
     "typescript": "^5.9.3",
