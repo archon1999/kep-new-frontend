@@ -1,3 +1,27 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "Users": "Users",
+  "UsersListTitle": "Users list",
+  "Username": "Username",
+  "FirstName": "First name",
+  "Country": "Country",
+  "Age": "Age",
+  "Skills": "Skills",
+  "Activity": "Activity",
+  "Contests": "Contests",
+  "Challenges": "Challenges",
+  "Status": "Status",
+  "Streak": "Streak",
+  "Reset": "Reset",
+  "Kepcoin": "Kepcoin",
+  "LastSeen": "Last seen",
+  "Import": "Import",
+  "Export": "Export",
+  "InviteUsers": "Invite users",
+  "All": "All",
+  "StatusOnline": "Online",
+  "StatusBusy": "Busy",
+  "StatusAway": "Away",
+  "StatusOffline": "Offline",
+  "FilterProblems": "Filtering problems"
 }

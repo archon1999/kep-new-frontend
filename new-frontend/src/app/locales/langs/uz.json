@@ -1,3 +1,27 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "Users": "Foydalanuvchilar",
+  "UsersListTitle": "Foydalanuvchilar roʻyxati",
+  "Username": "Nik",
+  "FirstName": "Ism",
+  "Country": "Davlat",
+  "Age": "Yosh",
+  "Skills": "Koʻnikmalar",
+  "Activity": "Faollik",
+  "Contests": "Kontestlar",
+  "Challenges": "Bellashuvlar",
+  "Status": "Holat",
+  "Streak": "Seriya",
+  "Reset": "Qayta tiklash",
+  "Kepcoin": "Kepcoin",
+  "LastSeen": "Ohirgi kirish",
+  "Import": "Import",
+  "Export": "Eksport",
+  "InviteUsers": "Foydalanuvchilarni taklif qilish",
+  "All": "Barchasi",
+  "StatusOnline": "Onlayn",
+  "StatusBusy": "Band",
+  "StatusAway": "Yoʻq",
+  "StatusOffline": "Oflayn",
+  "FilterProblems": "Masalalarni filterlash"
 }

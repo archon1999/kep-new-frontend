@@ -1,3 +1,27 @@
 {
-  "home": "Главная"
+  "home": "Главная",
+  "Users": "Пользователи",
+  "UsersListTitle": "Список пользователей",
+  "Username": "Ник",
+  "FirstName": "Имя",
+  "Country": "Страна",
+  "Age": "Возраст",
+  "Skills": "Навыки",
+  "Activity": "Активность",
+  "Contests": "Контесты",
+  "Challenges": "Вызовы",
+  "Status": "Статус",
+  "Streak": "Серия",
+  "Reset": "Сброс",
+  "Kepcoin": "Kepcoin",
+  "LastSeen": "Последнее посещение",
+  "Import": "Импорт",
+  "Export": "Экспорт",
+  "InviteUsers": "Пригласить пользователей",
+  "All": "Все",
+  "StatusOnline": "Онлайн",
+  "StatusBusy": "Занят",
+  "StatusAway": "Нет на месте",
+  "StatusOffline": "Оффлайн",
+  "FilterProblems": "Фильтрация задач"
 }

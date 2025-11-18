@@ -40,6 +40,22 @@ const sitemap: MenuItem[] = [
     ],
   },
   {
+    id: 'users',
+    subheader: 'Users',
+    key: 'users',
+    icon: 'mdi:account-multiple-outline',
+    items: [
+      {
+        name: 'Users list',
+        key: 'users-list',
+        path: paths.usersList,
+        pathName: 'users',
+        icon: 'mdi:account-multiple-outline',
+        active: true,
+      },
+    ],
+  },
+  {
     id: 'kepcoin',
     subheader: 'Kepcoin',
     key: 'kepcoin',
