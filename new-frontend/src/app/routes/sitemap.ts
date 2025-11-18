@@ -38,6 +38,15 @@ const sitemap: MenuItem[] = [
     icon: 'mdi:currency-usd-circle',
     active: true,
   },
+  {
+    name: 'Scheduler',
+    key: 'calendar.title',
+    path: paths.scheduler,
+    pathName: 'scheduler',
+    selectionPrefix: paths.scheduler,
+    icon: 'material-symbols:calendar-month-outline',
+    active: true,
+  },
 ];
 
 export default sitemap;

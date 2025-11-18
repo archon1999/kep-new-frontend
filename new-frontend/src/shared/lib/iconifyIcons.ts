@@ -76,6 +76,7 @@ export const icons = [
   'material-symbols:square-rounded',
   'material-symbols:search-rounded',
   'material-symbols:calendar-today-outline',
+  'material-symbols:calendar-month-outline',
   'material-symbols:download-rounded',
   'material-symbols:mail-outline-rounded',
   'material-symbols:call-outline',
