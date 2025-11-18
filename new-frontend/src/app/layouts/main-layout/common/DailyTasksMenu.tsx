@@ -58,6 +58,51 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
 
   const open = Boolean(anchorEl);
 
+  const streakContent = (
+    <Stack direction="row" alignItems="center" spacing={type === 'slim' ? 0.75 : 1.25}>
+      <OutlinedBadge
+        badgeContent={dailyTasks.length || null}
+        overlap="circular"
+        color="error"
+        sx={{
+          [`& .${badgeClasses.badge}`]: {
+            minWidth: 18,
+            height: 18,
+            fontSize: 11,
+            top: -4,
+            right: -4,
+          },
+        }}
+      >
+        <IconifyIcon icon={getKepIcon('streak')} sx={{ fontSize: type === 'slim' ? 18 : 22 }} />
+      </OutlinedBadge>
+      <Stack spacing={0.25} sx={{ minWidth: 0 }}>
+        <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, lineHeight: 1 }}>
+          Streak
+        </Typography>
+        {currentUser ? (
+          isValidating && !data ? (
+            <Skeleton variant="text" width={36} height={16} />
+          ) : (
+            <Typography
+              variant="subtitle2"
+              sx={{ fontWeight: 800, color: 'warning.main', lineHeight: 1, whiteSpace: 'nowrap' }}
+            >
+              {streak} days
+            </Typography>
+          )
+        ) : (
+          <Typography
+            variant="subtitle2"
+            sx={{ fontWeight: 800, color: 'warning.main', lineHeight: 1, whiteSpace: 'nowrap' }}
+          >
+            0 days
+          </Typography>
+        )}
+      </Stack>
+    </Stack>
+  );
+
   return (
     <>
       <Button
@@ -66,23 +111,9 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
         shape="circle"
         size={type === 'slim' ? 'small' : 'medium'}
         onClick={handleOpen}
+        sx={{ px: type === 'slim' ? 1 : 1.5 }}
       >
-        <OutlinedBadge
-          badgeContent={dailyTasks.length || null}
-          overlap="circular"
-          color="error"
-          sx={{
-            [`& .${badgeClasses.badge}`]: {
-              minWidth: 18,
-              height: 18,
-              fontSize: 11,
-              top: -4,
-              right: -4,
-            },
-          }}
-        >
-          <IconifyIcon icon={getKepIcon('streak')} sx={{ fontSize: type === 'slim' ? 18 : 22 }} />
-        </OutlinedBadge>
+        {streakContent}
       </Button>
       <Popover
         anchorEl={anchorEl}
@@ -167,7 +198,7 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
 
         <Box sx={{ flex: 1, overflow: 'hidden', px: 1.5, pb: 2, pt: 1 }}>
           <SimpleBar disableHorizontal>
-            <Stack spacing={1.25} sx={{ p: 1 }}>
+            <Stack spacing={1.25} sx={{ p: 1, '& > *': { width: '100%' } }}>
               {!currentUser && (
                 <EmptyState
                   icon="material-symbols:lock-outline-rounded"
@@ -218,6 +249,7 @@ const TaskItem = ({ task }: TaskItemProps) => {
       spacing={1.5}
       alignItems="flex-start"
       sx={{
+        width: '100%',
         p: 1.5,
         borderRadius: 2,
         border: '1px solid',
