@@ -9,6 +9,7 @@ import PageLoader from 'shared/components/loading/PageLoader';
 import paths, { authPaths, rootPaths } from './paths';
 
 const Home = lazy(() => import('pages/home/Home'));
+const CalendarPage = lazy(() => import('pages/calendar/CalendarPage'));
 const KepcoinPage = lazy(() => import('pages/kepcoin/KepcoinPage'));
 const ShopPage = lazy(() => import('pages/shop/ShopPage'));
 
@@ -45,6 +46,10 @@ export const routes: RouteObject[] = [
           {
             index: true,
             element: <Home />,
+          },
+          {
+            path: paths.calendar,
+            element: <CalendarPage />,
           },
           {
             path: paths.shop,

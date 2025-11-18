@@ -1,6 +1,16 @@
 {
   "home": "Home",
   "kepcoin": "Kepcoin",
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Browse upcoming contests, arenas, tournaments, and holidays.",
+    "eventTypes": {
+      "contest": "Contests",
+      "arena": "Arena",
+      "tournament": "Tournaments",
+      "holiday": "Holidays"
+    }
+  },
   "shop": {
     "title": "Shop",
     "subtitle": "Redeem your Kepcoins for gear and accessories inspired by KEP.uz.",

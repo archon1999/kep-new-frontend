@@ -4,11 +4,13 @@ export const rootPaths = {
   authDefaultRoot: 'default',
   kepcoinRoot: 'kepcoin',
   shopRoot: 'shop',
+  calendarRoot: 'calendar',
 };
 
 const paths = {
   kepcoin: `/${rootPaths.kepcoinRoot}`,
   shop: `/${rootPaths.shopRoot}`,
+  calendar: `/${rootPaths.calendarRoot}`,
 
   authLogin: `/${rootPaths.authRoot}/login`,
   authSignup: `/${rootPaths.authRoot}/sign-up`,

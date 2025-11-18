@@ -40,6 +40,22 @@ const sitemap: MenuItem[] = [
     ],
   },
   {
+    id: 'calendar',
+    subheader: 'Calendar',
+    key: 'calendar.title',
+    icon: 'mdi:calendar-month-outline',
+    items: [
+      {
+        name: 'Calendar',
+        key: 'calendar.title',
+        path: paths.calendar,
+        pathName: 'calendar',
+        icon: 'mdi:calendar-month-outline',
+        active: true,
+      },
+    ],
+  },
+  {
     id: 'shop',
     subheader: 'Shop',
     key: 'shop.title',
