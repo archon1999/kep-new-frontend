@@ -15,12 +15,9 @@ const SchedulerPage = lazy(() => import('pages/calendar/CalendarPage'));
 const UsersListPage = lazy(() => import('pages/users/UsersListPage'));
 
 const LoggedOut = lazy(() => import('pages/authentication/default/LoggedOut'));
+const CalendarPage = lazy(() => import('pages/calendar/CalendarPage'));
 
 const Login = lazy(() => import('pages/authentication/default/jwt/Login'));
-const Signup = lazy(() => import('pages/authentication/default/jwt/Signup'));
-const ForgotPassword = lazy(() => import('pages/authentication/default/jwt/ForgotPassword'));
-const TwoFA = lazy(() => import('pages/authentication/default/jwt/TwoFA'));
-const SetPassword = lazy(() => import('pages/authentication/default/jwt/SetPassword'));
 
 export const SuspenseOutlet = () => {
   const location = useLocation();
@@ -61,8 +58,8 @@ export const routes: RouteObject[] = [
             element: <KepcoinPage />,
           },
           {
-            path: paths.scheduler,
-            element: <SchedulerPage />,
+            path: paths.calendar,
+            element: <CalendarPage />,
           },
         ],
       },
@@ -81,26 +78,6 @@ export const routes: RouteObject[] = [
               {
                 path: authPaths.login,
                 element: <Login />,
-              },
-              {
-                path: authPaths.signup,
-                element: <Signup />,
-              },
-              {
-                path: authPaths.forgotPassword,
-                element: <ForgotPassword />,
-              },
-              {
-                path: authPaths.twoFactorAuth,
-                element: <TwoFA />,
-              },
-              {
-                path: authPaths.setNewPassword,
-                element: <SetPassword />,
-              },
-              {
-                path: paths.defaultLoggedOut,
-                element: <LoggedOut />,
               },
             ],
           },

@@ -18,7 +18,7 @@ import DefaultCredentialAlert from '../common/DefaultCredentialAlert';
 
 interface LoginFormProps {
   handleLogin: (data: LoginFormValues) => any;
-  signUpLink: string;
+  signUpLink?: string;
   forgotPasswordLink?: string;
   rememberDevice?: boolean;
   defaultCredential?: { email: string; password: string };
@@ -94,17 +94,19 @@ const LoginForm = ({
             }}
           >
             <Typography variant="h4">Log in</Typography>
-            <Typography
-              variant="subtitle2"
-              sx={{
-                color: 'text.secondary',
-              }}
-            >
-              Don&apos;t have an account?
-              <Link href={signUpLink} sx={{ ml: 1 }}>
-                Sign up
-              </Link>
-            </Typography>
+            {signUpLink && (
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
+                Don&apos;t have an account?
+                <Link href={signUpLink} sx={{ ml: 1 }}>
+                  Sign up
+                </Link>
+              </Typography>
+            )}
           </Stack>
         </Grid>
         <Grid size={12}>
@@ -202,9 +204,6 @@ const LoginForm = ({
           </Box>
         </Grid>
       </Grid>
-      <Link href="#!" variant="subtitle2">
-        Trouble signing in?
-      </Link>
     </Stack>
   );
 };
