@@ -1,5 +1,4 @@
 import js from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import globals from 'globals';
@@ -15,7 +14,6 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
-      eslintPluginPrettierRecommended,
     ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -35,7 +33,6 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
       'react/no-unescaped-entities': 'off',
-      'prettier/prettier': 'off',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-empty-interface': 'off',
       'react-refresh/only-export-components': 'off',
