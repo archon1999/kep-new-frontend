@@ -1,23 +1,155 @@
-import { useEffect, useState } from 'react';
-import { Box, Button, Link, Popover, Stack, badgeClasses, paperClasses } from '@mui/material';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  CircularProgress,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Pagination,
+  Popover,
+  Stack,
+  Typography,
+  badgeClasses,
+  paperClasses,
+} from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import { DatewiseNotification } from 'app/types/notification';
-import { notifications as notificationsData } from 'data/notifications';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import SimpleBar from 'shared/components/base/SimpleBar';
-import NotificationList from 'shared/components/sections/notification/NotificationList';
 import OutlinedBadge from 'shared/components/styled/OutlinedBadge';
+import { apiClient } from 'shared/api/http/apiClient';
+import {
+  Notification as ApiNotification,
+  NotificationBody,
+  NotificationType as ApiNotificationType,
+} from 'shared/api/orval/generated/endpoints/index.schemas';
+
+const NOTIFICATIONS_PAGE_SIZE = 4;
+
+interface NotificationContent {
+  contestId?: number;
+  contestTitle?: string;
+  delta?: number;
+  earnType?: number;
+  kepcoin?: number;
+  challengeId?: number;
+  arena?: {
+    id?: number;
+    title?: string;
+  };
+  duel?: {
+    id?: number;
+    title?: string;
+  };
+  achievementTitle?: string;
+  [key: string]: unknown;
+}
+
+dayjs.extend(relativeTime);
+
+const typeIconMap: Partial<Record<ApiNotificationType, string>> = {
+  [ApiNotificationType.NUMBER_1]: 'material-symbols:notifications',
+  [ApiNotificationType.NUMBER_2]: 'material-symbols:workspace-premium',
+  [ApiNotificationType.NUMBER_3]: 'material-symbols:redeem-outline',
+  [ApiNotificationType.NUMBER_4]: 'material-symbols:call-received',
+  [ApiNotificationType.NUMBER_5]: 'material-symbols:swords-outline',
+  [ApiNotificationType.NUMBER_6]: 'material-symbols:trophy-outline',
+  [ApiNotificationType.NUMBER_7]: 'material-symbols:swords',
+  [ApiNotificationType.NUMBER_8]: 'material-symbols:stars-outline',
+};
+
+const parseContent = (content?: string): NotificationContent => {
+  if (!content) return {};
+
+  if (typeof content === 'string') {
+    try {
+      return JSON.parse(content) as NotificationContent;
+    } catch (error) {
+      return { text: content } as NotificationContent;
+    }
+  }
+
+  return content as NotificationContent;
+};
+
+const getNotificationMessage = (notification: ApiNotification): string => {
+  const parsedContent = parseContent(notification.content);
+
+  switch (notification.type) {
+    case ApiNotificationType.NUMBER_2: {
+      if (parsedContent.contestTitle) {
+        const delta = parsedContent.delta;
+        const deltaText = typeof delta === 'number' ? ` (${delta > 0 ? '+' : ''}${delta})` : '';
+        return `${parsedContent.contestTitle} | Contest finished${deltaText}`;
+      }
+      break;
+    }
+    case ApiNotificationType.NUMBER_3: {
+      if (parsedContent.kepcoin) {
+        return `Earned ${parsedContent.kepcoin} Kepcoin`;
+      }
+      break;
+    }
+    case ApiNotificationType.NUMBER_4:
+    case ApiNotificationType.NUMBER_5: {
+      if (parsedContent.challengeId) {
+        return `Challenge #${parsedContent.challengeId}`;
+      }
+      break;
+    }
+    case ApiNotificationType.NUMBER_6: {
+      if (parsedContent.arena?.title) {
+        return `${parsedContent.arena.title} | Arena finished`;
+      }
+      break;
+    }
+    case ApiNotificationType.NUMBER_7: {
+      if (parsedContent.duel?.id) {
+        return `Duel #${parsedContent.duel.id} starts soon`;
+      }
+      break;
+    }
+    case ApiNotificationType.NUMBER_8: {
+      if (parsedContent.achievementTitle) {
+        return `New achievement unlocked: ${parsedContent.achievementTitle}`;
+      }
+      break;
+    }
+    default:
+      break;
+  }
+
+  if (notification.message) return notification.message;
+
+  if (typeof notification.content === 'string' && notification.content.trim().length) {
+    return notification.content;
+  }
+
+  return 'Notification';
+};
+
+const getNotificationMeta = (notification: ApiNotification): string =>
+  notification.createdNaturaltime ||
+  (notification.created ? dayjs(notification.created).fromNow() : 'Just now');
 
 interface NotificationMenuProps {
   type?: 'default' | 'slim';
 }
 
 const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
-  const [notifications, setNotifications] = useState<DatewiseNotification>({
-    today: [],
-    older: [],
-  });
+  const [notifications, setNotifications] = useState<ApiNotification[]>([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pagesCount, setPagesCount] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const {
@@ -25,31 +157,172 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
   } = useSettingsContext();
 
   const open = Boolean(anchorEl);
+
+  const hasUnread = useMemo(() => !showAll && total > 0, [showAll, total]);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  useEffect(() => {
-    const datewiseNotification = notificationsData.reduce(
-      (acc: DatewiseNotification, val) => {
-        if (dayjs().diff(dayjs(val.createdAt), 'days') === 0) {
-          acc.today.push(val);
-        } else {
-          acc.older.push(val);
-        }
-        return acc;
-      },
-      {
-        today: [],
-        older: [],
-      },
-    );
+  const fetchNotifications = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const params = { page: pageNumber, pageSize: NOTIFICATIONS_PAGE_SIZE };
+      const response = showAll
+        ? await apiClient.apiNotificationsAllList(params)
+        : await apiClient.apiNotificationsList(params);
 
-    setNotifications(datewiseNotification);
-  }, [notificationsData]);
+      setNotifications(response.data ?? []);
+      setTotal(response.total ?? 0);
+      setPagesCount(response.pagesCount ?? 0);
+      setPageNumber(response.page ?? 1);
+    } catch (error) {
+      setNotifications([]);
+      setPagesCount(0);
+      setTotal(0);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [pageNumber, showAll]);
+
+  useEffect(() => {
+    fetchNotifications();
+  }, [fetchNotifications]);
+
+  const handleMarkRead = async (notificationId?: number) => {
+    if (!notificationId || showAll) return;
+
+    setNotifications((prev) => {
+      const updated = prev.filter((item) => item.id !== notificationId);
+
+      if (prev.length === 1 && pageNumber > 1) {
+        setPageNumber((value) => Math.max(value - 1, 1));
+      }
+
+      return updated;
+    });
+
+    setTotal((prev) => Math.max(prev - 1, 0));
+
+    try {
+      await apiClient.apiNotificationsRead(String(notificationId), {} as NotificationBody);
+    } catch (error) {
+      // silently ignore errors for UX consistency
+    }
+  };
+
+  const handleReadAll = async () => {
+    if (showAll || !total) return;
+
+    setNotifications([]);
+    setTotal(0);
+    setPagesCount(0);
+    setPageNumber(1);
+
+    try {
+      await apiClient.apiNotificationsReadAll({} as NotificationBody);
+    } catch (error) {
+      // ignore errors to keep UI responsive
+    }
+  };
+
+  const handleToggleView = () => {
+    setShowAll((prev) => !prev);
+    setPageNumber(1);
+  };
+
+  const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
+    setPageNumber(value);
+  };
+
+  const renderList = () => {
+    if (isLoading) {
+      return (
+        <Stack alignItems="center" justifyContent="center" sx={{ py: 6 }}>
+          <CircularProgress size={24} />
+        </Stack>
+      );
+    }
+
+    if (!notifications.length) {
+      return (
+        <Stack alignItems="center" justifyContent="center" spacing={1.5} sx={{ py: 6 }}>
+          <Avatar sx={{ bgcolor: 'background.level1', color: 'text.secondary', width: 56, height: 56 }}>
+            <IconifyIcon icon="material-symbols:notifications-off-outline" sx={{ fontSize: 28 }} />
+          </Avatar>
+          <Typography variant="body2" color="text.secondary">
+            No notifications
+          </Typography>
+        </Stack>
+      );
+    }
+
+    return (
+      <SimpleBar disableHorizontal>
+        <List disablePadding>
+          {notifications.map((notification, index) => {
+            const itemKey = notification.id || notification.created || `${notification.type}-${index}`;
+
+            return (
+              <Box key={itemKey} component="li">
+                <ListItem
+                alignItems="flex-start"
+                sx={{ py: 1.25, px: 2 }}
+                secondaryAction={
+                  !showAll && (
+                    <IconButton
+                      size="small"
+                      edge="end"
+                      aria-label="mark as read"
+                      onClick={() => handleMarkRead(notification.id)}
+                    >
+                      <IconifyIcon icon="material-symbols:close-rounded" />
+                    </IconButton>
+                  )
+                }
+              >
+                <ListItemAvatar>
+                  <Avatar
+                    variant="rounded"
+                    sx={{
+                      bgcolor: 'primary.lighter',
+                      color: 'primary.main',
+                      width: 44,
+                      height: 44,
+                    }}
+                  >
+                    <IconifyIcon
+                      icon={typeIconMap[notification.type] || 'material-symbols:notifications-outline-rounded'}
+                      sx={{ fontSize: 22 }}
+                    />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Typography variant="subtitle2" color="text.primary">
+                      {getNotificationMessage(notification)}
+                    </Typography>
+                  }
+                  secondary={
+                    <Typography variant="caption" color="text.secondary">
+                      {getNotificationMeta(notification)}
+                    </Typography>
+                  }
+                  sx={{ mr: showAll ? 0 : 5 }}
+                />
+                </ListItem>
+                <Divider component="div" />
+              </Box>
+            );
+          })}
+        </List>
+      </SimpleBar>
+    );
+  };
 
   return (
     <>
@@ -63,6 +336,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
         <OutlinedBadge
           variant="dot"
           color="error"
+          invisible={!hasUnread}
           sx={{
             [`& .${badgeClasses.badge}`]: {
               height: 10,
@@ -98,38 +372,51 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
         }}
         sx={{
           [`& .${paperClasses.root}`]: {
-            width: 400,
-            height: 650,
+            width: 420,
+            height: 640,
             display: 'flex',
             flexDirection: 'column',
           },
         }}
       >
-        <Box sx={{ pt: 2, flex: 1, overflow: 'hidden' }}>
-          <SimpleBar disableHorizontal>
-            <NotificationList
-              title="Today"
-              notifications={notifications.today}
-              variant="small"
-              onItemClick={handleClose}
-            />
-            <NotificationList
-              title="Older"
-              notifications={notifications.older}
-              variant="small"
-              onItemClick={handleClose}
-            />
-          </SimpleBar>
-        </Box>
-        <Stack
-          sx={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            py: 1,
-          }}
-        >
-          <Button component={Link} underline="none" href="#!" variant="text" color="primary">
-            Load more notifications
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 2, pt: 2, pb: 1 }}>
+          <Box>
+            <Typography variant="h6">Notifications</Typography>
+            <Typography variant="caption" color="text.secondary">
+              {showAll ? 'All notifications' : 'Unread notifications'}
+            </Typography>
+          </Box>
+          <Chip
+            color="primary"
+            size="small"
+            label={`${total} ${showAll ? 'total' : 'unread'}`}
+            sx={{ borderRadius: 1 }}
+          />
+        </Stack>
+
+        {!showAll && total > 0 && (
+          <Box sx={{ px: 2, pb: 1 }}>
+            <Button size="small" color="primary" variant="text" onClick={handleReadAll}>
+              Mark all as read
+            </Button>
+          </Box>
+        )}
+
+        <Divider />
+
+        <Box sx={{ pt: 1, flex: 1, overflow: 'hidden' }}>{renderList()}</Box>
+
+        {pagesCount > 1 && (
+          <Stack alignItems="center" sx={{ py: 1 }}>
+            <Pagination count={pagesCount} page={pageNumber} onChange={handlePageChange} size="small" />
+          </Stack>
+        )}
+
+        <Divider />
+
+        <Stack spacing={1} sx={{ px: 2, py: 1 }}>
+          <Button fullWidth variant="contained" color="primary" onClick={handleToggleView}>
+            {showAll ? 'Show unread only' : 'Show all notifications'}
           </Button>
         </Stack>
       </Popover>
