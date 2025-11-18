@@ -15,6 +15,8 @@ import { useTranslation } from 'react-i18next';
 import { ShopProduct } from 'modules/shop/domain/entities/product.entity';
 import KepIcon from 'shared/components/base/KepIcon';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import { useSettingsContext } from 'app/providers/SettingsProvider.tsx';
+import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
 
 interface ShopProductCardProps {
   product: ShopProduct;
@@ -68,6 +70,7 @@ const ShopProductCard = ({ product }: ShopProductCardProps) => {
   };
 
   const primaryColor = product.colors[0];
+  const themeMode = useThemeMode();
 
   return (
     <Card
@@ -76,8 +79,8 @@ const ShopProductCard = ({ product }: ShopProductCardProps) => {
         display: 'flex',
         flexDirection: 'column',
         borderRadius: 3,
-        border: 'none',
-        bgcolor: 'grey.50',
+        outline: 'none',
+        bgcolor: themeMode.mode == 'light' ? 'grey.50' : 'grey.900',
         overflow: 'hidden',
       }}
       elevation={0}
