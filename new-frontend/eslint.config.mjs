@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default tseslint.config(
-  { ignores: ['dist', 'vite.config.ts'] },
+  { ignores: ['dist', 'vite.config.ts', 'orval.config.ts', 'src/shared/api/orval/generated/**/*'] },
   {
     extends: [
       js.configs.recommended,
