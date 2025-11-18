@@ -1,46 +1,43 @@
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useMemo, useState } from 'react';
 import { Box, Button, CircularProgress, Link, Popover, Stack, Typography, paperClasses } from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import paths from 'app/routes/paths';
-import { getSnippetsAPI } from 'shared/api/orval/generated/endpoints';
-import { TodayKepCoin } from 'shared/api/orval/generated/endpoints/index.schemas';
+import { useAuth } from 'app/providers/AuthProvider';
+import { TodayKepCoin, type KepCoinBalance } from 'shared/api/orval/generated/endpoints/index.schemas';
 import kepcoinImage from 'shared/assets/images/icons/kepcoin.png';
-
-const { apiMyKepcoinList, apiTodayKepcoinList } = getSnippetsAPI();
+import useSWR from 'swr';
+import useSWRMutation from 'swr/mutation';
+import axiosFetcher from 'shared/services/axios/axiosFetcher';
 
 interface KepcoinMenuProps {
   type?: 'default' | 'slim';
 }
 
 const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
-  const [balance, setBalance] = useState<number | null>(null);
   const [todayStats, setTodayStats] = useState<TodayKepCoin | null>(null);
-  const [loadingToday, setLoadingToday] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const {
     config: { textDirection },
   } = useSettingsContext();
+  const { currentUser } = useAuth();
+  const { data: fetchedBalance } = useSWR<KepCoinBalance>(['/api/my-kepcoin/', { method: 'get' }], axiosFetcher, {
+    shouldRetryOnError: false,
+    revalidateOnFocus: false,
+  });
 
-  const isMountedRef = useRef(true);
+  const { trigger: fetchTodayStats, isMutating: loadingToday } = useSWRMutation(
+    ['/api/today-kepcoin/', { method: 'get' }],
+    axiosFetcher,
+    {
+      throwOnError: false,
+    },
+  );
 
-  useEffect(() => {
-    apiMyKepcoinList()
-      .then((data) => {
-        if (isMountedRef.current) {
-          setBalance(data.kepcoin);
-        }
-      })
-      .catch(() => {
-        if (isMountedRef.current) {
-          setBalance(null);
-        }
-      });
-
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
+  const balance = useMemo(() => fetchedBalance?.kepcoin ?? currentUser?.kepcoin ?? null, [
+    currentUser?.kepcoin,
+    fetchedBalance?.kepcoin,
+  ]);
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -48,24 +45,10 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
 
   const handleOpen = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-    setLoadingToday(true);
 
-    apiTodayKepcoinList()
-      .then((data) => {
-        if (isMountedRef.current) {
-          setTodayStats(data);
-        }
-      })
-      .catch(() => {
-        if (isMountedRef.current) {
-          setTodayStats(null);
-        }
-      })
-      .finally(() => {
-        if (isMountedRef.current) {
-          setLoadingToday(false);
-        }
-      });
+    fetchTodayStats()
+      .then((data) => setTodayStats(data ?? null))
+      .catch(() => setTodayStats(null));
   };
 
   const open = Boolean(anchorEl);
