@@ -13,13 +13,13 @@ import { Breakpoint, ToolbarOwnProps, useTheme } from '@mui/material';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { COLLAPSE_NAVBAR, EXPAND_NAVBAR } from 'app/reducers/SettingsReducer';
-import { SubMenuItem } from 'app/routes/sitemap';
+import { MenuItem } from 'app/routes/sitemap';
 import { mainDrawerWidth } from 'shared/lib/constants';
 
 interface NavContextInterface {
   openItems: string[];
   setOpenItems: Dispatch<SetStateAction<string[]>>;
-  isNestedItemOpen: (items?: SubMenuItem[]) => boolean;
+  isNestedItemOpen: (items?: MenuItem[]) => boolean;
   sidenavAppbarVariant: ToolbarOwnProps['variant'];
   topbarHeight: Partial<Record<Breakpoint, number>>;
   sidenavCollapsed: boolean;
@@ -44,8 +44,8 @@ const NavProvider = ({ children }: PropsWithChildren) => {
     configDispatch,
   } = useSettingsContext();
 
-  const isNestedItemOpen = (items: SubMenuItem[] = []) => {
-    const checkLink = (children: SubMenuItem) => {
+  const isNestedItemOpen = (items: MenuItem[] = []) => {
+    const checkLink = (children: MenuItem) => {
       if (
         `${children.path}` === pathname ||
         (children.selectionPrefix && pathname!.includes(children.selectionPrefix))
