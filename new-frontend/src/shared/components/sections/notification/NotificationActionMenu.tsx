@@ -5,7 +5,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 
-const NotificationActionMenu = () => {
+interface NotificationActionMenuProps {
+  isRead?: boolean;
+  onToggleRead?: () => void;
+  onRemove?: () => void;
+}
+
+const NotificationActionMenu = ({ isRead, onToggleRead, onRemove }: NotificationActionMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { direction } = useTheme();
@@ -35,7 +41,21 @@ const NotificationActionMenu = () => {
         transformOrigin={{ horizontal: direction === 'rtl' ? 'left' : 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: direction === 'rtl' ? 'left' : 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose} sx={{ color: 'error.main' }}>
+        <MenuItem
+          onClick={() => {
+            onToggleRead?.();
+            handleClose();
+          }}
+        >
+          {isRead ? 'Mark as unread' : 'Mark as read'}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onRemove?.();
+            handleClose();
+          }}
+          sx={{ color: 'error.main' }}
+        >
           Remove Notification
         </MenuItem>
         <MenuItem onClick={handleClose}>Report issue</MenuItem>

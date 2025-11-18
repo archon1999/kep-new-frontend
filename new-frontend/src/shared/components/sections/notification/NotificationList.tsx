@@ -22,7 +22,9 @@ interface NotificationListProps {
   notifications: Notification[];
   sx?: SxProps;
   variant?: 'default' | 'small';
-  onItemClick?: () => void;
+  onItemClick?: (notification: Notification) => void;
+  onRemoveNotification?: (id: number) => void;
+  onToggleReadStatus?: (id: number, isRead: boolean) => void;
 }
 
 const NotificationList = ({
@@ -31,6 +33,8 @@ const NotificationList = ({
   sx,
   variant = 'default',
   onItemClick,
+  onRemoveNotification,
+  onToggleReadStatus,
 }: NotificationListProps) => {
   if (notifications.length > 0) {
     return (
@@ -57,7 +61,15 @@ const NotificationList = ({
           <ListItem
             key={notification.id}
             disablePadding
-            secondaryAction={<NotificationActionMenu />}
+            secondaryAction={
+              <NotificationActionMenu
+                isRead={Boolean(notification.readAt)}
+                onRemove={() => onRemoveNotification?.(notification.id)}
+                onToggleRead={() =>
+                  onToggleReadStatus?.(notification.id, Boolean(notification.readAt))
+                }
+              />
+            }
             sx={{
               '& .MuiListItemSecondaryAction-root': {
                 top: 16,
@@ -68,7 +80,7 @@ const NotificationList = ({
             <ListItemButton
               href="#!"
               disableRipple
-              onClick={onItemClick}
+              onClick={() => onItemClick?.(notification)}
               sx={[
                 {
                   flexDirection: 'column',

@@ -8,9 +8,18 @@ import NotificationList from 'shared/components/sections/notification/Notificati
 interface NotificationTabPanelProps {
   value: string;
   notificationsData: Notification[];
+  onItemClick?: (notification: Notification) => void;
+  onRemoveNotification?: (id: number) => void;
+  onToggleReadStatus?: (id: number, isRead: boolean) => void;
 }
 
-const NotificationTabPanel = ({ value, notificationsData }: NotificationTabPanelProps) => {
+const NotificationTabPanel = ({
+  value,
+  notificationsData,
+  onItemClick,
+  onRemoveNotification,
+  onToggleReadStatus,
+}: NotificationTabPanelProps) => {
   const [notifications, setNotifications] = useState<DatewiseNotification>({
     today: [],
     older: [],
@@ -46,6 +55,9 @@ const NotificationTabPanel = ({ value, notificationsData }: NotificationTabPanel
             borderRadius: 6,
           },
         }}
+        onItemClick={onItemClick}
+        onRemoveNotification={onRemoveNotification}
+        onToggleReadStatus={onToggleReadStatus}
       />
       <NotificationList
         title="Older"
@@ -56,6 +68,9 @@ const NotificationTabPanel = ({ value, notificationsData }: NotificationTabPanel
             borderRadius: 6,
           },
         }}
+        onItemClick={onItemClick}
+        onRemoveNotification={onRemoveNotification}
+        onToggleReadStatus={onToggleReadStatus}
       />
       {notificationsData.length > 10 && (
         <Divider sx={{ [`& .${dividerClasses.wrapper}`]: { p: 0 } }}>

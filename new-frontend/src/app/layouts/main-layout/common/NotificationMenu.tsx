@@ -111,13 +111,13 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
               title="Today"
               notifications={notifications.today}
               variant="small"
-              onItemClick={handleClose}
+              onItemClick={() => handleClose()}
             />
             <NotificationList
               title="Older"
               notifications={notifications.older}
               variant="small"
-              onItemClick={handleClose}
+              onItemClick={() => handleClose()}
             />
           </SimpleBar>
         </Box>
