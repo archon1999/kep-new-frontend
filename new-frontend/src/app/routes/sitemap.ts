@@ -15,7 +15,7 @@ export interface SubMenuItem {
 
 export interface MenuItem {
   id: string;
-  key?: string; // used for the locale
+  key?: string;
   subheader: string;
   icon: string;
   iconSx?: SxProps;
