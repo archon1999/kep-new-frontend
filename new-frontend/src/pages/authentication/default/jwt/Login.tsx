@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import { useAuth } from 'app/providers/AuthProvider';
-import { authPaths, rootPaths } from 'app/routes/paths';
+import { rootPaths } from 'app/routes/paths';
 import { defaultAuthCredentials } from 'app/config.ts';
 import LoginForm, {
   LoginFormValues,
@@ -23,8 +23,6 @@ const Login = () => {
   return (
     <LoginForm
       handleLogin={handleLogin}
-      signUpLink={authPaths.signup}
-      forgotPasswordLink={authPaths.forgotPassword}
       defaultCredential={defaultAuthCredentials}
     />
   );

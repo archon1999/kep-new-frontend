@@ -13,13 +13,7 @@ const KepcoinPage = lazy(() => import('pages/kepcoin/KepcoinPage'));
 const ShopPage = lazy(() => import('pages/shop/ShopPage'));
 const CalendarPage = lazy(() => import('pages/calendar/CalendarPage'));
 
-const LoggedOut = lazy(() => import('pages/authentication/default/LoggedOut'));
-
 const Login = lazy(() => import('pages/authentication/default/jwt/Login'));
-const Signup = lazy(() => import('pages/authentication/default/jwt/Signup'));
-const ForgotPassword = lazy(() => import('pages/authentication/default/jwt/ForgotPassword'));
-const TwoFA = lazy(() => import('pages/authentication/default/jwt/TwoFA'));
-const SetPassword = lazy(() => import('pages/authentication/default/jwt/SetPassword'));
 
 export const SuspenseOutlet = () => {
   const location = useLocation();
@@ -76,26 +70,6 @@ export const routes: RouteObject[] = [
               {
                 path: authPaths.login,
                 element: <Login />,
-              },
-              {
-                path: authPaths.signup,
-                element: <Signup />,
-              },
-              {
-                path: authPaths.forgotPassword,
-                element: <ForgotPassword />,
-              },
-              {
-                path: authPaths.twoFactorAuth,
-                element: <TwoFA />,
-              },
-              {
-                path: authPaths.setNewPassword,
-                element: <SetPassword />,
-              },
-              {
-                path: paths.defaultLoggedOut,
-                element: <LoggedOut />,
               },
             ],
           },

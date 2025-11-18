@@ -19,7 +19,7 @@ import Menu from '@mui/material/Menu';
 import { demoUser, useAuth } from 'app/providers/AuthProvider';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import paths, { authPaths } from 'app/routes/paths';
+import { authPaths } from 'app/routes/paths';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import StatusAvatar from 'shared/components/base/StatusAvatar';
 
@@ -62,7 +62,7 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
 
   const handleSignout = async () => {
     await signout();
-    navigate(paths.defaultLoggedOut);
+    navigate(authPaths.login);
     handleClose();
   };
 
