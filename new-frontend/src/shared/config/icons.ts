@@ -28,6 +28,7 @@ export const kepIcons = {
   profile: 'mdi:account-circle-outline',
   statistics: 'mdi:chart-pie-outline',
   rating: 'mdi:chart-line-variant',
+  shop: 'mdi:store-outline',
   attempt: 'mdi:target',
   attempts: 'mdi:target',
   'rating-changes': 'mdi:chart-timeline-variant',

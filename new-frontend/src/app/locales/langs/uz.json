@@ -1,3 +1,14 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "shop": {
+    "title": "Doʻkon",
+    "subtitle": "Kepcoinlarni KEP.uz sovgʻalari va aksessuarlariga sarflang.",
+    "loadError": "Mahsulotlarni yuklab bo'lmadi. Keyinroq urinib ko'ring.",
+    "emptyTitle": "Hozircha mahsulotlar yoʻq",
+    "emptySubtitle": "Kepcoinlaringizni sarflash uchun tez orada qaytib keling.",
+    "noImage": "Rasm mavjud emas",
+    "colorLabel": "Rang",
+    "sizeLabel": "Oʻlcham",
+    "kepcoinValue": "{{value}} Kepcoin"
+  }
 }
