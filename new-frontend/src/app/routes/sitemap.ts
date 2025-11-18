@@ -42,12 +42,12 @@ const sitemap: MenuItem[] = [
   {
     id: 'shop',
     subheader: 'Shop',
-    key: 'shop',
+    key: 'shop.title',
     icon: 'mdi:store-outline',
     items: [
       {
         name: 'Shop',
-        key: 'shop',
+        key: 'shop.title',
         path: paths.shop,
         pathName: 'shop',
         icon: 'mdi:store-outline',
@@ -59,14 +59,14 @@ const sitemap: MenuItem[] = [
     id: 'kepcoin',
     subheader: 'Kepcoin',
     key: 'kepcoin',
-    icon: 'material-symbols:payments-rounded',
+    icon: 'mdi:currency-usd-circle',
     items: [
       {
         name: 'Kepcoin',
         key: 'kepcoin',
         path: paths.kepcoin,
         pathName: 'kepcoin',
-        icon: 'material-symbols:payments-rounded',
+        icon: 'mdi:currency-usd-circle',
         active: true,
       },
     ],
