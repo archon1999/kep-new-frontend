@@ -29,6 +29,8 @@ const paths = {
   pricingColumn: `/${rootPaths.pricingRoot}/column`,
   notifications: `/${rootPaths.pagesRoot}/notifications`, //? update path
 
+  kepcoin: '/kepcoin',
+
   404: `/${rootPaths.errorRoot}/404`,
 };
 
