@@ -34,7 +34,7 @@ export const initialConfig: Config = {
   locale: 'en-US',
 };
 
-export const defaultJwtAuthCredentials = {
+export const defaultAuthCredentials = {
   email: 'demo@aurora.com',
   password: 'password123',
 };

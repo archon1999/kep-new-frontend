@@ -1,5 +1,5 @@
 import { Alert, Box, Typography } from '@mui/material';
-import { defaultJwtAuthCredentials } from 'app/config.ts';
+import { defaultAuthCredentials } from 'app/config.ts';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 
 const DefaultCredentialAlert = () => {
@@ -17,7 +17,7 @@ const DefaultCredentialAlert = () => {
             fontWeight: 700,
           }}
         >
-          {defaultJwtAuthCredentials.email}
+          {defaultAuthCredentials.email}
         </Box>
       </Typography>
       <Typography variant="body2">
@@ -28,7 +28,7 @@ const DefaultCredentialAlert = () => {
             fontWeight: 700,
           }}
         >
-          {defaultJwtAuthCredentials.password}
+          {defaultAuthCredentials.password}
         </Box>
       </Typography>
     </Alert>

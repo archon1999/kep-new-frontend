@@ -7,7 +7,7 @@ import SignupForm, {
 import { useRegisterUser } from 'shared/services/swr/api-hooks/useAuthApi';
 
 const Signup = () => {
-  const { setSession } = useAuth();
+  const { updateCurrentUser } = useAuth();
   const { trigger: signup } = useRegisterUser();
   const navigate = useNavigate();
 
@@ -16,12 +16,12 @@ const Signup = () => {
       throw new Error(error.data.message);
     });
     if (res) {
-      setSession(res);
+      updateCurrentUser(res);
       navigate(rootPaths.root);
     }
   };
 
-  return <SignupForm handleSignup={handleSignup} loginLink={paths.defaultJwtLogin} />;
+  return <SignupForm handleSignup={handleSignup} loginLink={paths.authLogin} />;
 };
 
 export default Signup;

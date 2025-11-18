@@ -44,11 +44,11 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
     config: { textDirection },
   } = useSettingsContext();
 
-  const { sessionUser, signout } = useAuth();
+  const { currentUser, signout } = useAuth();
   const { trigger: logoutUser } = useLogOutUser();
 
   // Demo user data used for development purposes
-  const user = useMemo(() => sessionUser || demoUser, [sessionUser]);
+  const user = useMemo(() => currentUser || demoUser, [currentUser]);
   const username = useMemo(() => user?.username || user?.name || user?.email || 'User', [user]);
   const combinedName = useMemo(
     () => [user?.firstName, user?.lastName].filter(Boolean).join(' '),
@@ -179,7 +179,7 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
         </Box>
         <Divider />
         <Box sx={{ py: 1 }}>
-          {sessionUser ? (
+          {currentUser ? (
             <ProfileMenuItem onClick={handleSignout} icon="material-symbols:logout-rounded">
               Logout
             </ProfileMenuItem>

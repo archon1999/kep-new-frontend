@@ -56,10 +56,10 @@ const StackedSidenav = () => {
     return item.items.some(checkLink);
   };
 
-  const { sessionUser } = useAuth();
+  const { currentUser } = useAuth();
 
   // Demo user data used for development purposes
-  const user = useMemo(() => sessionUser || demoUser, [sessionUser]);
+  const user = useMemo(() => currentUser || demoUser, [currentUser]);
 
   const drawer = (
     <Box sx={{ flex: 1, overflow: 'hidden' }}>

@@ -57,7 +57,7 @@ const SetPasswordForm = ({ handleSetPassword }: SetPasswordFormProps) => {
     try {
       const res = await handleSetPassword(data);
       enqueueSnackbar(res.message, { variant: 'success' });
-      navigate(paths.defaultJwtLogin);
+      navigate(paths.authLogin);
     } catch (error: any) {
       setError('root', { type: 'manual', message: error.message });
     }

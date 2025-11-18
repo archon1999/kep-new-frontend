@@ -16,17 +16,11 @@ const Home = lazy(() => import('pages/home/Home'));
 
 const LoggedOut = lazy(() => import('pages/authentication/default/LoggedOut'));
 
-const Login = lazy(() => import('pages/authentication/default/jwt/Login'));
-const Signup = lazy(() => import('pages/authentication/default/jwt/Signup'));
-const ForgotPassword = lazy(() => import('pages/authentication/default/jwt/ForgotPassword'));
-const TwoFA = lazy(() => import('pages/authentication/default/jwt/TwoFA'));
-const SetPassword = lazy(() => import('pages/authentication/default/jwt/SetPassword'));
-const FirebaseLogin = lazy(() => import('pages/authentication/default/firebase/Login'));
-const FirebaseSignup = lazy(() => import('pages/authentication/default/firebase/Signup'));
-const FirebaseForgotPassword = lazy(
-  () => import('pages/authentication/default/firebase/ForgotPassword'),
-);
-const Auth0Login = lazy(() => import('pages/authentication/default/auth0/Login'));
+const Login = lazy(() => import('pages/authentication/default/Login'));
+const Signup = lazy(() => import('pages/authentication/default/Signup'));
+const ForgotPassword = lazy(() => import('pages/authentication/default/ForgotPassword'));
+const TwoFA = lazy(() => import('pages/authentication/default/TwoFA'));
+const SetPassword = lazy(() => import('pages/authentication/default/SetPassword'));
 
 export const SuspenseOutlet = () => {
   const location = useLocation();
@@ -85,53 +79,26 @@ export const routes: RouteObject[] = [
             ),
             children: [
               {
-                path: rootPaths.authDefaultJwtRoot,
                 children: [
                   {
-                    path: paths.defaultJwtLogin,
+                    path: paths.authLogin,
                     element: <Login />,
                   },
                   {
-                    path: paths.defaultJwtSignup,
+                    path: paths.authSignup,
                     element: <Signup />,
                   },
                   {
-                    path: paths.defaultJwtForgotPassword,
+                    path: paths.authForgotPassword,
                     element: <ForgotPassword />,
                   },
                   {
-                    path: paths.defaultJwt2FA,
+                    path: paths.auth2FA,
                     element: <TwoFA />,
                   },
                   {
-                    path: paths.defaultJwtSetPassword,
+                    path: paths.authSetPassword,
                     element: <SetPassword />,
-                  },
-                ],
-              },
-              {
-                path: rootPaths.authDefaultFirebaseRoot,
-                children: [
-                  {
-                    path: paths.defaultFirebaseLogin,
-                    element: <FirebaseLogin />,
-                  },
-                  {
-                    path: paths.defaultFirebaseSignup,
-                    element: <FirebaseSignup />,
-                  },
-                  {
-                    path: paths.defaultFirebaseForgotPassword,
-                    element: <FirebaseForgotPassword />,
-                  },
-                ],
-              },
-              {
-                path: rootPaths.authDefaultAuth0Root,
-                children: [
-                  {
-                    path: paths.defaultAuth0Login,
-                    element: <Auth0Login />,
                   },
                 ],
               },

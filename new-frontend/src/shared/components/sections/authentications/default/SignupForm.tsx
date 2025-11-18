@@ -1,17 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Box, Button, Divider, Link, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import PasswordTextField from 'shared/components/common/PasswordTextField';
 import * as yup from 'yup';
-import ViewOnlyAlert from '../common/ViewOnlyAlert';
-import SocialAuth from './SocialAuth';
 
 interface SignupFormProps {
-  provider?: 'jwt' | 'firebase';
   handleSignup: (data: SignupFormValues) => any;
-  socialAuth?: boolean;
   loginLink: string;
 }
 
@@ -32,12 +28,7 @@ const schema = yup
   })
   .required();
 
-const SignupForm = ({
-  provider = 'jwt',
-  handleSignup,
-  socialAuth = true,
-  loginLink,
-}: SignupFormProps) => {
+const SignupForm = ({ handleSignup, loginLink }: SignupFormProps) => {
   const {
     register,
     handleSubmit,
@@ -79,13 +70,6 @@ const SignupForm = ({
           mb: 5,
         }}
       >
-        {provider === 'firebase' && import.meta.env.VITE_BUILD_MODE === 'production' && (
-          <Grid size={12} sx={{ mb: 1 }}>
-            <ViewOnlyAlert
-              docLink={`https://aurora.themewagon.com/documentation/authentication#firebase`}
-            />
-          </Grid>
-        )}
         <Grid size={12}>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
@@ -109,16 +93,6 @@ const SignupForm = ({
             </Typography>
           </Stack>
         </Grid>
-        {socialAuth && (
-          <>
-            <Grid size={12}>
-              <SocialAuth />
-            </Grid>
-            <Grid size={12}>
-              <Divider sx={{ color: 'text.secondary' }}>or use email</Divider>
-            </Grid>
-          </>
-        )}
         <Grid size={12}>
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
             {errors.root?.credential?.message && (

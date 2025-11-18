@@ -1,42 +1,16 @@
-import { PropsWithChildren, Suspense, SyntheticEvent, useEffect, useState } from 'react';
-import { useMatch } from 'react-router';
-import { Link, Stack, Tab, Tabs, tabsClasses } from '@mui/material';
+import { PropsWithChildren, Suspense } from 'react';
+import { Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import paths from 'app/routes/paths';
 import Lottie from 'lottie-react';
 import authDark from 'shared/assets/json/auth-dark.json';
 import auth from 'shared/assets/json/auth.json';
 import Logo from 'shared/components/common/Logo';
-import Auth0Icon from 'shared/components/icons/Auth0Icon';
-import FirebaseIcon from 'shared/components/icons/FirebaseIcon';
-import JwtIcon from 'shared/components/icons/JwtIcon';
 import DefaultLoader from 'shared/components/loading/DefaultLoader';
 import { useThemeMode } from 'shared/hooks/useThemeMode';
-import { cssVarRgba, getItemFromStore } from 'shared/lib/utils';
+import { cssVarRgba } from 'shared/lib/utils';
 
 const DefaultAuthLayout = ({ children }: PropsWithChildren) => {
-  const storedProvider = getItemFromStore('auth_provider');
   const { isDark } = useThemeMode();
-  const jwtMatch = useMatch('/authentication/default/jwt/:page');
-  const auth0Match = useMatch('/authentication/default/auth0/:page');
-  const firebaseMatch = useMatch('/authentication/default/firebase/:page');
-  const [value, setValue] = useState(storedProvider || 'jwt');
-
-  const handleChange = (_event: SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
-  useEffect(() => {
-    if (jwtMatch) {
-      setValue('jwt');
-    }
-    if (auth0Match) {
-      setValue('auth0');
-    }
-    if (firebaseMatch) {
-      setValue('firebase');
-    }
-  }, []);
 
   return (
     <Grid
@@ -93,54 +67,20 @@ const DefaultAuthLayout = ({ children }: PropsWithChildren) => {
               justifyContent: 'center',
             }}
           >
-            <Tabs
-              value={value}
-              onChange={handleChange}
+            <Typography
+              variant="subtitle1"
+              color="text.secondary"
               sx={{
+                textAlign: 'center',
                 bgcolor: 'background.elevation1',
-                p: 1,
-                borderRadius: 9,
-                [`& .${tabsClasses.indicator}`]: {
-                  height: 1,
-                  bgcolor: (theme) => cssVarRgba(theme.vars.palette.primary.mainChannel, 0.1),
-                  borderRadius: 12,
-                },
+                p: 2,
+                borderRadius: 3,
+                border: 1,
+                borderColor: (theme) => cssVarRgba(theme.vars.palette.primary.mainChannel, 0.12),
               }}
             >
-              <Tab
-                component={Link}
-                underline="none"
-                href={paths.defaultJwtLogin}
-                value="jwt"
-                label="jwt"
-                icon={<JwtIcon />}
-                iconPosition="start"
-                disableRipple
-                sx={{ px: 1.75 }}
-              />
-              <Tab
-                component={Link}
-                underline="none"
-                href={paths.defaultAuth0Login}
-                value="auth0"
-                label="Auth 0"
-                icon={<Auth0Icon />}
-                iconPosition="start"
-                disableRipple
-                sx={{ px: 1.75 }}
-              />
-              <Tab
-                component={Link}
-                underline="none"
-                href={paths.defaultFirebaseLogin}
-                value="firebase"
-                label="Firebase"
-                icon={<FirebaseIcon />}
-                iconPosition="start"
-                disableRipple
-                sx={{ px: 1.75 }}
-              />
-            </Tabs>
+              Sign in to continue to Kep.uz
+            </Typography>
           </Stack>
         </Stack>
       </Grid>
