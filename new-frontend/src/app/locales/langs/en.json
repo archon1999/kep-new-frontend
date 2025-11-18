@@ -25,5 +25,44 @@
     "emptyTitle": "No events scheduled",
     "emptySubtitle": "New training times will appear here once they are published.",
     "untitled": "Untitled event"
+  },
+  "users": {
+    "title": "Users",
+    "actions": {
+      "export": "Export",
+      "invite": "Invite user"
+    },
+    "tabs": {
+      "all": "All users",
+      "skills": "Top skills",
+      "activity": "Top activity",
+      "contests": "Top contests",
+      "challenges": "Top challenges"
+    },
+    "filters": {
+      "toggle": "Filters",
+      "searchPlaceholder": "Search by username",
+      "username": "Username",
+      "usernamePlaceholder": "Filter by username",
+      "name": "Name",
+      "namePlaceholder": "Search by first or last name",
+      "country": "Country",
+      "countryPlaceholder": "Choose a country",
+      "anyCountry": "Any country",
+      "ageFrom": "Age from",
+      "ageTo": "Age to",
+      "agePlaceholder": "--"
+    },
+    "columns": {
+      "user": "User",
+      "skills": "Skills",
+      "activity": "Activity",
+      "contests": "Contests",
+      "challenges": "Challenges",
+      "streak": "Streak",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Last seen"
+    },
+    "emptyValue": "—"
   }
 }
