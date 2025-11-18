@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router';
 import { useAuth } from 'app/providers/AuthProvider';
-import paths, { rootPaths } from 'app/routes/paths';
-import { defaultJwtAuthCredentials } from 'app/config.ts';
+import { authPaths, rootPaths } from 'app/routes/paths';
+import { defaultAuthCredentials } from 'app/config.ts';
 import LoginForm, {
   LoginFormValues,
 } from 'shared/components/sections/authentications/default/LoginForm';
 import { useLoginUser } from 'shared/services/swr/api-hooks/useAuthApi';
 
 const Login = () => {
-  const { setSession } = useAuth();
+  const { setCurrentUser } = useAuth();
   const navigate = useNavigate();
   const { trigger: login } = useLoginUser();
   const handleLogin = async (data: LoginFormValues) => {
@@ -16,16 +16,16 @@ const Login = () => {
       throw new Error(error.data.message);
     });
     if (res) {
-      setSession(res);
+      setCurrentUser(res);
       navigate(rootPaths.root);
     }
   };
   return (
     <LoginForm
       handleLogin={handleLogin}
-      signUpLink={paths.defaultJwtSignup}
-      forgotPasswordLink={paths.defaultJwtForgotPassword}
-      defaultCredential={defaultJwtAuthCredentials}
+      signUpLink={authPaths.signup}
+      forgotPasswordLink={authPaths.forgotPassword}
+      defaultCredential={defaultAuthCredentials}
     />
   );
 };

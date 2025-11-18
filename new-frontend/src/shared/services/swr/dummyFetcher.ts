@@ -11,7 +11,7 @@ const testUser: User = {
 
 export const getProfileFetcher = (): Promise<User | null> =>
   new Promise((resolve) => {
-    const user = getItemFromStore('session_user');
+    const user = getItemFromStore('current_user');
     if (user) {
       resolve(testUser);
     }
@@ -21,7 +21,7 @@ export const getProfileFetcher = (): Promise<User | null> =>
 export const loginFetcher = (): Promise<{ user: User }> =>
   new Promise((resolve) => {
     setTimeout(() => {
-      setItemToStore('session_user', JSON.stringify(testUser));
+      setItemToStore('current_user', JSON.stringify(testUser));
       resolve({ user: testUser });
     }, 1000);
   });

@@ -14,10 +14,9 @@ import Divider from '@mui/material/Divider';
 import Drawer, { drawerClasses } from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Toolbar from '@mui/material/Toolbar';
-import { useAuth } from 'app/providers/AuthProvider';
+import { demoUser, useAuth } from 'app/providers/AuthProvider';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import { demoUser } from 'app/providers/auth-provider/AuthJwtProvider';
 import sitemap, { MenuItem, SubMenuItem } from 'app/routes/sitemap';
 import { sidenavVibrantStyle } from 'app/theme/styles/vibrantNav';
 import clsx from 'clsx';
@@ -56,10 +55,10 @@ const StackedSidenav = () => {
     return item.items.some(checkLink);
   };
 
-  const { sessionUser } = useAuth();
+  const { currentUser } = useAuth();
 
   // Demo user data used for development purposes
-  const user = useMemo(() => sessionUser || demoUser, [sessionUser]);
+  const user = useMemo(() => currentUser || demoUser, [currentUser]);
 
   const drawer = (
     <Box sx={{ flex: 1, overflow: 'hidden' }}>
