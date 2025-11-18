@@ -58,15 +58,9 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
     <>
       <Button
         onClick={handleOpen}
-        color="primary"
-        variant="soft"
-        size={type === 'slim' ? 'small' : 'medium'}
-        sx={{
-          borderRadius: 999,
-          px: 1.25,
-          minWidth: 0,
-          height: type === 'slim' ? 34 : 42,
-        }}
+        color="neutral"
+        variant={type === 'default' ? 'soft' : 'text'}
+        size="small"
       >
         <Stack direction="row" spacing={1} alignItems="center">
           <Box
@@ -75,7 +69,7 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
             alt="Kepcoin"
             sx={{ width: type === 'slim' ? 18 : 22, height: type === 'slim' ? 18 : 22 }}
           />
-          <Typography variant="body2" fontWeight={700} color="primary.main">
+          <Typography variant="body2" fontWeight={600}>
             {formattedBalance}
           </Typography>
         </Stack>
@@ -105,50 +99,63 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
           <Stack direction="row" spacing={1.25} alignItems="center">
             <Box component="img" src={kepcoinImage} alt="Kepcoin" sx={{ width: 30, height: 30 }} />
             <Box>
-              <Typography variant="caption" color="text.secondary">
-                Joriy balans
-              </Typography>
               <Typography variant="h6" fontWeight={700} color="text.primary">
                 {formattedBalance}
               </Typography>
             </Box>
           </Stack>
 
-          {loadingToday ? (
-            <Stack alignItems="center" sx={{ py: 1 }}>
-              <CircularProgress size={22} />
-            </Stack>
-          ) : (
-            <Stack spacing={1}>
-              <Stack direction="row" justifyContent="space-between" alignItems="center">
-                <Typography variant="body2" color="text.secondary">
-                  Bugun topilgan
-                </Typography>
-                <Typography variant="body2" fontWeight={700}>
-                  {todayStats ? todayStats.earn : '--'}
-                </Typography>
-              </Stack>
-              <Stack direction="row" justifyContent="space-between" alignItems="center">
-                <Typography variant="body2" color="text.secondary">
-                  Bugun sarflangan
-                </Typography>
-                <Typography variant="body2" fontWeight={700}>
-                  {todayStats ? todayStats.spend : '--'}
-                </Typography>
-              </Stack>
-            </Stack>
-          )}
-
           <Button
             component={Link}
             href={paths.kepcoin}
-            variant="contained"
+            variant="text"
             color="primary"
             onClick={handleClose}
           >
             Kepcoin sahifasiga o&apos;tish
           </Button>
         </Stack>
+
+        {loadingToday ? (
+          <Stack alignItems="center" padding={2}>
+            <CircularProgress size={22} />
+          </Stack>
+        ) : (
+          <Stack spacing={1} padding={2} direction="column">
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Typography variant="body2" color="text.secondary">
+                Bugun topilgan
+              </Typography>
+              <Stack direction="row" spacing={1}>
+                <Typography variant="body2" fontWeight={700}>
+                  {todayStats ? todayStats.earn : '--'}
+                </Typography>
+                <Box
+                  component="img"
+                  src={kepcoinImage}
+                  alt="Kepcoin"
+                  sx={{ width: type === 'slim' ? 18 : 22, height: type === 'slim' ? 18 : 22 }}
+                />
+              </Stack>
+            </Stack>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Typography variant="body2" color="text.secondary">
+                Bugun sarflangan
+              </Typography>
+              <Stack direction="row" spacing={1}>
+                <Typography variant="body2" fontWeight={700}>
+                  {todayStats ? todayStats.spend : '--'}
+                </Typography>
+                <Box
+                  component="img"
+                  src={kepcoinImage}
+                  alt="Kepcoin"
+                  sx={{ width: type === 'slim' ? 18 : 22, height: type === 'slim' ? 18 : 22 }}
+                />
+              </Stack>
+            </Stack>
+          </Stack>
+        )}
       </Popover>
     </>
   );

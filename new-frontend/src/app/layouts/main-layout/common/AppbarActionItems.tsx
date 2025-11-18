@@ -24,10 +24,10 @@ const AppbarActionItems = ({ type = 'default', sx, searchComponent }: AppbarActi
       }}
     >
       {searchComponent}
-      <KepcoinMenu type={type} />
       <LanguageMenu type={type} />
       <ThemeToggler type={type} />
       <NotificationMenu type={type} />
+      <KepcoinMenu type={type} />
       <ProfileMenu type={type} />
     </Stack>
   );
