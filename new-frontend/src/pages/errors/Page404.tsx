@@ -11,8 +11,9 @@ const Page404 = () => {
       sx={{
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '100vh',
+        height: '100vh',
         p: { xs: 2.5, sm: 5 },
+        overflow: 'hidden',
       }}
     >
       <Stack
@@ -22,17 +23,23 @@ const Page404 = () => {
           justifyContent: 'center',
           textAlign: 'center',
         }}
+        spacing={{ xs: 6, md: 8 }}
       >
         <Box
           sx={{
-            mb: 10,
-            width: {
+            width: '100%',
+            maxWidth: {
               xs: 300,
               sm: 500,
-              md: 800,
-              lg: 1046,
+              md: 720,
+              lg: 920,
             },
-            height: 'auto',
+            maxHeight: {
+              xs: '40vh',
+              sm: '45vh',
+              md: '55vh',
+              lg: '60vh',
+            },
           }}
         >
           <Lottie
