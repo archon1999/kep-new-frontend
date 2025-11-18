@@ -1,5 +1,18 @@
 {
   "home": "Bosh sahifa",
+  "calendar": {
+    "title": "Kalendar",
+    "subtitle": "Kontestlar, arenalar, turnirlar va dam olish kunlarini bir joyda kuzating.",
+    "eventsTitle": "Rejalashtirilgan tadbirlar",
+    "viewHelper": "Kelayotgan tadbirlarni ko'rish uchun oy, hafta, kun yoki ro'yxat ko'rinishini tanlang.",
+    "monthView": "Oy",
+    "weekView": "Hafta",
+    "dayView": "Kun",
+    "listView": "Roʻyxat",
+    "loadError": "Kalendar maʼlumotlarini yuklab bo‘lmadi. Birozdan so‘ng urinib ko‘ring.",
+    "subtitleShort": "Kalendar",
+    "events": "Tadbirlar"
+  },
   "shop": {
     "title": "Doʻkon",
     "subtitle": "Kepcoinlarni KEP.uz sovgʻalari va aksessuarlariga sarflang.",

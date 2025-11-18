@@ -40,6 +40,22 @@ const sitemap: MenuItem[] = [
     ],
   },
   {
+    id: 'calendar',
+    subheader: 'Calendar',
+    key: 'calendar.title',
+    icon: 'material-symbols:calendar-month-rounded',
+    items: [
+      {
+        name: 'Calendar',
+        key: 'calendar.title',
+        path: paths.calendar,
+        pathName: 'calendar',
+        icon: 'material-symbols:calendar-month-rounded',
+        active: true,
+      },
+    ],
+  },
+  {
     id: 'shop',
     subheader: 'Shop',
     key: 'shop',

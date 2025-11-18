@@ -1,5 +1,18 @@
 {
   "home": "Home",
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Stay on top of contests, arenas, tournaments, and holidays in one view.",
+    "eventsTitle": "Scheduled events",
+    "viewHelper": "Switch between month, week, day, or list views to browse upcoming events.",
+    "monthView": "Month",
+    "weekView": "Week",
+    "dayView": "Day",
+    "listView": "List",
+    "loadError": "Unable to load calendar events. Please try again shortly.",
+    "subtitleShort": "Calendar",
+    "events": "Events"
+  },
   "shop": {
     "title": "Shop",
     "subtitle": "Redeem your Kepcoins for gear and accessories inspired by KEP.uz.",
