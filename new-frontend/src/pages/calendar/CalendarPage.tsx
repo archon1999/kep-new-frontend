@@ -106,98 +106,58 @@ const CalendarPage = () => {
 
   return (
     <Box sx={{ p: { xs: 3, md: 5 }, pt: { xs: 2, md: 4 } }}>
-      <Stack spacing={3}>
-        <Stack spacing={0.5}>
+      <Stack direction="column" spacing={2}>
+        <Stack>
           <Typography variant="h4" fontWeight={800}>
             {t('calendar.title')}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {t('calendar.subtitle')}
-          </Typography>
         </Stack>
 
-        <Paper sx={{ p: { xs: 2, md: 3 } }}>
-          <Stack spacing={3}>
-            <CalendarToolbar
-              currentRangeLabel={rangeLabel}
-              onToday={handleToday}
-              onNext={handleNext}
-              onPrev={handlePrev}
-              onChangeView={handleViewChange}
-              view={view}
-            />
+        <Stack direction="column" spacing={3}>
+          <CalendarToolbar
+            currentRangeLabel={rangeLabel}
+            onToday={handleToday}
+            onNext={handleNext}
+            onPrev={handlePrev}
+            onChangeView={handleViewChange}
+            view={view}
+          />
 
-            <Stack direction="row" spacing={1} flexWrap="wrap">
-              {[1, 2, 3, 4].map((type) => (
-                <Chip
-                  key={type}
-                  label={t('calendar.eventType', { type })}
-                  size="small"
-                  sx={{ bgcolor: eventColors[type], color: 'common.white' }}
-                />
-              ))}
-            </Stack>
-
-            {error && <Alert severity="error">{t('calendar.loadError')}</Alert>}
-
-            <Box
-              sx={{
-                minHeight: 420,
-                '& .fc': {
-                  width: '100%',
-                  '--fc-border-color': theme.palette.divider,
-                  '--fc-event-text-color': theme.palette.common.white,
-                },
-                '& .fc .fc-daygrid-day-top': {
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 6,
-                  paddingInline: 8,
-                },
-                '& .fc .fc-daygrid-day-number': {
-                  fontWeight: 700,
-                },
-                '& .fc .fc-event': {
-                  borderRadius: 1,
-                  fontWeight: 600,
-                },
-              }}
-            >
-              {isLoading ? (
-                <Stack alignItems="center" justifyContent="center" sx={{ height: 420 }} spacing={1.5}>
-                  <CircularProgress color="primary" />
-                  <Typography variant="body2" color="text.secondary">
-                    {t('calendar.loading')}
-                  </Typography>
-                </Stack>
-              ) : calendarEvents.length === 0 ? (
-                <Stack
-                  alignItems="center"
-                  justifyContent="center"
-                  sx={{ height: 420, textAlign: 'center', px: { xs: 2, sm: 6 } }}
-                  spacing={1}
-                >
-                  <Typography variant="subtitle1" fontWeight={700}>
-                    {t('calendar.emptyTitle')}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {t('calendar.emptySubtitle')}
-                  </Typography>
-                </Stack>
-              ) : (
-                <FullCalendar
-                  ref={calendarRef}
-                  events={calendarEvents}
-                  initialView={view}
-                  datesSet={handleDatesSet}
-                  height="auto"
-                  expandRows
-                  eventOverlap
-                />
-              )}
-            </Box>
-          </Stack>
-        </Paper>
+          <Box>
+            {isLoading ? (
+              <Stack alignItems="center" justifyContent="center" sx={{ height: 420 }} spacing={1.5}>
+                <CircularProgress color="primary" />
+                <Typography variant="body2" color="text.secondary">
+                  {t('calendar.loading')}
+                </Typography>
+              </Stack>
+            ) : calendarEvents.length === 0 ? (
+              <Stack
+                alignItems="center"
+                justifyContent="center"
+                sx={{ height: 420, textAlign: 'center', px: { xs: 2, sm: 6 } }}
+                spacing={1}
+              >
+                <Typography variant="subtitle1" fontWeight={700}>
+                  {t('calendar.emptyTitle')}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {t('calendar.emptySubtitle')}
+                </Typography>
+              </Stack>
+            ) : (
+              <FullCalendar
+                ref={calendarRef}
+                events={calendarEvents}
+                initialView={view}
+                datesSet={handleDatesSet}
+                height="auto"
+                expandRows
+                eventOverlap
+              />
+            )}
+          </Box>
+        </Stack>
       </Stack>
     </Box>
   );
