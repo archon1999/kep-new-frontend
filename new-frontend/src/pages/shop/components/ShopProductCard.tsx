@@ -76,6 +76,8 @@ const ShopProductCard = ({ product }: ShopProductCardProps) => {
         display: 'flex',
         flexDirection: 'column',
         borderRadius: 3,
+        border: 'none',
+        bgcolor: 'grey.50',
         overflow: 'hidden',
       }}
       elevation={0}
@@ -277,6 +279,8 @@ export const ShopProductCardSkeleton = () => (
       display: 'flex',
       flexDirection: 'column',
       borderRadius: 3,
+      border: 'none',
+      bgcolor: 'grey.50',
       overflow: 'hidden',
     }}
     elevation={0}
