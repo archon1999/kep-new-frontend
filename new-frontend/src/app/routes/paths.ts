@@ -14,10 +14,12 @@ export const rootPaths = {
   emailRoot: 'email',
   kanbanRoot: 'kanban',
   appsRoot: 'apps',
+  kepcoinRoot: 'kepcoin',
 };
 
 const paths = {
   home: rootPaths.root,
+  kepcoin: `/${rootPaths.kepcoinRoot}`,
 
   authLogin: `/${rootPaths.authRoot}/login`,
   authSignup: `/${rootPaths.authRoot}/sign-up`,
