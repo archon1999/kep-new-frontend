@@ -250,7 +250,7 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
         <Divider />
 
         <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
             <Typography variant="body2" color="text.secondary">
               Completed
             </Typography>
@@ -258,8 +258,8 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
               {dailyTasks.length ? `${completedTasks}/${dailyTasks.length}` : '--'}
             </Typography>
           </Stack>
-          <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 999 }} />
         </Stack>
+        { progress > 0 && <LinearProgress variant="determinate" value={progress} sx={{ height: 20, borderRadius: 999, mx: 2, mb: 2 }} /> }
       </Popover>
     </>
   );
