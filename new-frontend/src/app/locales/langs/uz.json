@@ -1,3 +1,27 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "homePage": {
+    "greeting": "Xayrli tong, {{name}}!",
+    "greetingSubtitle": "Bugungi natijalaringizga qisqacha nazar.",
+    "fallbackName": "Kapitan",
+    "ranks": {
+      "title": "Reytinglaringiz",
+      "skills": "Ko'nikmalar reytingi",
+      "activity": "Faollik reytingi",
+      "contests": "Kontest reytingi",
+      "challenges": "Challengelar reytingi",
+      "subtitle": "Oxirgi reyting yangilanishi"
+    },
+    "percentile": "{{value}} foizlik ko'rsatkich",
+    "contestCardTitle": "Tanlangan kontest",
+    "contestNoDate": "Boshlanish vaqti tez orada",
+    "contestAction": "Kontestni ochish",
+    "noContest": "Kontestlar topilmadi",
+    "arenaCardTitle": "Arena tanlovi",
+    "arenaNoDate": "Boshlanish vaqti tez orada",
+    "arenaAction": "Arenani ochish",
+    "noArena": "Arenalar mavjud emas",
+    "newsTitle": "So'nggi yangiliklar",
+    "noNews": "Hozircha yangiliklar yo'q"
+  }
 }

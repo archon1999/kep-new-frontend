@@ -1,3 +1,27 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "homePage": {
+    "greeting": "Good morning, {{name}}!",
+    "greetingSubtitle": "Here is an overview of your progress today.",
+    "fallbackName": "Captain",
+    "ranks": {
+      "title": "Your ratings",
+      "skills": "Skills rating",
+      "activity": "Activity rating",
+      "contests": "Contest rating",
+      "challenges": "Challenges rating",
+      "subtitle": "Latest rating update"
+    },
+    "percentile": "{{value}} percentile",
+    "contestCardTitle": "Featured contest",
+    "contestNoDate": "Start time coming soon",
+    "contestAction": "Open contest",
+    "noContest": "No contests found",
+    "arenaCardTitle": "Arena spotlight",
+    "arenaNoDate": "Start time coming soon",
+    "arenaAction": "Open arena",
+    "noArena": "No arenas available",
+    "newsTitle": "Latest news",
+    "noNews": "News feed is empty right now"
+  }
 }
