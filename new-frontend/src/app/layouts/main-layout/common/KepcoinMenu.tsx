@@ -21,13 +21,13 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
     config: { textDirection },
   } = useSettingsContext();
   const { currentUser } = useAuth();
-  const { data: fetchedBalance } = useSWR<KepCoinBalance>(['/api/my-kepcoin/', { method: 'get' }], axiosFetcher, {
+  const { data: fetchedBalance } = useSWR<KepCoinBalance>(['/api/my-kepcoin', { method: 'get' }], axiosFetcher, {
     shouldRetryOnError: false,
     revalidateOnFocus: false,
   });
 
   const { trigger: fetchTodayStats, isMutating: loadingToday } = useSWRMutation(
-    ['/api/today-kepcoin/', { method: 'get' }],
+    ['/api/today-kepcoin', { method: 'get' }],
     axiosFetcher,
     {
       throwOnError: false,
