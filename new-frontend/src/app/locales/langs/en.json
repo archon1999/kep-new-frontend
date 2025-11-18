@@ -1,6 +1,20 @@
 {
   "home": "Home",
   "kepcoin": "Kepcoin",
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Stay on top of upcoming contests, arenas, tournaments and holidays.",
+    "filters": {
+      "contests": "Contests",
+      "arena": "Arena",
+      "tournaments": "Tournaments",
+      "holidays": "Holidays"
+    },
+    "viewHint": "Select the event types you want to see.",
+    "loadError": "Could not load calendar events. Please try again soon.",
+    "emptyTitle": "No events to show",
+    "emptySubtitle": "There are no events for the selected filters or period yet."
+  },
   "shop": {
     "title": "Shop",
     "subtitle": "Redeem your Kepcoins for gear and accessories inspired by KEP.uz.",

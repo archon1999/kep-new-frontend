@@ -1,6 +1,20 @@
 {
   "home": "Bosh sahifa",
   "kepcoin": "Kepcoin",
+  "calendar": {
+    "title": "Kalendar",
+    "subtitle": "Kelgusi kontestlar, arenalar, turnirlar va bayramlarni kuzatib boring.",
+    "filters": {
+      "contests": "Kontestlar",
+      "arena": "Arena",
+      "tournaments": "Turnirlar",
+      "holidays": "Bayramlar"
+    },
+    "viewHint": "Kerakli tadbir turlarini tanlab, ko'rinishni moslang.",
+    "loadError": "Kalendar ma'lumotlarini yuklab bo'lmadi. Iltimos, qayta urinib ko'ring.",
+    "emptyTitle": "Tadbirlar topilmadi",
+    "emptySubtitle": "Tanlangan filtrlar yoki davr uchun tadbirlar mavjud emas."
+  },
   "shop": {
     "title": "Doʻkon",
     "subtitle": "Kepcoinlarni KEP.uz sovgʻalari va aksessuarlariga sarflang.",

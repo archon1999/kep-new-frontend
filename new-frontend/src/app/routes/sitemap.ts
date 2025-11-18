@@ -31,6 +31,14 @@ const sitemap: MenuItem[] = [
     active: true,
   },
   {
+    name: 'Calendar',
+    key: 'calendar.title',
+    path: paths.calendar,
+    pathName: 'calendar',
+    icon: 'mingcute:calendar-2-line',
+    active: true,
+  },
+  {
     name: 'Kepcoin',
     key: 'kepcoin',
     path: paths.kepcoin,
