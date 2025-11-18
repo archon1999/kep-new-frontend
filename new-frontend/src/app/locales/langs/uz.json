@@ -11,5 +11,81 @@
     "colorLabel": "Rang",
     "sizeLabel": "Oʻlcham",
     "kepcoinValue": "{{value}} Kepcoin"
+  },
+  "kepcoinPage": {
+    "youHave": "Sizda bor",
+    "streakLabel": "Seriya: {{value}}",
+    "streakFreeze": "Muzlatish",
+    "streakFreezeText": "Agar kunni oʻtkazib yuborsangiz va kundalik vazifalarni bajarmasangiz, muzlatish natijani avtomatik saqlaydi.",
+    "streakFreezeCount": "Sizda {{count}} ta muzlatish bor",
+    "freezeCta": "Muzlatish",
+    "streakFreezePurchased": "Muzlatish xarid qilindi",
+    "purchaseFailed": "Xaridni yakunlab boʻlmadi. Qaytadan urinib koʻring.",
+    "notAvailable": "Mavjud emas",
+    "history": {
+      "earnsTitle": "Topildi",
+      "spendsTitle": "Sarflandi",
+      "empty": "Kepcoin tarixi hali yoʻq.",
+      "hint": "Vazifalarni bajaring va faol bo‘ling — kepcoin shunday to‘planadi yoki sarflanadi.",
+      "earned": "Topildi",
+      "spent": "Sarflandi"
+    },
+    "howToEarn": {
+      "title": "Kepcoin qanday topsa bo‘ladi?",
+      "description": "Ushbu valyutaga ega boʻlish uchun tizim rivojlanishiga oʻz xissangizni qoʻshingingiz lozim. Jumladan kepcoin:",
+      "item1": "Kunlik faollik uchun",
+      "item2": "Kunlik topshiriqlarni bajarganligi uchun",
+      "item3": "Kunlik, haftalik va oylik masalalar reytingi gʻolibi uchun",
+      "item4": "Musobaqada qatnashganligi uchun",
+      "item5": "Blog yozish",
+      "item6": "Masalalarni tahrirlashda yordamlashish (yechim yozish, tarjima, teglar qoʻshish, oʻxshash masalalar topish)"
+    },
+    "howToSpend": {
+      "title": "Kepcoin qanday sarflasa bo‘ladi?",
+      "item1": "Boshqa foydalanuvchi urinishini ko‘rish",
+      "item2": "Yechim yiqilgan testni ko‘rish",
+      "item3": "Masala yechimini xarid qilish",
+      "item4": "Profil orqa rasmini o‘zgartirish",
+      "item5": "Testdan o‘tish",
+      "item6": "Kurs sotib olish",
+      "item7": "Kodni tahrirlashda testlash funksiyasi (toʻliq)",
+      "item8": "Kontestda ikki barobar reyting oʻzgarishi (manfiy bo‘lsa ham ikki barobar bo‘ladi)",
+      "item9": "Kontestda reytingni saqlab qolish (agar manfiy bo‘lsa berilmaydi)"
+    },
+    "earnTypes": {
+      "wroteBlog": "Blog yozildi",
+      "wroteProblemSolution": "Masala yechimi yozildi",
+      "loyaltyBonus": "Sodiqlik bonusi",
+      "bonusFromAdmin": "Admin bonusi",
+      "dailyActivity": "Kunlik faollik",
+      "dailyTaskCompletion": "Kunlik topshiriq bajarildi",
+      "dailyRatingWinner": "Kunlik masalalar reytingi gʻolibi",
+      "weeklyRatingWinner": "Haftalik masalalar reytingi gʻolibi",
+      "monthlyRatingWinner": "Oylik masalalar reytingi gʻolibi",
+      "contestParticipant": "Kontest ishtirokchisi",
+      "arenaParticipant": "Arena ishtirokchisi",
+      "tournamentParticipant": "Turnir ishtirokchisi",
+      "projectTaskComplete": "Loyiha vazifasi bajarildi"
+    },
+    "spendTypes": {
+      "viewAttempt": "Urinishni ko‘rish",
+      "viewTestAttempt": "Urinish testini ko‘rish",
+      "viewProblemSolution": "Masala yechimini ko‘rish",
+      "doubleRating": "2x reyting",
+      "changeImage": "Profil fonini o‘zgartirish",
+      "course": "Kurs",
+      "studyPlan": "O‘quv rejasi",
+      "codeEditorTesting": "Kodni testlash",
+      "saveRating": "Reytingni saqlash",
+      "passTest": "Testni topshirish",
+      "createContest": "Kontest yaratish",
+      "project": "Loyiha",
+      "streakFreeze": "Muzlatish",
+      "virtualContest": "Virtual kontest",
+      "unratedContest": "Reytingsiz kontest",
+      "answerForInput": "Input uchun javob",
+      "checkSamples": "Namunalarni tekshirish",
+      "merch": "Merch"
+    }
   }
 }

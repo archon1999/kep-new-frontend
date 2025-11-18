@@ -11,5 +11,81 @@
     "colorLabel": "Color",
     "sizeLabel": "Size",
     "kepcoinValue": "{{value}} Kepcoin"
+  },
+  "kepcoinPage": {
+    "youHave": "You have",
+    "streakLabel": "Streak: {{value}}",
+    "streakFreeze": "Streak freeze",
+    "streakFreezeText": "Freezing automatically saves your streak if you miss a day and don't complete daily tasks.",
+    "streakFreezeCount": "You have {{count}} streak freeze(s)",
+    "freezeCta": "Freeze",
+    "streakFreezePurchased": "Streak freeze purchased",
+    "purchaseFailed": "Could not complete purchase. Please try again.",
+    "notAvailable": "N/A",
+    "history": {
+      "earnsTitle": "Earns",
+      "spendsTitle": "Spends",
+      "empty": "No kepcoin activity yet.",
+      "hint": "Complete tasks and participate to earn or spend kepcoin.",
+      "earned": "Earned",
+      "spent": "Spent"
+    },
+    "howToEarn": {
+      "title": "How to Earn Kepcoin",
+      "description": "To earn this currency, you need to contribute to the development of the system. For example, kepcoin:",
+      "item1": "For daily activity",
+      "item2": "For completing daily tasks",
+      "item3": "For being the winner in daily, weekly, and monthly challenge ratings",
+      "item4": "For participating in competitions",
+      "item5": "For writing a blog",
+      "item6": "For helping in editing problems (writing solutions, translation, adding tags, finding similar problems)"
+    },
+    "howToSpend": {
+      "title": "How to Spend Kepcoin",
+      "item1": "View another user's attempt",
+      "item2": "View a test with a failed solution",
+      "item3": "Purchase a problem solution",
+      "item4": "Change profile cover photo",
+      "item5": "Pass the test",
+      "item6": "Purchase a course",
+      "item7": "Test function when editing code (completely)",
+      "item8": "Double rating change in contest (even if negative, it doubles)",
+      "item9": "Maintain rating in contest (not given if negative)"
+    },
+    "earnTypes": {
+      "wroteBlog": "Wrote a blog",
+      "wroteProblemSolution": "Wrote problem solution",
+      "loyaltyBonus": "Loyalty bonus",
+      "bonusFromAdmin": "Bonus from admin",
+      "dailyActivity": "Daily activity",
+      "dailyTaskCompletion": "Daily task completed",
+      "dailyRatingWinner": "Daily challenge rating winner",
+      "weeklyRatingWinner": "Weekly challenge rating winner",
+      "monthlyRatingWinner": "Monthly challenge rating winner",
+      "contestParticipant": "Contest participant",
+      "arenaParticipant": "Arena participant",
+      "tournamentParticipant": "Tournament participant",
+      "projectTaskComplete": "Project task completed"
+    },
+    "spendTypes": {
+      "viewAttempt": "View attempt",
+      "viewTestAttempt": "View test attempt",
+      "viewProblemSolution": "View problem solution",
+      "doubleRating": "2x Rating",
+      "changeImage": "Change cover photo",
+      "course": "Course",
+      "studyPlan": "Study plan",
+      "codeEditorTesting": "Code editor testing",
+      "saveRating": "Save rating",
+      "passTest": "Pass test",
+      "createContest": "Create contest",
+      "project": "Project",
+      "streakFreeze": "Streak freeze",
+      "virtualContest": "Virtual contest",
+      "unratedContest": "Unrated contest",
+      "answerForInput": "Answer for input",
+      "checkSamples": "Check samples",
+      "merch": "Merch"
+    }
   }
 }
