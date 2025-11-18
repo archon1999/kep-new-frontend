@@ -56,24 +56,22 @@ const SlimSidenav = () => {
                 p: 2,
               }}
             >
-              {sitemap.map((menu, index) => (
-                <Fragment key={menu.id}>
-                  <List
-                    component="nav"
-                    sx={{
-                      py: 0,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '2px',
-                    }}
-                  >
-                    {menu.items.map((item) => (
-                      <SlimNavItem key={item.pathName} item={item} level={0} />
-                    ))}
-                  </List>
-                  {index !== sitemap.length - 1 && <Divider sx={[{ my: 1.5 }]} />}
-                </Fragment>
-              ))}
+              <List
+                component="nav"
+                sx={{
+                  py: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '2px',
+                }}
+              >
+                {sitemap.map((item, index) => (
+                  <Fragment key={item.pathName}>
+                    <SlimNavItem item={item} level={0} />
+                    {index !== sitemap.length - 1 && <Divider sx={{ my: 1.5 }} />}
+                  </Fragment>
+                ))}
+              </List>
             </Box>
           </SidenavSimpleBar>
         </Box>

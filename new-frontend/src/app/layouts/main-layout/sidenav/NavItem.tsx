@@ -10,19 +10,19 @@ import ListItemText, { listItemTextClasses } from '@mui/material/ListItemText';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { COLLAPSE_NAVBAR } from 'app/reducers/SettingsReducer';
-import { SubMenuItem } from 'app/routes/sitemap';
+import { MenuItem } from 'app/routes/sitemap';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { cssVarRgba } from 'shared/lib/utils';
 import { useNavContext } from '../NavProvider';
 import NavItemPopper from './NavItemPopper';
 
 interface NavItemProps {
-  item: SubMenuItem;
+  item: MenuItem;
   level: number;
 }
 
 interface NavItemCollapseProps {
-  item: SubMenuItem;
+  item: MenuItem;
   level: number;
 }
 

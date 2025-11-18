@@ -10,14 +10,14 @@ import {
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import { SubMenuItem } from 'app/routes/sitemap';
+import { MenuItem } from 'app/routes/sitemap';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { cssVarRgba } from 'shared/lib/utils';
 import { useNavContext } from '../NavProvider';
 import NavItemPopper from './NavItemPopper';
 
 interface SlimNavItemProps {
-  item: SubMenuItem;
+  item: MenuItem;
   level: number;
 }
 
