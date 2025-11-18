@@ -1,5 +1,5 @@
 import { MouseEvent, useMemo, useState } from 'react';
-import { Box, Button, CircularProgress, Link, Popover, Stack, Typography, paperClasses } from '@mui/material';
+import { Box, Button, Link, Popover, Skeleton, Stack, Typography, paperClasses } from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import paths from 'app/routes/paths';
 import { useAuth } from 'app/providers/AuthProvider';
@@ -117,8 +117,21 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
         </Stack>
 
         {loadingToday ? (
-          <Stack alignItems="center" padding={2}>
-            <CircularProgress size={22} />
+          <Stack spacing={1} padding={2} direction="column">
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Skeleton variant="text" width={104} height={20} />
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Skeleton variant="text" width={32} height={20} />
+                <Skeleton variant="circular" width={type === 'slim' ? 18 : 22} height={type === 'slim' ? 18 : 22} />
+              </Stack>
+            </Stack>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Skeleton variant="text" width={110} height={20} />
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Skeleton variant="text" width={32} height={20} />
+                <Skeleton variant="circular" width={type === 'slim' ? 18 : 22} height={type === 'slim' ? 18 : 22} />
+              </Stack>
+            </Stack>
           </Stack>
         ) : (
           <Stack spacing={1} padding={2} direction="column">
