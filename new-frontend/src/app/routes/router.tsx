@@ -8,10 +8,6 @@ import Page404 from 'pages/errors/Page404';
 import PageLoader from 'shared/components/loading/PageLoader';
 import paths, { authPaths, rootPaths } from './paths';
 
-// import AuthGurad from 'shared/components/guard/AuthGuard';
-// import GuestGurad from 'shared/components/guard/GuestGurad';
-// import Splash from 'shared/components/loading/Splash';
-
 const Home = lazy(() => import('pages/home/Home'));
 const KepcoinPage = lazy(() => import('pages/kepcoin/KepcoinPage'));
 
@@ -35,24 +31,14 @@ export const SuspenseOutlet = () => {
 
 export const routes: RouteObject[] = [
   {
-    element: (
-      // Uncomment the following line to enable the Suspense fallback for initial loading when using AuthGuard
-
-      // <Suspense fallback={<Splash />}>
-      <App />
-      // </Suspense>
-    ),
+    element: <App />,
     children: [
       {
         path: '/',
         element: (
-          // Uncomment the following line to activate the AuthGuard for protected routes
-
-          // <AuthGurad>
           <MainLayout>
             <SuspenseOutlet />
           </MainLayout>
-          // </AuthGurad>
         ),
         children: [
           {
@@ -68,13 +54,7 @@ export const routes: RouteObject[] = [
 
       {
         path: rootPaths.authRoot,
-        element: (
-          // Uncomment the following line to activate the GuestGurad for guest routes
-
-          // <GuestGurad>
-          <AuthLayout />
-          // </GuestGurad>
-        ),
+        element: <AuthLayout />,
         children: [
           {
             element: (
