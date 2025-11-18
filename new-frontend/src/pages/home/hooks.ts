@@ -1,5 +1,7 @@
 import { apiClient } from 'shared/api';
 import type {
+  ApiArenaListResult,
+  ApiContestsListResult,
   ApiBlogListResult,
   ApiNewsListResult,
   ApiUsersChartStatResult,
@@ -43,3 +45,9 @@ export const useUserRatings = (username?: string | null) =>
   useHomeSWR<ApiUsersRatingsResult | null>(username ? ['home-user-ratings', username] : null, () =>
     apiClient.apiUsersRatings(username as string),
   );
+
+export const useLatestContest = () =>
+  useHomeSWR<ApiContestsListResult>(['home-latest-contest'], () => apiClient.apiContestsList({ pageSize: 1 }));
+
+export const useLatestArena = () =>
+  useHomeSWR<ApiArenaListResult>(['home-latest-arena'], () => apiClient.apiArenaList({ pageSize: 1 }));
