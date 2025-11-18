@@ -1,6 +1,94 @@
 {
   "home": "Bosh sahifa",
   "kepcoin": "Kepcoin",
+  "kepcoinPage": {
+    "history": {
+      "title": "Kepcoin faolligi",
+      "subtitle": "Kepcoinni qanday topish va sarflashni kuzating.",
+      "earns": "Topildi",
+      "spends": "Sarflandi",
+      "empty": "Hali Kepcoin faolligi yoʻq."
+    },
+    "streakFreeze": {
+      "title": "Muzlatish",
+      "streakLabel": "Ketma-ketlik: {{value}}",
+      "owned": "Sizda {{value}}",
+      "description": "Agar kunni oʻtkazib yuborsangiz va kundalik vazifalarni bajarmasangiz, muzlatish avtomatik ravishda natijani saqlaydi.",
+      "cta": "Muzlatishni qoʻllash"
+    },
+    "common": {
+      "loading": "Yuklanmoqda..."
+    },
+    "howToEarn": {
+      "title": "Kepcoin qanday topsa bo‘ladi?",
+      "description": "Ushbu valyutaga ega bo‘lish uchun tizim rivojlanishiga o‘z xissangizni qo‘shingingiz lozim. Jumladan kepcoin:",
+      "items": {
+        "dailyActivity": "Kunlik faollik uchun",
+        "dailyTasks": "Kunlik topshiriqlarni bajarganligi uchun",
+        "ratingWinner": "Mos ravishda kunlik, haftalik va oylik masalalar reytingi g‘olibi uchun",
+        "competitions": "Musobaqada qatnashganligi uchun",
+        "blog": "Blog yozish",
+        "editingHelp": "Masalalarni tahrirlashda yordamlashish (yechim yozish, tarjima, teglar qo‘shish, o‘xshash masalalar topish)"
+      }
+    },
+    "howToSpend": {
+      "title": "Kepcoin qanday sarflasa bo‘ladi?",
+      "items": {
+        "viewAttempt": "Boshqa foydalanuvchi urinishini ko‘rish",
+        "viewFailedTest": "Yechim yiqilgan testni ko‘rish",
+        "problemSolution": "Masala yechimini xarid qilish",
+        "coverPhoto": "Profil orqa rasmini o‘zgartirish",
+        "passTest": "Testdan o‘tish",
+        "course": "Kurs sotib olish",
+        "codeTesting": "Kodni tahrirlashda testlash funksiyasi (butunlayga)",
+        "doubleRating": "Kontestda ikki barobar reyting o‘zgarishi (manfiy bo‘lsa ham ikki barobar bo‘lib o‘zgaradi)",
+        "keepRating": "Kontestda reytingni saqlab qolish (agar manfiy bo‘lsa berilmaydi)"
+      }
+    },
+    "types": {
+      "common": { "unknown": "Nomaʼlum harakat" },
+      "earns": {
+        "wroteBlog": "Blog yozildi",
+        "wroteProblemSolution": "Masala yechimi yozildi",
+        "loyaltyBonus": "Sodiqlik bonusi",
+        "bonusFromAdmin": "Admindan bonus",
+        "dailyActivity": "Kunlik faollik: {{date}}",
+        "dailyTaskCompletion": "Kunlik topshiriq bajarildi: {{description}}",
+        "dailyRatingWinner": "Kunlik masalalar reytingi g‘olibi: {{date}}",
+        "weeklyRatingWinner": "Haftalik masalalar reytingi g‘olibi: {{date}}",
+        "monthlyRatingWinner": "Oylik masalalar reytingi g‘olibi: {{date}}",
+        "contestParticipant": "Kontest ishtirokchisi: {{title}}",
+        "arenaParticipant": "Arena ishtirokchisi: {{title}}",
+        "tournamentParticipant": "Turnir ishtirokchisi",
+        "projectTaskComplete": "Loyiha vazifasi bajarildi"
+      },
+      "spends": {
+        "viewAttempt": "Urinishni ko‘rish #{{id}}",
+        "viewTestAttempt": "Urinish testini ko‘rish #{{id}}",
+        "viewProblemSolution": "Masala yechimini ko‘rish #{{id}} {{title}}",
+        "doubleRating": "Ikki barobar reyting",
+        "changeImage": "Rasmni o‘zgartirish",
+        "course": "Kurs",
+        "studyPlan": "O‘quv rejasi",
+        "codeEditorTesting": "Kod muharriri testi",
+        "saveRating": "Reytingni saqlab qolish",
+        "passTest": "Testdan o‘tish {{title}}",
+        "createContest": "Kontest yaratish",
+        "project": "Loyiha",
+        "streakFreeze": "Muzlatish",
+        "virtualContest": "Virtual kontest",
+        "unratedContest": "Reytingsiz kontest",
+        "answerForInput": "Kiritish uchun javob",
+        "checkSamples": "Namunalarni tekshirish",
+        "merch": "Merch"
+      }
+    },
+    "notifications": {
+      "freezePurchased": "Muzlatish muvaffaqiyatli sotib olindi.",
+      "actionFailed": "Xatolik yuz berdi. Iltimos, qayta urinib ko‘ring.",
+      "historyError": "Tarixni hozircha yuklab bo‘lmadi."
+    }
+  },
   "shop": {
     "title": "Doʻkon",
     "subtitle": "Kepcoinlarni KEP.uz sovgʻalari va aksessuarlariga sarflang.",
