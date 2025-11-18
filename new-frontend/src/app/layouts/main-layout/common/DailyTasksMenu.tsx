@@ -131,24 +131,24 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
     }
 
     return (
-      <SimpleBar autoHide={false} style={{ maxHeight: 320 }}>
-        <Stack component="ul" spacing={1} sx={{ px: 1.5, py: 1.5, m: 0 }}>
-          {dailyTasks.map((task, index) => (
-            <Stack
-              component="li"
-              key={`${task.type}-${task.description}-${index}`}
-              direction="row"
-              spacing={1.5}
-              alignItems="flex-start"
-              sx={{ p: 1.25, borderRadius: 2, bgcolor: 'background.level1' }}
+      <Stack direction="column" component="ul" spacing={1} sx={{ px: 1.5, py: 1.5, m: 0 }}>
+        {dailyTasks.map((task, index) => (
+          <Stack
+            component="li"
+            key={`${task.type}-${task.description}-${index}`}
+            direction="row"
+            spacing={1.5}
+            alignItems="flex-start"
+            sx={{ p: 1.25, borderRadius: 2, bgcolor: 'background.level1' }}
+          >
+            <Avatar
+              variant="circular"
+              sx={{ bgcolor: 'primary.lighter', color: 'primary.main', width: 44, height: 44 }}
             >
-              <Avatar
-                variant="rounded"
-                sx={{ bgcolor: 'primary.lighter', color: 'primary.main', width: 44, height: 44 }}
-              >
-                <IconifyIcon icon={taskIconMap[task.type]} sx={{ fontSize: 22 }} />
-              </Avatar>
+              <IconifyIcon icon={taskIconMap[task.type]} sx={{ fontSize: 22 }} />
+            </Avatar>
 
+            <Stack direction="column" spacing={1}>
               <Stack spacing={0.75} flex={1} minWidth={0}>
                 <Typography variant="subtitle2" noWrap title={task.description}>
                   {task.description}
@@ -161,29 +161,31 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
                       {task.kepcoin}
                     </Typography>
                   </Stack>
-
-                  {task.completed ? (
-                    <Chip
-                      size="small"
-                      color="success"
-                      variant="soft"
-                      label="Completed"
-                      icon={<IconifyIcon icon="material-symbols:check-circle-rounded" sx={{ fontSize: 16 }} />}
-                    />
-                  ) : (
-                    <Chip
-                      size="small"
-                      color="primary"
-                      variant="soft"
-                      label={`${task.progress}/${task.total}`}
-                    />
-                  )}
                 </Stack>
               </Stack>
+
+              <Box>
+                {task.completed ? (
+                  <Chip
+                    size="small"
+                    color="success"
+                    variant="soft"
+                    label="Completed"
+                    icon={<IconifyIcon icon="material-symbols:check-circle-rounded" sx={{ fontSize: 16 }} />}
+                  />
+                ) : (
+                  <Chip
+                    size="small"
+                    color="primary"
+                    variant="soft"
+                    label={`${task.progress}/${task.total}`}
+                  />
+                )}
+              </Box>
             </Stack>
-          ))}
-        </Stack>
-      </SimpleBar>
+          </Stack>
+        ))}
+      </Stack>
     );
   };
 
