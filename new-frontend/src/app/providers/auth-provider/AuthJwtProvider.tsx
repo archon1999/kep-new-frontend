@@ -11,15 +11,11 @@ import {
 import { users } from 'data/users';
 import { removeItemFromStore } from 'shared/lib/utils';
 import { firebaseAuth } from 'shared/services/firebase/firebase';
-import { User, useGetCurrentUser } from 'shared/services/swr/api-hooks/useAuthApi';
-
-interface SessionUser extends User {
-  provider?: string;
-}
+import { SessionUser, useGetCurrentUser } from 'shared/services/swr/api-hooks/useAuthApi';
 
 interface AuthJwtContextInterface {
   sessionUser: SessionUser | null;
-  setSessionUser: Dispatch<SetStateAction<User | null>>;
+  setSessionUser: Dispatch<SetStateAction<SessionUser | null>>;
   setSession: (user: SessionUser | null) => void;
   signout: () => void;
 }
@@ -32,7 +28,7 @@ const AuthJwtProvider = ({ children }: PropsWithChildren) => {
   const { data } = useGetCurrentUser();
 
   const setSession = useCallback(
-    (user: User | null) => {
+    (user: SessionUser | null) => {
       setSessionUser(user);
     },
     [setSessionUser],
@@ -64,7 +60,8 @@ export const useAuth = () => use(AuthJwtContext);
 export const demoUser: SessionUser = {
   id: 0,
   email: 'guest@mail.com',
-  name: 'Guest',
+  username: 'guest',
+  firstName: 'Guest',
   avatar: users[13].avatar,
   designation: 'Merchant Captian ',
 };

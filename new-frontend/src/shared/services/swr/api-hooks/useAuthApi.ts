@@ -1,4 +1,5 @@
 import { apiEndpoints } from 'app/routes/paths';
+import { UserAuth } from 'shared/api/orval/generated/endpoints';
 import { ForgotPasswordFormValues } from 'shared/components/sections/authentications/default/ForgotPasswordForm';
 import { LoginFormValues } from 'shared/components/sections/authentications/default/LoginForm';
 import { SetPasswordFormValues } from 'shared/components/sections/authentications/default/SetPassworForm';
@@ -7,18 +8,20 @@ import axiosFetcher from 'shared/services/axios/axiosFetcher';
 import useSWR, { SWRConfiguration } from 'swr';
 import useSWRMutation from 'swr/mutation';
 import { sendPasswordResetLinkFetcher } from '../dummyFetcher';
-import { UserAuth } from 'shared/api/orval/generated/endpoints';
 
-export type User = UserAuth & {
+export type AuthUser = UserAuth;
+
+export type SessionUser = Omit<AuthUser, 'avatar'> & {
+  avatar?: string | null;
   id?: number | string;
-  name?: string;
   email?: string;
-  avatar?: null | string;
   designation?: string;
+  provider?: string;
+  type?: string;
 };
 
-export const useGetCurrentUser = (config?: SWRConfiguration<User | null>) => {
-  const result = useSWR<User | null>(
+export const useGetCurrentUser = (config?: SWRConfiguration<SessionUser | null>) => {
+  const result = useSWR<SessionUser | null>(
     [apiEndpoints.profile, {}, { disableThrowError: true }],
     axiosFetcher,
     {
@@ -33,7 +36,7 @@ export const useGetCurrentUser = (config?: SWRConfiguration<User | null>) => {
 };
 
 export const useLoginUser = () => {
-  const mutation = useSWRMutation<User, any, any, LoginFormValues>(
+  const mutation = useSWRMutation<SessionUser, any, any, LoginFormValues>(
     [apiEndpoints.login, { method: 'post' }],
     axiosFetcher,
   );
@@ -42,7 +45,7 @@ export const useLoginUser = () => {
 };
 
 export const useRegisterUser = () => {
-  const mutation = useSWRMutation<User, any, any, SignupFormValues>(
+  const mutation = useSWRMutation<SessionUser, any, any, SignupFormValues>(
     [apiEndpoints.register, { method: 'post' }],
     axiosFetcher,
   );
@@ -72,4 +75,14 @@ export const useSetPassword = () => {
   );
 
   return mutation;
+};
+
+export const demoSessionUser: SessionUser = {
+  username: 'guest',
+  avatar: null,
+  email: 'guest@mail.com',
+  id: 0,
+  firstName: 'Guest',
+  lastName: 'User',
+  designation: 'Merchant Captain',
 };

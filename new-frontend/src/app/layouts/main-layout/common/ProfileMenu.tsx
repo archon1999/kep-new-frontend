@@ -19,11 +19,10 @@ import Menu from '@mui/material/Menu';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import { demoUser } from 'app/providers/auth-provider/AuthJwtProvider';
 import paths, { authPaths } from 'app/routes/paths';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import StatusAvatar from 'shared/components/base/StatusAvatar';
-import { useLogOutUser } from 'shared/services/swr/api-hooks/useAuthApi';
+import { demoSessionUser, useLogOutUser } from 'shared/services/swr/api-hooks/useAuthApi';
 
 interface ProfileMenuProps {
   type?: 'default' | 'slim';
@@ -48,12 +47,12 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
   const { trigger: logoutUser } = useLogOutUser();
 
   // Demo user data used for development purposes
-  const user = useMemo(() => sessionUser || demoUser, [sessionUser]);
-  const username = useMemo(() => user?.username || user?.name || user?.email || 'User', [user]);
-  const combinedName = useMemo(
-    () => [user?.firstName, user?.lastName].filter(Boolean).join(' '),
+  const user = useMemo(() => sessionUser || demoSessionUser, [sessionUser]);
+  const username = useMemo(
+    () => user?.username || [user?.firstName, user?.lastName].filter(Boolean).join(' ') || user?.email || 'User',
     [user],
   );
+  const combinedName = useMemo(() => [user?.firstName, user?.lastName].filter(Boolean).join(' '), [user]);
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

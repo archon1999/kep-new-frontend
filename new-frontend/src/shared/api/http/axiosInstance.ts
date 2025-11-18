@@ -1,4 +1,4 @@
-import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosHeaders, type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '';
 const basicAuthLogin = import.meta.env.VITE_BASIC_AUTH_LOGIN;
@@ -24,16 +24,16 @@ export const instance: AxiosInstance = axios.create({
 
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const headers = { ...(config.headers || {}) } as Record<string, string>;
+    const headers = AxiosHeaders.from(config.headers);
 
     if (shouldUseBasicAuth) {
       const basicAuthHeader = getBasicAuthHeader();
 
       if (basicAuthHeader) {
-        headers.Authorization = basicAuthHeader;
+        headers.set('Authorization', basicAuthHeader);
       }
     } else {
-      delete headers.Authorization;
+      headers.delete('Authorization');
     }
 
     return { ...config, headers };

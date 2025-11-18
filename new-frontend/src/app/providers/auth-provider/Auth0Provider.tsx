@@ -12,11 +12,7 @@ import { Auth0Provider as ReactAuth0Provider, useAuth0 } from '@auth0/auth0-reac
 import Splash from 'shared/components/loading/Splash';
 import { removeItemFromStore } from 'shared/lib/utils';
 import { firebaseAuth } from 'shared/services/firebase/firebase';
-import { User } from 'shared/services/swr/api-hooks/useAuthApi';
-
-interface SessionUser extends User {
-  provider?: string;
-}
+import { SessionUser } from 'shared/services/swr/api-hooks/useAuthApi';
 
 interface Auth0ContextInterface {
   sessionUser: SessionUser | null;
@@ -32,7 +28,7 @@ const Auth0Provider = ({ children }: PropsWithChildren) => {
   const { user, isLoading, logout } = useAuth0();
 
   const setSession = useCallback(
-    (user: User | null) => {
+    (user: SessionUser | null) => {
       setSessionUser(user);
     },
     [setSessionUser],
@@ -52,7 +48,9 @@ const Auth0Provider = ({ children }: PropsWithChildren) => {
     if (user) {
       setSession({
         id: user?.sub || '',
-        name: user?.name || 'User',
+        username: user?.nickname || user?.email || 'user',
+        firstName: user?.given_name,
+        lastName: user?.family_name,
         email: user?.email || '',
         avatar: user?.picture || '',
       });

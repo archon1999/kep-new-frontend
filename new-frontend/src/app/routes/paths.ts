@@ -41,18 +41,18 @@ const paths = {
 };
 
 export const authPaths = {
+  /* ---------------------------------Auth0----------------------------------------- */
+  login: paths.defaultAuth0Login,
   /* ---------------------------------JWT----------------------------------------- */
-  login: paths.defaultJwtLogin,
-  signup: paths.defaultJwtSignup,
-  forgotPassword: paths.defaultJwtForgotPassword,
-  setNewPassword: paths.defaultJwtSetPassword,
-  twoFactorAuth: paths.defaultJwt2FA,
+  // login: paths.defaultJwtLogin,
+  // signup: paths.defaultJwtSignup,
+  // forgotPassword: paths.defaultJwtForgotPassword,
+  // setNewPassword: paths.defaultJwtSetPassword,
+  // twoFactorAuth: paths.defaultJwt2FA,
   /* ---------------------------------Firebase----------------------------------------- */
   // login: paths.defaultFirebaseLogin,
   // signup: paths.defaultFirebaseSignup,
   // forgotPassword: paths.defaultFirebaseForgotPassword,
-  /* ---------------------------------Auth0----------------------------------------- */
-  // login: paths.defaultAuth0Login,
 };
 
 export const apiEndpoints = {

@@ -1,15 +1,17 @@
 import { getItemFromStore, setItemToStore } from 'shared/lib/utils';
-import { User } from './api-hooks/useAuthApi';
+import { SessionUser } from './api-hooks/useAuthApi';
 
-const testUser: User = {
+const testUser: SessionUser = {
+  username: 'demo-user',
   email: 'demo@aurora.com',
   id: 1,
-  name: 'Demo User',
+  firstName: 'Demo',
+  lastName: 'User',
   type: 'test',
   avatar: null,
 };
 
-export const getProfileFetcher = (): Promise<User | null> =>
+export const getProfileFetcher = (): Promise<SessionUser | null> =>
   new Promise((resolve) => {
     const user = getItemFromStore('session_user');
     if (user) {
@@ -18,7 +20,7 @@ export const getProfileFetcher = (): Promise<User | null> =>
     resolve(null);
   });
 
-export const loginFetcher = (): Promise<{ user: User }> =>
+export const loginFetcher = (): Promise<{ user: SessionUser }> =>
   new Promise((resolve) => {
     setTimeout(() => {
       setItemToStore('session_user', JSON.stringify(testUser));

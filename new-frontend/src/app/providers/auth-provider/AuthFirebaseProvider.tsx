@@ -1,11 +1,7 @@
 import { PropsWithChildren, createContext, use, useCallback, useState } from 'react';
 import { removeItemFromStore } from 'shared/lib/utils';
 import { firebaseAuth } from 'shared/services/firebase/firebase';
-import { User } from 'shared/services/swr/api-hooks/useAuthApi';
-
-interface SessionUser extends User {
-  provider?: string;
-}
+import { SessionUser } from 'shared/services/swr/api-hooks/useAuthApi';
 
 interface AuthFirebaseContextInterface {
   sessionUser: SessionUser | null;
@@ -19,7 +15,7 @@ const AuthFirebaseProvider = ({ children }: PropsWithChildren) => {
   const [sessionUser, setSessionUser] = useState<SessionUser | null>(null);
 
   const setSession = useCallback(
-    (user: User | null) => {
+    (user: SessionUser | null) => {
       setSessionUser(user);
     },
     [setSessionUser],
