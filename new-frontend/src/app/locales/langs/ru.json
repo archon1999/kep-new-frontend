@@ -1,3 +1,14 @@
 {
-  "home": "Главная"
+  "home": "Главная",
+  "shop": {
+    "title": "Магазин",
+    "subtitle": "Обменивайте Kepcoin на мерч и полезные вещи от KEP.uz.",
+    "loadError": "Не удалось загрузить товары. Попробуйте позже.",
+    "emptyTitle": "Товары пока недоступны",
+    "emptySubtitle": "Загляните позже и обменяйте свои Kepcoin на новинки.",
+    "noImage": "Изображение недоступно",
+    "colorLabel": "Цвет",
+    "sizeLabel": "Размер",
+    "kepcoinValue": "{{value}} Kepcoin"
+  }
 }

@@ -40,6 +40,22 @@ const sitemap: MenuItem[] = [
     ],
   },
   {
+    id: 'shop',
+    subheader: 'Shop',
+    key: 'shop',
+    icon: 'mdi:store-outline',
+    items: [
+      {
+        name: 'Shop',
+        key: 'shop',
+        path: paths.shop,
+        pathName: 'shop',
+        icon: 'mdi:store-outline',
+        active: true,
+      },
+    ],
+  },
+  {
     id: 'kepcoin',
     subheader: 'Kepcoin',
     key: 'kepcoin',
