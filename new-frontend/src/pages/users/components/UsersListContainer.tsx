@@ -78,7 +78,7 @@ const UsersListContainer = () => {
 
   const { data: countries } = useUsersCountries();
 
-  const regionNames = useMemo(() => new Intl.DisplayNames([i18n.language], { type: 'region' }), [i18n.language]);
+  // const regionNames = useMemo(() => new Intl.DisplayNames([i18n.language], { type: 'region' }), [i18n.language]);
 
   const countryOptions = useMemo(
     () =>
@@ -86,10 +86,10 @@ const UsersListContainer = () => {
         const formattedCode = code?.toUpperCase?.() ?? code;
         return {
           code: formattedCode,
-          label: regionNames.of(formattedCode) ?? formattedCode,
+          label: '',
         };
       }),
-    [countries, regionNames],
+    [countries, {}],
   );
 
   const countryLabels = useMemo(

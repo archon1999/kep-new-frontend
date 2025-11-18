@@ -240,12 +240,8 @@ const UsersDataGrid = ({
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
-        const formatted = user.lastSeen ? dayjs(user.lastSeen).format('MMM D, YYYY HH:mm') : undefined;
-
         return (
-          <Typography variant="body2" color="text.secondary" fontWeight={500} noWrap>
-            {formatted ?? columnLabels.emptyValue}
-          </Typography>
+          <Chip color="neutral" label={user.lastSeen}></Chip>
         );
       },
     },
