@@ -4,10 +4,10 @@ import {
   Box,
   Button,
   Chip,
-  CircularProgress,
   Divider,
   LinearProgress,
   Popover,
+  Skeleton,
   Stack,
   Typography,
   paperClasses,
@@ -111,8 +111,28 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
   const renderTasks = () => {
     if (isLoading) {
       return (
-        <Stack alignItems="center" justifyContent="center" sx={{ py: 4 }}>
-          <CircularProgress size={20} />
+        <Stack direction="column" component="ul" spacing={1} sx={{ px: 1.5, py: 1.5, m: 0 }}>
+          {[...Array(3)].map((_, index) => (
+            <Stack
+              component="li"
+              key={index}
+              direction="row"
+              spacing={1.5}
+              alignItems="flex-start"
+              sx={{ p: 1.25, borderRadius: 2, bgcolor: 'background.level1' }}
+            >
+              <Skeleton variant="circular" width={44} height={44} />
+
+              <Stack direction="column" spacing={1} flex={1} minWidth={0}>
+                <Stack spacing={0.75}>
+                  <Skeleton variant="text" width="80%" />
+                  <Skeleton variant="text" width={80} />
+                </Stack>
+
+                <Skeleton variant="rounded" width={80} height={24} />
+              </Stack>
+            </Stack>
+          ))}
         </Stack>
       );
     }
