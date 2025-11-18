@@ -35,7 +35,7 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
       'react/no-unescaped-entities': 'off',
-      'prettier/prettier': ['error', { endOfLine: 'auto' }],
+      'prettier/prettier': 'off',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-empty-interface': 'off',
       'react-refresh/only-export-components': 'off',
