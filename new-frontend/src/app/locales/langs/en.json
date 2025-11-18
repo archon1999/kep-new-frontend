@@ -33,15 +33,15 @@
       "invite": "Invite user"
     },
     "tabs": {
-      "all": "All users",
-      "skills": "Top skills",
+      "all": "Newest Users",
+      "skills": "Top Users",
       "activity": "Top activity",
       "contests": "Top contests",
-      "challenges": "Top challenges"
+      "challenges": "Top Kepcoin"
     },
     "filters": {
       "toggle": "Filters",
-      "searchPlaceholder": "Search by username",
+      "searchPlaceholder": "Search",
       "username": "Username",
       "usernamePlaceholder": "Filter by username",
       "name": "Name",

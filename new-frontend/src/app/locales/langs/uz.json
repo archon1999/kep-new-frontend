@@ -33,15 +33,15 @@
       "invite": "Foydalanuvchini taklif qilish"
     },
     "tabs": {
-      "all": "Barcha foydalanuvchilar",
-      "skills": "Ko'nikmalar reytingi",
+      "all": "Eng yangi foydalanuvchilar",
+      "skills": "Eng yaxshi foydalanuvchilar",
       "activity": "Faollik reytingi",
       "contests": "Musobaqalar reytingi",
-      "challenges": "Challenjlar reytingi"
+      "challenges": "Top Kepcoin"
     },
     "filters": {
       "toggle": "Filterlar",
-      "searchPlaceholder": "Login bo'yicha qidirish",
+      "searchPlaceholder": "Qidirish",
       "username": "Foydalanuvchi nomi",
       "usernamePlaceholder": "Login bo'yicha izlash",
       "name": "Ism",

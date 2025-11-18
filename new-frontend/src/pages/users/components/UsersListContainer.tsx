@@ -24,7 +24,7 @@ const tabOrderingMap = {
   skills: '-skills_rating',
   activity: '-activity_rating',
   contests: '-contests_rating__rating',
-  challenges: '-challenges_rating__rating',
+  challenges: '-kepcoin',
 };
 
 const sortFieldMap: Record<string, string> = {
@@ -41,8 +41,7 @@ const sortFieldMap: Record<string, string> = {
 type TabValue = keyof typeof tabOrderingMap;
 
 type FiltersState = {
-  username: string;
-  name: string;
+  search: string;
   country: string;
   ageFrom: string;
   ageTo: string;
@@ -53,11 +52,10 @@ const UsersListContainer = () => {
   const { up } = useBreakpoints();
   const upMd = up('md');
 
-  const [tabValue, setTabValue] = useState<TabValue>('all');
+  const [tabValue, setTabValue] = useState<TabValue>('skills');
   const [filtersOpen, setFiltersOpen] = useState(true);
   const [filters, setFilters] = useState<FiltersState>({
-    username: '',
-    name: '',
+    search: '',
     country: '',
     ageFrom: '',
     ageTo: '',
@@ -78,7 +76,21 @@ const UsersListContainer = () => {
 
   const { data: countries } = useUsersCountries();
 
-  // const regionNames = useMemo(() => new Intl.DisplayNames([i18n.language], { type: 'region' }), [i18n.language]);
+  const normalizeLocale = (language: string) => {
+    if (language.includes('-')) return language;
+    const match = language.match(/^(\w{2})([A-Z]{2})$/);
+
+    if (match) {
+      return `${match[1]}-${match[2]}`;
+    }
+
+    return language;
+  };
+
+  const regionNames = useMemo(
+    () => new Intl.DisplayNames([normalizeLocale(i18n.language) ?? 'en-US'], { type: 'region' }),
+    [i18n.language],
+  );
 
   const countryOptions = useMemo(
     () =>
@@ -86,10 +98,10 @@ const UsersListContainer = () => {
         const formattedCode = code?.toUpperCase?.() ?? code;
         return {
           code: formattedCode,
-          label: '',
+          label: regionNames.of(formattedCode) ?? formattedCode,
         };
       }),
-    [countries, {}],
+    [countries, regionNames],
   );
 
   const countryLabels = useMemo(
@@ -113,8 +125,7 @@ const UsersListContainer = () => {
       page: paginationModel.page + 1,
       pageSize: paginationModel.pageSize,
       ordering,
-      username: debouncedFilters.username || undefined,
-      firstName: debouncedFilters.name || undefined,
+      search: debouncedFilters.search || undefined,
       country: debouncedFilters.country || undefined,
       ageFrom: debouncedFilters.ageFrom ? Number(debouncedFilters.ageFrom) : undefined,
       ageTo: debouncedFilters.ageTo ? Number(debouncedFilters.ageTo) : undefined,
@@ -193,8 +204,8 @@ const UsersListContainer = () => {
             id="search-box"
             type="search"
             fullWidth
-            value={filters.username}
-            onChange={handleFilterChange('username')}
+            value={filters.search}
+            onChange={handleFilterChange('search')}
             placeholder={t('users.filters.searchPlaceholder')}
             slotProps={{
               input: {
@@ -215,25 +226,7 @@ const UsersListContainer = () => {
 
       <Collapse in={filtersOpen} sx={{ mb: 3 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6} lg={3}>
-            <StyledTextField
-              fullWidth
-              label={t('users.filters.username')}
-              value={filters.username}
-              onChange={handleFilterChange('username')}
-              placeholder={t('users.filters.usernamePlaceholder')}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <StyledTextField
-              fullWidth
-              label={t('users.filters.name')}
-              value={filters.name}
-              onChange={handleFilterChange('name')}
-              placeholder={t('users.filters.namePlaceholder')}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={4}>
             <StyledTextField
               select
               fullWidth
@@ -250,7 +243,7 @@ const UsersListContainer = () => {
               ))}
             </StyledTextField>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={4}>
             <Stack direction="row" spacing={1} alignItems="flex-end">
               <StyledTextField
                 fullWidth

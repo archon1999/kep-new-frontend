@@ -5,10 +5,9 @@ import {
   GridSortModel,
   GridValidRowModel,
 } from '@mui/x-data-grid';
-import dayjs from 'dayjs';
-import { Avatar, Chip, Stack, Typography } from '@mui/material';
-import IconifyIcon from 'shared/components/base/IconifyIcon';
+import { Avatar, Box, Chip, Stack, Typography } from '@mui/material';
 import { UsersListItem } from 'modules/users/domain/entities/user.entity';
+import kepcoinImg from 'shared/assets/images/icons/kepcoin.png';
 
 export interface UsersDataGridLabels {
   user: string;
@@ -223,7 +222,7 @@ const UsersDataGrid = ({
 
         return (
           <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={0.75} width="100%">
-            <IconifyIcon icon="mdi:currency-usd" fontSize={18} color="var(--mui-palette-text-secondary)" />
+            <Box component="img" src={kepcoinImg} alt="Kepcoin" sx={{ width: 20, height: 20 }} />
             <Typography variant="body2" fontWeight={600}>
               {user.kepcoin ?? 0}
             </Typography>
