@@ -7,3 +7,31 @@ This repository holds three front-end codebases that need to stay aligned during
 - Keep feature parity with the Angular app first, then refine styling to match Aurora.
 - When adding documentation, keep it concise and actionable for future contributors involved in the migration.
 - Do not introduce try/catch around imports.
+
+## Front-end conventions
+- Prefer `KepIcon` for icons across the apps unless a feature explicitly requires a different icon set.
+- Every task should ship i18n strings for `uz`, `ru`, and `en`. Source translations from the `angular-frontend` i18n files and use the legacy i18n set as the shared dictionary.
+
+## Module architecture template
+Use the following directory layout for each module:
+
+```
+/modules/branch/
+  data-access/
+    api/
+      http.client.ts        # Orval client instance wrap (baseURL, headers, auth)
+    dto/
+      module.dto.ts         # (ixtiyoriy) alias/typelar – generated’dan re-export
+    mappers/
+      module.mapper.ts      # DTO ↔ Domain Entity
+    repository/
+      http.module.repository.ts  # Port implementatsiyasi (Orval client’dan foyd.)
+  domain/
+    ports/
+      module.repository.ts  # INTERFACE
+    entities/
+      module.entity.ts
+  application/
+    queries.ts
+    mutations.ts
+```
