@@ -1,6 +1,8 @@
 import { apiClient } from 'shared/api';
 import type {
+  ApiArenaListResult,
   ApiBlogListResult,
+  ApiContestsListResult,
   ApiNewsListResult,
   ApiUsersChartStatResult,
   ApiUsersNextBirthdaysResult,
@@ -20,6 +22,12 @@ export const useHomePosts = (pageSize = 6) =>
   useHomeSWR<ApiBlogListResult>(['home-posts', pageSize], () =>
     apiClient.apiBlogList({ pageSize, not_news: '1' }),
   );
+
+export const useFirstContest = () =>
+  useHomeSWR<ApiContestsListResult>(['home-first-contest'], () => apiClient.apiContestsList({ pageSize: 1 }));
+
+export const useFirstArena = () =>
+  useHomeSWR<ApiArenaListResult>(['home-first-arena'], () => apiClient.apiArenaList({ pageSize: 1 }));
 
 export const useTopUsers = (pageSize = 3) =>
   useHomeSWR<ApiUsersTopRatingResult>(['home-top-users', pageSize], () =>

@@ -1,3 +1,38 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "SkillsRating": "Skills rating",
+  "ActivityRating": "Activity rating",
+  "ContestsRating": "Contests rating",
+  "ChallengesRating": "Challenges rating",
+  "Home": {
+    "RankInformation": {
+      "SkillsRating": "This rating shows your skill strength in the platform. The rating depends on the number of solved problems, on the rating of contests and challenges.",
+      "ActivityRating": "This rating shows your activity over the last 30 days. It depends on the number of kepcoins earned, daily logins and completed daily tasks.",
+      "Contests": "This rating shows your strength in competitions.",
+      "Challenges": "This rating shows your strength in challenges."
+    },
+    "PercentileInformation": "You are better than {{ percentile }}% of users"
+  },
+  "homePage": {
+    "greeting": "Good morning, {{name}}!",
+    "greetingSubtitle": "Here is what is happening today.",
+    "contestTitle": "Upcoming contest",
+    "contestStart": "Starts: {{ value }}",
+    "contestEnd": "Ends: {{ value }}",
+    "contestParticipants": "{{count}} participants",
+    "contestStandings": "Standings",
+    "contestParticipate": "Participate",
+    "contestFallback": "No contests available right now.",
+    "ratedContest": "Rated contest",
+    "arenaTitle": "Arena",
+    "arenaQuestions": "{{count}} questions",
+    "arenaDuration": "{{value}} min",
+    "arenaStart": "Starts: {{ value }}",
+    "arenaFinish": "Ends: {{ value }}",
+    "arenaCta": "Open arena",
+    "arenaFallback": "No arena events available right now.",
+    "newsTitle": "News",
+    "newsSeeAll": "See all",
+    "newsFallback": "No news to show yet."
+  }
 }

@@ -4,6 +4,7 @@ import keyFrames from 'app/theme/styles/keyFrames';
 import popper from 'app/theme/styles/popper';
 import simplebar from 'app/theme/styles/simplebar';
 import vibrantNav from 'app/theme/styles/vibrantNav';
+import swiper from 'app/theme/styles/swiper';
 
 const CssBaseline: Components<Omit<Theme, 'components'>>['MuiCssBaseline'] = {
   defaultProps: {},
@@ -24,6 +25,7 @@ const CssBaseline: Components<Omit<Theme, 'components'>>['MuiCssBaseline'] = {
     ...simplebar(theme),
     ...keyFrames(),
     ...popper(theme),
+    ...swiper(theme),
     ...vibrantNav(theme),
   }),
 };
