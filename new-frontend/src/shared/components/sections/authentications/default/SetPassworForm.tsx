@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert, Box, Button, Link, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import paths from 'app/routes/paths';
+import { authPaths } from 'app/routes/paths';
 import { useSnackbar } from 'notistack';
 import PasswordTextField from 'shared/components/common/PasswordTextField';
 import * as yup from 'yup';
@@ -57,7 +57,7 @@ const SetPasswordForm = ({ handleSetPassword }: SetPasswordFormProps) => {
     try {
       const res = await handleSetPassword(data);
       enqueueSnackbar(res.message, { variant: 'success' });
-      navigate(paths.defaultJwtLogin);
+      navigate(authPaths.login);
     } catch (error: any) {
       setError('root', { type: 'manual', message: error.message });
     }

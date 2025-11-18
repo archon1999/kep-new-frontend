@@ -7,10 +7,8 @@ import { useSnackbar } from 'notistack';
 import useCountdown from 'shared/hooks/useCountdown';
 import * as yup from 'yup';
 import CheckMailBoxDialog from '../CheckMailBoxDialog';
-import ViewOnlyAlert from '../common/ViewOnlyAlert';
 
 interface ForgotPasswordFormProps {
-  provider?: 'jwt' | 'firebase';
   handleSendResetLink: ({ email }: { email: string }) => Promise<any>;
 }
 
@@ -24,7 +22,7 @@ const schema = yup
   })
   .required();
 
-const ForgotPasswordForm = ({ provider = 'jwt', handleSendResetLink }: ForgotPasswordFormProps) => {
+const ForgotPasswordForm = ({ handleSendResetLink }: ForgotPasswordFormProps) => {
   const [linkSent, setLinkSent] = useState(false);
   const [openCheckEmailDialog, setOpenCheckEmailDialog] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -80,13 +78,6 @@ const ForgotPasswordForm = ({ provider = 'jwt', handleSendResetLink }: ForgotPas
           mb: 5,
         }}
       >
-        {provider === 'firebase' && import.meta.env.VITE_BUILD_MODE === 'production' && (
-          <Grid size={12} sx={{ mb: 1 }}>
-            <ViewOnlyAlert
-              docLink={`https://aurora.themewagon.com/documentation/authentication#firebase`}
-            />
-          </Grid>
-        )}
         <Grid size={12}>
           <Typography
             variant="h4"

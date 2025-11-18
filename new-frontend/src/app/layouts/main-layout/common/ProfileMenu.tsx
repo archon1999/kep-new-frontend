@@ -16,14 +16,12 @@ import {
   paperClasses,
 } from '@mui/material';
 import Menu from '@mui/material/Menu';
-import { useAuth } from 'app/providers/AuthProvider';
+import { demoUser, useAuth } from 'app/providers/AuthProvider';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import { demoUser } from 'app/providers/auth-provider/AuthJwtProvider';
 import paths, { authPaths } from 'app/routes/paths';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import StatusAvatar from 'shared/components/base/StatusAvatar';
-import { useLogOutUser } from 'shared/services/swr/api-hooks/useAuthApi';
 
 interface ProfileMenuProps {
   type?: 'default' | 'slim';
@@ -44,11 +42,10 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
     config: { textDirection },
   } = useSettingsContext();
 
-  const { sessionUser, signout } = useAuth();
-  const { trigger: logoutUser } = useLogOutUser();
+  const { currentUser, signout } = useAuth();
 
   // Demo user data used for development purposes
-  const user = useMemo(() => sessionUser || demoUser, [sessionUser]);
+  const user = useMemo(() => currentUser || demoUser, [currentUser]);
   const username = useMemo(() => user?.username || user?.name || user?.email || 'User', [user]);
   const combinedName = useMemo(
     () => [user?.firstName, user?.lastName].filter(Boolean).join(' '),
@@ -64,8 +61,7 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
   };
 
   const handleSignout = async () => {
-    await logoutUser().catch(() => {});
-    signout();
+    await signout();
     navigate(paths.defaultLoggedOut);
     handleClose();
   };
@@ -179,7 +175,7 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
         </Box>
         <Divider />
         <Box sx={{ py: 1 }}>
-          {sessionUser ? (
+          {currentUser ? (
             <ProfileMenuItem onClick={handleSignout} icon="material-symbols:logout-rounded">
               Logout
             </ProfileMenuItem>
