@@ -9,7 +9,7 @@ import {
   Popover,
   popoverClasses,
 } from '@mui/material';
-import { SubMenuItem } from 'app/routes/sitemap';
+import { MenuItem } from 'app/routes/sitemap';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useNavContext } from '../NavProvider';
 
@@ -17,13 +17,13 @@ interface NavItemPopoverProps {
   anchorEl: HTMLButtonElement | null;
   handleClose: () => void;
   open: boolean;
-  items: SubMenuItem[];
+  items: MenuItem[];
   level: number;
 }
 
 const NavitemPopover = ({ anchorEl, open, handleClose, items, level }: NavItemPopoverProps) => {
   const [itemAnchorEl, setItemAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [selectedItems, setSelectedItems] = useState<SubMenuItem[]>([]);
+  const [selectedItems, setSelectedItems] = useState<MenuItem[]>([]);
   const { isNestedItemOpen } = useNavContext();
   const { pathname } = useLocation();
 

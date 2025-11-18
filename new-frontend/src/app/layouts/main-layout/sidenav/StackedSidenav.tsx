@@ -1,10 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useLocation } from 'react-router';
+import { useMemo } from 'react';
 import {
   Backdrop,
   IconButton,
-  ListItem,
-  ListSubheader,
   Stack,
   Typography,
   useTheme,
@@ -17,185 +14,49 @@ import Toolbar from '@mui/material/Toolbar';
 import { demoUser, useAuth } from 'app/providers/AuthProvider';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import sitemap, { MenuItem, SubMenuItem } from 'app/routes/sitemap';
+import sitemap from 'app/routes/sitemap';
 import { sidenavVibrantStyle } from 'app/theme/styles/vibrantNav';
-import clsx from 'clsx';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import StatusAvatar from 'shared/components/base/StatusAvatar';
 import Logo from 'shared/components/common/Logo';
 import VibrantBackground from 'shared/components/common/VibrantBackground';
-import { useThemeMode } from 'shared/hooks/useThemeMode';
-import { mainDrawerWidth } from 'shared/lib/constants';
-import { cssVarRgba } from 'shared/lib/utils';
 import { useNavContext } from '../NavProvider';
 import NavItem from './NavItem';
 
 const StackedSidenav = () => {
-  const { pathname } = useLocation();
-  const [selectedMenu, setSelectedMenu] = useState<MenuItem | null>(null);
-  const [mouseEntered, setMouseEntered] = useState(false);
   const {
     config: { sidenavCollapsed, drawerWidth, navigationMenuType, navColor },
     toggleNavbarCollapse,
   } = useSettingsContext();
   const { sidenavAppbarVariant } = useNavContext();
   const { currentBreakpoint } = useBreakpoints();
-  const { isDark } = useThemeMode();
-
-  const isMenuActive = (item: MenuItem) => {
-    const checkLink = (subMenuItem: SubMenuItem) => {
-      if (
-        `${subMenuItem.path}` === pathname ||
-        (subMenuItem.selectionPrefix && pathname!.includes(subMenuItem.selectionPrefix))
-      ) {
-        return true;
-      }
-      return subMenuItem.items && subMenuItem.items.some(checkLink);
-    };
-    return item.items.some(checkLink);
-  };
-
   const { currentUser } = useAuth();
-
-  // Demo user data used for development purposes
   const user = useMemo(() => currentUser || demoUser, [currentUser]);
+  const theme = useTheme();
 
   const drawer = (
     <Box sx={{ flex: 1, overflow: 'hidden' }}>
       <Stack sx={{ height: 1 }}>
         {navColor === 'vibrant' && <VibrantBackground position="side" />}
         <Box
-          className="leftside-panel"
-          sx={[
-            {
-              display: 'flex',
-              flexDirection: 'column',
-              width: mainDrawerWidth.stackedNavCollapsed,
-              bgcolor: 'background.elevation2',
-            },
-          ]}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: 1,
+            bgcolor: 'background.elevation2',
+          }}
         >
           <Toolbar
             variant={sidenavAppbarVariant}
-            sx={[
-              {
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              },
-              sidenavCollapsed && {
-                display: 'flex',
-                alignItems: 'center',
-              },
-            ]}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
           >
             {navigationMenuType === 'sidenav' && <Logo showName={false} />}
           </Toolbar>
-          <Box
-            sx={{
-              p: 2,
-              flex: 1,
-            }}
-          >
-            <List
-              component="nav"
-              sx={{
-                py: 0,
-              }}
-            >
-              {sitemap.map((item) => (
-                <ListItem
-                  key={item.id}
-                  sx={{
-                    p: 0,
-                    pb: 1,
-                    position: 'relative',
-                    '&::after ': {
-                      content: '""',
-                      position: 'absolute',
-                      width: 30,
-                      top: 0,
-                      bottom: 0,
-                      left: '100%',
-                      zIndex: 100,
-                    },
-                  }}
-                  onMouseEnter={() => {
-                    if (sidenavCollapsed) {
-                      setMouseEntered(true);
-                      setSelectedMenu(item);
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    if (sidenavCollapsed) {
-                      setMouseEntered(false);
-                    }
-                  }}
-                >
-                  <IconButton
-                    className={clsx({
-                      active: isMenuActive(item),
-                    })}
-                    color="primary"
-                    sx={[
-                      {
-                        color: 'text.secondary',
-                        borderRadius: 2,
-                        '&:hover': {
-                          bgcolor: ({ vars }) =>
-                            cssVarRgba(vars.palette.common.whiteChannel, isDark ? 0.1 : 0.7),
-                        },
-                      },
-                      isMenuActive(item) && {
-                        color: 'primary.main',
-                      },
-                      selectedMenu?.id === item.id && {
-                        bgcolor: ({ vars }) =>
-                          cssVarRgba(vars.palette.common.whiteChannel, isDark ? 0.1 : 0.7),
-                      },
-                    ]}
-                    onClick={() => {
-                      setSelectedMenu(item);
-                    }}
-                  >
-                    <IconifyIcon icon={item.icon} sx={{ fontSize: 24 }} />
-                  </IconButton>
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-          <Toolbar sx={{ padding: '0 !important', display: 'flex', justifyContent: 'center' }}>
-            <IconButton sx={{ color: 'text.secondary' }} onClick={toggleNavbarCollapse}>
-              <IconifyIcon
-                icon={
-                  sidenavCollapsed
-                    ? 'material-symbols:left-panel-open-outline'
-                    : 'material-symbols:left-panel-close-outline'
-                }
-              />
-            </IconButton>
-          </Toolbar>
-        </Box>
-        <Box
-          onMouseOver={() => {
-            if (sidenavCollapsed) {
-              setMouseEntered(true);
-            }
-          }}
-          onMouseOut={() => {
-            if (sidenavCollapsed) {
-              setMouseEntered(false);
-            }
-          }}
-          sx={[
-            {
-              overflow: 'hidden',
-              flex: 1,
-              px: 1,
-              position: 'relative',
-            },
-          ]}
-        >
+
           <Toolbar variant={sidenavAppbarVariant} sx={{ p: { xs: 2 }, pr: { xs: 1 } }}>
             {navigationMenuType === 'sidenav' && (
               <Stack
@@ -226,53 +87,40 @@ const StackedSidenav = () => {
               </Stack>
             )}
           </Toolbar>
-          <Box sx={{ pt: 2 }}>
+
+          <Box sx={{ px: 1, pb: 2, flex: 1, overflow: 'hidden' }}>
             <List
               dense
-              subheader={
-                selectedMenu?.subheader && (
-                  <ListSubheader
-                    component="div"
-                    disableGutters
-                    sx={{
-                      typography: 'body1',
-                      textAlign: 'left',
-                      color: 'text.primary',
-                      fontWeight: 700,
-                      py: 1,
-                      paddingLeft: 2,
-                      mb: 1,
-                      bgcolor: 'transparent',
-                      position: 'static',
-                    }}
-                  >
-                    {selectedMenu.subheader}
-                  </ListSubheader>
-                )
-              }
+              sx={{
+                py: 0,
+                height: 1,
+                overflow: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2px',
+              }}
             >
-              {selectedMenu?.items.map((item) => (
+              {sitemap.map((item) => (
                 <NavItem key={item.pathName} item={item} level={0} />
               ))}
             </List>
           </Box>
+
+          <Toolbar sx={{ padding: '0 !important', display: 'flex', justifyContent: 'center' }}>
+            <IconButton sx={{ color: 'text.secondary' }} onClick={toggleNavbarCollapse}>
+              <IconifyIcon
+                icon={
+                  sidenavCollapsed
+                    ? 'material-symbols:left-panel-open-outline'
+                    : 'material-symbols:left-panel-close-outline'
+                }
+              />
+            </IconButton>
+          </Toolbar>
         </Box>
       </Stack>
     </Box>
   );
-
-  const theme = useTheme();
-
-  useEffect(() => {
-    if (sidenavCollapsed) {
-      setMouseEntered(false);
-    }
-  }, [pathname]);
-
-  useEffect(() => {
-    const activeMenu = sitemap.find(isMenuActive);
-    setSelectedMenu(activeMenu || null);
-  }, []);
 
   return (
     <Box
@@ -282,24 +130,6 @@ const StackedSidenav = () => {
         {
           width: { md: drawerWidth },
           flexShrink: { sm: 0 },
-          position: { md: 'absolute', lg: mouseEntered ? 'absolute' : 'static' },
-          transition: theme.transitions.create(['width'], {
-            duration: theme.transitions.duration.standard,
-          }),
-        },
-        !sidenavCollapsed && {
-          transition: theme.transitions.create(['width'], {
-            duration: theme.transitions.duration.standard,
-          }),
-        },
-        mouseEntered && {
-          position: { lg: 'absolute' },
-          width: { lg: mainDrawerWidth.full },
-          '~': {
-            main: {
-              ml: `${mainDrawerWidth.stackedNavCollapsed}px`,
-            },
-          },
         },
         navColor === 'vibrant' && sidenavVibrantStyle,
       ]}
@@ -311,7 +141,7 @@ const StackedSidenav = () => {
           flexDirection: 'column',
           [`& .${drawerClasses.paper}`]: {
             boxSizing: 'border-box',
-            width: mouseEntered ? mainDrawerWidth.full : drawerWidth,
+            width: drawerWidth,
             transition: theme.transitions.create(['width'], {
               duration: theme.transitions.duration.standard,
             }),
