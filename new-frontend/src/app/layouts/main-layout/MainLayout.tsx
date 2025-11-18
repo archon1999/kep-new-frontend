@@ -108,7 +108,8 @@ const MainLayout = ({ children }: PropsWithChildren) => {
               {
                 flexGrow: 1,
                 p: 0,
-                minHeight: '100vh',
+                height: '100vh',
+                overflow: 'auto',
                 width: { xs: '100%', md: `calc(100% - ${drawerWidth}px)` },
                 display: 'flex',
                 flexDirection: 'column',
