@@ -1,3 +1,33 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "users": {
+    "title": "Users",
+    "description": "Browse community members and track their ratings.",
+    "searchPlaceholder": "Search users",
+    "actions": {
+      "toggleFilters": "Filters"
+    },
+    "filters": {
+      "username": "Username",
+      "name": "Name",
+      "country": "Country",
+      "age": "Age"
+    },
+    "labels": {
+      "allCountries": "All countries",
+      "from": "From",
+      "to": "To",
+      "maxStreak": "Max streak: {{count}}"
+    },
+    "columns": {
+      "user": "User",
+      "skills": "Skills",
+      "activity": "Activity",
+      "contests": "Contests",
+      "challenges": "Challenges",
+      "streak": "Streak",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Last seen"
+    }
+  }
 }

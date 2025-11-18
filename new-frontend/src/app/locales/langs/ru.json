@@ -1,3 +1,33 @@
 {
-  "home": "Главная"
+  "home": "Главная",
+  "users": {
+    "title": "Пользователи",
+    "description": "Просматривайте участников сообщества и их рейтинги.",
+    "searchPlaceholder": "Поиск пользователей",
+    "actions": {
+      "toggleFilters": "Фильтры"
+    },
+    "filters": {
+      "username": "Имя пользователя",
+      "name": "Имя",
+      "country": "Страна",
+      "age": "Возраст"
+    },
+    "labels": {
+      "allCountries": "Все страны",
+      "from": "От",
+      "to": "До",
+      "maxStreak": "Максимальная серия: {{count}}"
+    },
+    "columns": {
+      "user": "Пользователь",
+      "skills": "Навыки",
+      "activity": "Активность",
+      "contests": "Контесты",
+      "challenges": "Вызовы",
+      "streak": "Серия",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Последнее посещение"
+    }
+  }
 }

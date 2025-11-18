@@ -1,3 +1,33 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "users": {
+    "title": "Foydalanuvchilar",
+    "description": "Hamjamiyat foydalanuvchilarini va reytinglarini ko'rib chiqing.",
+    "searchPlaceholder": "Foydalanuvchilarni qidirish",
+    "actions": {
+      "toggleFilters": "Filtrlar"
+    },
+    "filters": {
+      "username": "Nik",
+      "name": "Nomi",
+      "country": "Mamlakat",
+      "age": "Yosh"
+    },
+    "labels": {
+      "allCountries": "Barcha mamlakatlar",
+      "from": "Dan",
+      "to": "Gacha",
+      "maxStreak": "Maksimal ketma-ketlik: {{count}}"
+    },
+    "columns": {
+      "user": "Foydalanuvchi",
+      "skills": "Ko‘nikmalar",
+      "activity": "Faollik",
+      "contests": "Kontestlar",
+      "challenges": "Bellashuvlar",
+      "streak": "Ketma-ketlik",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Ohirgi kirish"
+    }
+  }
 }
