@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import FullCalendar, { CalendarOptions, EventInput } from '@fullcalendar/react';
+import { CalendarOptions, EventInput } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
@@ -11,6 +11,7 @@ import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { useCalendarEvents } from 'modules/calendar/application/queries';
 import { CalendarEventEntity, CalendarEventType } from 'modules/calendar/domain/entities/calendar-event.entity';
+import SafeFullCalendar from './components/SafeFullCalendar';
 
 import '@fullcalendar/core/index.css';
 import '@fullcalendar/daygrid/index.css';
@@ -187,7 +188,7 @@ const CalendarPage = () => {
                     </Typography>
                   </Stack>
                 ) : (
-                  <FullCalendar
+                  <SafeFullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
                     locales={[uzLocale, ruLocale]}
                     locale={i18n.language}
