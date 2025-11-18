@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { Button, Stack } from '@mui/material';
-import sitemap, { MenuItem } from 'app/routes/sitemap';
+import sitemap, { SubMenuItem } from 'app/routes/sitemap';
 import clsx from 'clsx';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useNavContext } from '../NavProvider';
@@ -13,8 +14,9 @@ interface TopnavItemsProps {
 
 const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [selectedMenu, setSelectedMenu] = useState<null | MenuItem>(null);
+  const [selectedMenu, setSelectedMenu] = useState<null | SubMenuItem>(null);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { isNestedItemOpen } = useNavContext();
 
   useEffect(() => {
@@ -32,24 +34,32 @@ const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
     >
       {sitemap.map((menu) => (
         <Button
-          key={menu.id}
+          key={menu.id || menu.pathName}
           variant="text"
           className={clsx({
-            active: isNestedItemOpen(menu.items),
+            active: isNestedItemOpen([menu]),
           })}
-          color={isNestedItemOpen(menu.items) ? 'primary' : 'neutral'}
+          color={isNestedItemOpen([menu]) ? 'primary' : 'neutral'}
           size={type === 'slim' ? 'small' : 'large'}
-          endIcon={<IconifyIcon icon="material-symbols:expand-more-rounded" />}
+          endIcon={
+            menu.items?.length ? <IconifyIcon icon="material-symbols:expand-more-rounded" /> : undefined
+          }
           onClick={(event) => {
-            setAnchorEl(event.currentTarget);
-            setSelectedMenu(menu);
+            if (menu.items?.length) {
+              setAnchorEl(event.currentTarget);
+              setSelectedMenu(menu);
+              return;
+            }
+            if (menu.path) {
+              navigate(menu.path);
+            }
           }}
           sx={{ px: 2, fontSize: 14 }}
         >
-          {menu.subheader}
+          {menu.name}
         </Button>
       ))}
-      {selectedMenu && (
+      {selectedMenu?.items?.length ? (
         <NavitemPopover
           handleClose={() => {
             setAnchorEl(null);
@@ -60,7 +70,7 @@ const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
           items={selectedMenu.items}
           level={0}
         />
-      )}
+      ) : null}
     </Stack>
   );
 };

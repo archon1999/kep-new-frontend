@@ -17,7 +17,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { demoUser, useAuth } from 'app/providers/AuthProvider';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import sitemap, { MenuItem, SubMenuItem } from 'app/routes/sitemap';
+import sitemap, { SubMenuItem } from 'app/routes/sitemap';
 import { sidenavVibrantStyle } from 'app/theme/styles/vibrantNav';
 import clsx from 'clsx';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
@@ -32,7 +32,7 @@ import NavItem from './NavItem';
 
 const StackedSidenav = () => {
   const { pathname } = useLocation();
-  const [selectedMenu, setSelectedMenu] = useState<MenuItem | null>(null);
+  const [selectedMenu, setSelectedMenu] = useState<SubMenuItem | null>(null);
   const [mouseEntered, setMouseEntered] = useState(false);
   const {
     config: { sidenavCollapsed, drawerWidth, navigationMenuType, navColor },
@@ -42,23 +42,32 @@ const StackedSidenav = () => {
   const { currentBreakpoint } = useBreakpoints();
   const { isDark } = useThemeMode();
 
-  const isMenuActive = (item: MenuItem) => {
+  const isMenuActive = (item: SubMenuItem) => {
     const checkLink = (subMenuItem: SubMenuItem) => {
       if (
-        `${subMenuItem.path}` === pathname ||
+        (subMenuItem.path && subMenuItem.path === pathname) ||
         (subMenuItem.selectionPrefix && pathname!.includes(subMenuItem.selectionPrefix))
       ) {
         return true;
       }
       return subMenuItem.items && subMenuItem.items.some(checkLink);
     };
-    return item.items.some(checkLink);
+    return checkLink(item);
   };
 
   const { currentUser } = useAuth();
 
   // Demo user data used for development purposes
   const user = useMemo(() => currentUser || demoUser, [currentUser]);
+  const listItems: SubMenuItem[] = useMemo(() => {
+    if (!selectedMenu) {
+      return [];
+    }
+    if (selectedMenu.items?.length) {
+      return selectedMenu.items;
+    }
+    return [selectedMenu];
+  }, [selectedMenu]);
 
   const drawer = (
     <Box sx={{ flex: 1, overflow: 'hidden' }}>
@@ -105,7 +114,7 @@ const StackedSidenav = () => {
             >
               {sitemap.map((item) => (
                 <ListItem
-                  key={item.id}
+                  key={item.id || item.pathName}
                   sx={{
                     p: 0,
                     pb: 1,
@@ -149,7 +158,7 @@ const StackedSidenav = () => {
                       isMenuActive(item) && {
                         color: 'primary.main',
                       },
-                      selectedMenu?.id === item.id && {
+                      (selectedMenu?.id || selectedMenu?.pathName) === (item.id || item.pathName) && {
                         bgcolor: ({ vars }) =>
                           cssVarRgba(vars.palette.common.whiteChannel, isDark ? 0.1 : 0.7),
                       },
@@ -230,7 +239,7 @@ const StackedSidenav = () => {
             <List
               dense
               subheader={
-                selectedMenu?.subheader && (
+                selectedMenu?.name && (
                   <ListSubheader
                     component="div"
                     disableGutters
@@ -246,12 +255,12 @@ const StackedSidenav = () => {
                       position: 'static',
                     }}
                   >
-                    {selectedMenu.subheader}
+                    {selectedMenu.name}
                   </ListSubheader>
                 )
               }
             >
-              {selectedMenu?.items.map((item) => (
+              {listItems.map((item) => (
                 <NavItem key={item.pathName} item={item} level={0} />
               ))}
             </List>
@@ -272,7 +281,7 @@ const StackedSidenav = () => {
   useEffect(() => {
     const activeMenu = sitemap.find(isMenuActive);
     setSelectedMenu(activeMenu || null);
-  }, []);
+  }, [pathname]);
 
   return (
     <Box
