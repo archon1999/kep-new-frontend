@@ -249,16 +249,28 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
 
         <Divider />
 
-        <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="body2" color="text.secondary">
-              Completed
-            </Typography>
-            <Typography variant="body2" fontWeight={700} color="text.primary">
+        <Stack spacing={0.75} sx={{ px: 2, py: 1.5 }}>
+          <Typography variant="caption" color="text.secondary">
+            Completed
+          </Typography>
+          <Box sx={{ position: 'relative', borderRadius: 999, overflow: 'hidden' }}>
+            <LinearProgress variant="determinate" value={progress} sx={{ height: 10, borderRadius: 'inherit' }} />
+            <Typography
+              variant="caption"
+              color="common.white"
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 700,
+                textShadow: '0 0 6px rgba(0,0,0,0.35)',
+              }}
+            >
               {dailyTasks.length ? `${completedTasks}/${dailyTasks.length}` : '--'}
             </Typography>
-          </Stack>
-          <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 999 }} />
+          </Box>
         </Stack>
       </Popover>
     </>
