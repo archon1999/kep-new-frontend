@@ -45,6 +45,7 @@ export const apiEndpoints = {
   login: '/auth/login',
   logout: '/auth/logout',
   profile: '/api/me',
+  dailyTasks: '/api/daily-tasks',
   getUsers: '/users',
   forgotPassword: '/auth/forgot-password',
   setPassword: '/auth/set-password',
