@@ -1,3 +1,38 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "users": {
+    "title": "Users",
+    "subtitle": "Browse KEP community members and track their activity.",
+    "search": {
+      "placeholder": "Search by username or name"
+    },
+    "actions": {
+      "filter": "Filters",
+      "reset": "Reset",
+      "apply": "Apply"
+    },
+    "filters": {
+      "title": "Filters",
+      "username": "Username",
+      "usernamePlaceholder": "Enter username",
+      "name": "Name",
+      "namePlaceholder": "Enter first name",
+      "country": "Country",
+      "any": "Any",
+      "ageFrom": "Age from",
+      "ageTo": "Age to"
+    },
+    "table": {
+      "user": "User",
+      "noName": "No name",
+      "skills": "Skills",
+      "activity": "Activity",
+      "contests": "Contests",
+      "challenges": "Challenges",
+      "streak": "Streak",
+      "maxStreak": "Max streak: {{value}}",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Last seen"
+    }
+  }
 }

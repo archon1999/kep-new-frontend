@@ -3,10 +3,12 @@ export const rootPaths = {
   authRoot: 'authentication',
   authDefaultRoot: 'default',
   kepcoinRoot: 'kepcoin',
+  usersRoot: 'users',
 };
 
 const paths = {
   kepcoin: `/${rootPaths.kepcoinRoot}`,
+  users: `/${rootPaths.usersRoot}`,
 
   authLogin: `/${rootPaths.authRoot}/login`,
   authSignup: `/${rootPaths.authRoot}/sign-up`,

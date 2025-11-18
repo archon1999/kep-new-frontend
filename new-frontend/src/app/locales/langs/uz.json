@@ -1,3 +1,38 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "users": {
+    "title": "Foydalanuvchilar",
+    "subtitle": "KEP hamjamiyati a'zolarini ko'ring va ularning faolligini kuzating.",
+    "search": {
+      "placeholder": "Foydalanuvchi nomi yoki ism orqali qidiring"
+    },
+    "actions": {
+      "filter": "Filtrlar",
+      "reset": "Tozalash",
+      "apply": "Qo'llash"
+    },
+    "filters": {
+      "title": "Filtrlar",
+      "username": "Foydalanuvchi nomi",
+      "usernamePlaceholder": "Loginni kiriting",
+      "name": "Ism",
+      "namePlaceholder": "Ismni kiriting",
+      "country": "Mamlakat",
+      "any": "Istalgan",
+      "ageFrom": "Yoshdan",
+      "ageTo": "Yoshgacha"
+    },
+    "table": {
+      "user": "Foydalanuvchi",
+      "noName": "Ism ko'rsatilmagan",
+      "skills": "Ko'nikmalar",
+      "activity": "Faollik",
+      "contests": "Musobaqalar",
+      "challenges": "Challengelar",
+      "streak": "Seriya",
+      "maxStreak": "Eng uzun seriya: {{value}}",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Oxirgi faollik"
+    }
+  }
 }

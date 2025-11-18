@@ -1,3 +1,38 @@
 {
-  "home": "Главная"
+  "home": "Главная",
+  "users": {
+    "title": "Пользователи",
+    "subtitle": "Просматривайте участников сообщества KEP и их активность.",
+    "search": {
+      "placeholder": "Поиск по логину или имени"
+    },
+    "actions": {
+      "filter": "Фильтры",
+      "reset": "Сброс",
+      "apply": "Применить"
+    },
+    "filters": {
+      "title": "Фильтры",
+      "username": "Логин",
+      "usernamePlaceholder": "Введите логин",
+      "name": "Имя",
+      "namePlaceholder": "Введите имя",
+      "country": "Страна",
+      "any": "Любая",
+      "ageFrom": "Возраст от",
+      "ageTo": "Возраст до"
+    },
+    "table": {
+      "user": "Пользователь",
+      "noName": "Без имени",
+      "skills": "Навыки",
+      "activity": "Активность",
+      "contests": "Контесты",
+      "challenges": "Челленджи",
+      "streak": "Серия",
+      "maxStreak": "Макс. серия: {{value}}",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Был(а) в сети"
+    }
+  }
 }

@@ -41,6 +41,7 @@ export const kepIcons = {
   tags: 'mdi:tag-multiple-outline',
   difficulty: 'mdi:speedometer',
   login: 'mdi:login',
+  filters: 'mdi:filter-variant',
 } as const;
 
 export type KepIconName = keyof typeof kepIcons;
