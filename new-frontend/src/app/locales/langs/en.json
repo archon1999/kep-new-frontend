@@ -1,6 +1,87 @@
 {
   "home": "Home",
   "kepcoin": "Kepcoin",
+  "kepcoinPage": {
+    "youHave": "You have",
+    "streakFreeze": "Streak freeze",
+    "streakLabel": "Streak",
+    "streakFreezeDescription": "Freezing automatically saves your streak if you miss a day and don't complete daily tasks.",
+    "earns": "Earns",
+    "spends": "Spends",
+    "buyStreakFreeze": "Keep your streak freeze on",
+    "freezing": "Processing...",
+    "today": {
+      "title": "Today",
+      "earn": "Today Earn",
+      "spend": "Today Spend"
+    },
+    "history": {
+      "generic": "Kepcoin update",
+      "emptyTitle": "No Kepcoin activity yet",
+      "emptySubtitle": "Complete daily actions or spend Kepcoin to see history here."
+    },
+    "howToEarn": {
+      "title": "How to Earn Kepcoin",
+      "subtitle": "To earn this currency, contribute to the development of the system. You can earn kepcoin for:",
+      "items": {
+        "1": "For daily activity",
+        "2": "For completing daily tasks",
+        "3": "For being the winner in daily, weekly, and monthly challenge ratings",
+        "4": "For participating in competitions",
+        "5": "For writing a blog",
+        "6": "For helping in editing problems (writing solutions, translation, adding tags, finding similar problems)"
+      }
+    },
+    "howToSpend": {
+      "title": "How to Spend Kepcoin",
+      "items": {
+        "1": "View another user's attempt",
+        "2": "View a test with a failed solution",
+        "3": "Purchase a problem solution",
+        "4": "Change profile cover photo",
+        "5": "Pass the test",
+        "6": "Purchase a course",
+        "7": "Test function when editing code (completely)",
+        "8": "Double rating change in contest (even if negative, it doubles)",
+        "9": "Maintain rating in contest (not given if negative)"
+      }
+    },
+    "earnReasons": {
+      "wroteBlog": "Wrote a blog",
+      "wroteProblemSolution": "Wrote problem solution",
+      "loyaltyBonus": "Loyalty bonus",
+      "bonusFromAdmin": "Bonus from admin",
+      "dailyActivity": "Daily activity on {{date}}",
+      "dailyTask": "Daily task completed: {{description}}",
+      "dailyRating": "Daily problems rating winner: {{date}}",
+      "weeklyRating": "Weekly problems rating winner: {{date}}",
+      "monthlyRating": "Monthly problems rating winner: {{date}}",
+      "contestParticipant": "Contest participant: {{title}}",
+      "arenaParticipant": "Arena participant: {{title}}",
+      "tournamentParticipant": "Tournament participant",
+      "projectTaskComplete": "Project task completed"
+    },
+    "spendReasons": {
+      "viewAttempt": "View another user's attempt {{attempt}}",
+      "viewAttemptTest": "View a test with a failed solution {{attempt}}",
+      "viewProblemSolution": "Purchase problem solution: {{title}}",
+      "doubleRating": "2x Rating",
+      "changeCover": "Change profile cover photo",
+      "course": "Course",
+      "studyPlan": "Study plan",
+      "codeEditorTesting": "Code editor testing",
+      "saveRating": "Save Rating",
+      "passTest": "Pass the test: {{title}}",
+      "createContest": "Create contest",
+      "project": "Project",
+      "streakFreeze": "Streak freeze",
+      "virtualContest": "Virtual contest",
+      "unratedContest": "Unrated contest",
+      "answerForInput": "Answer for input",
+      "checkSamples": "Check samples",
+      "merch": "Merch"
+    }
+  },
   "shop": {
     "title": "Shop",
     "subtitle": "Redeem your Kepcoins for gear and accessories inspired by KEP.uz.",
