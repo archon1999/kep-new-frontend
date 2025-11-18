@@ -25,5 +25,44 @@
     "emptyTitle": "Нет запланированных событий",
     "emptySubtitle": "Новые тренировки появятся здесь после публикации.",
     "untitled": "Событие без названия"
+  },
+  "users": {
+    "title": "Пользователи",
+    "actions": {
+      "export": "Экспорт",
+      "invite": "Пригласить пользователя"
+    },
+    "tabs": {
+      "all": "Все пользователи",
+      "skills": "Рейтинг навыков",
+      "activity": "Рейтинг активности",
+      "contests": "Рейтинг контестов",
+      "challenges": "Рейтинг челленджей"
+    },
+    "filters": {
+      "toggle": "Фильтры",
+      "searchPlaceholder": "Поиск по логину",
+      "username": "Логин",
+      "usernamePlaceholder": "Фильтр по логину",
+      "name": "Имя",
+      "namePlaceholder": "Поиск по имени или фамилии",
+      "country": "Страна",
+      "countryPlaceholder": "Выберите страну",
+      "anyCountry": "Любая страна",
+      "ageFrom": "Возраст от",
+      "ageTo": "Возраст до",
+      "agePlaceholder": "--"
+    },
+    "columns": {
+      "user": "Пользователь",
+      "skills": "Навыки",
+      "activity": "Активность",
+      "contests": "Контесты",
+      "challenges": "Челленджи",
+      "streak": "Серия",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Был(а) в сети"
+    },
+    "emptyValue": "—"
   }
 }

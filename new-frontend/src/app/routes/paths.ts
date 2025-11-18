@@ -11,6 +11,7 @@ const paths = {
   kepcoin: `/${rootPaths.kepcoinRoot}`,
   shop: `/${rootPaths.shopRoot}`,
   scheduler: `/${rootPaths.appsRoot}/scheduler`,
+  users: '/users',
 
   authLogin: `/${rootPaths.authRoot}/login`,
   authSignup: `/${rootPaths.authRoot}/sign-up`,

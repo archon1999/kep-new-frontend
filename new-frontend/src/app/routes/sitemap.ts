@@ -31,6 +31,14 @@ const sitemap: MenuItem[] = [
     active: true,
   },
   {
+    name: 'Users',
+    key: 'users.title',
+    path: paths.users,
+    pathName: 'users',
+    icon: 'mdi:account-multiple-outline',
+    active: true,
+  },
+  {
     name: 'Kepcoin',
     key: 'kepcoin',
     path: paths.kepcoin,

@@ -12,6 +12,7 @@ const Home = lazy(() => import('pages/home/Home'));
 const KepcoinPage = lazy(() => import('pages/kepcoin/KepcoinPage'));
 const ShopPage = lazy(() => import('pages/shop/ShopPage'));
 const SchedulerPage = lazy(() => import('pages/calendar/CalendarPage'));
+const UsersListPage = lazy(() => import('pages/users/UsersListPage'));
 
 const LoggedOut = lazy(() => import('pages/authentication/default/LoggedOut'));
 
@@ -46,6 +47,10 @@ export const routes: RouteObject[] = [
           {
             index: true,
             element: <Home />,
+          },
+          {
+            path: paths.users,
+            element: <UsersListPage />,
           },
           {
             path: paths.shop,
