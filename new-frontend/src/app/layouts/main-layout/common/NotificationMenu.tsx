@@ -1,24 +1,36 @@
-import { useEffect, useState } from 'react';
-import { Box, Button, Link, Popover, Stack, badgeClasses, paperClasses } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Divider,
+  Link,
+  Popover,
+  Stack,
+  Typography,
+  badgeClasses,
+  paperClasses,
+} from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import { DatewiseNotification } from 'app/types/notification';
-import { notifications as notificationsData } from 'data/notifications';
-import dayjs from 'dayjs';
+import { Notification as ApiNotification } from 'shared/api/orval/generated/endpoints';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import SimpleBar from 'shared/components/base/SimpleBar';
-import NotificationList from 'shared/components/sections/notification/NotificationList';
+import NavbarNotificationItem from 'shared/components/sections/notification/NavbarNotificationItem';
 import OutlinedBadge from 'shared/components/styled/OutlinedBadge';
+import { useNavbarNotifications } from 'shared/services/swr/api-hooks/useNotificationsApi';
+import axiosFetcher from 'shared/services/axios/axiosFetcher';
 
 interface NotificationMenuProps {
   type?: 'default' | 'slim';
 }
 
 const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
-  const [notifications, setNotifications] = useState<DatewiseNotification>({
-    today: [],
-    older: [],
-  });
+  const [notifications, setNotifications] = useState<ApiNotification[]>([]);
+  const [page, setPage] = useState(1);
+  const [showAll, setShowAll] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const { data, isLoading, mutate } = useNavbarNotifications(page, showAll);
 
   const {
     config: { textDirection },
@@ -33,23 +45,48 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
   };
 
   useEffect(() => {
-    const datewiseNotification = notificationsData.reduce(
-      (acc: DatewiseNotification, val) => {
-        if (dayjs().diff(dayjs(val.createdAt), 'days') === 0) {
-          acc.today.push(val);
-        } else {
-          acc.older.push(val);
-        }
-        return acc;
-      },
-      {
-        today: [],
-        older: [],
-      },
-    );
+    if (data?.data) {
+      setNotifications((prev) => (page === 1 ? data.data : [...prev, ...data.data]));
+    }
+  }, [data, page]);
 
-    setNotifications(datewiseNotification);
-  }, [notificationsData]);
+  const unreadCount = useMemo(() => (!showAll ? data?.total ?? data?.count ?? notifications.length : 0), [data, notifications.length, showAll]);
+
+  const canLoadMore = useMemo(() => {
+    if (!data?.pagesCount) return false;
+    return page < data.pagesCount;
+  }, [data?.pagesCount, page]);
+
+  const handleToggleView = () => {
+    setShowAll((prev) => !prev);
+    setPage(1);
+    setNotifications([]);
+  };
+
+  const handleLoadMore = () => {
+    if (canLoadMore) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const handleMarkRead = async (notification: ApiNotification) => {
+    if (!notification.id) return;
+
+    await axiosFetcher([`/api/notifications/${notification.id}/read/`, { method: 'post' }], {
+      arg: { type: notification.type, message: notification.message },
+    });
+
+    if (!showAll) {
+      setNotifications((prev) => prev.filter((item) => item.id !== notification.id));
+    }
+    await mutate();
+  };
+
+  const handleReadAll = async () => {
+    await axiosFetcher(['/api/notifications/read-all/', { method: 'post' }]);
+    setNotifications([]);
+    await mutate();
+  };
 
   return (
     <>
@@ -63,6 +100,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
         <OutlinedBadge
           variant="dot"
           color="error"
+          invisible={!unreadCount}
           sx={{
             [`& .${badgeClasses.badge}`]: {
               height: 10,
@@ -105,20 +143,40 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
           },
         }}
       >
-        <Box sx={{ pt: 2, flex: 1, overflow: 'hidden' }}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" px={2} pt={2} pb={1}>
+          <Typography variant="subtitle1" color="text.primary">
+            Notifications
+          </Typography>
+          {!showAll && (
+            <OutlinedBadge
+              color="error"
+              badgeContent={unreadCount}
+              overlap="circular"
+              sx={{ [`& .${badgeClasses.badge}`]: { right: 4, top: 6 } }}
+            >
+              <Box />
+            </OutlinedBadge>
+          )}
+        </Stack>
+        <Divider />
+        <Box sx={{ flex: 1, overflow: 'hidden', minHeight: 320 }}>
           <SimpleBar disableHorizontal>
-            <NotificationList
-              title="Today"
-              notifications={notifications.today}
-              variant="small"
-              onItemClick={handleClose}
-            />
-            <NotificationList
-              title="Older"
-              notifications={notifications.older}
-              variant="small"
-              onItemClick={handleClose}
-            />
+            {isLoading && notifications.length === 0 ? (
+              <Stack alignItems="center" justifyContent="center" sx={{ py: 6 }}>
+                <CircularProgress size={28} />
+              </Stack>
+            ) : notifications.length === 0 ? (
+              <Stack alignItems="center" justifyContent="center" spacing={1} sx={{ py: 5 }}>
+                <IconifyIcon icon="material-symbols:notifications-off-outline" sx={{ fontSize: 36, color: 'text.secondary' }} />
+                <Typography variant="body2" color="text.secondary">
+                  No notifications
+                </Typography>
+              </Stack>
+            ) : (
+              notifications.map((notification) => (
+                <NavbarNotificationItem key={notification.id} notification={notification} onMarkRead={handleMarkRead} />
+              ))
+            )}
           </SimpleBar>
         </Box>
         <Stack
@@ -128,9 +186,25 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
             py: 1,
           }}
         >
-          <Button component={Link} underline="none" href="#!" variant="text" color="primary">
-            Load more notifications
+          <Button
+            component={Link}
+            underline="none"
+            href="#!"
+            variant="text"
+            color="primary"
+            onClick={handleLoadMore}
+            disabled={!canLoadMore || isLoading}
+          >
+            {canLoadMore ? 'Load more notifications' : 'No more notifications'}
           </Button>
+          <Stack direction="row" spacing={1} sx={{ width: '100%', px: 2, pb: 1 }}>
+            <Button onClick={handleToggleView} fullWidth variant="outlined" color="primary">
+              {showAll ? 'Show unread' : 'Show all'}
+            </Button>
+            <Button onClick={handleReadAll} fullWidth variant="contained" color="primary" disabled={notifications.length === 0}>
+              Mark all read
+            </Button>
+          </Stack>
         </Stack>
       </Popover>
     </>
