@@ -14,6 +14,7 @@ import paths, { authPaths, rootPaths } from './paths';
 
 const Home = lazy(() => import('pages/home/Home'));
 const KepcoinPage = lazy(() => import('pages/kepcoin/KepcoinPage'));
+const UsersListPage = lazy(() => import('pages/users/UsersListPage'));
 
 const LoggedOut = lazy(() => import('pages/authentication/default/LoggedOut'));
 
@@ -62,6 +63,10 @@ export const routes: RouteObject[] = [
           {
             path: paths.kepcoin,
             element: <KepcoinPage />,
+          },
+          {
+            path: paths.users,
+            element: <UsersListPage />,
           },
         ],
       },

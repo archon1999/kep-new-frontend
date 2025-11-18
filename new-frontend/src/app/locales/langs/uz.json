@@ -1,3 +1,23 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "Menu": {
+    "Users": "Foydalanuvchilar"
+  },
+  "User": "Foydalanuvchi",
+  "Username": "Nik",
+  "Name": "Nomi",
+  "Country": "Davlat",
+  "Age": "Yosh",
+  "Reset": "Reset",
+  "Skills": "Koʻnikmalar",
+  "Activity": "Faollik",
+  "Contests": {
+    "Contests": "Kontestlar"
+  },
+  "Challenges": "Bellashuvlar",
+  "Streak": "Seriya",
+  "Now": "Hozir",
+  "MaxRating": "Eng yuqori reyting",
+  "Kepcoin": "Kepcoin",
+  "LastSeen": "Ohirgi kirish"
 }

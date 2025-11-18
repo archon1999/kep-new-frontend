@@ -1,3 +1,23 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "Menu": {
+    "Users": "Users"
+  },
+  "User": "User",
+  "Username": "Username",
+  "Name": "Name",
+  "Country": "Country",
+  "Age": "Age",
+  "Reset": "Reset",
+  "Skills": "Skills",
+  "Activity": "Activity",
+  "Contests": {
+    "Contests": "Contests"
+  },
+  "Challenges": "Challenges",
+  "Streak": "Streak",
+  "Now": "Now",
+  "MaxRating": "Max rating",
+  "Kepcoin": "Kepcoin",
+  "LastSeen": "Last seen"
 }

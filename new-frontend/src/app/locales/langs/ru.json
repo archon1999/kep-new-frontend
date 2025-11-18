@@ -1,3 +1,23 @@
 {
-  "home": "Главная"
+  "home": "Главная",
+  "Menu": {
+    "Users": "Пользователи"
+  },
+  "User": "Пользователь",
+  "Username": "Ник",
+  "Name": "Имя",
+  "Country": "Страна",
+  "Age": "Возраст",
+  "Reset": "Сброс",
+  "Skills": "Навыки",
+  "Activity": "Активность",
+  "Contests": {
+    "Contests": "Контесты"
+  },
+  "Challenges": "Вызовы",
+  "Streak": "Серия",
+  "Now": "Сейчас",
+  "MaxRating": "Максимальный рейтинг",
+  "Kepcoin": "Kepcoin",
+  "LastSeen": "Последнее посещение"
 }
