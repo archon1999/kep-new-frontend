@@ -1,3 +1,37 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "homePage": {
+    "greeting": "Good morning",
+    "guest": "Guest",
+    "ranks": {
+      "title": "Ratings",
+      "skills": "Skills rating",
+      "activity": "Activity rating",
+      "contests": "Contests",
+      "challenges": "Challenges",
+      "percentile": "You are better than {{percentile}}% of users"
+    },
+    "contest": {
+      "title": "Contest spotlight",
+      "rated": "Rated",
+      "unrated": "Unrated",
+      "starts": "Starts",
+      "durationUnknown": "Finish time not set",
+      "problems": "{{count}} problems",
+      "participants": "{{count}} participants",
+      "empty": "No contests found"
+    },
+    "arena": {
+      "title": "Arena",
+      "live": "Live",
+      "upcoming": "Upcoming",
+      "questions": "{{count}} questions",
+      "starts": "Starts",
+      "ends": "Ends",
+      "duration": "{{duration}} minutes",
+      "empty": "No arenas found"
+    },
+    "news": "News",
+    "newsEmpty": "No news to show"
+  }
 }

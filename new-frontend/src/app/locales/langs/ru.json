@@ -1,3 +1,37 @@
 {
-  "home": "Главная"
+  "home": "Домой",
+  "homePage": {
+    "greeting": "Доброе утро",
+    "guest": "Гость",
+    "ranks": {
+      "title": "Рейтинги",
+      "skills": "Рейтинг навыков",
+      "activity": "Рейтинг активности",
+      "contests": "Соревнования",
+      "challenges": "Челленджи",
+      "percentile": "Вы лучше, чем {{percentile}}% пользователей"
+    },
+    "contest": {
+      "title": "Контест",
+      "rated": "Рейтинговый",
+      "unrated": "Без рейтинга",
+      "starts": "Старт",
+      "durationUnknown": "Время окончания не указано",
+      "problems": "{{count}} задач",
+      "participants": "{{count}} участников",
+      "empty": "Контесты не найдены"
+    },
+    "arena": {
+      "title": "Арена",
+      "live": "В эфире",
+      "upcoming": "Скоро",
+      "questions": "{{count}} вопросов",
+      "starts": "Начало",
+      "ends": "Окончание",
+      "duration": "{{duration}} минут",
+      "empty": "Арен пока нет"
+    },
+    "news": "Новости",
+    "newsEmpty": "Нет новостей"
+  }
 }

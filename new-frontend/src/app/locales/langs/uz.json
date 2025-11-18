@@ -1,3 +1,37 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "homePage": {
+    "greeting": "Xayrli tong",
+    "guest": "Mehmon",
+    "ranks": {
+      "title": "Reytinglar",
+      "skills": "Koʻnikmalar reytingi",
+      "activity": "Faollik reytingi",
+      "contests": "Musobaqalar",
+      "challenges": "Chaqiriqlar",
+      "percentile": "Siz foydalanuvchilarning {{percentile}}% dan yaxshiroqsiz"
+    },
+    "contest": {
+      "title": "Kontest",
+      "rated": "Reytingli",
+      "unrated": "Reytingsiz",
+      "starts": "Boshlanishi",
+      "durationUnknown": "Tugash vaqti belgilanmagan",
+      "problems": "{{count}} ta masala",
+      "participants": "{{count}} ishtirokchi",
+      "empty": "Kontestlar topilmadi"
+    },
+    "arena": {
+      "title": "Arena",
+      "live": "Jonli",
+      "upcoming": "Tez orada",
+      "questions": "{{count}} ta savol",
+      "starts": "Boshlanish",
+      "ends": "Yakunlanish",
+      "duration": "{{duration}} daqiqa",
+      "empty": "Arenalar topilmadi"
+    },
+    "news": "Yangiliklar",
+    "newsEmpty": "Yangiliklar mavjud emas"
+  }
 }
