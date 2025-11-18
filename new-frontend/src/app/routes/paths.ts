@@ -1,7 +1,6 @@
 export const rootPaths = {
   root: '/',
   authRoot: 'authentication',
-  authDefaultRoot: 'default',
   kepcoinRoot: 'kepcoin',
   shopRoot: 'shop',
   appsRoot: 'apps',
@@ -13,20 +12,10 @@ const paths = {
   calendar: `/${rootPaths.appsRoot}/calendar`,
 
   authLogin: `/${rootPaths.authRoot}/login`,
-  authSignup: `/${rootPaths.authRoot}/sign-up`,
-  authForgotPassword: `/${rootPaths.authRoot}/forgot-password`,
-  auth2FA: `/${rootPaths.authRoot}/2FA`,
-  authSetPassword: `/${rootPaths.authRoot}/set-password`,
-
-  defaultLoggedOut: `/${rootPaths.authRoot}/${rootPaths.authDefaultRoot}/logged-out`,
 };
 
 export const authPaths = {
   login: paths.authLogin,
-  signup: paths.authSignup,
-  forgotPassword: paths.authForgotPassword,
-  setNewPassword: paths.authSetPassword,
-  twoFactorAuth: paths.auth2FA,
 };
 
 export const apiEndpoints = {
