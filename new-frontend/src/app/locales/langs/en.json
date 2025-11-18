@@ -1,3 +1,14 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Stay on top of contests, tournaments, arenas, and holidays.",
+    "filters": {
+      "title": "Event types",
+      "contests": "Contests",
+      "arena": "Arena",
+      "tournaments": "Tournaments",
+      "holidays": "Holidays"
+    }
+  }
 }

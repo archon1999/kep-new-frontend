@@ -1,3 +1,14 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "calendar": {
+    "title": "Kalendar",
+    "subtitle": "Kontestlar, arenalar, turnirlar va bayramlar jadvalini kuzatib boring.",
+    "filters": {
+      "title": "Tadbir turlari",
+      "contests": "Kontestlar",
+      "arena": "Arena",
+      "tournaments": "Turnirlar",
+      "holidays": "Bayramlar"
+    }
+  }
 }

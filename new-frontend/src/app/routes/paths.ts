@@ -6,6 +6,7 @@ export const rootPaths = {
 };
 
 const paths = {
+  calendar: '/calendar',
   kepcoin: `/${rootPaths.kepcoinRoot}`,
 
   authLogin: `/${rootPaths.authRoot}/login`,
