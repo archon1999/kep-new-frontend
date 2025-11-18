@@ -13,7 +13,7 @@
     "kepcoinValue": "{{value}} Kepcoin"
   },
   "calendar": {
-    "title": "Scheduler",
+    "title": "Calendar",
     "subtitle": "See upcoming training slots and events on the shared calendar.",
     "today": "Today",
     "monthView": "Month",

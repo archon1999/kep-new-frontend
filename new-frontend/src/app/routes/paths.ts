@@ -10,7 +10,7 @@ export const rootPaths = {
 const paths = {
   kepcoin: `/${rootPaths.kepcoinRoot}`,
   shop: `/${rootPaths.shopRoot}`,
-  scheduler: `/${rootPaths.appsRoot}/scheduler`,
+  calendar: `/${rootPaths.appsRoot}/calendar`,
 
   authLogin: `/${rootPaths.authRoot}/login`,
   authSignup: `/${rootPaths.authRoot}/sign-up`,
