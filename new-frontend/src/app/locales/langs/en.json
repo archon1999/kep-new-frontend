@@ -2,6 +2,9 @@
   "home": "Home",
   "kepcoin": "Kepcoin",
   "kepcoinPage": {
+    "balance": {
+      "title": "You have"
+    },
     "history": {
       "title": "Kepcoin activity",
       "subtitle": "Track how you earn and spend Kepcoin.",

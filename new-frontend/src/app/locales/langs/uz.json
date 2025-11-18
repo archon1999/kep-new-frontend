@@ -2,6 +2,9 @@
   "home": "Bosh sahifa",
   "kepcoin": "Kepcoin",
   "kepcoinPage": {
+    "balance": {
+      "title": "Sizda bor"
+    },
     "history": {
       "title": "Kepcoin faolligi",
       "subtitle": "Kepcoinni qanday topish va sarflashni kuzating.",

@@ -3,16 +3,15 @@ import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Box,
+  Button,
   Card,
   CardContent,
   CardHeader,
-  Chip,
+  Container,
   Divider,
   Grid,
   Pagination,
   Stack,
-  ToggleButton,
-  ToggleButtonGroup,
   Typography,
 } from '@mui/material';
 import { toast } from 'sonner';
@@ -219,38 +218,43 @@ const KepcoinPage = () => {
   const isHistoryLoading = view === 'earns' ? isEarnsLoading : isSpendsLoading;
   const historyError = view === 'earns' ? earnsError : spendsError;
 
+  const historyTitle = view === 'earns' ? t('kepcoinPage.history.earns') : t('kepcoinPage.history.spends');
+
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
-      <Stack direction="column" spacing={3}>
-        <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems={{ xs: 'flex-start', md: 'center' }}>
+    <Container maxWidth="lg" sx={{ py: { xs: 3, md: 5 } }}>
+      <Stack spacing={3}>
+        <Stack spacing={1} alignItems={{ xs: 'flex-start', md: 'center' }} direction={{ xs: 'column', md: 'row' }}>
           <Typography variant="h4" fontWeight={700} color="text.primary">
-            {t('kepcoin')}
+            {t('kepcoinPage.balance.title')}
           </Typography>
-          <Chip
-            color="warning"
-            variant="filled"
-            label={<KepcoinValue value={balanceData?.value ?? 0} size={18} textVariant="body2" />}
-          />
+          <KepcoinValue value={balanceData?.value ?? 0} size={30} textVariant="h5" />
         </Stack>
 
-        <Grid container spacing={3} alignItems="stretch">
-          <Grid item xs={12} md={7} lg={8}>
+        <Grid container spacing={3} justifyContent="center">
+          <Grid item xs={12} md={6} lg={5}>
             <Stack spacing={3}>
+              <StreakFreezeCard
+                streak={streakData?.streak}
+                streakFreeze={streakData?.streakFreeze}
+                description={t('kepcoinPage.streakFreeze.description')}
+                onPurchase={handlePurchaseFreeze}
+                isPurchasing={purchaseMutation.isMutating}
+              />
+
               <Card>
                 <CardHeader
-                  title={t('kepcoinPage.history.title')}
-                  subheader={t('kepcoinPage.history.subtitle')}
+                  title={historyTitle}
                   action={
-                    <ToggleButtonGroup
+                    <Button
+                      variant="outlined"
                       color="warning"
                       size="small"
-                      exclusive
-                      value={view}
-                      onChange={handleViewChange}
+                      onClick={() => handleViewChange(null, view === 'earns' ? 'spends' : 'earns')}
                     >
-                      <ToggleButton value="earns">{t('kepcoinPage.history.earns')}</ToggleButton>
-                      <ToggleButton value="spends">{t('kepcoinPage.history.spends')}</ToggleButton>
-                    </ToggleButtonGroup>
+                      {view === 'earns'
+                        ? t('kepcoinPage.history.spends')
+                        : t('kepcoinPage.history.earns')}
+                    </Button>
                   }
                 />
                 <Divider />
@@ -281,16 +285,8 @@ const KepcoinPage = () => {
             </Stack>
           </Grid>
 
-          <Grid item xs={12} md={5} lg={4}>
+          <Grid item xs={12} md={6} lg={5}>
             <Stack spacing={3}>
-              <StreakFreezeCard
-                streak={streakData?.streak}
-                streakFreeze={streakData?.streakFreeze}
-                description={t('kepcoinPage.streakFreeze.description')}
-                onPurchase={handlePurchaseFreeze}
-                isPurchasing={purchaseMutation.isMutating}
-              />
-
               <TipsCard
                 title={t('kepcoinPage.howToEarn.title')}
                 description={t('kepcoinPage.howToEarn.description')}
@@ -322,7 +318,7 @@ const KepcoinPage = () => {
           </Grid>
         </Grid>
       </Stack>
-    </Box>
+    </Container>
   );
 };
 

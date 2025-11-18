@@ -1,5 +1,6 @@
-import { Button, Card, CardContent, CardHeader, Chip, Stack, Typography } from '@mui/material';
+import { Button, Card, CardContent, CardHeader, Chip, Divider, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import KepIcon from 'shared/components/base/KepIcon';
 import KepcoinValue from './KepcoinValue';
 
 interface StreakFreezeCardProps {
@@ -18,7 +19,10 @@ const StreakFreezeCard = ({ streak, streakFreeze, description, onPurchase, isPur
       <CardHeader
         title={
           <Stack direction="row" alignItems="center" spacing={1.5}>
-            <KepcoinValue value={t('kepcoinPage.streakFreeze.title')} size={18} textVariant="subtitle1" />
+            <KepIcon name="streak" fontSize={22} />
+            <Typography variant="subtitle1" fontWeight={700} color="text.primary">
+              {t('kepcoinPage.streakFreeze.title')}
+            </Typography>
             {typeof streak === 'number' && (
               <Chip
                 size="small"
@@ -31,14 +35,17 @@ const StreakFreezeCard = ({ streak, streakFreeze, description, onPurchase, isPur
         }
         subheader={
           <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-            <Typography variant="body2" color="text.secondary">
-              {t('kepcoinPage.streakFreeze.owned', { value: streakFreeze ?? 0 })}
-            </Typography>
+            <Chip
+              size="small"
+              label={t('kepcoinPage.streakFreeze.owned', { value: streakFreeze ?? 0 })}
+              variant="outlined"
+            />
             <Chip size="small" color="warning" label={<KepcoinValue value={10} size={16} textVariant="caption" />} />
           </Stack>
         }
-        sx={{ pb: 0.5 }}
+        sx={{ pb: 1 }}
       />
+      <Divider />
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Typography variant="body2" color="text.secondary">
           {description}

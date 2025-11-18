@@ -2,6 +2,9 @@
   "home": "Главная",
   "kepcoin": "Кепкоин",
   "kepcoinPage": {
+    "balance": {
+      "title": "У вас есть"
+    },
     "history": {
       "title": "Активность Kepcoin",
       "subtitle": "Отслеживайте, как вы зарабатываете и тратите Kepcoin.",
