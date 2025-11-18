@@ -3,10 +3,12 @@ export const rootPaths = {
   authRoot: 'authentication',
   authDefaultRoot: 'default',
   kepcoinRoot: 'kepcoin',
+  shopRoot: 'shop',
 };
 
 const paths = {
   kepcoin: `/${rootPaths.kepcoinRoot}`,
+  shop: `/${rootPaths.shopRoot}`,
 
   authLogin: `/${rootPaths.authRoot}/login`,
   authSignup: `/${rootPaths.authRoot}/sign-up`,
@@ -34,6 +36,7 @@ export const apiEndpoints = {
   forgotPassword: '/auth/forgot-password',
   setPassword: '/auth/set-password',
   getProduct: (id: string) => `e-commerce/products/${id}`,
+  products: '/products',
 };
 
 export default paths;

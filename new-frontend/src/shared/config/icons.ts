@@ -41,6 +41,8 @@ export const kepIcons = {
   tags: 'mdi:tag-multiple-outline',
   difficulty: 'mdi:speedometer',
   login: 'mdi:login',
+  shop: 'mdi:shopping-outline',
+  kepcoin: 'mdi:cash-multiple',
 } as const;
 
 export type KepIconName = keyof typeof kepIcons;

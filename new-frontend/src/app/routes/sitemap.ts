@@ -55,6 +55,22 @@ const sitemap: MenuItem[] = [
       },
     ],
   },
+  {
+    id: 'shop',
+    subheader: 'Shop',
+    key: 'shop',
+    icon: 'mdi:shopping-outline',
+    items: [
+      {
+        name: 'Shop',
+        key: 'shop',
+        path: paths.shop,
+        pathName: 'shop',
+        icon: 'mdi:shopping-outline',
+        active: true,
+      },
+    ],
+  },
 ];
 
 export default sitemap;
