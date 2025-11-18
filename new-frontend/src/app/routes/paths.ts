@@ -1,5 +1,6 @@
 export const rootPaths = {
   root: '/',
+  kepcoinRoot: 'kepcoin',
   dashboardRoot: 'dashboard',
   pagesRoot: 'pages',
   miscRoot: 'misc',
@@ -18,6 +19,7 @@ export const rootPaths = {
 
 const paths = {
   home: rootPaths.root,
+  kepcoin: `/${rootPaths.kepcoinRoot}`,
 
   authLogin: `/${rootPaths.authRoot}/login`,
   authSignup: `/${rootPaths.authRoot}/sign-up`,

@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import { Stack, SxProps } from '@mui/material';
+import KepcoinMenu from './KepcoinMenu';
 import LanguageMenu from './LanguageMenu';
 import NotificationMenu from './NotificationMenu';
 import ProfileMenu from './ProfileMenu';
@@ -23,6 +24,7 @@ const AppbarActionItems = ({ type = 'default', sx, searchComponent }: AppbarActi
       }}
     >
       {searchComponent}
+      <KepcoinMenu type={type} />
       <LanguageMenu type={type} />
       <ThemeToggler type={type} />
       <NotificationMenu type={type} />
