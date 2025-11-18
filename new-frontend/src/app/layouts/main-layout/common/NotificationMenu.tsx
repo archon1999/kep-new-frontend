@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Chip,
-  CircularProgress,
   Divider,
   IconButton,
   List,
@@ -13,6 +12,7 @@ import {
   ListItemText,
   Pagination,
   Popover,
+  Skeleton,
   Stack,
   Typography,
   badgeClasses,
@@ -242,9 +242,23 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
   const renderList = () => {
     if (isLoading) {
       return (
-        <Stack alignItems="center" justifyContent="center" sx={{ py: 6 }}>
-          <CircularProgress size={24} />
-        </Stack>
+        <List disablePadding sx={{ px: 2 }}>
+          {[...Array(5)].map((_, index) => (
+            <Box key={`notification-skeleton-${index}`} component="li">
+              <ListItem alignItems="flex-start" sx={{ py: 1.25, px: 0 }}>
+                <ListItemAvatar>
+                  <Skeleton variant="rounded" width={44} height={44} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={<Skeleton variant="text" width="80%" />}
+                  secondary={<Skeleton variant="text" width="60%" />}
+                  sx={{ mr: showAll ? 0 : 5 }}
+                />
+              </ListItem>
+              <Divider component="div" />
+            </Box>
+          ))}
+        </List>
       );
     }
 
