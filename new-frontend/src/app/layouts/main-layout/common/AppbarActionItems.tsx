@@ -4,6 +4,7 @@ import LanguageMenu from './LanguageMenu';
 import NotificationMenu from './NotificationMenu';
 import ProfileMenu from './ProfileMenu';
 import ThemeToggler from './ThemeToggler';
+import KepcoinMenu from './KepcoinMenu';
 
 interface AppbarActionItemsProps {
   type?: 'default' | 'slim';
@@ -23,6 +24,7 @@ const AppbarActionItems = ({ type = 'default', sx, searchComponent }: AppbarActi
       }}
     >
       {searchComponent}
+      <KepcoinMenu type={type} />
       <LanguageMenu type={type} />
       <ThemeToggler type={type} />
       <NotificationMenu type={type} />

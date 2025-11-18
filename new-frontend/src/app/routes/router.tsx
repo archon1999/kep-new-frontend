@@ -13,6 +13,7 @@ import paths, { authPaths, rootPaths } from './paths';
 // import Splash from 'shared/components/loading/Splash';
 
 const Home = lazy(() => import('pages/home/Home'));
+const KepcoinPage = lazy(() => import('pages/kepcoin/KepcoinPage'));
 
 const LoggedOut = lazy(() => import('pages/authentication/default/LoggedOut'));
 
@@ -57,6 +58,10 @@ export const routes: RouteObject[] = [
           {
             index: true,
             element: <Home />,
+          },
+          {
+            path: paths.kepcoin,
+            element: <KepcoinPage />,
           },
         ],
       },
