@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { MenuItem } from 'app/routes/sitemap';
+import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { cssVarRgba } from 'shared/lib/utils';
 import { useNavContext } from '../NavProvider';
@@ -26,6 +27,7 @@ const SlimNavItem = ({ item, level }: SlimNavItemProps) => {
   const [openPopperMenu, setOpenPopperMenu] = useState(false);
   const { pathname } = useLocation();
   const { setOpenItems, openItems, isNestedItemOpen } = useNavContext();
+  const { t } = useTranslation();
 
   const {
     config: { navColor },
@@ -151,7 +153,7 @@ const SlimNavItem = ({ item, level }: SlimNavItemProps) => {
             },
           }}
         >
-          {item.name}
+          {t(item.key || item.name)}
         </ListItemText>
 
         {hasNestedItems && (
@@ -179,7 +181,7 @@ const SlimNavItem = ({ item, level }: SlimNavItemProps) => {
       ]}
     >
       {level === 0 ? (
-        <Tooltip title={item.name} open={item.items ? false : undefined} placement="right" arrow>
+        <Tooltip title={t(item.key || item.name)} open={item.items ? false : undefined} placement="right" arrow>
           {listItemIconButton}
         </Tooltip>
       ) : (

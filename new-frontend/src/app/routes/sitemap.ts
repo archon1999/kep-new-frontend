@@ -15,7 +15,7 @@ export interface MenuItem {
 
 const sitemap: MenuItem[] = [
   {
-    name: 'Home',
+    name: 'home',
     key: 'home',
     path: rootPaths.root,
     pathName: 'home',
@@ -23,7 +23,7 @@ const sitemap: MenuItem[] = [
     active: true,
   },
   {
-    name: 'Shop',
+    name: 'shop.title',
     key: 'shop.title',
     path: paths.shop,
     pathName: 'shop',
@@ -31,11 +31,19 @@ const sitemap: MenuItem[] = [
     active: true,
   },
   {
-    name: 'Kepcoin',
+    name: 'kepcoin',
     key: 'kepcoin',
     path: paths.kepcoin,
     pathName: 'kepcoin',
     icon: 'mdi:currency-usd-circle',
+    active: true,
+  },
+  {
+    name: 'calendar.title',
+    key: 'calendar',
+    path: paths.calendar,
+    pathName: 'calendar',
+    icon: 'material-symbols:calendar-month-rounded',
     active: true,
   },
 ];

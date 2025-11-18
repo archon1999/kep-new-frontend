@@ -11,5 +11,22 @@
     "colorLabel": "Rang",
     "sizeLabel": "Oʻlcham",
     "kepcoinValue": "{{value}} Kepcoin"
+  },
+  "calendar": {
+    "title": "Kalendar",
+    "subtitle": "Kelayotgan tadbirlar va jadvalingizni bir joyda kuzating.",
+    "today": "Bugun",
+    "defaultTitle": "Nomsiz tadbir",
+    "emptyTitle": "Tadbirlar rejalashtirilmagan",
+    "emptySubtitle": "Kalendar maʼlumotlari shu yerda paydo bo‘ladi.",
+    "errorTitle": "Kalendarni yuklab bo‘lmadi",
+    "errorSubtitle": "Serverdan tadbirlar olinmadi. Iltimos, yana urinib ko‘ring.",
+    "retry": "Qayta urinish",
+    "types": {
+      "type1": "Tur 1",
+      "type2": "Tur 2",
+      "type3": "Tur 3",
+      "type4": "Tur 4"
+    }
   }
 }

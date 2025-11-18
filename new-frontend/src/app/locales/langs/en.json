@@ -11,5 +11,22 @@
     "colorLabel": "Color",
     "sizeLabel": "Size",
     "kepcoinValue": "{{value}} Kepcoin"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Track upcoming events and schedules in one place.",
+    "today": "Today",
+    "defaultTitle": "Untitled event",
+    "emptyTitle": "No events scheduled",
+    "emptySubtitle": "New events from the calendar feed will appear here.",
+    "errorTitle": "Unable to load calendar",
+    "errorSubtitle": "We couldn’t fetch events from the server. Please try again.",
+    "retry": "Retry",
+    "types": {
+      "type1": "Type 1",
+      "type2": "Type 2",
+      "type3": "Type 3",
+      "type4": "Type 4"
+    }
   }
 }

@@ -10,6 +10,7 @@ import {
   popoverClasses,
 } from '@mui/material';
 import { MenuItem } from 'app/routes/sitemap';
+import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useNavContext } from '../NavProvider';
 
@@ -26,6 +27,7 @@ const NavitemPopover = ({ anchorEl, open, handleClose, items, level }: NavItemPo
   const [selectedItems, setSelectedItems] = useState<MenuItem[]>([]);
   const { isNestedItemOpen } = useNavContext();
   const { pathname } = useLocation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     return () => {
@@ -107,7 +109,7 @@ const NavitemPopover = ({ anchorEl, open, handleClose, items, level }: NavItemPo
                 }
               >
                 <ListItemText
-                  primary={item.name}
+                  primary={t(item.key || item.name)}
                   sx={[
                     !item.active && {
                       color: 'text.disabled',

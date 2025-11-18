@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router';
 import { Button, Stack } from '@mui/material';
 import sitemap, { MenuItem } from 'app/routes/sitemap';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import NavitemPopover from './NavItemPopover';
 
@@ -14,6 +15,7 @@ const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedMenu, setSelectedMenu] = useState<null | MenuItem>(null);
   const { pathname } = useLocation();
+  const { t } = useTranslation();
 
   const isMenuActive = useMemo(() => {
     const checkLink = (item: MenuItem): boolean => {
@@ -58,7 +60,7 @@ const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
           }}
           sx={{ px: 2, fontSize: 14 }}
         >
-          {menu.name}
+          {t(menu.name)}
         </Button>
       ))}
       {selectedMenu && (

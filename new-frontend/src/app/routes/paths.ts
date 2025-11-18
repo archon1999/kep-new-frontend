@@ -2,11 +2,13 @@ export const rootPaths = {
   root: '/',
   authRoot: 'authentication',
   authDefaultRoot: 'default',
+  calendarRoot: 'calendar',
   kepcoinRoot: 'kepcoin',
   shopRoot: 'shop',
 };
 
 const paths = {
+  calendar: `/${rootPaths.calendarRoot}`,
   kepcoin: `/${rootPaths.kepcoinRoot}`,
   shop: `/${rootPaths.shopRoot}`,
 
