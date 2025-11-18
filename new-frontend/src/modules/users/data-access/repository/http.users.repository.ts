@@ -6,6 +6,7 @@ import { UsersListRequest, UsersListResponse } from '../../domain/entities/user.
 export class HttpUsersRepository implements UsersRepository {
   async getUsers(params: UsersListRequest): Promise<UsersListResponse> {
     const response = await usersApiClient.list({
+      full: true,
       page: params.page,
       pageSize: params.pageSize,
       ordering: params.ordering,
