@@ -77,8 +77,12 @@ const ShopProductCard = ({ product }: ShopProductCardProps) => {
         flexDirection: 'column',
         borderRadius: 3,
         overflow: 'hidden',
+        bgcolor: 'background.neutral',
+        border: 'none',
+        outline: 'none',
       }}
       elevation={0}
+      variant="elevation"
     >
       <Box sx={{ position: 'relative', bgcolor: 'background.neutral', aspectRatio: '4 / 3' }}>
         {hasImages ? (
@@ -278,8 +282,12 @@ export const ShopProductCardSkeleton = () => (
       flexDirection: 'column',
       borderRadius: 3,
       overflow: 'hidden',
+      bgcolor: 'background.neutral',
+      border: 'none',
+      outline: 'none',
     }}
     elevation={0}
+    variant="elevation"
   >
     <Skeleton variant="rectangular" height={240} animation="wave" />
     <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexGrow: 1 }}>
