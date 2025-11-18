@@ -1,3 +1,74 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "kepcoin": {
+    "title": "Kepcoin",
+    "youHave": "You have",
+    "earns": "Earned",
+    "spends": "Spent",
+    "howToEarn": "How to Earn Kepcoin",
+    "howToSpend": "How to Spend Kepcoin",
+    "earnDescription": "To earn this currency, you need to contribute to the development of the system. For example, kepcoin:",
+    "earnList": {
+      "item1": { "value": "1", "text": "For daily activity" },
+      "item2": { "value": "1-10", "text": "For completing daily tasks" },
+      "item3": { "value": "3, 10, 50", "text": "For being the winner in daily, weekly, and monthly challenge ratings" },
+      "item4": { "value": "5+", "text": "For participating in competitions" },
+      "item5": { "value": "10-100", "text": "For writing a blog" },
+      "item6": { "value": "1-50", "text": "For helping in editing problems (writing solutions, translation, adding tags, finding similar problems)" }
+    },
+    "spendList": {
+      "item1": { "value": "0-14", "text": "View another user's attempt" },
+      "item2": { "value": "1", "text": "View a test with a failed solution" },
+      "item3": { "value": "2-50", "text": "Purchase a problem solution" },
+      "item4": { "value": "5", "text": "Change profile cover photo" },
+      "item5": { "value": "1", "text": "Pass the test" },
+      "item6": { "value": "1-1000", "text": "Purchase a course" },
+      "item7": { "value": "10", "text": "Test function when editing code (completely)" },
+      "item8": { "value": "25", "text": "Double rating change in contest (even if negative, it doubles)" },
+      "item9": { "value": "25", "text": "Maintain rating in contest (not given if negative)" }
+    },
+    "streakFreeze": "Streak freeze",
+    "streakFreezeText": "Freezing automatically saves your streak if you miss a day and don't complete daily tasks.",
+    "buyFreeze": "Buy freeze",
+    "purchasing": "Purchasing...",
+    "currentStreak": "Current streak",
+    "empty": "No kepcoin history to show yet.",
+    "earnTypes": {
+      "wroteBlog": "Wrote a blog",
+      "wroteProblemSolution": "Wrote problem solution",
+      "loyaltyBonus": "Loyalty bonus",
+      "bonusFromAdmin": "Bonus from admin",
+      "dailyActivity": "Daily activity",
+      "dailyTaskCompleted": "Daily Task Completed",
+      "dailyRatingWinner": "Daily Challenge Rating Winner",
+      "weeklyRatingWinner": "Weekly Challenge Rating Winner",
+      "monthlyRatingWinner": "Monthly Challenge Rating Winner",
+      "contestParticipant": "Contest Participant",
+      "arenaParticipant": "Arena Participant",
+      "tournamentParticipant": "Tournament participant",
+      "projectTaskComplete": "Project task completed",
+      "unknown": "Kepcoin earn"
+    },
+    "spendTypes": {
+      "viewAttempt": "View Attempt",
+      "viewTestAttempt": "View Test Attempt",
+      "viewProblemSolution": "View Problem Solution",
+      "doubleRating": "2x Rating",
+      "changeImage": "Change Cover Photo",
+      "course": "Course",
+      "studyPlan": "Study plan",
+      "codeEditorTesting": "Code editor testing",
+      "saveRating": "Save Rating",
+      "passTest": "Pass the test",
+      "createContest": "Create Contest",
+      "project": "Project",
+      "streakFreeze": "Streak freeze",
+      "virtualContest": "Virtual contest",
+      "unratedContest": "Unrated contest",
+      "answerForInput": "Answer for input",
+      "checkSamples": "Check samples",
+      "merch": "Merch",
+      "unknown": "Kepcoin spend"
+    }
+  }
 }

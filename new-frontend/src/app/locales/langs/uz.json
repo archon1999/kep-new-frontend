@@ -1,3 +1,74 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "kepcoin": {
+    "title": "Kepcoin",
+    "youHave": "Sizda bor",
+    "earns": "Topildi",
+    "spends": "Sarflandi",
+    "howToEarn": "Kepcoin qanday topsa bo‘ladi?",
+    "howToSpend": "Kepcoin qanday sarflasa bo‘ladi?",
+    "earnDescription": "Ushbu valyutaga ega bo‘lish uchun tizim rivojlanishiga o‘z xissangizni qo‘shingingiz lozim. Jumladan kepcoin:",
+    "earnList": {
+      "item1": { "value": "1", "text": "Kunlik faollik uchun" },
+      "item2": { "value": "1-10", "text": "Kunlik topshiriqlarni bajarganligi uchun" },
+      "item3": { "value": "3, 10, 50", "text": "Mos ravishda kunlik, haftalik va oylik masalalar reytingi g‘olibi uchun" },
+      "item4": { "value": "5+", "text": "Musobaqada qatnashganligi uchun" },
+      "item5": { "value": "10-100", "text": "Blog yozish" },
+      "item6": { "value": "1-50", "text": "Masalalarni tahrirlashda yordamlashish (yechim yozish, tarjima, teglar qo‘shish, o‘xshash masalalar topish)" }
+    },
+    "spendList": {
+      "item1": { "value": "0-14", "text": "Boshqa foydalanuvchi urinishini ko‘rish" },
+      "item2": { "value": "1", "text": "Yechim yiqilgan testni ko‘rish" },
+      "item3": { "value": "2-50", "text": "Masala yechimini xarid qilish" },
+      "item4": { "value": "5", "text": "Profil orqa rasmini o‘zgartirish" },
+      "item5": { "value": "1", "text": "Testdan o‘tish" },
+      "item6": { "value": "1-1000", "text": "Kurs sotib olish" },
+      "item7": { "value": "10", "text": "Kodni tahrirlashda testlash funksiyasi (butunlayga)" },
+      "item8": { "value": "25", "text": "Kontestda ikki barobar reyting o‘zgarishi (manfiy bo‘lsa ham ikki barobar bo‘lib o‘zgaradi)" },
+      "item9": { "value": "25", "text": "Kontestda reytingni saqlab qolish (agar manfiy bo‘lsa berilmaydi)" }
+    },
+    "streakFreeze": "Muzlatish",
+    "streakFreezeText": "Agar kunni oʻtkazib yuborsangiz va kundalik vazifalarni bajarmasangiz, muzlatish avtomatik ravishda natijani saqlaydi.",
+    "buyFreeze": "Muzlatish sotib olish",
+    "purchasing": "Sotib olinmoqda...",
+    "currentStreak": "Joriy streak",
+    "empty": "Hozircha Kepcoin tarixi yo‘q.",
+    "earnTypes": {
+      "wroteBlog": "Blog yozildi",
+      "wroteProblemSolution": "Masala yechimi yozildi",
+      "loyaltyBonus": "Sodiqlik bonusi",
+      "bonusFromAdmin": "Admindan bonus",
+      "dailyActivity": "Kunlik faollik",
+      "dailyTaskCompleted": "Kunlik topshiriq bajarildi",
+      "dailyRatingWinner": "Kunlik masalalar reytingi g‘olibi",
+      "weeklyRatingWinner": "Haftalik masalalar reytingi g‘olibi",
+      "monthlyRatingWinner": "Oylik masalalar reytingi g‘olibi",
+      "contestParticipant": "Kontest ishtirokchisi",
+      "arenaParticipant": "Arena ishtirokchisi",
+      "tournamentParticipant": "Turnir ishtirokchisi",
+      "projectTaskComplete": "Loyiha vazifasi bajarildi",
+      "unknown": "Kepcoin topildi"
+    },
+    "spendTypes": {
+      "viewAttempt": "Urinishni ko‘rish",
+      "viewTestAttempt": "Urinish testini ko‘rish",
+      "viewProblemSolution": "Masala yechimini ko‘rish",
+      "doubleRating": "Ikki barobar reyting",
+      "changeImage": "Rasmni o‘zgartirish",
+      "course": "Kurs",
+      "studyPlan": "O‘quv rejasi",
+      "codeEditorTesting": "Kod muharriri testi",
+      "saveRating": "Reytingni saqlab qolish",
+      "passTest": "Testdan o‘tish",
+      "createContest": "Kontest yaratish",
+      "project": "Loyiha",
+      "streakFreeze": "Muzlatish",
+      "virtualContest": "Virtual kontest",
+      "unratedContest": "Reytingsiz kontest",
+      "answerForInput": "Kiritish uchun javob",
+      "checkSamples": "Namunalarni tekshirish",
+      "merch": "Merch",
+      "unknown": "Kepcoin sarflandi"
+    }
+  }
 }
