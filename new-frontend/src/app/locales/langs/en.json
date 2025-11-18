@@ -1,3 +1,27 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "homeNews": "News",
+  "homeMorningGreeting": "Good morning, {{name}}!",
+  "homeContest": "Contest",
+  "homeNoContest": "No contest available",
+  "homeStarts": "Starts",
+  "homeEnds": "Ends",
+  "homeNoTiming": "Schedule to be announced",
+  "homeParticipate": "Participate",
+  "homeStandings": "Standings",
+  "homeArena": "Arena",
+  "homeNoArena": "No arena event available",
+  "homeRegistration": "Registration",
+  "homeRegistrated": "Registrated",
+  "homeNoRatings": "Rating data is not available yet",
+  "homeNoNews": "No news to display yet",
+  "Home": {
+    "RankInformation": {
+      "SkillsRating": "This rating shows your skill strength in the platform. The rating depends on the number of solved problems, on the rating of contests and challenges.",
+      "ActivityRating": "This rating shows your activity over the last 30 days. It depends on the number of kepcoins earned, daily logins and completed daily tasks.",
+      "Contests": "This rating shows your strength in competitions.",
+      "Challenges": "This rating shows your strength in challenges."
+    },
+    "PercentileInformation": "You are better than {{ percentile }}% of users"
+  }
 }
