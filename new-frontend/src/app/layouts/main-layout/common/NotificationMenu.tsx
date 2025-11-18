@@ -243,7 +243,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
     if (isLoading) {
       return (
         <List disablePadding sx={{ px: 2 }}>
-          {[...Array(3)].map((_, index) => (
+          {[...Array(5)].map((_, index) => (
             <Box key={`notification-skeleton-${index}`} component="li">
               <ListItem alignItems="flex-start" sx={{ py: 1.25, px: 0 }}>
                 <ListItemAvatar>
