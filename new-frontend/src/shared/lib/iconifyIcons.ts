@@ -1,4 +1,7 @@
+import { kepIcons } from 'shared/config/icons';
+
 export const icons = [
+  ...Object.values(kepIcons),
   'material-symbols:code-off-rounded',
   'material-symbols:code-rounded',
   'material-symbols:library-add-check-outline-rounded',

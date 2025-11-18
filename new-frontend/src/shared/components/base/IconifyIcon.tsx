@@ -1,7 +1,7 @@
 import { Icon, IconProps } from '@iconify/react';
 import { Box, BoxProps } from '@mui/material';
 
-interface IconifyProps extends IconProps {
+export interface IconifyProps extends IconProps {
   sx?: BoxProps['sx'];
   flipOnRTL?: boolean;
 }
