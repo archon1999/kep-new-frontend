@@ -55,6 +55,22 @@ const sitemap: MenuItem[] = [
       },
     ],
   },
+  {
+    id: 'calendar',
+    subheader: 'Calendar',
+    key: 'calendar',
+    icon: 'material-symbols:calendar-month',
+    items: [
+      {
+        name: 'Calendar',
+        key: 'calendar',
+        path: paths.calendar,
+        pathName: 'calendar',
+        icon: 'material-symbols:calendar-month',
+        active: true,
+      },
+    ],
+  },
 ];
 
 export default sitemap;

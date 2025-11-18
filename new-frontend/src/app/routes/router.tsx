@@ -10,6 +10,7 @@ import paths, { authPaths, rootPaths } from './paths';
 
 const Home = lazy(() => import('pages/home/Home'));
 const KepcoinPage = lazy(() => import('pages/kepcoin/KepcoinPage'));
+const CalendarPage = lazy(() => import('pages/calendar/CalendarPage'));
 
 const LoggedOut = lazy(() => import('pages/authentication/default/LoggedOut'));
 
@@ -44,6 +45,10 @@ export const routes: RouteObject[] = [
           {
             index: true,
             element: <Home />,
+          },
+          {
+            path: paths.calendar,
+            element: <CalendarPage />,
           },
           {
             path: paths.kepcoin,

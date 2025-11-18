@@ -1,3 +1,22 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "kepcoin": "Kepcoin",
+  "calendar": "Kalendar",
+  "calendarPage": {
+    "title": "Kalendar",
+    "subtitle": "Yaqinlashayotgan kontestlar, arenalar, turnirlar va bayramlar.",
+    "filters": {
+      "contests": "Kontestlar",
+      "arenas": "Arenalar",
+      "tournaments": "Turnirlar",
+      "holidays": "Bayramlar"
+    },
+    "untitled": "Nomsiz tadbir",
+    "today": "Bugun",
+    "month": "Oy",
+    "week": "Hafta",
+    "day": "Kun",
+    "list": "Ro'yxat",
+    "noEvents": "Rejalashtirilgan tadbirlar yo'q"
+  }
 }

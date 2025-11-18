@@ -1,3 +1,22 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "kepcoin": "Kepcoin",
+  "calendar": "Calendar",
+  "calendarPage": {
+    "title": "Calendar",
+    "subtitle": "Upcoming contests, arenas, tournaments, and holidays.",
+    "filters": {
+      "contests": "Contests",
+      "arenas": "Arenas",
+      "tournaments": "Tournaments",
+      "holidays": "Holidays"
+    },
+    "untitled": "Untitled event",
+    "today": "Today",
+    "month": "Month",
+    "week": "Week",
+    "day": "Day",
+    "list": "List",
+    "noEvents": "No events scheduled"
+  }
 }
