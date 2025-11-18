@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import SimpleBar from 'shared/components/base/SimpleBar';
 import { useAuth } from 'app/providers/AuthProvider';
 import kepcoinImage from 'shared/assets/images/icons/kepcoin.png';
 import fire1 from 'shared/assets/images/icons/fire-1.webp';
@@ -249,16 +248,22 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
 
         <Divider />
 
-        <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="body2" color="text.secondary">
+        <Stack sx={{ px: 2, py: 1.5 }}>
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <Typography variant="body2" color="text.secondary" minWidth={72}>
               Completed
             </Typography>
-            <Typography variant="body2" fontWeight={700} color="text.primary">
+            <Box flex={1}>
+              <LinearProgress
+                variant="determinate"
+                value={progress}
+                sx={{ height: 10, borderRadius: 999 }}
+              />
+            </Box>
+            <Typography variant="body2" fontWeight={700} color="text.primary" minWidth={48} textAlign="right">
               {dailyTasks.length ? `${completedTasks}/${dailyTasks.length}` : '--'}
             </Typography>
           </Stack>
-          <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 999 }} />
         </Stack>
       </Popover>
     </>
