@@ -1,3 +1,49 @@
 {
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "users": {
+    "list": {
+      "title": "Foydalanuvchilar",
+      "subtitle": "Hamjamiyat a'zolarini ko'rib chiqing va ularning faolligini kuzating.",
+      "tabs": {
+        "all": "Barcha foydalanuvchilar"
+      },
+      "status": {
+        "online": "Onlayn",
+        "offline": "Oflayn",
+        "busy": "Band"
+      },
+      "actions": {
+        "filter": "Filter",
+        "searchPlaceholder": "Foydalanuvchilarni qidirish"
+      },
+      "filters": {
+        "username": "Foydalanuvchi nomi",
+        "usernamePlaceholder": "Login bo'yicha qidirish",
+        "name": "Ism",
+        "namePlaceholder": "To'liq ism bo'yicha qidirish",
+        "country": "Mamlakat",
+        "any": "Istalgan",
+        "ageFrom": "Yosh dan",
+        "ageTo": "Yosh gacha"
+      },
+      "columns": {
+        "user": "Foydalanuvchi",
+        "status": "Holati",
+        "age": "Yosh",
+        "skills": "Ko'nikmalar",
+        "activity": "Faollik",
+        "contests": "Musobaqalar",
+        "challenges": "Chaqiriqlar",
+        "streak": "Ketma-ketlik",
+        "kepcoin": "Kepcoin",
+        "lastSeen": "Oxirgi ko'rilgan",
+        "name": "To'liq ism",
+        "country": "Mamlakat"
+      },
+      "streak": {
+        "current": "Joriy: {{value}} kun",
+        "best": "Eng yaxshi: {{value}} kun"
+      }
+    }
+  }
 }

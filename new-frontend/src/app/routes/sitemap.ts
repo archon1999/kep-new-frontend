@@ -55,6 +55,22 @@ const sitemap: MenuItem[] = [
       },
     ],
   },
+  {
+    id: 'users',
+    subheader: 'Users',
+    key: 'users',
+    icon: 'mdi:account-group-outline',
+    items: [
+      {
+        name: 'Users list',
+        key: 'users-list',
+        path: paths.users,
+        pathName: 'users',
+        icon: 'mdi:account-group-outline',
+        active: true,
+      },
+    ],
+  },
 ];
 
 export default sitemap;

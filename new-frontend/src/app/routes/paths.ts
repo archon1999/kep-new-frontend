@@ -7,6 +7,7 @@ export const rootPaths = {
 
 const paths = {
   kepcoin: `/${rootPaths.kepcoinRoot}`,
+  users: '/users',
 
   authLogin: `/${rootPaths.authRoot}/login`,
   authSignup: `/${rootPaths.authRoot}/sign-up`,

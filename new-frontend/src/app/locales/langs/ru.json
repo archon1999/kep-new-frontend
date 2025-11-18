@@ -1,3 +1,49 @@
 {
-  "home": "Главная"
+  "home": "Главная",
+  "users": {
+    "list": {
+      "title": "Пользователи",
+      "subtitle": "Просматривайте участников сообщества и следите за их активностью.",
+      "tabs": {
+        "all": "Все пользователи"
+      },
+      "status": {
+        "online": "Онлайн",
+        "offline": "Оффлайн",
+        "busy": "Занят"
+      },
+      "actions": {
+        "filter": "Фильтр",
+        "searchPlaceholder": "Поиск пользователей"
+      },
+      "filters": {
+        "username": "Логин",
+        "usernamePlaceholder": "Искать по логину",
+        "name": "Имя",
+        "namePlaceholder": "Поиск по имени",
+        "country": "Страна",
+        "any": "Любая",
+        "ageFrom": "Возраст от",
+        "ageTo": "Возраст до"
+      },
+      "columns": {
+        "user": "Пользователь",
+        "status": "Статус",
+        "age": "Возраст",
+        "skills": "Навыки",
+        "activity": "Активность",
+        "contests": "Конкурсы",
+        "challenges": "Челленджи",
+        "streak": "Серия",
+        "kepcoin": "Kepcoin",
+        "lastSeen": "Был(а) в сети",
+        "name": "Полное имя",
+        "country": "Страна"
+      },
+      "streak": {
+        "current": "Текущий: {{value}} дней",
+        "best": "Лучший: {{value}} дней"
+      }
+    }
+  }
 }

@@ -1,3 +1,49 @@
 {
-  "home": "Home"
+  "home": "Home",
+  "users": {
+    "list": {
+      "title": "Users",
+      "subtitle": "Browse community members and monitor their activity ratings.",
+      "tabs": {
+        "all": "All users"
+      },
+      "status": {
+        "online": "Online",
+        "offline": "Offline",
+        "busy": "Busy"
+      },
+      "actions": {
+        "filter": "Filter",
+        "searchPlaceholder": "Search users"
+      },
+      "filters": {
+        "username": "Username",
+        "usernamePlaceholder": "Search by username",
+        "name": "Name",
+        "namePlaceholder": "Search by full name",
+        "country": "Country",
+        "any": "Any",
+        "ageFrom": "Age from",
+        "ageTo": "Age to"
+      },
+      "columns": {
+        "user": "User",
+        "status": "Status",
+        "age": "Age",
+        "skills": "Skills",
+        "activity": "Activity",
+        "contests": "Contests",
+        "challenges": "Challenges",
+        "streak": "Streak",
+        "kepcoin": "Kepcoin",
+        "lastSeen": "Last seen",
+        "name": "Full name",
+        "country": "Country"
+      },
+      "streak": {
+        "current": "Current: {{value}} days",
+        "best": "Best: {{value}} days"
+      }
+    }
+  }
 }
