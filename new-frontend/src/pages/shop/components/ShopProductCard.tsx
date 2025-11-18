@@ -198,7 +198,7 @@ const ShopProductCard = ({ product }: ShopProductCardProps) => {
       </Box>
 
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexGrow: 1 }}>
-        <Stack spacing={1}>
+        <Stack direction="column" spacing={1}>
           <Typography variant="subtitle1" fontWeight={700} sx={{ lineHeight: 1.3 }}>
             {product.title}
           </Typography>
@@ -262,7 +262,7 @@ const ShopProductCard = ({ product }: ShopProductCardProps) => {
             variant="outlined"
             icon={<IconifyIcon icon="mdi:coin-outline" />}
             label={t('shop.kepcoinValue', { value: product.kepcoin })}
-            sx={{ px: 1.25, fontWeight: 700 }}
+            sx={{ p: 1.25, fontWeight: 700 }}
           />
         </Box>
       </CardContent>
