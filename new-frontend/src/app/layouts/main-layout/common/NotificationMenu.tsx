@@ -250,8 +250,8 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
     if (!notifications.length) {
       return (
-        <Stack alignItems="center" justifyContent="center" spacing={1.5} sx={{ py: 6 }}>
-          <Avatar sx={{ bgcolor: 'background.level1', color: 'text.secondary', width: 56, height: 56 }}>
+        <Stack direction="column" alignItems="center" justifyContent="center" spacing={1.5} sx={{ py: 6, height: '100%' }}>
+          <Avatar sx={{ bgcolor: 'background.level1', color: 'text.neutral', width: 56, height: 56 }}>
             <IconifyIcon icon="material-symbols:notifications-off-outline" sx={{ fontSize: 28 }} />
           </Avatar>
           <Typography variant="body2" color="text.secondary">
@@ -407,8 +407,8 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
         <Box sx={{ pt: 1, flex: 1, overflow: 'hidden' }}>{renderList()}</Box>
 
         {pagesCount > 1 && (
-          <Stack alignItems="center" sx={{ py: 1 }}>
-            <Pagination count={pagesCount} page={pageNumber} onChange={handlePageChange} size="small" />
+          <Stack alignItems="center" justifyContent="center" sx={{ py: 1 }}>
+            <Pagination count={pagesCount} page={pageNumber} onChange={handlePageChange} size="medium" />
           </Stack>
         )}
 
