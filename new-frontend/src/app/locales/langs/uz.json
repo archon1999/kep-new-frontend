@@ -1,3 +1,32 @@
 {
-  "home": "Bosh sahifa"
+  "menu": {
+    "home": "Bosh sahifa",
+    "kepcoin": "Kepcoin",
+    "users": "Foydalanuvchilar"
+  },
+  "users": {
+    "title": "Foydalanuvchilar",
+    "subtitle": "Foydalanuvchilar reytingi va faolligini kuzating.",
+    "filters": {
+      "username": "Nik",
+      "name": "Nomi",
+      "country": "Mamlakat",
+      "age": "Yosh",
+      "loadingCountries": "Mamlakatlar yuklanmoqda..."
+    },
+    "columns": {
+      "user": "Foydalanuvchi",
+      "skills": "Ko‘nikmalar",
+      "activity": "Faollik",
+      "contests": "Kontestlar",
+      "challenges": "Bellashuvlar",
+      "streak": "Seriya",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Ohirgi kirish"
+    },
+    "streak": {
+      "current": "Joriy seriya",
+      "best": "Eng yaxshi seriya"
+    }
+  }
 }

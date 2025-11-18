@@ -1,3 +1,32 @@
 {
-  "home": "Главная"
+  "menu": {
+    "home": "Главная",
+    "kepcoin": "Kepcoin",
+    "users": "Пользователи"
+  },
+  "users": {
+    "title": "Пользователи",
+    "subtitle": "Изучайте участников сообщества и их активность.",
+    "filters": {
+      "username": "Ник",
+      "name": "Имя",
+      "country": "Страна",
+      "age": "Возраст",
+      "loadingCountries": "Загрузка стран..."
+    },
+    "columns": {
+      "user": "Пользователь",
+      "skills": "Навыки",
+      "activity": "Активность",
+      "contests": "Контесты",
+      "challenges": "Вызовы",
+      "streak": "Серия",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Последнее посещение"
+    },
+    "streak": {
+      "current": "Текущая серия",
+      "best": "Лучшая серия"
+    }
+  }
 }

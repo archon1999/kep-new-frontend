@@ -26,12 +26,12 @@ const sitemap: MenuItem[] = [
   {
     id: 'home',
     subheader: 'Home',
-    key: 'home',
+    key: 'menu.home',
     icon: 'material-symbols:home-rounded',
     items: [
       {
         name: 'Home',
-        key: 'home',
+        key: 'menu.home',
         path: rootPaths.root,
         pathName: 'home',
         icon: 'material-symbols:home-rounded',
@@ -42,15 +42,31 @@ const sitemap: MenuItem[] = [
   {
     id: 'kepcoin',
     subheader: 'Kepcoin',
-    key: 'kepcoin',
+    key: 'menu.kepcoin',
     icon: 'material-symbols:payments-rounded',
     items: [
       {
         name: 'Kepcoin',
-        key: 'kepcoin',
+        key: 'menu.kepcoin',
         path: paths.kepcoin,
         pathName: 'kepcoin',
         icon: 'material-symbols:payments-rounded',
+        active: true,
+      },
+    ],
+  },
+  {
+    id: 'users',
+    subheader: 'Users',
+    key: 'menu.users',
+    icon: 'mdi:account-multiple-outline',
+    items: [
+      {
+        name: 'Users',
+        key: 'menu.users',
+        path: paths.users,
+        pathName: 'users',
+        icon: 'mdi:account-multiple-outline',
         active: true,
       },
     ],

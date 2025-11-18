@@ -1,3 +1,32 @@
 {
-  "home": "Home"
+  "menu": {
+    "home": "Home",
+    "kepcoin": "Kepcoin",
+    "users": "Users"
+  },
+  "users": {
+    "title": "Users",
+    "subtitle": "Browse community members, ratings, and recent activity.",
+    "filters": {
+      "username": "Username",
+      "name": "Name",
+      "country": "Country",
+      "age": "Age",
+      "loadingCountries": "Loading countries..."
+    },
+    "columns": {
+      "user": "User",
+      "skills": "Skills",
+      "activity": "Activity",
+      "contests": "Contests",
+      "challenges": "Challenges",
+      "streak": "Streak",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Last seen"
+    },
+    "streak": {
+      "current": "Current streak",
+      "best": "Best streak"
+    }
+  }
 }
