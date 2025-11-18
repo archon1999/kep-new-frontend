@@ -33,8 +33,7 @@ export interface UsersListRequest {
   page?: number;
   pageSize?: number;
   ordering?: string;
-  username?: string;
-  firstName?: string;
+  search?: string;
   country?: string;
   ageFrom?: number;
   ageTo?: number;

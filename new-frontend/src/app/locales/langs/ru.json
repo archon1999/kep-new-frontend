@@ -33,15 +33,15 @@
       "invite": "Пригласить пользователя"
     },
     "tabs": {
-      "all": "Все пользователи",
-      "skills": "Рейтинг навыков",
+      "all": "Новые пользователи",
+      "skills": "Топ пользователей",
       "activity": "Рейтинг активности",
       "contests": "Рейтинг контестов",
-      "challenges": "Рейтинг челленджей"
+      "challenges": "Топ Kepcoin"
     },
     "filters": {
       "toggle": "Фильтры",
-      "searchPlaceholder": "Поиск по логину",
+      "searchPlaceholder": "Поиск",
       "username": "Логин",
       "usernamePlaceholder": "Фильтр по логину",
       "name": "Имя",
