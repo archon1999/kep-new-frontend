@@ -198,16 +198,25 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
         onClick={handleOpen}
         sx={{ px: 1.5 }}
       >
-        <Stack direction="row" spacing={0.75} alignItems="center">
-          <Box
-            component="img"
-            src={streakIcon}
-            alt="Daily streak"
-            sx={{ width: type === 'slim' ? 18 : 22, height: type === 'slim' ? 18 : 22 }}
-          />
-          <Typography variant="body2" fontWeight={700} color="text.primary">
-            {streakValue}
-          </Typography>
+        <Stack spacing={type === 'slim' ? 0.5 : 0.75} alignItems="stretch">
+          <Stack direction="row" spacing={0.75} alignItems="center">
+            <Box
+              component="img"
+              src={streakIcon}
+              alt="Daily streak"
+              sx={{ width: type === 'slim' ? 18 : 22, height: type === 'slim' ? 18 : 22 }}
+            />
+            <Typography variant="body2" fontWeight={700} color="text.primary">
+              {streakValue}
+            </Typography>
+          </Stack>
+
+          <Stack spacing={0.25} sx={{ minWidth: type === 'slim' ? 90 : 120 }}>
+            <Typography variant="caption" color="text.secondary">
+              Completed
+            </Typography>
+            <LinearProgress variant="determinate" value={progress} sx={{ height: 6, borderRadius: 999 }} />
+          </Stack>
         </Stack>
       </Button>
 
