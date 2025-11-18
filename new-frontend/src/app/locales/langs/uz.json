@@ -1,6 +1,24 @@
 {
   "home": "Bosh sahifa",
   "kepcoin": "Kepcoin",
+  "calendar": {
+    "title": "Kalendar",
+    "subtitle": "KEP.uz kalendaridagi yaqinlashayotgan tadbirlar va vaqtlarni ko'rib chiqing.",
+    "error": "Kalendar ma'lumotlarini yuklab bo'lmadi. Iltimos, keyinroq urinib ko'ring.",
+    "emptyTitle": "Hozircha tadbirlar yo'q",
+    "emptySubtitle": "Yangi taqvim yozuvlari shu yerda paydo bo'ladi.",
+    "timeLabel": "Jadval",
+    "timeTbd": "Keyinroq e'lon qilinadi",
+    "untitled": "Nomsiz tadbir",
+    "uid": "UID: {{uid}}",
+    "typeFallback": "Tur {{type}}",
+    "eventTypes": {
+      "1": "Tur 1",
+      "2": "Tur 2",
+      "3": "Tur 3",
+      "4": "Tur 4"
+    }
+  },
   "shop": {
     "title": "Doʻkon",
     "subtitle": "Kepcoinlarni KEP.uz sovgʻalari va aksessuarlariga sarflang.",
