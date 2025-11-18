@@ -5,6 +5,7 @@ import NotificationMenu from './NotificationMenu';
 import ProfileMenu from './ProfileMenu';
 import ThemeToggler from './ThemeToggler';
 import KepcoinMenu from './KepcoinMenu';
+import DailyTasksMenu from './DailyTasksMenu';
 
 interface AppbarActionItemsProps {
   type?: 'default' | 'slim';
@@ -28,6 +29,7 @@ const AppbarActionItems = ({ type = 'default', sx, searchComponent }: AppbarActi
       <ThemeToggler type={type} />
       <NotificationMenu type={type} />
       <KepcoinMenu type={type} />
+      <DailyTasksMenu type={type} />
       <ProfileMenu type={type} />
     </Stack>
   );
