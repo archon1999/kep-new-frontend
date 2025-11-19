@@ -1,26 +1,23 @@
 import { ChangeEvent } from 'react';
 import { TablePagination, useEventCallback } from '@mui/material';
 import { GridSlotProps } from '@mui/x-data-grid';
-import DataGridPaginationAction, {
-  DataGridPaginationActionProps,
-} from './DataGridPaginationAction';
+import DataGridPaginationAction from './DataGridPaginationAction';
 import TableLabelDisplayedRows from './TableLabelDisplayedRows';
 
 type BasePaginationProps = GridSlotProps['basePagination'];
 
-type DataGridPaginationProps = BasePaginationProps &
-  Omit<DataGridPaginationActionProps, keyof BasePaginationProps> & {
-    showFullPagination?: boolean;
-  };
+type DataGridPaginationProps = BasePaginationProps & {
+  showFullPagination?: boolean;
+};
 
 const DataGridPagination = function BasePagination({ ref, ...props }: DataGridPaginationProps) {
-  const { onRowsPerPageChange, disabled, showFullPagination = false, showAllHref, ...rest } = props;
+  const { onRowsPerPageChange, disabled, showFullPagination = false, ...rest } = props;
+  const rowsPerPageOptions = [10, 20, 50];
 
   return (
     <TablePagination
-      showFirstButton
-      showLastButton
       component="div"
+      rowsPerPageOptions={rowsPerPageOptions}
       ActionsComponent={(props) => (
         <DataGridPaginationAction showFullPagination={showFullPagination} {...props} />
       )}
