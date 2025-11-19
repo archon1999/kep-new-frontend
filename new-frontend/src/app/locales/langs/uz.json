@@ -1,6 +1,15 @@
 {
   "home": "Bosh sahifa",
   "kepcoin": "Kepcoin",
+  "pageTitles": {
+    "home": "Bosh sahifa",
+    "users": "Foydalanuvchilar",
+    "kepcoin": "Kepcoin",
+    "shop": "Doʻkon",
+    "calendar": "Kalendar",
+    "login": "Kirish",
+    "notFound": "Sahifa topilmadi"
+  },
   "shop": {
     "title": "Doʻkon",
     "subtitle": "Kepcoinlarni KEP.uz sovgʻalari va aksessuarlariga sarflang.",

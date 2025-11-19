@@ -42,22 +42,27 @@ export const routes: RouteObject[] = [
           {
             index: true,
             element: <Home />,
+            handle: { titleKey: 'pageTitles.home' },
           },
           {
             path: paths.users,
             element: <UsersListPage />,
+            handle: { titleKey: 'pageTitles.users' },
           },
           {
             path: paths.shop,
             element: <ShopPage />,
+            handle: { titleKey: 'pageTitles.shop' },
           },
           {
             path: paths.kepcoin,
             element: <KepcoinPage />,
+            handle: { titleKey: 'pageTitles.kepcoin' },
           },
           {
             path: paths.calendar,
             element: <CalendarPage />,
+            handle: { titleKey: 'pageTitles.calendar' },
           },
         ],
       },
@@ -76,6 +81,7 @@ export const routes: RouteObject[] = [
               {
                 path: authPaths.login,
                 element: <Login />,
+                handle: { titleKey: 'pageTitles.login' },
               },
             ],
           },
@@ -85,6 +91,7 @@ export const routes: RouteObject[] = [
       {
         path: '*',
         element: <Page404 />,
+        handle: { titleKey: 'pageTitles.notFound' },
       },
     ],
   },

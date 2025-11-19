@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import AuthProvider from 'app/providers/AuthProvider.tsx';
+import DocumentTitleProvider from 'app/providers/DocumentTitleProvider.tsx';
 import { useSettingsContext } from 'app/providers/SettingsProvider.tsx';
 import { REFRESH } from 'app/reducers/SettingsReducer.ts';
 import SettingPanelToggler from 'shared/components/settings-panel/SettingPanelToggler.tsx';
@@ -24,9 +25,11 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <Outlet />
-      <SettingsPanel />
-      <SettingPanelToggler />
+      <DocumentTitleProvider>
+        <Outlet />
+        <SettingsPanel />
+        <SettingPanelToggler />
+      </DocumentTitleProvider>
     </AuthProvider>
   );
 };
