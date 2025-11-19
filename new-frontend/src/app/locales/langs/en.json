@@ -1,6 +1,15 @@
 {
   "home": "Home",
   "kepcoin": "Kepcoin",
+  "pageTitles": {
+    "home": "Home",
+    "users": "Users",
+    "kepcoin": "Kepcoin",
+    "shop": "Shop",
+    "calendar": "Calendar",
+    "login": "Login",
+    "notFound": "Page not found"
+  },
   "shop": {
     "title": "Shop",
     "subtitle": "Redeem your Kepcoins for gear and accessories inspired by KEP.uz.",
