@@ -37,7 +37,7 @@ const getChipStyles = (color: string, theme: Theme) => {
   }
 };
 
-interface ChallengesRatingChipProps extends Omit<ChipProps, 'label'> {
+interface ChallengesRatingChipProps extends Omit<ChipProps, 'label' | 'title'> {
   title?: string | null;
 }
 
