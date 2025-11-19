@@ -46,7 +46,6 @@ const UsersDataGrid = ({
   sortModel,
   onSortModelChange,
   columnLabels,
-  countryLabels,
 }: UsersDataGridProps) => {
   const columns: GridColDef<GridValidRowModel>[] = [
     {

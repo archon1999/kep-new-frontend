@@ -4,20 +4,18 @@ import App from 'app/App.tsx';
 import AuthLayout from 'app/layouts/auth-layout';
 import DefaultAuthLayout from 'app/layouts/auth-layout/DefaultAuthLayout';
 import MainLayout from 'app/layouts/main-layout';
-import Page404 from 'pages/errors/Page404';
+import Page404 from 'modules/errors/ui/pages/Page404';
 import PageLoader from 'shared/components/loading/PageLoader';
 import paths, { authPaths, rootPaths } from './paths';
 
-const Home = lazy(() => import('pages/home/Home'));
-const KepcoinPage = lazy(() => import('pages/kepcoin/KepcoinPage'));
+const Home = lazy(() => import('modules/home/ui/pages/HomePage'));
+const KepcoinPage = lazy(() => import('modules/kepcoin/ui/pages/KepcoinPage'));
 const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
-const SchedulerPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
 
-const LoggedOut = lazy(() => import('pages/authentication/default/LoggedOut'));
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
-const Login = lazy(() => import('pages/authentication/default/jwt/Login'));
+const Login = lazy(() => import('modules/authentication/ui/pages/LoginPage'));
 
 export const SuspenseOutlet = () => {
   const location = useLocation();

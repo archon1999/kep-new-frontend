@@ -12,18 +12,20 @@ import {
 import { initialConfig } from 'app/config.ts';
 import Splash from 'shared/components/loading/Splash';
 import { removeItemFromStore } from 'shared/lib/utils';
-import { User, useGetCurrentUser, useLogOutUser } from 'shared/services/swr/api-hooks/useAuthApi';
+import { useCurrentUser } from 'modules/authentication/application/queries';
+import { useLogOutUser } from 'modules/authentication/application/mutations';
+import type { AuthUser } from 'modules/authentication/domain/entities/auth.entity';
 
 interface AuthContextInterface {
-  currentUser: User | null;
-  setCurrentUser: Dispatch<SetStateAction<User | null>>;
-  refreshCurrentUser: () => Promise<User | undefined>;
+  currentUser: AuthUser | null;
+  setCurrentUser: Dispatch<SetStateAction<AuthUser | null>>;
+  refreshCurrentUser: () => Promise<AuthUser | undefined>;
   signout: () => Promise<void>;
 }
 
 const avatar = (index: number) => `${initialConfig.assetsDir}/images/avatar/${index}.webp`;
 
-export const demoUser: User = {
+export const demoUser: AuthUser = {
   id: 0,
   email: 'guest@mail.com',
   name: 'Guest',
@@ -34,9 +36,9 @@ export const demoUser: User = {
 export const AuthContext = createContext({} as AuthContextInterface);
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
 
-  const { data, isLoading, mutate } = useGetCurrentUser({
+  const { data, isLoading, mutate } = useCurrentUser({
     suspense: false,
     shouldRetryOnError: false,
     revalidateOnFocus: false,

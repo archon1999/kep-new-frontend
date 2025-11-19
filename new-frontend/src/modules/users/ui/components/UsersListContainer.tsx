@@ -111,11 +111,6 @@ const UsersListContainer = () => {
       .filter((option): option is CountryOption => Boolean(option));
   }, [countries, regionNames]);
 
-  const countryLabels = useMemo(
-    () => Object.fromEntries(countryOptions.map((country) => [country.code, country.label])),
-    [countryOptions],
-  );
-
   const countryOptionsByValue = useMemo(
     () => Object.fromEntries(countryOptions.map((country) => [country.value, country])),
     [countryOptions],
@@ -260,12 +255,11 @@ const UsersListContainer = () => {
         PaperProps={{
           sx: {
             p: 2,
-            width: { xs: 'calc(100vw - 32px)', sm: 420 },
-            maxWidth: 480,
+            width: 300
           },
         }}
       >
-        <Stack spacing={2} width="100%">
+        <Stack direction="column" spacing={2}>
           <StyledTextField
             select
             fullWidth
@@ -355,7 +349,6 @@ const UsersListContainer = () => {
         sortModel={sortModel}
         onSortModelChange={handleSortModelChange}
         columnLabels={columnLabels}
-        countryLabels={countryLabels}
       />
     </TabContext>
   );
