@@ -1,6 +1,5 @@
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Box, Divider, Grid, Skeleton, Stack, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Box, Divider, Grid, Stack } from '@mui/material';
 import {
   useKepcoinEarnHistory,
   useKepcoinSpendHistory,
@@ -15,7 +14,6 @@ import { HistoryView } from '../types';
 const PAGE_SIZE = 10;
 
 const KepcoinPage = () => {
-  const { t } = useTranslation();
   const [view, setView] = useState<HistoryView>('earns');
   const [page, setPage] = useState(1);
 
@@ -38,11 +36,6 @@ const KepcoinPage = () => {
   const historyError = view === 'earns' ? earnError : spendError;
   const retryHistory = view === 'earns' ? reloadEarn : reloadSpend;
 
-  const balanceLabel = useMemo(() => {
-    const formatter = new Intl.NumberFormat();
-    return formatter.format(summary?.balance ?? 0);
-  }, [summary?.balance]);
-
   const handleViewChange = (_: unknown, nextView: HistoryView | null) => {
     if (!nextView || nextView === view) {
       return;
@@ -62,20 +55,11 @@ const KepcoinPage = () => {
   return (
     <Box>
       <Stack direction="column" spacing={5}>
-        <Stack sx={{ p: { xs: 3, md: 5 } }} spacing={1}>
-          {isSummaryLoading ? (
-            <Skeleton variant="text" width={240} height={48} />
-          ) : (
-            <Typography variant="h3" fontWeight={700}>
-              {t('kepcoinPage.youHave', { value: balanceLabel })}
-            </Typography>
-          )}
-        </Stack>
-
         <Grid container alignItems="flex-start">
           <Grid item xs={12} md={7}>
             <Stack>
               <StreakWidget
+                balance={summary?.balance}
                 streak={summary?.streak}
                 streakFreeze={summary?.streakFreeze}
                 isLoading={isSummaryLoading}
