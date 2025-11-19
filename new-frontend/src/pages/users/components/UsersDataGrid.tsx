@@ -1,3 +1,4 @@
+import { Avatar, Box, Chip, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -5,13 +6,12 @@ import {
   GridSortModel,
   GridValidRowModel,
 } from '@mui/x-data-grid';
-import { Avatar, Chip, Stack, Typography } from '@mui/material';
 import { UsersListItem } from 'modules/users/domain/entities/user.entity';
-import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
-import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
-import Streak from 'shared/components/rating/Streak';
-import KepcoinValue from 'shared/components/common/KepcoinValue';
 import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
+import KepcoinValue from 'shared/components/common/KepcoinValue';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
+import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
+import Streak from 'shared/components/rating/Streak';
 
 export interface UsersDataGridLabels {
   user: string;
@@ -55,6 +55,11 @@ const UsersDataGrid = ({
       flex: 1.4,
       minWidth: 260,
       sortable: true,
+      renderHeader: (params) => (
+        <Box sx={{ ml: 2, display: 'flex', fontWeight: 500, alignItems: 'center' }}>
+          {params.colDef.headerName}
+        </Box>
+      ),
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
         const name = [user.firstName, user.lastName].filter(Boolean).join(' ');
@@ -87,9 +92,7 @@ const UsersDataGrid = ({
     {
       field: 'skillsRating',
       headerName: columnLabels.skills,
-      minWidth: 120,
-      align: 'center',
-      headerAlign: 'center',
+      flex: 0.5,
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
@@ -107,9 +110,7 @@ const UsersDataGrid = ({
     {
       field: 'activityRating',
       headerName: columnLabels.activity,
-      minWidth: 120,
-      align: 'center',
-      headerAlign: 'center',
+      flex: 0.5,
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
@@ -127,16 +128,19 @@ const UsersDataGrid = ({
     {
       field: 'contestsRating',
       headerName: columnLabels.contests,
-      minWidth: 160,
-      flex: 0.9,
-      align: 'center',
-      headerAlign: 'center',
+      minWidth: 120,
+      flex: 0.5,
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
 
         return (
-          <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} width="100%">
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            width="100%"
+          >
             <ContestsRatingChip title={user.contestsRating?.title} imgSize={28} />
             <Typography variant="body2" fontWeight={600} noWrap>
               {user.contestsRating?.value ?? columnLabels.emptyValue}
@@ -149,14 +153,17 @@ const UsersDataGrid = ({
       field: 'challengesRating',
       headerName: columnLabels.challenges,
       minWidth: 150,
-      align: 'center',
-      headerAlign: 'center',
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
 
         return (
-          <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" width="100%">
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            width="100%"
+          >
             <ChallengesRatingChip title={user.challengesRating?.title} />
             <Typography variant="body2" fontWeight={600} noWrap>
               {user.challengesRating?.value ?? columnLabels.emptyValue}
@@ -169,15 +176,17 @@ const UsersDataGrid = ({
       field: 'streak',
       headerName: columnLabels.streak,
       minWidth: 130,
-      align: 'center',
-      headerAlign: 'center',
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
 
         return (
           <Stack spacing={0.5} alignItems="center" width="100%">
-            <Streak streak={user.streak} maxStreak={user.maxStreak} fallback={columnLabels.emptyValue} />
+            <Streak
+              streak={user.streak}
+              maxStreak={user.maxStreak}
+              fallback={columnLabels.emptyValue}
+            />
             <Typography variant="caption" color="text.secondary" noWrap>
               max {user.maxStreak ?? columnLabels.emptyValue}
             </Typography>
@@ -189,8 +198,6 @@ const UsersDataGrid = ({
       field: 'kepcoin',
       headerName: columnLabels.kepcoin,
       minWidth: 120,
-      align: 'right',
-      headerAlign: 'right',
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
@@ -199,7 +206,6 @@ const UsersDataGrid = ({
           <KepcoinValue
             value={user.kepcoin ?? 0}
             iconSize={20}
-            justifyContent="flex-end"
             width="100%"
             fontWeight={600}
           />
@@ -210,14 +216,10 @@ const UsersDataGrid = ({
       field: 'lastSeen',
       headerName: columnLabels.lastSeen,
       minWidth: 160,
-      align: 'right',
-      headerAlign: 'right',
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
-        return (
-          <Chip color="neutral" label={user.lastSeen}></Chip>
-        );
+        return <Chip color="neutral" label={user.lastSeen}></Chip>;
       },
     },
   ];
