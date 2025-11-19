@@ -1,30 +1,137 @@
 {
   "home": "Bosh sahifa",
-  "kepcoin": "Kepcoin",
+  "kepcoin": {
+    "title": "Kepcoin",
+    "subtitle": "KEP.uz dagi Kepcoin daromad va xarajatlaringizni kuzating.",
+    "youHave": "Sizda bor",
+    "balanceHint": "Har bir topshiriq, kontest yoki xariddan soʻng balans avtomatik yangilanadi.",
+    "tabs": {
+      "earns": "Topildi",
+      "spends": "Sarflandi"
+    },
+    "timeline": {
+      "empty": {
+        "earns": "Siz hali Kepcoin topmagansiz.",
+        "spends": "Siz hali Kepcoin sarflamagansiz."
+      },
+      "error": {
+        "earns": "Daromad tarixini yuklab boʻlmadi. Keyinroq urinib koʻring.",
+        "spends": "Sarflangan Kepcoin tarixini yuklab boʻlmadi. Keyinroq urinib koʻring."
+      }
+    },
+    "streak": {
+      "title": "Muzlatish",
+      "description": "Agar kunni oʻtkazib yuborsangiz va kundalik vazifalarni bajarmasangiz, muzlatish avtomatik ravishda natijani saqlaydi.",
+      "youHave": "Sizda bor {{count}}",
+      "streakLabel": "Joriy ketma-ketlik",
+      "purchaseCta": "Muzlatishni sotib olish",
+      "purchaseDialogTitle": "Ketma-ketlikni muzlatish",
+      "purchaseDialogBody": "Bir kunlik seriyani himoya qilish uchun Kepcoin sarflang.",
+      "purchaseConfirm": "Xarid qilish",
+      "purchaseCancel": "Bekor qilish",
+      "notEnough": "Kepcoin yetmaydi",
+      "success": "Muzlatish muvaffaqiyatli xarid qilindi.",
+      "error": "Xaridni yakunlab boʻlmadi. Keyinroq urinib koʻring."
+    },
+    "howToEarn": {
+      "title": "Kepcoin qanday topsa boʻladi?",
+      "description": "Ushbu valyutaga ega bo‘lish uchun tizim rivojlanishiga o‘z xissangizni qo‘shingingiz lozim. Jumladan:",
+      "items": [
+        { "value": "1", "label": "Kunlik faollik uchun" },
+        { "value": "1-10", "label": "Kunlik topshiriqlarni bajarganligi uchun" },
+        {
+          "value": "3, 10, 50",
+          "label": "Kunlik, haftalik va oylik masalalar reytingi g‘olibi bo‘lganlik uchun"
+        },
+        { "value": "5+", "label": "Musobaqalarda qatnashganlik uchun" },
+        { "value": "10-100", "label": "Blog yozish" },
+        {
+          "value": "1-50",
+          "label": "Masalalarni tahrirlashda yordam (yechim, tarjima, teglar, o‘xshash masalalar)"
+        }
+      ]
+    },
+    "howToSpend": {
+      "title": "Kepcoin qanday sarflasa boʻladi?",
+      "description": "Kepcoinni afzalliklar, o‘qish va profilni yaxshilash uchun ishlating.",
+      "items": [
+        { "value": "0-14", "label": "Boshqa foydalanuvchi urinishini ko‘rish" },
+        { "value": "1", "label": "Yechim yiqilgan testni ko‘rish" },
+        { "value": "2-50", "label": "Masala yechimini xarid qilish" },
+        { "value": "5", "label": "Profil orqa rasmini o‘zgartirish" },
+        { "value": "1", "label": "Testdan o‘tish" },
+        { "value": "1-1000", "label": "Kurs sotib olish" },
+        { "value": "10", "label": "Kodni tahrirlashda testlash funksiyasi (to‘liq)" },
+        {
+          "value": "25",
+          "label": "Kontestda ikki barobar reyting o‘zgarishi (manfiy bo‘lsa ham ikki barobar)"
+        },
+        {
+          "value": "25",
+          "label": "Kontestda reytingni saqlab qolish (agar manfiy bo‘lsa berilmaydi)"
+        }
+      ]
+    },
+    "earnTypes": {
+      "wroteBlog": "Blog yozildi",
+      "wroteProblemSolution": "Masala yechimi yozildi",
+      "loyaltyBonus": "Sodiqlik bonusi",
+      "bonusFromAdmin": "Admindan bonus",
+      "dailyActivity": "Kunlik faollik",
+      "dailyTaskCompletion": "Kunlik topshiriq bajarildi",
+      "dailyRatingWinner": "Kunlik masalalar reytingi g‘olibi",
+      "weeklyRatingWinner": "Haftalik masalalar reytingi g‘olibi",
+      "monthlyRatingWinner": "Oylik masalalar reytingi g‘olibi",
+      "contestParticipant": "Kontest ishtirokchisi",
+      "arenaParticipant": "Arena ishtirokchisi",
+      "tournamentParticipant": "Turnir ishtirokchisi",
+      "projectTaskComplete": "Loyiha vazifasi bajarildi"
+    },
+    "spendTypes": {
+      "viewAttempt": "Urinishni ko‘rish",
+      "viewTestAttempt": "Urinish testini ko‘rish",
+      "viewProblemSolution": "Masala yechimini ko‘rish",
+      "doubleRating": "Ikki barobar reyting",
+      "changeImage": "Profil orqa rasmini o‘zgartirish",
+      "course": "Kurs",
+      "studyPlan": "O‘quv rejasi",
+      "codeEditorTesting": "Kod muharriri testi",
+      "saveRating": "Reytingni saqlash",
+      "passTest": "Testdan o‘tish",
+      "createContest": "Kontest yaratish",
+      "project": "Loyiha",
+      "streakFreeze": "Muzlatish",
+      "virtualContest": "Virtual kontest",
+      "unratedContest": "Reytingsiz kontest",
+      "answerForInput": "Kiritish uchun javob",
+      "checkSamples": "Namunalarni tekshirish",
+      "merch": "Merch"
+    }
+  },
   "shop": {
-    "title": "Doʻkon",
-    "subtitle": "Kepcoinlarni KEP.uz sovgʻalari va aksessuarlariga sarflang.",
-    "loadError": "Mahsulotlarni yuklab bo'lmadi. Keyinroq urinib ko'ring.",
-    "emptyTitle": "Hozircha mahsulotlar yoʻq",
-    "emptySubtitle": "Kepcoinlaringizni sarflash uchun tez orada qaytib keling.",
+    "title": "Do‘kon",
+    "subtitle": "Kepcoiningizni KEP.uz merchi va aksessuarlari uchun sarflang.",
+    "loadError": "Mahsulotlarni hozircha yuklab boʻlmadi. Keyinroq urinib koʻring.",
+    "emptyTitle": "Mahsulotlar mavjud emas",
+    "emptySubtitle": "Yangi buyumlar uchun keyinroq qayting.",
     "noImage": "Rasm mavjud emas",
     "colorLabel": "Rang",
-    "sizeLabel": "Oʻlcham",
+    "sizeLabel": "O‘lcham",
     "kepcoinValue": "{{value}} Kepcoin"
   },
   "calendar": {
     "title": "Kalendar",
-    "subtitle": "Umumiy kalendarda bo'ladigan mashg'ulot va tadbirlarni ko'ring.",
+    "subtitle": "Umumiy kalendarda bo‘lib o‘tadigan mashg‘ulot va tadbirlarni ko‘ring.",
     "today": "Bugun",
     "monthView": "Oy",
     "weekView": "Hafta",
     "dayView": "Kun",
     "eventType": "Tur {{type}}",
-    "loadError": "Kalendar voqealarini yuklab bo'lmadi. Iltimos, keyinroq urinib ko'ring.",
-    "loading": "Kalendar voqealari yuklanmoqda...",
-    "emptyTitle": "Hozircha voqealar yoʻq",
-    "emptySubtitle": "Yangi mashg'ulot vaqtlari shu yerda e'lon qilinadi.",
-    "untitled": "Nomsiz voqea"
+    "loadError": "Kalendar maʼlumotlarini yuklab boʻlmadi. Keyinroq urinib koʻring.",
+    "loading": "Kalendar maʼlumotlari yuklanmoqda...",
+    "emptyTitle": "Hali rejalashtirilgan tadbirlar yo‘q",
+    "emptySubtitle": "Yangi mashg‘ulotlar shu yerda paydo bo‘ladi.",
+    "untitled": "Nomsiz tadbir"
   },
   "users": {
     "title": "Foydalanuvchilar",
@@ -33,35 +140,35 @@
       "invite": "Foydalanuvchini taklif qilish"
     },
     "tabs": {
-      "all": "Eng yangi foydalanuvchilar",
-      "skills": "Eng yaxshi foydalanuvchilar",
+      "all": "Yangi foydalanuvchilar",
+      "skills": "Top foydalanuvchilar",
       "activity": "Faollik reytingi",
-      "contests": "Musobaqalar reytingi",
+      "contests": "Kontest reytingi",
       "challenges": "Top Kepcoin"
     },
     "filters": {
-      "toggle": "Filterlar",
+      "toggle": "Filtrlar",
       "searchPlaceholder": "Qidirish",
-      "username": "Foydalanuvchi nomi",
-      "usernamePlaceholder": "Login bo'yicha izlash",
+      "username": "Login",
+      "usernamePlaceholder": "Login bo‘yicha qidirish",
       "name": "Ism",
-      "namePlaceholder": "Ism yoki familiya bo'yicha qidirish",
-      "country": "Mamlakat",
-      "countryPlaceholder": "Mamlakatni tanlang",
-      "anyCountry": "Istalgan mamlakat",
-      "ageFrom": "Yosh dan",
-      "ageTo": "Yosh gacha",
+      "namePlaceholder": "Ism yoki familiya bo‘yicha qidirish",
+      "country": "Davlat",
+      "countryPlaceholder": "Davlatni tanlang",
+      "anyCountry": "Istalgan davlat",
+      "ageFrom": "Yoshdan",
+      "ageTo": "Yoshgacha",
       "agePlaceholder": "--"
     },
     "columns": {
       "user": "Foydalanuvchi",
-      "skills": "Ko'nikmalar",
+      "skills": "Ko‘nikmalar",
       "activity": "Faollik",
-      "contests": "Musobaqalar",
-      "challenges": "Challenjlar",
-      "streak": "Seriya",
+      "contests": "Kontestlar",
+      "challenges": "Chaqiriqlar",
+      "streak": "Ketma-ketlik",
       "kepcoin": "Kepcoin",
-      "lastSeen": "Oxirgi faollik"
+      "lastSeen": "Oxirgi onlayn"
     },
     "emptyValue": "—"
   }
