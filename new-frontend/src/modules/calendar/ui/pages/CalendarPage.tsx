@@ -42,7 +42,7 @@ const mapToEventInput = (
 
 const CalendarPage = () => {
   const { t } = useTranslation();
-  const { data: events, isLoading, error } = useCalendarEvents();
+  const { data: events, isLoading } = useCalendarEvents();
   const calendarRef = useRef<ReactFullCalendar | null>(null);
   const [view, setView] = useState<CalendarView>('dayGridMonth');
   const [rangeLabel, setRangeLabel] = useState<string>(dayjs().format('MMMM YYYY'));
