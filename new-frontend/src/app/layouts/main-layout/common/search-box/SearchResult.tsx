@@ -19,14 +19,102 @@ import {
   inputBaseClasses,
   listItemSecondaryActionClasses,
 } from '@mui/material';
-import searchResult from 'data/search-result';
+import { initialConfig } from 'app/config.ts';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import SimpleBar from 'simplebar-react';
 import SearchTextField from './SearchTextField';
 
-const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
-  const { breadcrumbs, contacts, files, tags } = searchResult;
+const avatar = (index: number) => `${initialConfig.assetsDir}/images/avatar/${index}.webp`;
 
+const files = [
+  {
+    name: 'aurora_test17.zip',
+    path: ':: files / New folder / aurora /',
+    icon: 'material-symbols:folder-zip-outline-rounded',
+  },
+  {
+    name: 'Product image(11).webp',
+    path: ':: files / ... / assets /',
+    image: `${initialConfig.assetsDir}/images/ecommerce/products/96x96/3.webp`,
+  },
+  {
+    name: 'How_to_not_click_on_perfectly_innocent_looking_links_and_download_malware.pdf',
+    path: ':: files / Download /',
+    icon: 'material-symbols:picture-as-pdf-outline-rounded',
+  },
+];
+
+const contacts = [
+  {
+    name: 'Gojo Satoru',
+    avatar: avatar(13),
+  },
+  {
+    name: 'Nanami Kento',
+    avatar: avatar(5),
+    disabled: true,
+  },
+  {
+    name: 'Kugisaki Nobara',
+    avatar: avatar(4),
+  },
+  {
+    name: 'Zenin Maki',
+    avatar: avatar(15),
+  },
+  {
+    name: 'Todo Aoi',
+    avatar: avatar(9),
+  },
+];
+
+const tags = ['Calender', 'Home', 'Back', 'Procrastination', 'Support', 'Ideate', 'Brainstorm', 'How Might We'];
+
+const breadcrumbs = [
+  [
+    {
+      label: 'App',
+      href: '#!',
+    },
+    {
+      label: 'E-commerce',
+      href: '#!',
+    },
+    {
+      label: 'Customers',
+      href: '#!',
+    },
+    {
+      label: 'Create new',
+      href: '#!',
+      active: true,
+    },
+  ],
+  [
+    {
+      label: 'Homepage',
+      href: '#!',
+    },
+    {
+      label: 'E-commerce',
+      href: '#!',
+      active: true,
+    },
+  ],
+  [
+    {
+      label: 'Pages',
+      href: '#!',
+    },
+    {
+      label: 'Home',
+      href: '#!',
+      active: true,
+    },
+  ],
+];
+
+const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
   return (
     <>
       <SearchField handleClose={handleClose} />

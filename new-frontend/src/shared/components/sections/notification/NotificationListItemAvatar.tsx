@@ -1,8 +1,19 @@
 import { AvatarGroup, Badge, badgeClasses } from '@mui/material';
 import { Avatar } from '@mui/material';
 import { Notification } from 'app/types/notification';
-import { notificationBadge } from 'data/notifications';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+
+const notificationBadge = {
+  birthday: { color: 'warning.main', icon: 'material-symbols:cake-rounded' },
+  friend_request: { color: 'success.main', icon: 'material-symbols:person-add-rounded' },
+  commented: { color: 'primary.main', icon: 'material-symbols:mode-comment-rounded' },
+  following: { color: 'primary.main', icon: 'material-symbols:person-add-rounded' },
+  reaction_love: { color: 'error.light', icon: 'material-symbols-light:favorite-rounded' },
+  reaction_smile: { color: 'transparent', icon: 'noto:grinning-face-with-smiling-eyes' },
+  photos: { color: 'primary.main', icon: 'material-symbols:imagesmode-rounded' },
+  group_invitation: { color: 'primary.main', icon: 'material-symbols:group-rounded' },
+  tagged: { color: 'primary.main', icon: 'material-symbols:sell' },
+} as const;
 
 interface NotificationListItemAvatarProps {
   notification: Notification;
