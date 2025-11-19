@@ -21,7 +21,7 @@ const buildImageMap = () =>
 
 const cachedMap = buildImageMap();
 
-interface ContestsRatingChipProps extends StackProps {
+interface ContestsRatingChipProps extends Omit<StackProps, 'title'> {
   title?: string | null;
   imgSize?: number;
   withTitle?: boolean;
