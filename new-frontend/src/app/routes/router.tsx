@@ -45,6 +45,51 @@ export const routes: RouteObject[] = [
             handle: { titleKey: 'pageTitles.home' },
           },
           {
+            path: paths.homeAlias,
+            element: <Home />,
+            handle: { titleKey: 'pageTitles.home' },
+          },
+          {
+            path: paths.practiceProblems,
+            element: <Page404 />,
+            handle: { titleKey: 'pageTitles.practiceProblems' },
+          },
+          {
+            path: paths.practiceChallenges,
+            element: <Page404 />,
+            handle: { titleKey: 'pageTitles.practiceChallenges' },
+          },
+          {
+            path: paths.practiceProjects,
+            element: <Page404 />,
+            handle: { titleKey: 'pageTitles.practiceProjects' },
+          },
+          {
+            path: paths.practiceTests,
+            element: <Page404 />,
+            handle: { titleKey: 'pageTitles.practiceTests' },
+          },
+          {
+            path: paths.competitionsContests,
+            element: <Page404 />,
+            handle: { titleKey: 'pageTitles.competitionsContests' },
+          },
+          {
+            path: paths.competitionsArena,
+            element: <Page404 />,
+            handle: { titleKey: 'pageTitles.competitionsArena' },
+          },
+          {
+            path: paths.competitionsTournaments,
+            element: <Page404 />,
+            handle: { titleKey: 'pageTitles.competitionsTournaments' },
+          },
+          {
+            path: paths.competitionsHackathons,
+            element: <Page404 />,
+            handle: { titleKey: 'pageTitles.competitionsHackathons' },
+          },
+          {
             path: paths.users,
             element: <UsersListPage />,
             handle: { titleKey: 'pageTitles.users' },

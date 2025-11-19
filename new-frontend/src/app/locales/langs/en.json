@@ -1,12 +1,32 @@
 {
   "home": "Home",
   "kepcoin": "Kepcoin",
+  "menu": {
+    "practice": "Practice",
+    "problems": "Problems",
+    "challenges": "Challenges",
+    "projects": "Projects",
+    "tests": "Tests",
+    "competitions": "Competitions",
+    "contests": "Contests",
+    "arena": "Arena",
+    "tournaments": "Tournaments",
+    "hackathons": "Hackathons"
+  },
   "pageTitles": {
     "home": "Home",
     "users": "Users",
     "kepcoin": "Kepcoin",
     "shop": "Shop",
     "calendar": "Calendar",
+    "practiceProblems": "Problems",
+    "practiceChallenges": "Challenges",
+    "practiceProjects": "Projects",
+    "practiceTests": "Tests",
+    "competitionsContests": "Contests",
+    "competitionsArena": "Arena",
+    "competitionsTournaments": "Tournaments",
+    "competitionsHackathons": "Hackathons",
     "login": "Login",
     "notFound": "Page not found"
   },

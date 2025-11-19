@@ -1,12 +1,32 @@
 {
   "home": "Bosh sahifa",
   "kepcoin": "Kepcoin",
+  "menu": {
+    "practice": "Ishlash",
+    "problems": "Masalalar",
+    "challenges": "Bellashuvlar",
+    "projects": "Loyihalar",
+    "tests": "Testlar",
+    "competitions": "Musobaqalar",
+    "contests": "Kontestlar",
+    "arena": "Arena",
+    "tournaments": "Turnirlar",
+    "hackathons": "Xakatonlar"
+  },
   "pageTitles": {
     "home": "Bosh sahifa",
     "users": "Foydalanuvchilar",
     "kepcoin": "Kepcoin",
     "shop": "Doʻkon",
     "calendar": "Kalendar",
+    "practiceProblems": "Masalalar",
+    "practiceChallenges": "Bellashuvlar",
+    "practiceProjects": "Loyihalar",
+    "practiceTests": "Testlar",
+    "competitionsContests": "Kontestlar",
+    "competitionsArena": "Arena",
+    "competitionsTournaments": "Turnirlar",
+    "competitionsHackathons": "Xakatonlar",
     "login": "Kirish",
     "notFound": "Sahifa topilmadi"
   },

@@ -1,12 +1,32 @@
 {
   "home": "Главная",
   "kepcoin": "Кепкоин",
+  "menu": {
+    "practice": "Практиковать",
+    "problems": "Задачи",
+    "challenges": "Вызовы",
+    "projects": "Проекты",
+    "tests": "Тесты",
+    "competitions": "Соревнования",
+    "contests": "Контесты",
+    "arena": "Арена",
+    "tournaments": "Турниры",
+    "hackathons": "Хакатоны"
+  },
   "pageTitles": {
     "home": "Главная",
     "users": "Пользователи",
     "kepcoin": "Кепкоин",
     "shop": "Магазин",
     "calendar": "Календарь",
+    "practiceProblems": "Задачи",
+    "practiceChallenges": "Вызовы",
+    "practiceProjects": "Проекты",
+    "practiceTests": "Тесты",
+    "competitionsContests": "Контесты",
+    "competitionsArena": "Арена",
+    "competitionsTournaments": "Турниры",
+    "competitionsHackathons": "Хакатоны",
     "login": "Вход",
     "notFound": "Страница не найдена"
   },

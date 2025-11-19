@@ -114,7 +114,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
       <ListItem key={item.pathName} disablePadding>
         <ListItemButton
           component={item.items ? 'div' : NavLink}
-          to={item.path}
+          {...(!item.items && item.path ? { to: item.path } : {})}
           onClick={toggleCollapseItem}
           onMouseEnter={sidenavCollapsed ? handleMouseEnter : undefined}
           onMouseLeave={sidenavCollapsed ? handleClose : undefined}
