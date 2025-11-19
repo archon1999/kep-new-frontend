@@ -23,14 +23,6 @@ const sitemap: MenuItem[] = [
     active: true,
   },
   {
-    name: 'Shop',
-    key: 'shop.title',
-    path: paths.shop,
-    pathName: 'shop',
-    icon: 'mdi:store-outline',
-    active: true,
-  },
-  {
     name: 'Users',
     key: 'users.title',
     path: paths.users,
@@ -53,6 +45,14 @@ const sitemap: MenuItem[] = [
     pathName: 'calendar',
     selectionPrefix: paths.calendar,
     icon: 'material-symbols:calendar-month-outline',
+    active: true,
+  },
+  {
+    name: 'Shop',
+    key: 'shop.title',
+    path: paths.shop,
+    pathName: 'shop',
+    icon: 'mdi:store-outline',
     active: true,
   },
 ];

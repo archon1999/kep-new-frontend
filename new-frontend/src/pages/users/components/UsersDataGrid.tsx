@@ -70,9 +70,9 @@ const UsersDataGrid = ({
         return (
           <Stack direction="row" spacing={2} alignItems="center" sx={{ minWidth: 0 }}>
             <Avatar src={user.avatar} alt={user.username} sx={{ width: 42, height: 42 }} />
-            <Stack spacing={0.25} minWidth={0}>
+            <Stack direction="column" spacing={0.25} minWidth={0}>
               <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>
-                <Typography variant="subtitle2" noWrap>
+                <Typography color="primary" fontWeight={600} variant="subtitle2" noWrap>
                   {user.username}
                 </Typography>
                 {countryCode && (
@@ -141,6 +141,7 @@ const UsersDataGrid = ({
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
+        console.log(user);
 
         return (
           <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} width="100%">

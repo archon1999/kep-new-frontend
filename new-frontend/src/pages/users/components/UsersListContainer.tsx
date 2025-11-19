@@ -185,7 +185,6 @@ const UsersListContainer = () => {
         </Box>
         <Stack sx={{ gap: 1 }} direction={{ xs: 'column', sm: 'row' }}>
           <Button
-            shape={upMd ? undefined : 'square'}
             variant="soft"
             color="neutral"
             onClick={() => setFiltersOpen((prev) => !prev)}
@@ -198,7 +197,7 @@ const UsersListContainer = () => {
                 marginRight: { xs: 0, md: '4px' },
               }}
             />
-            {upMd && <Box component="span">{t('users.filters.toggle')}</Box>}
+            <Box component="span">{t('users.filters.toggle')}</Box>
           </Button>
           <StyledTextField
             id="search-box"
@@ -225,50 +224,45 @@ const UsersListContainer = () => {
       </Stack>
 
       <Collapse in={filtersOpen} sx={{ mb: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6} lg={4}>
-            <StyledTextField
-              select
-              fullWidth
-              label={t('users.filters.country')}
-              value={filters.country}
-              onChange={handleFilterChange('country')}
-              placeholder={t('users.filters.countryPlaceholder')}
-            >
-              <MenuItem value="">{t('users.filters.anyCountry')}</MenuItem>
-              {countryOptions.map((country) => (
-                <MenuItem key={country.code} value={country.code}>
-                  {country.label}
-                </MenuItem>
-              ))}
-            </StyledTextField>
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Stack direction="row" spacing={1} alignItems="flex-end">
-              <StyledTextField
-                fullWidth
-                type="number"
-                label={t('users.filters.ageFrom')}
-                value={filters.ageFrom}
-                onChange={handleFilterChange('ageFrom')}
-                placeholder={t('users.filters.agePlaceholder')}
-                disabledSpinButton
-              />
-              <Typography color="text.secondary" sx={{ pb: 1.5 }}>
-                —
-              </Typography>
-              <StyledTextField
-                fullWidth
-                type="number"
-                label={t('users.filters.ageTo')}
-                value={filters.ageTo}
-                onChange={handleFilterChange('ageTo')}
-                placeholder={t('users.filters.agePlaceholder')}
-                disabledSpinButton
-              />
-            </Stack>
-          </Grid>
-        </Grid>
+        <Stack direction="row" spacing={1} alignItems="flex-end">
+          <StyledTextField
+            select
+            fullWidth
+            label={t('users.filters.country')}
+            value={filters.country}
+            onChange={handleFilterChange('country')}
+            placeholder={t('users.filters.countryPlaceholder')}
+          >
+            <MenuItem value="">{t('users.filters.anyCountry')}</MenuItem>
+            {countryOptions.map((country) => (
+              <MenuItem key={country.code} value={country.code}>
+                {country.label}
+              </MenuItem>
+            ))}
+          </StyledTextField>
+
+          <StyledTextField
+            fullWidth
+            type="number"
+            label={t('users.filters.ageFrom')}
+            value={filters.ageFrom}
+            onChange={handleFilterChange('ageFrom')}
+            placeholder={t('users.filters.agePlaceholder')}
+            disabledSpinButton
+          />
+          <Typography color="text.secondary" sx={{ pb: 1.5 }}>
+            —
+          </Typography>
+          <StyledTextField
+            fullWidth
+            type="number"
+            label={t('users.filters.ageTo')}
+            value={filters.ageTo}
+            onChange={handleFilterChange('ageTo')}
+            placeholder={t('users.filters.agePlaceholder')}
+            disabledSpinButton
+          />
+        </Stack>
       </Collapse>
 
       <UsersDataGrid

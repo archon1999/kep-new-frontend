@@ -1,8 +1,9 @@
-import { Button, Paper, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import PageHeader from 'shared/components/sections/common/PageHeader';
+import { Box, Button, Paper, Stack } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import PageHeader from 'shared/components/sections/common/PageHeader';
 import UsersListContainer from './components/UsersListContainer';
+
 
 const UsersListPage = () => {
   const { t } = useTranslation();
@@ -26,9 +27,9 @@ const UsersListPage = () => {
           </Stack>
         }
       />
-      <Paper sx={{ flex: 1, p: { xs: 3, md: 5 } }}>
+      <Box sx={{ flex: 1, px: { xs: 3, md: 5 } }}>
         <UsersListContainer />
-      </Paper>
+      </Box>
     </Stack>
   );
 };
