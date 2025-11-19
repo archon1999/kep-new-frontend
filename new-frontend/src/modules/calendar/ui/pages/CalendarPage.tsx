@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { DatesSetArg, EventInput } from '@fullcalendar/core/index.js';
 import ReactFullCalendar from '@fullcalendar/react';
-import { Alert, Box, Chip, CircularProgress, Paper, Stack, Typography } from '@mui/material';
+import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
@@ -42,7 +42,7 @@ const mapToEventInput = (
 
 const CalendarPage = () => {
   const { t } = useTranslation();
-  const { data: events, isLoading, error } = useCalendarEvents();
+  const { data: events, isLoading } = useCalendarEvents();
   const calendarRef = useRef<ReactFullCalendar | null>(null);
   const [view, setView] = useState<CalendarView>('dayGridMonth');
   const [rangeLabel, setRangeLabel] = useState<string>(dayjs().format('MMMM YYYY'));

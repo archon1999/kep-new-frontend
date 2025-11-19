@@ -10,6 +10,40 @@
     "login": "Login",
     "notFound": "Page not found"
   },
+  "homePage": {
+    "greeting": {
+      "defaultName": "Captain",
+      "goodMorning": "Good morning, {{name}}!",
+      "subtitle": "Updates from yesterday.",
+      "ordersCount": "You have {{count}} orders today.",
+      "stats": {
+        "visitors": "Visitors",
+        "earnings": "Earnings",
+        "orders": "Orders"
+      },
+      "orderStatus": {
+        "processing": "Processing",
+        "shipped": "Shipped",
+        "delivered": "Delivered"
+      }
+    },
+    "ranks": {
+      "title": "Your ranks",
+      "labels": {
+        "skills": "Skills rating",
+        "activity": "Activity rating",
+        "contests": "Contests",
+        "challenges": "Challenges"
+      },
+      "info": {
+        "skillsRating": "This rating shows your skill strength in the platform. The rating depends on the number of solved problems, on the rating of contests and challenges.",
+        "activityRating": "This rating shows your activity over the last 30 days. It depends on the number of Kepcoin earned, daily logins and completed daily tasks.",
+        "contests": "This rating shows your strength in competitions.",
+        "challenges": "This rating shows your strength in challenges."
+      },
+      "percentile": "You are better than {{percentile}}% of users"
+    }
+  },
   "shop": {
     "title": "Shop",
     "subtitle": "Redeem your Kepcoins for gear and accessories inspired by KEP.uz.",
