@@ -70,7 +70,7 @@ const parseContent = (content?: string): NotificationContent => {
   if (typeof content === 'string') {
     try {
       return JSON.parse(content) as NotificationContent;
-    } catch (error) {
+    } catch {
       return { text: content } as NotificationContent;
     }
   }
@@ -175,7 +175,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
       setTotal(response.total ?? 0);
       setPagesCount(response.pagesCount ?? 0);
       setPageNumber(response.page ?? 1);
-    } catch (error) {
+    } catch {
       setNotifications([]);
       setPagesCount(0);
       setTotal(0);
@@ -205,7 +205,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
     try {
       await apiClient.apiNotificationsRead(String(notificationId), {} as NotificationBody);
-    } catch (error) {
+    } catch {
       // silently ignore errors for UX consistency
     }
   };
@@ -220,7 +220,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
     try {
       await apiClient.apiNotificationsReadAll({} as NotificationBody);
-    } catch (error) {
+    } catch {
       // ignore errors to keep UI responsive
     }
   };
