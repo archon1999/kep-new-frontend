@@ -30,7 +30,7 @@
   "homePage": {
     "greeting": {
       "defaultName": "Капитан",
-      "goodMorning": "Доброе утро, {{name}}!",
+      "goodMorning": "Добро пожаловать, {{name}}!",
       "subtitle": "Обновления за вчера.",
       "ordersCount": "У вас {{count}} заказов сегодня.",
       "stats": {
