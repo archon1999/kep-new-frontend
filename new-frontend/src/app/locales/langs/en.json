@@ -30,9 +30,7 @@
   "homePage": {
     "greeting": {
       "defaultName": "Captain",
-      "goodMorning": "Good morning, {{name}}!",
-      "subtitle": "Updates from yesterday.",
-      "ordersCount": "You have {{count}} orders today.",
+      "goodMorning": "Welcome, {{name}}!",
       "stats": {
         "visitors": "Visitors",
         "earnings": "Earnings",

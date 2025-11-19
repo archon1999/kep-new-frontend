@@ -30,9 +30,7 @@
   "homePage": {
     "greeting": {
       "defaultName": "Kapitan",
-      "goodMorning": "Xayrli tong, {{name}}!",
-      "subtitle": "Kecha bo'lgan yangiliklar.",
-      "ordersCount": "Bugun sizda {{count}} ta buyurtma bor.",
+      "goodMorning": "Xush kelibsiz, {{name}}!",
       "stats": {
         "visitors": "Tashrif buyuruvchilar",
         "earnings": "Daromad",

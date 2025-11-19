@@ -89,8 +89,6 @@ const GreetingCard = ({ displayName }: GreetingCardProps) => {
   const { t } = useTranslation();
   const todayLabel = useMemo(() => dayjs().format('dddd, MMM DD, YYYY'), []);
 
-  const ordersCount = orders.length;
-
   return (
     <Paper sx={{ height: 1 }}>
       <Stack
@@ -120,10 +118,6 @@ const GreetingCard = ({ displayName }: GreetingCardProps) => {
       </Stack>
 
       <div>
-        <Typography variant="subtitle2" color="text.secondary" fontWeight={400} mb={2}>
-          {t('homePage.greeting.subtitle')}
-        </Typography>
-
         <Stack
           direction={{ xs: 'column', sm: 'row', md: 'column' }}
           sx={{
@@ -175,16 +169,6 @@ const GreetingCard = ({ displayName }: GreetingCardProps) => {
       </div>
 
       <Stack direction="column" gap={2} sx={{ flex: 1 }}>
-        <Typography
-          variant="subtitle2"
-          sx={{
-            color: 'text.secondary',
-            fontWeight: 400,
-          }}
-        >
-          {t('homePage.greeting.ordersCount', { count: ordersCount })}
-        </Typography>
-
         <SimpleBar sx={{ maxHeight: { xs: 300, md: 368, lg: 596, xl: 376 }, height: 'min-content' }}>
           <List
             disablePadding
