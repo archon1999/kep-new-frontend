@@ -10,6 +10,98 @@
     "login": "Login",
     "notFound": "Page not found"
   },
+  "kepcoinPage": {
+    "youHave": {
+      "title": "You have",
+      "subtitle": "Earn Kepcoin by contributing across KEP.uz."
+    },
+    "summary": {
+      "loadError": "Could not load your Kepcoin summary. Please try again."
+    },
+    "streak": {
+      "title": "Streak freeze",
+      "description": "Freezing automatically saves your streak if you miss a day and don't complete daily tasks.",
+      "freezeCount_one": "{{count}} streak freeze",
+      "freezeCount_other": "{{count}} streak freezes",
+      "currentStreak_one": "{{count}} day streak",
+      "currentStreak_other": "{{count}} day streak"
+    },
+    "transactions": {
+      "title": "Activity",
+      "subtitle": "Earns & spends",
+      "tabs": {
+        "earns": "Earns",
+        "spends": "Spends"
+      },
+      "loadError": "Could not load Kepcoin history. Please try again.",
+      "emptyTitle": "No Kepcoin activity yet",
+      "emptySubtitle": "Earn or spend Kepcoin to see it listed here.",
+      "unknown": "Details unavailable",
+      "coverPhotoAlt": "Purchased cover photo preview"
+    },
+    "earns": {
+      "wroteBlog": "Wrote a blog",
+      "wroteProblemSolution": "Wrote problem solution",
+      "loyaltyBonus": "Loyalty bonus",
+      "bonusFromAdmin": "Bonus from admin",
+      "dailyActivity": "Daily activity: {{date}}",
+      "dailyTaskCompleted": "Daily task completed: {{description}}",
+      "dailyRatingWinner": "Daily challenge rating winner: {{date}}",
+      "weeklyRatingWinner": "Weekly challenge rating winner: {{date}}",
+      "monthlyRatingWinner": "Monthly challenge rating winner: {{date}}",
+      "contestParticipant": "Contest participant: {{title}}",
+      "arenaParticipant": "Arena participant: {{title}}",
+      "tournamentParticipant": "Tournament participant",
+      "projectTaskComplete": "Project task completed"
+    },
+    "spends": {
+      "viewAttempt": "View attempt #{{id}}",
+      "viewTestAttempt": "View test attempt #{{id}}",
+      "viewProblemSolution": "View problem solution: {{title}}",
+      "doubleRating": "2x Rating",
+      "changeImage": "Change cover photo",
+      "course": "Course",
+      "studyPlan": "Study plan",
+      "codeEditorTesting": "Code editor testing",
+      "saveRating": "Save rating",
+      "passTest": "Pass the test: {{title}}",
+      "createContest": "Create contest",
+      "project": "Project",
+      "streakFreeze": "Streak freeze",
+      "virtualContest": "Virtual contest",
+      "unratedContest": "Unrated contest",
+      "answerForInput": "Answer for input",
+      "checkSamples": "Check samples",
+      "merch": "Merch"
+    },
+    "howToEarn": {
+      "title": "How to Earn Kepcoin",
+      "description": "To earn this currency, you need to contribute to the development of the system.",
+      "items": [
+        "1 : For daily activity",
+        "1-10 : For completing daily tasks",
+        "3, 10, 50 : For being the winner in daily, weekly, and monthly challenge ratings",
+        "5+ : For participating in competitions",
+        "10-100 : For writing a blog",
+        "1-50 : For helping in editing problems (writing solutions, translation, adding tags, finding similar problems)"
+      ]
+    },
+    "howToSpend": {
+      "title": "How to Spend Kepcoin",
+      "description": "Spend Kepcoin to unlock attempts, resources, and personalization features.",
+      "items": [
+        "0-14 : View another user's attempt",
+        "1 : View a test with a failed solution",
+        "2-50 : Purchase a problem solution",
+        "5 : Change profile cover photo",
+        "1 : Pass the test",
+        "1-1000 : Purchase a course",
+        "10 : Test function when editing code (completely)",
+        "25 : Double rating change in contest (even if negative, it doubles)",
+        "25 : Maintain rating in contest (not given if negative)"
+      ]
+    }
+  },
   "shop": {
     "title": "Shop",
     "subtitle": "Redeem your Kepcoins for gear and accessories inspired by KEP.uz.",

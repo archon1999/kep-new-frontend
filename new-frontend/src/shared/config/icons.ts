@@ -39,6 +39,7 @@ export const kepIcons = {
   'challenge-task': 'mdi:clipboard-text-outline',
   username: 'mdi:account-edit-outline',
   streak: 'mdi:fire',
+  freeze: 'mdi:snowflake-variant',
   tags: 'mdi:tag-multiple-outline',
   difficulty: 'mdi:speedometer',
   login: 'mdi:login',

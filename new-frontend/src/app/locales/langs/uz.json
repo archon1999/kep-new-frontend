@@ -10,6 +10,98 @@
     "login": "Kirish",
     "notFound": "Sahifa topilmadi"
   },
+  "kepcoinPage": {
+    "youHave": {
+      "title": "Sizda",
+      "subtitle": "KEP.uz’ni rivojlantirib Kepcoin to‘plang."
+    },
+    "summary": {
+      "loadError": "Kepcoin balansini yuklab bo‘lmadi. Qayta urinib ko‘ring."
+    },
+    "streak": {
+      "title": "Muzlatish",
+      "description": "Agar kunni oʻtkazib yuborsangiz va kundalik vazifalarni bajarmasangiz, muzlatish avtomatik ravishda natijani saqlaydi.",
+      "freezeCount_one": "{{count}} ta muzlatish",
+      "freezeCount_other": "{{count}} ta muzlatish",
+      "currentStreak_one": "{{count}} kunlik seriya",
+      "currentStreak_other": "{{count}} kunlik seriya"
+    },
+    "transactions": {
+      "title": "Faoliyat",
+      "subtitle": "Daromadlar va xarajatlar",
+      "tabs": {
+        "earns": "Daromadlar",
+        "spends": "Xarajatlar"
+      },
+      "loadError": "Kepcoin tarixini yuklab bo‘lmadi. Keyinroq urinib ko‘ring.",
+      "emptyTitle": "Kepcoin tarixi bo‘sh",
+      "emptySubtitle": "Kepcoin yig‘ing yoki sarflang va yozuvlar shu yerda paydo bo‘ladi.",
+      "unknown": "Maʼlumot yoʻq",
+      "coverPhotoAlt": "Sotib olingan muqova tasviri"
+    },
+    "earns": {
+      "wroteBlog": "Blog yozildi",
+      "wroteProblemSolution": "Masala yechimi yozildi",
+      "loyaltyBonus": "Sodiqlik bonusi",
+      "bonusFromAdmin": "Admindan bonus",
+      "dailyActivity": "Kunlik faollik: {{date}}",
+      "dailyTaskCompleted": "Kunlik topshiriq bajarildi: {{description}}",
+      "dailyRatingWinner": "Kunlik masalalar reytingi g‘olibi: {{date}}",
+      "weeklyRatingWinner": "Haftalik masalalar reytingi g‘olibi: {{date}}",
+      "monthlyRatingWinner": "Oylik masalalar reytingi g‘olibi: {{date}}",
+      "contestParticipant": "Kontest ishtirokchisi: {{title}}",
+      "arenaParticipant": "Arena ishtirokchisi: {{title}}",
+      "tournamentParticipant": "Turnir ishtirokchisi",
+      "projectTaskComplete": "Loyiha vazifasi bajarildi"
+    },
+    "spends": {
+      "viewAttempt": "Urinishni ko‘rish №{{id}}",
+      "viewTestAttempt": "Urinish testini ko‘rish №{{id}}",
+      "viewProblemSolution": "Masala yechimini ko‘rish: {{title}}",
+      "doubleRating": "Ikki barobar reyting",
+      "changeImage": "Rasmni o‘zgartirish",
+      "course": "Kurs",
+      "studyPlan": "O‘quv rejasi",
+      "codeEditorTesting": "Kod muharriri testi",
+      "saveRating": "Reytingni saqlab qolish",
+      "passTest": "Testdan o‘tish: {{title}}",
+      "createContest": "Kontest yaratish",
+      "project": "Loyiha",
+      "streakFreeze": "Muzlatish",
+      "virtualContest": "Virtual kontest",
+      "unratedContest": "Reytingsiz kontest",
+      "answerForInput": "Test uchun javob",
+      "checkSamples": "Namunalarni tekshirish",
+      "merch": "Merch"
+    },
+    "howToEarn": {
+      "title": "Kepcoinni qanday topish",
+      "description": "Bu valyutani olish uchun tizim rivojiga hissa qo‘shing.",
+      "items": [
+        "1 : Kunlik faollik uchun",
+        "1-10 : Kundalik topshiriqlarni bajarganlik uchun",
+        "3, 10, 50 : Kundalik, haftalik va oylik reyting g‘olibi bo‘lganingiz uchun",
+        "5+ : Musobaqalarda qatnashganingiz uchun",
+        "10-100 : Blog yozganingiz uchun",
+        "1-50 : Masalalarni tahrirlashga yordam (yechim, tarjima, teglar, o‘xshash masalalar) uchun"
+      ]
+    },
+    "howToSpend": {
+      "title": "Kepcoinni qanday sarflash",
+      "description": "Kepcoin orqali urinishlarni, resurslarni va profil sozlashlarini oching.",
+      "items": [
+        "0-14 : Boshqa foydalanuvchining urinishini ko‘rish",
+        "1 : Muvaffaqiyatsiz yechim testini ko‘rish",
+        "2-50 : Masala yechimini sotib olish",
+        "5 : Profil muqovasini o‘zgartirish",
+        "1 : Testdan o‘tish",
+        "1-1000 : Kurs sotib olish",
+        "10 : Kodni tahrirlashda funksiyani to‘liq tekshirish",
+        "25 : Kontestda reyting o‘zgarishini ikki barobar qilish (manfiy bo‘lsa ham)",
+        "25 : Kontestda reytingni saqlab qolish (manfiy bo‘lsa berilmaydi)"
+      ]
+    }
+  },
   "shop": {
     "title": "Doʻkon",
     "subtitle": "Kepcoinlarni KEP.uz sovgʻalari va aksessuarlariga sarflang.",
