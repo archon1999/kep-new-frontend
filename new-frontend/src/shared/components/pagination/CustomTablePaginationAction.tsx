@@ -51,7 +51,6 @@ const CustomTablePaginationAction = ({
         flexDirection: 'row',
         flexWrap: { xs: 'wrap', sm: 'nowrap' },
         gap: { xs: 1, sm: 2 },
-        mb: 2,
       }}
     >
       <Button

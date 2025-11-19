@@ -253,6 +253,7 @@ const UsersDataGrid = ({
         '& .MuiDataGrid-cell:focus, & .MuiDataGrid-columnHeader:focus': {
           outline: 'none',
         },
+        mb: 2,
       }}
     />
   );
