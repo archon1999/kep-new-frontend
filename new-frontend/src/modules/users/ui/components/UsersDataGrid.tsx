@@ -243,9 +243,6 @@ const UsersDataGrid = ({
       disableRowSelectionOnClick
       getRowId={(row) => (row as UsersListItem).id ?? (row as UsersListItem).username}
       sx={{
-        '& .MuiDataGrid-cell:focus, & .MuiDataGrid-columnHeader:focus': {
-          outline: 'none',
-        },
         mb: 2,
       }}
     />
