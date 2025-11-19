@@ -23,8 +23,6 @@ const UserActivitySection = () => {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
 
-  const numberFormatter = useMemo(() => new Intl.NumberFormat(i18n.language), [i18n.language]);
-
   const chartData = useMemo<ChartPoint[]>(() => {
     return Array.from({ length: DAYS_IN_SERIES }, (_, index) => {
       const cursor = dayjs().subtract(DAYS_IN_SERIES - index - 1, 'day');
@@ -40,30 +38,27 @@ const UserActivitySection = () => {
     () => [
       {
         label: t('homePage.userActivity.metrics.totalUsers'),
-        value: numberFormatter.format(USER_ACTIVITY_STATS.total),
+        value: USER_ACTIVITY_STATS.total,
       },
       {
         label: t('homePage.userActivity.metrics.activeUsers'),
-        value: numberFormatter.format(USER_ACTIVITY_STATS.activeTotal),
+        value: USER_ACTIVITY_STATS.activeTotal,
       },
     ],
-    [numberFormatter, t]
+    [t]
   );
 
   return (
-    <Paper background={1} sx={{ height: 1 }}>
-      <Stack spacing={3} sx={{ p: { xs: 3, md: 5 }, height: 1 }}>
+    <Paper sx={{ height: 1 }}>
+      <Stack direction="column" spacing={3} sx={{ p: { xs: 3, md: 5 }, height: 1 }}>
         <Stack spacing={0.5}>
           <Typography variant="h5">{t('homePage.userActivity.title')}</Typography>
-          <Typography variant="body2" color="text.secondary">
-            {t('homePage.userActivity.subtitle', { days: DAYS_IN_SERIES })}
-          </Typography>
         </Stack>
 
         <Grid container spacing={3}>
           {totals.map((item) => (
             <Grid key={item.label} size={{ xs: 12, sm: 6 }}>
-              <Stack spacing={0.5}>
+              <Stack direction="column" spacing={0.5}>
                 <Typography variant="body2" color="text.secondary">
                   {item.label}
                 </Typography>
@@ -75,7 +70,7 @@ const UserActivitySection = () => {
 
         <Divider />
 
-        <Box sx={{ flexGrow: 1, minHeight: 260 }}>
+        <Box sx={{ flexGrow: 1, minHeight: 200 }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
@@ -88,17 +83,17 @@ const UserActivitySection = () => {
               />
               <YAxis
                 stroke={theme.palette.text.secondary}
-                tickFormatter={(value) => numberFormatter.format(value as number)}
+                tickFormatter={(value) => value as number}
                 width={60}
               />
               <Tooltip
                 formatter={(value, name) => [
-                  numberFormatter.format(value as number),
+                  value as number,
                   name === 'newUsers'
                     ? t('homePage.userActivity.chart.newUsers')
                     : t('homePage.userActivity.chart.activeUsers'),
                 ]}
-                labelFormatter={(value) => dayjs(value).format('MMM DD, YYYY')}
+                labelFormatter={(value) => dayjs(value).format('MMM DD')}
               />
               <Legend
                 formatter={(value) =>

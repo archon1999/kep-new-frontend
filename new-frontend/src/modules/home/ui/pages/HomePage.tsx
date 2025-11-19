@@ -14,7 +14,7 @@ const HomePage = () => {
 
   return (
     <Box>
-      <Grid container spacing={{ xs: 3, md: 4 }}>
+      <Grid container>
         <Grid size={{ xs: 12, md: 5, lg: 4, xl: 3 }} sx={{ height: 1 }}>
           <HomeProfileSection displayName={displayName} ratings={ratings} isLoading={isLoading} />
         </Grid>
