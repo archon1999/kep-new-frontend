@@ -60,9 +60,9 @@ const KepcoinPage = () => {
   const pagesCount = activeHistory?.pagesCount ?? 1;
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box>
       <Stack direction="column" spacing={5}>
-        <Stack spacing={1}>
+        <Stack sx={{ p: { xs: 3, md: 5 } }} spacing={1}>
           {isSummaryLoading ? (
             <Skeleton variant="text" width={240} height={48} />
           ) : (
@@ -72,14 +72,15 @@ const KepcoinPage = () => {
           )}
         </Stack>
 
-        <Grid container spacing={4} alignItems="flex-start">
+        <Grid container alignItems="flex-start">
           <Grid item xs={12} md={7}>
-            <Stack spacing={4} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
+            <Stack>
               <StreakWidget
                 streak={summary?.streak}
                 streakFreeze={summary?.streakFreeze}
                 isLoading={isSummaryLoading}
               />
+              <Divider flexItem orientation="vertical"></Divider>
               <KepcoinActivityWidget
                 view={view}
                 onViewChange={handleViewChange}
