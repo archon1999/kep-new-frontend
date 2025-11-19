@@ -42,13 +42,13 @@ const mapToEventInput = (
 
 const CalendarPage = () => {
   const { t } = useTranslation();
-  const { data: events, isLoading } = useCalendarEvents();
+  const { data: events, isLoading, error } = useCalendarEvents();
   const calendarRef = useRef<ReactFullCalendar | null>(null);
   const [view, setView] = useState<CalendarView>('dayGridMonth');
   const [rangeLabel, setRangeLabel] = useState<string>(dayjs().format('MMMM YYYY'));
   const theme = useTheme();
 
-  const eventColors = useMemo(
+  const eventColors = useMemo<Record<number, string>>(
     () => ({
       1: theme.palette.primary.main,
       2: theme.palette.info.main,
