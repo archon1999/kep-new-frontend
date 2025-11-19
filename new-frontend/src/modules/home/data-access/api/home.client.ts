@@ -1,19 +1,21 @@
 import { apiClient } from 'shared/api';
 import type {
-  ApiBlogListParams,
   ApiBlogListResult,
-  ApiNewsListParams,
   ApiNewsListResult,
-  ApiUsersChartStatParams,
   ApiUsersChartStatResult,
-  ApiUsersNextBirthdaysParams,
   ApiUsersNextBirthdaysResult,
-  ApiUsersOnlineParams,
   ApiUsersOnlineResult,
   ApiUsersRatingsResult,
-  ApiUsersTopRatingParams,
   ApiUsersTopRatingResult,
 } from 'shared/api/orval/generated/endpoints';
+import type {
+  ApiBlogListParams,
+  ApiNewsListParams,
+  ApiUsersChartStatParams,
+  ApiUsersNextBirthdaysParams,
+  ApiUsersOnlineParams,
+  ApiUsersTopRatingParams,
+} from 'shared/api/orval/generated/endpoints/index.schemas';
 
 export const homeApiClient = {
   news: (params?: ApiNewsListParams) => apiClient.apiNewsList(params) as Promise<ApiNewsListResult>,

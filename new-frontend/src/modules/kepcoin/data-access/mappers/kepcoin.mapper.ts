@@ -1,4 +1,7 @@
-import type { ApiKepcoinEarnsList200, ApiKepcoinSpendsList200 } from 'shared/api/orval/generated/endpoints';
+import type {
+  ApiKepcoinEarnsList200,
+  ApiKepcoinSpendsList200,
+} from 'shared/api/orval/generated/endpoints/index.schemas';
 import type {
   KepcoinEarnHistoryItem,
   KepcoinHistoryResponse,
