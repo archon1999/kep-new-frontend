@@ -64,12 +64,12 @@ const Footer = () => {
             </Tooltip>
           ))}
 
-          <Tooltip title="Aurora" arrow>
+          <Tooltip title="KEP.uz" arrow>
             <Box
               component="img"
               sx={{ height: 20, width: 20, objectFit: 'contain', display: 'inline-flex' }}
-              src="/aurora.svg"
-              alt="Aurora"
+              src="/logo.svg"
+              alt="KEP.uz"
             />
           </Tooltip>
         </Stack>

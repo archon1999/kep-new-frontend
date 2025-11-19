@@ -7,13 +7,13 @@ import rtlPlugin from 'stylis-plugin-rtl';
 
 const createRtlCache = () =>
   createCache({
-    key: 'aurorartl',
+    key: 'keprtl',
     stylisPlugins: [prefixer, rtlPlugin],
   });
 
 const createLtrCache = () =>
   createCache({
-    key: 'aurora',
+    key: 'kep',
   });
 
 const RTLMode = ({ children }: PropsWithChildren) => {

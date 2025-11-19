@@ -96,7 +96,7 @@ export const createTheme = (
 
   return muiCreateTheme(
     {
-      cssVariables: { colorSchemeSelector: 'data-aurora-color-scheme', cssVarPrefix: 'aurora' },
+      cssVariables: { colorSchemeSelector: 'data-kep-color-scheme', cssVarPrefix: 'aurora' },
       shadows: ['none', ...shadows],
       colorSchemes: {
         light: {

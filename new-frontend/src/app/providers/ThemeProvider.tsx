@@ -22,7 +22,7 @@ const ThemeProvider = ({ children }: PropsWithChildren) => {
       disableTransitionOnChange
       theme={customTheme}
       defaultMode="light"
-      modeStorageKey="aurora-mode"
+      modeStorageKey="kep-mode"
     >
       <CssBaseline enableColorScheme />
       <RTLMode>{children}</RTLMode>

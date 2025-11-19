@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, SvgIcon, SvgIconProps, Typography, typographyClasses } from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { rootPaths } from 'app/routes/paths';
@@ -7,19 +7,17 @@ interface LogoProps extends SvgIconProps {
   showName?: boolean;
 }
 
-const Logo = ({ sx, viewBox = '0 0 26 40', showName = true, ...rest }: LogoProps) => {
-  const [id, setId] = useState('logo');
+const Logo = ({ sx, viewBox = '0 0 1000 1000', showName = true, ...rest }: LogoProps) => {
+  const [id, setId] = useState('kep-logo');
 
   const {
     config: { navColor },
   } = useSettingsContext();
 
-  const color = useMemo(() => {
-    return navColor === 'vibrant' ? '#A641FA' : '#20DE99';
-  }, [navColor]);
+  const color = '#00FFBE';
 
   useEffect(() => {
-    setId(`logo-${Math.floor(Math.random() * 1000) + 1}`);
+    setId(`kep-logo-${Math.floor(Math.random() * 1000) + 1}`);
   }, []);
 
   return (
@@ -39,103 +37,249 @@ const Logo = ({ sx, viewBox = '0 0 26 40', showName = true, ...rest }: LogoProps
       <SvgIcon
         viewBox={viewBox}
         sx={{
-          height: 40,
-          width: 26,
+          height: 32,
+          width: 32,
+          borderRadius: '8px',
           ...sx,
         }}
         {...rest}
       >
-        <path
-          d="M0.428711 1.68945V13.9413C0.428711 16.3924 2.77965 18.5801 6.30599 19.4106L16.7827 21.8779L22.9541 23.3334C22.9602 23.3334 22.9664 23.3377 22.9725 23.3377C24.6079 23.7284 25.4287 24.7331 25.4287 25.7335V9.39644C25.4287 8.46903 24.7252 7.54162 23.3181 7.09934C23.312 7.09505 23.3058 7.09075 23.2996 7.09505L16.7827 5.55366L0.428711 1.68945Z"
-          fill={`url(#paint0-${id})`}
-        />
-        <path
-          d="M4.85352 19.0703V34.2138C4.85352 33.222 5.66196 32.2259 7.27269 31.8266C7.28499 31.8223 7.29735 31.8223 7.30971 31.818C7.31589 31.818 7.32207 31.8137 7.32819 31.8137L11.7469 30.7746L13.4995 30.3624L22.954 28.1341L22.9972 28.1212C24.6141 27.7262 25.4287 26.7301 25.4287 25.734C25.4287 24.7379 24.6079 23.7288 22.9725 23.3381C22.9663 23.3381 22.9602 23.3339 22.954 23.3339L16.7827 21.8826L4.85352 19.0703Z"
-          fill={`url(#paint1-${id})`}
-        />
-        <path
-          d="M4.85352 34.2131C4.85352 35.2178 5.68048 36.2225 7.32823 36.6132L11.7469 37.6565L13.4995 38.0687L17.2842 38.9609C19.0945 39.3876 21.0039 38.5104 21.0039 37.2519V28.5928L16.7827 29.5889L13.4995 30.3617L11.7469 30.7739L7.32823 31.813C7.32823 31.813 7.31586 31.8173 7.30968 31.8173C7.29739 31.8215 7.28502 31.8216 7.27266 31.8259C5.66196 32.2252 4.85352 33.2213 4.85352 34.2131Z"
-          fill={`url(#paint2-${id})`}
-        />
-        <path
-          d="M4.85352 19.0303V34.1737C4.85352 33.1819 5.66196 32.1858 7.27269 31.7865C7.28499 31.7822 7.29735 31.7822 7.30971 31.7779C7.31589 31.7779 7.32207 31.7736 7.32819 31.7736L11.7469 30.7346L13.4995 30.3224L22.954 28.094L22.9972 28.0811C24.6141 27.6861 25.4287 26.69 25.4287 25.6939C25.4287 24.6978 24.6079 23.6888 22.9725 23.2981C22.9663 23.2981 22.9602 23.2938 22.954 23.2938L16.7827 21.8426L4.85352 19.0303Z"
-          fill={`url(#paint3-${id})`}
-        />
-        <path
-          d="M4.85352 34.174C4.85352 35.1787 5.68047 36.1834 7.32823 36.5741L11.7469 37.6175L13.4995 38.0296L17.2842 38.9218C19.0945 39.3485 21.0039 38.4713 21.0039 37.2128V28.5537L16.7827 29.5498L13.4995 30.3227L11.7469 30.7348L7.32823 31.7739C7.32823 31.7739 7.31586 31.7782 7.30968 31.7782C7.29739 31.7825 7.28502 31.7825 7.27266 31.7868C5.66196 32.1861 4.85352 33.1822 4.85352 34.174Z"
-          fill={`url(#paint4-${id})`}
-        />
-        <path
-          d="M0.428711 1.65039V13.9023C0.428711 16.3533 2.77965 18.5411 6.30599 19.3715L16.7827 21.8388L22.9541 23.2943C22.9602 23.2943 22.9664 23.2986 22.9725 23.2986C24.6079 23.6893 25.4287 24.694 25.4287 25.6944V9.35734C25.4287 8.42993 24.7252 7.50252 23.3181 7.06029C23.312 7.056 23.3058 7.0517 23.2996 7.056L16.7827 5.51461L0.428711 1.65039Z"
-          fill={`url(#paint5-${id})`}
-        />
+        <g clipPath={`url(#clip0_${id})`}>
+          <path
+            d="M695.348 250.014L389.334 556.027L278.057 556.027L278.057 444.75L584.07 138.736L695.348 138.736L695.348 250.014Z"
+            fill={`url(#paint0_linear_${id})`}
+          />
+          <path
+            d="M556.029 111.139L55.2802 611.888L-0.358614 556.249L-0.35861 444.971L444.752 -0.13878L556.029 -0.138781L556.029 55.5L556.029 111.139Z"
+            fill={`url(#paint1_linear_${id})`}
+          />
+          <g filter={`url(#filter0_d_${id})`}>
+            <path
+              d="M695.349 138.734L1000.65 445.141L1000.65 555.308L889.367 555.308L584.071 254.697L584.071 138.734L695.349 138.734Z"
+              fill={`url(#paint2_linear_${id})`}
+            />
+            <path
+              d="M695.349 138.734L1000.65 445.141L1000.65 555.308L889.367 555.308L584.071 254.697L584.071 138.734L695.349 138.734Z"
+              fill={`url(#paint3_linear_${id})`}
+              fillOpacity="0.5"
+            />
+          </g>
+          <g filter={`url(#filter1_d_${id})`}>
+            <path
+              d="M1001.36 556.025L806.627 750.761L695.35 750.761L695.35 639.484L890.086 444.748H1001.36L1001.36 556.025Z"
+              fill={`url(#paint4_linear_${id})`}
+            />
+          </g>
+          <g filter={`url(#filter2_d_${id})`}>
+            <path
+              d="M556.251 389.109L806.626 639.485L806.626 750.762L693.002 750.762L444.973 500.387L556.251 389.109Z"
+              fill={`url(#paint5_linear_${id})`}
+            />
+            <path
+              d="M556.251 389.109L806.626 639.485L806.626 750.762L693.002 750.762L444.973 500.387L556.251 389.109Z"
+              fill={`url(#paint6_linear_${id})`}
+              fillOpacity="0.4"
+            />
+          </g>
+          <g filter={`url(#filter3_d_${id})`}>
+            <path
+              d="M444.975 1001.13L-0.13566 556.024L-0.135617 444.747L111.142 444.747L556.252 889.857V1001.13H444.975Z"
+              fill={`url(#paint7_linear_${id})`}
+            />
+          </g>
+        </g>
         <defs>
+          <filter
+            id={`filter0_d_${id}`}
+            x="570.071"
+            y="132.734"
+            width="436.574"
+            height="436.574"
+            filterUnits="userSpaceOnUse"
+            colorInterpolationFilters="sRGB"
+          >
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
+            <feColorMatrix
+              in="SourceAlpha"
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha"
+            />
+            <feOffset dx="-4" dy="4" />
+            <feGaussianBlur stdDeviation="5" />
+            <feComposite in2="hardAlpha" operator="out" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
+            <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_1246_654" />
+            <feBlend in="SourceGraphic" in2="effect1_dropShadow_1246_654" result="shape" />
+          </filter>
+          <filter
+            id={`filter1_d_${id}`}
+            x="681.35"
+            y="430.748"
+            width="326.014"
+            height="326.014"
+            filterUnits="userSpaceOnUse"
+            colorInterpolationFilters="sRGB"
+          >
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
+            <feColorMatrix
+              in="SourceAlpha"
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha"
+            />
+            <feOffset dx="-4" dy="-4" />
+            <feGaussianBlur stdDeviation="5" />
+            <feComposite in2="hardAlpha" operator="out" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
+            <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_1246_654" />
+            <feBlend in="SourceGraphic" in2="effect1_dropShadow_1246_654" result="shape" />
+          </filter>
+          <filter
+            id={`filter2_d_${id}`}
+            x="438.974"
+            y="375.109"
+            width="381.652"
+            height="381.652"
+            filterUnits="userSpaceOnUse"
+            colorInterpolationFilters="sRGB"
+          >
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
+            <feColorMatrix
+              in="SourceAlpha"
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha"
+            />
+            <feOffset dx="4" dy="-4" />
+            <feGaussianBlur stdDeviation="5" />
+            <feComposite in2="hardAlpha" operator="out" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+            <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_1246_654" />
+            <feBlend in="SourceGraphic" in2="effect1_dropShadow_1246_654" result="shape" />
+          </filter>
+          <filter
+            id={`filter3_d_${id}`}
+            x="-6.13574"
+            y="430.746"
+            width="576.388"
+            height="576.389"
+            filterUnits="userSpaceOnUse"
+            colorInterpolationFilters="sRGB"
+          >
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
+            <feColorMatrix
+              in="SourceAlpha"
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha"
+            />
+            <feOffset dx="4" dy="-4" />
+            <feGaussianBlur stdDeviation="5" />
+            <feComposite in2="hardAlpha" operator="out" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
+            <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_1246_654" />
+            <feBlend in="SourceGraphic" in2="effect1_dropShadow_1246_654" result="shape" />
+          </filter>
           <linearGradient
-            id={`paint0-${id}`}
-            x1="14.7322"
-            y1="4.79214"
-            x2="10.2932"
-            y2="23.4701"
+            id={`paint0_linear_${id}`}
+            x1="508.5"
+            y1="362"
+            x2="431.063"
+            y2="291.743"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor={color} stopOpacity="0" />
+            <stop stopColor={color} />
             <stop offset="1" stopColor={color} />
           </linearGradient>
           <linearGradient
-            id={`paint1-${id}`}
-            x1="8.99599"
-            y1="21.7626"
-            x2="11.2993"
-            y2="31.253"
+            id={`paint1_linear_${id}`}
+            x1="293.002"
+            y1="285.998"
+            x2="243.002"
+            y2="236.998"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor={color} stopOpacity="0" />
+            <stop stopColor={color} />
             <stop offset="1" stopColor={color} />
           </linearGradient>
           <linearGradient
-            id={`paint2-${id}`}
-            x1="16.7822"
-            y1="29.8876"
-            x2="14.8495"
-            y2="40.1977"
+            id={`paint2_linear_${id}`}
+            x1="746.238"
+            y1="279.74"
+            x2="563.441"
+            y2="105.28"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor={color} stopOpacity="0" />
+            <stop stopColor={color} />
             <stop offset="1" stopColor={color} />
           </linearGradient>
           <linearGradient
-            id={`paint3-${id}`}
-            x1="8.19634"
-            y1="20.2692"
-            x2="11.769"
-            y2="33.5753"
+            id={`paint3_linear_${id}`}
+            x1="808.879"
+            y1="330.5"
+            x2="791.379"
+            y2="348"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor={color} stopOpacity="0" />
+            <stop stopColor={color} />
             <stop offset="1" stopColor={color} />
           </linearGradient>
           <linearGradient
-            id={`paint4-${id}`}
-            x1="17.2907"
-            y1="30.1393"
-            x2="15.1082"
-            y2="40.2682"
+            id={`paint4_linear_${id}`}
+            x1="853.602"
+            y1="603"
+            x2="808.5"
+            y2="557.898"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor={color} stopOpacity="0" />
+            <stop stopColor={color} />
             <stop offset="1" stopColor={color} />
           </linearGradient>
           <linearGradient
-            id={`paint5-${id}`}
-            x1="14.7322"
-            y1="4.75309"
-            x2="10.2932"
-            y2="23.431"
+            id={`paint5_linear_${id}`}
+            x1="487.5"
+            y1="439.5"
+            x2="810.5"
+            y2="762.5"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor={color} stopOpacity="0" />
+            <stop stopColor={color} />
+            <stop offset="0.648407" stopColor={color} />
             <stop offset="1" stopColor={color} />
           </linearGradient>
+          <linearGradient
+            id={`paint6_linear_${id}`}
+            x1="653.374"
+            y1="598"
+            x2="674.874"
+            y2="576.5"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor={color} />
+            <stop offset="1" stopColor={color} />
+          </linearGradient>
+          <linearGradient
+            id={`paint7_linear_${id}`}
+            x1="278.002"
+            y1="722.998"
+            x2="310.502"
+            y2="690.498"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor={color} />
+            <stop offset="1" stopColor={color} />
+          </linearGradient>
+          <clipPath id={`clip0_${id}`}>
+            <rect
+              x="1000"
+              width="1000"
+              height="1000"
+              rx="160"
+              transform="rotate(90 1000 0)"
+              fill="white"
+            />
+          </clipPath>
         </defs>
       </SvgIcon>
       {showName && (
@@ -143,18 +287,18 @@ const Logo = ({ sx, viewBox = '0 0 26 40', showName = true, ...rest }: LogoProps
           sx={[
             {
               color: 'text.secondary',
-              fontWeight: 'medium',
               fontSize: 29.5,
               lineHeight: 1,
               margin: 1,
-              marginLeft: 0.625,
+              marginLeft: 1,
+              marginBottom: 1.5,
               letterSpacing: '-.8px',
             },
             navColor !== 'vibrant' && {
               background: ({ vars, direction }) =>
                 direction === 'rtl'
-                  ? `linear-gradient(100.06deg, #20DE99 93.03%, #7DB1F5 27.63%, #5A9EF6 49.36%, ${vars.palette.text.secondary} 50.11%, ${vars.palette.text.secondary} 87.87%)`
-                  : `linear-gradient(100.06deg, #20DE99 6.97%, #7DB1F5 27.63%, #5A9EF6 49.36%, ${vars.palette.text.secondary} 50.11%, ${vars.palette.text.secondary} 87.87%);`,
+                  ? `linear-gradient(100.06deg, ${color} 93.03%, #7DB1F5 27.63%, #5A9EF6 49.36%, ${vars.palette.text.secondary} 50.11%, ${vars.palette.text.secondary} 87.87%)`
+                  : `linear-gradient(100.06deg, ${color} 6.97%, #7DB1F5 27.63%, #5A9EF6 49.36%, ${vars.palette.text.secondary} 50.11%, ${vars.palette.text.secondary} 87.87%);`,
               backgroundSize: '240% 100%',
               backgroundPosition: ({ direction }) => (direction === 'rtl' ? 'left' : 'right'),
               WebkitBackgroundClip: 'text',
@@ -163,7 +307,7 @@ const Logo = ({ sx, viewBox = '0 0 26 40', showName = true, ...rest }: LogoProps
             },
           ]}
         >
-          aurora
+          KEP.uz
         </Typography>
       )}
     </Link>
