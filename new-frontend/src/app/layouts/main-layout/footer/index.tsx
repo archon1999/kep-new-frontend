@@ -63,15 +63,6 @@ const Footer = () => {
               </Box>
             </Tooltip>
           ))}
-
-          <Tooltip title="KEP.uz" arrow>
-            <Box
-              component="img"
-              sx={{ height: 20, width: 20, objectFit: 'contain', display: 'inline-flex' }}
-              src="/logo.svg"
-              alt="KEP.uz"
-            />
-          </Tooltip>
         </Stack>
       </Stack>
     </>
