@@ -26,7 +26,6 @@ const SettingsProvider = ({ children }: PropsWithChildren) => {
     sidenavCollapsed: getItemFromStore('sidenavCollapsed', initialConfig.sidenavCollapsed),
     sidenavType: getItemFromStore('sidenavType', initialConfig.sidenavType),
     topnavType: getItemFromStore('topnavType', initialConfig.topnavType),
-    textDirection: getItemFromStore('textDirection', initialConfig.textDirection),
     navigationMenuType: getItemFromStore('navigationMenuType', initialConfig.navigationMenuType),
     navColor: getItemFromStore('navColor', initialConfig.navColor),
     locale: getItemFromStore('locale', initialConfig.locale),

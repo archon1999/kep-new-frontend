@@ -1,17 +1,14 @@
 import { PropsWithChildren } from 'react';
-import { useTheme } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import SnackbarCloseButton from 'shared/components/snackbar/SnackbarCloseButton';
 import SnackbarIcon from 'shared/components/snackbar/SnackbarIcon';
 
 const NotistackProvider = ({ children }: PropsWithChildren) => {
-  const theme = useTheme();
-
   return (
     <SnackbarProvider
       maxSnack={10}
       anchorOrigin={{
-        horizontal: theme.direction === 'rtl' ? 'left' : 'right',
+        horizontal: 'right',
         vertical: 'top',
       }}
       iconVariant={{

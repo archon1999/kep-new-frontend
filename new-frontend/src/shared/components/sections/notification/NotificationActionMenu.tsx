@@ -1,5 +1,4 @@
 import { MouseEvent, useState } from 'react';
-import { useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,7 +7,6 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 const NotificationActionMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const { direction } = useTheme();
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -32,8 +30,8 @@ const NotificationActionMenu = () => {
             'aria-labelledby': 'notification-action',
           },
         }}
-        transformOrigin={{ horizontal: direction === 'rtl' ? 'left' : 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: direction === 'rtl' ? 'left' : 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem onClick={handleClose} sx={{ color: 'error.main' }}>
           Remove Notification

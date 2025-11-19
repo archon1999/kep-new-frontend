@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import sidebarVibrant from 'shared/assets/images/background/6.webp';
 import topVibrant from 'shared/assets/images/background/7.webp';
 
@@ -7,17 +7,15 @@ interface VibrantBackgroundProps {
 }
 
 const VibrantBackground = ({ position }: VibrantBackgroundProps) => {
-  const theme = useTheme();
-
   return (
     <Box
       sx={[
         {
-          backgroundPositionX: theme.direction === 'rtl' ? 'right' : 'left',
+          backgroundPositionX: 'left',
           backgroundPositionY: 'top',
           top: 0,
           position: 'absolute',
-          transform: theme.direction === 'rtl' ? 'scaleX(-1)' : 'none',
+          transform: 'none',
           height: '100%',
           width: '100%',
           '&::before': {

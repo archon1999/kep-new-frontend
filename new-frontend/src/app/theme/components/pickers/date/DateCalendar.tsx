@@ -45,11 +45,7 @@ const DateCalendar: Components<Omit<Theme, 'components'>>['MuiDateCalendar'] = {
         return (
           <Stack sx={{ justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Button shape="square" color="neutral" onClick={selectPreviousMonth}>
-              <IconifyIcon
-                flipOnRTL
-                icon="material-symbols:chevron-left-rounded"
-                sx={{ fontSize: 20 }}
-              />
+              <IconifyIcon icon="material-symbols:chevron-left-rounded" sx={{ fontSize: 20 }} />
             </Button>
 
             <Button
@@ -62,11 +58,7 @@ const DateCalendar: Components<Omit<Theme, 'components'>>['MuiDateCalendar'] = {
             </Button>
 
             <Button shape="square" color="neutral" onClick={selectNextMonth}>
-              <IconifyIcon
-                flipOnRTL
-                icon="material-symbols:chevron-right-rounded"
-                sx={{ fontSize: 20 }}
-              />
+              <IconifyIcon icon="material-symbols:chevron-right-rounded" sx={{ fontSize: 20 }} />
             </Button>
           </Stack>
         );

@@ -31,80 +31,78 @@ const generateArrowStyles = (
   };
 };
 
-const placements = (theme: Theme) => {
-  const isRTL = theme.direction === 'rtl';
-
+const placements = () => {
   return [
     {
       placement: 'top-start',
-      borderRadiusProperty: isRTL ? 'borderBottomRightRadius' : 'borderBottomLeftRadius',
+      borderRadiusProperty: 'borderBottomLeftRadius',
       clipPath: 'polygon(0 0, 100% 0, 17% 100%, 0% 100%)',
       positions: { bottom: 3 },
     },
     {
       placement: 'top',
-      borderRadiusProperty: isRTL ? 'borderBottomLeftRadius' : 'borderBottomRightRadius',
+      borderRadiusProperty: 'borderBottomRightRadius',
     },
     {
       placement: 'top-end',
-      borderRadiusProperty: isRTL ? 'borderBottomLeftRadius' : 'borderBottomRightRadius',
+      borderRadiusProperty: 'borderBottomRightRadius',
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 83% 100%)',
       positions: {
         bottom: 3,
-        right: isRTL ? 'unset !important' : '0px !important',
-        left: isRTL ? 0 : 'unset !important',
+        right: '0px !important',
+        left: 'unset !important',
       },
     },
     {
       placement: 'bottom-start',
-      borderRadiusProperty: isRTL ? 'borderTopRightRadius' : 'borderTopLeftRadius',
+      borderRadiusProperty: 'borderTopLeftRadius',
       clipPath: 'polygon(0 0, 17% 0, 100% 100%, 0 100%)',
       positions: { top: 3 },
     },
     {
       placement: 'bottom',
-      borderRadiusProperty: isRTL ? 'borderTopRightRadius' : 'borderTopLeftRadius',
+      borderRadiusProperty: 'borderTopLeftRadius',
     },
     {
       placement: 'bottom-end',
-      borderRadiusProperty: isRTL ? 'borderTopLeftRadius' : 'borderTopRightRadius',
+      borderRadiusProperty: 'borderTopRightRadius',
       clipPath: 'polygon(87% 0, 100% 0, 100% 100%, 0 100%)',
-      positions: { top: 3, right: '0px !important', left: isRTL ? 0 : 'unset !important' },
+      positions: { top: 3, right: '0px !important', left: 'unset !important' },
     },
     {
       placement: 'left-start',
-      borderRadiusProperty: isRTL ? 'borderTopLeftRadius' : 'borderTopRightRadius',
+      borderRadiusProperty: 'borderTopRightRadius',
       clipPath: 'polygon(100% 0, 100% 17%, 0 100%, 0 0)',
       positions: { right: 3 },
     },
     {
       placement: 'left-end',
-      borderRadiusProperty: isRTL ? 'borderBottomLeftRadius' : 'borderBottomRightRadius',
+      borderRadiusProperty: 'borderBottomRightRadius',
       clipPath: 'polygon(0 0, 100% 87%, 100% 100%, 0 100%)',
       positions: { top: 'unset !important', bottom: 0, right: 3 },
     },
     {
       placement: 'left',
-      borderRadiusProperty: isRTL ? 'borderTopLeftRadius' : 'borderTopRightRadius',
+      borderRadiusProperty: 'borderTopRightRadius',
     },
     {
       placement: 'right-start',
-      borderRadiusProperty: isRTL ? 'borderTopRightRadius' : 'borderTopLeftRadius',
+      borderRadiusProperty: 'borderTopLeftRadius',
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 17%)',
-      positions: { left: isRTL ? 'unset' : 3 },
+      positions: { left: 3 },
     },
     {
       placement: 'right',
-      borderRadiusProperty: isRTL ? 'borderBottomRightRadius' : 'borderBottomLeftRadius',
+      borderRadiusProperty: 'borderBottomLeftRadius',
     },
     {
       placement: 'right-end',
-      borderRadiusProperty: isRTL ? 'borderBottomRightRadius' : 'borderBottomLeftRadius',
+      borderRadiusProperty: 'borderBottomLeftRadius',
       clipPath: 'polygon(0 83%, 100% 0, 100% 100%, 0 100%)',
       positions: {
         top: 'unset !important',
         bottom: 0,
-        left: isRTL ? 'unset' : 3,
+        left: 3,
       },
     },
   ];
@@ -117,8 +115,8 @@ const Tooltip: Components<Omit<Theme, 'components'>>['MuiTooltip'] = {
     enterTouchDelay: 0,
   },
   styleOverrides: {
-    popper: ({ theme }) =>
-      placements(theme).reduce(
+    popper: () =>
+      placements().reduce(
         (styles, { placement, borderRadiusProperty, clipPath, positions }) => {
           return {
             ...styles,

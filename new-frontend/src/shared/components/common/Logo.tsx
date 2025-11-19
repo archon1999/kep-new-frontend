@@ -31,7 +31,7 @@ const Logo = ({ sx, viewBox = '0 0 26 40', showName = true, ...rest }: LogoProps
         alignItems: 'center',
         '&:hover': {
           [`& .${typographyClasses.root}`]: {
-            backgroundPosition: ({ direction }) => (direction === 'rtl' ? 'right' : 'left'),
+            backgroundPosition: 'left',
           },
         },
       }}
@@ -151,12 +151,10 @@ const Logo = ({ sx, viewBox = '0 0 26 40', showName = true, ...rest }: LogoProps
               letterSpacing: '-.8px',
             },
             navColor !== 'vibrant' && {
-              background: ({ vars, direction }) =>
-                direction === 'rtl'
-                  ? `linear-gradient(100.06deg, #20DE99 93.03%, #7DB1F5 27.63%, #5A9EF6 49.36%, ${vars.palette.text.secondary} 50.11%, ${vars.palette.text.secondary} 87.87%)`
-                  : `linear-gradient(100.06deg, #20DE99 6.97%, #7DB1F5 27.63%, #5A9EF6 49.36%, ${vars.palette.text.secondary} 50.11%, ${vars.palette.text.secondary} 87.87%);`,
+              background: ({ vars }) =>
+                `linear-gradient(100.06deg, #20DE99 6.97%, #7DB1F5 27.63%, #5A9EF6 49.36%, ${vars.palette.text.secondary} 50.11%, ${vars.palette.text.secondary} 87.87%)`,
               backgroundSize: '240% 100%',
-              backgroundPosition: ({ direction }) => (direction === 'rtl' ? 'left' : 'right'),
+              backgroundPosition: 'right',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               transition: 'background-position .3s cubic-bezier(0.8, 0.63, .5, 1)',

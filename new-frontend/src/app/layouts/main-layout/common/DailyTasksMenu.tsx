@@ -12,7 +12,6 @@ import {
   Typography,
   paperClasses,
 } from '@mui/material';
-import { useSettingsContext } from 'app/providers/SettingsProvider';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useAuth } from 'app/providers/AuthProvider';
 import axiosFetcher from 'shared/services/axios/axiosFetcher';
@@ -54,9 +53,6 @@ const taskIconMap: Record<DailyTaskType, string> = {
 const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const { currentUser } = useAuth();
-  const {
-    config: { textDirection },
-  } = useSettingsContext();
 
   const { data, isLoading, mutate } = useSWR<DailyTasksResponse>(
     currentUser ? ['/api/daily-tasks', { method: 'get' }] : null,
@@ -212,11 +208,11 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
         open={open}
         onClose={handleClose}
         transformOrigin={{
-          horizontal: textDirection === 'rtl' ? 'left' : 'right',
+          horizontal: 'right',
           vertical: 'top',
         }}
         anchorOrigin={{
-          horizontal: textDirection === 'rtl' ? 'left' : 'right',
+          horizontal: 'right',
           vertical: 'bottom',
         }}
         sx={{
