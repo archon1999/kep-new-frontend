@@ -8,6 +8,7 @@ import {
 import { Avatar, Box, Chip, Stack, Typography } from '@mui/material';
 import { UsersListItem } from 'modules/users/domain/entities/user.entity';
 import kepcoinImg from 'shared/assets/images/icons/kepcoin.png';
+import { formatCountryFlag } from 'shared/utils/formatCountryFlag';
 
 export interface UsersDataGridLabels {
   user: string;
@@ -32,17 +33,6 @@ interface UsersDataGridProps {
   columnLabels: UsersDataGridLabels;
   countryLabels?: Record<string, string>;
 }
-
-const formatCountryFlag = (code?: string) => {
-  if (!code) return '';
-  const upperCased = code.toUpperCase();
-
-  if (upperCased.length !== 2) return upperCased;
-
-  return String.fromCodePoint(
-    ...upperCased.split('').map((char) => 127397 + char.charCodeAt(0)),
-  );
-};
 
 const UsersDataGrid = ({
   rows,
@@ -76,9 +66,14 @@ const UsersDataGrid = ({
                   {user.username}
                 </Typography>
                 {countryCode && (
-                  <Typography variant="caption" color="text.secondary" noWrap>
-                    {formatCountryFlag(countryCode)} {countryLabels?.[countryCode] ?? countryCode}
-                  </Typography>
+                  <Stack direction="row" spacing={0.5} alignItems="center" flexShrink={0}>
+                    <Typography component="span" sx={{ fontSize: 18, lineHeight: 1 }}>
+                      {formatCountryFlag(countryCode)}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary" noWrap>
+                      {countryLabels?.[countryCode] ?? countryCode}
+                    </Typography>
+                  </Stack>
                 )}
               </Stack>
               {name && (

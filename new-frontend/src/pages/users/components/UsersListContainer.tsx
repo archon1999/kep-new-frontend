@@ -1,22 +1,13 @@
-import { ChangeEvent, SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, MouseEvent, SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { TabContext, TabList } from '@mui/lab';
-import {
-  Box,
-  Button,
-  Collapse,
-  Grid,
-  InputAdornment,
-  MenuItem,
-  Stack,
-  Tab,
-  Typography,
-} from '@mui/material';
+import { Box, Button, InputAdornment, Menu, MenuItem, Stack, Tab, Typography } from '@mui/material';
 import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useUsersCountries, useUsersList } from 'modules/users/application/queries';
 import StyledTextField from 'shared/components/styled/StyledTextField';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import { formatCountryFlag } from 'shared/utils/formatCountryFlag';
 import UsersDataGrid from './UsersDataGrid';
 
 const tabOrderingMap = {
@@ -53,7 +44,6 @@ const UsersListContainer = () => {
   const upMd = up('md');
 
   const [tabValue, setTabValue] = useState<TabValue>('skills');
-  const [filtersOpen, setFiltersOpen] = useState(true);
   const [filters, setFilters] = useState<FiltersState>({
     search: '',
     country: '',
@@ -61,6 +51,7 @@ const UsersListContainer = () => {
     ageTo: '',
   });
   const [debouncedFilters, setDebouncedFilters] = useState(filters);
+  const [filtersAnchorEl, setFiltersAnchorEl] = useState<null | HTMLElement>(null);
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({ page: 0, pageSize: 10 });
   const [sortModel, setSortModel] = useState<GridSortModel>([]);
 
@@ -151,6 +142,12 @@ const UsersListContainer = () => {
 
   const handleSortModelChange = (model: GridSortModel) => setSortModel(model);
 
+  const filtersOpen = Boolean(filtersAnchorEl);
+  const handleFiltersButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setFiltersAnchorEl((prev) => (prev ? null : event.currentTarget));
+  };
+  const handleFiltersClose = () => setFiltersAnchorEl(null);
+
   const columnLabels = {
     user: t('users.columns.user'),
     skills: t('users.columns.skills'),
@@ -188,7 +185,10 @@ const UsersListContainer = () => {
             shape={upMd ? undefined : 'square'}
             variant="soft"
             color="neutral"
-            onClick={() => setFiltersOpen((prev) => !prev)}
+            onClick={handleFiltersButtonClick}
+            aria-haspopup="true"
+            aria-expanded={filtersOpen ? 'true' : undefined}
+            aria-controls={filtersOpen ? 'users-filters-menu' : undefined}
             sx={{ flexShrink: 0 }}
           >
             <IconifyIcon
@@ -223,53 +223,101 @@ const UsersListContainer = () => {
           />
         </Stack>
       </Stack>
+      <Menu
+        id="users-filters-menu"
+        anchorEl={filtersAnchorEl}
+        open={filtersOpen}
+        onClose={handleFiltersClose}
+        MenuListProps={{ disablePadding: true }}
+        slotProps={{
+          paper: {
+            sx: {
+              width: { xs: 280, sm: 320 },
+              p: 2,
+              mt: 1,
+            },
+          },
+        }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Stack spacing={2} sx={{ width: '100%' }}>
+          <StyledTextField
+            select
+            fullWidth
+            label={t('users.filters.country')}
+            value={filters.country}
+            onChange={handleFilterChange('country')}
+            placeholder={t('users.filters.countryPlaceholder')}
+            InputLabelProps={{ shrink: true }}
+            SelectProps={{
+              displayEmpty: true,
+              renderValue: (selected) => {
+                if (!selected) {
+                  return (
+                    <Typography component="span" color="text.secondary">
+                      {t('users.filters.anyCountry')}
+                    </Typography>
+                  );
+                }
 
-      <Collapse in={filtersOpen} sx={{ mb: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6} lg={4}>
-            <StyledTextField
-              select
-              fullWidth
-              label={t('users.filters.country')}
-              value={filters.country}
-              onChange={handleFilterChange('country')}
-              placeholder={t('users.filters.countryPlaceholder')}
-            >
-              <MenuItem value="">{t('users.filters.anyCountry')}</MenuItem>
-              {countryOptions.map((country) => (
-                <MenuItem key={country.code} value={country.code}>
-                  {country.label}
-                </MenuItem>
-              ))}
-            </StyledTextField>
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <Stack direction="row" spacing={1} alignItems="flex-end">
-              <StyledTextField
-                fullWidth
-                type="number"
-                label={t('users.filters.ageFrom')}
-                value={filters.ageFrom}
-                onChange={handleFilterChange('ageFrom')}
-                placeholder={t('users.filters.agePlaceholder')}
-                disabledSpinButton
-              />
-              <Typography color="text.secondary" sx={{ pb: 1.5 }}>
-                —
+                const value = String(selected).toUpperCase();
+                const label = countryLabels[value] ?? value;
+
+                return (
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Box component="span" sx={{ fontSize: 18, lineHeight: 1 }}>
+                      {formatCountryFlag(value)}
+                    </Box>
+                    <Typography component="span">{label}</Typography>
+                  </Stack>
+                );
+              },
+            }}
+          >
+            <MenuItem value="">
+              <Typography component="span" color="text.secondary">
+                {t('users.filters.anyCountry')}
               </Typography>
-              <StyledTextField
-                fullWidth
-                type="number"
-                label={t('users.filters.ageTo')}
-                value={filters.ageTo}
-                onChange={handleFilterChange('ageTo')}
-                placeholder={t('users.filters.agePlaceholder')}
-                disabledSpinButton
-              />
-            </Stack>
-          </Grid>
-        </Grid>
-      </Collapse>
+            </MenuItem>
+            {countryOptions.map((country) => (
+              <MenuItem key={country.code} value={country.code}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Box component="span" sx={{ fontSize: 18, lineHeight: 1 }}>
+                    {formatCountryFlag(country.code)}
+                  </Box>
+                  <Typography component="span">{country.label}</Typography>
+                </Stack>
+              </MenuItem>
+            ))}
+          </StyledTextField>
+          <Stack direction="row" spacing={1} alignItems="flex-end">
+            <StyledTextField
+              fullWidth
+              type="number"
+              label={t('users.filters.ageFrom')}
+              value={filters.ageFrom}
+              onChange={handleFilterChange('ageFrom')}
+              placeholder={t('users.filters.agePlaceholder')}
+              disabledSpinButton
+              InputLabelProps={{ shrink: true }}
+            />
+            <Typography color="text.secondary" sx={{ pb: 1.5 }}>
+              —
+            </Typography>
+            <StyledTextField
+              fullWidth
+              type="number"
+              label={t('users.filters.ageTo')}
+              value={filters.ageTo}
+              onChange={handleFilterChange('ageTo')}
+              placeholder={t('users.filters.agePlaceholder')}
+              disabledSpinButton
+              InputLabelProps={{ shrink: true }}
+            />
+          </Stack>
+        </Stack>
+      </Menu>
 
       <UsersDataGrid
         rows={rows}
