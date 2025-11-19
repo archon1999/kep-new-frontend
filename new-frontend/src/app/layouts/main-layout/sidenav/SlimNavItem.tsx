@@ -94,7 +94,25 @@ const SlimNavItem = ({ item, level }: SlimNavItemProps) => {
         },
       ]}
     >
-      {item.icon && <IconifyIcon icon={item.icon} sx={{ fontSize: 22 }} />}
+      {item.iconNode ? (
+        <Box
+          component="span"
+          sx={{
+            display: 'inline-flex',
+            fontSize: 22,
+            color: 'inherit',
+            '& svg': {
+              fontSize: 'inherit',
+              width: '1em',
+              height: '1em',
+            },
+          }}
+        >
+          {item.iconNode}
+        </Box>
+      ) : (
+        item.icon && <IconifyIcon icon={item.icon} sx={{ fontSize: 22 }} />
+      )}
       {item.items && (
         <IconifyIcon
           icon="material-symbols:keyboard-arrow-right"

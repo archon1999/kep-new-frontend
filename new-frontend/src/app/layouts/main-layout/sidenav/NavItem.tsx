@@ -174,15 +174,20 @@ const NavItem = ({ item, level }: NavItemProps) => {
             },
           ]}
         >
-          {item.icon && !isStackedSideNav && (
+          {(item.icon || item.iconNode) && !isStackedSideNav && (
             <ListItemIcon
               sx={{
                 '& .iconify': {
                   fontSize: sidenavCollapsed ? 24 : 14,
                 },
+                '& svg': {
+                  fontSize: sidenavCollapsed ? 24 : 14,
+                  width: '1em',
+                  height: '1em',
+                },
               }}
             >
-              <IconifyIcon icon={item.icon} sx={item.iconSx} />
+              {item.iconNode ? <>{item.iconNode}</> : <IconifyIcon icon={item.icon!} sx={item.iconSx} />}
             </ListItemIcon>
           )}
 
