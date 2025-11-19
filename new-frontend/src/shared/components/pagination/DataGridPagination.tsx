@@ -12,12 +12,12 @@ type DataGridPaginationProps = BasePaginationProps & {
 
 const DataGridPagination = function BasePagination({ ref, ...props }: DataGridPaginationProps) {
   const { onRowsPerPageChange, disabled, showFullPagination = false, ...rest } = props;
+  const rowsPerPageOptions = [10, 20, 50];
 
   return (
     <TablePagination
-      showFirstButton
-      showLastButton
       component="div"
+      rowsPerPageOptions={rowsPerPageOptions}
       ActionsComponent={(props) => (
         <DataGridPaginationAction showFullPagination={showFullPagination} {...props} />
       )}
