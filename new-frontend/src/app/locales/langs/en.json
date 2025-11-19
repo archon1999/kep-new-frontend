@@ -72,6 +72,11 @@
       "kepcoin": "Kepcoin",
       "lastSeen": "Last seen"
     },
+    "statistics": {
+      "totalUsers": "Total users",
+      "lastDays": "New users · last {{count}} days",
+      "empty": "User statistics are not available yet"
+    },
     "emptyValue": "—"
   },
   "kepcoinPage": {

@@ -1,7 +1,7 @@
 import { usersApiClient } from '../api/users.client';
 import { mapApiUsersListToDomain, mapCountriesToCodes } from '../mappers/user.mapper';
 import { UsersRepository } from '../../domain/ports/users.repository';
-import { UsersListRequest, UsersListResponse } from '../../domain/entities/user.entity';
+import { UsersChartStatistics, UsersListRequest, UsersListResponse } from '../../domain/entities/user.entity';
 
 export class HttpUsersRepository implements UsersRepository {
   async getUsers(params: UsersListRequest): Promise<UsersListResponse> {
@@ -24,5 +24,9 @@ export class HttpUsersRepository implements UsersRepository {
     const response = await usersApiClient.countries();
 
     return mapCountriesToCodes(response);
+  }
+
+  async getChartStatistics(): Promise<UsersChartStatistics> {
+    return usersApiClient.chartStatistics();
   }
 }

@@ -72,6 +72,11 @@
       "kepcoin": "Kepcoin",
       "lastSeen": "Был(а) в сети"
     },
+    "statistics": {
+      "totalUsers": "Всего пользователей",
+      "lastDays": "Новые пользователи · последние {{count}} дней",
+      "empty": "Статистика пока недоступна"
+    },
     "emptyValue": "—"
   },
   "kepcoinPage": {

@@ -38,3 +38,8 @@ export interface UsersListRequest {
   ageFrom?: number;
   ageTo?: number;
 }
+
+export interface UsersChartStatistics {
+  total: number;
+  series: number[];
+}

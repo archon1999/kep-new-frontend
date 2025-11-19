@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Stack } from '@mui/material';
 import PageHeader from 'shared/components/sections/common/PageHeader';
 import UsersListContainer from '../components/UsersListContainer';
+import UsersHeaderStatistics from '../components/UsersHeaderStatistics';
 
 const UsersListPage = () => {
   const { t } = useTranslation();
@@ -14,7 +15,7 @@ const UsersListPage = () => {
           { label: t('home'), url: '/' },
           { label: t('users.title'), active: true },
         ]}
-        actionComponent={<div></div>}
+        actionComponent={<UsersHeaderStatistics />}
       />
       <Box sx={{ flex: 1, px: { xs: 3, md: 5 } }}>
         <UsersListContainer />
