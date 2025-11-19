@@ -87,21 +87,22 @@ const RanksSection = ({ ratings, isLoading }: RanksSectionProps) => {
         {t('homePage.ranks.title')}
       </Typography>
 
-      <Grid container spacing={3} alignItems="stretch">
+      <Grid container spacing={3} alignItems="stretch" direction="column">
         {cards.map(({ key, label, infoKey, icon, value, rank, percentile }) => {
           const sanitizedPercentile = normalizeNumber(percentile);
           const percentileLabel = formatNumber(sanitizedPercentile) ?? '0.0';
+          const percentileTooltip = t('homePage.ranks.percentile', { percentile: percentileLabel });
 
           if (isLoading) {
             return (
-              <Grid item xs={12} sm={6} key={key}>
+              <Grid item xs={12} key={key}>
                 <Skeleton variant="rounded" height={184} />
               </Grid>
             );
           }
 
           return (
-            <Grid item xs={12} sm={6} key={key}>
+            <Grid item xs={12} key={key}>
               <Paper
                 variant="outlined"
                 sx={{
@@ -128,16 +129,18 @@ const RanksSection = ({ ratings, isLoading }: RanksSectionProps) => {
                   </Tooltip>
                 </Stack>
 
-                <Stack direction="row" alignItems="baseline" spacing={1}>
-                  <Typography variant="h4" fontWeight={700}>
-                    {value ?? '—'}
-                  </Typography>
-                  {rank !== undefined && rank !== null && rank !== '' && (
-                    <Typography variant="subtitle2" fontWeight={500} color="text.secondary">
-                      #{rank}
+                <Tooltip title={percentileTooltip}>
+                  <Stack direction="row" alignItems="baseline" spacing={1}>
+                    <Typography variant="h4" fontWeight={700}>
+                      {value ?? '—'}
                     </Typography>
-                  )}
-                </Stack>
+                    {rank !== undefined && rank !== null && rank !== '' && (
+                      <Typography variant="subtitle2" fontWeight={500} color="text.secondary">
+                        #{rank}
+                      </Typography>
+                    )}
+                  </Stack>
+                </Tooltip>
 
                 <Stack spacing={0.5}>
                   <LinearProgress
@@ -145,9 +148,6 @@ const RanksSection = ({ ratings, isLoading }: RanksSectionProps) => {
                     value={sanitizedPercentile ?? 0}
                     sx={{ height: 6, borderRadius: 999, bgcolor: 'divider' }}
                   />
-                  <Typography variant="caption" color="text.secondary">
-                    {t('homePage.ranks.percentile', { percentile: percentileLabel })}
-                  </Typography>
                 </Stack>
               </Paper>
             </Grid>
