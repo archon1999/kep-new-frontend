@@ -1,15 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Box,
-  IconButton,
-  LinearProgress,
-  Paper,
-  Skeleton,
-  Stack,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { IconButton, LinearProgress, Paper, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import KepIcon from 'shared/components/base/KepIcon';
 import type { HomeUserRatings } from '../../domain/entities/home.entity';

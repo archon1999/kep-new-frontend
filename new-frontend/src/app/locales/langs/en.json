@@ -59,6 +59,18 @@
         "challenges": "This rating shows your strength in challenges."
       },
       "percentile": "You are better than {{percentile}}% of users"
+    },
+    "userActivity": {
+      "title": "User activity",
+      "subtitle": "New vs active users · last {{days}} days",
+      "metrics": {
+        "totalUsers": "Total users",
+        "activeUsers": "Active users"
+      },
+      "chart": {
+        "newUsers": "New users",
+        "activeUsers": "Active users"
+      }
     }
   },
   "shop": {
