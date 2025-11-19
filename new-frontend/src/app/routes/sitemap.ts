@@ -1,5 +1,7 @@
-import { SxProps } from '@mui/material';
+import { ComponentType } from 'react';
+import { SxProps, SvgIconProps } from '@mui/material';
 import paths, { rootPaths } from './paths';
+import KepcoinIcon from 'shared/components/icons/KepcoinIcon';
 
 export interface MenuItem {
   name: string;
@@ -9,6 +11,7 @@ export interface MenuItem {
   path?: string;
   active?: boolean;
   icon?: string;
+  iconComponent?: ComponentType<SvgIconProps>;
   iconSx?: SxProps;
   items?: MenuItem[];
 }
@@ -35,7 +38,7 @@ const sitemap: MenuItem[] = [
     key: 'kepcoin',
     path: paths.kepcoin,
     pathName: 'kepcoin',
-    icon: 'mdi:currency-usd-circle',
+    iconComponent: KepcoinIcon,
     active: true,
   },
   {

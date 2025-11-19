@@ -1,0 +1,26 @@
+import { useId } from 'react';
+import { SvgIcon, SvgIconProps } from '@mui/material';
+
+const KepcoinIcon = (props: SvgIconProps) => {
+  const maskId = useId();
+
+  return (
+    <SvgIcon viewBox="0 0 100 100" {...props}>
+      <defs>
+        <mask id={maskId} maskUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="100" height="100" fill="white" />
+          <g fill="black">
+            <rect x="25" y="20" width="12" height="60" />
+            <rect x="15" y="44" width="40" height="12" />
+            <polygon points="40,50 70,20 82,20 52,50" />
+            <polygon points="40,50 70,80 82,80 52,50" />
+          </g>
+        </mask>
+      </defs>
+
+      <circle cx="50" cy="50" r="48" fill="currentColor" mask={`url(#${maskId})`} />
+    </SvgIcon>
+  );
+};
+
+export default KepcoinIcon;

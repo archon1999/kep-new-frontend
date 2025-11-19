@@ -33,6 +33,13 @@ const SlimNavItem = ({ item, level }: SlimNavItemProps) => {
 
   const hasNestedItems = useMemo(() => Object.prototype.hasOwnProperty.call(item, 'items'), [item]);
 
+  const MenuIconComponent = item.iconComponent;
+  const menuIcon = MenuIconComponent ? (
+    <MenuIconComponent fontSize="inherit" />
+  ) : item.icon ? (
+    <IconifyIcon icon={item.icon} sx={item.iconSx} />
+  ) : null;
+
   const toggleCollapseItem = (event: MouseEvent<HTMLElement>) => {
     if (level === 0) {
       setAnchorEl(event.currentTarget);
@@ -94,7 +101,18 @@ const SlimNavItem = ({ item, level }: SlimNavItemProps) => {
         },
       ]}
     >
-      {item.icon && <IconifyIcon icon={item.icon} sx={{ fontSize: 22 }} />}
+      {menuIcon && (
+        <Box
+          sx={{
+            display: 'inline-flex',
+            '& .iconify, & svg': {
+              fontSize: 22,
+            },
+          }}
+        >
+          {menuIcon}
+        </Box>
+      )}
       {item.items && (
         <IconifyIcon
           icon="material-symbols:keyboard-arrow-right"

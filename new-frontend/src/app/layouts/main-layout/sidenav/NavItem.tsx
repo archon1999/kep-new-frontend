@@ -44,6 +44,13 @@ const NavItem = ({ item, level }: NavItemProps) => {
   const hasNestedItems = useMemo(() => Object.prototype.hasOwnProperty.call(item, 'items'), [item]);
   const isStackedSideNav = useMemo(() => upMd && sidenavType === 'stacked', [sidenavType, upMd]);
 
+  const MenuIconComponent = item.iconComponent;
+  const menuIcon = MenuIconComponent ? (
+    <MenuIconComponent fontSize="inherit" />
+  ) : item.icon ? (
+    <IconifyIcon icon={item.icon} sx={item.iconSx} />
+  ) : null;
+
   const expandIcon = (
     <IconifyIcon
       icon="material-symbols:expand-more-rounded"
@@ -174,15 +181,15 @@ const NavItem = ({ item, level }: NavItemProps) => {
             },
           ]}
         >
-          {item.icon && !isStackedSideNav && (
+          {menuIcon && !isStackedSideNav && (
             <ListItemIcon
               sx={{
-                '& .iconify': {
+                '& .iconify, & svg': {
                   fontSize: sidenavCollapsed ? 24 : 14,
                 },
               }}
             >
-              <IconifyIcon icon={item.icon} sx={item.iconSx} />
+              {menuIcon}
             </ListItemIcon>
           )}
 
