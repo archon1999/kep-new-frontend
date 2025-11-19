@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import { Box, Button, Stack, paperClasses } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,21 +12,13 @@ import SearchBox, { SearchBoxButton } from '../common/search-box/SearchBox';
 
 const AppBar = () => {
   const {
-    config: { drawerWidth, sidenavType, navColor },
+    config: { drawerWidth, navColor },
     handleDrawerToggle,
   } = useSettingsContext();
 
   const { up } = useBreakpoints();
   const upSm = up('sm');
   const upMd = up('md');
-
-  const prevSidenavTypeRef = useRef(sidenavType);
-
-  useEffect(() => {
-    if (prevSidenavTypeRef.current !== sidenavType) {
-      prevSidenavTypeRef.current = sidenavType;
-    }
-  }, [sidenavType]);
 
   return (
     <MuiAppBar
@@ -42,13 +33,6 @@ const AppBar = () => {
             outline: 'none',
           },
         },
-        sidenavType === 'stacked' &&
-          sidenavType === prevSidenavTypeRef.current &&
-          ((theme) => ({
-            transition: theme.transitions.create(['width'], {
-              duration: theme.transitions.duration.standard,
-            }),
-          })),
         navColor === 'vibrant' && !upMd && topnavVibrantStyle,
       ]}
     >

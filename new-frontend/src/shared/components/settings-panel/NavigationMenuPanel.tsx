@@ -59,20 +59,6 @@ const NavigationMenuPanel = () => {
           />
         }
       />
-      <FormControlLabel
-        value="combo"
-        control={<Radio />}
-        label={
-          <SettingsItem
-            label="Combo"
-            image={{
-              light: `${assetsDir}/images/settings-panel/combo.webp`,
-              dark: `${assetsDir}/images/settings-panel/combo-dark.webp`,
-            }}
-            active={!disableNavigationMenuSection && navigationMenuType === 'combo'}
-          />
-        }
-      />
     </SettingsPanelRadioGroup>
   );
 };

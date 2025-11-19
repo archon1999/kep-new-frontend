@@ -56,20 +56,6 @@ const SidenavShapePanel = () => {
           />
         }
       />
-      <FormControlLabel
-        value="stacked"
-        control={<Radio />}
-        label={
-          <SettingsItem
-            label="Stacked"
-            image={{
-              light: `${assetsDir}/images/settings-panel/stacked.webp`,
-              dark: `${assetsDir}/images/settings-panel/stacked-dark.webp`,
-            }}
-            active={!disableSidenavShapeSection && sidenavType === 'stacked'}
-          />
-        }
-      />
     </SettingsPanelRadioGroup>
   );
 };
