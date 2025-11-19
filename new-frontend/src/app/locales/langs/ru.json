@@ -134,8 +134,13 @@
     "youHave": "У вас {{value}} Kepcoin",
     "balanceSubtitle": "Следите, как вы зарабатываете и тратите Kepcoin каждый день.",
     "valueLabel": "{{value}} Kepcoin",
+    "streakStats": {
+      "current": "Текущая серия",
+      "max": "Максимальная серия"
+    },
     "currentStreak": "Текущая серия · {{value}} дней",
     "streakFreeze": {
+      "label": "Заморозка серии",
       "count": "Заморозка серии · {{value}}",
       "description": "Заморозка автоматически сохраняет ваш прогресс, если вы пропустите день и не выполните ежедневные задания."
     },
