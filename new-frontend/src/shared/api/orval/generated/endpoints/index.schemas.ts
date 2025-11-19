@@ -94,7 +94,6 @@ export interface ContestantTeam {
 
 export type AttemptListVerdict = (typeof AttemptListVerdict)[keyof typeof AttemptListVerdict];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AttemptListVerdict = {
   NUMBER_MINUS_2: -2,
   NUMBER_MINUS_1: -1,
@@ -121,7 +120,6 @@ export const AttemptListVerdict = {
 
 export type AttemptListLang = (typeof AttemptListLang)[keyof typeof AttemptListLang];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AttemptListLang = {
   py: 'py',
   cpp: 'cpp',
@@ -186,7 +184,6 @@ export interface AttemptList {
 
 export type AttemptDetailVerdict = (typeof AttemptDetailVerdict)[keyof typeof AttemptDetailVerdict];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AttemptDetailVerdict = {
   NUMBER_MINUS_2: -2,
   NUMBER_MINUS_1: -1,
@@ -213,7 +210,6 @@ export const AttemptDetailVerdict = {
 
 export type AttemptDetailLang = (typeof AttemptDetailLang)[keyof typeof AttemptDetailLang];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AttemptDetailLang = {
   py: 'py',
   cpp: 'cpp',
@@ -358,7 +354,6 @@ export interface BlogDetail {
 
 export type CalendarEventType = (typeof CalendarEventType)[keyof typeof CalendarEventType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CalendarEventType = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -475,7 +470,6 @@ export interface ChallengePlayer {
 
 export type ChallengeQuestionTimeType = (typeof ChallengeQuestionTimeType)[keyof typeof ChallengeQuestionTimeType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ChallengeQuestionTimeType = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -571,7 +565,6 @@ export interface ContestAuthor {
 
 export type ContestType = (typeof ContestType)[keyof typeof ContestType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContestType = {
   ACM2H: 'ACM2H',
   ACM10M: 'ACM10M',
@@ -591,7 +584,6 @@ export const ContestType = {
 
 export type ContestCategory = (typeof ContestCategory)[keyof typeof ContestCategory];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContestCategory = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -605,7 +597,6 @@ export const ContestCategory = {
 
 export type ContestParticipationType = (typeof ContestParticipationType)[keyof typeof ContestParticipationType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContestParticipationType = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -665,7 +656,6 @@ export interface ContestantProblemInfo {
 
 export type ContestContestantType = (typeof ContestContestantType)[keyof typeof ContestContestantType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ContestContestantType = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -767,7 +757,6 @@ export interface CourseTag {
 
 export type CourseLevel = (typeof CourseLevel)[keyof typeof CourseLevel];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CourseLevel = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -892,7 +881,6 @@ export interface DuelsRating {
  */
 export type DuelPlayerStatus = (typeof DuelPlayerStatus)[keyof typeof DuelPlayerStatus] | null;
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DuelPlayerStatus = {
   NUMBER_MINUS_1: -1,
   NUMBER_0: 0,
@@ -919,7 +907,6 @@ export interface DuelPlayer {
 
 export type DuelPresetDifficulty = (typeof DuelPresetDifficulty)[keyof typeof DuelPresetDifficulty];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DuelPresetDifficulty = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1002,7 +989,6 @@ export interface Faq {
 
 export type HackAttemptVerdict = (typeof HackAttemptVerdict)[keyof typeof HackAttemptVerdict];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const HackAttemptVerdict = {
   NUMBER_MINUS_2: -2,
   NUMBER_MINUS_1: -1,
@@ -1097,7 +1083,6 @@ export interface KepCoverUser {
 
 export type UserKepcoinEarnEarnType = (typeof UserKepcoinEarnEarnType)[keyof typeof UserKepcoinEarnEarnType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserKepcoinEarnEarnType = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1124,7 +1109,6 @@ export interface UserKepcoinEarn {
 
 export type UserKepcoinSpendType = (typeof UserKepcoinSpendType)[keyof typeof UserKepcoinSpendType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserKepcoinSpendType = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1212,7 +1196,6 @@ export interface NewsDetail {
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const NotificationType = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1236,7 +1219,6 @@ export interface Notification {
 
 export type ProblemsRatingHistoryType = (typeof ProblemsRatingHistoryType)[keyof typeof ProblemsRatingHistoryType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProblemsRatingHistoryType = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1310,7 +1292,6 @@ export interface ProblemTag {
 
 export type ProblemListDifficulty = (typeof ProblemListDifficulty)[keyof typeof ProblemListDifficulty];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProblemListDifficulty = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1356,7 +1337,6 @@ export interface SampleTest {
 export type ProblemLanguageAvailableLang =
   (typeof ProblemLanguageAvailableLang)[keyof typeof ProblemLanguageAvailableLang];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProblemLanguageAvailableLang = {
   py: 'py',
   cpp: 'cpp',
@@ -1411,7 +1391,6 @@ export interface ProblemTopic {
 
 export type ProblemDetailDifficulty = (typeof ProblemDetailDifficulty)[keyof typeof ProblemDetailDifficulty];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProblemDetailDifficulty = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1504,7 +1483,6 @@ export interface Product {
 
 export type ProjectAttemptListVerdict = (typeof ProjectAttemptListVerdict)[keyof typeof ProjectAttemptListVerdict];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProjectAttemptListVerdict = {
   NUMBER_MINUS_2: -2,
   NUMBER_MINUS_1: -1,
@@ -1515,7 +1493,6 @@ export const ProjectAttemptListVerdict = {
 export type ProjectAttemptListTechnology =
   (typeof ProjectAttemptListTechnology)[keyof typeof ProjectAttemptListTechnology];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProjectAttemptListTechnology = {
   Django: 'Django',
   Python: 'Python',
@@ -1566,7 +1543,6 @@ export interface ProjectAttemptList {
 export type ProjectAvailableTechnologyTechnology =
   (typeof ProjectAvailableTechnologyTechnology)[keyof typeof ProjectAvailableTechnologyTechnology];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProjectAvailableTechnologyTechnology = {
   Django: 'Django',
   Python: 'Python',
@@ -1591,7 +1567,6 @@ export interface ProjectTag {
 
 export type ProjectListLevel = (typeof ProjectListLevel)[keyof typeof ProjectListLevel];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProjectListLevel = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1650,7 +1625,6 @@ export interface ProjectTask {
 
 export type ProjectDetailLevel = (typeof ProjectDetailLevel)[keyof typeof ProjectDetailLevel];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProjectDetailLevel = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1770,7 +1744,6 @@ export interface TestQuestionWithAnswer {
 export type TestWithQuestionsDifficulty =
   (typeof TestWithQuestionsDifficulty)[keyof typeof TestWithQuestionsDifficulty];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TestWithQuestionsDifficulty = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1810,7 +1783,6 @@ export interface TestPass {
 
 export type TestListDifficulty = (typeof TestListDifficulty)[keyof typeof TestListDifficulty];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TestListDifficulty = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1843,7 +1815,6 @@ export interface TestTag {
 
 export type TestDetailDifficulty = (typeof TestDetailDifficulty)[keyof typeof TestDetailDifficulty];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TestDetailDifficulty = {
   NUMBER_1: 1,
   NUMBER_2: 2,
@@ -1878,7 +1849,6 @@ export interface TodayKepCoin {
 
 export type TournamentListType = (typeof TournamentListType)[keyof typeof TournamentListType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TournamentListType = {
   LessCode: 'LessCode',
   BallF: 'BallF',
@@ -1931,7 +1901,6 @@ export interface TournamentStage {
 
 export type TournamentDetailType = (typeof TournamentDetailType)[keyof typeof TournamentDetailType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TournamentDetailType = {
   LessCode: 'LessCode',
   BallF: 'BallF',
@@ -1968,7 +1937,6 @@ export interface User {
 export type UserActivityHistoryActivityType =
   (typeof UserActivityHistoryActivityType)[keyof typeof UserActivityHistoryActivityType];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserActivityHistoryActivityType = {
   problem_attempt_summary: 'problem_attempt_summary',
   challenge_summary: 'challenge_summary',
@@ -1997,7 +1965,6 @@ export interface UserActivityHistory {
 
 export type TeamMemberStatus = (typeof TeamMemberStatus)[keyof typeof TeamMemberStatus];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TeamMemberStatus = {
   NUMBER_1: 1,
   NUMBER_MINUS_1: -1,
@@ -2698,7 +2665,6 @@ export type ApiContestsRegistrantsListParams = {
 export type ApiContestsRegistrantsListOrdering =
   (typeof ApiContestsRegistrantsListOrdering)[keyof typeof ApiContestsRegistrantsListOrdering];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiContestsRegistrantsListOrdering = {
   contests_rating: 'contests_rating',
   '-contests_rating': '-contests_rating',
@@ -3769,7 +3735,6 @@ export type ApiProjectAttemptsList200 = {
 
 export type ApiProjectsSubmitBodyLevel = (typeof ApiProjectsSubmitBodyLevel)[keyof typeof ApiProjectsSubmitBodyLevel];
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiProjectsSubmitBodyLevel = {
   NUMBER_1: 1,
   NUMBER_2: 2,
