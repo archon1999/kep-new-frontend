@@ -23,11 +23,11 @@ export const initialConfig: Config = {
   assetsDir: import.meta.env.VITE_ASSET_BASE_URL ?? '',
   navigationMenuType: 'sidenav',
   sidenavType: 'default',
-  sidenavCollapsed: true,
+  sidenavCollapsed: false,
   topnavType: 'default',
   navColor: 'vibrant',
   openNavbarDrawer: false,
-  drawerWidth: mainDrawerWidth.collapsed,
+  drawerWidth: mainDrawerWidth.full,
   locale: 'en-US',
 };
 
