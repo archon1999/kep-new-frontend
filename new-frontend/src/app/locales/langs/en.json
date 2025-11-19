@@ -1,6 +1,96 @@
 {
   "home": "Home",
-  "kepcoin": "Kepcoin",
+  "kepcoin": {
+    "title": "Kepcoin",
+    "subtitle": "Track how you earn and spend Kepcoin across KEP.uz.",
+    "youHave": "You have",
+    "authRequired": "Please sign in to view your Kepcoin history.",
+    "menu": {
+      "goToPage": "Open Kepcoin page",
+      "todayEarned": "Earned today",
+      "todaySpent": "Spent today"
+    },
+    "history": {
+      "earnsTitle": "Earnings",
+      "spendsTitle": "Spends",
+      "toggleSpends": "Switch to spending history",
+      "toggleEarns": "Switch to earning history",
+      "showSpends": "View spends",
+      "showEarns": "View earns",
+      "emptyEarns": "You haven't earned any Kepcoin yet.",
+      "emptySpends": "You haven't spent any Kepcoin yet.",
+      "loadError": "Could not load history. Please try again.",
+      "unknown": "Details unavailable",
+      "unknownTitle": "Unknown title",
+      "unknownDate": "Unknown date"
+    },
+    "streakFreeze": {
+      "title": "Streak freeze",
+      "description": "Freezing automatically saves your streak if you miss a day and don't complete daily tasks.",
+      "currentStreak": "Current streak",
+      "owned": "You have {{count}}",
+      "purchase": "Buy freeze",
+      "success": "Streak freeze purchased successfully.",
+      "error": "Could not purchase streak freeze. Try again."
+    },
+    "howToEarn": {
+      "title": "How to earn Kepcoin",
+      "description": "To earn this currency, you need to contribute to the development of the system. For example, Kepcoin:",
+      "item1": "For daily activity",
+      "item2": "For completing daily tasks",
+      "item3": "For being the winner in daily, weekly, and monthly challenge ratings",
+      "item4": "For participating in competitions",
+      "item5": "For writing a blog",
+      "item6": "For helping edit problems (writing solutions, translations, adding tags, finding similar problems)"
+    },
+    "howToSpend": {
+      "title": "How to spend Kepcoin",
+      "item1": "View another user's attempt",
+      "item2": "View a test with a failed solution",
+      "item3": "Purchase a problem solution",
+      "item4": "Change profile cover photo",
+      "item5": "Pass the test",
+      "item6": "Purchase a course",
+      "item7": "Test function when editing code (complete)",
+      "item8": "Double rating change in a contest",
+      "item9": "Maintain rating in a contest"
+    },
+    "earnTypes": {
+      "wroteBlog": "Wrote a blog",
+      "problemSolution": "Wrote a problem solution",
+      "loyaltyBonus": "Loyalty bonus",
+      "bonusFromAdmin": "Bonus from admin",
+      "dailyActivity": "Daily activity on {{date}}",
+      "dailyTask": "Daily task completed: {{description}}",
+      "dailyRating": "Daily rating winner on {{date}}",
+      "weeklyRating": "Weekly rating winner on {{date}}",
+      "monthlyRating": "Monthly rating winner on {{date}}",
+      "contest": "Contest participant",
+      "arena": "Arena participant",
+      "tournament": "Tournament participant",
+      "projectTask": "Project task completed"
+    },
+    "spendTypes": {
+      "viewAttempt": "Viewed attempt",
+      "viewTestAttempt": "Viewed test attempt",
+      "problemSolution": "Viewed problem solution",
+      "doubleRating": "Double rating",
+      "coverPhoto": "Changed profile cover photo",
+      "course": "Purchased a course",
+      "studyPlan": "Purchased a study plan",
+      "codeEditor": "Code editor testing",
+      "saveRating": "Saved rating change",
+      "testPass": "Passed test",
+      "createContest": "Created a contest",
+      "project": "Purchased a project",
+      "streakFreeze": "Bought streak freeze",
+      "virtualContest": "Virtual contest entry",
+      "unratedContest": "Unrated contest entry",
+      "answerForInput": "Answer for input",
+      "checkSamples": "Check samples",
+      "merch": "Merchandise"
+    }
+  },
   "shop": {
     "title": "Shop",
     "subtitle": "Redeem your Kepcoins for gear and accessories inspired by KEP.uz.",

@@ -8,6 +8,7 @@ import kepcoinImage from 'shared/assets/images/icons/kepcoin.png';
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 import axiosFetcher from 'shared/services/axios/axiosFetcher';
+import { useTranslation } from 'react-i18next';
 
 interface KepcoinMenuProps {
   type?: 'default' | 'slim';
@@ -16,6 +17,7 @@ interface KepcoinMenuProps {
 const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
   const [todayStats, setTodayStats] = useState<TodayKepCoin | null>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const { t } = useTranslation();
 
   const {
     config: { textDirection },
@@ -105,14 +107,8 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
             </Box>
           </Stack>
 
-          <Button
-            component={Link}
-            href={paths.kepcoin}
-            variant="text"
-            color="primary"
-            onClick={handleClose}
-          >
-            Kepcoin sahifasiga o&apos;tish
+          <Button component={Link} href={paths.kepcoin} variant="text" color="primary" onClick={handleClose}>
+            {t('kepcoin.menu.goToPage')}
           </Button>
         </Stack>
 
@@ -137,7 +133,7 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
           <Stack spacing={1} padding={2} direction="column">
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Typography variant="body2" color="text.secondary">
-                Bugun topilgan
+                {t('kepcoin.menu.todayEarned')}
               </Typography>
               <Stack direction="row" spacing={1}>
                 <Typography variant="body2" fontWeight={700}>
@@ -153,7 +149,7 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
             </Stack>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Typography variant="body2" color="text.secondary">
-                Bugun sarflangan
+                {t('kepcoin.menu.todaySpent')}
               </Typography>
               <Stack direction="row" spacing={1}>
                 <Typography variant="body2" fontWeight={700}>

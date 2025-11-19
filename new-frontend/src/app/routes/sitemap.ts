@@ -40,7 +40,7 @@ const sitemap: MenuItem[] = [
   },
   {
     name: 'Kepcoin',
-    key: 'kepcoin',
+    key: 'kepcoin.title',
     path: paths.kepcoin,
     pathName: 'kepcoin',
     icon: 'mdi:currency-usd-circle',
