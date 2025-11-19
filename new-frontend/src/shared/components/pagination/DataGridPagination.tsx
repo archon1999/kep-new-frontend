@@ -11,16 +11,23 @@ type DataGridPaginationProps = BasePaginationProps & {
 };
 
 const DataGridPagination = function BasePagination({ ref, ...props }: DataGridPaginationProps) {
-  const { onRowsPerPageChange, disabled, showFullPagination = false, ...rest } = props;
+  const {
+    onRowsPerPageChange,
+    disabled,
+    showFullPagination = false,
+    rowsPerPageOptions = [10, 20, 50],
+    ...rest
+  } = props;
 
   return (
     <TablePagination
-      showFirstButton
-      showLastButton
+      showFirstButton={false}
+      showLastButton={false}
       component="div"
       ActionsComponent={(props) => (
         <DataGridPaginationAction showFullPagination={showFullPagination} {...props} />
       )}
+      rowsPerPageOptions={rowsPerPageOptions}
       onRowsPerPageChange={useEventCallback(
         (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
           onRowsPerPageChange?.(Number(event.target.value));

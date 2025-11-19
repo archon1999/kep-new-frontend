@@ -5,7 +5,7 @@ import TableLabelDisplayedRows from 'shared/components/pagination/TableLabelDisp
 
 const TablePagination: Components<Omit<Theme, 'components'>>['MuiTablePagination'] = {
   defaultProps: {
-    rowsPerPageOptions: [],
+    rowsPerPageOptions: [10, 20, 50],
     labelDisplayedRows: TableLabelDisplayedRows,
     ActionsComponent: DataGridPaginationAction,
   },
@@ -26,12 +26,15 @@ const TablePagination: Components<Omit<Theme, 'components'>>['MuiTablePagination
       marginLeft: 8,
       flex: 1,
     },
-    selectLabel: {
+    selectLabel: ({ theme }) => ({
       paddingLeft: 10,
-      display: 'none',
-    },
+      display: 'inline-flex',
+      alignItems: 'center',
+      fontWeight: 600,
+      fontSize: theme.typography.subtitle2.fontSize,
+    }),
     input: {
-      display: 'none',
+      display: 'inline-flex',
     },
     displayedRows: ({ theme }) => ({
       lineHeight: 1.2,

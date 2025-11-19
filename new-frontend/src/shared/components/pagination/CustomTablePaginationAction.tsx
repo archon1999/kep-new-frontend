@@ -5,7 +5,6 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 export interface CustomTablePaginationActionProps extends TablePaginationOwnProps {
   onNextClick?: () => void;
   onPrevClick?: () => void;
-  onLastClick?: () => void;
   showFullPagination?: boolean;
 }
 
@@ -16,7 +15,6 @@ const CustomTablePaginationAction = ({
   onPageChange,
   onNextClick,
   onPrevClick,
-  onLastClick,
   showFullPagination,
 }: CustomTablePaginationActionProps) => {
   const totalPages = useMemo(() => Math.max(1, Math.ceil(count / rowsPerPage) || 1), [count, rowsPerPage]);
@@ -41,25 +39,17 @@ const CustomTablePaginationAction = ({
     }
   }, [isLastPage, onNextClick, onPageChange, page]);
 
-  const handleLast = useCallback(() => {
-    if (isLastPage) return;
-    if (onLastClick) {
-      onLastClick();
-    } else {
-      onPageChange?.(null, totalPages - 1);
-    }
-  }, [isLastPage, onLastClick, onPageChange, totalPages]);
-
   return (
     <Stack
+      direction="row"
       sx={{
         alignItems: 'center',
         justifyContent: 'space-between',
         flex: 1,
+        flexWrap: { xs: 'nowrap', sm: 'nowrap' },
         ml: {
           sm: 1,
         },
-        flexDirection: { xs: 'column', sm: 'row' },
         gap: { xs: 1, sm: 2 },
       }}
     >
@@ -77,7 +67,6 @@ const CustomTablePaginationAction = ({
         disabled={isFirstPage}
         onClick={handlePrev}
         sx={{
-          ml: { sm: 'auto' },
           minWidth: 'auto',
           [`& .${buttonClasses.startIcon}`]: {
             mr: { xs: 0, sm: 0.5 },
@@ -103,42 +92,30 @@ const CustomTablePaginationAction = ({
         sx={{ flexShrink: 0 }}
       />
 
-      <Stack direction="row" spacing={1} alignItems="center">
-        <Button
-          variant="text"
-          color="primary"
-          size="small"
-          disabled={isLastPage}
-          onClick={handleLast}
-          sx={{ minWidth: 'auto' }}
-        >
-          Last
-        </Button>
-        <Button
-          disabled={isLastPage}
-          onClick={handleNext}
-          variant="text"
-          color="primary"
-          size="small"
-          endIcon={
-            <IconifyIcon
-              flipOnRTL
-              icon="material-symbols:chevron-right-rounded"
-              sx={{ fontSize: '18px !important' }}
-            />
-          }
-          sx={{
-            minWidth: 'auto',
-            [`& .${buttonClasses.endIcon}`]: {
-              ml: { xs: 0, sm: 0.5 },
-            },
-          }}
-        >
-          <Box component="span" sx={{ display: { xs: 'none', sm: 'inline-block' } }}>
-            Next
-          </Box>
-        </Button>
-      </Stack>
+      <Button
+        disabled={isLastPage}
+        onClick={handleNext}
+        variant="text"
+        color="primary"
+        size="small"
+        endIcon={
+          <IconifyIcon
+            flipOnRTL
+            icon="material-symbols:chevron-right-rounded"
+            sx={{ fontSize: '18px !important' }}
+          />
+        }
+        sx={{
+          minWidth: 'auto',
+          [`& .${buttonClasses.endIcon}`]: {
+            ml: { xs: 0, sm: 0.5 },
+          },
+        }}
+      >
+        <Box component="span" sx={{ display: { xs: 'none', sm: 'inline-block' } }}>
+          Next
+        </Box>
+      </Button>
     </Stack>
   );
 };
