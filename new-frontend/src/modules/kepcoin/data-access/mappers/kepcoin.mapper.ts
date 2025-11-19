@@ -1,4 +1,7 @@
-import type { ApiKepcoinEarnsList200, ApiKepcoinSpendsList200 } from 'shared/api/orval/generated/endpoints';
+import type {
+  ApiKepcoinEarnsList200,
+  ApiKepcoinSpendsList200,
+} from 'shared/api/orval/generated/endpoints/index.schemas';
 import type {
   KepcoinEarnHistoryItem,
   KepcoinHistoryResponse,
@@ -15,7 +18,7 @@ const parseDetail = (detail: unknown): unknown => {
   if ((trimmed.startsWith('{') && trimmed.endsWith('}')) || (trimmed.startsWith('[') && trimmed.endsWith(']'))) {
     try {
       return JSON.parse(trimmed);
-    } catch (error) {
+    } catch {
       return detail;
     }
   }

@@ -1,17 +1,19 @@
 import { apiClient } from 'shared/api';
 import type {
   ApiBlogListParams,
-  ApiBlogListResult,
   ApiNewsListParams,
-  ApiNewsListResult,
   ApiUsersChartStatParams,
-  ApiUsersChartStatResult,
   ApiUsersNextBirthdaysParams,
-  ApiUsersNextBirthdaysResult,
   ApiUsersOnlineParams,
+  ApiUsersTopRatingParams,
+} from 'shared/api/orval/generated/endpoints/index.schemas';
+import type {
+  ApiBlogListResult,
+  ApiNewsListResult,
+  ApiUsersChartStatResult,
+  ApiUsersNextBirthdaysResult,
   ApiUsersOnlineResult,
   ApiUsersRatingsResult,
-  ApiUsersTopRatingParams,
   ApiUsersTopRatingResult,
 } from 'shared/api/orval/generated/endpoints';
 

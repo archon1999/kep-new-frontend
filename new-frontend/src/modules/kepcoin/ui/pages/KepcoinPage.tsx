@@ -113,10 +113,9 @@ const getHistoryDescription = (
   item: KepcoinEarnHistoryItem | KepcoinSpendHistoryItem,
   translate: (key: string, params?: Record<string, unknown>) => string,
 ) => {
-  const map = type === 'earns' ? earnTypeKeyMap : spendTypeKeyMap;
   const key = type === 'earns'
-    ? map[(item as KepcoinEarnHistoryItem).earnType]
-    : map[(item as KepcoinSpendHistoryItem).spendType];
+    ? earnTypeKeyMap[(item as KepcoinEarnHistoryItem).earnType]
+    : spendTypeKeyMap[(item as KepcoinSpendHistoryItem).spendType];
   const base = key ? translate(key) : translate('kepcoinPage.history.defaultLabel');
   const detail = getDetailText(item.detail);
 

@@ -4,7 +4,7 @@ import type {
   ApiKepcoinEarnsListParams,
   ApiKepcoinSpendsList200,
   ApiKepcoinSpendsListParams,
-} from 'shared/api/orval/generated/endpoints';
+} from 'shared/api/orval/generated/endpoints/index.schemas';
 
 export interface ApiKepcoinSummaryResponse {
   kepcoin?: number;
@@ -13,7 +13,7 @@ export interface ApiKepcoinSummaryResponse {
 }
 
 export const kepcoinApiClient = {
-  getSummary: () => apiClient.apiStreakList() as Promise<ApiKepcoinSummaryResponse>,
+  getSummary: () => apiClient.apiStreakList() as unknown as Promise<ApiKepcoinSummaryResponse>,
   listEarns: (params: ApiKepcoinEarnsListParams) => apiClient.apiKepcoinEarnsList(params) as Promise<ApiKepcoinEarnsList200>,
   listSpends: (params: ApiKepcoinSpendsListParams) =>
     apiClient.apiKepcoinSpendsList(params) as Promise<ApiKepcoinSpendsList200>,
