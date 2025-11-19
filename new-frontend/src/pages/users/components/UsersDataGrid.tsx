@@ -59,7 +59,6 @@ const UsersDataGrid = ({
         const user = row as UsersListItem;
         const name = [user.firstName, user.lastName].filter(Boolean).join(' ');
         const countryCode = user.country?.toUpperCase();
-        const countryLabel = countryCode ? countryLabels?.[countryCode] ?? countryCode : undefined;
 
         return (
           <Stack direction="row" spacing={2} alignItems="center" sx={{ minWidth: 0 }}>
@@ -72,9 +71,6 @@ const UsersDataGrid = ({
                 {countryCode && (
                   <Stack direction="row" spacing={0.5} alignItems="center" minWidth={0}>
                     <CountryFlagIcon code={countryCode} size={16} />
-                    <Typography variant="caption" color="text.secondary" noWrap>
-                      {countryLabel}
-                    </Typography>
                   </Stack>
                 )}
               </Stack>
