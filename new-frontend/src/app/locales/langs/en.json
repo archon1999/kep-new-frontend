@@ -1,6 +1,23 @@
 {
   "home": "Home",
   "kepcoin": "Kepcoin",
+  "menu": {
+    "home": "Home",
+    "practice": "Practice",
+    "competitions": "Competitions",
+    "users": "Users",
+    "problems": "Problems",
+    "challenges": "Challenges",
+    "projects": "Projects",
+    "tests": "Tests",
+    "contests": "Contests",
+    "arena": "Arena",
+    "tournaments": "Tournaments",
+    "hackathons": "Hackathons",
+    "kepcoin": "Kepcoin",
+    "calendar": "Calendar",
+    "shop": "Shop"
+  },
   "pageTitles": {
     "home": "Home",
     "users": "Users",
