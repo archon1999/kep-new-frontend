@@ -61,6 +61,7 @@ const KepcoinPage = () => {
               <StreakWidget
                 balance={summary?.balance}
                 streak={summary?.streak}
+                maxStreak={summary?.maxStreak}
                 streakFreeze={summary?.streakFreeze}
                 isLoading={isSummaryLoading}
               />

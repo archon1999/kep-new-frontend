@@ -10,11 +10,13 @@ import type {
 export interface ApiKepcoinSummaryResponse {
   kepcoin?: number;
   streak?: number;
+  maxStreak?: number;
   streakFreeze?: number;
 }
 
 interface ApiStreakResponse {
   streak?: number;
+  maxStreak?: number;
   streakFreeze?: number;
 }
 
@@ -28,6 +30,7 @@ export const kepcoinApiClient = {
     return {
       kepcoin: balanceResponse?.kepcoin,
       streak: streakResponse?.streak,
+      maxStreak: streakResponse?.maxStreak,
       streakFreeze: streakResponse?.streakFreeze,
     };
   },

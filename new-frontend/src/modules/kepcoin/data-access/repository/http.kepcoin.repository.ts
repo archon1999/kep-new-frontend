@@ -15,6 +15,7 @@ export class HttpKepcoinRepository implements KepcoinRepository {
     return {
       balance: summary?.kepcoin ?? 0,
       streak: summary?.streak ?? 0,
+      maxStreak: summary?.maxStreak ?? 0,
       streakFreeze: summary?.streakFreeze ?? 0,
     };
   }

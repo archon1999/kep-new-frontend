@@ -160,9 +160,9 @@ const KepcoinActivityWidget = ({
       </Stack>
 
       {isLoading ? (
-        <Stack spacing={2}>
+        <Stack spacing={2} direction="column">
           {Array.from({ length: 4 }).map((_, index) => (
-            <Stack key={index} spacing={1.5}>
+            <Stack key={index} spacing={1.5} direction="column">
               <Skeleton variant="text" width="60%" />
               <Skeleton variant="text" width="40%" />
               <Divider />
