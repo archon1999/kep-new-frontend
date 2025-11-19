@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
 import { Button, Stack } from '@mui/material';
 import sitemap, { MenuItem } from 'app/routes/sitemap';
@@ -11,7 +11,7 @@ interface TopnavItemsProps {
 }
 
 const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [selectedMenu, setSelectedMenu] = useState<null | MenuItem>(null);
   const { pathname } = useLocation();
 
@@ -39,11 +39,16 @@ const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
       }}
       className="nav-items"
     >
-      {sitemap.map((menu) => (
-        <Button
-          key={menu.pathName}
-          component={menu.items ? undefined : NavLink}
-          to={menu.items ? undefined : menu.path}
+      {sitemap.map((menu) => {
+        const buttonLinkProps =
+          !menu.items && menu.path
+            ? ({ component: NavLink, to: menu.path } as const)
+            : {};
+
+        return (
+          <Button
+            key={menu.pathName}
+            {...buttonLinkProps}
           variant="text"
           className={clsx({
             active: isMenuActive(menu),
@@ -51,7 +56,7 @@ const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
           color={isMenuActive(menu) ? 'primary' : 'neutral'}
           size={type === 'slim' ? 'small' : 'large'}
           endIcon={menu.items ? <IconifyIcon icon="material-symbols:expand-more-rounded" /> : undefined}
-          onClick={(event) => {
+          onClick={(event: MouseEvent<HTMLElement>) => {
             if (!menu.items) return;
             setAnchorEl(event.currentTarget);
             setSelectedMenu(menu);
@@ -60,8 +65,9 @@ const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
         >
           {menu.name}
         </Button>
-      ))}
-      {selectedMenu && (
+        );
+      })}
+      {selectedMenu?.items && (
         <NavitemPopover
           handleClose={() => {
             setAnchorEl(null);
