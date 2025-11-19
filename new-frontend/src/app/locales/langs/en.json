@@ -59,6 +59,17 @@
         "challenges": "This rating shows your strength in challenges."
       },
       "percentile": "You are better than {{percentile}}% of users"
+    },
+    "statistics": {
+      "title": "Statistics",
+      "subtitle": "Last year",
+      "changeLabel": "Since last year",
+      "cards": {
+        "users": "Users",
+        "problems": "Problems",
+        "competitions": "Competitions",
+        "attempts": "Attempts"
+      }
     }
   },
   "shop": {

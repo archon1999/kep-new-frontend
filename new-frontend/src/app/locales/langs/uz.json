@@ -59,6 +59,17 @@
         "challenges": "Bu reyting chaqiriqlardagi kuchingizni ko‘rsatadi."
       },
       "percentile": "Siz foydalanuvchilarning {{percentile}}% dan yaxshiroqsiz"
+    },
+    "statistics": {
+      "title": "Statistika",
+      "subtitle": "O'tgan yil",
+      "changeLabel": "O'tgan yilga nisbatan",
+      "cards": {
+        "users": "Foydalanuvchilar",
+        "problems": "Masalalar",
+        "competitions": "Musobaqalar",
+        "attempts": "Urinishlar"
+      }
     }
   },
   "shop": {
