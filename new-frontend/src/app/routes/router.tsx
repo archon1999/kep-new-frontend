@@ -10,12 +10,12 @@ import paths, { authPaths, rootPaths } from './paths';
 
 const Home = lazy(() => import('pages/home/Home'));
 const KepcoinPage = lazy(() => import('pages/kepcoin/KepcoinPage'));
-const ShopPage = lazy(() => import('pages/shop/ShopPage'));
-const SchedulerPage = lazy(() => import('pages/calendar/CalendarPage'));
-const UsersListPage = lazy(() => import('pages/users/UsersListPage'));
+const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
+const SchedulerPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
+const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
 
 const LoggedOut = lazy(() => import('pages/authentication/default/LoggedOut'));
-const CalendarPage = lazy(() => import('pages/calendar/CalendarPage'));
+const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
 const Login = lazy(() => import('pages/authentication/default/jwt/Login'));
 
