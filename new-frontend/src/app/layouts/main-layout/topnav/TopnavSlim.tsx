@@ -18,7 +18,7 @@ interface TopnavSlimProps {
 
 const TopnavSlim = ({ sx }: TopnavSlimProps) => {
   const {
-    config: { navColor, navigationMenuType },
+    config: { navColor },
     handleDrawerToggle,
   } = useSettingsContext();
 
@@ -34,9 +34,6 @@ const TopnavSlim = ({ sx }: TopnavSlimProps) => {
           [`&.${paperClasses.root}`]: {
             outline: 'none',
           },
-        },
-        navigationMenuType === 'combo' && {
-          zIndex: ({ zIndex }) => zIndex.drawer + 1,
         },
         navColor === 'vibrant' && topnavVibrantStyle,
         ...(Array.isArray(sx) ? sx : [sx]),
@@ -58,12 +55,7 @@ const TopnavSlim = ({ sx }: TopnavSlimProps) => {
             edge="start"
             onClick={handleDrawerToggle}
             sx={[
-              {
-                display: { xs: 'flex', lg: 'none' },
-              },
-              navigationMenuType === 'combo' && {
-                display: { md: 'none' },
-              },
+              { display: { xs: 'flex', lg: 'none' } },
             ]}
           >
             <IconifyIcon icon="material-symbols:menu-rounded" sx={{ fontSize: 20 }} />

@@ -14,7 +14,7 @@ import TopnavItems from './TopnavItems';
 
 const Topnav = () => {
   const {
-    config: { navigationMenuType, navColor },
+    config: { navColor },
     handleDrawerToggle,
   } = useSettingsContext();
 
@@ -31,9 +31,6 @@ const Topnav = () => {
           [`&.${paperClasses.root}`]: {
             outline: 'none',
           },
-        },
-        navigationMenuType === 'combo' && {
-          zIndex: ({ zIndex }) => zIndex.drawer + 1,
         },
         navColor === 'vibrant' && topnavVibrantStyle,
       ]}
@@ -54,17 +51,9 @@ const Topnav = () => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={[
-              {
-                display: 'flex',
-              },
-              (navigationMenuType === 'sidenav' || navigationMenuType === 'combo') && {
-                display: { md: 'none' },
-              },
-              navigationMenuType === 'topnav' && {
-                display: { lg: 'none' },
-              },
-            ]}
+            sx={{
+              display: { xs: 'flex', lg: 'none' },
+            }}
           >
             <IconifyIcon icon="material-symbols:menu-rounded" sx={{ fontSize: 20 }} />
           </IconButton>

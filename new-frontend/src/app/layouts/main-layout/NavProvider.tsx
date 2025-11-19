@@ -61,17 +61,16 @@ const NavProvider = ({ children }: PropsWithChildren) => {
     if (navigationMenuType === 'sidenav') {
       return 'appbar';
     }
-    if (navigationMenuType === 'combo') {
-      switch (topnavType) {
-        case 'default': {
-          return 'appbar';
-        }
-        case 'slim': {
-          return 'appbarSlim';
-        }
-        case 'stacked': {
-          return downMd ? 'appbar' : 'appbarStacked';
-        }
+
+    switch (topnavType) {
+      case 'default': {
+        return 'appbar';
+      }
+      case 'slim': {
+        return 'appbarSlim';
+      }
+      case 'stacked': {
+        return downMd ? 'appbar' : 'appbarStacked';
       }
     }
   }, [navigationMenuType, topnavType, downMd]);
@@ -85,7 +84,7 @@ const NavProvider = ({ children }: PropsWithChildren) => {
   }, [navigationMenuType, topnavType]);
 
   useEffect(() => {
-    if (navigationMenuType === 'sidenav' || navigationMenuType === 'combo') {
+    if (navigationMenuType === 'sidenav') {
       if (sidenavType !== 'slim') {
         if (sidenavCollapsed) {
           configDispatch({
