@@ -162,9 +162,13 @@ const KepcoinActivityWidget = ({
       {isLoading ? (
         <Stack spacing={2}>
           {Array.from({ length: 4 }).map((_, index) => (
-            <Stack key={index} spacing={1.5}>
-              <Skeleton variant="text" width="60%" />
-              <Skeleton variant="text" width="40%" />
+            <Stack key={index} direction="column" spacing={1.25}>
+              <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
+                <Skeleton variant="rounded" width={120} height={28} />
+                <Skeleton variant="text" width={140} />
+              </Stack>
+              <Skeleton variant="text" width="75%" />
+              <Skeleton variant="text" width="55%" />
               <Divider />
             </Stack>
           ))}

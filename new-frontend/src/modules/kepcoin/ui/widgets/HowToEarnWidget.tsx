@@ -1,7 +1,7 @@
-import { Chip, Divider, Stack, Typography } from '@mui/material';
+import { Divider, Stack, Typography } from '@mui/material';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import IconifyIcon from 'shared/components/base/IconifyIcon';
+import KepcoinValue from 'shared/components/common/KepcoinValue';
 
 const HowToEarnWidget = () => {
   const { t } = useTranslation();
@@ -29,12 +29,12 @@ const HowToEarnWidget = () => {
       <Stack direction="column" spacing={1.5} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
         {items.map((item) => (
           <Stack key={`${item.value}-${item.label}`} direction="row" spacing={2} alignItems="center">
-            <Chip
-              icon={<IconifyIcon icon="solar:coins-stacks-linear" fontSize={18} />}
+            <KepcoinValue
               label={t('kepcoinPage.valueLabel', { value: item.value })}
-              color="warning"
-              variant="outlined"
-              sx={{ minWidth: 120 }}
+              iconSize={28}
+              textVariant="subtitle2"
+              fontWeight={700}
+              color="text.primary"
             />
             <Typography variant="body2" color="text.secondary">
               {item.label}
