@@ -1,6 +1,7 @@
 export const rootPaths = {
   root: '/',
   authRoot: 'authentication',
+  appsRoot: 'apps',
   kepcoinRoot: 'kepcoin',
   shopRoot: 'shop',
   calendarRoot: 'calendar',

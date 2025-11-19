@@ -14,7 +14,7 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useNavContext } from '../NavProvider';
 
 interface NavItemPopoverProps {
-  anchorEl: HTMLButtonElement | null;
+  anchorEl: HTMLElement | null;
   handleClose: () => void;
   open: boolean;
   items: MenuItem[];
@@ -22,7 +22,7 @@ interface NavItemPopoverProps {
 }
 
 const NavitemPopover = ({ anchorEl, open, handleClose, items, level }: NavItemPopoverProps) => {
-  const [itemAnchorEl, setItemAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [itemAnchorEl, setItemAnchorEl] = useState<HTMLElement | null>(null);
   const [selectedItems, setSelectedItems] = useState<MenuItem[]>([]);
   const { isNestedItemOpen } = useNavContext();
   const { pathname } = useLocation();
