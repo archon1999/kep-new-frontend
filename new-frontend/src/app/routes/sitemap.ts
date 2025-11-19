@@ -1,4 +1,6 @@
+import { IconProps } from '@iconify/react';
 import { SxProps } from '@mui/material';
+import kepcoinMenuIcon from 'shared/assets/icons/kepcoinMenuIcon';
 import paths, { rootPaths } from './paths';
 
 export interface MenuItem {
@@ -8,7 +10,7 @@ export interface MenuItem {
   selectionPrefix?: string;
   path?: string;
   active?: boolean;
-  icon?: string;
+  icon?: IconProps['icon'];
   iconSx?: SxProps;
   items?: MenuItem[];
 }
@@ -35,7 +37,7 @@ const sitemap: MenuItem[] = [
     key: 'kepcoin',
     path: paths.kepcoin,
     pathName: 'kepcoin',
-    icon: 'mdi:currency-usd-circle',
+    icon: kepcoinMenuIcon,
     active: true,
   },
   {
