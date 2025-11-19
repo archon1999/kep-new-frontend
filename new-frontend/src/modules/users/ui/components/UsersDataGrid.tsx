@@ -1,4 +1,4 @@
-import { Avatar, Box, Chip, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Chip, Skeleton, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -37,6 +37,32 @@ interface UsersDataGridProps {
   countryLabels?: Record<string, string>;
 }
 
+const SKELETON_ROW_COUNT = 10;
+
+const UsersDataGridLoadingOverlay = () => (
+  <Stack
+    spacing={1.25}
+    sx={{
+      width: '100%',
+      height: '100%',
+      px: 3,
+      py: 2,
+      boxSizing: 'border-box',
+      justifyContent: 'flex-start',
+      backgroundColor: 'background.elevation1',
+    }}
+  >
+    {Array.from({ length: SKELETON_ROW_COUNT }).map((_, index) => (
+      <Skeleton
+        key={`users-loading-row-${index}`}
+        variant="rounded"
+        height={64}
+        animation="wave"
+      />
+    ))}
+  </Stack>
+);
+
 const UsersDataGrid = ({
   rows,
   rowCount,
@@ -64,6 +90,7 @@ const UsersDataGrid = ({
         const user = row as UsersListItem;
         const name = [user.firstName, user.lastName].filter(Boolean).join(' ');
         const countryCode = user.country?.toUpperCase();
+        const countryName = countryCode ? countryLabels?.[countryCode] : undefined;
 
         return (
           <Stack direction="row" spacing={2} alignItems="center" sx={{ minWidth: 0 }}>
@@ -74,7 +101,13 @@ const UsersDataGrid = ({
                   {user.username}
                 </Typography>
                 {countryCode && (
-                  <Stack direction="row" spacing={0.5} alignItems="center" minWidth={0}>
+                  <Stack
+                    direction="row"
+                    spacing={0.5}
+                    alignItems="center"
+                    minWidth={0}
+                    title={countryName}
+                  >
                     <CountryFlagIcon code={countryCode} size={16} />
                   </Stack>
                 )}
@@ -243,6 +276,9 @@ const UsersDataGrid = ({
       columns={columns}
       disableRowSelectionOnClick
       getRowId={(row) => (row as UsersListItem).id ?? (row as UsersListItem).username}
+      slots={{
+        loadingOverlay: UsersDataGridLoadingOverlay,
+      }}
       sx={{
         '& .MuiDataGrid-cell:focus, & .MuiDataGrid-columnHeader:focus': {
           outline: 'none',
