@@ -93,6 +93,7 @@ const UsersDataGrid = ({
       field: 'skillsRating',
       headerName: columnLabels.skills,
       flex: 0.5,
+      minWidth: 80,
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
@@ -111,6 +112,7 @@ const UsersDataGrid = ({
       field: 'activityRating',
       headerName: columnLabels.activity,
       flex: 0.5,
+      minWidth: 80,
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
