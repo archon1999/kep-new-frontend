@@ -43,13 +43,13 @@ const CustomTablePaginationAction = ({
     <Stack
       sx={{
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: { xs: 'center', sm: 'space-between' },
         flex: 1,
         ml: {
           sm: 1,
         },
         flexDirection: 'row',
-        flexWrap: 'nowrap',
+        flexWrap: { xs: 'wrap', sm: 'nowrap' },
         gap: { xs: 1, sm: 2 },
       }}
     >
