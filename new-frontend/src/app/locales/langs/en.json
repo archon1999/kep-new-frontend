@@ -1,6 +1,64 @@
 {
   "home": "Home",
   "kepcoin": "Kepcoin",
+  "kepcoinPage": {
+    "header": "You have",
+    "subtitle": "Track how you earn and spend Kepcoin across the platform.",
+    "freeze": {
+      "title": "Streak freeze chip",
+      "description": "Freezing automatically saves your streak if you miss a day and don't complete daily tasks.",
+      "chips": "{{value}} freeze chips",
+      "labels": {
+        "streak": "Current streak",
+        "freezes": "Freeze credits"
+      }
+    },
+    "transactions": {
+      "title": "Earns & spends",
+      "subtitle": "History synced from /api/kepcoin-earns and /api/kepcoin-spends.",
+      "earns": "Earns",
+      "spends": "Spends",
+      "empty": {
+        "earns": {
+          "title": "No earnings yet",
+          "subtitle": "Complete challenges and tasks to start earning Kepcoin."
+        },
+        "spends": {
+          "title": "No spends yet",
+          "subtitle": "Spend Kepcoin on solutions, tests, or boosts when you need them."
+        }
+      }
+    },
+    "guides": {
+      "earn": {
+        "title": "How to Earn Kepcoin",
+        "description": "To earn this currency, you need to contribute to the development of the system. For example, Kepcoin:",
+        "items": {
+          "activity": "For daily activity",
+          "dailyTasks": "For completing daily tasks",
+          "challengeRatings": "For being the winner in daily, weekly, and monthly challenge ratings",
+          "competitions": "For participating in competitions",
+          "blog": "For writing a blog",
+          "editing": "For helping in editing problems (writing solutions, translation, adding tags, finding similar problems)"
+        }
+      },
+      "spend": {
+        "title": "How to Spend Kepcoin",
+        "description": "Use your Kepcoin to unlock content, boost ratings, and explore more learning materials.",
+        "items": {
+          "viewAttempt": "View another user's attempt",
+          "viewTest": "View a test with a failed solution",
+          "solution": "Purchase a problem solution",
+          "cover": "Change profile cover photo",
+          "passTest": "Pass the test",
+          "course": "Purchase a course",
+          "testFunction": "Test function when editing code (completely)",
+          "doubleRating": "Double rating change in contest (even if negative, it doubles)",
+          "keepRating": "Maintain rating in contest (not given if negative)"
+        }
+      }
+    }
+  },
   "pageTitles": {
     "home": "Home",
     "users": "Users",

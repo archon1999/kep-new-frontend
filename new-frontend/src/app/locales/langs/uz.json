@@ -1,6 +1,64 @@
 {
   "home": "Bosh sahifa",
   "kepcoin": "Kepcoin",
+  "kepcoinPage": {
+    "header": "Sizda bor",
+    "subtitle": "Platformada Kepcoin qanday olinishi va sarflanishini kuzating.",
+    "freeze": {
+      "title": "Seriyani muzlatish chipi",
+      "description": "Agar kunni o‘tkazib yuborsangiz va kundalik vazifalarni bajarmasangiz, muzlatish avtomatik ravishda natijani saqlaydi.",
+      "chips": "{{value}} ta freeze chip",
+      "labels": {
+        "streak": "Joriy seriya",
+        "freezes": "Mavjud freeze chiplar"
+      }
+    },
+    "transactions": {
+      "title": "Daromad va xarajatlar",
+      "subtitle": "Tarix /api/kepcoin-earns va /api/kepcoin-spends endpointlaridan olinadi.",
+      "earns": "Daromadlar",
+      "spends": "Xarajatlar",
+      "empty": {
+        "earns": {
+          "title": "Hozircha daromad yo‘q",
+          "subtitle": "Kundalik topshiriqlarni bajaring va musobaqalarda qatnashing, shunda Kepcoin yig‘asiz."
+        },
+        "spends": {
+          "title": "Hozircha xarajat yo‘q",
+          "subtitle": "Kerak paytda yechimlar, testlar yoki reyting kuchaytirgichlarini sotib oling."
+        }
+      }
+    },
+    "guides": {
+      "earn": {
+        "title": "Kepcoin qanday topsa bo‘ladi?",
+        "description": "Ushbu valyutaga ega bo‘lish uchun tizim rivojlanishiga o‘z xissangizni qo‘shingingiz lozim. Jumladan kepcoin:",
+        "items": {
+          "activity": "Kunlik faollik uchun",
+          "dailyTasks": "Kunlik topshiriqlarni bajarganligi uchun",
+          "challengeRatings": "Kunlik, haftalik va oylik masalalar reytingi g‘olibi bo‘lgani uchun",
+          "competitions": "Musobaqalarda qatnashganingiz uchun",
+          "blog": "Blog yozganingiz uchun",
+          "editing": "Masalalarni tahrirlashda yordamlashganingiz uchun (yechim yozish, tarjima, teg qo‘shish, o‘xshash masalalar topish)"
+        }
+      },
+      "spend": {
+        "title": "Kepcoin qanday sarflasa bo‘ladi?",
+        "description": "Kepcoin yordamida kontent oching, reytingingizni mustahkamlang va qo‘shimcha ta’lim oling.",
+        "items": {
+          "viewAttempt": "Boshqa foydalanuvchi urinishini ko‘rish",
+          "viewTest": "Yechimi yiqilgan testni ko‘rish",
+          "solution": "Masala yechimini xarid qilish",
+          "cover": "Profil orqa rasmini o‘zgartirish",
+          "passTest": "Testdan o‘tish",
+          "course": "Kurs sotib olish",
+          "testFunction": "Kodni tahrirlashda testlash funksiyasi (butunlay)",
+          "doubleRating": "Kontestda reyting o‘zgarishini ikki barobar qilish (manfiy bo‘lsa ham)",
+          "keepRating": "Kontestda reytingni saqlab qolish (manfiy bo‘lsa berilmaydi)"
+        }
+      }
+    }
+  },
   "pageTitles": {
     "home": "Bosh sahifa",
     "users": "Foydalanuvchilar",
