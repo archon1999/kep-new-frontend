@@ -13,7 +13,6 @@ import NavProvider from './NavProvider';
 import Footer from './footer';
 import SidenavDrawerContent from './sidenav/SidenavDrawerContent';
 import SlimSidenav from './sidenav/SlimSidenav';
-import StackedSidenav from './sidenav/StackedSidenav';
 import Topnav from './topnav';
 import TopNavStacked from './topnav/TopNavStacked';
 import TopnavSlim from './topnav/TopnavSlim';
@@ -38,7 +37,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
   };
 
   const toolbarVarint: ToolbarOwnProps['variant'] = useMemo(() => {
-    if (navigationMenuType !== 'sidenav') {
+    if (navigationMenuType === 'topnav') {
       if (topnavType === 'slim') {
         return 'appbarSlim';
       }
@@ -58,17 +57,15 @@ const MainLayout = ({ children }: PropsWithChildren) => {
         sx={{ display: 'flex', zIndex: 1, position: 'relative' }}
       >
         <NavProvider>
-          {navigationMenuType === 'sidenav' && <AppBar />}
-
-          {(navigationMenuType === 'sidenav' || navigationMenuType === 'combo') && (
+          {navigationMenuType === 'sidenav' && (
             <>
+              <AppBar />
               {sidenavType === 'default' && <Sidenav />}
               {sidenavType === 'slim' && <SlimSidenav />}
-              {sidenavType === 'stacked' && <StackedSidenav />}
             </>
           )}
 
-          {(navigationMenuType === 'topnav' || navigationMenuType === 'combo') && (
+          {navigationMenuType === 'topnav' && (
             <>
               {topnavType === 'default' && <Topnav />}
               {topnavType === 'slim' && <TopnavSlim />}
@@ -92,9 +89,9 @@ const MainLayout = ({ children }: PropsWithChildren) => {
                   width: mainDrawerWidth.full,
                 },
               },
-              navigationMenuType === 'topnav' && {
-                display: { md: 'block', lg: 'none' },
-              },
+              navigationMenuType === 'topnav'
+                ? { display: { md: 'block', lg: 'none' } }
+                : undefined,
               navColor === 'vibrant' && sidenavVibrantStyle,
             ]}
           >
@@ -110,22 +107,18 @@ const MainLayout = ({ children }: PropsWithChildren) => {
                 p: 0,
                 height: '100vh',
                 overflow: 'auto',
-                width: { xs: '100%', md: `calc(100% - ${drawerWidth}px)` },
+                width:
+                  navigationMenuType === 'sidenav'
+                    ? { xs: '100%', md: `calc(100% - ${drawerWidth}px)` }
+                    : { xs: '100%' },
                 display: 'flex',
                 flexDirection: 'column',
               },
-              sidenavType === 'default' && {
-                ml: { md: `${mainDrawerWidth.collapsed}px`, lg: 0 },
-              },
-              sidenavType === 'stacked' && {
-                ml: { md: `${mainDrawerWidth.stackedNavCollapsed}px`, lg: 0 },
-              },
-              sidenavType === 'slim' && {
-                ml: { xs: 0 },
-              },
-              navigationMenuType === 'topnav' && {
-                ml: { xs: 0 },
-              },
+              navigationMenuType === 'sidenav' &&
+                (sidenavType === 'default'
+                  ? { ml: { md: `${mainDrawerWidth.collapsed}px`, lg: 0 } }
+                  : { ml: { xs: 0 } }),
+              navigationMenuType === 'topnav' && { ml: { xs: 0 } },
             ]}
           >
             <Toolbar variant={toolbarVarint} />

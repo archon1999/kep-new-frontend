@@ -44,9 +44,7 @@ export const settingsReducer = (state: Config, action: ACTIONTYPE) => {
       updatedState = {
         sidenavCollapsed: true,
         drawerWidth:
-          state.sidenavType === 'stacked'
-            ? mainDrawerWidth.stackedNavCollapsed
-            : mainDrawerWidth.collapsed,
+          state.sidenavType === 'slim' ? mainDrawerWidth.slim : mainDrawerWidth.collapsed,
       };
       break;
     }
@@ -80,14 +78,6 @@ export const settingsReducer = (state: Config, action: ACTIONTYPE) => {
           };
           break;
         }
-        case 'combo': {
-          updatedState = {
-            navigationMenuType: 'combo',
-            sidenavCollapsed: false,
-            drawerWidth: mainDrawerWidth.full,
-          };
-          break;
-        }
       }
       break;
     }
@@ -106,14 +96,6 @@ export const settingsReducer = (state: Config, action: ACTIONTYPE) => {
             sidenavType: 'slim',
             sidenavCollapsed: false,
             drawerWidth: mainDrawerWidth.slim,
-          };
-          break;
-        }
-        case 'stacked': {
-          updatedState = {
-            sidenavType: 'stacked',
-            sidenavCollapsed: false,
-            drawerWidth: mainDrawerWidth.full,
           };
           break;
         }

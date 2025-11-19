@@ -14,7 +14,7 @@ import TopnavItems from './TopnavItems';
 
 const Topnav = () => {
   const {
-    config: { navigationMenuType, navColor },
+    config: { navColor },
     handleDrawerToggle,
   } = useSettingsContext();
 
@@ -31,9 +31,6 @@ const Topnav = () => {
           [`&.${paperClasses.root}`]: {
             outline: 'none',
           },
-        },
-        navigationMenuType === 'combo' && {
-          zIndex: ({ zIndex }) => zIndex.drawer + 1,
         },
         navColor === 'vibrant' && topnavVibrantStyle,
       ]}
@@ -56,13 +53,7 @@ const Topnav = () => {
             onClick={handleDrawerToggle}
             sx={[
               {
-                display: 'flex',
-              },
-              (navigationMenuType === 'sidenav' || navigationMenuType === 'combo') && {
-                display: { md: 'none' },
-              },
-              navigationMenuType === 'topnav' && {
-                display: { lg: 'none' },
+                display: { xs: 'flex', lg: 'none' },
               },
             ]}
           >

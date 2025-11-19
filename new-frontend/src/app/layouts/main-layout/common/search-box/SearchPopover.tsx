@@ -47,7 +47,7 @@ const SearchPopover = ({ anchorEl, handleClose }: SearchPopoverProps) => {
               borderWidth: '0 !important',
               boxShadow: (theme) => `0 0 0 1px ${theme.vars.palette.menuDivider}`,
             },
-            (navigationMenuType === 'topnav' || navigationMenuType === 'combo') && {
+            navigationMenuType === 'topnav' && {
               maxWidth: { sm: 480 },
             },
           ],

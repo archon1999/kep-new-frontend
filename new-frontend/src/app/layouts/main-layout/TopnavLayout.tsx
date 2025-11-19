@@ -17,7 +17,7 @@ import Topnav from './topnav';
 
 const TopnavLayout = ({ children }: PropsWithChildren) => {
   const {
-    config: { drawerWidth, navigationMenuType, topnavType, openNavbarDrawer, navColor },
+    config: { drawerWidth, topnavType, openNavbarDrawer, navColor },
     setConfig,
   } = useSettingsContext();
 
@@ -40,7 +40,7 @@ const TopnavLayout = ({ children }: PropsWithChildren) => {
       return 'appbarStacked';
     }
     return 'appbar';
-  }, [navigationMenuType, topnavType]);
+  }, [topnavType]);
 
   return (
     <Box>

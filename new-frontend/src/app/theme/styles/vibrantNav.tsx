@@ -69,11 +69,6 @@ export const sidenavVibrantStyle: SystemStyleObject<Theme> = {
       borderColor: 'transparent',
     },
   },
-  '&.stacked-sidenav': {
-    [`& .${listItemButtonClasses.root}`]: {
-      color: 'text.primary',
-    },
-  },
 };
 
 export const topnavVibrantStyle: SystemStyleObject<Theme> = {
