@@ -1,5 +1,5 @@
-import { Box, Stack, StackProps, Typography, TypographyProps } from '@mui/material';
-import kepcoinImage from 'shared/assets/images/icons/kepcoin.png';
+import { Stack, StackProps, Typography, TypographyProps } from '@mui/material';
+import KepcoinIcon from './KepcoinIcon';
 
 interface KepcoinValueProps extends StackProps {
   value?: number | string | null;
@@ -26,7 +26,7 @@ const KepcoinValue = ({
 
   return (
     <Stack direction={direction} spacing={spacing} alignItems={alignItems} {...stackProps}>
-      <Box component="img" src={kepcoinImage} alt="Kepcoin" sx={{ width: iconSize, height: iconSize }} />
+      <KepcoinIcon size={iconSize} sx={{ color }} />
       <Typography variant={textVariant} fontWeight={fontWeight} color={color}>
         {displayValue}
       </Typography>
