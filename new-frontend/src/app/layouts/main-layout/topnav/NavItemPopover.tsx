@@ -1,8 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { NavLink, useLocation } from 'react-router';
 import {
   Box,
-  Link,
   List,
   ListItemButton,
   ListItemText,
@@ -10,6 +9,7 @@ import {
   popoverClasses,
 } from '@mui/material';
 import { MenuItem } from 'app/routes/sitemap';
+import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useNavContext } from '../NavProvider';
 
@@ -22,6 +22,7 @@ interface NavItemPopoverProps {
 }
 
 const NavitemPopover = ({ anchorEl, open, handleClose, items, level }: NavItemPopoverProps) => {
+  const { t } = useTranslation();
   const [itemAnchorEl, setItemAnchorEl] = useState<HTMLElement | null>(null);
   const [selectedItems, setSelectedItems] = useState<MenuItem[]>([]);
   const { isNestedItemOpen } = useNavContext();
@@ -78,8 +79,8 @@ const NavitemPopover = ({ anchorEl, open, handleClose, items, level }: NavItemPo
           {items.map((item) => (
             <Fragment key={item.pathName}>
               <ListItemButton
-                component={item.items ? 'div' : Link}
-                href={item.items ? undefined : item.path}
+                component={item.items ? 'div' : NavLink}
+                to={item.items ? undefined : item.path}
                 onClick={(e: any) => {
                   if (item.items) {
                     setItemAnchorEl(e.currentTarget);
@@ -107,7 +108,7 @@ const NavitemPopover = ({ anchorEl, open, handleClose, items, level }: NavItemPo
                 }
               >
                 <ListItemText
-                  primary={item.name}
+                  primary={t(item.key || item.name)}
                   sx={[
                     !item.active && {
                       color: 'text.disabled',

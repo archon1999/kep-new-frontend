@@ -1,6 +1,23 @@
 {
   "home": "Bosh sahifa",
   "kepcoin": "Kepcoin",
+  "menu": {
+    "home": "Bosh sahifa",
+    "practice": "Ishlash",
+    "competitions": "Musobaqalar",
+    "users": "Foydalanuvchilar",
+    "problems": "Masalalar",
+    "challenges": "Bellashuvlar",
+    "projects": "Loyihalar",
+    "tests": "Testlar",
+    "contests": "Kontestlar",
+    "arena": "Arena",
+    "tournaments": "Turnirlar",
+    "hackathons": "Xakatonlar",
+    "kepcoin": "Kepcoin",
+    "calendar": "Kalendar",
+    "shop": "Doʻkon"
+  },
   "pageTitles": {
     "home": "Bosh sahifa",
     "users": "Foydalanuvchilar",
