@@ -249,6 +249,7 @@ const UsersDataGrid = ({
 
   return (
     <DataGrid
+      autoHeight
       rowHeight={72}
       rows={rows}
       rowCount={rowCount}
