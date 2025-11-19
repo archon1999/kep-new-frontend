@@ -20,7 +20,7 @@ const ThemeProvider = ({ children }: PropsWithChildren) => {
     <MuiThemeProvider
       disableTransitionOnChange
       theme={customTheme}
-      defaultMode="light"
+      defaultMode="system"
       modeStorageKey="kep-mode"
     >
       <CssBaseline enableColorScheme />
