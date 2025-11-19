@@ -1,8 +1,10 @@
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import HomeProfileSection from '../components/HomeProfileSection.tsx';
 import StatisticsSection from '../components/StatisticsSection.tsx';
+import UserActivitySection from '../components/UserActivitySection.tsx';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useUserRatings } from '../../application/queries';
 
@@ -20,7 +22,10 @@ const HomePage = () => {
           <HomeProfileSection displayName={displayName} ratings={ratings} isLoading={isLoading} />
         </Grid>
         <Grid size={{ xs: 12, md: 7, lg: 8, xl: 9 }}>
-          <StatisticsSection />
+          <Stack spacing={3}>
+            <StatisticsSection />
+            <UserActivitySection />
+          </Stack>
         </Grid>
       </Grid>
     </Box>

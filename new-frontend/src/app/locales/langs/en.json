@@ -70,6 +70,19 @@
         "competitions": "Competitions",
         "attempts": "Attempts"
       }
+    },
+    "userActivity": {
+      "title": "User activity",
+      "subtitle": "Last 12 days",
+      "tooltipSuffix": "users",
+      "totals": {
+        "new": "New users",
+        "active": "Active users"
+      },
+      "series": {
+        "newUsers": "New users",
+        "activeUsers": "Active users"
+      }
     }
   },
   "shop": {
