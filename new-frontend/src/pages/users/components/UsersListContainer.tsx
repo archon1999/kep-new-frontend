@@ -1,22 +1,21 @@
-import { ChangeEvent, SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, MouseEvent, SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { TabContext, TabList } from '@mui/lab';
 import {
   Box,
   Button,
-  Collapse,
-  Grid,
   InputAdornment,
   MenuItem,
+  Menu,
   Stack,
   Tab,
   Typography,
 } from '@mui/material';
 import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
-import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useUsersCountries, useUsersList } from 'modules/users/application/queries';
 import StyledTextField from 'shared/components/styled/StyledTextField';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import formatCountryFlag from 'shared/utils/formatCountryFlag';
 import UsersDataGrid from './UsersDataGrid';
 
 const tabOrderingMap = {
@@ -49,11 +48,9 @@ type FiltersState = {
 
 const UsersListContainer = () => {
   const { t, i18n } = useTranslation();
-  const { up } = useBreakpoints();
-  const upMd = up('md');
 
   const [tabValue, setTabValue] = useState<TabValue>('skills');
-  const [filtersOpen, setFiltersOpen] = useState(true);
+  const [filtersAnchorEl, setFiltersAnchorEl] = useState<HTMLElement | null>(null);
   const [filters, setFilters] = useState<FiltersState>({
     search: '',
     country: '',
@@ -163,6 +160,15 @@ const UsersListContainer = () => {
     emptyValue: t('users.emptyValue'),
   } as const;
 
+  const filtersOpen = Boolean(filtersAnchorEl);
+
+  const handleFiltersButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const { currentTarget } = event;
+    setFiltersAnchorEl((prev) => (prev ? null : currentTarget));
+  };
+
+  const handleFiltersClose = () => setFiltersAnchorEl(null);
+
   return (
     <TabContext value={tabValue}>
       <Stack
@@ -187,8 +193,11 @@ const UsersListContainer = () => {
           <Button
             variant="soft"
             color="neutral"
-            onClick={() => setFiltersOpen((prev) => !prev)}
+            onClick={handleFiltersButtonClick}
             sx={{ flexShrink: 0 }}
+            aria-haspopup="true"
+            aria-controls={filtersOpen ? 'users-filters-menu' : undefined}
+            aria-expanded={filtersOpen ? 'true' : undefined}
           >
             <IconifyIcon
               icon="mdi:filter-variant"
@@ -222,9 +231,22 @@ const UsersListContainer = () => {
           />
         </Stack>
       </Stack>
-
-      <Collapse in={filtersOpen} sx={{ mb: 3 }}>
-        <Stack direction="row" spacing={1} alignItems="flex-end">
+      <Menu
+        id="users-filters-menu"
+        anchorEl={filtersAnchorEl}
+        open={filtersOpen}
+        onClose={handleFiltersClose}
+        keepMounted
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        PaperProps={{
+          sx: {
+            width: 420,
+            maxWidth: 'calc(100vw - 32px)',
+          },
+        }}
+      >
+        <Stack spacing={2} sx={{ p: 2 }}>
           <StyledTextField
             select
             fullWidth
@@ -232,38 +254,73 @@ const UsersListContainer = () => {
             value={filters.country}
             onChange={handleFilterChange('country')}
             placeholder={t('users.filters.countryPlaceholder')}
+            InputLabelProps={{ shrink: true }}
+            SelectProps={{
+              renderValue: (value) => {
+                if (!value) {
+                  return t('users.filters.anyCountry');
+                }
+
+                const code = value as string;
+
+                return (
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Box component="span" sx={{ fontSize: 18, lineHeight: 1 }}>
+                      {formatCountryFlag(code)}
+                    </Box>
+                    <Typography variant="body2">
+                      {countryLabels[code] ?? code}
+                    </Typography>
+                  </Stack>
+                );
+              },
+            }}
           >
             <MenuItem value="">{t('users.filters.anyCountry')}</MenuItem>
             {countryOptions.map((country) => (
               <MenuItem key={country.code} value={country.code}>
-                {country.label}
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Box component="span" sx={{ fontSize: 18, lineHeight: 1 }}>
+                    {formatCountryFlag(country.code)}
+                  </Box>
+                  <Typography variant="body2">{country.label}</Typography>
+                </Stack>
               </MenuItem>
             ))}
           </StyledTextField>
 
-          <StyledTextField
-            fullWidth
-            type="number"
-            label={t('users.filters.ageFrom')}
-            value={filters.ageFrom}
-            onChange={handleFilterChange('ageFrom')}
-            placeholder={t('users.filters.agePlaceholder')}
-            disabledSpinButton
-          />
-          <Typography color="text.secondary" sx={{ pb: 1.5 }}>
-            —
-          </Typography>
-          <StyledTextField
-            fullWidth
-            type="number"
-            label={t('users.filters.ageTo')}
-            value={filters.ageTo}
-            onChange={handleFilterChange('ageTo')}
-            placeholder={t('users.filters.agePlaceholder')}
-            disabledSpinButton
-          />
+          <Stack direction="row" spacing={1.5} alignItems="flex-end" flexWrap="wrap">
+            <StyledTextField
+              fullWidth
+              type="number"
+              label={t('users.filters.ageFrom')}
+              value={filters.ageFrom}
+              onChange={handleFilterChange('ageFrom')}
+              placeholder={t('users.filters.agePlaceholder')}
+              disabledSpinButton
+              InputLabelProps={{ shrink: true }}
+              sx={{ flex: 1, minWidth: 140 }}
+            />
+            <Typography
+              color="text.secondary"
+              sx={{ pb: 1.5, display: { xs: 'none', sm: 'block' } }}
+            >
+              —
+            </Typography>
+            <StyledTextField
+              fullWidth
+              type="number"
+              label={t('users.filters.ageTo')}
+              value={filters.ageTo}
+              onChange={handleFilterChange('ageTo')}
+              placeholder={t('users.filters.agePlaceholder')}
+              disabledSpinButton
+              InputLabelProps={{ shrink: true }}
+              sx={{ flex: 1, minWidth: 140 }}
+            />
+          </Stack>
         </Stack>
-      </Collapse>
+      </Menu>
 
       <UsersDataGrid
         rows={rows}
