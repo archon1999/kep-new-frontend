@@ -4,6 +4,7 @@ import {
   featuresData,
   galleryData,
   showcaseData,
+  statisticsSectionData,
   statsData,
   testimonialData,
 } from 'data/landing/homepage';
@@ -17,6 +18,7 @@ import Gallery from 'components/sections/landing/homepage/Gallery';
 import Hero from 'components/sections/landing/homepage/Hero';
 import Newsletter from 'components/sections/landing/homepage/Newsletter';
 import Pricing from 'components/sections/landing/homepage/Pricing';
+import StatisticsSection from 'components/sections/landing/homepage/StatisticsSection';
 import Stats from 'components/sections/landing/homepage/Stats';
 import Testimonial from 'components/sections/landing/homepage/Testimonial';
 import WhoWeAre from 'components/sections/landing/homepage/WhoWeAre';
@@ -34,6 +36,7 @@ const LandingHomepage = () => {
       <Gallery data={galleryData} />
       <OurMission sx={{ background: 'none', py: { xs: 0, sm: 8 } }} />
       <Stats data={statsData} />
+      <StatisticsSection data={statisticsSectionData} />
       <Pricing />
       <Testimonial data={testimonialData} />
       <Blog data={blogData} />

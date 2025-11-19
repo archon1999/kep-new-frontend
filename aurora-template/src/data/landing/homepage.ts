@@ -1,5 +1,6 @@
 import { initialConfig } from 'config';
 import { users } from 'data/users';
+import type { KPI } from 'types/hrm';
 import type { User } from 'types/users';
 
 const blog = (index: number) => `${initialConfig.assetsDir}/images/landing/blog/${index}.webp`;
@@ -97,6 +98,41 @@ export const statsData: Stat[] = [
   { value: '$25,000', label: 'In revenue and still generating' },
   { value: '3%', label: 'Flat platform fee' },
   { value: '5,152', label: 'Transactions this year' },
+];
+
+export const statisticsSectionData: KPI[] = [
+  {
+    value: 8548,
+    subtitle: 'Users',
+    change: {
+      percentage: 9.6,
+      since: 'last year',
+    },
+  },
+  {
+    value: 1951,
+    subtitle: 'Problems',
+    change: {
+      percentage: -8.4,
+      since: 'last year',
+    },
+  },
+  {
+    value: 365,
+    subtitle: 'Competitions',
+    change: {
+      percentage: -14.1,
+      since: 'last year',
+    },
+  },
+  {
+    value: 379607,
+    subtitle: 'Attempts',
+    change: {
+      percentage: 11.6,
+      since: 'last year',
+    },
+  },
 ];
 
 export type Testimonial = {
