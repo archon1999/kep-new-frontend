@@ -61,7 +61,6 @@ const spendTypeKeyMap: Record<KepcoinSpendType, string> = {
 };
 
 const PAGE_SIZE = 10;
-const coinImageSrc = '/assets/kepcoin-coin.svg';
 
 type HistoryView = 'earns' | 'spends';
 
@@ -202,7 +201,7 @@ const KepcoinPage = () => {
 
   return (
     <Box sx={{ p: { xs: 3, md: 5 } }}>
-      <Stack spacing={5}>
+      <Stack direction="column" spacing={5}>
         <Stack spacing={1}>
           {isSummaryLoading ? (
             <Skeleton variant="text" width={240} height={48} />
@@ -211,16 +210,13 @@ const KepcoinPage = () => {
               {t('kepcoinPage.youHave', { value: balanceLabel })}
             </Typography>
           )}
-          <Typography variant="body2" color="text.secondary">
-            {t('kepcoinPage.balanceSubtitle')}
-          </Typography>
         </Stack>
 
         <Grid container spacing={4} alignItems="flex-start">
           <Grid item xs={12} md={7}>
             <Stack spacing={4} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
               <Box>
-                <Stack spacing={2}>
+                <Stack direction="column" spacing={2}>
                   <Stack direction="row" spacing={1.5} flexWrap="wrap" alignItems="center">
                     {isSummaryLoading ? (
                       <Skeleton variant="rounded" width={160} height={36} />
@@ -290,7 +286,7 @@ const KepcoinPage = () => {
                     </Typography>
                   </Stack>
                 ) : (
-                  <Stack spacing={2} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
+                  <Stack direction="column" spacing={2} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
                     {historyItems.map((item) => (
                       <Stack key={item.id} spacing={1.25}>
                         <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
@@ -331,20 +327,14 @@ const KepcoinPage = () => {
           <Grid item xs={12} md={5}>
             <Stack spacing={4} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
               <Box>
-                <Stack spacing={2}>
-                  <Box
-                    component="img"
-                    src={coinImageSrc}
-                    alt="Kepcoin"
-                    sx={{ width: 160, height: 160, objectFit: 'contain' }}
-                  />
+                <Stack direction="column" spacing={2}>
                   <Typography variant="h5" fontWeight={700}>
                     {t('kepcoinPage.howToEarn.title')}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {t('kepcoinPage.howToEarn.description')}
                   </Typography>
-                  <Stack spacing={1.5} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
+                  <Stack direction="column" spacing={1.5} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
                     {howToEarnItems.map((item) => (
                       <Stack key={`${item.value}-${item.label}`} direction="row" spacing={2} alignItems="center">
                         <Chip
@@ -364,11 +354,11 @@ const KepcoinPage = () => {
               </Box>
 
               <Box>
-                <Stack spacing={2}>
+                <Stack direction="column" spacing={2}>
                   <Typography variant="h5" fontWeight={700}>
                     {t('kepcoinPage.howToSpend.title')}
                   </Typography>
-                  <Stack spacing={1.5} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
+                  <Stack direction="column" spacing={1.5} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
                     {howToSpendItems.map((item, index) => (
                       <Stack key={`${item.value}-${index}`} direction="row" spacing={2} alignItems="center">
                         <Chip
