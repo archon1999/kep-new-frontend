@@ -1,18 +1,19 @@
 import { useMemo } from 'react';
-import * as echarts from 'echarts/core';
-import { LineChart } from 'echarts/charts';
-import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
-import { CanvasRenderer } from 'echarts/renderers';
-import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
+import { LineChart } from 'echarts/charts';
+import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
+import * as echarts from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
 import ReactEchart from 'shared/components/base/ReactEchart';
-import { cssVarRgba, getPastDates } from 'shared/lib/utils';
 import { getColor } from 'shared/lib/echart-utils';
+import { getPastDates } from 'shared/lib/utils';
+import Box from "@mui/material/Box";
 
 echarts.use([LineChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -82,15 +83,6 @@ const UserActivitySection = () => {
         },
         valueFormatter: (value: string | number) => `${value} ${tooltipSuffix}`,
       },
-      legend: {
-        data: [newUsersLabel, activeUsersLabel],
-        icon: 'circle',
-        right: 0,
-        top: 0,
-        textStyle: {
-          color: legendTextColor,
-        },
-      },
       grid: { left: 12, right: 12, top: 50, bottom: 0, containLabel: true },
       xAxis: {
         type: 'category',
@@ -148,9 +140,6 @@ const UserActivitySection = () => {
             width: 3,
             color: newUsersColor,
           },
-          areaStyle: {
-            color: cssVarRgba(primaryMainChannel, 0.12),
-          },
           emphasis: {
             focus: 'series',
           },
@@ -186,57 +175,44 @@ const UserActivitySection = () => {
   ]);
 
   return (
-    <Paper
-      background={1}
-      component={Stack}
-      spacing={3}
-      sx={{
-        p: { xs: 3, md: 4 },
-        pt: { xs: 2.5, md: 3.5 },
-      }}
-    >
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} justifyContent="space-between">
-        <Stack spacing={0.5}>
-          <Typography variant="h5" sx={{ fontWeight: 600 }}>
-            {t('homePage.userActivity.title')}
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {t('homePage.userActivity.subtitle')}
-          </Typography>
-        </Stack>
-      </Stack>
+    <Stack direction="column">
+      <Paper>
+        <Typography variant="h5" sx={{ p: 4, fontWeight: 600 }}>
+          {t('homePage.userActivity.title')}
+        </Typography>
+      </Paper>
 
-      <Grid container spacing={3}>
+      <Grid container>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <Stack spacing={0.5}>
-            <Typography variant="subtitle2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
-              {t('homePage.userActivity.totals.new')}
-            </Typography>
-            <Typography variant="h4" sx={{ fontWeight: 600 }}>
-              {formatter.format(USER_ACTIVITY_DATA.total)}
-            </Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-              {t('homePage.userActivity.series.newUsers')}
-            </Typography>
-          </Stack>
+          <Paper sx={{ p: 4 }}>
+            <Stack direction="column" spacing={0.5}>
+              <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                {formatter.format(USER_ACTIVITY_DATA.total)}
+              </Typography>
+
+              <Typography variant="subtitle2">{t('homePage.userActivity.totals.new')}</Typography>
+            </Stack>
+          </Paper>
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
-          <Stack spacing={0.5}>
-            <Typography variant="subtitle2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
-              {t('homePage.userActivity.totals.active')}
-            </Typography>
-            <Typography variant="h4" sx={{ fontWeight: 600 }}>
-              {formatter.format(USER_ACTIVITY_DATA.activeTotal)}
-            </Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-              {t('homePage.userActivity.series.activeUsers')}
-            </Typography>
-          </Stack>
+          <Paper sx={{ p: 4 }}>
+            <Stack direction="column" spacing={0.5}>
+              <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                {formatter.format(USER_ACTIVITY_DATA.activeTotal)}
+              </Typography>
+
+              <Typography variant="subtitle2">
+                {t('homePage.userActivity.totals.active')}
+              </Typography>
+            </Stack>
+          </Paper>
         </Grid>
       </Grid>
 
-      <ReactEchart echarts={echarts} option={chartOptions} sx={{ height: 320, width: '100%' }} />
-    </Paper>
+      <Paper sx={{ pb: 4, px: 2 }}>
+        <ReactEchart echarts={echarts} option={chartOptions}/>
+      </Paper>
+    </Stack>
   );
 };
 

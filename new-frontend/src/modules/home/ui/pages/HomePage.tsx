@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
@@ -17,15 +17,19 @@ const HomePage = () => {
 
   return (
     <Box>
-      <Grid container spacing={3}>
-        <Grid size={{ xs: 12, md: 5, lg: 4, xl: 3 }} sx={{ height: 1 }}>
+      <Grid container>
+        <Grid size={{ xs: 12, md: 5, lg: 4, xl: 3 }}>
           <HomeProfileSection displayName={displayName} ratings={ratings} isLoading={isLoading} />
         </Grid>
+
         <Grid size={{ xs: 12, md: 7, lg: 8, xl: 9 }}>
-          <Stack spacing={3}>
-            <StatisticsSection />
+          <Grid size={12}>
             <UserActivitySection />
-          </Stack>
+          </Grid>
+
+          <Grid size={12}>
+            <StatisticsSection />
+          </Grid>
         </Grid>
       </Grid>
     </Box>
