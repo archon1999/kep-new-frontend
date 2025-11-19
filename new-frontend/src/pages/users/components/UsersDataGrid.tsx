@@ -5,9 +5,12 @@ import {
   GridSortModel,
   GridValidRowModel,
 } from '@mui/x-data-grid';
-import { Avatar, Box, Chip, Stack, Typography } from '@mui/material';
+import { Avatar, Chip, Stack, Typography } from '@mui/material';
 import { UsersListItem } from 'modules/users/domain/entities/user.entity';
-import kepcoinImg from 'shared/assets/images/icons/kepcoin.png';
+import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
+import Streak from 'shared/components/rating/Streak';
+import KepcoinValue from 'shared/components/common/KepcoinValue';
 
 export interface UsersDataGridLabels {
   user: string;
@@ -141,19 +144,10 @@ const UsersDataGrid = ({
       sortable: true,
       renderCell: ({ row }) => {
         const user = row as UsersListItem;
-        console.log(user);
 
         return (
           <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} width="100%">
-            {user.contestsRating?.title && (
-              <Chip
-                size="small"
-                label={user.contestsRating?.title}
-                variant="soft"
-                color="secondary"
-                sx={{ textTransform: 'capitalize' }}
-              />
-            )}
+            <ContestsRatingChip title={user.contestsRating?.title} imgSize={28} />
             <Typography variant="body2" fontWeight={600} noWrap>
               {user.contestsRating?.value ?? columnLabels.emptyValue}
             </Typography>
@@ -173,15 +167,7 @@ const UsersDataGrid = ({
 
         return (
           <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" width="100%">
-            {user.challengesRating?.title && (
-              <Chip
-                size="small"
-                label={user.challengesRating?.title}
-                variant="soft"
-                color="warning"
-                sx={{ textTransform: 'capitalize' }}
-              />
-            )}
+            <ChallengesRatingChip title={user.challengesRating?.title} />
             <Typography variant="body2" fontWeight={600} noWrap>
               {user.challengesRating?.value ?? columnLabels.emptyValue}
             </Typography>
@@ -201,9 +187,7 @@ const UsersDataGrid = ({
 
         return (
           <Stack spacing={0.5} alignItems="center" width="100%">
-            <Typography variant="body2" fontWeight={600}>
-              {user.streak ?? columnLabels.emptyValue}
-            </Typography>
+            <Streak streak={user.streak} maxStreak={user.maxStreak} fallback={columnLabels.emptyValue} />
             <Typography variant="caption" color="text.secondary" noWrap>
               max {user.maxStreak ?? columnLabels.emptyValue}
             </Typography>
@@ -222,12 +206,13 @@ const UsersDataGrid = ({
         const user = row as UsersListItem;
 
         return (
-          <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={0.75} width="100%">
-            <Box component="img" src={kepcoinImg} alt="Kepcoin" sx={{ width: 20, height: 20 }} />
-            <Typography variant="body2" fontWeight={600}>
-              {user.kepcoin ?? 0}
-            </Typography>
-          </Stack>
+          <KepcoinValue
+            value={user.kepcoin ?? 0}
+            iconSize={20}
+            justifyContent="flex-end"
+            width="100%"
+            fontWeight={600}
+          />
         );
       },
     },

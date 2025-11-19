@@ -14,15 +14,11 @@ import {
 } from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import SimpleBar from 'shared/components/base/SimpleBar';
 import { useAuth } from 'app/providers/AuthProvider';
-import kepcoinImage from 'shared/assets/images/icons/kepcoin.png';
-import fire1 from 'shared/assets/images/icons/fire-1.webp';
-import fire2 from 'shared/assets/images/icons/fire-2.webp';
-import fire3 from 'shared/assets/images/icons/fire-3.webp';
-import fire4 from 'shared/assets/images/icons/fire-4.webp';
 import axiosFetcher from 'shared/services/axios/axiosFetcher';
 import useSWR from 'swr';
+import KepcoinValue from 'shared/components/common/KepcoinValue';
+import Streak from 'shared/components/rating/Streak';
 
 enum DailyTaskType {
   Problem = 1,
@@ -53,18 +49,6 @@ const taskIconMap: Record<DailyTaskType, string> = {
   [DailyTaskType.Problem]: 'material-symbols:code',
   [DailyTaskType.Test]: 'material-symbols:quiz-outline-rounded',
   [DailyTaskType.Challenge]: 'material-symbols:flag-rounded',
-};
-
-const getStreakIcon = (streak: number, maxStreak: number) => {
-  if (streak === 0) {
-    return maxStreak === 0 ? fire1 : fire2;
-  }
-
-  if (streak < 7) {
-    return fire3;
-  }
-
-  return fire4;
 };
 
 const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
@@ -102,7 +86,6 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
 
   const streakValue = data?.streak ?? 0;
   const maxStreak = data?.maxStreak ?? 0;
-  const streakIcon = getStreakIcon(streakValue, maxStreak);
   const progress = dailyTasks.length
     ? Math.round((completedTasks / dailyTasks.length) * 100)
     : 0;
@@ -175,12 +158,14 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
                 </Typography>
 
                 <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-                  <Stack direction="row" spacing={0.5} alignItems="center">
-                    <Box component="img" src={kepcoinImage} alt="Kepcoin" sx={{ width: 16, height: 16 }} />
-                    <Typography variant="caption" fontWeight={700} color="text.primary">
-                      {task.kepcoin}
-                    </Typography>
-                  </Stack>
+                  <KepcoinValue
+                    value={task.kepcoin}
+                    iconSize={16}
+                    spacing={0.5}
+                    textVariant="caption"
+                    fontWeight={700}
+                    color="text.primary"
+                  />
                 </Stack>
               </Stack>
 
@@ -218,17 +203,7 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
         onClick={handleOpen}
         sx={{ px: 1.5 }}
       >
-        <Stack direction="row" spacing={0.75} alignItems="center">
-          <Box
-            component="img"
-            src={streakIcon}
-            alt="Daily streak"
-            sx={{ width: type === 'slim' ? 18 : 22, height: type === 'slim' ? 18 : 22 }}
-          />
-          <Typography variant="body2" fontWeight={700} color="text.primary">
-            {streakValue}
-          </Typography>
-        </Stack>
+        <Streak streak={streakValue} maxStreak={maxStreak} iconSize={type === 'slim' ? 18 : 22} spacing={0.75} />
       </Button>
 
       <Popover
