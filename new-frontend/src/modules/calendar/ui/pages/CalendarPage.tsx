@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { DatesSetArg, EventInput } from '@fullcalendar/core/index.js';
 import ReactFullCalendar from '@fullcalendar/react';
-import { Alert, Box, Chip, CircularProgress, Paper, Stack, Typography } from '@mui/material';
+import { Alert, Box, CircularProgress, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
@@ -122,6 +122,12 @@ const CalendarPage = () => {
             onChangeView={handleViewChange}
             view={view}
           />
+
+          {error && (
+            <Alert severity="error" sx={{ borderRadius: 2 }}>
+              {t('calendar.loadError')}
+            </Alert>
+          )}
 
           <Box>
             {isLoading ? (

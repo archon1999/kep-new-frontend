@@ -15,7 +15,7 @@ const parseDetail = (detail: unknown): unknown => {
   if ((trimmed.startsWith('{') && trimmed.endsWith('}')) || (trimmed.startsWith('[') && trimmed.endsWith(']'))) {
     try {
       return JSON.parse(trimmed);
-    } catch (error) {
+    } catch {
       return detail;
     }
   }

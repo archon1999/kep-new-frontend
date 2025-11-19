@@ -159,5 +159,39 @@
       "checkSamples": "Check samples",
       "merch": "Merch"
     }
+  },
+  "homePage": {
+    "greeting": {
+      "title": "Good morning, {{name}}!",
+      "subtitle": "Check your latest rankings and keep the momentum going.",
+      "defaultName": "Captain"
+    },
+    "ranks": {
+      "title": "Your ranks",
+      "noRank": "Rank unavailable",
+      "percentileInformation": "You are better than {{percentile}}% of users",
+      "cards": {
+        "skillsRating": {
+          "title": "Skills rating",
+          "subtitle": "Improve by solving more tasks.",
+          "description": "This rating shows your skill strength on the platform. The rating depends on the number of solved problems, and on the rating of contests and challenges."
+        },
+        "activityRating": {
+          "title": "Activity rating",
+          "subtitle": "Daily logins and Kepcoin boosts matter.",
+          "description": "This rating shows your activity over the last 30 days. It depends on the number of Kepcoins earned, daily logins and completed daily tasks."
+        },
+        "contestsRating": {
+          "title": "Contests",
+          "subtitle": "Join competitions to climb.",
+          "description": "This rating shows your strength in competitions."
+        },
+        "challengesRating": {
+          "title": "Challenges",
+          "subtitle": "Complete challenges to grow.",
+          "description": "This rating shows your strength in challenges."
+        }
+      }
+    }
   }
 }
