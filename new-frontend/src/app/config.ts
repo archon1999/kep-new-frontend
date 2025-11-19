@@ -1,8 +1,8 @@
 import { mainDrawerWidth } from 'shared/lib/constants.ts';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
-export type NavigationMenuType = 'sidenav' | 'topnav' | 'combo';
-export type SidenavType = 'default' | 'stacked' | 'slim';
+export type NavigationMenuType = 'sidenav' | 'topnav';
+export type SidenavType = 'default' | 'slim';
 export type TopnavType = 'default' | 'stacked' | 'slim';
 export type NavColor = 'default' | 'vibrant';
 export type SupportedLocales = 'en-US' | 'ru-RU' | 'uz-UZ';

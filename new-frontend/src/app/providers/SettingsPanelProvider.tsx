@@ -3,7 +3,6 @@ import { PropsWithChildren, createContext, use, useState } from 'react';
 export interface SettingsPanelConfig {
   showSettingPanelButton: boolean;
   openSettingPanel: boolean;
-  disableNavigationMenuSection: boolean;
   disableSidenavShapeSection: boolean;
   disableTopShapeSection: boolean;
   disableNavColorSection: boolean;
@@ -20,7 +19,6 @@ const SettingsPanelProvider = ({ children }: PropsWithChildren) => {
   const [settingsPanelConfig, setSettingsPanelConfig] = useState<SettingsPanelConfig>({
     showSettingPanelButton: true,
     openSettingPanel: false,
-    disableNavigationMenuSection: false,
     disableSidenavShapeSection: false,
     disableTopShapeSection: false,
     disableNavColorSection: false,

@@ -33,7 +33,6 @@ const NavItem = ({ item, level }: NavItemProps) => {
   const { pathname } = useLocation();
   const { setOpenItems, openItems, isNestedItemOpen } = useNavContext();
   const { currentBreakpoint, up } = useBreakpoints();
-  const upMd = up('md');
   const upLg = up('lg');
   const {
     config: { sidenavCollapsed, sidenavType, navColor, openNavbarDrawer },
@@ -42,7 +41,6 @@ const NavItem = ({ item, level }: NavItemProps) => {
   } = useSettingsContext();
 
   const hasNestedItems = useMemo(() => Object.prototype.hasOwnProperty.call(item, 'items'), [item]);
-  const isStackedSideNav = useMemo(() => upMd && sidenavType === 'stacked', [sidenavType, upMd]);
 
   const expandIcon = (
     <IconifyIcon
@@ -59,8 +57,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
         openItems[level] === item.pathName && {
           transform: 'rotate(180deg)',
         },
-        sidenavCollapsed &&
-          !isStackedSideNav && {
+        sidenavCollapsed && {
             transform: 'rotate(270deg)',
             position: 'absolute',
             right: 8,
@@ -79,7 +76,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
       return;
     }
 
-    if (!sidenavCollapsed || isStackedSideNav) {
+    if (!sidenavCollapsed) {
       if (hasNestedItems) {
         if (openItems[level] === item.pathName) {
           setOpenItems(openItems.slice(0, level));
@@ -114,7 +111,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
 
   return (
     <>
-      <ListItem key={item.pathName} disablePadding sx={[isStackedSideNav && { mb: 0.25 }]}>
+      <ListItem key={item.pathName} disablePadding>
         <ListItemButton
           component={item.items ? 'div' : NavLink}
           to={item.path}
@@ -151,8 +148,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
                     : 'text.disabled',
               },
             },
-            sidenavCollapsed &&
-              !isStackedSideNav && {
+            sidenavCollapsed && {
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
@@ -160,7 +156,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
                 p: 1,
               },
             (!sidenavCollapsed || level !== 0) && {
-              minWidth: !isStackedSideNav ? 180 : 'auto',
+              minWidth: 180,
               flexDirection: 'row',
               justifyContent: 'flex-start',
               alignItems: 'center',
@@ -174,7 +170,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
             },
           ]}
         >
-          {item.icon && !isStackedSideNav && (
+          {item.icon && (
             <ListItemIcon
               sx={{
                 '& .iconify': {
@@ -196,7 +192,6 @@ const NavItem = ({ item, level }: NavItemProps) => {
                 alignItems: 'center',
               },
               level === 0 &&
-                !isStackedSideNav &&
                 sidenavCollapsed && {
                   px: 1,
                 },
@@ -226,7 +221,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
             </ListItemText>
             {hasNestedItems && expandIcon}
           </Box>
-          {hasNestedItems && sidenavCollapsed && !isStackedSideNav && (
+          {hasNestedItems && sidenavCollapsed && (
             <NavItemPopper
               handleClose={handleClose}
               anchorEl={anchorEl as HTMLElement}
@@ -251,7 +246,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
         </ListItemButton>
       </ListItem>
 
-      {hasNestedItems && (!sidenavCollapsed || isStackedSideNav) && (
+      {hasNestedItems && !sidenavCollapsed && (
         <NavItemCollapse item={item} level={level} />
       )}
     </>

@@ -5,7 +5,6 @@ import useSettingsPanelMountEffect from 'shared/hooks/useSettingsPanelMountEffec
 
 const AuthLayout = () => {
   useSettingsPanelMountEffect({
-    disableNavigationMenuSection: true,
     disableSidenavShapeSection: true,
     disableTopShapeSection: true,
     disableNavColorSection: true,

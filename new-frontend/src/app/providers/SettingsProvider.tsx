@@ -21,12 +21,22 @@ interface SettingsContextInterFace {
 export const SettingsContext = createContext({} as SettingsContextInterFace);
 
 const SettingsProvider = ({ children }: PropsWithChildren) => {
+  const storedSidenavType = getItemFromStore('sidenavType', initialConfig.sidenavType);
+  const storedNavigationMenuType = getItemFromStore(
+    'navigationMenuType',
+    initialConfig.navigationMenuType,
+  );
+
   const configState: Config = {
     ...initialConfig,
     sidenavCollapsed: getItemFromStore('sidenavCollapsed', initialConfig.sidenavCollapsed),
-    sidenavType: getItemFromStore('sidenavType', initialConfig.sidenavType),
+    sidenavType: ['default', 'slim'].includes(String(storedSidenavType))
+      ? (storedSidenavType as Config['sidenavType'])
+      : initialConfig.sidenavType,
     topnavType: getItemFromStore('topnavType', initialConfig.topnavType),
-    navigationMenuType: getItemFromStore('navigationMenuType', initialConfig.navigationMenuType),
+    navigationMenuType: ['sidenav', 'topnav'].includes(String(storedNavigationMenuType))
+      ? (storedNavigationMenuType as Config['navigationMenuType'])
+      : initialConfig.navigationMenuType,
     navColor: getItemFromStore('navColor', initialConfig.navColor),
     locale: getItemFromStore('locale', initialConfig.locale),
   };

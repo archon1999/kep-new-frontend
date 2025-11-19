@@ -15,7 +15,6 @@ import Footer from './footer';
 import SidenavDrawerContent from './sidenav/SidenavDrawerContent';
 
 // import SlimSidenav from './sidenav/SlimSidenav';
-// import StackedSidenav from './sidenav/StackedSidenav';
 
 const SidenavLayout = ({ children }: PropsWithChildren) => {
   const {
@@ -30,7 +29,6 @@ const SidenavLayout = ({ children }: PropsWithChildren) => {
   };
 
   useSettingsPanelMountEffect({
-    disableNavigationMenuSection: true,
     disableSidenavShapeSection: true,
     disableTopShapeSection: true,
     disableNavColorSection: false,
@@ -49,7 +47,6 @@ const SidenavLayout = ({ children }: PropsWithChildren) => {
 
           <Sidenav />
           {/* <SlimSidenav /> */}
-          {/* <StackedSidenav /> */}
 
           <Drawer
             variant="temporary"
@@ -88,9 +85,6 @@ const SidenavLayout = ({ children }: PropsWithChildren) => {
               },
               sidenavType === 'default' && {
                 ml: { md: `${mainDrawerWidth.collapsed}px`, lg: 0 },
-              },
-              sidenavType === 'stacked' && {
-                ml: { md: `${mainDrawerWidth.stackedNavCollapsed}px`, lg: 0 },
               },
               sidenavType === 'slim' && {
                 ml: { xs: 0 },
