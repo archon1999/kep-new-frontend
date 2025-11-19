@@ -9,7 +9,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { users } from 'data/users';
+import { initialConfig } from 'app/config.ts';
 import Splash from 'shared/components/loading/Splash';
 import { removeItemFromStore } from 'shared/lib/utils';
 import { User, useGetCurrentUser, useLogOutUser } from 'shared/services/swr/api-hooks/useAuthApi';
@@ -21,11 +21,13 @@ interface AuthContextInterface {
   signout: () => Promise<void>;
 }
 
+const avatar = (index: number) => `${initialConfig.assetsDir}/images/avatar/${index}.webp`;
+
 export const demoUser: User = {
   id: 0,
   email: 'guest@mail.com',
   name: 'Guest',
-  avatar: users[13].avatar,
+  avatar: avatar(14),
   designation: 'Merchant Captain',
 };
 
