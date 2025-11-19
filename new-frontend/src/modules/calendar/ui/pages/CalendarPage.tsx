@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import { useCalendarEvents } from 'modules/calendar/application/queries';
 import { CalendarEventEntity } from 'modules/calendar/domain/entities/calendar-event.entity';
 import FullCalendar from 'shared/components/base/FullCalendar';
-import CalendarToolbar, { CalendarView } from './components/CalendarToolbar';
+import CalendarToolbar, { CalendarView } from '../components/CalendarToolbar';
 
 const formatRangeLabel = (start: Date, end: Date, view: CalendarView) => {
   const startDate = dayjs(start);

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Box, Stack } from '@mui/material';
 import PageHeader from 'shared/components/sections/common/PageHeader';
-import UsersListContainer from './components/UsersListContainer';
+import UsersListContainer from '../components/UsersListContainer';
 
 const UsersListPage = () => {
   const { t } = useTranslation();

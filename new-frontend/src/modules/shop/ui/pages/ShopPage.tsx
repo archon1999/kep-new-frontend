@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Box, Stack, Typography } from '@mui/material';
 import { useShopProducts } from 'modules/shop/application/queries';
-import ShopProductCard, { ShopProductCardSkeleton } from './components/ShopProductCard';
+import ShopProductCard, { ShopProductCardSkeleton } from '../components/ShopProductCard';
 
 const ShopPage = () => {
   const { t } = useTranslation();
