@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Box,
   IconButton,
   LinearProgress,
   Paper,
@@ -13,7 +12,6 @@ import {
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import KepIcon from 'shared/components/base/KepIcon';
 import type { HomeUserRatings } from '../../domain/entities/home.entity';
-
 
 interface RanksSectionProps {
   ratings?: HomeUserRatings | null;
@@ -95,7 +93,7 @@ const RanksSection = ({ ratings, isLoading }: RanksSectionProps) => {
               sx={{
                 outline: 'none',
                 p: 2,
-                borderRadius: 2,
+                borderRadius: 4,
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
@@ -105,7 +103,7 @@ const RanksSection = ({ ratings, isLoading }: RanksSectionProps) => {
               <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1}>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <KepIcon name={icon} fontSize={26} color="primary.main" />
-                  <Typography variant="subtitle2" fontWeight={600} color="text.secondary">
+                  <Typography variant="subtitle2" fontWeight={600}>
                     {t(label)}
                   </Typography>
                 </Stack>
