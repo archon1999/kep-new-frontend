@@ -18,7 +18,6 @@ import {
   badgeClasses,
   paperClasses,
 } from '@mui/material';
-import { useSettingsContext } from 'app/providers/SettingsProvider';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
@@ -151,10 +150,6 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const {
-    config: { textDirection },
-  } = useSettingsContext();
 
   const open = Boolean(anchorEl);
 
@@ -377,11 +372,11 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
         open={open}
         onClose={handleClose}
         transformOrigin={{
-          horizontal: textDirection === 'rtl' ? 'left' : 'right',
+          horizontal: 'right',
           vertical: 'top',
         }}
         anchorOrigin={{
-          horizontal: textDirection === 'rtl' ? 'left' : 'right',
+          horizontal: 'right',
           vertical: 'bottom',
         }}
         sx={{

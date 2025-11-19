@@ -3,21 +3,18 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import ReactFullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { useTheme } from '@mui/material';
 
 interface FullCalendarOptions extends CalendarOptions {
   ref?: React.Ref<ReactFullCalendar>;
 }
 
 const FullCalendar = ({ ref, ...rest }: FullCalendarOptions) => {
-  const { direction } = useTheme();
-
   return (
     <ReactFullCalendar
       ref={ref}
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
-      direction={direction === 'rtl' ? 'rtl' : 'ltr'}
+      direction="ltr"
       headerToolbar={false}
       selectable
       eventDisplay="block"

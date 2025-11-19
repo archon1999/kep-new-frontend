@@ -1,6 +1,5 @@
 import { MouseEvent, useMemo, useState } from 'react';
 import { Button, Link, Popover, Skeleton, Stack, Typography, paperClasses } from '@mui/material';
-import { useSettingsContext } from 'app/providers/SettingsProvider';
 import paths from 'app/routes/paths';
 import { useAuth } from 'app/providers/AuthProvider';
 import { TodayKepCoin, type KepCoinBalance } from 'shared/api/orval/generated/endpoints/index.schemas';
@@ -16,10 +15,6 @@ interface KepcoinMenuProps {
 const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
   const [todayStats, setTodayStats] = useState<TodayKepCoin | null>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-
-  const {
-    config: { textDirection },
-  } = useSettingsContext();
   const { currentUser } = useAuth();
   const { data: fetchedBalance } = useSWR<KepCoinBalance>(['/api/my-kepcoin', { method: 'get' }], axiosFetcher, {
     shouldRetryOnError: false,
@@ -76,11 +71,11 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
         open={open}
         onClose={handleClose}
         transformOrigin={{
-          horizontal: textDirection === 'rtl' ? 'left' : 'right',
+          horizontal: 'right',
           vertical: 'top',
         }}
         anchorOrigin={{
-          horizontal: textDirection === 'rtl' ? 'left' : 'right',
+          horizontal: 'right',
           vertical: 'bottom',
         }}
         sx={{

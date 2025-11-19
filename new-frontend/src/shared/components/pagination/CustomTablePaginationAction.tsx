@@ -58,11 +58,7 @@ const CustomTablePaginationAction = ({
         color="primary"
         size="small"
         startIcon={
-          <IconifyIcon
-            flipOnRTL
-            icon="material-symbols:chevron-left-rounded"
-            sx={{ fontSize: '18px !important' }}
-          />
+          <IconifyIcon icon="material-symbols:chevron-left-rounded" sx={{ fontSize: '18px !important' }} />
         }
         disabled={isFirstPage}
         onClick={handlePrev}
@@ -100,11 +96,7 @@ const CustomTablePaginationAction = ({
         color="primary"
         size="small"
         endIcon={
-          <IconifyIcon
-            flipOnRTL
-            icon="material-symbols:chevron-right-rounded"
-            sx={{ fontSize: '18px !important' }}
-          />
+          <IconifyIcon icon="material-symbols:chevron-right-rounded" sx={{ fontSize: '18px !important' }} />
         }
         sx={{
           minWidth: 'auto',

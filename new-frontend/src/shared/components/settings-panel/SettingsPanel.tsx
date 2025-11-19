@@ -12,7 +12,6 @@ import { cssVarRgba } from 'shared/lib/utils';
 import NavColorPanel from './NavColorPanel';
 import NavigationMenuPanel from './NavigationMenuPanel';
 import SidenavShapePanel from './SidenavShapePanel';
-import TextDirectionPanel from './TextDirectionPanel';
 import ThemeModeToggleTab from './ThemeModeToggleTab';
 import TopnavShapePanel from './TopnavShapePanel';
 
@@ -125,10 +124,6 @@ const SettingsPanel = () => {
               >
                 <Section title="Theme Mode">
                   <ThemeModeToggleTab />
-                </Section>
-
-                <Section title="Text Direction">
-                  <TextDirectionPanel />
                 </Section>
 
                 <Section title="Navigation Menu" disable={disableNavigationMenuSection}>

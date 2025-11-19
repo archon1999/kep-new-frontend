@@ -18,7 +18,6 @@ import {
 import Menu from '@mui/material/Menu';
 import { demoUser, useAuth } from 'app/providers/AuthProvider';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
-import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { authPaths } from 'app/routes/paths';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import StatusAvatar from 'shared/components/base/StatusAvatar';
@@ -38,10 +37,6 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { up } = useBreakpoints();
   const upSm = up('sm');
-  const {
-    config: { textDirection },
-  } = useSettingsContext();
-
   const { currentUser, signout } = useAuth();
 
   // Demo user data used for development purposes
@@ -121,11 +116,11 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
         open={open}
         onClose={handleClose}
         transformOrigin={{
-          horizontal: textDirection === 'rtl' ? 'left' : 'right',
+          horizontal: 'right',
           vertical: 'top',
         }}
         anchorOrigin={{
-          horizontal: textDirection === 'rtl' ? 'left' : 'right',
+          horizontal: 'right',
           vertical: 'bottom',
         }}
         sx={{

@@ -30,9 +30,6 @@ const SettingPanelToggler = () => {
             marginRight: 0.5,
           },
         },
-        theme.direction === 'rtl' && {
-          transform: 'rotate(90deg)  translateX(50%)',
-        },
       ]}
       startIcon={
         <SettingsIcon

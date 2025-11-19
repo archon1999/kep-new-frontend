@@ -61,8 +61,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
         },
         sidenavCollapsed &&
           !isStackedSideNav && {
-            transform: (theme) =>
-              theme.direction === 'rtl' ? 'rotate(-270deg)' : 'rotate(270deg)',
+            transform: 'rotate(270deg)',
             position: 'absolute',
             right: 8,
           },

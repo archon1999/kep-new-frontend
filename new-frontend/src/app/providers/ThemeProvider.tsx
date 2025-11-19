@@ -1,6 +1,5 @@
 import { PropsWithChildren, useMemo } from 'react';
 import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@mui/material';
-import RTLMode from 'app/theme/RTLMode';
 import { createTheme } from 'app/theme/theme.ts';
 import { useSettingsContext } from './SettingsProvider';
 
@@ -8,14 +7,14 @@ export type ThemeMode = 'light' | 'dark' | 'system';
 
 const ThemeProvider = ({ children }: PropsWithChildren) => {
   const {
-    config: { textDirection, locale },
+    config: { locale },
   } = useSettingsContext();
 
   const customTheme = useMemo(() => {
-    const theme = createTheme(textDirection, locale);
+    const theme = createTheme(locale);
 
     return theme;
-  }, [textDirection, locale]);
+  }, [locale]);
 
   return (
     <MuiThemeProvider
@@ -25,7 +24,7 @@ const ThemeProvider = ({ children }: PropsWithChildren) => {
       modeStorageKey="kep-mode"
     >
       <CssBaseline enableColorScheme />
-      <RTLMode>{children}</RTLMode>
+      {children}
     </MuiThemeProvider>
   );
 };

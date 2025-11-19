@@ -55,7 +55,6 @@ const DefaultAuthLayout = ({ children }: PropsWithChildren) => {
               justifyContent: 'center',
               alignItems: 'center',
               display: { xs: 'none', md: 'flex', flexDirection: 'row-reverse' },
-              transform: (theme) => (theme.direction === 'rtl' ? 'scaleX(-1)' : 'unset'),
             }}
           >
             {isDark ? <Lottie animationData={authDark} /> : <Lottie animationData={auth} />}

@@ -88,10 +88,7 @@ import typography from './typography';
 
 export type MuiSupportedLocales = keyof typeof locales;
 
-export const createTheme = (
-  direction: 'ltr' | 'rtl' = 'ltr',
-  locale: SupportedLocales = 'en-US',
-) => {
+export const createTheme = (locale: SupportedLocales = 'en-US') => {
   const muiLocales = locales[locale.split('-').join('') as MuiSupportedLocales];
 
   return muiCreateTheme(
@@ -109,7 +106,7 @@ export const createTheme = (
         },
       },
       typography,
-      direction,
+      direction: 'ltr',
       unstable_sxConfig: sxConfig,
       mixins,
       components: {
