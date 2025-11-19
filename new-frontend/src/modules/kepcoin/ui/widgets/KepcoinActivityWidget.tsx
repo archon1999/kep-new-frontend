@@ -146,10 +146,11 @@ const KepcoinActivityWidget = ({
   onRetry,
 }: KepcoinActivityWidgetProps) => {
   const { t } = useTranslation();
+  const timelineColor = view === 'earns' ? 'success.main' : 'error.main';
 
   return (
     <Box>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2} mb={2}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2} mb={3}>
         <Typography variant="h5" fontWeight={700}>
           {t('kepcoinPage.history.title')}
         </Typography>
@@ -160,12 +161,14 @@ const KepcoinActivityWidget = ({
       </Stack>
 
       {isLoading ? (
-        <Stack spacing={2}>
+        <Stack spacing={3}>
           {Array.from({ length: 4 }).map((_, index) => (
-            <Stack key={index} spacing={1.5}>
-              <Skeleton variant="text" width="60%" />
-              <Skeleton variant="text" width="40%" />
-              <Divider />
+            <Stack key={index} direction="row" spacing={2} alignItems="flex-start">
+              <Skeleton variant="circular" width={16} height={16} />
+              <Stack spacing={1} flex={1} sx={{ bgcolor: 'background.neutral', borderRadius: 2, p: 2 }}>
+                <Skeleton variant="text" width="50%" />
+                <Skeleton variant="text" width="80%" />
+              </Stack>
             </Stack>
           ))}
         </Stack>
@@ -190,31 +193,66 @@ const KepcoinActivityWidget = ({
           </Typography>
         </Stack>
       ) : (
-        <Stack direction="column" spacing={2} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
-          {historyItems.map((item) => (
-            <Stack key={item.id} spacing={1.25}>
-              <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <IconifyIcon icon="solar:coins-stacks-linear" fontSize={24} color="warning.main" />
-                  <Typography variant="h6" color={view === 'earns' ? 'success.main' : 'error.main'}>
-                    {`${view === 'earns' ? '+' : '-'}${item.amount}`}
+        <Box sx={{ position: 'relative', pl: { xs: 3, md: 4 } }}>
+          <Divider
+            orientation="vertical"
+            sx={{
+              position: 'absolute',
+              top: 4,
+              bottom: 4,
+              left: 10,
+              borderColor: 'divider',
+            }}
+          />
+          <Stack spacing={3}>
+            {historyItems.map((item) => (
+              <Stack key={item.id} direction="row" spacing={2} alignItems="flex-start">
+                <Box sx={{ width: 20, display: 'flex', justifyContent: 'center', pt: 1 }}>
+                  <Box
+                    sx={{
+                      width: 14,
+                      height: 14,
+                      borderRadius: '50%',
+                      bgcolor: timelineColor,
+                      boxShadow: (theme) => `0 0 0 4px ${theme.palette.background.paper}`,
+                    }}
+                  />
+                </Box>
+                <Stack
+                  spacing={1.25}
+                  flex={1}
+                  sx={{
+                    bgcolor: 'background.neutral',
+                    borderRadius: 2,
+                    p: { xs: 2, md: 2.5 },
+                  }}
+                >
+                  <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <IconifyIcon icon="solar:coins-stacks-linear" fontSize={24} color="warning.main" />
+                      <Typography variant="h6" color={timelineColor}>
+                        {`${view === 'earns' ? '+' : '-'}${item.amount}`}
+                      </Typography>
+                    </Stack>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.happenedAt
+                        ? dayjs(item.happenedAt).format('MMM D, YYYY · HH:mm')
+                        : t('kepcoinPage.history.noDate')}
+                    </Typography>
+                  </Stack>
+                  <Typography variant="body1" fontWeight={600}>
+                    {getHistoryDescription(view, item, t)}
                   </Typography>
+                  {item.note && (
+                    <Typography variant="body2" color="text.secondary">
+                      {t('kepcoinPage.history.note', { value: item.note })}
+                    </Typography>
+                  )}
                 </Stack>
-                <Typography variant="body2" color="text.secondary">
-                  {item.happenedAt ? dayjs(item.happenedAt).format('MMM D, YYYY · HH:mm') : t('kepcoinPage.history.noDate')}
-                </Typography>
               </Stack>
-              <Typography variant="body1" fontWeight={600}>
-                {getHistoryDescription(view, item, t)}
-              </Typography>
-              {item.note && (
-                <Typography variant="body2" color="text.secondary">
-                  {t('kepcoinPage.history.note', { value: item.note })}
-                </Typography>
-              )}
-            </Stack>
-          ))}
-        </Stack>
+            ))}
+          </Stack>
+        </Box>
       )}
 
       {pagesCount > 1 && (
