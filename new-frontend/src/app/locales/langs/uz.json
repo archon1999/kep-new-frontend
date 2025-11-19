@@ -59,6 +59,17 @@
         "challenges": "Bu reyting chaqiriqlardagi kuchingizni ko‘rsatadi."
       },
       "percentile": "Siz foydalanuvchilarning {{percentile}}% dan yaxshiroqsiz"
+    },
+    "userActivity": {
+      "title": "Foydalanuvchi faolligi",
+      "totalLabel": "Jami foydalanuvchilar",
+      "activeLabel": "Hozir faol foydalanuvchilar",
+      "chart": {
+        "subtitle": "Yangi va faol foydalanuvchilar · oxirgi {{count}} kun",
+        "newUsers": "Yangi foydalanuvchilar",
+        "activeUsers": "Faol foydalanuvchilar",
+        "empty": "Foydalanuvchi faolligi hali mavjud emas"
+      }
     }
   },
   "shop": {
