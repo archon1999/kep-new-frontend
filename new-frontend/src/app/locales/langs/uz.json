@@ -70,6 +70,19 @@
         "competitions": "Musobaqalar",
         "attempts": "Urinishlar"
       }
+    },
+    "userActivity": {
+      "title": "Foydalanuvchilar faolligi",
+      "subtitle": "Oxirgi 12 kun",
+      "tooltipSuffix": "foydalanuvchi",
+      "totals": {
+        "new": "Yangi foydalanuvchilar",
+        "active": "Faol foydalanuvchilar"
+      },
+      "series": {
+        "newUsers": "Yangi foydalanuvchilar",
+        "activeUsers": "Faol foydalanuvchilar"
+      }
     }
   },
   "shop": {
