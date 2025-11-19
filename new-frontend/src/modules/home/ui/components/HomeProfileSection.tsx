@@ -11,12 +11,12 @@ interface GreetingCardProps {
   isLoading?: boolean;
 }
 
-const GreetingCard = ({ displayName, ratings, isLoading }: GreetingCardProps) => {
+const HomeProfileSection = ({ displayName, ratings, isLoading }: GreetingCardProps) => {
   const { t } = useTranslation();
   const todayLabel = useMemo(() => dayjs().format('dddd, MMM DD, YYYY'), []);
 
   return (
-    <Paper sx={{ height: 1 }}>
+    <Paper background={1} sx={{ height: 1 }}>
       <Stack
         direction="column"
         divider={<Divider flexItem />}
@@ -49,4 +49,4 @@ const GreetingCard = ({ displayName, ratings, isLoading }: GreetingCardProps) =>
   );
 };
 
-export default GreetingCard;
+export default HomeProfileSection;
