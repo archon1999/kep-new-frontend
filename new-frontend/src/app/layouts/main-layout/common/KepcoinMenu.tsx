@@ -1,13 +1,13 @@
 import { MouseEvent, useMemo, useState } from 'react';
-import { Box, Button, Link, Popover, Skeleton, Stack, Typography, paperClasses } from '@mui/material';
+import { Button, Link, Popover, Skeleton, Stack, Typography, paperClasses } from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import paths from 'app/routes/paths';
 import { useAuth } from 'app/providers/AuthProvider';
 import { TodayKepCoin, type KepCoinBalance } from 'shared/api/orval/generated/endpoints/index.schemas';
-import kepcoinImage from 'shared/assets/images/icons/kepcoin.png';
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 import axiosFetcher from 'shared/services/axios/axiosFetcher';
+import KepcoinValue from 'shared/components/common/KepcoinValue';
 
 interface KepcoinMenuProps {
   type?: 'default' | 'slim';
@@ -62,17 +62,12 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
         variant={type === 'default' ? 'soft' : 'text'}
         size="small"
       >
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Box
-            component="img"
-            src={kepcoinImage}
-            alt="Kepcoin"
-            sx={{ width: type === 'slim' ? 18 : 22, height: type === 'slim' ? 18 : 22 }}
-          />
-          <Typography variant="body2" fontWeight={600}>
-            {formattedBalance}
-          </Typography>
-        </Stack>
+        <KepcoinValue
+          value={formattedBalance}
+          iconSize={type === 'slim' ? 18 : 22}
+          spacing={1}
+          fontWeight={600}
+        />
       </Button>
 
       <Popover
@@ -96,14 +91,7 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
         }}
       >
         <Stack spacing={2} sx={{ p: 2 }}>
-          <Stack direction="row" spacing={1.25} alignItems="center">
-            <Box component="img" src={kepcoinImage} alt="Kepcoin" sx={{ width: 30, height: 30 }} />
-            <Box>
-              <Typography variant="h6" fontWeight={700} color="text.primary">
-                {formattedBalance}
-              </Typography>
-            </Box>
-          </Stack>
+          <KepcoinValue value={formattedBalance} iconSize={30} textVariant="h6" fontWeight={700} />
 
           <Button
             component={Link}
@@ -139,33 +127,23 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
               <Typography variant="body2" color="text.secondary">
                 Bugun topilgan
               </Typography>
-              <Stack direction="row" spacing={1}>
-                <Typography variant="body2" fontWeight={700}>
-                  {todayStats ? todayStats.earn : '--'}
-                </Typography>
-                <Box
-                  component="img"
-                  src={kepcoinImage}
-                  alt="Kepcoin"
-                  sx={{ width: type === 'slim' ? 18 : 22, height: type === 'slim' ? 18 : 22 }}
-                />
-              </Stack>
+              <KepcoinValue
+                value={todayStats ? todayStats.earn : '--'}
+                iconSize={type === 'slim' ? 18 : 22}
+                textVariant="body2"
+                fontWeight={700}
+              />
             </Stack>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Typography variant="body2" color="text.secondary">
                 Bugun sarflangan
               </Typography>
-              <Stack direction="row" spacing={1}>
-                <Typography variant="body2" fontWeight={700}>
-                  {todayStats ? todayStats.spend : '--'}
-                </Typography>
-                <Box
-                  component="img"
-                  src={kepcoinImage}
-                  alt="Kepcoin"
-                  sx={{ width: type === 'slim' ? 18 : 22, height: type === 'slim' ? 18 : 22 }}
-                />
-              </Stack>
+              <KepcoinValue
+                value={todayStats ? todayStats.spend : '--'}
+                iconSize={type === 'slim' ? 18 : 22}
+                textVariant="body2"
+                fontWeight={700}
+              />
             </Stack>
           </Stack>
         )}
