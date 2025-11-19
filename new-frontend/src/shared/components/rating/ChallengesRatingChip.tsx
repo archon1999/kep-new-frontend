@@ -16,19 +16,19 @@ const rankColorMap = {
 const getChipStyles = (color: string, theme: Theme) => {
   switch (color) {
     case 'green':
-      return { bgcolor: theme.palette.success.lighter, color: theme.palette.success.darker };
+      return { bgcolor: theme.palette.success.main, color: theme.palette.secondary.contrastText };
     case 'cyan':
-      return { bgcolor: theme.palette.info.lighter, color: theme.palette.info.darker };
+      return { bgcolor: theme.palette.info.main, color: theme.palette.secondary.contrastText };
     case 'blue':
-      return { bgcolor: theme.palette.primary.lighter, color: theme.palette.primary.darker };
+      return { bgcolor: theme.palette.primary.main, color: theme.palette.secondary.contrastText };
     case 'purple':
-      return { bgcolor: theme.palette.secondary.lighter, color: theme.palette.secondary.darker };
+      return { bgcolor: theme.palette.secondary.main, color: theme.palette.secondary.contrastText };
     case 'yellow':
-      return { bgcolor: theme.palette.warning.light, color: theme.palette.warning.contrastText };
+      return { bgcolor: theme.palette.warning.main, color: theme.palette.warning.contrastText };
     case 'orange':
-      return { bgcolor: theme.palette.warning.main, color: theme.palette.common.white };
+      return { bgcolor: theme.palette.warning.main, color: theme.palette.secondary.contrastText };
     case 'red':
-      return { bgcolor: theme.palette.error.light, color: theme.palette.error.darker };
+      return { bgcolor: theme.palette.error.main, color: theme.palette.secondary.contrastText };
     case 'black':
       return { bgcolor: theme.palette.common.black, color: theme.palette.common.white };
     case 'neutral':
