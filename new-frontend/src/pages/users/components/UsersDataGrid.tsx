@@ -7,12 +7,11 @@ import {
 } from '@mui/x-data-grid';
 import { Avatar, Chip, Stack, Typography } from '@mui/material';
 import { UsersListItem } from 'modules/users/domain/entities/user.entity';
-import kepcoinImg from 'shared/assets/images/icons/kepcoin.png';
-import formatCountryFlag from 'shared/utils/formatCountryFlag';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
 import Streak from 'shared/components/rating/Streak';
 import KepcoinValue from 'shared/components/common/KepcoinValue';
+import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
 
 export interface UsersDataGridLabels {
   user: string;
@@ -60,7 +59,6 @@ const UsersDataGrid = ({
         const user = row as UsersListItem;
         const name = [user.firstName, user.lastName].filter(Boolean).join(' ');
         const countryCode = user.country?.toUpperCase();
-        const countryLabel = countryCode ? countryLabels?.[countryCode] ?? countryCode : undefined;
 
         return (
           <Stack direction="row" spacing={2} alignItems="center" sx={{ minWidth: 0 }}>
@@ -72,12 +70,7 @@ const UsersDataGrid = ({
                 </Typography>
                 {countryCode && (
                   <Stack direction="row" spacing={0.5} alignItems="center" minWidth={0}>
-                    <Typography variant="caption" color="text.secondary">
-                      {formatCountryFlag(countryCode)}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary" noWrap>
-                      {countryLabel}
-                    </Typography>
+                    <CountryFlagIcon code={countryCode} size={16} />
                   </Stack>
                 )}
               </Stack>

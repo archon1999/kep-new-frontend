@@ -16,16 +16,7 @@ const UsersListPage = () => {
           { label: t('home'), url: '/' },
           { label: t('users.title'), active: true },
         ]}
-        actionComponent={
-          <Stack gap={1} direction={{ xs: 'column', sm: 'row' }}>
-            <Button variant="soft" color="neutral" startIcon={<IconifyIcon icon="mdi:export" fontSize={18} />}>
-              {t('users.actions.export')}
-            </Button>
-            <Button variant="contained" color="primary" startIcon={<IconifyIcon icon="mdi:account-plus-outline" fontSize={18} />}>
-              {t('users.actions.invite')}
-            </Button>
-          </Stack>
-        }
+        actionComponent={<div></div>}
       />
       <Box sx={{ flex: 1, px: { xs: 3, md: 5 } }}>
         <UsersListContainer />

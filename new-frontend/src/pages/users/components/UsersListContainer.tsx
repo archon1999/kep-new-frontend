@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { useUsersCountries, useUsersList } from 'modules/users/application/queries';
 import StyledTextField from 'shared/components/styled/StyledTextField';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import formatCountryFlag from 'shared/utils/formatCountryFlag';
 import UsersDataGrid from './UsersDataGrid';
+import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
 
 const tabOrderingMap = {
   all: '-id',
@@ -41,7 +41,6 @@ type CountryOption = {
   value: string;
   code: string;
   label: string;
-  flag: string;
 };
 
 const UsersListContainer = () => {
@@ -107,7 +106,6 @@ const UsersListContainer = () => {
           value,
           code: displayCode,
           label: regionNames.of(displayCode) ?? displayCode,
-          flag: formatCountryFlag(displayCode),
         } satisfies CountryOption;
       })
       .filter((option): option is CountryOption => Boolean(option));
@@ -294,9 +292,7 @@ const UsersListContainer = () => {
 
                 return (
                   <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography variant="body2" component="span">
-                      {selectedOption?.flag ?? formatCountryFlag(selectedValue.toUpperCase())}
-                    </Typography>
+                    <CountryFlagIcon code={selectedOption?.code ?? selectedValue} size={20} />
                     <Typography variant="body2" component="span" noWrap>
                       {label}
                     </Typography>
@@ -313,9 +309,7 @@ const UsersListContainer = () => {
             {countryOptions.map((country) => (
               <MenuItem key={country.value} value={country.value}>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <Typography variant="body2" component="span">
-                    {country.flag}
-                  </Typography>
+                  <CountryFlagIcon code={country.code} size={20} />
                   <Typography variant="body2" component="span" noWrap>
                     {country.label}
                   </Typography>
