@@ -38,7 +38,6 @@ export enum KepcoinSpendType {
 export interface KepcoinSummary {
   balance: number;
   streak: number;
-  maxStreak: number;
   streakFreeze: number;
 }
 

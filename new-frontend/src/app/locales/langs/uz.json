@@ -135,10 +135,7 @@
     "balanceSubtitle": "Har kuni Kepcoin qanday yig'ilishi va sarflanishini kuzating.",
     "valueLabel": "{{value}} Kepcoin",
     "currentStreak": "Joriy seriya · {{value}} kun",
-    "currentStreakLabel": "Joriy seriya",
-    "maxStreakLabel": "Maksimal seriya",
     "streakFreeze": {
-      "label": "Seriyani muzlatish",
       "count": "Muzlatish · {{value}}",
       "description": "Agar kunni oʻtkazib yuborsangiz va kundalik vazifalarni bajarmasangiz, muzlatish avtomatik ravishda natijani saqlaydi."
     },
