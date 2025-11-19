@@ -3080,7 +3080,6 @@ export const getSnippetsAPI = () => {
     apiProblemsDifficulties,
     apiProblemsLangs,
     apiProblemsLastContest,
-    apiProblemsList,
     apiProblemsMostViewed,
     apiProblemsTopics,
     apiProblemsRead,
@@ -3712,9 +3711,6 @@ export type ApiProblemsLangsResult = NonNullable<
 >;
 export type ApiProblemsLastContestResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getSnippetsAPI>['apiProblemsLastContest']>>
->;
-export type ApiProblemsListResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getSnippetsAPI>['apiProblemsList']>>
 >;
 export type ApiProblemsMostViewedResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getSnippetsAPI>['apiProblemsMostViewed']>>

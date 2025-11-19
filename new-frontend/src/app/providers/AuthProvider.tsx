@@ -19,7 +19,7 @@ import type { AuthUser } from 'modules/authentication/domain/entities/auth.entit
 interface AuthContextInterface {
   currentUser: AuthUser | null;
   setCurrentUser: Dispatch<SetStateAction<AuthUser | null>>;
-  refreshCurrentUser: () => Promise<AuthUser | undefined>;
+  refreshCurrentUser: () => Promise<AuthUser | null | undefined>;
   signout: () => Promise<void>;
 }
 
@@ -27,6 +27,7 @@ const avatar = (index: number) => `${initialConfig.assetsDir}/images/avatar/${in
 
 export const demoUser: AuthUser = {
   id: 0,
+  username: 'guest',
   email: 'guest@mail.com',
   name: 'Guest',
   avatar: avatar(14),

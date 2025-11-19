@@ -20,7 +20,7 @@ export function normalizeError(err: unknown): ApiError {
 
     const validationErrors = Array.isArray(responseData?.errors)
       ? responseData.errors.filter(
-          (error): error is ValidationError =>
+          (error: unknown): error is ValidationError =>
             typeof error === 'object' && error !== null && 'field' in error && 'message' in error,
         )
       : undefined;

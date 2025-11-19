@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Box, Divider, Grid, Stack } from '@mui/material';
+import { Box, Divider, Stack } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import {
   useKepcoinEarnHistory,
   useKepcoinSpendHistory,
@@ -56,7 +57,7 @@ const KepcoinPage = () => {
     <Box>
       <Stack direction="column" spacing={5}>
         <Grid container alignItems="flex-start">
-          <Grid item xs={12} md={7}>
+          <Grid size={{ xs: 12, md: 7 }}>
             <Stack>
               <StreakWidget
                 balance={summary?.balance}
@@ -80,7 +81,7 @@ const KepcoinPage = () => {
             </Stack>
           </Grid>
 
-          <Grid item xs={12} md={5}>
+          <Grid size={{ xs: 12, md: 5 }}>
             <Stack spacing={4} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
               <HowToEarnWidget />
               <HowToSpendWidget />

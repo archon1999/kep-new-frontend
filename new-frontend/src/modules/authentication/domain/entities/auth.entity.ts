@@ -1,4 +1,4 @@
-import type { UserAuth } from 'shared/api/orval/generated/endpoints';
+import type { UserAuth } from 'shared/api/orval/generated/endpoints/index.schemas';
 
 export type AuthUser = UserAuth & {
   id?: number | string;

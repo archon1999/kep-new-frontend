@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, forwardRef } from 'react';
 import { TablePagination, useEventCallback } from '@mui/material';
 import { GridSlotProps } from '@mui/x-data-grid';
 import DataGridPaginationAction from './DataGridPaginationAction';
@@ -10,8 +10,8 @@ type DataGridPaginationProps = BasePaginationProps & {
   showFullPagination?: boolean;
 };
 
-const DataGridPagination = function BasePagination({ ref, ...props }: DataGridPaginationProps) {
-  const { onRowsPerPageChange, disabled, showFullPagination = false, ...rest } = props;
+const DataGridPagination = forwardRef<HTMLDivElement, DataGridPaginationProps>((props, ref) => {
+  const { onRowsPerPageChange, showFullPagination = false, ...rest } = props;
   const rowsPerPageOptions = [10, 20, 50];
 
   return (
@@ -31,6 +31,8 @@ const DataGridPagination = function BasePagination({ ref, ...props }: DataGridPa
       ref={ref}
     />
   );
-};
+});
+
+DataGridPagination.displayName = 'DataGridPagination';
 
 export default DataGridPagination;
