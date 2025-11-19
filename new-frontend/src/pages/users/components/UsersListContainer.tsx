@@ -37,6 +37,13 @@ type FiltersState = {
   ageTo: string;
 };
 
+type CountryOption = {
+  value: string;
+  code: string;
+  label: string;
+  flag: string;
+};
+
 const UsersListContainer = () => {
   const { t, i18n } = useTranslation();
   const [tabValue, setTabValue] = useState<TabValue>('skills');
@@ -81,21 +88,38 @@ const UsersListContainer = () => {
     [i18n.language],
   );
 
-  const countryOptions = useMemo(
-    () =>
-      (countries ?? []).map((code) => {
-        const formattedCode = code?.toUpperCase?.() ?? code;
+  const normalizeCountryCode = (code?: string) => code?.trim().toLowerCase() ?? '';
+
+  const countryOptions = useMemo(() => {
+    if (!countries) return [];
+
+    return countries
+      .map((rawCode) => {
+        if (!rawCode) return undefined;
+
+        const value = String(rawCode);
+        const normalized = normalizeCountryCode(value);
+        if (!normalized) return undefined;
+
+        const displayCode = normalized.toUpperCase();
+
         return {
-          code: formattedCode,
-          label: regionNames.of(formattedCode) ?? formattedCode,
-          flag: formatCountryFlag(formattedCode),
-        };
-      }),
-    [countries, regionNames],
-  );
+          value,
+          code: displayCode,
+          label: regionNames.of(displayCode) ?? displayCode,
+          flag: formatCountryFlag(displayCode),
+        } satisfies CountryOption;
+      })
+      .filter((option): option is CountryOption => Boolean(option));
+  }, [countries, regionNames]);
 
   const countryLabels = useMemo(
     () => Object.fromEntries(countryOptions.map((country) => [country.code, country.label])),
+    [countryOptions],
+  );
+
+  const countryOptionsByValue = useMemo(
+    () => Object.fromEntries(countryOptions.map((country) => [country.value, country])),
     [countryOptions],
   );
 
@@ -255,9 +279,9 @@ const UsersListContainer = () => {
             SelectProps={{
               displayEmpty: true,
               renderValue: (value) => {
-                const code = (value as string) || '';
+                const selectedValue = (value as string) || '';
 
-                if (!code) {
+                if (!selectedValue) {
                   return (
                     <Typography variant="body2" color="text.secondary">
                       {t('users.filters.anyCountry')}
@@ -265,12 +289,13 @@ const UsersListContainer = () => {
                   );
                 }
 
-                const label = countryLabels[code] ?? code;
+                const selectedOption = countryOptionsByValue[selectedValue];
+                const label = selectedOption?.label ?? selectedValue;
 
                 return (
                   <Stack direction="row" spacing={1} alignItems="center">
                     <Typography variant="body2" component="span">
-                      {formatCountryFlag(code)}
+                      {selectedOption?.flag ?? formatCountryFlag(selectedValue.toUpperCase())}
                     </Typography>
                     <Typography variant="body2" component="span" noWrap>
                       {label}
@@ -286,7 +311,7 @@ const UsersListContainer = () => {
               </Typography>
             </MenuItem>
             {countryOptions.map((country) => (
-              <MenuItem key={country.code} value={country.code}>
+              <MenuItem key={country.value} value={country.value}>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <Typography variant="body2" component="span">
                     {country.flag}
