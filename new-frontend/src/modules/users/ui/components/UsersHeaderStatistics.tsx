@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Box, Skeleton, Stack, Typography } from '@mui/material';
 import { numberFormat } from 'shared/lib/utils';
-import { useUsersChartStatistics } from '../../application/queries';
+import { useUsersChartStatistics } from 'modules/users/application/queries.ts';
 
 const CHART_WIDTH = 200;
-const CHART_HEIGHT = 64;
-const CHART_PADDING = 4;
+const CHART_HEIGHT = 56;
+const CHART_PADDING = 0;
 
 const buildPolylinePoints = (series: number[]) => {
   if (!series.length) {
@@ -44,7 +44,7 @@ const UsersSparkline = ({ series }: { series: number[] }) => {
     <Box
       sx={{
         px: 2,
-        py: 1.5,
+        py: 1,
         borderRadius: 2,
         bgcolor: alpha(theme.palette.primary.main, 0.08),
       }}
@@ -88,15 +88,12 @@ const UsersHeaderStatistics = () => {
       justifyContent="flex-end"
       sx={{ minWidth: { md: 280 } }}
     >
-      <Stack spacing={0.5} alignItems={{ xs: 'flex-start', md: 'flex-end' }}>
+      <Stack direction="column" spacing={0.5} alignItems={{ xs: 'flex-start', md: 'flex-end' }}>
         <Typography variant="caption" color="text.secondary">
           {t('users.statistics.totalUsers')}
         </Typography>
         <Typography variant="h4" component="p">
           {numberFormat(data.total)}
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {t('users.statistics.lastDays', { count: data.series.length })}
         </Typography>
       </Stack>
       <UsersSparkline series={data.series} />
