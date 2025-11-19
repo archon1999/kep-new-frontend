@@ -1,5 +1,14 @@
 {
   "home": "Home",
+  "PageTitle": {
+    "Home": "Home",
+    "Users": "Users",
+    "Shop": "Shop",
+    "Kepcoin": "Kepcoin",
+    "Calendar": "Calendar",
+    "Login": "Login",
+    "NotFound": "Page not found"
+  },
   "kepcoin": "Kepcoin",
   "shop": {
     "title": "Shop",

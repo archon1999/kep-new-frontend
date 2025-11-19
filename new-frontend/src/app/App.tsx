@@ -6,6 +6,7 @@ import { REFRESH } from 'app/reducers/SettingsReducer.ts';
 import SettingPanelToggler from 'shared/components/settings-panel/SettingPanelToggler.tsx';
 import SettingsPanel from 'shared/components/settings-panel/SettingsPanel.tsx';
 import useIcons from 'shared/hooks/useIcons.tsx';
+import usePageTitle from 'shared/hooks/usePageTitle.tsx';
 import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
   const { mode } = useThemeMode();
   const { configDispatch } = useSettingsContext();
   useIcons();
+  usePageTitle();
 
   useEffect(() => {
     window.scrollTo(0, 0);

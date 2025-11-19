@@ -1,5 +1,14 @@
 {
   "home": "Главная",
+  "PageTitle": {
+    "Home": "Главная",
+    "Users": "Пользователи",
+    "Shop": "Магазин",
+    "Kepcoin": "Kepcoin",
+    "Calendar": "Календарь",
+    "Login": "Вход",
+    "NotFound": "Страница не найдена"
+  },
   "kepcoin": "Кепкоин",
   "shop": {
     "title": "Магазин",

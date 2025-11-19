@@ -1,5 +1,14 @@
 {
   "home": "Bosh sahifa",
+  "PageTitle": {
+    "Home": "Bosh sahifa",
+    "Users": "Foydalanuvchilar",
+    "Shop": "Doʻkon",
+    "Kepcoin": "Kepcoin",
+    "Calendar": "Kalendar",
+    "Login": "Kirish",
+    "NotFound": "Sahifa topilmadi"
+  },
   "kepcoin": "Kepcoin",
   "shop": {
     "title": "Doʻkon",
