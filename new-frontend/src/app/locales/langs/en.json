@@ -135,7 +135,10 @@
     "balanceSubtitle": "Track how you earn and spend Kepcoin every day.",
     "valueLabel": "{{value}} Kepcoin",
     "currentStreak": "Current streak · {{value}} days",
+    "currentStreakLabel": "Current streak",
+    "maxStreakLabel": "Max streak",
     "streakFreeze": {
+      "label": "Streak freeze",
       "count": "Streak freeze · {{value}}",
       "description": "Freezing automatically saves your streak if you miss a day and don't complete daily tasks."
     },
