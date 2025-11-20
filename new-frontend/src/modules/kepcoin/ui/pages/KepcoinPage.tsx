@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import { Box, Grid } from '@mui/material';
-import { useKepcoinEarnHistory, useKepcoinSpendHistory, useKepcoinSummary } from '../../application/queries';
+import { Grid } from '@mui/material';
+import {
+  useKepcoinEarnHistory,
+  useKepcoinSpendHistory,
+  useKepcoinSummary,
+} from '../../application/queries';
 import { HistoryView } from '../types';
 import HowToEarnWidget from '../widgets/HowToEarnWidget';
 import HowToSpendWidget from '../widgets/HowToSpendWidget';
 import KepcoinActivityWidget from '../widgets/KepcoinActivityWidget';
 import StreakWidget from '../widgets/StreakWidget';
-
 
 const PAGE_SIZE = 10;
 
@@ -51,7 +54,7 @@ const KepcoinPage = () => {
 
   return (
     <Grid container>
-      <Grid size={{sm: 12, lg: 6}}>
+      <Grid size={{ sm: 12, lg: 6 }}>
         <StreakWidget
           balance={summary?.balance}
           streak={summary?.streak}
@@ -73,7 +76,7 @@ const KepcoinPage = () => {
         />
       </Grid>
 
-      <Grid size={{sm: 12, lg: 6}}>
+      <Grid size={{ sm: 12, lg: 6 }}>
         <HowToEarnWidget />
         <HowToSpendWidget />
       </Grid>

@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Paper, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
@@ -21,10 +21,6 @@ const StreakWidget = ({
   isLoading,
 }: StreakWidgetProps) => {
   const { t } = useTranslation();
-  const balanceLabel = useMemo(() => {
-    const formatter = new Intl.NumberFormat();
-    return formatter.format(balance ?? 0);
-  }, [balance]);
 
   const renderStat = (label: string, content: ReactNode, tooltip?: string) => {
     const node = (
