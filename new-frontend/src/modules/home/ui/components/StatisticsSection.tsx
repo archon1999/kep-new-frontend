@@ -85,12 +85,12 @@ const StatisticsSection = () => {
   );
 
   return (
-    <Stack>
+    <Grid container size={12}>
       {STATISTICS_LIST.map(({ key, value, percent }) => {
         const { color, icon } = getTrendStyles(percent);
 
         return (
-          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
             <Paper sx={{ p: 4 }}>
               <Stack spacing={2} direction="column">
                 <Stack direction="column" spacing={0.5}>
@@ -138,7 +138,7 @@ const StatisticsSection = () => {
           </Grid>
         );
       })}
-    </Stack>
+    </Grid>
   );
 };
 

@@ -13,7 +13,6 @@ import { CanvasRenderer } from 'echarts/renderers';
 import ReactEchart from 'shared/components/base/ReactEchart';
 import { getColor } from 'shared/lib/echart-utils';
 import { getPastDates } from 'shared/lib/utils';
-import Box from "@mui/material/Box";
 
 echarts.use([LineChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 

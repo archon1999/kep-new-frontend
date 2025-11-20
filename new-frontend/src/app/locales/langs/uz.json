@@ -83,6 +83,58 @@
         "newUsers": "Yangi foydalanuvchilar",
         "activeUsers": "Faol foydalanuvchilar"
       }
+    },
+    "activityHistory": {
+      "title": "Faollik tarixi",
+      "empty": "Hozircha faollik haqida maʼlumot yo‘q.",
+      "viewAll": "Barchasini ko‘rish",
+      "defaultLabel": "Faollik yangilanishi",
+      "types": {
+        "problemAttemptSummary": {
+          "description": "Jami {{total}} ta masaladan {{accepted}} tasi yechildi."
+        },
+        "challengeSummary": {
+          "description": "Chellenj natijalari.",
+          "wins": "G‘alabalar: {{value}}",
+          "draws": "Duranglar: {{value}}",
+          "losses": "Mag‘lubiyatlar: {{value}}"
+        },
+        "projectAttemptSummary": {
+          "description": "Loyiha topshiriqlarining {{total}} tasidan {{checked}} tasi tekshirildi."
+        },
+        "testPassSummary": {
+          "description": "{{total}} ta testdan {{completed}} tasi yakunlandi va {{solved}} ta topshiriq yechildi."
+        },
+        "contestParticipation": {
+          "description": "{{title}} musobaqasida ishtirok etdi.",
+          "rank": "O‘rin: {{rank}}",
+          "rating": "{{before}} → {{after}} reyting",
+          "ratingChange": "Δ {{delta}}",
+          "bonus": "Bonus: {{bonus}}",
+          "noRank": "—"
+        },
+        "arenaParticipation": {
+          "description": "{{title}} arenasi ishtirokchisi.",
+          "points": "Ballar: {{points}}",
+          "rank": "O‘rin: {{rank}}",
+          "finishTime": "Tugash vaqti: {{time}}"
+        },
+        "dailyActivity": {
+          "description": "Kunlik faollik (+{{value}}).",
+          "note": "Eslatma: {{note}}"
+        },
+        "hardProblemSolved": {
+          "description": "{{title}} ({{difficulty}}) masalasi yechildi.",
+          "problem": "Masala №{{id}}"
+        },
+        "achievementUnlocked": {
+          "description": "{{message}}"
+        },
+        "dailyTaskCompleted": {
+          "description": "Kunlik topshiriq bajarildi ({{type}}).",
+          "task": "{{description}}"
+        }
+      }
     }
   },
   "shop": {

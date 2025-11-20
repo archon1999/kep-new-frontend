@@ -83,6 +83,58 @@
         "newUsers": "Новые пользователи",
         "activeUsers": "Активные пользователи"
       }
+    },
+    "activityHistory": {
+      "title": "История активности",
+      "empty": "Активность пока отсутствует.",
+      "viewAll": "Посмотреть все",
+      "defaultLabel": "Обновление активности",
+      "types": {
+        "problemAttemptSummary": {
+          "description": "Решено {{accepted}} из {{total}} задач."
+        },
+        "challengeSummary": {
+          "description": "Сводка по челленджам.",
+          "wins": "Победы: {{value}}",
+          "draws": "Ничьи: {{value}}",
+          "losses": "Поражения: {{value}}"
+        },
+        "projectAttemptSummary": {
+          "description": "Проверено {{checked}} из {{total}} попыток по проектам."
+        },
+        "testPassSummary": {
+          "description": "Завершено {{completed}} из {{total}} тестов и решено {{solved}} задач."
+        },
+        "contestParticipation": {
+          "description": "Участие в {{title}}.",
+          "rank": "Место: {{rank}}",
+          "rating": "{{before}} → {{after}} рейтинг",
+          "ratingChange": "Δ {{delta}}",
+          "bonus": "Бонус: {{bonus}}",
+          "noRank": "—"
+        },
+        "arenaParticipation": {
+          "description": "Участие в арене {{title}}.",
+          "points": "Очки: {{points}}",
+          "rank": "Место: {{rank}}",
+          "finishTime": "Завершено {{time}}"
+        },
+        "dailyActivity": {
+          "description": "Ежедневная активность (+{{value}}).",
+          "note": "Заметка: {{note}}"
+        },
+        "hardProblemSolved": {
+          "description": "Решена задача {{title}} ({{difficulty}}).",
+          "problem": "Задача №{{id}}"
+        },
+        "achievementUnlocked": {
+          "description": "{{message}}"
+        },
+        "dailyTaskCompleted": {
+          "description": "Выполнено ежедневное задание ({{type}}).",
+          "task": "{{description}}"
+        }
+      }
     }
   },
   "shop": {

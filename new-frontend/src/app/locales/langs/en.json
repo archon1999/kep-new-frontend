@@ -83,6 +83,58 @@
         "newUsers": "New users",
         "activeUsers": "Active users"
       }
+    },
+    "activityHistory": {
+      "title": "Activity history",
+      "empty": "There is no activity to display yet.",
+      "viewAll": "View all",
+      "defaultLabel": "Activity update",
+      "types": {
+        "problemAttemptSummary": {
+          "description": "Solved {{accepted}} out of {{total}} problems."
+        },
+        "challengeSummary": {
+          "description": "Challenge results summary.",
+          "wins": "Wins: {{value}}",
+          "draws": "Draws: {{value}}",
+          "losses": "Losses: {{value}}"
+        },
+        "projectAttemptSummary": {
+          "description": "Checked {{checked}} of {{total}} project attempts."
+        },
+        "testPassSummary": {
+          "description": "Completed {{completed}} of {{total}} tests and solved {{solved}} tasks."
+        },
+        "contestParticipation": {
+          "description": "Participated in {{title}}.",
+          "rank": "Rank: {{rank}}",
+          "rating": "{{before}} → {{after}} rating",
+          "ratingChange": "Δ {{delta}}",
+          "bonus": "Bonus: {{bonus}}",
+          "noRank": "N/A"
+        },
+        "arenaParticipation": {
+          "description": "Joined arena {{title}}.",
+          "points": "Points: {{points}}",
+          "rank": "Rank: {{rank}}",
+          "finishTime": "Finished at {{time}}"
+        },
+        "dailyActivity": {
+          "description": "Logged daily activity (+{{value}}).",
+          "note": "Note: {{note}}"
+        },
+        "hardProblemSolved": {
+          "description": "Solved {{title}} ({{difficulty}}).",
+          "problem": "Problem #{{id}}"
+        },
+        "achievementUnlocked": {
+          "description": "{{message}}"
+        },
+        "dailyTaskCompleted": {
+          "description": "Completed daily task ({{type}}).",
+          "task": "{{description}}"
+        }
+      }
     }
   },
   "shop": {
