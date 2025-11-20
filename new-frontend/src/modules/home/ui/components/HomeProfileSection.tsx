@@ -53,9 +53,11 @@ const HomeProfileSection = ({
           </Typography>
         </Stack>
 
+        <Divider />
+
         <RanksSection ratings={ratings} isLoading={isLoading} />
 
-        <Divider sx={{ borderColor: 'divider' }} />
+        <Divider />
 
         <HomeActivityHistory
           username={username}

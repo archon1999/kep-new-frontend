@@ -1,11 +1,22 @@
-import { Button, Paper, Skeleton, Stack, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineOppositeContent,
+  TimelineSeparator,
+} from '@mui/lab';
+import { Box, Paper, Skeleton, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import { TFunction, useTranslation } from 'react-i18next';
-import { Link as RouterLink } from 'react-router-dom';
-import { getResourceByUsername, resources } from 'app/routes/resources';
+import { TFunction } from 'i18next';
+import type {
+  HomeUserActivityHistory,
+  HomeUserActivityHistoryItem,
+} from 'modules/home/domain/entities/home.entity.ts';
 import KepIcon from 'shared/components/base/KepIcon';
 import type { KepIconName } from 'shared/config/icons';
-import type { HomeUserActivityHistory, HomeUserActivityHistoryItem } from '../../domain/entities/home.entity';
 
 const SKELETON_ITEMS = 3;
 
@@ -70,7 +81,10 @@ const compact = (values: Array<string | undefined>): string | undefined => {
   return filtered.length ? filtered.join(' · ') : undefined;
 };
 
-const getActivityTexts = (activity: HomeUserActivityHistoryItem, t: TFunction<'translation'>): ActivityText => {
+const getActivityTexts = (
+  activity: HomeUserActivityHistoryItem,
+  t: TFunction<'translation'>,
+): ActivityText => {
   const payload = (activity.payload ?? {}) as Record<string, unknown>;
 
   switch (activity.activityType) {
@@ -166,7 +180,9 @@ const getActivityTexts = (activity: HomeUserActivityHistoryItem, t: TFunction<'t
             ? t('homePage.activityHistory.types.arenaParticipation.rank', { rank })
             : undefined,
           finishTime
-            ? t('homePage.activityHistory.types.arenaParticipation.finishTime', { time: finishTime })
+            ? t('homePage.activityHistory.types.arenaParticipation.finishTime', {
+                time: finishTime,
+              })
             : undefined,
         ]),
       };
@@ -188,11 +204,12 @@ const getActivityTexts = (activity: HomeUserActivityHistoryItem, t: TFunction<'t
           title: withFallback(parseString(payload.title)),
           difficulty: withFallback(parseString(payload.difficulty)),
         }),
-        secondary: parseNumber(payload.problemId) !== undefined
-          ? t('homePage.activityHistory.types.hardProblemSolved.problem', {
-              id: parseNumber(payload.problemId),
-            })
-          : undefined,
+        secondary:
+          parseNumber(payload.problemId) !== undefined
+            ? t('homePage.activityHistory.types.hardProblemSolved.problem', {
+                id: parseNumber(payload.problemId),
+              })
+            : undefined,
       };
     case 'achievement_unlocked':
       return {
@@ -207,7 +224,9 @@ const getActivityTexts = (activity: HomeUserActivityHistoryItem, t: TFunction<'t
           type: withFallback(parseString(payload.taskType)),
         }),
         secondary: taskDescription
-          ? t('homePage.activityHistory.types.dailyTaskCompleted.task', { description: taskDescription })
+          ? t('homePage.activityHistory.types.dailyTaskCompleted.task', {
+              description: taskDescription,
+            })
           : undefined,
       };
     }
@@ -219,87 +238,152 @@ const getActivityTexts = (activity: HomeUserActivityHistoryItem, t: TFunction<'t
 const HomeActivityHistory = ({ username, history, isLoading }: HomeActivityHistoryProps) => {
   const { t } = useTranslation();
   const activities = history?.data ?? [];
-  const viewAllHref = username ? getResourceByUsername(resources.UserProfileActivityHistory, username) : undefined;
   const showEmpty = !isLoading && activities.length === 0;
 
   return (
-    <Stack spacing={2}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" gap={2}>
-        <Typography variant="h6" fontWeight={600}>
-          {t('homePage.activityHistory.title')}
-        </Typography>
+    <Stack direction="column" spacing={2}>
+      <Typography variant="h6" fontWeight={600}>
+        {t('homePage.activityHistory.title')}
+      </Typography>
 
-        {viewAllHref ? (
-          <Button component={RouterLink} to={viewAllHref} variant="outlined" size="small">
-            {t('homePage.activityHistory.viewAll')}
-          </Button>
-        ) : null}
-      </Stack>
+      <Box
+        sx={{
+          maxHeight: 450,
+          overflowY: 'auto',
+        }}
+      >
+        {isLoading ? (
+          <Timeline
+            position="right"
+            sx={{
+              p: 0,
+              m: 0,
+            }}
+          >
+            {Array.from({ length: SKELETON_ITEMS }).map((_, index) => (
+              <TimelineItem key={index}>
+                <TimelineOppositeContent sx={{ m: 0, minWidth: 90, textAlign: 'right' }}>
+                  <Skeleton variant="text" width={56} />
+                  <Skeleton variant="text" width={48} />
+                </TimelineOppositeContent>
 
-      {isLoading ? (
-        <Stack spacing={2}>
-          {Array.from({ length: SKELETON_ITEMS }).map((_, index) => (
-            <Skeleton key={index} variant="rounded" height={92} />
-          ))}
-        </Stack>
-      ) : showEmpty ? (
-        <Typography variant="body2" color="text.secondary">
-          {t('homePage.activityHistory.empty')}
-        </Typography>
-      ) : (
-        <Stack spacing={2}>
-          {activities.map((activity) => {
-            const texts = getActivityTexts(activity, t);
-            const icon = ACTIVITY_ICON_MAP[activity.activityType];
-            const recordedAt = dayjs(activity.recordedFor);
-            const label = activity.activityTypeDisplay || activity.user?.username || t('homePage.activityHistory.defaultLabel');
-
-            return (
-              <Paper
-                key={activity.id ?? `${activity.activityType}-${activity.recordedFor}`}
-                background={2}
-                sx={{
-                  p: 2,
-                  borderRadius: 3,
-                }}
-              >
-                <Stack direction="row" spacing={2} alignItems="flex-start">
-                  <Stack
-                    alignItems="center"
-                    justifyContent="center"
+                <TimelineSeparator>
+                  {index !== 0 && (
+                    <TimelineConnector sx={{ bgcolor: 'primary.main', opacity: 0.3 }} />
+                  )}
+                  <TimelineDot
+                    variant="outlined"
+                    color="primary"
                     sx={{
-                      width: 52,
-                      height: 52,
-                      borderRadius: 2,
-                      bgcolor: 'primary.lighter',
-                      flexShrink: 0,
+                      borderWidth: 2,
+                      backgroundColor: 'background.default',
                     }}
-                  >
-                    <KepIcon name={icon} fontSize={28} color="primary.main" />
-                  </Stack>
+                  />
+                  {index !== SKELETON_ITEMS - 1 && (
+                    <TimelineConnector sx={{ bgcolor: 'primary.main', opacity: 0.3 }} />
+                  )}
+                </TimelineSeparator>
 
-                  <Stack spacing={0.5} flex={1} minWidth={0}>
-                    <Typography variant="subtitle2" fontWeight={600} noWrap>
-                      {label}
+                <TimelineContent sx={{ py: 1, pl: 3 }}>
+                  <Skeleton variant="rounded" height={80} />
+                </TimelineContent>
+              </TimelineItem>
+            ))}
+          </Timeline>
+        ) : showEmpty ? (
+          <Typography variant="body2" color="text.secondary">
+            {t('homePage.activityHistory.empty')}
+          </Typography>
+        ) : (
+          <Timeline
+            position="alternate"
+            sx={{
+              p: 0,
+              m: 0,
+            }}
+          >
+            {activities.map((activity, index) => {
+              const texts = getActivityTexts(activity, t);
+              const icon = ACTIVITY_ICON_MAP[activity.activityType];
+              const recordedAt = dayjs(activity.recordedFor);
+              const label =
+                activity.activityTypeDisplay ||
+                activity.user?.username ||
+                t('homePage.activityHistory.defaultLabel');
+
+              const isFirst = index === 0;
+              const isLast = index === activities.length - 1;
+
+              return (
+                <TimelineItem
+                  key={activity.id ?? `${activity.activityType}-${activity.recordedFor}`}
+                >
+                  <TimelineOppositeContent>
+                    <Typography variant="h6" fontWeight={600}>
+                      {recordedAt.format('HH:mm')}
                     </Typography>
-                    {texts.primary ? (
-                      <Typography variant="body2">{texts.primary}</Typography>
-                    ) : null}
-                    {texts.secondary ? (
-                      <Typography variant="body2" color="text.secondary">
-                        {texts.secondary}
-                      </Typography>
-                    ) : null}
-                    <Typography variant="caption" color="text.disabled">
-                      {recordedAt.format('MMM DD, YYYY · HH:mm')}
+                    <Typography variant="caption" color="text.secondary">
+                      {recordedAt.format('dddd')}
                     </Typography>
-                  </Stack>
-                </Stack>
-              </Paper>
-            );
-          })}
-        </Stack>
-      )}
+                  </TimelineOppositeContent>
+
+                  <TimelineSeparator>
+                    {!isFirst && (
+                      <TimelineConnector sx={{ bgcolor: 'primary.main', opacity: 0.4 }} />
+                    )}
+                    <TimelineDot
+                      variant="outlined"
+                      color="primary"
+                      sx={{
+                        borderWidth: 2,
+                        backgroundColor: 'background.default',
+                        width: 32,
+                        height: 32,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <KepIcon name={icon} fontSize={18} color="primary.main" />
+                    </TimelineDot>
+                    {!isLast && (
+                      <TimelineConnector sx={{ bgcolor: 'primary.main', opacity: 0.4 }} />
+                    )}
+                  </TimelineSeparator>
+
+                  <TimelineContent>
+                    <Paper
+                      sx={{
+                        p: 2,
+                      }}
+                    >
+                      <Stack direction="column" spacing={0.75}>
+                        <Typography variant="caption" color="text.secondary">
+                          {recordedAt.format('MMM DD, YYYY')}
+                        </Typography>
+
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          {label}
+                        </Typography>
+
+                        {texts.primary ? (
+                          <Typography variant="body2">{texts.primary}</Typography>
+                        ) : null}
+
+                        {texts.secondary ? (
+                          <Typography variant="body2" color="text.secondary">
+                            {texts.secondary}
+                          </Typography>
+                        ) : null}
+                      </Stack>
+                    </Paper>
+                  </TimelineContent>
+                </TimelineItem>
+              );
+            })}
+          </Timeline>
+        )}
+      </Box>
     </Stack>
   );
 };
