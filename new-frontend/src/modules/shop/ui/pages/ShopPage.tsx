@@ -47,7 +47,7 @@ const ShopPage = () => {
             }}
           >
             {isLoading
-              ? Array.from({ length: 8 }).map((_, idx) => <ShopProductCardSkeleton key={idx} />)
+              ? Array.from({ length: 4 }).map((_, idx) => <ShopProductCardSkeleton key={idx} />)
               : products?.map((product) => (
                   <ShopProductCard key={product.title} product={product} />
                 ))}

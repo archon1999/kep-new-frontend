@@ -1,16 +1,12 @@
 import { useState } from 'react';
-import { Box, Divider, Stack } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import {
-  useKepcoinEarnHistory,
-  useKepcoinSpendHistory,
-  useKepcoinSummary,
-} from '../../application/queries';
-import StreakWidget from '../widgets/StreakWidget';
-import KepcoinActivityWidget from '../widgets/KepcoinActivityWidget';
+import { Box, Grid } from '@mui/material';
+import { useKepcoinEarnHistory, useKepcoinSpendHistory, useKepcoinSummary } from '../../application/queries';
+import { HistoryView } from '../types';
 import HowToEarnWidget from '../widgets/HowToEarnWidget';
 import HowToSpendWidget from '../widgets/HowToSpendWidget';
-import { HistoryView } from '../types';
+import KepcoinActivityWidget from '../widgets/KepcoinActivityWidget';
+import StreakWidget from '../widgets/StreakWidget';
+
 
 const PAGE_SIZE = 10;
 
@@ -54,42 +50,34 @@ const KepcoinPage = () => {
   const pagesCount = activeHistory?.pagesCount ?? 1;
 
   return (
-    <Box>
-      <Stack direction="column" spacing={5}>
-        <Grid container alignItems="flex-start">
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Stack>
-              <StreakWidget
-                balance={summary?.balance}
-                streak={summary?.streak}
-                maxStreak={summary?.maxStreak}
-                streakFreeze={summary?.streakFreeze}
-                isLoading={isSummaryLoading}
-              />
-              <Divider flexItem orientation="vertical"></Divider>
-              <KepcoinActivityWidget
-                view={view}
-                onViewChange={handleViewChange}
-                isLoading={isHistoryLoading}
-                error={historyError}
-                historyItems={historyItems}
-                pagesCount={pagesCount}
-                page={page}
-                onPageChange={handlePageChange}
-                onRetry={retryHistory}
-              />
-            </Stack>
-          </Grid>
+    <Grid container>
+      <Grid size={{sm: 12, lg: 6}}>
+        <StreakWidget
+          balance={summary?.balance}
+          streak={summary?.streak}
+          maxStreak={summary?.maxStreak}
+          streakFreeze={summary?.streakFreeze}
+          isLoading={isSummaryLoading}
+        />
 
-          <Grid size={{ xs: 12, md: 5 }}>
-            <Stack spacing={4} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
-              <HowToEarnWidget />
-              <HowToSpendWidget />
-            </Stack>
-          </Grid>
-        </Grid>
-      </Stack>
-    </Box>
+        <KepcoinActivityWidget
+          view={view}
+          onViewChange={handleViewChange}
+          isLoading={isHistoryLoading}
+          error={historyError}
+          historyItems={historyItems}
+          pagesCount={pagesCount}
+          page={page}
+          onPageChange={handlePageChange}
+          onRetry={retryHistory}
+        />
+      </Grid>
+
+      <Grid size={{sm: 12, lg: 6}}>
+        <HowToEarnWidget />
+        <HowToSpendWidget />
+      </Grid>
+    </Grid>
   );
 };
 

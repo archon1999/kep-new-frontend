@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Box,
@@ -11,7 +11,6 @@ import {
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import {
   KepcoinEarnHistoryItem,
@@ -109,9 +108,10 @@ const getHistoryDescription = (
   item: HistoryItem,
   translate: (key: string, params?: Record<string, unknown>) => string,
 ) => {
-  const key = type === 'earns'
-    ? earnTypeKeyMap[(item as KepcoinEarnHistoryItem).earnType]
-    : spendTypeKeyMap[(item as KepcoinSpendHistoryItem).spendType];
+  const key =
+    type === 'earns'
+      ? earnTypeKeyMap[(item as KepcoinEarnHistoryItem).earnType]
+      : spendTypeKeyMap[(item as KepcoinSpendHistoryItem).spendType];
   const base = key ? translate(key) : translate('kepcoinPage.history.defaultLabel');
   const detail = getDetailText(item.detail);
 
@@ -148,8 +148,15 @@ const KepcoinActivityWidget = ({
   const { t } = useTranslation();
 
   return (
-    <Box>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2} mb={2}>
+    <Box sx={{ p: { xs: 3, md: 5 } }}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        flexWrap="wrap"
+        gap={2}
+        mb={2}
+      >
         <Typography variant="h5" fontWeight={700}>
           {t('kepcoinPage.history.title')}
         </Typography>
@@ -161,7 +168,7 @@ const KepcoinActivityWidget = ({
 
       {isLoading ? (
         <Stack spacing={2} direction="column">
-          {Array.from({ length: 4 }).map((_, index) => (
+          {Array.from({ length: 10 }).map((_, index) => (
             <Stack key={index} spacing={1.5} direction="column">
               <Skeleton variant="text" width="60%" />
               <Skeleton variant="text" width="40%" />
@@ -190,19 +197,30 @@ const KepcoinActivityWidget = ({
           </Typography>
         </Stack>
       ) : (
-        <Stack direction="column" spacing={2} divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}>
+        <Stack
+          direction="column"
+          spacing={2}
+          divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}
+        >
           {historyItems.map((item) => (
             <Stack key={item.id} spacing={1.25}>
-              <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                flexWrap="wrap"
+                gap={1}
+              >
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <IconifyIcon icon="solar:coins-stacks-linear" fontSize={24} color="warning.main" />
+                  <IconifyIcon
+                    icon="solar:coins-stacks-linear"
+                    fontSize={24}
+                    color="warning.main"
+                  />
                   <Typography variant="h6" color={view === 'earns' ? 'success.main' : 'error.main'}>
                     {`${view === 'earns' ? '+' : '-'}${item.amount}`}
                   </Typography>
                 </Stack>
-                <Typography variant="body2" color="text.secondary">
-                  {item.happenedAt ? dayjs(item.happenedAt).format('MMM D, YYYY · HH:mm') : t('kepcoinPage.history.noDate')}
-                </Typography>
               </Stack>
               <Typography variant="body1" fontWeight={600}>
                 {getHistoryDescription(view, item, t)}

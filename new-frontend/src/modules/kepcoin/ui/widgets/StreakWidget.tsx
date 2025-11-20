@@ -1,7 +1,8 @@
 import { ReactNode, useMemo } from 'react';
-import { Divider, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { Paper, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import KepcoinValue from 'shared/components/common/KepcoinValue.tsx';
 import Streak from 'shared/components/rating/Streak';
 
 interface StreakWidgetProps {
@@ -47,16 +48,18 @@ const StreakWidget = ({
   };
 
   return (
-    <Stack>
+    <Paper>
       <Stack direction="column" spacing={3} sx={{ p: { xs: 3, md: 5 } }}>
         {isLoading ? (
           <Skeleton variant="text" width={240} height={48} />
         ) : (
           <Typography variant="h3" fontWeight={700}>
-            {t('kepcoinPage.youHave', { value: balanceLabel })}
+            <Stack spacing={1}>
+              You have <KepcoinValue iconSize={32} textVariant="h3" value={balance}></KepcoinValue>
+            </Stack>
           </Typography>
         )}
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} flexWrap="wrap">
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} flexWrap="nowrap">
           {renderStat(
             t('kepcoinPage.streakStats.current'),
             isLoading ? (
@@ -81,7 +84,7 @@ const StreakWidget = ({
               <Stack direction="row" spacing={0.75} alignItems="center">
                 <IconifyIcon icon="solar:snowflake-line-duotone" fontSize={20} color="info.main" />
                 <Typography variant="body2" fontWeight={600} color="text.primary">
-                  {t('kepcoinPage.streakFreeze.count', { value: streakFreeze })}
+                  {streakFreeze}
                 </Typography>
               </Stack>
             ),
@@ -89,9 +92,7 @@ const StreakWidget = ({
           )}
         </Stack>
       </Stack>
-
-      <Divider flexItem></Divider>
-    </Stack>
+    </Paper>
   );
 };
 

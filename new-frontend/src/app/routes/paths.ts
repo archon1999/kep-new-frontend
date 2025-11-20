@@ -5,13 +5,13 @@ export const rootPaths = {
   kepcoinRoot: 'kepcoin',
   shopRoot: 'shop',
   calendarRoot: 'calendar',
+  usersRoot: 'users',
 };
 
 const paths = {
   kepcoin: `/${rootPaths.kepcoinRoot}`,
   shop: `/${rootPaths.shopRoot}`,
-  scheduler: `/${rootPaths.appsRoot}/scheduler`,
-  users: '/users',
+  users: `/${rootPaths.usersRoot}`,
   calendar: `/${rootPaths.calendarRoot}`,
   authLogin: `/${rootPaths.authRoot}/login`,
 };
@@ -26,9 +26,6 @@ export const apiEndpoints = {
   logout: '/auth/logout',
   profile: '/api/me',
   getUsers: '/users',
-  forgotPassword: '/auth/forgot-password',
-  setPassword: '/auth/set-password',
-  getProduct: (id: string) => `e-commerce/products/${id}`,
 };
 
 export default paths;

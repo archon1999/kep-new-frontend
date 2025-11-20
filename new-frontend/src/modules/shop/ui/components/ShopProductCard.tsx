@@ -296,7 +296,7 @@ export const ShopProductCardSkeleton = () => (
     }}
     elevation={0}
   >
-    <Skeleton variant="rectangular" height={240} animation="wave" />
+    <Skeleton variant="rectangular" height={300} animation="wave" />
     <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexGrow: 1 }}>
       <Stack spacing={1}>
         <Skeleton width="70%" height={24} />
