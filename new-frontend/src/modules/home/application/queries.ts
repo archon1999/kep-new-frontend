@@ -8,6 +8,7 @@ import type {
   HomeOnlineUsers,
   HomePostsList,
   HomeTopUsers,
+  HomeUserActivityHistory,
   HomeUserRatings,
   HomeUsersChart,
 } from '../domain/entities/home.entity';
@@ -45,4 +46,10 @@ export const useUsersChart = () =>
 export const useUserRatings = (username?: string | null) =>
   useHomeSWR<HomeUserRatings | null>(username ? homeKeys.detail(`ratings-${username}`) : null, () =>
     repository.getUserRatings(username as string),
+  );
+
+export const useUserActivityHistory = (username?: string | null, pageSize = 4) =>
+  useHomeSWR<HomeUserActivityHistory | null>(
+    username ? homeKeys.detail(`activity-history-${username}-${pageSize}`) : null,
+    () => repository.getUserActivityHistory(username as string, { pageSize }),
   );

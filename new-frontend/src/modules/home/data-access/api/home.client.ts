@@ -2,6 +2,7 @@ import { apiClient } from 'shared/api';
 import type {
   ApiBlogListResult,
   ApiNewsListResult,
+  ApiUserActivityHistoryReadResult,
   ApiUsersChartStatResult,
   ApiUsersNextBirthdaysResult,
   ApiUsersOnlineResult,
@@ -11,6 +12,7 @@ import type {
 import type {
   ApiBlogListParams,
   ApiNewsListParams,
+  ApiUserActivityHistoryReadParams,
   ApiUsersChartStatParams,
   ApiUsersNextBirthdaysParams,
   ApiUsersOnlineParams,
@@ -27,4 +29,6 @@ export const homeApiClient = {
   usersChart: (params?: ApiUsersChartStatParams) =>
     apiClient.apiUsersChartStat(params) as Promise<ApiUsersChartStatResult>,
   userRatings: (username: string) => apiClient.apiUsersRatings(username) as Promise<ApiUsersRatingsResult>,
+  userActivityHistory: (username: string, params?: ApiUserActivityHistoryReadParams) =>
+    apiClient.apiUserActivityHistoryRead(username, params) as Promise<ApiUserActivityHistoryReadResult>,
 };

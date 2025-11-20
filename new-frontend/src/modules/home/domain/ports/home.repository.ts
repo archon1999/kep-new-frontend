@@ -5,6 +5,7 @@ import type {
   HomeOnlineUsers,
   HomePostsList,
   HomeTopUsers,
+  HomeUserActivityHistory,
   HomeUserRatings,
   HomeUsersChart,
 } from '../entities/home.entity';
@@ -17,4 +18,5 @@ export interface HomeRepository {
   getOnlineUsers: (params?: HomeListParams) => Promise<HomeOnlineUsers>;
   getUsersChart: () => Promise<HomeUsersChart>;
   getUserRatings: (username: string) => Promise<HomeUserRatings>;
+  getUserActivityHistory: (username: string, params?: HomeListParams) => Promise<HomeUserActivityHistory>;
 }

@@ -7,6 +7,7 @@ import type {
   HomeOnlineUsers,
   HomePostsList,
   HomeTopUsers,
+  HomeUserActivityHistory,
   HomeUserRatings,
   HomeUsersChart,
 } from '../../domain/entities/home.entity';
@@ -38,5 +39,12 @@ export class HttpHomeRepository implements HomeRepository {
 
   getUserRatings(username: string): Promise<HomeUserRatings> {
     return homeApiClient.userRatings(username);
+  }
+
+  getUserActivityHistory(username: string, params?: HomeListParams): Promise<HomeUserActivityHistory> {
+    return homeApiClient.userActivityHistory(username, {
+      page: params?.page,
+      pageSize: params?.pageSize,
+    });
   }
 }
