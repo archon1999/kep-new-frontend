@@ -3,7 +3,7 @@
     "home": "Bosh sahifa",
     "users": "Foydalanuvchilar",
     "kepcoin": "Kepcoin",
-    "shop": "Do'kon",
+    "shop": "Doʻkon",
     "calendar": "Kalendar",
     "hackathons": "Xakatonlar",
     "projects": "Loyihalar",
@@ -27,9 +27,9 @@
     "accountSettings": "Profil sozlamalari",
     "contests": "Kontestlar",
     "contestsRating": "Kontestlar reytingi",
+    "contestsStats": "Kontestlar statistikasi",
     "tournaments": "Turnirlar",
     "tournament": "Turnir",
-    "userProfile": "Foydalanuvchi profili",
-    "contestsStats": "Kontestlar statistikasi"
+    "userProfile": "Foydalanuvchi profili"
   }
 }
