@@ -21,6 +21,8 @@
     "challenge": "Баттл",
     "challengesRating": "Рейтинг баттлов",
     "challengesStats": "Статистика баттлов",
-    "accountSettings": "Настройки аккаунта"
+    "accountSettings": "Настройки аккаунта",
+    "tournaments": "Турниры",
+    "tournament": "Турнир"
   }
 }

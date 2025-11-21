@@ -1,0 +1,20 @@
+{
+  "tournaments": {
+    "subtitle": "Knockout turnirlarida bellashing va natijalarni kuzating.",
+    "countLabel": "{{count}} ta turnir",
+    "emptyTitle": "Hozircha turnirlar yo'q",
+    "emptySubtitle": "Yaqinlashayotgan turnirlar shu yerda paydo bo'ladi.",
+    "startsOn": "Boshlanishi {{date}}",
+    "players": "{{count}} ta ishtirokchi",
+    "type": "Turi: {{type}}",
+    "bracketTitle": "Knockout braket",
+    "bracketSubtitle": "16 ishtirokchi uchun yakuniy bosqichlarga o'tuvchi setka.",
+    "round": {
+      "final": "Final",
+      "semifinal": "Yarim final",
+      "quarter": "Chorak final",
+      "generic": "1/{{value}} final"
+    },
+    "emptyDescription": "Turnir tafsilotlari tez orada paydo bo'ladi."
+  }
+}
