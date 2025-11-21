@@ -1,9 +1,16 @@
 import axios, { type AxiosInstance, type AxiosRequestHeaders, type InternalAxiosRequestConfig } from 'axios';
+import i18n from 'app/locales/i18n.ts';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '';
 const basicAuthLogin = import.meta.env.VITE_BASIC_AUTH_LOGIN;
 const basicAuthPassword = import.meta.env.VITE_BASIC_AUTH_PASSWORD;
 const shouldUseBasicAuth = import.meta.env.DEV;
+
+const djangoLanguageMap: Record<string, 'en' | 'ru' | 'uz'> = {
+  enUS: 'en',
+  ruRU: 'ru',
+  uzUZ: 'uz',
+};
 
 const getBasicAuthHeader = () => {
   if (!basicAuthLogin || !basicAuthPassword) return null;
@@ -25,6 +32,9 @@ export const instance: AxiosInstance = axios.create({
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const headers: AxiosRequestHeaders = config.headers ?? {};
+
+    const djangoLanguage = djangoLanguageMap[i18n.language as keyof typeof djangoLanguageMap] ?? 'en';
+    headers['Django-Language'] = djangoLanguage;
 
     if (shouldUseBasicAuth) {
       const basicAuthHeader = getBasicAuthHeader();
