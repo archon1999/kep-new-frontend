@@ -3,11 +3,22 @@ import Lottie from 'lottie-react';
 import animation404Dark from 'shared/assets/json/404-dark.json';
 import animation404 from 'shared/assets/json/404.json';
 import { useThemeMode } from 'shared/hooks/useThemeMode';
+import { useNavigate } from 'react-router';
 import { useNotFoundContent } from '../../application/queries';
 
 const Page404 = () => {
   const { isDark } = useThemeMode();
   const { title, description, ctaHref, ctaLabel } = useNotFoundContent();
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+
+    navigate(ctaHref);
+  };
 
   return (
     <Stack
@@ -55,7 +66,7 @@ const Page404 = () => {
             {description}
           </Typography>
 
-          <Button variant="contained" href={ctaHref} size="large" sx={{ px: 7 }}>
+          <Button variant="contained" size="large" sx={{ px: 7 }} onClick={handleBack}>
             {ctaLabel}
           </Button>
         </Box>
