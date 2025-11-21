@@ -96,12 +96,12 @@ const ContestsListPage = () => {
           <Grid container spacing={3}>
             {isLoading
               ? Array.from({ length: PAGE_SIZE }).map((_, idx) => (
-                  <Grid size={{ xs: 12, md: 6, lg: 4 }} key={idx}>
+                  <Grid size={{ xs: 12 }} key={idx}>
                     <Skeleton variant="rounded" height={260} />
                   </Grid>
                 ))
               : contests.map((contest) => (
-                  <Grid size={{ xs: 12, md: 6, lg: 4 }} key={contest.id}>
+                  <Grid size={{ xs: 12 }} key={contest.id}>
                     <ContestCard contest={contest} />
                   </Grid>
                 ))}

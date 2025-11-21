@@ -86,6 +86,8 @@ const ContestCard = ({ contest }: ContestCardProps) => {
               <Typography variant="h6" fontWeight={800} sx={{ mt: 0.5 }} noWrap>
                 {contest.title}
               </Typography>
+              <Typography dangerouslySetInnerHTML={{ __html: contest.description }} variant="body2" sx={{ mt: 0.5 }} noWrap>
+              </Typography>
               <Typography variant="body2" color="text.secondary" noWrap>
                 {t('contests.starts', { value: startDate ? startDate.format('DD MMM, HH:mm') : '—' })}
               </Typography>
