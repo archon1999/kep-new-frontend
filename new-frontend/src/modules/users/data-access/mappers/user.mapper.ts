@@ -1,5 +1,13 @@
-import { ApiUsersCountriesResult, ApiUsersListResult } from 'shared/api/orval/generated/endpoints';
-import { RatingValue, UsersListItem, UsersListResponse } from '../../domain/entities/user.entity';
+import { ApiUsersCountriesResult, ApiUsersListResult, UserDetail } from 'shared/api/orval/generated/endpoints';
+import {
+  RatingValue,
+  UserDetails,
+  UserRatingInfo,
+  UserRatings,
+  UsersListItem,
+  UsersListResponse,
+} from '../../domain/entities/user.entity';
+import { RatingInfoApiResponse, UserRatingsApiResponse } from '../api/users.client';
 
 const normalizeRating = (rating?: unknown): RatingValue | undefined => {
   if (!rating) return undefined;
@@ -67,3 +75,36 @@ export const mapCountriesToCodes = (response: ApiUsersCountriesResult): string[]
 
   return [];
 };
+
+const normalizeRatingInfo = (rating?: RatingInfoApiResponse): UserRatingInfo | undefined => {
+  if (!rating) return undefined;
+
+  return {
+    value: rating.value,
+    rank: rating.rank,
+    percentile: rating.percentile,
+    title: rating.title,
+  };
+};
+
+export const mapApiUserDetailToDomain = (user: UserDetail): UserDetails => ({
+  id: user.id,
+  username: user.username,
+  firstName: user.firstName ?? (user as any).first_name,
+  lastName: user.lastName ?? (user as any).last_name,
+  avatar: user.avatar,
+  coverPhoto: user.coverPhoto ?? (user as any).cover_photo,
+  streak: user.streak,
+  maxStreak: (user as any).maxStreak ?? (user as any).max_streak,
+  kepcoin: user.kepcoin,
+  lastSeen: user.lastSeen ?? (user as any).last_seen,
+  isOnline: user.isOnline ?? (user as any).is_online,
+  country: (user as any).country,
+});
+
+export const mapApiUserRatingsToDomain = (ratings: UserRatingsApiResponse): UserRatings => ({
+  skillsRating: normalizeRatingInfo(ratings.skillsRating ?? ratings.skills_rating),
+  activityRating: normalizeRatingInfo(ratings.activityRating ?? ratings.activity_rating),
+  contestsRating: normalizeRatingInfo(ratings.contestsRating ?? ratings.contests_rating),
+  challengesRating: normalizeRatingInfo(ratings.challengesRating ?? ratings.challenges_rating),
+});

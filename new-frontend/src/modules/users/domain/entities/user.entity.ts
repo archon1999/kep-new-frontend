@@ -20,6 +20,35 @@ export interface UsersListItem {
   challengesRating?: RatingValue;
 }
 
+export interface UserDetails {
+  id?: number;
+  username: string;
+  firstName?: string;
+  lastName?: string;
+  avatar?: string;
+  coverPhoto?: string;
+  streak?: number;
+  maxStreak?: number;
+  kepcoin?: number;
+  lastSeen?: string;
+  isOnline?: boolean;
+  country?: string;
+}
+
+export interface UserRatingInfo {
+  value?: number | string;
+  rank?: number;
+  percentile?: number;
+  title?: string;
+}
+
+export interface UserRatings {
+  skillsRating?: UserRatingInfo;
+  activityRating?: UserRatingInfo;
+  contestsRating?: UserRatingInfo;
+  challengesRating?: UserRatingInfo;
+}
+
 export interface UsersListResponse {
   page: number;
   pageSize: number;

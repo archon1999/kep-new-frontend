@@ -12,6 +12,7 @@ import KepcoinValue from 'shared/components/common/KepcoinValue';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import Streak from 'shared/components/rating/Streak';
+import UserPopover from './UserPopover';
 
 export interface UsersDataGridLabels {
   user: string;
@@ -68,16 +69,24 @@ const UsersDataGrid = ({
           <Stack direction="row" spacing={2} alignItems="center" sx={{ minWidth: 0 }}>
             <Avatar src={user.avatar} alt={user.username} sx={{ width: 42, height: 42 }} />
             <Stack direction="column" spacing={0.25} minWidth={0}>
-              <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>
-                <Typography color="primary" fontWeight={600} variant="subtitle2" noWrap>
-                  {user.username}
-                </Typography>
-                {countryCode && (
-                  <Stack direction="row" spacing={0.5} alignItems="center" minWidth={0}>
-                    <CountryFlagIcon code={countryCode} size={16} />
-                  </Stack>
-                )}
-              </Stack>
+              <UserPopover
+                username={user.username}
+                countryCode={countryCode}
+                fullName={name}
+                avatar={user.avatar}
+                streak={user.streak}
+              >
+                <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>
+                  <Typography color="primary" fontWeight={600} variant="subtitle2" noWrap>
+                    {user.username}
+                  </Typography>
+                  {countryCode && (
+                    <Stack direction="row" spacing={0.5} alignItems="center" minWidth={0}>
+                      <CountryFlagIcon code={countryCode} size={16} />
+                    </Stack>
+                  )}
+                </Stack>
+              </UserPopover>
               {name && (
                 <Typography variant="body2" color="text.secondary" noWrap>
                   {name}

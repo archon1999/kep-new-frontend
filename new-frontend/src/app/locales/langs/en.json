@@ -204,6 +204,9 @@
       "lastDays": "New users · last {{count}} days",
       "empty": "User statistics are not available yet"
     },
+    "popover": {
+      "viewDetails": "View user details"
+    },
     "emptyValue": "—"
   },
   "kepcoinPage": {

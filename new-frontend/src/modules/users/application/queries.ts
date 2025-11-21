@@ -1,6 +1,12 @@
 import useSWR from 'swr';
 import { HttpUsersRepository } from '../data-access/repository/http.users.repository';
-import { UsersChartStatistics, UsersListRequest, UsersListResponse } from '../domain/entities/user.entity';
+import {
+  UserDetails,
+  UserRatings,
+  UsersChartStatistics,
+  UsersListRequest,
+  UsersListResponse,
+} from '../domain/entities/user.entity';
 
 const repository = new HttpUsersRepository();
 
@@ -18,6 +24,18 @@ export const useUsersCountries = () =>
 
 export const useUsersChartStatistics = () =>
   useSWR<UsersChartStatistics>(['users-chart-statistics'], () => repository.getChartStatistics(), {
+    keepPreviousData: true,
+    revalidateOnFocus: false,
+  });
+
+export const useUserDetails = (username?: string | null) =>
+  useSWR<UserDetails>(username ? ['user-details', username] : null, () => repository.getUser(username!), {
+    keepPreviousData: true,
+    revalidateOnFocus: false,
+  });
+
+export const useUserRatings = (username?: string | null) =>
+  useSWR<UserRatings>(username ? ['user-ratings', username] : null, () => repository.getUserRatings(username!), {
     keepPreviousData: true,
     revalidateOnFocus: false,
   });
