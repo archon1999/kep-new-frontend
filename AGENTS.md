@@ -87,3 +87,8 @@ Agent chalkashmasligi uchun har safar promptga alohida qayd qil.
 
 ### 3. Refactor talabi
 Migratsiya paytida agentga shuni de: "when migrating, if you see obvious improvements (unused code, duplicated logic), you may propose a small refactor, but keep behavior unchanged."
+
+## MUI bo'yicha eslatmalar
+- Grid2 yoki Unstable_Grid ishlatma, MUI ning yangi versiyasi o'rnatilgan, shuning uchun faqat Grid komponentini qo'lla.
+- Stack komponentida `direction` default qiymati `row` bo'lishi kerak.
+- Umumiy holatda, MUI ning so'nggi versiyasi mavjud, har qanday komponentni ishlatishdan oldin versiyani tekshir.
