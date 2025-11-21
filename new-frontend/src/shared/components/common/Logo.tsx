@@ -5,16 +5,18 @@ import { rootPaths } from 'app/routes/paths';
 
 interface LogoProps extends SvgIconProps {
   showName?: boolean;
+  vibrant?: boolean;
 }
 
-const Logo = ({ sx, viewBox = '0 0 1000 1000', showName = true, ...rest }: LogoProps) => {
+const Logo = ({ sx, viewBox = '0 0 1000 1000', showName = true, vibrant = false, ...rest }: LogoProps) => {
   const [id, setId] = useState('kep-logo');
 
   const {
     config: { navColor },
   } = useSettingsContext();
 
-  const color = '#00FFBE';
+  const isVibrant = vibrant && navColor === 'vibrant';
+  const color = isVibrant ? '#A641FA' : '#3385F0';
 
   useEffect(() => {
     setId(`kep-logo-${Math.floor(Math.random() * 1000) + 1}`);
@@ -39,7 +41,6 @@ const Logo = ({ sx, viewBox = '0 0 1000 1000', showName = true, ...rest }: LogoP
         sx={{
           height: 32,
           width: 32,
-          borderRadius: '8px',
           ...sx,
         }}
         {...rest}
@@ -295,10 +296,8 @@ const Logo = ({ sx, viewBox = '0 0 1000 1000', showName = true, ...rest }: LogoP
               letterSpacing: '-.8px',
             },
             navColor !== 'vibrant' && {
-              background: ({ vars, direction }) =>
-                direction === 'rtl'
-                  ? `linear-gradient(100.06deg, ${color} 93.03%, #7DB1F5 27.63%, #5A9EF6 49.36%, ${vars.palette.text.secondary} 50.11%, ${vars.palette.text.secondary} 87.87%)`
-                  : `linear-gradient(100.06deg, ${color} 6.97%, #7DB1F5 27.63%, #5A9EF6 49.36%, ${vars.palette.text.secondary} 50.11%, ${vars.palette.text.secondary} 87.87%);`,
+              background: ({ vars }) =>
+                `linear-gradient(100.06deg, ${color} 6.97%, #7DB1F5 27.63%, #5A9EF6 49.36%, ${vars.palette.text.secondary} 50.11%, ${vars.palette.text.secondary} 87.87%);`,
               backgroundSize: '240% 100%',
               backgroundPosition: ({ direction }) => (direction === 'rtl' ? 'left' : 'right'),
               WebkitBackgroundClip: 'text',
