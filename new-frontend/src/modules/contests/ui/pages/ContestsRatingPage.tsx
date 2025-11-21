@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -15,12 +15,11 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { useContestsRating } from '../../application/queries';
+import UserPopover from 'modules/users/ui/components/UserPopover';
+import IconifyIcon from 'shared/components/base/IconifyIcon';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
-import IconifyIcon from 'shared/components/base/IconifyIcon';
-import { getResourceByUsername, resources } from 'app/routes/resources';
+import { useContestsRating } from '../../application/queries';
 
 const orderingOptions = [
   { key: 'rating', label: 'contests.rating.ordering.rating' },
@@ -131,15 +130,15 @@ const ContestsRatingPage = () => {
                   <TableRow key={row.username} hover>
                     <TableCell width={72}>{row.rowIndex}</TableCell>
                     <TableCell>
-                      <Typography
-                        component={RouterLink}
-                        to={getResourceByUsername(resources.UserProfile, row.username)}
-                        variant="body1"
-                        fontWeight={700}
-                        sx={{ textDecoration: 'none', color: 'text.primary' }}
-                      >
-                        {row.username}
-                      </Typography>
+                      <UserPopover username={row.username}>
+                        <Typography
+                          variant="body1"
+                          fontWeight={700}
+                          sx={{ textDecoration: 'none', color: 'text.primary' }}
+                        >
+                          {row.username}
+                        </Typography>
+                      </UserPopover>
                     </TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={1.25} alignItems="center">
@@ -148,7 +147,11 @@ const ContestsRatingPage = () => {
                           <Typography variant="subtitle2" fontWeight={700}>
                             {row.rating ?? '—'}
                           </Typography>
-                          <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'capitalize' }}>
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{ textTransform: 'capitalize' }}
+                          >
                             {row.ratingTitle}
                           </Typography>
                         </Stack>
@@ -156,20 +159,35 @@ const ContestsRatingPage = () => {
                     </TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={1.25} alignItems="center">
-                        <ContestsRatingChip title={row.maxRatingTitle ?? row.ratingTitle} imgSize={24} />
+                        <ContestsRatingChip
+                          title={row.maxRatingTitle ?? row.ratingTitle}
+                          imgSize={24}
+                        />
                         <Stack spacing={0.25}>
                           <Typography variant="subtitle2" fontWeight={700}>
                             {row.maxRating ?? '—'}
                           </Typography>
-                          <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'capitalize' }}>
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{ textTransform: 'capitalize' }}
+                          >
                             {row.maxRatingTitle ?? '—'}
                           </Typography>
                         </Stack>
                       </Stack>
                     </TableCell>
                     <TableCell align="right">
-                      <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
-                        <IconifyIcon icon="mdi:podium" sx={{ fontSize: 18, color: 'text.secondary' }} />
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        justifyContent="flex-end"
+                        alignItems="center"
+                      >
+                        <IconifyIcon
+                          icon="mdi:podium"
+                          sx={{ fontSize: 18, color: 'text.secondary' }}
+                        />
                         <Typography variant="subtitle2" fontWeight={700}>
                           {row.contestantsCount}
                         </Typography>
