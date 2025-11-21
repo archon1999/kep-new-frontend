@@ -91,12 +91,6 @@ const backgroundByRank: Record<number, string> = {
   2: 'info.lighter',
 };
 
-const borderByRank: Record<number, string> = {
-  0: 'primary.main',
-  1: 'warning.main',
-  2: 'info.main',
-};
-
 type TabValue = (typeof tabConfigs)[number]['value'];
 
 const TopUsersSection = () => {
@@ -165,74 +159,90 @@ const TopUsersSection = () => {
   const showSkeleton = isLoading && !usersData?.data;
   const emptyLabel = t('users.emptyValue');
 
-  const renderUserRow = (user: UsersListItem, index: number) => {
+  const renderUserCard = (user: UsersListItem, index: number) => {
     const name = [user.firstName, user.lastName].filter(Boolean).join(' ');
     const countryCode = user.country?.toUpperCase();
+    const bgKey = backgroundByRank[index] ?? 'background.paper';
+    const isLeader = index === 0;
 
     return (
-      <Stack
+      <Box
         key={user.username}
-        direction="row"
-        alignItems="center"
-        spacing={2}
         sx={{
-          p: 2,
           borderRadius: 3,
-          bgcolor: backgroundByRank[index],
+          p: 2.5,
+          bgcolor: bgKey,
+          transform: isLeader ? 'translateY(-4px)' : 'none',
         }}
       >
-        <Box
-          sx={{
-            width: 42,
-            height: 42,
-            display: 'grid',
-            placeItems: 'center',
-            borderRadius: '50%',
-            fontWeight: 600,
-          }}
-        >
-          {index + 1}
-        </Box>
-
-        <Avatar src={user.avatar} alt={user.username} sx={{ width: 52, height: 52 }} />
-
-        <Stack direction="column" spacing={0.5} minWidth={0} flexGrow={1}>
-          <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>
-            <Typography color="primary" fontWeight={700} variant="subtitle1" noWrap>
-              {user.username}
-            </Typography>
-            {countryCode && <CountryFlagIcon code={countryCode} size={18} />}
+        <Stack direction="column" spacing={1.75}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Chip
+              size="small"
+              label={`Top ${index + 1}`}
+              color={isLeader ? 'primary' : 'default'}
+              variant="soft"
+            />
           </Stack>
-          {name && (
-            <Typography variant="body2" color="text.secondary" noWrap>
-              {name}
-            </Typography>
-          )}
-        </Stack>
 
-        <Box sx={{ minWidth: 120, display: 'flex', justifyContent: 'flex-end' }}>
-          {activeConfig.renderValue(user, emptyLabel)}
-        </Box>
-      </Stack>
+          <Stack direction="row" spacing={1.75} alignItems="center">
+            <Avatar src={user.avatar} alt={user.username} sx={{ width: 52, height: 52 }} />
+            <Stack direction="column" spacing={0.5} minWidth={0}>
+              <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>
+                <Typography variant="subtitle1" fontWeight={700} noWrap>
+                  {user.username}
+                </Typography>
+                {countryCode && <CountryFlagIcon code={countryCode} size={18} />}
+              </Stack>
+              {name && (
+                <Typography variant="body2" color="text.secondary" noWrap>
+                  {name}
+                </Typography>
+              )}
+            </Stack>
+          </Stack>
+
+          <Box
+            sx={{
+              mt: 0.5,
+              minHeight: 40,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}
+          >
+            {activeConfig.renderValue(user, emptyLabel)}
+          </Box>
+        </Stack>
+      </Box>
     );
   };
 
   return (
-    <Paper>
-      <Stack direction="column" spacing={3} sx={responsivePagePaddingSx}>
+    <Paper
+      sx={{
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      <Stack
+        direction="column"
+        spacing={3}
+        sx={{
+          ...responsivePagePaddingSx,
+          position: 'relative',
+        }}
+      >
         <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"
           flexWrap="wrap"
-          gap={1}
+          gap={1.5}
         >
           <Box>
             <Typography variant="h5" fontWeight={700}>
               {t('homePage.topUsers.title')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {t('homePage.topUsers.subtitle')}
             </Typography>
           </Box>
         </Stack>
@@ -243,20 +253,43 @@ const TopUsersSection = () => {
           variant="scrollable"
           allowScrollButtonsMobile
           aria-label="top-users-tabs"
-          sx={{ mt: -1 }}
         >
           {tabConfigs.map((tab) => (
             <Tab key={tab.value} label={t(tab.labelKey)} value={tab.value} />
           ))}
         </Tabs>
 
-        <Stack direction="column" spacing={1.5}>
-          {showSkeleton &&
-            Array.from({ length: 3 }).map((_, index) => (
-              <Skeleton key={index} variant="rounded" height={88} />
+        {showSkeleton && (
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, minmax(0, 1fr))' },
+              gap: 2,
+            }}
+          >
+            {Array.from({ length: 3 }).map((_, index) => (
+              <Skeleton key={index} variant="rounded" height={150} />
             ))}
-          {!showSkeleton && users.map((user, index) => renderUserRow(user, index))}
-        </Stack>
+          </Box>
+        )}
+
+        {!showSkeleton && users.length > 0 && (
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, minmax(0, 1fr))' },
+              gap: 2,
+            }}
+          >
+            {users.map((user, index) => renderUserCard(user, index))}
+          </Box>
+        )}
+
+        {!showSkeleton && users.length === 0 && (
+          <Typography variant="body2" color="text.secondary">
+            {emptyLabel}
+          </Typography>
+        )}
       </Stack>
     </Paper>
   );
