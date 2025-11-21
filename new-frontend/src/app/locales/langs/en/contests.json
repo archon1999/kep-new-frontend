@@ -1,0 +1,49 @@
+{
+  "contests": {
+    "title": "Contests",
+    "subtitle": "Join live programming contests, track standings, and get ready for the next challenge.",
+    "searchLabel": "Search contests",
+    "searchPlaceholder": "Search by title or author",
+    "typeLabel": "Type",
+    "allTypes": "All types",
+    "categoriesLabel": "Categories",
+    "allCategories": "All categories",
+    "participation": {
+      "all": "All",
+      "joined": "Registered",
+      "notJoined": "Not registered"
+    },
+    "status": {
+      "starts": "Starts {{date}}",
+      "live": "Live · ends {{date}}",
+      "finished": "Finished {{date}}"
+    },
+    "startsLabel": "Starts {{date}}",
+    "startsUnknown": "Start time to be announced",
+    "endsLabel": "Ends {{date}}",
+    "type": "Format: {{type}}",
+    "problems": "{{count}} problems",
+    "registrants": "{{count}} registrations",
+    "contestants": "{{count}} contestants",
+    "rated": "Rated",
+    "noDescription": "No description provided.",
+    "emptyTitle": "No contests available",
+    "emptySubtitle": "New contests will appear here soon.",
+    "typeLabels": {
+      "ACM2H": "ACM (2 hours)",
+      "ACM10M": "ACM (10 minutes)",
+      "ACM20M": "ACM (20 minutes)",
+      "Ball525": "Ball 525",
+      "Ball550": "Ball 550",
+      "LessCode": "Less code",
+      "LessLine": "Fewer lines",
+      "OneAttempt": "One attempt",
+      "IQ": "IQ test",
+      "Ball": "Ball",
+      "DC": "DC",
+      "MultiL": "Multi-language",
+      "CodeGolf": "Code golf",
+      "Exam": "Exam"
+    }
+  }
+}

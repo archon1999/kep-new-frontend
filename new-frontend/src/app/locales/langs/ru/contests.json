@@ -1,0 +1,49 @@
+{
+  "contests": {
+    "title": "Соревнования",
+    "subtitle": "Участвуйте в контестах по программированию и следите за результатами в реальном времени.",
+    "searchLabel": "Поиск контестов",
+    "searchPlaceholder": "Поиск по названию или автору",
+    "typeLabel": "Тип",
+    "allTypes": "Все типы",
+    "categoriesLabel": "Категории",
+    "allCategories": "Все категории",
+    "participation": {
+      "all": "Все",
+      "joined": "Зарегистрирован",
+      "notJoined": "Не зарегистрирован"
+    },
+    "status": {
+      "starts": "Начнётся {{date}}",
+      "live": "Идёт · завершится {{date}}",
+      "finished": "Завершён {{date}}"
+    },
+    "startsLabel": "Старт {{date}}",
+    "startsUnknown": "Время старта будет объявлено",
+    "endsLabel": "Финиш {{date}}",
+    "type": "Формат: {{type}}",
+    "problems": "{{count}} задач",
+    "registrants": "{{count}} регистраций",
+    "contestants": "{{count}} участников",
+    "rated": "Рейтинговый",
+    "noDescription": "Описание не добавлено.",
+    "emptyTitle": "Контесты не найдены",
+    "emptySubtitle": "Новые соревнования появятся здесь позже.",
+    "typeLabels": {
+      "ACM2H": "ACM (2 часа)",
+      "ACM10M": "ACM (10 минут)",
+      "ACM20M": "ACM (20 минут)",
+      "Ball525": "Ball 525",
+      "Ball550": "Ball 550",
+      "LessCode": "Меньше кода",
+      "LessLine": "Меньше строк",
+      "OneAttempt": "Одна попытка",
+      "IQ": "IQ тест",
+      "Ball": "Ball",
+      "DC": "DC",
+      "MultiL": "Многоязычный",
+      "CodeGolf": "Code golf",
+      "Exam": "Экзамен"
+    }
+  }
+}
