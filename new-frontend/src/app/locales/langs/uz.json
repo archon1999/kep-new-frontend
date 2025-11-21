@@ -29,6 +29,7 @@
     "tests": "Testlar",
     "test": "Test",
     "testPass": "Test topshirish",
+    "settings": "Hisob sozlamalari",
     "login": "Kirish",
     "notFound": "Sahifa topilmadi"
   },
@@ -235,6 +236,103 @@
     "answered": "Javob berildi",
     "notAnswered": "Javob berilmagan",
     "questions": "Savollar"
+  },
+  "accountSettings": {
+    "actions": {
+      "add": "Qo'shish",
+      "create": "Yaratish",
+      "join": "Qo'shilish",
+      "remove": "O'chirish",
+      "save": "Saqlash"
+    },
+    "saved": "Sozlamalar saqlandi",
+    "saveError": "Sozlamalarni saqlab bo'lmadi",
+    "general": {
+      "tab": "Umumiy",
+      "title": "Asosiy ma'lumotlar",
+      "description": "Profilingizning asosiy qismini yangilang"
+    },
+    "password": {
+      "tab": "Parol",
+      "title": "Parolni o'zgartirish",
+      "description": "Hisobingizni himoya qiling",
+      "mismatch": "Parollar mos kelmayapti",
+      "updated": "Parol muvaffaqiyatli o'zgartirildi",
+      "error": "Parolni o'zgartirib bo'lmadi"
+    },
+    "info": {
+      "tab": "Ma'lumot",
+      "title": "Profil ma'lumotlari",
+      "description": "Ommaviy profil tafsilotlari"
+    },
+    "social": {
+      "tab": "Ijtimoiy tarmoqlar",
+      "title": "Ijtimoiy profillar",
+      "description": "Ommaviy havolalarni ulashing"
+    },
+    "skills": {
+      "tab": "Ko'nikmalar",
+      "title": "Ko'nikmalar darajasi",
+      "description": "Joriy darajangizni baholang",
+      "fields": {
+        "python": "Python",
+        "webDevelopment": "Veb-ishlab chiqish",
+        "webScraping": "Veb-skraping",
+        "algorithms": "Algoritmlar",
+        "dataScience": "Data science"
+      }
+    },
+    "career": {
+      "tab": "Karera",
+      "title": "Karera profili",
+      "description": "Texnologiyalar, ta'lim va tajriba",
+      "technologies": "Texnologiyalar",
+      "education": "Ta'lim",
+      "work": "Ish tajribasi"
+    },
+    "teams": {
+      "tab": "Jamoalar",
+      "title": "Jamoalarni boshqarish",
+      "description": "Jamoa yarating yoki qo'shiling",
+      "memberships": "Jamoalaringiz",
+      "creator": "Muallif: {{username}}",
+      "code": "Taklif kodi: {{code}}",
+      "refreshCode": "Kod yangilash",
+      "created": "Jamoa yaratildi",
+      "joined": "Jamoaga qo'shildingiz",
+      "refreshed": "Kod yangilandi",
+      "error": "Jamoa ma'lumotlarini yangilab bo'lmadi",
+      "empty": "Siz hali hech qanday jamoaga qo'shilmagansiz"
+    },
+    "fields": {
+      "firstName": "Ism",
+      "lastName": "Familiya",
+      "email": "Elektron pochta",
+      "country": "Mamlakat",
+      "region": "Hudud",
+      "website": "Veb-sayt",
+      "emailVisible": "Emailni profilda ko'rsatish",
+      "dateJoined": "Ro'yxatdan o'tgan sana",
+      "dateOfBirth": "Tug'ilgan sana",
+      "bio": "Bio",
+      "codeforcesHandle": "Codeforces profili",
+      "codeforcesBadge": "Codeforces nishoni",
+      "telegram": "Telegram",
+      "technologyName": "Texnologiya",
+      "technologyIcon": "Ikonka klassi",
+      "technologyColor": "Bej rang",
+      "organization": "Tashkilot",
+      "degree": "Daraja",
+      "fromYear": "Boshlanish yili",
+      "toYear": "Tugash yili",
+      "company": "Kompaniya",
+      "jobTitle": "Lavozim",
+      "teamName": "Jamoa nomi",
+      "teamCode": "Jamoa kodi",
+      "oldPassword": "Joriy parol",
+      "newPassword": "Yangi parol",
+      "confirmPassword": "Parolni tasdiqlash"
+    }
   },
   "users": {
     "title": "Foydalanuvchilar",

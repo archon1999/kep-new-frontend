@@ -29,6 +29,7 @@
     "tests": "Тесты",
     "test": "Тест",
     "testPass": "Прохождение теста",
+    "settings": "Настройки аккаунта",
     "login": "Вход",
     "notFound": "Страница не найдена"
   },
@@ -235,6 +236,103 @@
     "answered": "Отвечено",
     "notAnswered": "Не отвечено",
     "questions": "Вопросы"
+  },
+  "accountSettings": {
+    "actions": {
+      "add": "Добавить",
+      "create": "Создать",
+      "join": "Присоединиться",
+      "remove": "Удалить",
+      "save": "Сохранить"
+    },
+    "saved": "Настройки сохранены",
+    "saveError": "Не удалось сохранить настройки",
+    "general": {
+      "tab": "Общие",
+      "title": "Основная информация",
+      "description": "Обновите базовые данные профиля"
+    },
+    "password": {
+      "tab": "Пароль",
+      "title": "Смена пароля",
+      "description": "Защитите учетную запись",
+      "mismatch": "Пароли не совпадают",
+      "updated": "Пароль успешно изменен",
+      "error": "Не удалось изменить пароль"
+    },
+    "info": {
+      "tab": "Информация",
+      "title": "Профиль",
+      "description": "Публичные данные профиля"
+    },
+    "social": {
+      "tab": "Соцсети",
+      "title": "Социальные профили",
+      "description": "Поделитесь публичными ссылками"
+    },
+    "skills": {
+      "tab": "Навыки",
+      "title": "Уровень навыков",
+      "description": "Оцените свою текущую компетенцию",
+      "fields": {
+        "python": "Python",
+        "webDevelopment": "Веб-разработка",
+        "webScraping": "Веб-скрапинг",
+        "algorithms": "Алгоритмы",
+        "dataScience": "Data science"
+      }
+    },
+    "career": {
+      "tab": "Карьера",
+      "title": "Карьерный профиль",
+      "description": "Технологии, образование и опыт",
+      "technologies": "Технологии",
+      "education": "Образование",
+      "work": "Опыт работы"
+    },
+    "teams": {
+      "tab": "Команды",
+      "title": "Управление командами",
+      "description": "Создавайте или присоединяйтесь",
+      "memberships": "Ваши команды",
+      "creator": "Создатель: {{username}}",
+      "code": "Код приглашения: {{code}}",
+      "refreshCode": "Обновить код",
+      "created": "Команда создана",
+      "joined": "Команда добавлена",
+      "refreshed": "Код обновлен",
+      "error": "Не удалось обновить данные команды",
+      "empty": "Вы еще не вступили ни в одну команду"
+    },
+    "fields": {
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "email": "Эл. почта",
+      "country": "Страна",
+      "region": "Регион",
+      "website": "Сайт",
+      "emailVisible": "Показывать email в профиле",
+      "dateJoined": "Дата регистрации",
+      "dateOfBirth": "Дата рождения",
+      "bio": "О себе",
+      "codeforcesHandle": "Ник на Codeforces",
+      "codeforcesBadge": "Бейдж Codeforces",
+      "telegram": "Telegram",
+      "technologyName": "Технология",
+      "technologyIcon": "Класс иконки",
+      "technologyColor": "Цвет бейджа",
+      "organization": "Организация",
+      "degree": "Степень",
+      "fromYear": "Год начала",
+      "toYear": "Год окончания",
+      "company": "Компания",
+      "jobTitle": "Должность",
+      "teamName": "Название команды",
+      "teamCode": "Код команды",
+      "oldPassword": "Текущий пароль",
+      "newPassword": "Новый пароль",
+      "confirmPassword": "Подтверждение пароля"
+    }
   },
   "users": {
     "title": "Пользователи",

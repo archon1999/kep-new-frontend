@@ -29,6 +29,7 @@
     "tests": "Tests",
     "test": "Test",
     "testPass": "Test pass",
+    "settings": "Account Settings",
     "login": "Login",
     "notFound": "Page not found"
   },
@@ -235,6 +236,103 @@
     "answered": "Answered",
     "notAnswered": "Not answered",
     "questions": "Questions"
+  },
+  "accountSettings": {
+    "actions": {
+      "add": "Add",
+      "create": "Create",
+      "join": "Join",
+      "remove": "Remove",
+      "save": "Save"
+    },
+    "saved": "Settings saved",
+    "saveError": "Unable to save settings",
+    "general": {
+      "tab": "General",
+      "title": "General information",
+      "description": "Update your profile basics"
+    },
+    "password": {
+      "tab": "Password",
+      "title": "Change password",
+      "description": "Secure your account",
+      "mismatch": "Passwords do not match",
+      "updated": "Password updated successfully",
+      "error": "Unable to change password"
+    },
+    "info": {
+      "tab": "Information",
+      "title": "Profile information",
+      "description": "Public profile details"
+    },
+    "social": {
+      "tab": "Social",
+      "title": "Social profiles",
+      "description": "Share your public handles"
+    },
+    "skills": {
+      "tab": "Skills",
+      "title": "Skill levels",
+      "description": "Rate your current proficiency",
+      "fields": {
+        "python": "Python",
+        "webDevelopment": "Web development",
+        "webScraping": "Web scraping",
+        "algorithms": "Algorithms",
+        "dataScience": "Data science"
+      }
+    },
+    "career": {
+      "tab": "Career",
+      "title": "Career profile",
+      "description": "Technologies, education and experience",
+      "technologies": "Technologies",
+      "education": "Education",
+      "work": "Work experience"
+    },
+    "teams": {
+      "tab": "Teams",
+      "title": "Team management",
+      "description": "Create or join teams",
+      "memberships": "Your teams",
+      "creator": "Creator: {{username}}",
+      "code": "Invite code: {{code}}",
+      "refreshCode": "Refresh code",
+      "created": "Team created",
+      "joined": "Joined team",
+      "refreshed": "Invite refreshed",
+      "error": "Unable to update team",
+      "empty": "You have not joined any teams yet"
+    },
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "country": "Country",
+      "region": "Region",
+      "website": "Website",
+      "emailVisible": "Show email on profile",
+      "dateJoined": "Date joined",
+      "dateOfBirth": "Birth date",
+      "bio": "Bio",
+      "codeforcesHandle": "Codeforces handle",
+      "codeforcesBadge": "Codeforces badge",
+      "telegram": "Telegram",
+      "technologyName": "Technology",
+      "technologyIcon": "Icon class",
+      "technologyColor": "Badge color",
+      "organization": "Organization",
+      "degree": "Degree",
+      "fromYear": "From year",
+      "toYear": "To year",
+      "company": "Company",
+      "jobTitle": "Job title",
+      "teamName": "Team name",
+      "teamCode": "Team code",
+      "oldPassword": "Current password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password"
+    }
   },
   "users": {
     "title": "Users",
