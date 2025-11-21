@@ -170,7 +170,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
             },
           ]}
         >
-          {item.icon && (
+          {item.icon && !sidenavCollapsed && (
             <ListItemIcon
               sx={{
                 '& .iconify': {
