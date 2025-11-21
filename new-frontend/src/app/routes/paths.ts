@@ -13,6 +13,8 @@ const paths = {
   shop: `/${rootPaths.shopRoot}`,
   users: `/${rootPaths.usersRoot}`,
   calendar: `/${rootPaths.calendarRoot}`,
+  arena: '/competitions/arena',
+  arenaTournament: '/competitions/arena/tournament/:id',
   projects: '/practice/projects',
   project: '/practice/projects/project/:slug',
   tests: '/practice/tests',
