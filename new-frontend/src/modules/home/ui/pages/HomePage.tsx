@@ -22,7 +22,7 @@ const HomePage = () => {
   return (
     <Box>
       <Grid container>
-        <Grid size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
+        <Grid size={{ xs: 12, md: 6, lg: 4 }}>
           <HomeProfileSection
             displayName={displayName}
             ratings={ratings}
@@ -33,7 +33,7 @@ const HomePage = () => {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6, lg: 8, xl: 9 }}>
+        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
           <Grid container>
             <Grid size={12}>
               <NewsSection />

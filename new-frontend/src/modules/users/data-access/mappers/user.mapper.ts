@@ -101,6 +101,7 @@ export const mapApiUserDetailToDomain = (user: UserDetail): UserDetails => ({
   lastSeen: user.lastSeen ?? (user as any).last_seen,
   isOnline: user.isOnline ?? (user as any).is_online,
   country: (user as any).country,
+  isFollowing: (user as any).isFollowing ?? (user as any).is_following,
 });
 
 export const mapApiUserRatingsToDomain = (ratings: UserRatingsApiResponse): UserRatings => ({
