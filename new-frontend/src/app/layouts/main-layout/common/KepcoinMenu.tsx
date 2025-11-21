@@ -1,4 +1,4 @@
-import { MouseEvent, useMemo, useState } from 'react';
+import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { Button, Link, Popover, Skeleton, Stack, Typography, paperClasses } from '@mui/material';
 import paths from 'app/routes/paths';
 import { useAuth } from 'app/providers/AuthProvider';
@@ -7,6 +7,7 @@ import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 import axiosFetcher from 'shared/services/axios/axiosFetcher';
 import KepcoinValue from 'shared/components/common/KepcoinValue';
+import { wsService } from 'shared/services/websocket';
 
 interface KepcoinMenuProps {
   type?: 'default' | 'slim';
@@ -15,7 +16,7 @@ interface KepcoinMenuProps {
 const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
   const [todayStats, setTodayStats] = useState<TodayKepCoin | null>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const { currentUser } = useAuth();
+  const { currentUser, setCurrentUser } = useAuth();
   const { data: fetchedBalance } = useSWR<KepCoinBalance>(['/api/my-kepcoin', { method: 'get' }], axiosFetcher, {
     shouldRetryOnError: false,
     revalidateOnFocus: false,
@@ -48,6 +49,23 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
 
   const open = Boolean(anchorEl);
   const formattedBalance = balance === null ? '--' : balance.toLocaleString();
+
+  useEffect(() => {
+    if (!currentUser?.username) return undefined;
+
+    const username = currentUser.username;
+
+    wsService.send('kepcoin-add', username);
+
+    const unsubscribe = wsService.on<number>(`kepcoin-${username}`, (kepcoin) => {
+      setCurrentUser((prevUser) => (prevUser ? { ...prevUser, kepcoin } : prevUser));
+    });
+
+    return () => {
+      wsService.send('kepcoin-delete', username);
+      unsubscribe();
+    };
+  }, [currentUser?.username, setCurrentUser]);
 
   return (
     <>
