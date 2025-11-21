@@ -44,6 +44,57 @@
     "popover": {
       "viewDetails": "View user details"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "status": {
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "profile": {
+      "title": "@{{username}} profile",
+      "tabs": {
+        "about": "About",
+        "ratings": "Ratings",
+        "activityHistory": "Activity history",
+        "achievements": "Achievements"
+      },
+      "info": {
+        "country": "Country",
+        "region": "Region",
+        "website": "Website",
+        "email": "Email",
+        "joined": "Joined",
+        "birthdate": "Birthdate"
+      },
+      "skills": {
+        "title": "Skills",
+        "empty": "Skills are not available",
+        "algorithms": "Algorithms",
+        "webDevelopment": "Web development",
+        "webScraping": "Web scraping",
+        "dataScience": "Data science"
+      },
+      "technologies": {
+        "title": "Technologies",
+        "empty": "Technologies are not available"
+      },
+      "education": {
+        "title": "Education",
+        "empty": "No education history"
+      },
+      "work": {
+        "title": "Work experience",
+        "empty": "No work experience"
+      },
+      "social": {
+        "title": "Social",
+        "empty": "No social links",
+        "telegram": "Telegram",
+        "codeforces": "Codeforces handle",
+        "codeforcesBadge": "Codeforces badge"
+      },
+      "achievements": {
+        "empty": "No achievements yet"
+      }
+    }
   }
 }

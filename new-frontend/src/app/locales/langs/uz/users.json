@@ -44,6 +44,57 @@
     "popover": {
       "viewDetails": "Profilni ko'rish"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "status": {
+      "online": "Onlayn",
+      "offline": "Oflayn"
+    },
+    "profile": {
+      "title": "@{{username}} profili",
+      "tabs": {
+        "about": "Haqida",
+        "ratings": "Reytinglar",
+        "activityHistory": "Faollik tarixi",
+        "achievements": "Yutuqlar"
+      },
+      "info": {
+        "country": "Mamlakat",
+        "region": "Hudud",
+        "website": "Veb-sayt",
+        "email": "Email",
+        "joined": "Ro'yxatdan o'tgan sana",
+        "birthdate": "Tug'ilgan sana"
+      },
+      "skills": {
+        "title": "Ko'nikmalar",
+        "empty": "Ko'nikmalar haqida ma'lumot yo'q",
+        "algorithms": "Algoritmlar",
+        "webDevelopment": "Veb-ishlab chiqish",
+        "webScraping": "Veb-skrayping",
+        "dataScience": "Data science"
+      },
+      "technologies": {
+        "title": "Texnologiyalar",
+        "empty": "Texnologiyalar haqida ma'lumot yo'q"
+      },
+      "education": {
+        "title": "Ta'lim",
+        "empty": "Ta'lim tarixi yo'q"
+      },
+      "work": {
+        "title": "Ish tajribasi",
+        "empty": "Ish tajribasi yo'q"
+      },
+      "social": {
+        "title": "Ijtimoiy tarmoqlar",
+        "empty": "Havolalar yo'q",
+        "telegram": "Telegram",
+        "codeforces": "Codeforces niki",
+        "codeforcesBadge": "Codeforces nishoni"
+      },
+      "achievements": {
+        "empty": "Yutuqlar hali yo'q"
+      }
+    }
   }
 }

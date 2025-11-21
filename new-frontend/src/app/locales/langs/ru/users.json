@@ -44,6 +44,57 @@
     "popover": {
       "viewDetails": "Подробнее о пользователе"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "status": {
+      "online": "В сети",
+      "offline": "Не в сети"
+    },
+    "profile": {
+      "title": "Профиль @{{username}}",
+      "tabs": {
+        "about": "О пользователе",
+        "ratings": "Рейтинги",
+        "activityHistory": "Активность",
+        "achievements": "Достижения"
+      },
+      "info": {
+        "country": "Страна",
+        "region": "Регион",
+        "website": "Сайт",
+        "email": "E-mail",
+        "joined": "Регистрация",
+        "birthdate": "Дата рождения"
+      },
+      "skills": {
+        "title": "Навыки",
+        "empty": "Нет данных о навыках",
+        "algorithms": "Алгоритмы",
+        "webDevelopment": "Веб-разработка",
+        "webScraping": "Веб-скрейпинг",
+        "dataScience": "Data science"
+      },
+      "technologies": {
+        "title": "Технологии",
+        "empty": "Нет данных о технологиях"
+      },
+      "education": {
+        "title": "Образование",
+        "empty": "Нет информации об образовании"
+      },
+      "work": {
+        "title": "Опыт работы",
+        "empty": "Нет опыта работы"
+      },
+      "social": {
+        "title": "Соцсети",
+        "empty": "Социальные ссылки отсутствуют",
+        "telegram": "Telegram",
+        "codeforces": "Codeforces ник",
+        "codeforcesBadge": "Значок Codeforces"
+      },
+      "achievements": {
+        "empty": "Достижения пока отсутствуют"
+      }
+    }
   }
 }

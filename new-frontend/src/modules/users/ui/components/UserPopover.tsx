@@ -8,8 +8,6 @@ import {
   Button,
   Card,
   CardContent,
-  Divider,
-  Grid,
   Popover,
   Skeleton,
   Stack,
@@ -18,11 +16,9 @@ import {
 } from '@mui/material';
 import { getResourceByUsername, resources } from 'app/routes/resources';
 import { useUserDetails, useUserRatings } from 'modules/users/application/queries';
-import { UserRatingInfo } from 'modules/users/domain/entities/user.entity';
 import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
-import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
-import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import Streak from 'shared/components/rating/Streak';
+import UserRanksGrid from './UserRanksGrid';
 
 interface UserPopoverProps {
   username: string;
@@ -32,13 +28,6 @@ interface UserPopoverProps {
   avatar?: string;
   streak?: number | null;
 }
-
-const ratingConfig = [
-  { key: 'skillsRating', labelKey: 'users.columns.skills' },
-  { key: 'activityRating', labelKey: 'users.columns.activity' },
-  { key: 'contestsRating', labelKey: 'users.columns.contests' },
-  { key: 'challengesRating', labelKey: 'users.columns.challenges' },
-] as const;
 
 const UserPopover = ({
   username,
@@ -64,21 +53,6 @@ const UserPopover = ({
   }, [fullName, userDetails]);
 
   const resolvedCountryCode = countryCode ?? (userDetails?.country as string | undefined);
-
-  const ratingStats = useMemo(
-    () =>
-      ratingConfig
-        .map(({ key, labelKey }) => {
-          const stat = userRatings?.[key] as UserRatingInfo | undefined;
-          return {
-            key,
-            label: t(labelKey),
-            stat,
-          };
-        })
-        .filter((item) => Boolean(item.stat)),
-    [t, userRatings],
-  );
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -171,57 +145,16 @@ const UserPopover = ({
                     isDetailsLoading && <Skeleton variant="text" width={120} />
                   )}
 
-                  {streakValue > 0 && <Streak streak={streakValue} iconSize={18} spacing={0.5} />}
-                </Stack>
-              </Stack>
+              {streakValue > 0 && <Streak streak={streakValue} iconSize={18} spacing={0.5} />}
+            </Stack>
+          </Stack>
 
-              <Divider />
+          <Divider />
 
-              <Grid container spacing={1.5}>
-                {ratingStats.length === 0 && isRatingsLoading && (
-                  <Grid size={3}>
-                    <Skeleton variant="text" width="80%" />
-                    <Skeleton variant="text" width="60%" />
-                  </Grid>
-                )}
+          <UserRanksGrid ratings={userRatings} isLoading={isRatingsLoading} />
 
-                {ratingStats.map(({ key, label, stat }) => (
-                  <Grid key={key} size={3}>
-                    <Stack direction="column" spacing={0.5}>
-                      <Typography variant="caption" color="text.secondary">
-                        {label}
-                      </Typography>
-                      <Stack spacing={0.5}>
-                        {stat?.title && (
-                          <>
-                            {key === 'contestsRating' ? (
-                              <ContestsRatingChip title={stat.title} imgSize={20} />
-                            ) : key === 'challengesRating' ? (
-                              <ChallengesRatingChip title={stat.title} />
-                            ) : (
-                              <Typography variant="caption" color="text.secondary" noWrap>
-                                {stat.title}
-                              </Typography>
-                            )}
-                          </>
-                        )}
-
-                        <Typography variant="subtitle2" fontWeight={700}>
-                          {stat?.value ?? t('users.emptyValue')}
-                        </Typography>
-                      </Stack>
-                      {typeof stat?.rank === 'number' && (
-                        <Typography variant="caption" color="text.secondary">
-                          #{stat.rank}
-                        </Typography>
-                      )}
-                    </Stack>
-                  </Grid>
-                ))}
-              </Grid>
-
-              <Button
-                component={RouterLink}
+          <Button
+            component={RouterLink}
                 to={profileLink}
                 variant="text"
                 size="small"
