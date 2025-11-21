@@ -1,12 +1,7 @@
-import {
-  autocompleteClasses,
-  formLabelClasses,
-  inputBaseClasses,
-  inputLabelClasses,
-  selectClasses,
-} from '@mui/material';
+import { autocompleteClasses, formLabelClasses, inputBaseClasses, inputLabelClasses, selectClasses } from '@mui/material';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
+
 
 type StyledTextFieldProps = TextFieldProps & {
   disabledSpinButton?: boolean;
@@ -15,6 +10,7 @@ type StyledTextFieldProps = TextFieldProps & {
 const StyledTextField = styled(
   ({ ref, ...rest }: StyledTextFieldProps) => (
     <TextField
+      autoComplete="off"
       sx={{}}
       ref={ref}
       slotProps={{
