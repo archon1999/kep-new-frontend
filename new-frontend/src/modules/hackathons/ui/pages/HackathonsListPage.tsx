@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Chip, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import HackathonCard from '../components/HackathonCard';
 import { useHackathonsList } from '../../application/queries';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 const HackathonsListPage = () => {
   const { t } = useTranslation();
@@ -11,7 +12,7 @@ const HackathonsListPage = () => {
   const showEmptyState = !isLoading && hackathons.length === 0;
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" rowGap={1}>
           <Box>

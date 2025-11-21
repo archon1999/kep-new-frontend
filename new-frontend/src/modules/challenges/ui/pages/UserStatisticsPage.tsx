@@ -10,6 +10,7 @@ import {
 import ChallengeCard from '../components/ChallengeCard.tsx';
 import ChallengeUserChip from '../components/ChallengeUserChip.tsx';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 const UserStatisticsPage = () => {
   const { t } = useTranslation();
@@ -25,14 +26,14 @@ const UserStatisticsPage = () => {
 
   if (!username) {
     return (
-      <Box sx={{ p: { xs: 3, md: 5 } }}>
+      <Box sx={responsivePagePaddingSx}>
         <Typography variant="body1">{t('challenges.authRequired')}</Typography>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack spacing={3} direction="column">
         <Stack spacing={0.5} direction="column">
           <Typography variant="h4" fontWeight={800}>

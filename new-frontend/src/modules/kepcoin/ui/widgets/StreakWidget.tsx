@@ -5,6 +5,7 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import KepcoinValue from 'shared/components/common/KepcoinValue.tsx';
 import Streak from 'shared/components/rating/Streak';
 import KepcoinSpendConfirm from 'shared/components/common/KepcoinSpendConfirm';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 interface StreakWidgetProps {
   balance?: number;
@@ -74,7 +75,7 @@ const StreakWidget = ({
 
   return (
     <Paper>
-      <Stack direction="column" spacing={3} sx={{ p: { xs: 3, md: 5 } }}>
+      <Stack direction="column" spacing={3} sx={responsivePagePaddingSx}>
         {isLoading ? (
           <Skeleton variant="text" width={240} height={48} />
         ) : (

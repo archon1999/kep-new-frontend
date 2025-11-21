@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { finishTest, submitAnswer, testingMutations } from '../../application/mutations.ts';
 import { useTestPass } from '../../application/queries.ts';
 import { Question, QuestionOption, QuestionType } from '../../domain';
@@ -225,7 +226,7 @@ const TestPassPage = () => {
 
   if (isLoading || !currentQuestion) {
     return (
-      <Box sx={{ p: { xs: 3, md: 5 }, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ ...responsivePagePaddingSx, display: 'flex', justifyContent: 'center' }}>
         <CircularProgress />
       </Box>
     );
@@ -234,7 +235,7 @@ const TestPassPage = () => {
   const currentAnswer = answers[currentQuestion.id];
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack spacing={3}>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Typography variant="h5" fontWeight={800}>

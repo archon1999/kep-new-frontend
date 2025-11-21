@@ -15,6 +15,7 @@ import ArenaWinnersCard from '../components/ArenaWinnersCard.tsx';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
 import { getResourceById, resources } from 'app/routes/resources.ts';
 import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 const ArenaDetailPage = () => {
   const { id } = useParams();
@@ -66,7 +67,7 @@ const ArenaDetailPage = () => {
   const headerTitle = useMemo(() => arena?.title ?? t('arena.title'), [arena?.title, t]);
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         <Stack direction="row" alignItems="center" spacing={1}>
           <IconifyIcon icon="mdi:sword-cross" color="warning.main" fontSize={28} />

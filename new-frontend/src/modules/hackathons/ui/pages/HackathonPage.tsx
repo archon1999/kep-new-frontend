@@ -3,6 +3,7 @@ import { Box, Button, Card, CardContent, Chip, Grid, Skeleton, Stack, Typography
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { hackathonsQueries, useHackathon } from '../../application/queries';
 import { HackathonStatus } from '../../domain/entities/hackathon.entity';
 import HackathonCountdownCard from '../components/HackathonCountdownCard';
@@ -32,7 +33,7 @@ const HackathonPage = () => {
   };
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         {hackathon ? <HackathonTabs hackathon={hackathon} /> : <Skeleton variant="rectangular" height={56} />}
 

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Divider, Paper, Stack, Typography } from '@mui/material';
 import KepcoinValue from 'shared/components/common/KepcoinValue';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 
 const HowToSpendWidget = () => {
@@ -23,7 +24,7 @@ const HowToSpendWidget = () => {
   );
 
   return (
-    <Paper sx={{ p: { xs: 3, md: 5 } }}>
+    <Paper sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={2}>
         <Typography variant="h5" fontWeight={700}>
           {t('kepcoinPage.howToSpend.title')}

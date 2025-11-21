@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import {
   KepcoinEarnHistoryItem,
   KepcoinEarnType,
@@ -148,7 +149,7 @@ const KepcoinActivityWidget = ({
   const { t } = useTranslation();
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack
         direction="row"
         justifyContent="space-between"

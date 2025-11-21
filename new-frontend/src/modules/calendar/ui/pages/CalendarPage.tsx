@@ -8,6 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import { useCalendarEvents } from 'modules/calendar/application/queries';
 import { CalendarEventEntity } from 'modules/calendar/domain/entities/calendar-event.entity';
 import FullCalendar from 'shared/components/base/FullCalendar';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import CalendarToolbar, { CalendarView } from '../components/CalendarToolbar';
 
 const formatRangeLabel = (start: Date, end: Date, view: CalendarView) => {
@@ -105,7 +106,7 @@ const CalendarPage = () => {
   };
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 }, pt: { xs: 2, md: 4 } }}>
+    <Box sx={{ ...responsivePagePaddingSx, pt: { xs: 2, md: 4 } }}>
       <Stack direction="column" spacing={2}>
         <Stack>
           <Typography variant="h4" fontWeight={800}>

@@ -6,6 +6,7 @@ import { useProjectDetails } from '../../application/queries';
 import ProjectAttempts from '../components/ProjectAttempts.tsx';
 import ProjectDescription from '../components/ProjectDescription.tsx';
 import ProjectSidebar from '../components/ProjectSidebar.tsx';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 
 const ProjectDetailPage = () => {
@@ -29,14 +30,22 @@ const ProjectDetailPage = () => {
 
   if (isLoading || !project) {
     return (
-      <Box sx={{ p: { xs: 3, md: 5 }, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 320 }}>
+      <Box
+        sx={{
+          ...responsivePagePaddingSx,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: 320,
+        }}
+      >
         <CircularProgress />
       </Box>
     );
   }
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, lg: 8 }}>
           <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, p: { xs: 2, md: 3 }, border: (theme) => `1px solid ${theme.palette.divider}` }}>

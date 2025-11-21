@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { useProjectsList } from '../../application/queries';
 import ProjectCard from '../components/ProjectCard.tsx';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 
 const ProjectsListPage = () => {
@@ -11,7 +12,7 @@ const ProjectsListPage = () => {
   const showEmptyState = !isLoading && (!projects || projects.length === 0);
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         <Box>
           <Typography variant="h4" fontWeight={800}>
