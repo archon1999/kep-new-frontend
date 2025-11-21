@@ -1,0 +1,49 @@
+{
+  "users": {
+    "title": "Users",
+    "actions": {
+      "export": "Export",
+      "invite": "Invite user"
+    },
+    "tabs": {
+      "all": "Newest Users",
+      "skills": "Top Users",
+      "activity": "Top activity",
+      "contests": "Top contests",
+      "challenges": "Top Kepcoin"
+    },
+    "filters": {
+      "toggle": "Filters",
+      "searchPlaceholder": "Search",
+      "username": "Username",
+      "usernamePlaceholder": "Filter by username",
+      "name": "Name",
+      "namePlaceholder": "Search by first or last name",
+      "country": "Country",
+      "countryPlaceholder": "Choose a country",
+      "anyCountry": "Any country",
+      "ageFrom": "Age from",
+      "ageTo": "Age to",
+      "agePlaceholder": "--"
+    },
+    "columns": {
+      "user": "User",
+      "skills": "Skills",
+      "activity": "Activity",
+      "contests": "Contests",
+      "challenges": "Challenges",
+      "streak": "Streak",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Last seen"
+    },
+    "statistics": {
+      "totalUsers": "Total users",
+      "lastDays": "New users · last {{count}} days",
+      "empty": "User statistics are not available yet"
+    },
+    "popover": {
+      "viewDetails": "View user details"
+    },
+    "emptyValue": "—"
+  }
+}

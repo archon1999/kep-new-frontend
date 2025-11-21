@@ -1,0 +1,24 @@
+{
+  "pageTitles": {
+    "home": "Главная",
+    "users": "Пользователи",
+    "kepcoin": "Кепкоин",
+    "shop": "Магазин",
+    "calendar": "Календарь",
+    "hackathons": "Хакатоны",
+    "projects": "Проекты",
+    "project": "Проект",
+    "tests": "Тесты",
+    "test": "Тест",
+    "testPass": "Прохождение теста",
+    "arena": "Арена",
+    "arenaTournament": "Турнир арены",
+    "login": "Вход",
+    "notFound": "Страница не найдена",
+    "challenges": "Баттлы",
+    "challenge": "Баттл",
+    "challengesRating": "Рейтинг баттлов",
+    "challengesStats": "Статистика баттлов",
+    "accountSettings": "Настройки аккаунта"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "pageTitles": {
+    "home": "Home",
+    "users": "Users",
+    "kepcoin": "Kepcoin",
+    "shop": "Shop",
+    "calendar": "Calendar",
+    "hackathons": "Hackathons",
+    "projects": "Projects",
+    "project": "Project",
+    "tests": "Tests",
+    "test": "Test",
+    "testPass": "Test pass",
+    "arena": "Arena",
+    "arenaTournament": "Arena tournament",
+    "login": "Login",
+    "notFound": "Page not found",
+    "challenges": "Challenges",
+    "challenge": "Challenge",
+    "challengesRating": "Challenges rating",
+    "challengesStats": "Challenge statistics",
+    "accountSettings": "Account Settings"
+  }
+}

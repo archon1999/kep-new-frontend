@@ -1,0 +1,24 @@
+{
+  "pageTitles": {
+    "home": "Bosh sahifa",
+    "users": "Foydalanuvchilar",
+    "kepcoin": "Kepcoin",
+    "shop": "Doʻkon",
+    "calendar": "Kalendar",
+    "hackathons": "Xakatonlar",
+    "projects": "Loyihalar",
+    "project": "Loyiha",
+    "tests": "Testlar",
+    "test": "Test",
+    "testPass": "Test topshirish",
+    "arena": "Arena",
+    "arenaTournament": "Arena turniri",
+    "login": "Kirish",
+    "notFound": "Sahifa topilmadi",
+    "challenges": "Bellashuvlar",
+    "challenge": "Bellashuv",
+    "challengesRating": "Bellashuv reytingi",
+    "challengesStats": "Bellashuv statistikasi",
+    "accountSettings": "Profil sozlamalari"
+  }
+}
