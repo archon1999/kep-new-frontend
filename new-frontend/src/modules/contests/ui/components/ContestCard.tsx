@@ -1,9 +1,9 @@
+import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router';
+import { Box, Card, CardActionArea, Chip, Divider, Stack, Typography } from '@mui/material';
+import { getResourceById, resources } from 'app/routes/resources';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import { Box, Card, CardActionArea, Stack, Typography, Chip, Divider } from '@mui/material';
-import { Link as RouterLink } from 'react-router';
-import { useTranslation } from 'react-i18next';
-import { getResourceById, resources } from 'app/routes/resources';
 import KepIcon from 'shared/components/base/KepIcon';
 import { ContestListItem } from '../../domain/entities/contest.entity';
 
@@ -29,7 +29,11 @@ const ContestCard = ({ contest }: ContestCardProps) => {
       ? t('contests.status.starts', { date: startDate ? startDate.format('DD MMM, HH:mm') : '—' })
       : t('contests.status.live', { date: finishDate ? finishDate.format('DD MMM, HH:mm') : '—' });
 
-  const statusColor: 'success' | 'warning' | 'default' = isFinished ? 'default' : isUpcoming ? 'warning' : 'success';
+  const statusColor: 'success' | 'warning' | 'default' = isFinished
+    ? 'default'
+    : isUpcoming
+      ? 'warning'
+      : 'success';
 
   return (
     <Card
@@ -44,7 +48,8 @@ const ContestCard = ({ contest }: ContestCardProps) => {
         sx={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(circle at 15% 20%, rgba(0, 255, 190, 0.12), transparent 35%)',
+          background:
+            'radial-gradient(circle at 15% 20%, rgba(0, 255, 190, 0.12), transparent 35%)',
           '&::after': contest.logo
             ? {
                 content: '""',
@@ -70,11 +75,21 @@ const ContestCard = ({ contest }: ContestCardProps) => {
             <Stack direction="column" spacing={1} flex={1} minWidth={0}>
               <Stack direction="row" spacing={1} alignItems="center">
                 <KepIcon name="contest" fontSize={20} />
-                <Typography variant="overline" color="text.secondary" fontWeight={700} textTransform="uppercase">
+                <Typography
+                  variant="overline"
+                  color="text.secondary"
+                  fontWeight={700}
+                  textTransform="uppercase"
+                >
                   {contest.categoryTitle}
                 </Typography>
                 {contest.isRated ? (
-                  <Chip label={t('contests.rated')} size="small" color="secondary" variant="filled" />
+                  <Chip
+                    label={t('contests.rated')}
+                    size="small"
+                    color="secondary"
+                    variant="filled"
+                  />
                 ) : null}
               </Stack>
 
@@ -82,12 +97,20 @@ const ContestCard = ({ contest }: ContestCardProps) => {
                 {contest.title}
               </Typography>
 
-              <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 720 }}>
-                {contest.description ?? t('contests.noDescription')}
-              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{ __html: contest.description }}
+                variant="body2"
+                color="text.secondary"
+                sx={{ maxWidth: 720 }}
+              ></Typography>
             </Stack>
 
-            <Chip label={statusLabel} color={statusColor} variant="filled" sx={{ fontWeight: 700 }} />
+            <Chip
+              label={statusLabel}
+              color={statusColor}
+              variant="filled"
+              sx={{ fontWeight: 700 }}
+            />
           </Stack>
 
           <Stack direction="column" spacing={1.5}>

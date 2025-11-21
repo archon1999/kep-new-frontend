@@ -111,9 +111,6 @@ const ContestsListPage = () => {
           }}
         >
           <Stack direction="column" spacing={1}>
-            <Typography variant="overline" color="text.secondary" fontWeight={700} textTransform="uppercase">
-              {t('menu.competitions')}
-            </Typography>
             <Typography variant="h4" fontWeight={800}>
               {t('contests.title')}
             </Typography>
@@ -228,12 +225,12 @@ const ContestsListPage = () => {
             <Grid container spacing={3}>
               {isLoading
                 ? Array.from({ length: DEFAULT_PAGE_SIZE }).map((_, idx) => (
-                    <Grid size={{ xs: 12, md: 6 }} key={idx}>
+                    <Grid size={{ xs: 12 }} key={idx}>
                       <Skeleton variant="rounded" height={260} />
                     </Grid>
                   ))
                 : contests.map((contest) => (
-                    <Grid size={{ xs: 12, md: 6 }} key={contest.id}>
+                    <Grid size={{ xs: 12 }} key={contest.id}>
                       <ContestCard contest={contest} />
                     </Grid>
                   ))}
