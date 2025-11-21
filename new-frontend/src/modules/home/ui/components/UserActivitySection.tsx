@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Chip, { type ChipProps } from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
@@ -54,7 +55,8 @@ const withPadding = (series: number[]): [number, number] => {
 const UserActivitySection = () => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { data } = useUserActivityStatistics();
+  const { data, isLoading } = useUserActivityStatistics();
+  const showSkeleton = isLoading || !data;
 
   const newUsersStat = data?.newUsers;
   const activeUsersStat = data?.activeUsers;
@@ -197,7 +199,7 @@ const UserActivitySection = () => {
                     {t('homePage.userActivity.series.newUsers')}
                   </Typography>
                   <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                    {numberFormatter.format(newUsersStat?.total ?? 0)}
+                    {showSkeleton ? <Skeleton width={120} /> : numberFormatter.format(newUsersStat?.total ?? 0)}
                   </Typography>
                 </Stack>
 
@@ -207,21 +209,29 @@ const UserActivitySection = () => {
                   </Typography>
 
                   <Stack justifyContent="flex-end">
-                    <Chip
-                      label={`${percentFormatter.format(newUsersStat?.percentage ?? 0)}%`}
-                      color={newUsersTrend.color}
-                      icon={<IconifyIcon icon={newUsersTrend.icon} />}
-                      sx={{ flexDirection: 'row-reverse' }}
-                    />
+                    {showSkeleton ? (
+                      <Skeleton width={140} height={36} />
+                    ) : (
+                      <Chip
+                        label={`${percentFormatter.format(newUsersStat?.percentage ?? 0)}%`}
+                        color={newUsersTrend.color}
+                        icon={<IconifyIcon icon={newUsersTrend.icon} />}
+                        sx={{ flexDirection: 'row-reverse' }}
+                      />
+                    )}
                   </Stack>
                 </Stack>
               </Stack>
 
-              <ReactEchart
-                echarts={echarts}
-                option={newUsersChartOptions}
-                style={{ minHeight: 260 }}
-              />
+              {showSkeleton ? (
+                <Skeleton variant="rounded" height={260} />
+              ) : (
+                <ReactEchart
+                  echarts={echarts}
+                  option={newUsersChartOptions}
+                  style={{ minHeight: 260 }}
+                />
+              )}
             </Stack>
           </Paper>
         </Grid>
@@ -240,7 +250,7 @@ const UserActivitySection = () => {
                     {t('homePage.userActivity.series.activeUsers')}
                   </Typography>
                   <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                    {numberFormatter.format(activeUsersStat?.total ?? 0)}
+                    {showSkeleton ? <Skeleton width={120} /> : numberFormatter.format(activeUsersStat?.total ?? 0)}
                   </Typography>
                 </Stack>
 
@@ -250,21 +260,29 @@ const UserActivitySection = () => {
                   </Typography>
 
                   <Stack justifyContent="flex-end">
-                    <Chip
-                      label={`${percentFormatter.format(activeUsersStat?.percentage ?? 0)}%`}
-                      color={activeUsersTrend.color}
-                      icon={<IconifyIcon icon={activeUsersTrend.icon} />}
-                      sx={{ flexDirection: 'row-reverse' }}
-                    />
+                    {showSkeleton ? (
+                      <Skeleton width={140} height={36} />
+                    ) : (
+                      <Chip
+                        label={`${percentFormatter.format(activeUsersStat?.percentage ?? 0)}%`}
+                        color={activeUsersTrend.color}
+                        icon={<IconifyIcon icon={activeUsersTrend.icon} />}
+                        sx={{ flexDirection: 'row-reverse' }}
+                      />
+                    )}
                   </Stack>
                 </Stack>
               </Stack>
 
-              <ReactEchart
-                echarts={echarts}
-                option={activeUsersChartOptions}
-                style={{ minHeight: 260 }}
-              />
+              {showSkeleton ? (
+                <Skeleton variant="rounded" height={260} />
+              ) : (
+                <ReactEchart
+                  echarts={echarts}
+                  option={activeUsersChartOptions}
+                  style={{ minHeight: 260 }}
+                />
+              )}
             </Stack>
           </Paper>
         </Grid>
