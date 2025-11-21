@@ -13,6 +13,7 @@ import {
   Popover,
   Skeleton,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { getResourceByUsername, resources } from 'app/routes/resources';
@@ -79,12 +80,24 @@ const UserPopover = ({
     [t, userRatings],
   );
 
+  const statusTooltip = useMemo(() => {
+    if (userDetails?.isOnline) {
+      return t('users.popover.online');
+    }
+
+    if (userDetails?.lastSeen) {
+      return t('users.popover.lastSeenTooltip', { lastSeen: userDetails.lastSeen });
+    }
+
+    return t('users.popover.offline');
+  }, [t, userDetails]);
+
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
   const profileLink = getResourceByUsername(resources.UserProfile, username);
 
-  const streakValue = userDetails?.streak ?? 0;
+  const streakValue = userDetails?.streak ?? streak ?? 0;
   const coverPhoto = userDetails?.coverPhoto;
   const userAvatar = userDetails?.avatar ?? avatar;
 
@@ -124,18 +137,28 @@ const UserPopover = ({
           <CardContent>
             <Stack direction="column" spacing={2}>
               <Stack direction="row" spacing={2} alignItems="center">
-                <Badge
-                  overlap="circular"
-                  variant="dot"
-                  color={userDetails?.isOnline ? 'success' : 'default'}
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                >
-                  {userAvatar ? (
-                    <Avatar src={userAvatar} alt={username} sx={{ width: 56, height: 56 }} />
-                  ) : (
-                    <Skeleton variant="circular" width={56} height={56} />
-                  )}
-                </Badge>
+                <Tooltip title={statusTooltip} placement="top" arrow disableInteractive>
+                  <Badge
+                    overlap="circular"
+                    variant="dot"
+                    color={userDetails?.isOnline ? 'success' : 'default'}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    sx={{
+                      '& .MuiBadge-dot': {
+                        width: 12,
+                        height: 12,
+                        border: '2px solid',
+                        borderColor: 'background.paper',
+                      },
+                    }}
+                  >
+                    {userAvatar ? (
+                      <Avatar src={userAvatar} alt={username} sx={{ width: 56, height: 56 }} />
+                    ) : (
+                      <Skeleton variant="circular" width={56} height={56} />
+                    )}
+                  </Badge>
+                </Tooltip>
 
                 <Stack direction="column" spacing={0.5} minWidth={0}>
                   <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>

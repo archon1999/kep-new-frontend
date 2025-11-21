@@ -240,7 +240,10 @@
       "empty": "Statistika hali mavjud emas"
     },
     "popover": {
-      "viewDetails": "Profilni ko'rish"
+      "viewDetails": "Profilni ko'rish",
+      "online": "Hozir onlayn",
+      "offline": "Oflayn",
+      "lastSeenTooltip": "Oxirgi faollik: {{lastSeen}}"
     },
     "emptyValue": "—"
   },
