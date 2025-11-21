@@ -82,7 +82,7 @@ const UserPopover = ({
 
   const profileLink = getResourceByUsername(resources.UserProfile, username);
 
-  const streakValue = userDetails?.streak ?? streak;
+  const streakValue = userDetails?.streak ?? 0;
   const coverPhoto = userDetails?.coverPhoto;
   const userAvatar = userDetails?.avatar ?? avatar;
 
@@ -106,7 +106,7 @@ const UserPopover = ({
         slotProps={{ paper: { sx: { width: 360, maxWidth: '90vw' } } }}
       >
         <Card>
-          <Box sx={{ height: 120, backgroundColor: 'background.neutral' }}>
+          <Box sx={{ height: 200, backgroundColor: 'background.neutral' }}>
             {coverPhoto ? (
               <Box
                 component="img"
@@ -120,7 +120,7 @@ const UserPopover = ({
           </Box>
 
           <CardContent>
-            <Stack spacing={2}>
+            <Stack direction="column" spacing={2}>
               <Stack direction="row" spacing={2} alignItems="center">
                 <Badge
                   overlap="circular"
@@ -135,7 +135,7 @@ const UserPopover = ({
                   )}
                 </Badge>
 
-                <Stack spacing={0.5} minWidth={0}>
+                <Stack direction="column" spacing={0.5} minWidth={0}>
                   <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>
                     {isDetailsLoading ? (
                       <Skeleton variant="text" width={140} />
@@ -158,9 +158,7 @@ const UserPopover = ({
                     isDetailsLoading && <Skeleton variant="text" width={120} />
                   )}
 
-                  {typeof streakValue === 'number' && (
-                    <Streak streak={streakValue} iconSize={18} spacing={0.5} />
-                  )}
+                  {streakValue > 0 && <Streak streak={streakValue} iconSize={18} spacing={0.5} />}
                 </Stack>
               </Stack>
 
@@ -168,15 +166,15 @@ const UserPopover = ({
 
               <Grid container spacing={1.5}>
                 {ratingStats.length === 0 && isRatingsLoading && (
-                  <Grid item xs={6}>
+                  <Grid size={3}>
                     <Skeleton variant="text" width="80%" />
                     <Skeleton variant="text" width="60%" />
                   </Grid>
                 )}
 
-                {ratingStats.map(({ key, label, stat }) => (
-                  <Grid item xs={6} key={key}>
-                    <Stack spacing={0.5}>
+                {ratingStats.map(({ label, stat }) => (
+                  <Grid size={3}>
+                    <Stack direction="column" spacing={0.5}>
                       <Typography variant="caption" color="text.secondary">
                         {label}
                       </Typography>
@@ -199,7 +197,7 @@ const UserPopover = ({
               </Grid>
 
               {(userDetails?.lastSeen || typeof userDetails?.kepcoin === 'number') && (
-                <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+                <Stack direction="column" spacing={1} alignItems="center" flexWrap="wrap">
                   {userDetails?.lastSeen && (
                     <Typography variant="caption" color="text.secondary">
                       {t('users.columns.lastSeen')}: {userDetails.lastSeen}
