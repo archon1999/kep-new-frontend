@@ -172,9 +172,9 @@ const UserActivitySection = () => {
   const activeUsersTrend = getTrendStyles(activeUsersStat?.percentage ?? 0);
 
   return (
-    <Stack direction="column" spacing={2}>
+    <Stack direction="column">
       <Paper sx={{ p: 4 }}>
-        <Stack spacing={0.5}>
+        <Stack direction="column" spacing={0.5}>
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
             {t('homePage.userActivity.title')}
           </Typography>
@@ -184,7 +184,7 @@ const UserActivitySection = () => {
         </Stack>
       </Paper>
 
-      <Grid container spacing={2}>
+      <Grid container>
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 4, height: '100%' }}>
             <Stack spacing={3} direction="column" sx={{ height: '100%' }}>
