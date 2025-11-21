@@ -68,7 +68,7 @@ const ArenaPlayersTable = ({
         ) : null}
       </Stack>
 
-      <TableContainer component={Paper} sx={{ borderRadius: 3 }}>
+      <TableContainer background={1} component={Paper} sx={{ outline: 'none', borderRadius: 3 }}>
         <Table>
           <TableHead>
             <TableRow>

@@ -1,34 +1,21 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
-import { Box, Grid, Pagination, Skeleton, Stack, TextField, Typography } from '@mui/material';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Box, Pagination, Skeleton, Stack, Typography } from '@mui/material';
 import { useArenasList } from '../../application/queries.ts';
 import ArenaListCard from '../components/ArenaListCard.tsx';
 
 const ArenaListPage = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-
-  useEffect(() => {
-    const timer = setTimeout(() => setDebouncedSearch(search), 500);
-    return () => clearTimeout(timer);
-  }, [search]);
 
   const { data, isLoading } = useArenasList({
     page,
     pageSize: 6,
-    title: debouncedSearch || undefined,
     status: undefined,
   });
 
   const arenas = data?.data ?? [];
   const pagesCount = data?.pagesCount ?? 0;
-
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-    setPage(1);
-  };
 
   const subtitle = useMemo(
     () =>
@@ -50,26 +37,9 @@ const ArenaListPage = () => {
           </Typography>
         </Stack>
 
-        <TextField
-          value={search}
-          onChange={handleSearchChange}
-          placeholder={t('arena.searchPlaceholder')}
-          fullWidth
-        />
-
-        <Grid container spacing={3}>
-          {isLoading
-            ? Array.from({ length: 6 }).map((_, idx) => (
-                <Grid key={idx} item xs={12} md={6} lg={4}>
-                  <Skeleton variant="rounded" height={200} />
-                </Grid>
-              ))
-            : arenas.map((arena) => (
-                <Grid key={arena.id} item xs={12} md={6} lg={4}>
-                  <ArenaListCard arena={arena} />
-                </Grid>
-              ))}
-        </Grid>
+        {isLoading
+          ? Array.from({ length: 6 }).map((_) => <Skeleton variant="rounded" height={200} />)
+          : arenas.map((arena) => <ArenaListCard arena={arena} />)}
 
         {!isLoading && arenas.length === 0 ? (
           <Typography variant="body2" color="text.secondary">
@@ -79,7 +49,12 @@ const ArenaListPage = () => {
 
         {pagesCount > 1 ? (
           <Stack direction="column" alignItems="center">
-            <Pagination color="warning" count={pagesCount} page={page} onChange={(_, value) => setPage(value)} />
+            <Pagination
+              color="warning"
+              count={pagesCount}
+              page={page}
+              onChange={(_, value) => setPage(value)}
+            />
           </Stack>
         ) : null}
       </Stack>

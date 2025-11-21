@@ -83,7 +83,7 @@ const ArenaDetailPage = () => {
           </Stack>
         ) : (
           <Grid container spacing={3}>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Stack direction="column" spacing={3}>
                 <ArenaInfoCard arena={arena} onRegister={handleRegister} onNextChallenge={handleNextChallenge} />
                 <ArenaCountdownCard arena={arena} />
@@ -96,7 +96,7 @@ const ArenaDetailPage = () => {
               </Stack>
             </Grid>
 
-            <Grid item xs={12} md={8}>
+            <Grid size={{ xs: 12, md: 8 }}>
               <Stack direction="column" spacing={3}>
                 {arena.status === ArenaStatus.Finished ? <ArenaWinnersCard topPlayers={topPlayers} /> : null}
                 <ArenaPlayersTable
@@ -114,7 +114,7 @@ const ArenaDetailPage = () => {
               </Stack>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <ArenaPlayerStatisticsCard statistics={playerStatistics} />
             </Grid>
           </Grid>

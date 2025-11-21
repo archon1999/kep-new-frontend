@@ -65,7 +65,7 @@ const ArenaCountdownCard = ({ arena }: ArenaCountdownCardProps) => {
   }, [arena, now, t]);
 
   return (
-    <Card sx={{ borderRadius: 3 }}>
+    <Card sx={{ outline: 'none', borderRadius: 3 }} background={1}>
       <CardContent sx={{ p: 3 }}>
         <Stack direction="column" spacing={2}>
           <Typography variant="subtitle2" color="text.secondary">

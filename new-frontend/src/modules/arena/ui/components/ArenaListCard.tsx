@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
-import { Card, CardActionArea, CardContent, Chip, Divider, Stack, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router';
+import { Card, CardActionArea, CardContent, Chip, Divider, Stack, Typography } from '@mui/material';
+import paths from 'app/routes/paths.ts';
 import dayjs from 'dayjs';
 import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
 import { Arena, ArenaStatus } from '../../domain/entities/arena.entity.ts';
-import paths from 'app/routes/paths.ts';
-import { useTranslation } from 'react-i18next';
 
 interface ArenaListCardProps {
   arena: Arena;
@@ -45,7 +45,7 @@ const ArenaListCard = ({ arena }: ArenaListCardProps) => {
   }, [arena.finishTime, arena.startTime, arena.status, t]);
 
   return (
-    <Card sx={{ height: '100%', borderRadius: 3 }}>
+    <Card background={1} sx={{ outline: 'none', borderRadius: 3 }}>
       <CardActionArea
         component={RouterLink}
         to={`${paths.arena}/tournament/${arena.id}`}
@@ -62,7 +62,11 @@ const ArenaListCard = ({ arena }: ArenaListCardProps) => {
               </Stack>
 
               <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-                <Chip color="warning" size="small" label={`${durationMinutes} ${t('arena.minutes')}`} />
+                <Chip
+                  color="warning"
+                  size="small"
+                  label={`${durationMinutes} ${t('arena.minutes')}`}
+                />
                 <Chip
                   variant="outlined"
                   color="warning"
@@ -78,7 +82,13 @@ const ArenaListCard = ({ arena }: ArenaListCardProps) => {
                   label={`${arena.questionsCount} ${t('arena.questions')}`}
                 />
                 {arena.chapters?.map((chapter) => (
-                  <Chip key={chapter.id} size="small" variant="soft" color="primary" label={chapter.title} />
+                  <Chip
+                    key={chapter.id}
+                    size="small"
+                    variant="soft"
+                    color="primary"
+                    label={chapter.title}
+                  />
                 ))}
               </Stack>
             </Stack>
@@ -86,7 +96,13 @@ const ArenaListCard = ({ arena }: ArenaListCardProps) => {
             <Stack direction="column" alignItems="flex-end" spacing={1}>
               <Chip
                 label={statusLabel}
-                color={arena.status === ArenaStatus.Already ? 'success' : arena.status === ArenaStatus.Finished ? 'default' : 'warning'}
+                color={
+                  arena.status === ArenaStatus.Already
+                    ? 'success'
+                    : arena.status === ArenaStatus.Finished
+                      ? 'default'
+                      : 'warning'
+                }
                 variant={arena.status === ArenaStatus.Already ? 'filled' : 'outlined'}
               />
               <Typography variant="caption" color="text.secondary">
@@ -102,13 +118,17 @@ const ArenaListCard = ({ arena }: ArenaListCardProps) => {
               <Typography variant="subtitle2" color="text.secondary">
                 {t('arena.timeline.start')}
               </Typography>
-              <Typography fontWeight={700}>{dayjs(arena.startTime).format('DD MMM, HH:mm')}</Typography>
+              <Typography fontWeight={700}>
+                {dayjs(arena.startTime).format('DD MMM, HH:mm')}
+              </Typography>
             </Stack>
             <Stack direction="column" spacing={0.5}>
               <Typography variant="subtitle2" color="text.secondary">
                 {t('arena.timeline.finish')}
               </Typography>
-              <Typography fontWeight={700}>{dayjs(arena.finishTime).format('DD MMM, HH:mm')}</Typography>
+              <Typography fontWeight={700}>
+                {dayjs(arena.finishTime).format('DD MMM, HH:mm')}
+              </Typography>
             </Stack>
           </Stack>
         </CardContent>

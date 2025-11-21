@@ -32,7 +32,7 @@ const ArenaPlayerStatisticsCard = ({ statistics }: ArenaPlayerStatisticsCardProp
   }
 
   return (
-    <Card sx={{ borderRadius: 3 }}>
+    <Card sx={{ outline: 'none', borderRadius: 3 }} background={1}>
       <CardContent sx={{ p: 3 }}>
         <Stack direction="column" spacing={2}>
           <Stack direction="row" spacing={1.5} alignItems="center" justifyContent="space-between">
