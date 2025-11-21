@@ -25,6 +25,7 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import Logo from 'shared/components/common/Logo';
 import useDebouncedValue from 'shared/hooks/useDebouncedValue';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { cssVarRgba } from 'shared/lib/utils';
 import ContestCard from '../components/ContestCard';
 import { useContestCategories, useContestsList } from '../../application/queries';
 
@@ -120,13 +121,13 @@ const ContestsListPage = () => {
     <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         <Card
-          sx={{
+          sx={(theme) => ({
             position: 'relative',
             overflow: 'hidden',
             borderRadius: 3,
             bgcolor: 'background.paper',
-            background: 'linear-gradient(135deg, rgba(0, 255, 190, 0.06), rgba(86, 112, 255, 0.05))',
-          }}
+            background: `linear-gradient(135deg, ${cssVarRgba(theme.vars.palette.primary.lightChannel, 0.08)}, ${cssVarRgba(theme.vars.palette.primary.mainChannel, 0.06)})`,
+          })}
         >
           <CardContent sx={{ p: { xs: 3, md: 4 } }}>
             <Stack direction="column" spacing={2}>
