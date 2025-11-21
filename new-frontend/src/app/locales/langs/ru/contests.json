@@ -8,11 +8,15 @@
     "allTypes": "Все типы",
     "categoriesLabel": "Категории",
     "allCategories": "Все категории",
+    "filters": {
+      "toggle": "Фильтры"
+    },
     "participation": {
       "all": "Все",
       "joined": "Зарегистрирован",
       "notJoined": "Не зарегистрирован"
     },
+    "participationLabel": "Участие",
     "status": {
       "starts": "Начнётся {{date}}",
       "live": "Идёт · завершится {{date}}",

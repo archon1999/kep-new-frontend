@@ -8,11 +8,15 @@
     "allTypes": "All types",
     "categoriesLabel": "Categories",
     "allCategories": "All categories",
+    "filters": {
+      "toggle": "Filters"
+    },
     "participation": {
       "all": "All",
       "joined": "Registered",
       "notJoined": "Not registered"
     },
+    "participationLabel": "Participation",
     "status": {
       "starts": "Starts {{date}}",
       "live": "Live · ends {{date}}",
