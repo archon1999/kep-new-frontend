@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useTranslation } from 'react-i18next';
 import HomeProfileSection from '../components/HomeProfileSection.tsx';
+import BirthdaysSection from '../components/BirthdaysSection';
 import StatisticsSection from '../components/StatisticsSection.tsx';
 import UserActivitySection from '../components/UserActivitySection.tsx';
 import { useAuth } from 'app/providers/AuthProvider';
@@ -36,6 +37,10 @@ const HomePage = () => {
 
           <Grid size={12}>
             <StatisticsSection />
+          </Grid>
+
+          <Grid size={12}>
+            <BirthdaysSection />
           </Grid>
         </Grid>
       </Grid>
