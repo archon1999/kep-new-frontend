@@ -1,10 +1,20 @@
 import { SyntheticEvent, useMemo, useState } from 'react';
-import { TabContext } from '@mui/lab';
-import { Alert, Box, Button, Container, Divider, Drawer, Stack, useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
+import { TabContext } from '@mui/lab';
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Drawer,
+  Paper,
+  Stack,
+  useMediaQuery,
+} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useAuth } from 'app/providers/AuthProvider';
-import IconifyIcon from 'shared/components/base/IconifyIcon';
+import SimpleBar from 'shared/components/base/SimpleBar.tsx';
 import AccountTabPanel from '../components/AccountTabPanel';
 import CareerSection from '../components/CareerSection';
 import GeneralSettingsForm from '../components/GeneralSettingsForm';
@@ -25,7 +35,7 @@ const AccountSettingsPage = () => {
   const { currentUser } = useAuth();
 
   const [activeTab, setActiveTab] = useState('general');
-  const [showTabs, setShowTabs] = useState(false);
+  const [showTabList, setShowTabList] = useState(true);
 
   const tabs: AccountSettingsTab[] = useMemo(
     () => [
@@ -65,8 +75,8 @@ const AccountSettingsPage = () => {
         id: 5,
         value: 'skills',
         label: t('settings.skills'),
-        icon: 'material-symbols:activity',
-        panelIcon: 'material-symbols:activity',
+        icon: 'material-symbols:trending-up',
+        panelIcon: 'material-symbols:trending-up',
         render: (
           <Stack direction="column" spacing={3}>
             <SkillsForm />
@@ -107,7 +117,10 @@ const AccountSettingsPage = () => {
   if (!currentUser) {
     return (
       <Container sx={{ py: 4 }}>
-        <Alert severity="info" action={<Button href="/authentication/login">{t('pageTitles.login')}</Button>}>
+        <Alert
+          severity="info"
+          action={<Button href="/authentication/login">{t('pageTitles.login')}</Button>}
+        >
           {t('settings.loginRequired')}
         </Alert>
       </Container>
@@ -115,71 +128,77 @@ const AccountSettingsPage = () => {
   }
 
   return (
-    <TabContext value={activeTab}>
-      <Stack spacing={3} direction={downMd ? 'column' : 'row'} alignItems={downMd ? 'stretch' : 'flex-start'}>
-        {downMd ? (
-          <>
-            <Button
-              variant="outlined"
-              startIcon={<IconifyIcon icon="material-symbols:menu" />}
-              onClick={() => setShowTabs(true)}
-              sx={{ alignSelf: 'flex-start' }}
-            >
-              {t('settings.openNavigation')}
-            </Button>
+    <Paper background={1}>
+      <TabContext value={activeTab}>
+        <Stack direction={downMd ? 'column' : 'row'} alignItems={downMd ? 'stretch' : 'flex-start'}>
+          {downMd ? (
             <Drawer
-              open={showTabs}
-              anchor="left"
-              onClose={() => setShowTabs(false)}
-              ModalProps={{ keepMounted: true }}
-              PaperProps={{ sx: { width: 320 } }}
+              hideBackdrop
+              open={showTabList}
+              onClose={() => setShowTabList(false)}
+              ModalProps={{
+                keepMounted: true,
+                disablePortal: true,
+              }}
+              slotProps={{
+                paper: {
+                  sx: {
+                    bgcolor: 'background.elevation1',
+                    width: 1,
+                    overflow: 'hidden',
+                    pointerEvents: 'auto',
+                  },
+                },
+              }}
+              sx={{
+                pointerEvents: 'none',
+              }}
             >
-              <SideTabList tabs={tabs} onChange={handleTabChange} onTabClick={() => setShowTabs(false)} />
+              <SimpleBar>
+                <SideTabList tabs={tabs} onChange={handleTabChange} />
+              </SimpleBar>
             </Drawer>
-          </>
-        ) : (
-          <Box
-            sx={{
-              width: { md: 324, lg: 405 },
-              position: 'sticky',
-              top: ({ mixins }) => mixins.topbar.default,
-              maxHeight: 'calc(100vh - 120px)',
-              overflowY: 'auto',
-              border: (theme) => `1px solid ${theme.palette.divider}`,
-              borderRadius: 2,
-              bgcolor: 'background.paper',
-            }}
-          >
-            <SideTabList tabs={tabs} onChange={handleTabChange} />
-          </Box>
-        )}
+          ) : (
+            <Box
+              sx={{
+                width: { md: 324, lg: 405 },
+              }}
+            >
+              <SideTabList tabs={tabs} onChange={handleTabChange} />
+            </Box>
+          )}
 
-        {!downMd ? <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} /> : null}
+          {!downMd ? (
+            <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />
+          ) : null}
 
-        <Box
-          sx={{
-            flex: 1,
-            border: (theme) => `1px solid ${theme.palette.divider}`,
-            borderRadius: 2,
-            bgcolor: 'background.paper',
-          }}
-        >
-          <Container maxWidth="md" sx={{ py: { xs: 3, md: 5 } }}>
-            {tabs.map((tab) => (
-              <AccountTabPanel
-                key={tab.id}
-                value={tab.value}
-                title={tab.label}
-                panelIcon={tab.panelIcon}
-                description={tab.description}
-              >
-                {tab.render}
-              </AccountTabPanel>
-            ))}
-          </Container>
-        </Box>
-      </Stack>
-    </TabContext>
+          <Paper sx={{ flex: 1, maxWidth: 1 }}>
+            <Container
+              maxWidth={false}
+              sx={{
+                px: { xs: 3, md: 5 },
+                py: 5,
+                maxWidth: { xs: 628, md: 660 },
+                overflowY: 'hidden',
+                height: downMd ? 1 : 'auto',
+              }}
+            >
+              {tabs.map((tab) => (
+                <AccountTabPanel
+                  key={tab.id}
+                  value={tab.value}
+                  title={tab.label}
+                  panelIcon={tab.panelIcon}
+                  description={tab.description}
+                >
+                  {tab.render}
+                </AccountTabPanel>
+              ))}
+            </Container>
+          </Paper>
+        </Stack>
+      </TabContext>
+    </Paper>
   );
 };
 

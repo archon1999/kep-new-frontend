@@ -40,7 +40,7 @@ const SkillsForm = () => {
   };
 
   return (
-    <Card>
+    <Card sx={{ outline: 'none', borderRadius: 3 }} background={1}>
       <CardHeader title={t('settings.skills')} />
       <CardContent>
         {isLoading || isMutating ? <LinearProgress sx={{ mb: 3 }} /> : null}

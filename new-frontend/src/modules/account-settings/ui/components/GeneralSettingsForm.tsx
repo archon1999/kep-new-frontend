@@ -1,11 +1,23 @@
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
-import { Avatar, Box, Button, Card, CardContent, CardHeader, Grid, LinearProgress, Stack, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useSnackbar } from 'notistack';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  LinearProgress,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useAuth } from 'app/providers/AuthProvider';
-import type { AccountGeneralInfo } from '../../domain/entities/account-settings.entity';
-import { useAccountGeneralInfo } from '../../application/queries';
+import { useSnackbar } from 'notistack';
 import { useUpdateGeneralInfo } from '../../application/mutations';
+import { useAccountGeneralInfo } from '../../application/queries';
+import type { AccountGeneralInfo } from '../../domain/entities/account-settings.entity';
 
 const readFileAsDataUrl = (file: File) =>
   new Promise<string>((resolve, reject) => {
@@ -33,17 +45,24 @@ const GeneralSettingsForm = () => {
     }
   }, [data]);
 
-  const avatarPreview = useMemo(() => formState?.avatar || data?.avatar, [formState?.avatar, data?.avatar]);
+  const avatarPreview = useMemo(
+    () => formState?.avatar || data?.avatar,
+    [formState?.avatar, data?.avatar],
+  );
   const coverPreview = useMemo(
     () => formState?.coverPhoto || data?.coverPhoto,
     [formState?.coverPhoto, data?.coverPhoto],
   );
 
-  const handleChange = (field: keyof AccountGeneralInfo) => (event: ChangeEvent<HTMLInputElement>) => {
-    setFormState((prev) => ({ ...prev!, [field]: event.target.value }));
-  };
+  const handleChange =
+    (field: keyof AccountGeneralInfo) => (event: ChangeEvent<HTMLInputElement>) => {
+      setFormState((prev) => ({ ...prev!, [field]: event.target.value }));
+    };
 
-  const handleUpload = async (field: 'avatar' | 'coverPhoto', event: ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = async (
+    field: 'avatar' | 'coverPhoto',
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -69,17 +88,25 @@ const GeneralSettingsForm = () => {
   };
 
   return (
-    <Card>
-      <CardHeader title={t('settings.generalSettings')} subheader={t('settings.generalSettingsSubtitle')} />
+    <Card background={1} sx={{borderRadius: 3, outline: 'none'}}>
+      <CardHeader
+        title={t('settings.generalSettings')}
+        subheader={t('settings.generalSettingsSubtitle')}
+      />
       <CardContent>
         {isLoading || isMutating ? <LinearProgress sx={{ mb: 3 }} /> : null}
         <Stack direction="column" spacing={3}>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} alignItems="center">
+          <Stack direction="column" spacing={3} alignItems="center">
             <Box textAlign="center">
               <Avatar src={avatarPreview} sx={{ width: 96, height: 96, mb: 1 }} />
               <Button variant="outlined" component="label" size="small">
                 {t('settings.upload')}
-                <input type="file" hidden accept="image/*" onChange={(event) => handleUpload('avatar', event)} />
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={(event) => handleUpload('avatar', event)}
+                />
               </Button>
               {errors?.avatar?.length ? (
                 <Typography color="error" variant="caption" display="block">
@@ -105,14 +132,24 @@ const GeneralSettingsForm = () => {
                 }}
               >
                 {coverPreview ? (
-                  <Box component="img" src={coverPreview} alt={t('settings.coverImage')} sx={{ width: '100%', maxHeight: 240, objectFit: 'cover' }} />
+                  <Box
+                    component="img"
+                    src={coverPreview}
+                    alt={t('settings.coverImage')}
+                    sx={{ width: '100%', maxHeight: 240, objectFit: 'cover' }}
+                  />
                 ) : (
                   <Typography color="text.secondary">{t('settings.coverPlaceholder')}</Typography>
                 )}
               </Box>
               <Button variant="outlined" component="label" size="small" sx={{ mt: 1 }}>
                 {t('settings.upload')}
-                <input type="file" hidden accept="image/*" onChange={(event) => handleUpload('coverPhoto', event)} />
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={(event) => handleUpload('coverPhoto', event)}
+                />
               </Button>
               {errors?.coverPhoto?.length ? (
                 <Typography color="error" variant="caption" display="block">

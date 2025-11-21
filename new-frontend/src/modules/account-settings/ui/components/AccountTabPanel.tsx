@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { TabPanel } from '@mui/lab';
-import { Box, Divider, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 
 interface AccountTabPanelProps extends PropsWithChildren {
@@ -10,7 +10,13 @@ interface AccountTabPanelProps extends PropsWithChildren {
   description?: string;
 }
 
-const AccountTabPanel = ({ value, title, panelIcon, description, children }: AccountTabPanelProps) => (
+const AccountTabPanel = ({
+  value,
+  title,
+  panelIcon,
+  description,
+  children,
+}: AccountTabPanelProps) => (
   <TabPanel value={value} sx={{ p: 0 }}>
     <Stack direction="column" spacing={2} sx={{ mb: 4 }}>
       <Stack direction="row" spacing={1.5} alignItems="center">
@@ -22,7 +28,6 @@ const AccountTabPanel = ({ value, title, panelIcon, description, children }: Acc
           {description}
         </Typography>
       ) : null}
-      <Divider />
     </Stack>
     <Box>{children}</Box>
   </TabPanel>

@@ -64,7 +64,7 @@ const PasswordForm = () => {
   );
 
   return (
-    <Card>
+    <Card sx={{ outline: 'none', borderRadius: 3 }} background={1}>
       <CardHeader title={t('settings.changePassword')} />
       <CardContent>
         <Grid container spacing={2}>

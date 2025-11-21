@@ -149,15 +149,6 @@ const sitemap: MenuItem[] = [
     icon: 'mdi:store-outline',
     active: true,
   },
-  {
-    name: 'Account',
-    key: 'menu.account',
-    path: paths.account,
-    pathName: 'account',
-    selectionPrefix: paths.account,
-    icon: 'mdi:account-cog-outline',
-    active: true,
-  },
 ];
 
 export default sitemap;

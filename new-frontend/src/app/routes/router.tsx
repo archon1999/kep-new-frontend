@@ -96,7 +96,7 @@ export const routes: RouteObject[] = [
             handle: { titleKey: 'pageTitles.calendar' },
           },
           {
-            path: paths.account,
+            path: paths.accountSettings,
             element: <AccountSettingsPage />,
             handle: { titleKey: 'pageTitles.accountSettings' },
           },

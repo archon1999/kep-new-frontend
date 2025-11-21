@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Avatar,
   AvatarGroup,
-  Box,
   Button,
   Card,
   CardActions,
@@ -15,13 +15,12 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useSnackbar } from 'notistack';
-import { useTranslation } from 'react-i18next';
 import { useAuth } from 'app/providers/AuthProvider';
-import type { AccountTeam } from '../../domain/entities/account-settings.entity';
-import { useAccountTeams } from '../../application/queries';
-import { useCreateTeam, useJoinTeam, useRefreshTeamCode } from '../../application/mutations';
+import { useSnackbar } from 'notistack';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import { useCreateTeam, useJoinTeam, useRefreshTeamCode } from '../../application/mutations';
+import { useAccountTeams } from '../../application/queries';
+import type { AccountTeam } from '../../domain/entities/account-settings.entity';
 
 const TeamsSection = () => {
   const { t } = useTranslation();
@@ -75,10 +74,13 @@ const TeamsSection = () => {
 
   const renderTeamCard = (team: AccountTeam) => (
     <Grid size={12} key={team.id}>
-      <Card>
-        <CardHeader title={team.name} subheader={isCreator(team) ? t('settings.creator') : undefined} />
+      <Card sx={{ outline: 'none', borderRadius: 3 }} background={2}>
+        <CardHeader
+          title={team.name}
+          subheader={isCreator(team) ? t('settings.creator') : undefined}
+        />
         <CardContent>
-          <Stack direction="column" spacing={1.5}>
+          <Stack direction="row" spacing={1.5}>
             <AvatarGroup>
               {team.members?.map((member) => (
                 <Tooltip key={member.username} title={member.username}>
@@ -86,9 +88,6 @@ const TeamsSection = () => {
                 </Tooltip>
               ))}
             </AvatarGroup>
-            <Typography variant="body2" color="text.secondary">
-              {t('settings.teamCode', { code: team.code })}
-            </Typography>
           </Stack>
         </CardContent>
         <CardActions sx={{ justifyContent: 'space-between' }}>
@@ -117,21 +116,21 @@ const TeamsSection = () => {
   );
 
   return (
-    <Card>
+    <Card sx={{ outline: 'none', borderRadius: 3 }} background={1}>
       <CardHeader title={t('settings.teams')} />
       <CardContent>
         {(isLoading || isBusy) && <LinearProgress sx={{ mb: 3 }} />}
         <Grid container spacing={3}>
-          <Grid size={{ xs: 12, md: 8 }}>
+          <Grid size={{ xs: 12, md: 12 }}>
             <Stack direction="column" spacing={2}>
-              {data?.length ? data.map(renderTeamCard) : (
-                <Box sx={{ p: 3, borderRadius: 2, border: (theme) => `1px dashed ${theme.palette.divider}` }}>
-                  <Typography color="text.secondary">{t('settings.noTeams')}</Typography>
-                </Box>
+              {data?.length ? (
+                data.map(renderTeamCard)
+              ) : (
+                <Typography color="text.secondary">{t('settings.noTeams')}</Typography>
               )}
             </Stack>
           </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 12 }}>
             <Stack direction="column" spacing={2}>
               <Typography variant="h6">{t('settings.createTeam')}</Typography>
               <TextField

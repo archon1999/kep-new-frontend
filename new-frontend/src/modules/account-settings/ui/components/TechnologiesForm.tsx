@@ -61,7 +61,7 @@ const TechnologiesForm = () => {
   };
 
   return (
-    <Card>
+    <Card sx={{ outline: 'none', borderRadius: 3 }} background={1}>
       <CardHeader title={t('settings.technologies')} subheader={t('settings.technologiesSubtitle')} />
       <CardContent>
         {isLoading || isMutating ? <LinearProgress sx={{ mb: 3 }} /> : null}
@@ -91,7 +91,6 @@ const TechnologiesForm = () => {
                     label={t('settings.devIconClass')}
                     value={item.devIconClass}
                     onChange={(event) => updateItem(index, 'devIconClass', event.target.value)}
-                    helperText={t('settings.devIconHelper')}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, md: 2 }}>

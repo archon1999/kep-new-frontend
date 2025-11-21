@@ -42,7 +42,7 @@ const SocialLinksForm = () => {
   };
 
   return (
-    <Card>
+    <Card sx={{ outline: 'none', borderRadius: 3 }} background={1}>
       <CardHeader title={t('settings.socialLinks')} />
       <CardContent>
         {isLoading || isMutating ? <LinearProgress sx={{ mb: 3 }} /> : null}
