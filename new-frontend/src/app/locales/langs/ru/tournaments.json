@@ -1,0 +1,20 @@
+{
+  "tournaments": {
+    "subtitle": "Состязайтесь в сетке на выбывание и следите за результатами.",
+    "countLabel": "{{count}} турниров",
+    "emptyTitle": "Турниров пока нет",
+    "emptySubtitle": "Новые турниры появятся здесь после анонса.",
+    "startsOn": "Старт {{date}}",
+    "players": "{{count}} игроков",
+    "type": "Тип: {{type}}",
+    "bracketTitle": "Плей-офф сетка",
+    "bracketSubtitle": "Сетка на 16 участников с результатами дуэлей.",
+    "round": {
+      "final": "Финал",
+      "semifinal": "Полуфиналы",
+      "quarter": "Четвертьфиналы",
+      "generic": "1/{{value}} финала"
+    },
+    "emptyDescription": "Описание турнира появится позже."
+  }
+}

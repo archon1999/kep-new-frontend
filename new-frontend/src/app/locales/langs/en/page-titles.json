@@ -21,6 +21,8 @@
     "challenge": "Challenge",
     "challengesRating": "Challenges rating",
     "challengesStats": "Challenge statistics",
-    "accountSettings": "Account Settings"
+    "accountSettings": "Account Settings",
+    "tournaments": "Tournaments",
+    "tournament": "Tournament"
   }
 }
