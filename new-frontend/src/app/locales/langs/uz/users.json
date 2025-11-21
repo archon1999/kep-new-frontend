@@ -44,6 +44,36 @@
     "popover": {
       "viewDetails": "Profilni ko'rish"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "profile": {
+      "tabs": {
+        "about": "Haqida",
+        "ratings": "Reytinglar",
+        "activity": "Faoliyat tarixi",
+        "achievements": "Yutuqlar",
+        "followers": "Obunachilar"
+      },
+      "lastSeen": "Oxirgi tashrif: {{value}}",
+      "followers": "Obunachilar",
+      "moreFollowers": "yana {{count}} kishi",
+      "notFound": "Foydalanuvchi topilmadi",
+      "aboutTitle": "Haqida",
+      "country": "Mamlakat",
+      "region": "Hudud",
+      "email": "Email",
+      "website": "Veb-sayt",
+      "joined": "Ro'yxatdan o'tgan sana",
+      "birthDate": "Tug'ilgan sana",
+      "skills": "Ko'nikmalar",
+      "technologies": "Texnologiyalar",
+      "education": "Ta'lim",
+      "experience": "Ish tajribasi",
+      "present": "Hozirgi vaqt",
+      "socialLinks": "Ijtimoiy tarmoqlar",
+      "telegram": "Telegram",
+      "codeforces": "Codeforces",
+      "noAchievements": "Hozircha yutuqlar yo'q",
+      "completed": "Bajarildi"
+    }
   }
 }

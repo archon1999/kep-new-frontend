@@ -44,6 +44,36 @@
     "popover": {
       "viewDetails": "Подробнее о пользователе"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "profile": {
+      "tabs": {
+        "about": "О пользователе",
+        "ratings": "Рейтинги",
+        "activity": "Активность",
+        "achievements": "Достижения",
+        "followers": "Подписчики"
+      },
+      "lastSeen": "Был(а) в сети: {{value}}",
+      "followers": "Подписчики",
+      "moreFollowers": "и еще {{count}}",
+      "notFound": "Пользователь не найден",
+      "aboutTitle": "О пользователе",
+      "country": "Страна",
+      "region": "Регион",
+      "email": "Email",
+      "website": "Сайт",
+      "joined": "Дата регистрации",
+      "birthDate": "Дата рождения",
+      "skills": "Навыки",
+      "technologies": "Технологии",
+      "education": "Образование",
+      "experience": "Опыт работы",
+      "present": "Настоящее время",
+      "socialLinks": "Социальные сети",
+      "telegram": "Telegram",
+      "codeforces": "Codeforces",
+      "noAchievements": "Пока нет достижений",
+      "completed": "Завершено"
+    }
   }
 }

@@ -38,6 +38,17 @@ const HackathonStandingsPage = lazy(() => import('modules/hackathons/ui/pages/Ha
 const AccountSettingsPage = lazy(() => import('modules/account-settings/ui/pages/AccountSettingsPage'));
 const BlogListPage = lazy(() => import('modules/blog/ui/pages/BlogListPage'));
 const BlogPostPage = lazy(() => import('modules/blog/ui/pages/BlogPostPage'));
+const UserProfilePage = lazy(() => import('modules/users/ui/pages/user-profile/UserProfilePage'));
+const UserProfileAboutTab = lazy(() => import('modules/users/ui/pages/user-profile/tabs/UserProfileAboutTab'));
+const UserProfileLayoutWrapper = lazy(() => import('modules/users/ui/pages/user-profile/UserProfilePage').then((m) => ({
+  default: m.UserProfileLayoutWrapper,
+})));
+const UserProfileRatingsTab = lazy(() => import('modules/users/ui/pages/user-profile/tabs/UserProfileRatingsTab'));
+const UserProfileActivityTab = lazy(() => import('modules/users/ui/pages/user-profile/tabs/UserProfileActivityTab'));
+const UserProfileAchievementsTab = lazy(
+  () => import('modules/users/ui/pages/user-profile/tabs/UserProfileAchievementsTab'),
+);
+const UserProfileFollowersTab = lazy(() => import('modules/users/ui/pages/user-profile/tabs/UserProfileFollowersTab'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
@@ -73,6 +84,23 @@ export const routes: RouteObject[] = [
           {
             path: resources.Users,
             element: <UsersListPage />,
+            handle: { titleKey: 'pageTitles.users' },
+          },
+          {
+            path: resources.UserProfile,
+            element: <UserProfilePage />,
+            children: [
+              {
+                element: <UserProfileLayoutWrapper />,
+                children: [
+                  { index: true, element: <UserProfileAboutTab /> },
+                  { path: 'ratings', element: <UserProfileRatingsTab /> },
+                  { path: 'activity-history', element: <UserProfileActivityTab /> },
+                  { path: 'achievements', element: <UserProfileAchievementsTab /> },
+                  { path: 'followers', element: <UserProfileFollowersTab /> },
+                ],
+              },
+            ],
             handle: { titleKey: 'pageTitles.users' },
           },
           {

@@ -44,6 +44,36 @@
     "popover": {
       "viewDetails": "View user details"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "profile": {
+      "tabs": {
+        "about": "About",
+        "ratings": "Ratings",
+        "activity": "Activity history",
+        "achievements": "Achievements",
+        "followers": "Followers"
+      },
+      "lastSeen": "Last seen: {{value}}",
+      "followers": "Followers",
+      "moreFollowers": "and {{count}} more",
+      "notFound": "User not found",
+      "aboutTitle": "About",
+      "country": "Country",
+      "region": "Region",
+      "email": "Email",
+      "website": "Website",
+      "joined": "Joined",
+      "birthDate": "Birth date",
+      "skills": "Skills",
+      "technologies": "Technologies",
+      "education": "Education",
+      "experience": "Experience",
+      "present": "Present",
+      "socialLinks": "Social links",
+      "telegram": "Telegram",
+      "codeforces": "Codeforces",
+      "noAchievements": "No achievements yet",
+      "completed": "Completed"
+    }
   }
 }

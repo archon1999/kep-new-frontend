@@ -9,6 +9,15 @@ import {
   UsersListResponse,
 } from '../../domain/entities/user.entity';
 import { RatingInfoApiResponse, UserRatingsApiResponse } from '../api/users.client';
+import {
+  UserAchievement,
+  UserEducation,
+  UserInfo,
+  UserSkillSet,
+  UserSocial,
+  UserTechnology,
+  UserWorkExperience,
+} from '../../domain/entities/user.entity';
 
 const normalizeRating = (rating?: unknown): RatingValue | undefined => {
   if (!rating) return undefined;
@@ -108,4 +117,58 @@ export const mapApiUserRatingsToDomain = (ratings: UserRatingsApiResponse): User
   activityRating: normalizeRatingInfo(ratings.activityRating ?? ratings.activity_rating),
   contestsRating: normalizeRatingInfo(ratings.contestsRating ?? ratings.contests_rating),
   challengesRating: normalizeRatingInfo(ratings.challengesRating ?? ratings.challenges_rating),
+});
+
+export const mapApiUserInfoToDomain = (info: Record<string, unknown>): UserInfo => ({
+  country: (info.country as string | undefined) ?? (info as any)?.countryCode,
+  region: info.region as string | undefined,
+  website: info.website as string | undefined,
+  email: info.email as string | undefined,
+  emailVisible: (info as any)?.email_visible ?? (info as any)?.emailVisible,
+  dateJoined: (info as any)?.date_joined ?? (info as any)?.dateJoined,
+  dateOfBirth: (info as any)?.date_of_birth ?? (info as any)?.dateOfBirth,
+  bio: info.bio as string | undefined,
+});
+
+export const mapApiUserSocialToDomain = (social: Record<string, unknown>): UserSocial => ({
+  codeforcesHandle: (social as any)?.codeforcesHandle ?? (social as any)?.codeforces_handle,
+  codeforcesBadge: (social as any)?.codeforcesBadge ?? (social as any)?.codeforces_badge,
+  telegram: social.telegram as string | undefined,
+});
+
+export const mapApiUserSkillsToDomain = (skills: Record<string, unknown>): UserSkillSet => ({
+  python: Number((skills as any)?.python) || undefined,
+  webDevelopment: Number((skills as any)?.webDevelopment ?? (skills as any)?.web_development) || undefined,
+  webScraping: Number((skills as any)?.webScraping ?? (skills as any)?.web_scraping) || undefined,
+  algorithms: Number((skills as any)?.algorithms) || undefined,
+  dataScience: Number((skills as any)?.dataScience ?? (skills as any)?.data_science) || undefined,
+});
+
+export const mapApiUserTechnologyToDomain = (technology: Record<string, unknown>): UserTechnology => ({
+  text: technology.text as string | undefined,
+  devIconClass: (technology as any)?.devIconClass ?? (technology as any)?.dev_icon_class,
+  badgeColor: (technology as any)?.badgeColor ?? (technology as any)?.badge_color,
+});
+
+export const mapApiUserEducationToDomain = (education: Record<string, unknown>): UserEducation => ({
+  organization: (education as any)?.organization ?? (education as any)?.school,
+  degree: education.degree as string | undefined,
+  fromYear: Number((education as any)?.fromYear ?? (education as any)?.from_year) || undefined,
+  toYear: Number((education as any)?.toYear ?? (education as any)?.to_year) || undefined,
+});
+
+export const mapApiUserWorkExperienceToDomain = (experience: Record<string, unknown>): UserWorkExperience => ({
+  company: (experience as any)?.company,
+  jobTitle: (experience as any)?.jobTitle ?? (experience as any)?.job_title,
+  fromYear: Number((experience as any)?.fromYear ?? (experience as any)?.from_year) || undefined,
+  toYear: Number((experience as any)?.toYear ?? (experience as any)?.to_year) || undefined,
+});
+
+export const mapApiUserAchievementToDomain = (achievement: Record<string, unknown>): UserAchievement => ({
+  id: achievement.id as number | undefined,
+  type: (achievement as any)?.type as number | undefined,
+  title: achievement.title as string | undefined,
+  description: achievement.description as string | undefined,
+  totalProgress: Number((achievement as any)?.totalProgress ?? (achievement as any)?.total_progress) || undefined,
+  userResult: (achievement as any)?.userResult ?? (achievement as any)?.user_result,
 });

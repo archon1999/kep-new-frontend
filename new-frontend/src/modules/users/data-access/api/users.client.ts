@@ -35,4 +35,22 @@ export const usersApiClient = {
   details: (username: string) => apiClient.apiUsersRead(username) as Promise<UserDetail>,
   ratings: (username: string) =>
     apiClient.apiUsersRatings(username) as unknown as Promise<UserRatingsApiResponse>,
+  info: (username: string) => apiClient.apiUsersInfoRead(username) as Promise<Record<string, unknown>>, 
+  generalInfo: (username: string) =>
+    apiClient.apiUsersGeneralInfoRead(username) as Promise<Record<string, unknown>>,
+  social: (username: string) => apiClient.apiUsersSocialRead(username) as Promise<Record<string, unknown>>,
+  skills: (username: string) => apiClient.apiUsersSkillsRead(username) as Promise<Record<string, unknown>>, 
+  technologies: (username: string) =>
+    apiClient.apiUsersTechnologiesRead(username) as Promise<Record<string, unknown>[]>,
+  educations: (username: string) =>
+    apiClient.apiUsersEducationsList(username) as Promise<Record<string, unknown>[]>,
+  workExperiences: (username: string) =>
+    apiClient.apiUsersWorkExperiencesList(username) as Promise<Record<string, unknown>[]>,
+  achievements: (username: string) =>
+    apiClient.apiUsersAchievementsList(username) as Promise<Record<string, unknown>[]>,
+  followers: (username: string, params?: { page?: number; pageSize?: number }) =>
+    apiClient.apiUsersFollowersList(username, {
+      page: params?.page,
+      pageSize: params?.pageSize,
+    }) as Promise<Record<string, unknown>>,
 };
