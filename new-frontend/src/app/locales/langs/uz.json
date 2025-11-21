@@ -24,6 +24,7 @@
     "kepcoin": "Kepcoin",
     "shop": "Doʻkon",
     "calendar": "Kalendar",
+    "hackathons": "Xakatonlar",
     "projects": "Loyihalar",
     "project": "Loyiha",
     "tests": "Testlar",
@@ -166,6 +167,20 @@
     "emptyTitle": "Hozircha voqealar yoʻq",
     "emptySubtitle": "Yangi mashg'ulot vaqtlari shu yerda e'lon qilinadi.",
     "untitled": "Nomsiz voqea"
+  },
+  "hackathons": {
+    "subtitle": "Hamkorlikdagi xakatonlarda ishtirok eting va loyihani muddatida topshiring.",
+    "countLabel": "{{count}} ta xakaton",
+    "emptyTitle": "Xakatonlar hali yo‘q",
+    "emptySubtitle": "E'lon qilingach, yangi xakatonlar shu yerda paydo bo'ladi.",
+    "startsIn": "Boshlanishiga",
+    "endsIn": "Tugashiga",
+    "finished": "Xakaton yakunlandi",
+    "active": "Jarayonda",
+    "projectsCount": "{{count}} ta loyiha",
+    "participantsCount": "{{count}} ta ishtirokchi",
+    "schedule": "{{start}} — {{end}}",
+    "noSchedule": "Jadval tez orada e’lon qilinadi"
   },
   "projects": {
     "title": "Loyihalar",

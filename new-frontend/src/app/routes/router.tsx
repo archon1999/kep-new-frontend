@@ -17,6 +17,7 @@ const ProjectDetailPage = lazy(() => import('modules/projects/ui/pages/ProjectDe
 const TestsListPage = lazy(() => import('modules/testing/ui/pages/TestsListPage'));
 const TestDetailPage = lazy(() => import('modules/testing/ui/pages/TestDetailPage'));
 const TestPassPage = lazy(() => import('modules/testing/ui/pages/TestPassPage'));
+const HackathonsListPage = lazy(() => import('modules/hackathons/ui/pages/HackathonsListPage'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
@@ -93,6 +94,11 @@ export const routes: RouteObject[] = [
             path: paths.calendar,
             element: <CalendarPage />,
             handle: { titleKey: 'pageTitles.calendar' },
+          },
+          {
+            path: paths.hackathons,
+            element: <HackathonsListPage />,
+            handle: { titleKey: 'pageTitles.hackathons' },
           },
         ],
       },
