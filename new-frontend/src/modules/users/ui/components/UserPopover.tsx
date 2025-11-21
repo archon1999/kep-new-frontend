@@ -7,12 +7,14 @@ import {
   Box,
   Button,
   Card,
-  CardContent, Chip,
+  CardContent,
+  Chip,
   Divider,
   Grid,
   Popover,
   Skeleton,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { getResourceByUsername, resources } from 'app/routes/resources';
@@ -84,9 +86,15 @@ const UserPopover = ({
 
   const profileLink = getResourceByUsername(resources.UserProfile, username);
 
-  const streakValue = userDetails?.streak ?? 0;
+  const streakValue = userDetails?.streak ?? streak ?? 0;
   const coverPhoto = userDetails?.coverPhoto;
   const userAvatar = userDetails?.avatar ?? avatar;
+  const lastSeenTooltip = userDetails?.lastSeen
+    ? `${t('users.columns.lastSeen')}: ${userDetails.lastSeen}`
+    : '';
+  const isOnline = Boolean(userDetails?.isOnline);
+  const onlineStatusLabel = t(isOnline ? 'users.status.online' : 'users.status.offline');
+  const statusColor = isOnline ? 'success' : 'default';
 
   return (
     <>
@@ -124,18 +132,34 @@ const UserPopover = ({
           <CardContent>
             <Stack direction="column" spacing={2}>
               <Stack direction="row" spacing={2} alignItems="center">
-                <Badge
-                  overlap="circular"
-                  variant="dot"
-                  color={userDetails?.isOnline ? 'success' : 'default'}
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                >
-                  {userAvatar ? (
-                    <Avatar src={userAvatar} alt={username} sx={{ width: 56, height: 56 }} />
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Tooltip title={lastSeenTooltip} placement="top" arrow disableInteractive={!lastSeenTooltip}>
+                    <Badge
+                      overlap="circular"
+                      variant="dot"
+                      color={statusColor}
+                      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                      sx={{ cursor: lastSeenTooltip ? 'help' : 'default' }}
+                    >
+                      {userAvatar ? (
+                        <Avatar src={userAvatar} alt={username} sx={{ width: 56, height: 56 }} />
+                      ) : (
+                        <Skeleton variant="circular" width={56} height={56} />
+                      )}
+                    </Badge>
+                  </Tooltip>
+
+                  {isDetailsLoading ? (
+                    <Skeleton variant="rounded" width={72} height={24} />
                   ) : (
-                    <Skeleton variant="circular" width={56} height={56} />
+                    <Chip
+                      size="small"
+                      color={statusColor}
+                      variant={isOnline ? 'filled' : 'outlined'}
+                      label={onlineStatusLabel}
+                    />
                   )}
-                </Badge>
+                </Stack>
 
                 <Stack direction="column" spacing={0.5} minWidth={0}>
                   <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>
@@ -208,16 +232,6 @@ const UserPopover = ({
                   </Grid>
                 ))}
               </Grid>
-
-              {(userDetails?.lastSeen || typeof userDetails?.kepcoin === 'number') && (
-                <Stack direction="column" spacing={1} alignItems="center" flexWrap="wrap">
-                  {userDetails?.lastSeen && (
-                    <Typography variant="caption" color="text.secondary">
-                      {t('users.columns.lastSeen')}: <Chip color="neutral" label={userDetails.lastSeen}></Chip>
-                    </Typography>
-                  )}
-                </Stack>
-              )}
 
               <Button
                 component={RouterLink}

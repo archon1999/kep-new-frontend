@@ -240,7 +240,11 @@
       "empty": "Statistika hali mavjud emas"
     },
     "popover": {
-      "viewDetails": "Profilni ko'rish"
+      "viewDetails": "Profilni ko'rish",
+      "status": {
+        "online": "Onlayn",
+        "offline": "Oflayn"
+      }
     },
     "emptyValue": "—"
   },

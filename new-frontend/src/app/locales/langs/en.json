@@ -240,7 +240,11 @@
       "empty": "User statistics are not available yet"
     },
     "popover": {
-      "viewDetails": "View user details"
+      "viewDetails": "View user details",
+      "status": {
+        "online": "Online",
+        "offline": "Offline"
+      }
     },
     "emptyValue": "—"
   },
