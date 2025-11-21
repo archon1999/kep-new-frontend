@@ -1,0 +1,19 @@
+{
+  "tournaments": {
+    "subtitle": "{{count}} ta turnirga ro'yxatdan o'tish mumkin.",
+    "empty": "Hozircha turnirlar mavjud emas.",
+    "players": "Ishtirokchilar",
+    "playersCount": "Ishtirokchilar: {{count}}",
+    "register": "Ro'yxatdan o'tish",
+    "registered": "Ro'yxatdan o'tilgan",
+    "infoTab": "Ma'lumot",
+    "resultsTab": "Natijalar",
+    "duelsTab": "Duellar",
+    "scheduleTab": "Jadval",
+    "user": "Foydalanuvchi",
+    "ratingTitle": "Reyting",
+    "stage": "Bosqich",
+    "noDuels": "Bu bosqich uchun duellar hali e'lon qilinmadi.",
+    "bracketEmpty": "Sxema duellar joylangach ko'rinadi."
+  }
+}
