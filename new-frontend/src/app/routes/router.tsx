@@ -21,6 +21,9 @@ const ChallengesListPage = lazy(() => import('modules/challenges/ui/pages/Challe
 const ChallengeDetailPage = lazy(() => import('modules/challenges/ui/pages/ChallengeDetailPage'));
 const ChallengesRatingPage = lazy(() => import('modules/challenges/ui/pages/ChallengesRatingPage'));
 const ChallengeUserStatisticsPage = lazy(() => import('modules/challenges/ui/pages/UserStatisticsPage'));
+const DuelsPage = lazy(() => import('modules/duels/ui/pages/DuelsPage'));
+const DuelsRatingPage = lazy(() => import('modules/duels/ui/pages/DuelsRatingPage'));
+const DuelPage = lazy(() => import('modules/duels/ui/pages/DuelPage'));
 const ArenaListPage = lazy(() => import('modules/arena/ui/pages/ArenaListPage'));
 const ArenaDetailPage = lazy(() => import('modules/arena/ui/pages/ArenaDetailPage'));
 const HackathonsListPage = lazy(() => import('modules/hackathons/ui/pages/HackathonsListPage'));
@@ -112,6 +115,21 @@ export const routes: RouteObject[] = [
             path: paths.challengesStats,
             element: <ChallengeUserStatisticsPage />,
             handle: { titleKey: 'pageTitles.challengesStats' },
+          },
+          {
+            path: paths.duels,
+            element: <DuelsPage />,
+            handle: { titleKey: 'pageTitles.duels' },
+          },
+          {
+            path: paths.duelsRating,
+            element: <DuelsRatingPage />,
+            handle: { titleKey: 'pageTitles.duelsRating' },
+          },
+          {
+            path: paths.duel,
+            element: <DuelPage />,
+            handle: { titleKey: 'pageTitles.duel' },
           },
           {
             path: paths.arena,

@@ -13,6 +13,7 @@ import settings from './settings.json';
 import shop from './shop.json';
 import tests from './tests.json';
 import users from './users.json';
+import duels from './duels.json';
 
 export const ruTranslation = {
   ...common,
@@ -30,6 +31,7 @@ export const ruTranslation = {
   ...users,
   ...kepcoinPage,
   ...challenges,
+  ...duels,
 };
 
 export default ruTranslation;

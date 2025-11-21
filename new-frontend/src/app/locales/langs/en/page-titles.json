@@ -19,6 +19,9 @@
     "challenge": "Challenge",
     "challengesRating": "Challenges rating",
     "challengesStats": "Challenge statistics",
+    "duels": "Duels",
+    "duelsRating": "Duels rating",
+    "duel": "Duel",
     "accountSettings": "Account Settings"
   }
 }
