@@ -47,11 +47,9 @@ const BlogCard = ({ post }: BlogCardProps) => {
               <Typography variant="subtitle2" fontWeight={700} color="text.primary">
                 {post.author.username}
               </Typography>
-              {post.created ? (
-                <Typography variant="caption" color="text.secondary">
-                  {dayjs(post.created).format('D MMM YYYY')}
-                </Typography>
-              ) : null}
+              <Typography variant="caption" color="text.secondary">
+                {post.created}
+              </Typography>
             </Stack>
           </Stack>
 
@@ -71,10 +69,6 @@ const BlogCard = ({ post }: BlogCardProps) => {
           >
             {post.title}
           </Typography>
-          {post.bodyShort ? (
-            <Typography dangerouslySetInnerHTML={{__html: post.bodyShort }} variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
-            </Typography>
-          ) : null}
 
           {post.tags.length ? (
             <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>

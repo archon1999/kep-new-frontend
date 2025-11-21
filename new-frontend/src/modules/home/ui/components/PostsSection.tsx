@@ -8,10 +8,10 @@ import 'swiper/css/pagination';
 
 import BlogCard from 'modules/blog/ui/components/BlogCard';
 import { mapBlogPost } from 'modules/blog/data-access/mappers/blog.mapper.ts';
-import type { BlogDetail } from 'shared/api/orval/generated/endpoints';
 import { responsivePagePaddingSx } from 'shared/lib/styles.ts';
 import { useHomePosts } from '../../application/queries';
 import { SwiperNavigation } from './NewsSection.tsx';
+import { BlogDetail } from 'shared/api/orval/generated/endpoints/index.schemas.ts';
 
 const PostsSection = () => {
   const { t } = useTranslation();
@@ -46,12 +46,9 @@ const PostsSection = () => {
             <Swiper
               modules={[Navigation, Pagination, A11y]}
               spaceBetween={16}
-              slidesPerView={1}
+              slidesPerView={1.2}
               pagination={{ clickable: true }}
               breakpoints={{
-                600: { slidesPerView: 1.2 },
-                900: { slidesPerView: 2 },
-                1200: { slidesPerView: 3 },
               }}
             >
               <SwiperNavigation />

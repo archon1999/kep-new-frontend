@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
+import { Card, CardContent } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
@@ -7,12 +9,14 @@ import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import dayjs from 'dayjs';
-import { Link as RouterLink } from 'react-router-dom';
+import { Box } from '@mui/system';
 import { getResourceByUsername, resources } from 'app/routes/resources';
+import dayjs from 'dayjs';
+import KepIcon from 'shared/components/base/KepIcon';
+import { responsivePagePaddingSx } from 'shared/lib/styles.ts';
 import { useNextBirthdays } from '../../application/queries';
 import type { HomeNextBirthdays } from '../../domain/entities/home.entity';
-import KepIcon from 'shared/components/base/KepIcon';
+
 
 const SKELETON_ITEMS = Array.from({ length: 5 });
 
@@ -38,8 +42,8 @@ const BirthdaysSection = () => {
       return (data as HomeNextBirthdays).data as NextBirthdayUser[];
     }
 
-    if (Array.isArray(data as unknown[])) {
-      return data as NextBirthdayUser[];
+    if (Array.isArray(data as unknown as unknown[])) {
+      return data as unknown as NextBirthdayUser[];
     }
 
     return undefined;
@@ -64,16 +68,13 @@ const BirthdaysSection = () => {
   );
 
   return (
-    <Paper sx={{ p: 4, height: '100%' }}>
+    <Paper sx={responsivePagePaddingSx}>
       <Stack spacing={3} direction="column" sx={{ height: '100%' }}>
         <Stack direction="row" alignItems="center" spacing={1.5}>
-          <KepIcon name="birthday" fontSize={24} />
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
             {t('homePage.birthdays.title')}
           </Typography>
         </Stack>
-
-        <Divider />
 
         {isLoading ? (
           <Stack spacing={2.5}>
@@ -88,31 +89,35 @@ const BirthdaysSection = () => {
             ))}
           </Stack>
         ) : birthdays?.length ? (
-          <Stack direction="column" spacing={2.5} divider={<Divider />}>
+          <Stack direction="column" spacing={1.5}>
             {birthdays.map((user) => {
               const displayName = getDisplayName(user);
               const birthdayDate = formatBirthdayDate(user.birthday ?? user.date);
               const profilePath = getResourceByUsername(resources.UserProfile, user.username);
 
               return (
-                <Stack key={user.username} direction="row" spacing={2} alignItems="center">
-                  <Avatar src={user.avatar} alt={displayName} sx={{ width: 48, height: 48 }} />
+                <Card>
+                  <CardContent>
+                    <Stack key={user.username} direction="row" spacing={2} alignItems="center">
+                      <Avatar src={user.avatar} alt={displayName} sx={{ width: 48, height: 48 }} />
 
-                  <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
-                    <Link
-                      component={RouterLink}
-                      to={profilePath}
-                      underline="hover"
-                      color="text.primary"
-                      sx={{ fontWeight: 600 }}
-                    >
-                      {displayName}
-                    </Link>
-                    <Typography variant="body2" color="text.secondary">
-                      {birthdayDate}
-                    </Typography>
-                  </Stack>
-                </Stack>
+                      <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
+                        <Link
+                          component={RouterLink}
+                          to={profilePath}
+                          underline="hover"
+                          color="text.primary"
+                          sx={{ fontWeight: 600 }}
+                        >
+                          {displayName}
+                        </Link>
+                        <Typography variant="body2" color="text.secondary">
+                          {birthdayDate}
+                        </Typography>
+                      </Stack>
+                    </Stack>
+                  </CardContent>
+                </Card>
               );
             })}
           </Stack>
