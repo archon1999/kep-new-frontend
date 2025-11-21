@@ -10,7 +10,7 @@ interface ArenaStatisticsCardProps {
 const StatRow = ({ label, value, icon }: { label: string; value: string | number; icon: string }) => (
   <Stack direction="row" alignItems="center" spacing={1.5}>
     <IconifyIcon icon={icon} color="warning.main" fontSize={24} />
-    <Stack spacing={0.25}>
+    <Stack direction="column" spacing={0.25}>
       <Typography variant="caption" color="text.secondary">
         {label}
       </Typography>
@@ -25,7 +25,7 @@ const ArenaStatisticsCard = ({ stats }: ArenaStatisticsCardProps) => {
   return (
     <Card sx={{ borderRadius: 3 }}>
       <CardContent sx={{ p: 3 }}>
-        <Stack spacing={2}>
+        <Stack direction="column" spacing={2}>
           <Typography variant="h6" fontWeight={800}>
             {t('arena.statistics')}
           </Typography>

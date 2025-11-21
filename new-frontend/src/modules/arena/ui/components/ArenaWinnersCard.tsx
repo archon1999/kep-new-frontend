@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid2 as Grid, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
 import { ArenaPlayerStatistics } from '../../domain/entities/arena-player-statistics.entity.ts';
@@ -18,14 +18,14 @@ const ArenaWinnersCard = ({ topPlayers }: ArenaWinnersCardProps) => {
   return (
     <Card sx={{ borderRadius: 3 }}>
       <CardContent sx={{ p: 3 }}>
-        <Stack spacing={2}>
+        <Stack direction="column" spacing={2}>
           <Typography variant="h6" fontWeight={800}>
             {t('arena.winners')}
           </Typography>
           <Grid container spacing={2}>
             {topPlayers.slice(0, 3).map((player, index) => (
-              <Grid key={player.username} size={{ xs: 12, md: 4 }}>
-                <Stack spacing={1.5} alignItems="center" textAlign="center">
+              <Grid key={player.username} item xs={12} md={4}>
+                <Stack direction="column" spacing={1.5} alignItems="center" textAlign="center">
                   <IconifyIcon icon={placeIcon[index]} fontSize={36} color={placeColor[index]} />
                   <Typography variant="subtitle1" fontWeight={800}>
                     {player.username}

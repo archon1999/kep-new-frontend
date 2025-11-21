@@ -58,7 +58,7 @@ const ArenaPlayersTable = ({
   };
 
   return (
-    <Stack spacing={2}>
+    <Stack direction="column" spacing={2}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography variant="h6" fontWeight={800}>
           {t('arena.players')}
@@ -106,7 +106,7 @@ const ArenaPlayersTable = ({
                     <TableCell>
                       <Stack direction="row" spacing={1.5} alignItems="center">
                         <Avatar>{player.username[0]?.toUpperCase()}</Avatar>
-                        <Stack spacing={0.25}>
+                        <Stack direction="column" spacing={0.25}>
                           <Typography fontWeight={700}>{player.username}</Typography>
                           <Typography variant="body2" color="text.secondary">
                             {player.rankTitle} · {player.rating}
@@ -146,7 +146,7 @@ const ArenaPlayersTable = ({
       </TableContainer>
 
       {data?.pagesCount && data.pagesCount > 1 ? (
-        <Stack alignItems="center">
+        <Stack direction="column" alignItems="center">
           <Pagination
             color="warning"
             count={data.pagesCount}

@@ -8,7 +8,7 @@ interface ArenaPlayerStatisticsCardProps {
 }
 
 const StatisticItem = ({ label, value }: { label: string; value: string | number }) => (
-  <Stack spacing={0.5}>
+  <Stack direction="column" spacing={0.5}>
     <Typography variant="caption" color="text.secondary">
       {label}
     </Typography>
@@ -34,9 +34,9 @@ const ArenaPlayerStatisticsCard = ({ statistics }: ArenaPlayerStatisticsCardProp
   return (
     <Card sx={{ borderRadius: 3 }}>
       <CardContent sx={{ p: 3 }}>
-        <Stack spacing={2}>
+        <Stack direction="column" spacing={2}>
           <Stack direction="row" spacing={1.5} alignItems="center" justifyContent="space-between">
-            <Stack spacing={0.25}>
+            <Stack direction="column" spacing={0.25}>
               <Typography variant="overline" color="text.secondary">
                 {t('arena.playerStatistics')}
               </Typography>
@@ -68,7 +68,7 @@ const ArenaPlayerStatisticsCard = ({ statistics }: ArenaPlayerStatisticsCardProp
           </Stack>
 
           {statistics.opponents?.length ? (
-            <Stack spacing={1}>
+            <Stack direction="column" spacing={1}>
               <Divider />
               <Typography variant="subtitle2" color="text.secondary">
                 {t('arena.opponents')}

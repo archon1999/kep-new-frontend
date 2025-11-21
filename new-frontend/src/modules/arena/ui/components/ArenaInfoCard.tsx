@@ -15,7 +15,7 @@ interface ArenaInfoCardProps {
 const InfoRow = ({ label, value, icon }: { label: string; value: ReactNode; icon: string }) => (
   <Stack direction="row" spacing={1} alignItems="center">
     <IconifyIcon icon={icon} color="warning.main" fontSize={20} />
-    <Stack spacing={0.25}>
+    <Stack direction="column" spacing={0.25}>
       <Typography variant="caption" color="text.secondary">
         {label}
       </Typography>
@@ -66,9 +66,9 @@ const ArenaInfoCard = ({ arena, onRegister, onNextChallenge, isLoadingAction }: 
   return (
     <Card sx={{ borderRadius: 3 }}>
       <CardContent sx={{ p: 3 }}>
-        <Stack spacing={2}>
+        <Stack direction="column" spacing={2}>
           <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-            <Stack spacing={0.5}>
+            <Stack direction="column" spacing={0.5}>
               <Typography variant="overline" color="text.secondary">
                 {t('arena.about')}
               </Typography>
@@ -99,7 +99,7 @@ const ArenaInfoCard = ({ arena, onRegister, onNextChallenge, isLoadingAction }: 
 
           <Divider />
 
-          <Stack spacing={2}>
+          <Stack direction="column" spacing={2}>
             <InfoRow
               label={t('arena.timeline.start')}
               value={dayjs(arena.startTime).format('DD MMM YYYY, HH:mm')}

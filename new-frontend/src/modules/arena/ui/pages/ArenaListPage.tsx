@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
-import { Box, Grid2 as Grid, Pagination, Skeleton, Stack, TextField, Typography } from '@mui/material';
+import { Box, Grid, Pagination, Skeleton, Stack, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useArenasList } from '../../application/queries.ts';
 import ArenaListCard from '../components/ArenaListCard.tsx';
@@ -40,8 +40,8 @@ const ArenaListPage = () => {
 
   return (
     <Box sx={{ p: { xs: 3, md: 5 } }}>
-      <Stack spacing={3}>
-        <Stack spacing={1}>
+      <Stack direction="column" spacing={3}>
+        <Stack direction="column" spacing={1}>
           <Typography variant="h4" fontWeight={800}>
             {t('arena.title')}
           </Typography>
@@ -60,12 +60,12 @@ const ArenaListPage = () => {
         <Grid container spacing={3}>
           {isLoading
             ? Array.from({ length: 6 }).map((_, idx) => (
-                <Grid key={idx} size={{ xs: 12, md: 6, lg: 4 }}>
+                <Grid key={idx} item xs={12} md={6} lg={4}>
                   <Skeleton variant="rounded" height={200} />
                 </Grid>
               ))
             : arenas.map((arena) => (
-                <Grid key={arena.id} size={{ xs: 12, md: 6, lg: 4 }}>
+                <Grid key={arena.id} item xs={12} md={6} lg={4}>
                   <ArenaListCard arena={arena} />
                 </Grid>
               ))}
@@ -78,7 +78,7 @@ const ArenaListPage = () => {
         ) : null}
 
         {pagesCount > 1 ? (
-          <Stack alignItems="center">
+          <Stack direction="column" alignItems="center">
             <Pagination color="warning" count={pagesCount} page={page} onChange={(_, value) => setPage(value)} />
           </Stack>
         ) : null}

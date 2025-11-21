@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Box, Button, Grid2 as Grid, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useSWRConfig } from 'swr';
@@ -67,7 +67,7 @@ const ArenaDetailPage = () => {
 
   return (
     <Box sx={{ p: { xs: 3, md: 5 } }}>
-      <Stack spacing={3}>
+      <Stack direction="column" spacing={3}>
         <Stack direction="row" alignItems="center" spacing={1}>
           <IconifyIcon icon="mdi:sword-cross" color="warning.main" fontSize={28} />
           <Typography variant="h4" fontWeight={800}>
@@ -76,15 +76,15 @@ const ArenaDetailPage = () => {
         </Stack>
 
         {isArenaLoading || !arena ? (
-          <Stack spacing={2}>
+          <Stack direction="column" spacing={2}>
             <Skeleton variant="rounded" height={200} />
             <Skeleton variant="rounded" height={200} />
             <Skeleton variant="rounded" height={200} />
           </Stack>
         ) : (
           <Grid container spacing={3}>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <Stack spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Stack direction="column" spacing={3}>
                 <ArenaInfoCard arena={arena} onRegister={handleRegister} onNextChallenge={handleNextChallenge} />
                 <ArenaCountdownCard arena={arena} />
                 <ArenaStatisticsCard stats={statistics} />
@@ -96,8 +96,8 @@ const ArenaDetailPage = () => {
               </Stack>
             </Grid>
 
-            <Grid size={{ xs: 12, md: 8 }}>
-              <Stack spacing={3}>
+            <Grid item xs={12} md={8}>
+              <Stack direction="column" spacing={3}>
                 {arena.status === ArenaStatus.Finished ? <ArenaWinnersCard topPlayers={topPlayers} /> : null}
                 <ArenaPlayersTable
                   data={players}
@@ -114,7 +114,7 @@ const ArenaDetailPage = () => {
               </Stack>
             </Grid>
 
-            <Grid size={{ xs: 12 }}>
+            <Grid item xs={12}>
               <ArenaPlayerStatisticsCard statistics={playerStatistics} />
             </Grid>
           </Grid>
