@@ -61,12 +61,12 @@ export const resources = {
   Lugavar: '/lugavar',
 
   Users: '/users',
-  UserProfile: '/users/user/:username',
-  UserProfileFollowers: '/users/user/:username/followers',
-  UserProfileRatings: '/users/user/:username/ratings',
-  UserProfileActivityHistory: '/users/user/:username/activity-history',
-  UserProfileBlog: '/users/user/:username/blog',
-  UserProfileAchievements: '/users/user/:username/achievements',
+  UserProfile: '/users/:username',
+  UserProfileFollowers: '/users/:username/followers',
+  UserProfileRatings: '/users/:username/ratings',
+  UserProfileActivityHistory: '/users/:username/activity-history',
+  UserProfileBlog: '/users/:username/blog',
+  UserProfileAchievements: '/users/:username/achievements',
 
   Calendar: '/calendar',
   Shop: '/shop',
