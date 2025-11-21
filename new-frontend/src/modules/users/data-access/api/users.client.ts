@@ -1,6 +1,6 @@
 import { apiClient } from 'shared/api';
-import { ApiUsersCountriesResult, ApiUsersListResult, UserDetail } from 'shared/api/orval/generated/endpoints';
-import { ApiUsersListParams } from 'shared/api/orval/generated/endpoints/index.schemas.ts';
+import type { ApiUsersCountriesResult, ApiUsersListResult } from 'shared/api/orval/generated/endpoints';
+import type { ApiUsersListParams, UserDetail } from 'shared/api/orval/generated/endpoints/index.schemas';
 
 
 interface UsersChartStatisticsApiResponse {

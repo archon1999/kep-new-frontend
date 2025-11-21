@@ -17,7 +17,6 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import KepIcon from 'shared/components/base/KepIcon';
 import { Project, ProjectAttempt, ProjectAttemptLog } from '../../domain/entities/project.entity';
 import { projectsQueries } from '../../application/queries';
 import { useAuth } from 'app/providers/AuthProvider';
@@ -122,8 +121,8 @@ const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: Project
             {log.tasks?.map((task) => (
               <Box key={`${task.taskNumber}-${task.taskTitle}`} sx={{ borderRadius: 2, border: (theme) => `1px solid ${theme.palette.divider}` }}>
                 <Stack direction="row" alignItems="center" spacing={1.5} sx={{ p: 2 }}>
-                  {task.done === true && <KepIcon name="check-square" color="success" />}
-                  {task.done === false && <KepIcon name="cross-square" color="error" />}
+                  {task.done === true && <IconifyIcon icon="material-symbols:check-circle-outline" color="success.main" />}
+                  {task.done === false && <IconifyIcon icon="material-symbols:cancel-outline" color="error.main" />}
                   <Typography fontWeight={700}>
                     {task.taskNumber}. {task.taskTitle}
                   </Typography>
@@ -163,7 +162,7 @@ const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: Project
         </TableHead>
         <TableBody>
           {(attempts ?? []).map((attempt) => {
-            const isOwner = currentUser?.username && attempt.username === currentUser.username;
+            const isOwner = !!currentUser?.username && attempt.username === currentUser.username;
             return (
               <TableRow key={attempt.id} selected={isOwner}>
                 <TableCell>{attempt.id}</TableCell>
