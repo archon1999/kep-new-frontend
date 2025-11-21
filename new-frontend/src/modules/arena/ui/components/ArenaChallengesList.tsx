@@ -21,13 +21,13 @@ const ArenaChallengesList = ({ data, loading }: ArenaChallengesListProps) => {
       </Typography>
       <Grid container spacing={2}>
         {loading
-          ? Array.from({ length: 4 }).map((_, idx) => (
-              <Grid size={{ xs: 12, md: 6 }}>
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <Grid key={`challenge-skeleton-${index}`} size={{ xs: 12, md: 6 }}>
                 <Skeleton variant="rounded" height={120} />
               </Grid>
             ))
           : challenges.map((challenge) => (
-              <Grid size={{ xs: 12, md: 6 }}>
+              <Grid key={challenge.id} size={{ xs: 12, md: 6 }}>
                 <Card sx={{ outline: 'none', borderRadius: 3 }} background={1}>
                   <CardContent>
                     {[challenge.playerFirst, challenge.playerSecond].map((player, index) => (

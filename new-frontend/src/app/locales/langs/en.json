@@ -235,6 +235,10 @@
         "activeUsers": "Active users"
       }
     },
+    "birthdays": {
+      "title": "Birthdays",
+      "empty": "No upcoming birthdays."
+    },
     "activityHistory": {
       "title": "Activity history",
       "empty": "There is no activity to display yet.",

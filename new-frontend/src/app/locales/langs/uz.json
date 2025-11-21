@@ -235,6 +235,10 @@
         "activeUsers": "Faol foydalanuvchilar"
       }
     },
+    "birthdays": {
+      "title": "Tugʻilgan kunlar",
+      "empty": "Yaqin orada tugʻilgan kunlar yoʻq."
+    },
     "activityHistory": {
       "title": "Faollik tarixi",
       "empty": "Hozircha faollik haqida maʼlumot yo‘q.",

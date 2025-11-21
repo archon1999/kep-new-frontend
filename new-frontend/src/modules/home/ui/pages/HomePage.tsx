@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useTranslation } from 'react-i18next';
+import BirthdaysSection from '../components/BirthdaysSection.tsx';
 import HomeProfileSection from '../components/HomeProfileSection.tsx';
 import StatisticsSection from '../components/StatisticsSection.tsx';
 import UserActivitySection from '../components/UserActivitySection.tsx';
@@ -17,7 +18,7 @@ const HomePage = () => {
 
   return (
     <Box>
-      <Grid container>
+      <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
           <HomeProfileSection
             displayName={displayName}
@@ -30,12 +31,18 @@ const HomePage = () => {
         </Grid>
 
         <Grid size={{ xs: 12, md: 6, lg: 8, xl: 9 }}>
-          <Grid size={12}>
-            <UserActivitySection />
-          </Grid>
+          <Grid container spacing={3}>
+            <Grid size={12}>
+              <UserActivitySection />
+            </Grid>
 
-          <Grid size={12}>
-            <StatisticsSection />
+            <Grid size={{ xs: 12, lg: 8 }}>
+              <StatisticsSection />
+            </Grid>
+
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <BirthdaysSection />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
