@@ -141,7 +141,8 @@ const AccountSettingsPage = () => {
     <Paper
       background={1}
       sx={{
-        height: ({ mixins }) => mixins.contentHeight(topbarHeight),
+        height: 1,
+        minHeight: 0,
         overflow: 'hidden',
       }}
     >
@@ -149,7 +150,7 @@ const AccountSettingsPage = () => {
         <Stack
           direction={downMd ? 'column' : 'row'}
           alignItems={downMd ? 'stretch' : 'flex-start'}
-          sx={{ height: 1 }}
+          sx={{ height: 1, minHeight: 0 }}
         >
           {downMd ? (
             <Drawer
@@ -192,7 +193,7 @@ const AccountSettingsPage = () => {
                 width: { md: 324, lg: 405 },
                 position: 'sticky',
                 top: ({ mixins }) => mixins.topOffset(topbarHeight),
-                height: ({ mixins }) => mixins.contentHeight(topbarHeight),
+                height: 1,
               }}
             >
               <SimpleBar>
@@ -205,7 +206,7 @@ const AccountSettingsPage = () => {
             <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />
           ) : null}
 
-          <Paper sx={{ flex: 1, maxWidth: 1, height: 1, overflow: 'hidden' }}>
+          <Paper sx={{ flex: 1, maxWidth: 1, height: 1, minHeight: 0, overflow: 'hidden' }}>
             <SimpleBar disableHorizontal>
               <Container
                 maxWidth={false}
