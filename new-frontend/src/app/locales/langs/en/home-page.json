@@ -47,6 +47,10 @@
       "title": "Latest news",
       "empty": "No news to display yet."
     },
+    "posts": {
+      "title": "Latest blog posts",
+      "empty": "No blog posts to display yet."
+    },
     "topUsers": {
       "title": "Top users",
       "subtitle": "Best performers in every category",
