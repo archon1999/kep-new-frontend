@@ -138,9 +138,19 @@ const AccountSettingsPage = () => {
   }
 
   return (
-    <Paper background={1}>
+    <Paper
+      background={1}
+      sx={{
+        height: ({ mixins }) => mixins.contentHeight(topbarHeight),
+        overflow: 'hidden',
+      }}
+    >
       <TabContext value={activeTab}>
-        <Stack direction={downMd ? 'column' : 'row'} alignItems={downMd ? 'stretch' : 'flex-start'}>
+        <Stack
+          direction={downMd ? 'column' : 'row'}
+          alignItems={downMd ? 'stretch' : 'flex-start'}
+          sx={{ height: 1 }}
+        >
           {downMd ? (
             <Drawer
               hideBackdrop
@@ -195,30 +205,30 @@ const AccountSettingsPage = () => {
             <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />
           ) : null}
 
-          <Paper sx={{ flex: 1, maxWidth: 1 }}>
-            <Container
-              maxWidth={false}
-              sx={{
-                px: { xs: 3, md: 5 },
-                py: 5,
-                maxWidth: { xs: 628, md: 660 },
-                overflowY: 'hidden',
-                height: downMd ? 1 : 'auto',
-              }}
-            >
-              {tabs.map((tab) => (
-                <AccountTabPanel
-                  key={tab.id}
-                  value={tab.value}
-                  title={tab.label}
-                  panelIcon={tab.panelIcon}
-                  description={tab.description}
-                  onOpenTabs={() => setShowTabList(true)}
-                >
-                  {tab.render}
-                </AccountTabPanel>
-              ))}
-            </Container>
+          <Paper sx={{ flex: 1, maxWidth: 1, height: 1, overflow: 'hidden' }}>
+            <SimpleBar disableHorizontal>
+              <Container
+                maxWidth={false}
+                sx={{
+                  px: { xs: 3, md: 5 },
+                  py: 5,
+                  maxWidth: { xs: 628, md: 660 },
+                }}
+              >
+                {tabs.map((tab) => (
+                  <AccountTabPanel
+                    key={tab.id}
+                    value={tab.value}
+                    title={tab.label}
+                    panelIcon={tab.panelIcon}
+                    description={tab.description}
+                    onOpenTabs={() => setShowTabList(true)}
+                  >
+                    {tab.render}
+                  </AccountTabPanel>
+                ))}
+              </Container>
+            </SimpleBar>
           </Paper>
         </Stack>
       </TabContext>
