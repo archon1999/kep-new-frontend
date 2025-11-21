@@ -24,8 +24,27 @@
     "kepcoin": "Kepcoin",
     "shop": "Doʻkon",
     "calendar": "Kalendar",
+    "challenges": "Challengelar",
     "login": "Kirish",
     "notFound": "Sahifa topilmadi"
+  },
+  "challenges": {
+    "title": "Challengelar",
+    "listTitle": "Foydalanuvchilar duelari",
+    "listSubtitle": "Oxirgi challengelar natijalarini kuzating.",
+    "rankLabel": "Unvon: {{rank}}",
+    "ratingLabel": "Reyting: {{rating}}",
+    "scoreLabel": "Hisob: {{value}}",
+    "deltaLabel": "Δ {{value}}",
+    "noResult": "Hisob hali yo'q",
+    "inProgress": "Jarayonda",
+    "timeLabel": "Vaqt: {{seconds}} s",
+    "questionsLabel": "Savollar: {{count}}",
+    "rated": "Reytingli",
+    "unrated": "Reytingsiz",
+    "error": "Challengelarni yuklab bo'lmadi.",
+    "empty": "Challengelar hali mavjud emas.",
+    "paginationLabel": "Jami challengelar: {{total}}"
   },
   "homePage": {
     "greeting": {

@@ -24,8 +24,27 @@
     "kepcoin": "Kepcoin",
     "shop": "Shop",
     "calendar": "Calendar",
+    "challenges": "Challenges",
     "login": "Login",
     "notFound": "Page not found"
+  },
+  "challenges": {
+    "title": "Challenges",
+    "listTitle": "Head-to-head challenges",
+    "listSubtitle": "Track recent duels between users.",
+    "rankLabel": "Rank: {{rank}}",
+    "ratingLabel": "Rating: {{rating}}",
+    "scoreLabel": "Score: {{value}}",
+    "deltaLabel": "Δ {{value}}",
+    "noResult": "No score yet",
+    "inProgress": "In progress",
+    "timeLabel": "Time: {{seconds}} s",
+    "questionsLabel": "Questions: {{count}}",
+    "rated": "Rated",
+    "unrated": "Unrated",
+    "error": "Unable to load challenges right now.",
+    "empty": "No challenges found yet.",
+    "paginationLabel": "Total challenges: {{total}}"
   },
   "homePage": {
     "greeting": {

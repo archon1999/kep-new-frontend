@@ -24,8 +24,27 @@
     "kepcoin": "Кепкоин",
     "shop": "Магазин",
     "calendar": "Календарь",
+    "challenges": "Челленджи",
     "login": "Вход",
     "notFound": "Страница не найдена"
+  },
+  "challenges": {
+    "title": "Челленджи",
+    "listTitle": "Дуэли пользователей",
+    "listSubtitle": "Следите за последними челленджами между пользователями.",
+    "rankLabel": "Звание: {{rank}}",
+    "ratingLabel": "Рейтинг: {{rating}}",
+    "scoreLabel": "Счет: {{value}}",
+    "deltaLabel": "Δ {{value}}",
+    "noResult": "Счет еще не определен",
+    "inProgress": "В процессе",
+    "timeLabel": "Время: {{seconds}} с",
+    "questionsLabel": "Вопросы: {{count}}",
+    "rated": "Рейтинговый",
+    "unrated": "Без рейтинга",
+    "error": "Не удалось загрузить список челленджей.",
+    "empty": "Челленджи пока отсутствуют.",
+    "paginationLabel": "Всего челленджей: {{total}}"
   },
   "homePage": {
     "greeting": {

@@ -12,6 +12,7 @@ const Home = lazy(() => import('modules/home/ui/pages/HomePage'));
 const KepcoinPage = lazy(() => import('modules/kepcoin/ui/pages/KepcoinPage'));
 const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
+const ChallengesPage = lazy(() => import('modules/challenges/ui/pages/ChallengesPage'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
@@ -63,6 +64,11 @@ export const routes: RouteObject[] = [
             path: paths.calendar,
             element: <CalendarPage />,
             handle: { titleKey: 'pageTitles.calendar' },
+          },
+          {
+            path: paths.challenges,
+            element: <ChallengesPage />,
+            handle: { titleKey: 'pageTitles.challenges' },
           },
         ],
       },

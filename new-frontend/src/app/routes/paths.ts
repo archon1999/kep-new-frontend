@@ -6,6 +6,7 @@ export const rootPaths = {
   shopRoot: 'shop',
   calendarRoot: 'calendar',
   usersRoot: 'users',
+  practiceRoot: 'practice',
 };
 
 const paths = {
@@ -13,6 +14,7 @@ const paths = {
   shop: `/${rootPaths.shopRoot}`,
   users: `/${rootPaths.usersRoot}`,
   calendar: `/${rootPaths.calendarRoot}`,
+  challenges: `/${rootPaths.practiceRoot}/challenges`,
   authLogin: `/${rootPaths.authRoot}/login`,
 };
 
