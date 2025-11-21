@@ -1,6 +1,6 @@
 import { SyntheticEvent } from 'react';
 import { TabList } from '@mui/lab';
-import { InputAdornment, Stack, Tab, Typography, styled, useMediaQuery } from '@mui/material';
+import { InputAdornment, Stack, Tab, Typography, styled, tabClasses, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
@@ -21,15 +21,21 @@ const AccountTab = styled(Tab)(({ theme }) => ({
   paddingLeft: theme.spacing(3),
   paddingRight: theme.spacing(3),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: theme.palette.background.elevation2,
-  color: 'inherit',
+  backgroundColor: theme.vars?.palette.background.elevation2 ?? theme.palette.background.elevation2,
+  color: theme.vars?.palette.text.primary ?? theme.palette.text.primary,
   minHeight: 56,
   '&:hover': {
-    backgroundColor: theme.palette.background.elevation3,
+    backgroundColor: theme.vars?.palette.background.elevation3 ?? theme.palette.background.elevation3,
   },
   '&.Mui-selected': {
-    backgroundColor: theme.palette.background.elevation3,
-    color: 'inherit',
+    backgroundColor: theme.vars?.palette.background.elevation3 ?? theme.palette.background.elevation3,
+    color: theme.vars?.palette.text.primary ?? theme.palette.text.primary,
+  },
+  [`& .${tabClasses.iconWrapper}`]: {
+    color: theme.vars?.palette.text.secondary ?? theme.palette.text.secondary,
+  },
+  [`&.${tabClasses.selected} .${tabClasses.iconWrapper}`]: {
+    color: theme.vars?.palette.primary.main ?? theme.palette.primary.main,
   },
 }));
 
@@ -83,7 +89,7 @@ const SideTabList = ({ tabs, onChange, onTabClick }: SideTabListProps) => {
             icon={
               <IconifyIcon
                 icon={tab.icon}
-                sx={{ fontSize: 24, color: 'primary.dark', flexShrink: 0 }}
+                sx={{ fontSize: 24, flexShrink: 0 }}
               />
             }
             iconPosition="start"
