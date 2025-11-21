@@ -8,11 +8,15 @@
     "allTypes": "Barcha turlar",
     "categoriesLabel": "Kategoriyalar",
     "allCategories": "Barcha kategoriyalar",
+    "filters": {
+      "toggle": "Filtrlar"
+    },
     "participation": {
       "all": "Hammasi",
       "joined": "Ro'yxatdan o'tgan",
       "notJoined": "Ro'yxatdan o'tmagan"
     },
+    "participationLabel": "Ishtirok",
     "status": {
       "starts": "Boshlanishi {{date}}",
       "live": "Jonli · yakunlanadi {{date}}",
