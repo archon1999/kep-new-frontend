@@ -9,11 +9,12 @@
     "problems": "Задачи",
     "challenges": "Вызовы",
     "projects": "Проекты",
+    "hackathons": "Хакатоны",
+    "hackathon": "Хакатон",
     "tests": "Тесты",
     "contests": "Контесты",
     "arena": "Арена",
     "tournaments": "Турниры",
-    "hackathons": "Хакатоны",
     "kepcoin": "Кепкоин",
     "calendar": "Календарь",
     "shop": "Магазин"
@@ -25,6 +26,8 @@
     "shop": "Магазин",
     "calendar": "Календарь",
     "projects": "Проекты",
+    "hackathons": "Хакатоны",
+    "hackathon": "Хакатон",
     "project": "Проект",
     "tests": "Тесты",
     "test": "Тест",
@@ -140,6 +143,41 @@
           "task": "{{description}}"
         }
       }
+    }
+  },
+  "hackathons": {
+    "title": "Хакатоны",
+    "subtitle": "Создавайте вместе, соревнуйтесь и представьте классный проект.",
+    "projectsTitle": "Проекты хакатона",
+    "standingsTitle": "Таблица хакатона",
+    "comingSoon": "Этот раздел скоро появится.",
+    "emptyTitle": "Сейчас нет доступных хакатонов",
+    "emptySubtitle": "Мы готовим следующий вызов. Загляните позже!",
+    "backToList": "Назад к хакатонам",
+    "cards": {
+      "projects": "Проекты",
+      "participants": "Участники"
+    },
+    "status": {
+      "upcoming": "Скоро",
+      "active": "Идёт",
+      "finished": "Завершён"
+    },
+    "countdown": {
+      "in": "{{days}}д {{hours}}:{{minutes}}",
+      "soon": "Скоро начнётся",
+      "finished": "Завершено"
+    },
+    "schedule": {
+      "start": "Старт",
+      "finish": "Финиш"
+    },
+    "cta": {
+      "viewProjects": "Смотреть проекты",
+      "viewStandings": "Посмотреть таблицу"
+    },
+    "stats": {
+      "registrants": "Зарегистрировано"
     }
   },
   "shop": {

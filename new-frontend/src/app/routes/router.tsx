@@ -17,6 +17,10 @@ const ProjectDetailPage = lazy(() => import('modules/projects/ui/pages/ProjectDe
 const TestsListPage = lazy(() => import('modules/testing/ui/pages/TestsListPage'));
 const TestDetailPage = lazy(() => import('modules/testing/ui/pages/TestDetailPage'));
 const TestPassPage = lazy(() => import('modules/testing/ui/pages/TestPassPage'));
+const HackathonsListPage = lazy(() => import('modules/hackathons/ui/pages/HackathonsListPage'));
+const HackathonDetailPage = lazy(() => import('modules/hackathons/ui/pages/HackathonDetailPage'));
+const HackathonProjectsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonProjectsPage'));
+const HackathonStandingsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonStandingsPage'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
@@ -68,6 +72,26 @@ export const routes: RouteObject[] = [
             path: paths.tests,
             element: <TestsListPage />,
             handle: { titleKey: 'pageTitles.tests' },
+          },
+          {
+            path: paths.hackathons,
+            element: <HackathonsListPage />,
+            handle: { titleKey: 'pageTitles.hackathons' },
+          },
+          {
+            path: paths.hackathon,
+            element: <HackathonDetailPage />,
+            handle: { titleKey: 'pageTitles.hackathon' },
+          },
+          {
+            path: paths.hackathonProjects,
+            element: <HackathonProjectsPage />,
+            handle: { titleKey: 'pageTitles.hackathon' },
+          },
+          {
+            path: paths.hackathonStandings,
+            element: <HackathonStandingsPage />,
+            handle: { titleKey: 'pageTitles.hackathon' },
           },
           {
             path: paths.test,

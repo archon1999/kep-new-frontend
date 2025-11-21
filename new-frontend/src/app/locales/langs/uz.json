@@ -9,11 +9,12 @@
     "problems": "Masalalar",
     "challenges": "Bellashuvlar",
     "projects": "Loyihalar",
+    "hackathons": "Xakatonlar",
+    "hackathon": "Xakaton",
     "tests": "Testlar",
     "contests": "Kontestlar",
     "arena": "Arena",
     "tournaments": "Turnirlar",
-    "hackathons": "Xakatonlar",
     "kepcoin": "Kepcoin",
     "calendar": "Kalendar",
     "shop": "Doʻkon"
@@ -25,6 +26,8 @@
     "shop": "Doʻkon",
     "calendar": "Kalendar",
     "projects": "Loyihalar",
+    "hackathons": "Xakatonlar",
+    "hackathon": "Xakaton",
     "project": "Loyiha",
     "tests": "Testlar",
     "test": "Test",
@@ -140,6 +143,41 @@
           "task": "{{description}}"
         }
       }
+    }
+  },
+  "hackathons": {
+    "title": "Xakatonlar",
+    "subtitle": "Birgalikda ishlab, bellashing va ajoyib mahsulot tayyorlash vaqti.",
+    "projectsTitle": "Xakaton loyihalari",
+    "standingsTitle": "Xakaton jadvali",
+    "comingSoon": "Bu bo'lim tez orada ishga tushadi.",
+    "emptyTitle": "Hozircha xakatonlar yo'q",
+    "emptySubtitle": "Keyingi musobaqani tayyorlayapmiz. Tez orada tekshiring.",
+    "backToList": "Xakatonlarga qaytish",
+    "cards": {
+      "projects": "Loyihalar",
+      "participants": "Ishtirokchilar"
+    },
+    "status": {
+      "upcoming": "Tez orada",
+      "active": "Davom etmoqda",
+      "finished": "Yakunlandi"
+    },
+    "countdown": {
+      "in": "{{days}} k {{hours}}:{{minutes}}",
+      "soon": "Tez orada boshlanadi",
+      "finished": "Yakunlandi"
+    },
+    "schedule": {
+      "start": "Boshlanishi",
+      "finish": "Tugashi"
+    },
+    "cta": {
+      "viewProjects": "Loyihalarni ko'rish",
+      "viewStandings": "Natijalarni ko'rish"
+    },
+    "stats": {
+      "registrants": "Ro'yxatdan o'tganlar"
     }
   },
   "shop": {

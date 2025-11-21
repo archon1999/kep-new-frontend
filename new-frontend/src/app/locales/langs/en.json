@@ -9,11 +9,12 @@
     "problems": "Problems",
     "challenges": "Challenges",
     "projects": "Projects",
+    "hackathons": "Hackathons",
+    "hackathon": "Hackathon",
     "tests": "Tests",
     "contests": "Contests",
     "arena": "Arena",
     "tournaments": "Tournaments",
-    "hackathons": "Hackathons",
     "kepcoin": "Kepcoin",
     "calendar": "Calendar",
     "shop": "Shop"
@@ -25,6 +26,8 @@
     "shop": "Shop",
     "calendar": "Calendar",
     "projects": "Projects",
+    "hackathons": "Hackathons",
+    "hackathon": "Hackathon",
     "project": "Project",
     "tests": "Tests",
     "test": "Test",
@@ -140,6 +143,41 @@
           "task": "{{description}}"
         }
       }
+    }
+  },
+  "hackathons": {
+    "title": "Hackathons",
+    "subtitle": "Build together, compete together and ship something awesome.",
+    "projectsTitle": "Hackathon projects",
+    "standingsTitle": "Hackathon standings",
+    "comingSoon": "This section will be available soon.",
+    "emptyTitle": "No hackathons available right now",
+    "emptySubtitle": "We are preparing the next challenge. Please check back soon!",
+    "backToList": "Back to hackathons",
+    "cards": {
+      "projects": "Projects",
+      "participants": "Participants"
+    },
+    "status": {
+      "upcoming": "Upcoming",
+      "active": "In progress",
+      "finished": "Finished"
+    },
+    "countdown": {
+      "in": "{{days}}d {{hours}}:{{minutes}}",
+      "soon": "Starting soon",
+      "finished": "Finished"
+    },
+    "schedule": {
+      "start": "Starts",
+      "finish": "Ends"
+    },
+    "cta": {
+      "viewProjects": "View projects",
+      "viewStandings": "View standings"
+    },
+    "stats": {
+      "registrants": "Registrants"
     }
   },
   "shop": {
