@@ -144,7 +144,7 @@ export const CardWrapper = ({ children, sx }: CardWrapperProps) => {
           bottom: 'auto',
         },
         '& .swiper-pagination-bullet': {
-          backgroundColor: `${theme.vars.palette.chGreen['100']} !important`,
+          backgroundColor: `${cssVarRgba(theme.vars.palette.primary.mainChannel, 0.25)} !important`,
           borderRadius: `${theme.spacing(1.5)} !important`,
           width: theme.spacing(2),
           height: theme.spacing(0.5),
@@ -152,7 +152,7 @@ export const CardWrapper = ({ children, sx }: CardWrapperProps) => {
           transition: 'all 0.3s ease',
         },
         '& .swiper-pagination-bullet-active': {
-          backgroundColor: `${theme.vars.palette.chGreen['400']} !important`,
+          backgroundColor: `${theme.vars.palette.primary.main} !important`,
           opacity: 1,
           width: `${theme.spacing(4)} !important`,
         },
@@ -182,17 +182,57 @@ const NewsSection = () => {
         </Typography>
 
         {isLoading ? (
-          <Stack direction="column" spacing={2}>
-            <Skeleton variant="rounded" height={220} />
-            <Stack direction="column" spacing={1}>
-              <Skeleton variant="text" width="75%" />
-              <Skeleton variant="text" width="50%" />
-            </Stack>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Skeleton variant="circular" width={40} height={40} />
-              <Skeleton variant="text" width="30%" />
-            </Stack>
-          </Stack>
+          <CardWrapper>
+            <Box
+              sx={{
+                height: 1,
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
+              <Stack
+                direction="column"
+                justifyContent="space-between"
+                sx={{ height: 1, gridColumn: { xs: '1/-1', sm: '1/3' } }}
+              >
+                <Stack direction="row" gap={1} sx={{ alignSelf: 'flex-end' }}>
+                  <Skeleton variant="circular" width={30} height={30} />
+                  <Skeleton variant="circular" width={30} height={30} />
+                </Stack>
+                <Stack
+                  direction="column"
+                  sx={{
+                    gap: 2,
+                    width: 1,
+                    pt: 6,
+                    pb: 5,
+                    maxWidth: { xs: 'none', lg: 280 },
+                  }}
+                >
+                  <Skeleton variant="text" width="90%" height={40} />
+                  <Skeleton variant="text" width="70%" height={28} />
+                  <Stack direction="row" gap={1} alignItems="center">
+                    <Skeleton variant="circular" width={40} height={40} />
+                    <Skeleton variant="text" width="50%" />
+                  </Stack>
+                </Stack>
+              </Stack>
+
+              <Stack
+                sx={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gridColumn: '3/4',
+                  pt: 5,
+                  display: { xs: 'none', sm: 'block' },
+                }}
+              >
+                <Skeleton variant="rectangular" width="100%" height={220} sx={{ borderRadius: 3 }} />
+              </Stack>
+            </Box>
+          </CardWrapper>
         ) : newsPosts.length ? (
           <CardWrapper>
             <Swiper
