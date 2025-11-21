@@ -1,0 +1,25 @@
+{
+  "tournaments": {
+    "subtitle": "Knockout turnirlarni kuzatib boring.",
+    "countLabel": "{{count}} ta turnir",
+    "emptyTitle": "Turnirlar hali yo'q",
+    "emptySubtitle": "Yangi setkalar tez orada shu yerda paydo bo'ladi.",
+    "starts": "Boshlanishi {{date}}",
+    "tbd": "Vaqt keyin e'lon qilinadi",
+    "playersCount": "{{count}} nafar o'yinchi",
+    "type": "Turi: {{type}}",
+    "bracketTitle": "Natijalar setkasi",
+    "bracketSubtitle": "16 ishtirokchili nokaut tizimi.",
+    "singleElimination": "Nokaut",
+    "roundNumber": "{{round}}-raund",
+    "roundOf": "1/{{count}} final",
+    "quarterfinals": "Chorak final",
+    "semifinals": "Yarim final",
+    "final": "Final",
+    "waitingOpponent": "Raqib kutilyapti",
+    "ratingNA": "Reyting aniqlanmoqda",
+    "winner": "G'olib",
+    "draw": "Durrang",
+    "eliminated": "Mag'lub"
+  }
+}

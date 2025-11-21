@@ -1,0 +1,25 @@
+{
+  "tournaments": {
+    "subtitle": "Stay on top of knockout events.",
+    "countLabel": "{{count}} tournaments",
+    "emptyTitle": "No tournaments yet",
+    "emptySubtitle": "New knockout brackets will appear here soon.",
+    "starts": "Starts {{date}}",
+    "tbd": "Schedule to be announced",
+    "playersCount": "{{count}} players",
+    "type": "Type: {{type}}",
+    "bracketTitle": "Results bracket",
+    "bracketSubtitle": "Single-elimination bracket for 16 players.",
+    "singleElimination": "Knockout",
+    "roundNumber": "Round {{round}}",
+    "roundOf": "1/{{count}} Final",
+    "quarterfinals": "Quarterfinals",
+    "semifinals": "Semifinals",
+    "final": "Final",
+    "waitingOpponent": "Waiting for opponent",
+    "ratingNA": "Rating pending",
+    "winner": "Winner",
+    "draw": "Draw",
+    "eliminated": "Eliminated"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "tournaments": {
+    "subtitle": "Следите за сетками нокаута.",
+    "countLabel": "{{count}} турниров",
+    "emptyTitle": "Турниров пока нет",
+    "emptySubtitle": "Новые сетки появятся здесь скоро.",
+    "starts": "Старт {{date}}",
+    "tbd": "Дата будет объявлена",
+    "playersCount": "{{count}} игроков",
+    "type": "Тип: {{type}}",
+    "bracketTitle": "Сетка результатов",
+    "bracketSubtitle": "Олимпийская система на 16 участников.",
+    "singleElimination": "Олимпийка",
+    "roundNumber": "Раунд {{round}}",
+    "roundOf": "1/{{count}} финала",
+    "quarterfinals": "Четвертьфинал",
+    "semifinals": "Полуфинал",
+    "final": "Финал",
+    "waitingOpponent": "Ожидание соперника",
+    "ratingNA": "Рейтинг уточняется",
+    "winner": "Победил",
+    "draw": "Ничья",
+    "eliminated": "Выбыл"
+  }
+}
