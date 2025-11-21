@@ -13,8 +13,10 @@ import {
   Popover,
   Skeleton,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material';
+import CircleIcon from '@mui/icons-material/Circle';
 import { getResourceByUsername, resources } from 'app/routes/resources';
 import { useUserDetails, useUserRatings } from 'modules/users/application/queries';
 import { UserRatingInfo } from 'modules/users/domain/entities/user.entity';
@@ -84,7 +86,7 @@ const UserPopover = ({
 
   const profileLink = getResourceByUsername(resources.UserProfile, username);
 
-  const streakValue = userDetails?.streak ?? 0;
+  const streakValue = userDetails?.streak ?? streak ?? 0;
   const coverPhoto = userDetails?.coverPhoto;
   const userAvatar = userDetails?.avatar ?? avatar;
 
@@ -145,6 +147,19 @@ const UserPopover = ({
                       <Typography variant="subtitle1" fontWeight={700} noWrap>
                         {username}
                       </Typography>
+                    )}
+
+                    {isDetailsLoading ? (
+                      <Skeleton variant="circular" width={14} height={14} />
+                    ) : (
+                      <Tooltip
+                        title={`${t('users.columns.lastSeen')}: ${userDetails?.lastSeen ?? t('users.emptyValue')}`}
+                        placement="top"
+                      >
+                        <Box component="span" sx={{ display: 'inline-flex' }}>
+                          <CircleIcon fontSize="small" color={userDetails?.isOnline ? 'success' : 'disabled'} />
+                        </Box>
+                      </Tooltip>
                     )}
 
                     {resolvedCountryCode && (
