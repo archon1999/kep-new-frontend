@@ -222,6 +222,11 @@
         "attempts": "Attempts"
       }
     },
+    "birthdays": {
+      "title": "Birthdays",
+      "empty": "No upcoming birthdays yet.",
+      "dateUnknown": "Date to be announced"
+    },
     "userActivity": {
       "title": "User activity",
       "subtitle": "Last 12 days",

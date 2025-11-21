@@ -222,6 +222,11 @@
         "attempts": "Urinishlar"
       }
     },
+    "birthdays": {
+      "title": "Tug'ilgan kunlar",
+      "empty": "Yaqinlashayotgan tug'ilgan kunlar yo'q.",
+      "dateUnknown": "Sana ko'rsatilmagan"
+    },
     "userActivity": {
       "title": "Foydalanuvchilar faolligi",
       "subtitle": "Oxirgi 12 kun",
