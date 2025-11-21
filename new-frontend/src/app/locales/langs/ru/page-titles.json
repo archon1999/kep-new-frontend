@@ -19,6 +19,9 @@
     "challenge": "Баттл",
     "challengesRating": "Рейтинг баттлов",
     "challengesStats": "Статистика баттлов",
+    "duels": "Дуэли",
+    "duelsRating": "Рейтинг дуэлей",
+    "duel": "Дуэль",
     "accountSettings": "Настройки аккаунта"
   }
 }

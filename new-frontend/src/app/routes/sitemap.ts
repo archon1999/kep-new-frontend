@@ -49,6 +49,15 @@ const sitemap: MenuItem[] = [
         active: true,
       },
       {
+        name: 'Duels',
+        key: 'menu.duels',
+        path: resources.Duels,
+        pathName: 'practice-duels',
+        selectionPrefix: '/practice/duels',
+        icon: 'mdi:sword-cross',
+        active: true,
+      },
+      {
         name: 'Projects',
         key: 'menu.projects',
         path: resources.Projects,
