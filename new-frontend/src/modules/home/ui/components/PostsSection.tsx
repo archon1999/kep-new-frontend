@@ -37,7 +37,7 @@ const PostsSection = () => {
 
         {isLoading ? (
           <Stack direction="row" spacing={2} sx={{ width: 1, overflow: 'hidden' }}>
-            {Array.from({ length: 3 }).map((_, index) => (
+            {Array.from({ length: 1 }).map((_, index) => (
               <Skeleton key={index} variant="rounded" height={360} sx={{ flex: 1, minWidth: 240 }} />
             ))}
           </Stack>

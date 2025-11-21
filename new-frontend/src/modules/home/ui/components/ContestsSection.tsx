@@ -142,16 +142,14 @@ const ContestsSection = () => {
             {t('homePage.contests.title')}
           </Typography>
 
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Button
-              variant="text"
-              color="primary"
-              component={RouterLink}
-              to={resources.Contests}
-            >
-              {t('homePage.contests.viewAll')}
-            </Button>
-          </Stack>
+          <Button
+            variant="text"
+            color="primary"
+            component={RouterLink}
+            to={resources.Contests}
+          >
+            {t('homePage.contests.viewAll')}
+          </Button>
         </Stack>
 
         {isLoading ? (

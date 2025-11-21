@@ -193,34 +193,6 @@ const NewsSection = () => {
               }}
             >
               <Stack
-                direction="column"
-                justifyContent="space-between"
-                sx={{ height: 1, gridColumn: { xs: '1/-1', sm: '1/3' } }}
-              >
-                <Stack direction="row" gap={1} sx={{ alignSelf: 'flex-end' }}>
-                  <Skeleton variant="circular" width={30} height={30} />
-                  <Skeleton variant="circular" width={30} height={30} />
-                </Stack>
-                <Stack
-                  direction="column"
-                  sx={{
-                    gap: 2,
-                    width: 1,
-                    pt: 6,
-                    pb: 5,
-                    maxWidth: { xs: 'none', lg: 280 },
-                  }}
-                >
-                  <Skeleton variant="text" width="90%" height={40} />
-                  <Skeleton variant="text" width="70%" height={28} />
-                  <Stack direction="row" gap={1} alignItems="center">
-                    <Skeleton variant="circular" width={40} height={40} />
-                    <Skeleton variant="text" width="50%" />
-                  </Stack>
-                </Stack>
-              </Stack>
-
-              <Stack
                 sx={{
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -229,7 +201,7 @@ const NewsSection = () => {
                   display: { xs: 'none', sm: 'block' },
                 }}
               >
-                <Skeleton variant="rectangular" width="100%" height={220} sx={{ borderRadius: 3 }} />
+                <Skeleton variant="rectangular" height={220} sx={{ borderRadius: 3 }} />
               </Stack>
             </Box>
           </CardWrapper>
