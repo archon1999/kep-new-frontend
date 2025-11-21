@@ -33,6 +33,7 @@ export interface UserDetails {
   lastSeen?: string;
   isOnline?: boolean;
   country?: string;
+  isFollowing?: boolean;
 }
 
 export interface UserRatingInfo {

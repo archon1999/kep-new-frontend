@@ -39,6 +39,15 @@ const HackathonStandingsPage = lazy(() => import('modules/hackathons/ui/pages/Ha
 const AccountSettingsPage = lazy(() => import('modules/account-settings/ui/pages/AccountSettingsPage'));
 const BlogListPage = lazy(() => import('modules/blog/ui/pages/BlogListPage'));
 const BlogPostPage = lazy(() => import('modules/blog/ui/pages/BlogPostPage'));
+const UserProfilePage = lazy(() => import('modules/users/ui/pages/UserProfilePage'));
+const UserProfileAboutTab = lazy(() => import('modules/users/ui/components/user-profile/UserProfileAboutTab'));
+const UserProfileRatingsTab = lazy(() => import('modules/users/ui/components/user-profile/UserProfileRatingsTab'));
+const UserProfileActivityHistoryTab = lazy(
+  () => import('modules/users/ui/components/user-profile/UserProfileActivityHistoryTab'),
+);
+const UserProfileAchievementsTab = lazy(
+  () => import('modules/users/ui/components/user-profile/UserProfileAchievementsTab'),
+);
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
@@ -75,6 +84,29 @@ export const routes: RouteObject[] = [
             path: resources.Users,
             element: <UsersListPage />,
             handle: { titleKey: 'pageTitles.users' },
+          },
+          {
+            path: resources.UserProfile,
+            element: <UserProfilePage />,
+            handle: { titleKey: 'pageTitles.userProfile' },
+            children: [
+              {
+                index: true,
+                element: <UserProfileAboutTab />,
+              },
+              {
+                path: 'ratings',
+                element: <UserProfileRatingsTab />,
+              },
+              {
+                path: 'activity-history',
+                element: <UserProfileActivityHistoryTab />,
+              },
+              {
+                path: 'achievements',
+                element: <UserProfileAchievementsTab />,
+              },
+            ],
           },
           {
             path: resources.Problems,

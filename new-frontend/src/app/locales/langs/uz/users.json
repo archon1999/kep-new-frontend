@@ -44,6 +44,59 @@
     "popover": {
       "viewDetails": "Profilni ko'rish"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "profile": {
+      "tabs": {
+        "about": "Oʻzi haqida",
+        "ratings": "Reytinglar",
+        "activityHistory": "Faollik tarixi",
+        "achievements": "Yutuqlar"
+      },
+      "personal": {
+        "title": "Shaxsiy maʻlumot",
+        "fullName": "Toʻliq ism",
+        "wasBorn": "Tugʻilgan",
+        "lives": "Yashaydi",
+        "email": "Elektron manzil",
+        "website": "Veb-sayt",
+        "joined": "Roʻyhatdan oʻtgan"
+      },
+      "social": {
+        "title": "Ijtimoiy havolalar"
+      },
+      "followers": {
+        "title": "Obunachilar",
+        "viewAll": "Barchasini ko‘rish"
+      },
+      "about": "Oʻzi haqida",
+      "skills": "Koʻnikmalar",
+      "technologies": "Texnologiyalar",
+      "education": "Taʻlim",
+      "workExperience": "Ish tajribasi",
+      "achievements": {
+        "title": "Yutuqlar",
+        "completed": "Bajarilgan",
+        "notCompleted": "Bajarilmagan",
+        "all": "Hammasi",
+        "empty": "Hozircha yutuqlar mavjud emas."
+      },
+      "prizes": {
+        "title": "Musobaqa sovrinlari",
+        "empty": "Hozircha sovrinlar yoʻq."
+      },
+      "ratings": {
+        "solved": "Yechilgan",
+        "rating": "Reyting",
+        "rank": "Oʻrni",
+        "percentile": "Foiz: {{value}}",
+        "wins": "Gʻalabalar",
+        "draws": "Duranglar",
+        "losses": "Magʻlubiyatlar"
+      },
+      "actions": {
+        "follow": "Obuna boʻlish",
+        "unfollow": "Obunani bekor qilish"
+      }
+    }
   }
 }

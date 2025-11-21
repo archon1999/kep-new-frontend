@@ -24,8 +24,8 @@
     "challengesStats": "Challenge statistics",
     "accountSettings": "Account Settings",
     "contests": "Contests",
-    "contestsRating": "Contests rating",
     "tournaments": "Tournaments",
-    "tournament": "Tournament"
+    "tournament": "Tournament",
+    "userProfile": "User profile"
   }
 }
