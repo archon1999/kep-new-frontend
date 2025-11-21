@@ -12,6 +12,7 @@ import {
   Typography,
   paperClasses,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useAuth } from 'app/providers/AuthProvider';
 import axiosFetcher from 'shared/services/axios/axiosFetcher';
@@ -51,6 +52,7 @@ const taskIconMap: Record<DailyTaskType, string> = {
 };
 
 const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const { currentUser } = useAuth();
 
@@ -123,7 +125,7 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
             <IconifyIcon icon="material-symbols:checklist-rounded" />
           </Avatar>
           <Typography variant="body2" color="text.secondary">
-            No daily tasks for now
+            {t('common.dailyTasks.empty')}
           </Typography>
         </Stack>
       );
@@ -171,7 +173,7 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
                     size="small"
                     color="success"
                     variant="soft"
-                    label="Completed"
+                    label={t('common.dailyTasks.completed')}
                     icon={<IconifyIcon icon="material-symbols:check-circle-rounded" sx={{ fontSize: 16 }} />}
                   />
                 ) : (
@@ -226,12 +228,17 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 2, pt: 2, pb: 1 }}>
           <Box>
-            <Typography variant="h6">Daily tasks</Typography>
+            <Typography variant="h6">{t('common.dailyTasks.title')}</Typography>
             <Typography variant="caption" color="text.secondary">
-              Keep your streak growing
+              {t('common.dailyTasks.subtitle')}
             </Typography>
           </Box>
-          <Chip color="secondary" size="small" label={`${dailyTasks.length} tasks`} sx={{ borderRadius: 1 }} />
+          <Chip
+            color="secondary"
+            size="small"
+            label={t('common.dailyTasks.tasksCount', { count: dailyTasks.length })}
+            sx={{ borderRadius: 1 }}
+          />
         </Stack>
 
         <Divider />
@@ -243,7 +250,7 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
         <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
           <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
             <Typography variant="body2" color="text.secondary">
-              Completed
+              {t('common.dailyTasks.completed')}
             </Typography>
             <Typography variant="body2" fontWeight={700} color="text.primary">
               {dailyTasks.length ? `${completedTasks}/${dailyTasks.length}` : '--'}

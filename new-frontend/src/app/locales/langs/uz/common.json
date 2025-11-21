@@ -3,6 +3,14 @@
   "kepcoin": "Kepcoin",
   "common": {
     "back": "Orqaga",
-    "minutesShort": "daq"
+    "minutesShort": "daq",
+    "searchPlaceholder": "Qidirish",
+    "dailyTasks": {
+      "title": "Kunlik vazifalar",
+      "subtitle": "Seriyani davom ettiring",
+      "tasksCount": "{{count}} ta vazifa",
+      "completed": "Bajarildi",
+      "empty": "Hozircha kunlik vazifalar yoʻq"
+    }
   }
 }
