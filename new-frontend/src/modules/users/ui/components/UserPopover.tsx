@@ -220,20 +220,10 @@ const UserPopover = ({
                 ))}
               </Grid>
 
-              {(userDetails?.lastSeen || typeof userDetails?.kepcoin === 'number') && (
-                <Stack direction="column" spacing={1} alignItems="center" flexWrap="wrap">
-                  {userDetails?.lastSeen && (
-                    <Typography variant="caption" color="text.secondary">
-                      {t('users.columns.lastSeen')}: <Chip color="neutral" label={userDetails.lastSeen}></Chip>
-                    </Typography>
-                  )}
-                </Stack>
-              )}
-
               <Button
                 component={RouterLink}
                 to={profileLink}
-                variant="contained"
+                variant="text"
                 size="small"
                 fullWidth
                 onClick={handleClose}
