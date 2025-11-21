@@ -1,0 +1,104 @@
+import { hydrateQuestion } from 'modules/testing/data-access/mappers/test.mapper.ts';
+import {
+  challengesApiClient,
+  type ChallengeListParams,
+} from '../api/challenges.client.ts';
+import {
+  mapChallenge,
+  mapChallengeCall,
+  mapChallengeRating,
+  mapChallengeRatingChange,
+  mapPageResult,
+} from '../mappers/challenge.mapper.ts';
+import {
+  Challenge,
+  ChallengeCall,
+  ChallengeRatingChange,
+  ChallengeRatingRow,
+} from '../../domain';
+import {
+  ChallengeAnswerPayload,
+  ChallengeCheckResponse,
+  ChallengeStartResponse,
+  ChallengesRepository,
+  PageResult,
+} from '../../domain/ports/challenges.repository.ts';
+import { Chapter } from 'modules/testing/domain/entities/chapter.entity.ts';
+import { Question } from 'modules/testing/domain/entities/question.entity.ts';
+
+export class HttpChallengesRepository implements ChallengesRepository {
+  async getChallengeCalls(): Promise<ChallengeCall[]> {
+    const result = await challengesApiClient.getChallengeCalls();
+    return (result ?? []).map(mapChallengeCall);
+  }
+
+  async createChallengeCall(payload: { timeSeconds: number; questionsCount: number; chapters?: number[] }): Promise<void> {
+    await challengesApiClient.createChallengeCall(payload);
+  }
+
+  async deleteChallengeCall(id: number): Promise<void> {
+    await challengesApiClient.deleteChallengeCall(id);
+  }
+
+  async acceptChallengeCall(id: number): Promise<ChallengeStartResponse> {
+    const result = await challengesApiClient.acceptChallengeCall(id);
+    return {
+      success: Boolean(result?.success ?? result?.challengeId),
+      challengeId: result?.challengeId ?? result?.challenge_id,
+    };
+  }
+
+  async listChallenges(params?: ChallengeListParams): Promise<PageResult<Challenge>> {
+    const response = await challengesApiClient.listChallenges(params);
+    return mapPageResult<Challenge>(response, mapChallenge);
+  }
+
+  async getChallenge(challengeId: number | string): Promise<Challenge> {
+    const result = await challengesApiClient.getChallenge(challengeId);
+    return mapChallenge(result);
+  }
+
+  async startChallenge(challengeId: number): Promise<void> {
+    await challengesApiClient.startChallenge(challengeId);
+  }
+
+  async submitAnswer(challengeId: number, payload: ChallengeAnswerPayload): Promise<ChallengeCheckResponse> {
+    const response = await challengesApiClient.submitAnswer(challengeId, {
+      answer: payload.answer,
+      finish: payload.isFinish,
+    });
+    return {
+      success: Boolean(response?.success ?? response?.ok ?? response?.isCorrect),
+    };
+  }
+
+  async listRating(params?: ChallengeListParams): Promise<PageResult<ChallengeRatingRow>> {
+    const response = await challengesApiClient.listRating(params);
+    return mapPageResult<ChallengeRatingRow>(response, mapChallengeRating);
+  }
+
+  async listRatingChanges(username: string): Promise<ChallengeRatingChange[]> {
+    const response = await challengesApiClient.listRatingChanges(username);
+    return (response ?? []).map(mapChallengeRatingChange);
+  }
+
+  async getUserRating(username: string): Promise<ChallengeRatingRow | null> {
+    const response = await challengesApiClient.getUserRating(username);
+    if (!response) return null;
+    return mapChallengeRating(response);
+  }
+
+  async listUserChallenges(params: { username: string; page?: number; pageSize?: number }): Promise<PageResult<Challenge>> {
+    const response = await challengesApiClient.listUserChallenges(params);
+    return mapPageResult<Challenge>(response, mapChallenge);
+  }
+
+  async listChapters(): Promise<Chapter[]> {
+    const response = await challengesApiClient.listChapters();
+    return response ?? [];
+  }
+
+  hydrateQuestion(question: Question): Question {
+    return hydrateQuestion(question);
+  }
+}
