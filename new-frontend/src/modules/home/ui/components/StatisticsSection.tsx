@@ -74,65 +74,71 @@ const StatisticsSection = () => {
   );
 
   return (
-    <Grid container size={12}>
-      {statisticsList.map(({ key, value, percent, hasData }) => {
-        const { color, icon } = getTrendStyles(percent);
-        const showSkeleton = isLoading || !hasData;
+    <Stack spacing={2}>
+      <Typography variant="h5" sx={{ fontWeight: 600 }}>
+        {t('homePage.statistics.title')}
+      </Typography>
 
-        return (
-          <Grid key={key} size={{ xs: 12, sm: 6, lg: 3 }}>
-            <Paper sx={{ p: 4 }}>
-              <Stack spacing={2} direction="column">
-                <Stack direction="column" spacing={0.5}>
+      <Grid container size={12}>
+        {statisticsList.map(({ key, value, percent, hasData }) => {
+          const { color, icon } = getTrendStyles(percent);
+          const showSkeleton = isLoading || !hasData;
+
+          return (
+            <Grid key={key} size={{ xs: 12, sm: 6, lg: 3 }}>
+              <Paper sx={{ p: 4 }}>
+                <Stack spacing={2} direction="column">
+                  <Stack direction="column" spacing={0.5}>
+                    <Stack
+                      direction={{ xs: 'column', sm: 'row', md: 'column', xl: 'row' }}
+                      sx={{
+                        gap: 1,
+                        alignItems: {
+                          xs: 'flex-start',
+                          sm: 'baseline',
+                          md: 'flex-start',
+                          xl: 'baseline',
+                        },
+                      }}
+                    >
+                      <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                        {showSkeleton ? <Skeleton width={96} /> : valueFormatter.format(value)}
+                      </Typography>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                        {t(`homePage.statistics.cards.${key}`)}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+
                   <Stack
                     direction={{ xs: 'column', sm: 'row', md: 'column', xl: 'row' }}
                     sx={{
+                      mt: 'auto',
                       gap: 1,
-                      alignItems: {
-                        xs: 'flex-start',
-                        sm: 'baseline',
-                        md: 'flex-start',
-                        xl: 'baseline',
-                      },
+                      alignItems: { xs: 'flex-start' },
                     }}
                   >
-                    <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                      {showSkeleton ? <Skeleton width={96} /> : valueFormatter.format(value)}
-                    </Typography>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                      {t(`homePage.statistics.cards.${key}`)}
+                    {showSkeleton ? (
+                      <Skeleton width={120} height={32} />
+                    ) : (
+                      <Chip
+                        label={`${percentFormatter.format(percent)}%`}
+                        color={color}
+                        icon={<IconifyIcon icon={icon} />}
+                        sx={{ flexDirection: 'row-reverse' }}
+                      />
+                    )}
+                    <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+                      {t('homePage.statistics.changeLabel')}
                     </Typography>
                   </Stack>
                 </Stack>
-
-                <Stack
-                  direction={{ xs: 'column', sm: 'row', md: 'column', xl: 'row' }}
-                  sx={{
-                    mt: 'auto',
-                    gap: 1,
-                    alignItems: { xs: 'flex-start' },
-                  }}
-                >
-                  {showSkeleton ? (
-                    <Skeleton width={120} height={32} />
-                  ) : (
-                    <Chip
-                      label={`${percentFormatter.format(percent)}%`}
-                      color={color}
-                      icon={<IconifyIcon icon={icon} />}
-                      sx={{ flexDirection: 'row-reverse' }}
-                    />
-                  )}
-                  <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
-                    {t('homePage.statistics.changeLabel')}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </Paper>
-          </Grid>
-        );
-      })}
-    </Grid>
+              </Paper>
+            </Grid>
+          );
+        })}
+      </Grid>
+    </Stack>
   );
 };
 
