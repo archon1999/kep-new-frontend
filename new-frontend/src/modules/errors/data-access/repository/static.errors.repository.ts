@@ -6,7 +6,7 @@ export class StaticErrorsRepository implements ErrorsRepository {
     return {
       title: 'Page not found',
       description: `No worries! Let’s take you back while our bear is searching everywhere`,
-      ctaLabel: 'Go Back Home',
+      ctaLabel: 'Go Back',
       ctaHref: '/',
     };
   }
