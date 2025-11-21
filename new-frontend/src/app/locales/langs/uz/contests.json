@@ -2,11 +2,16 @@
   "contests": {
     "title": "Kontestlar",
     "subtitle": "Dasturlash kontestlarida ishtirok eting va natijalarni jonli kuzating.",
+    "filters": {
+      "show": "Filtrlarni ko'rsatish",
+      "hide": "Filtrlarni yashirish"
+    },
     "searchLabel": "Kontestlarni qidirish",
     "searchPlaceholder": "Sarlavha yoki muallif bo'yicha qidirish",
     "typeLabel": "Turi",
     "allTypes": "Barcha turlar",
     "categoriesLabel": "Kategoriyalar",
+    "categoriesCount": "{{count}} ta kategoriya",
     "allCategories": "Barcha kategoriyalar",
     "participation": {
       "all": "Hammasi",

@@ -2,11 +2,16 @@
   "contests": {
     "title": "Contests",
     "subtitle": "Join live programming contests, track standings, and get ready for the next challenge.",
+    "filters": {
+      "show": "Show filters",
+      "hide": "Hide filters"
+    },
     "searchLabel": "Search contests",
     "searchPlaceholder": "Search by title or author",
     "typeLabel": "Type",
     "allTypes": "All types",
     "categoriesLabel": "Categories",
+    "categoriesCount": "{{count}} categories",
     "allCategories": "All categories",
     "participation": {
       "all": "All",
