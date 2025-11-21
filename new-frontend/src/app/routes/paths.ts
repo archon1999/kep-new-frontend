@@ -23,6 +23,7 @@ const paths = {
   contest: '/competitions/contests/contest/:id',
   tournaments: '/competitions/tournaments',
   tournament: '/competitions/tournaments/tournament/:id',
+  problems: '/practice/problems',
   hackathons: '/competitions/hackathons',
   hackathon: '/competitions/hackathons/hackathon/:id',
   hackathonProjects: '/competitions/hackathons/hackathon/:id/projects',

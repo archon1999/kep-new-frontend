@@ -11,6 +11,7 @@ import paths, { authPaths, rootPaths } from './paths';
 const Home = lazy(() => import('modules/home/ui/pages/HomePage'));
 const KepcoinPage = lazy(() => import('modules/kepcoin/ui/pages/KepcoinPage'));
 const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
+const ProblemsListPage = lazy(() => import('modules/problems/ui/pages/ProblemsListPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
 const ProjectsListPage = lazy(() => import('modules/projects/ui/pages/ProjectsListPage'));
 const ProjectDetailPage = lazy(() => import('modules/projects/ui/pages/ProjectDetailPage'));
@@ -72,6 +73,11 @@ export const routes: RouteObject[] = [
             path: paths.users,
             element: <UsersListPage />,
             handle: { titleKey: 'pageTitles.users' },
+          },
+          {
+            path: paths.problems,
+            element: <ProblemsListPage />,
+            handle: { titleKey: 'pageTitles.problems' },
           },
           {
             path: paths.projects,
