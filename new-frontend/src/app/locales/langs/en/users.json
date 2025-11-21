@@ -45,5 +45,52 @@
       "viewDetails": "View user details"
     },
     "emptyValue": "—"
+  },
+  "userProfile": {
+    "tabs": {
+      "about": "About",
+      "ratings": "Ratings",
+      "activityHistory": "Activity history",
+      "achievements": "Achievements"
+    },
+    "streak": "{{value}} day streak",
+    "status": {
+      "online": "Online",
+      "lastSeen": "Last seen {{value}}"
+    },
+    "kepcoin": "{{value}} Kepcoin",
+    "personal": {
+      "fullName": "Full name",
+      "email": "Email",
+      "location": "Location",
+      "website": "Website",
+      "joined": "Joined",
+      "privacyNote": "Some profile details may be hidden."
+    },
+    "about": {
+      "bio": "Bio",
+      "skills": "Skills",
+      "technologies": "Technologies",
+      "education": "Education",
+      "experience": "Experience",
+      "empty": "No information yet"
+    },
+    "skills": {
+      "algorithms": "Algorithms",
+      "webDevelopment": "Web development",
+      "webScraping": "Web scraping",
+      "dataScience": "Data science"
+    },
+    "ratings": {
+      "title": "Ratings",
+      "skills": "Skills",
+      "activity": "Activity",
+      "contests": "Contests",
+      "challenges": "Challenges"
+    },
+    "achievements": {
+      "empty": "No achievements yet",
+      "prizes": "Competition prizes"
+    }
   }
 }

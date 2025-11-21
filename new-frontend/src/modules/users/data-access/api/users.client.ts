@@ -1,5 +1,16 @@
 import { apiClient } from 'shared/api';
-import type { ApiUsersCountriesResult, ApiUsersListResult } from 'shared/api/orval/generated/endpoints';
+import type {
+  ApiUsersAchievementsResult,
+  ApiUsersCompetitionPrizesResult,
+  ApiUsersCountriesResult,
+  ApiUsersEducationsReadResult,
+  ApiUsersInfoReadResult,
+  ApiUsersListResult,
+  ApiUsersSkillsReadResult,
+  ApiUsersSocialReadResult,
+  ApiUsersTechnologiesReadResult,
+  ApiUsersWorkExperiencesReadResult,
+} from 'shared/api/orval/generated/endpoints';
 import type { ApiUsersListParams, UserDetail } from 'shared/api/orval/generated/endpoints/index.schemas';
 
 
@@ -35,4 +46,17 @@ export const usersApiClient = {
   details: (username: string) => apiClient.apiUsersRead(username) as Promise<UserDetail>,
   ratings: (username: string) =>
     apiClient.apiUsersRatings(username) as unknown as Promise<UserRatingsApiResponse>,
+  info: (username: string) => apiClient.apiUsersInfoRead(username) as Promise<ApiUsersInfoReadResult>,
+  social: (username: string) => apiClient.apiUsersSocialRead(username) as Promise<ApiUsersSocialReadResult>,
+  skills: (username: string) => apiClient.apiUsersSkillsRead(username) as Promise<ApiUsersSkillsReadResult>,
+  technologies: (username: string) =>
+    apiClient.apiUsersTechnologiesRead(username) as Promise<ApiUsersTechnologiesReadResult>,
+  educations: (username: string) =>
+    apiClient.apiUsersEducationsRead(username) as Promise<ApiUsersEducationsReadResult>,
+  workExperiences: (username: string) =>
+    apiClient.apiUsersWorkExperiencesRead(username) as Promise<ApiUsersWorkExperiencesReadResult>,
+  achievements: (username: string) =>
+    apiClient.apiUsersAchievements(username) as Promise<ApiUsersAchievementsResult>,
+  competitionPrizes: (username: string) =>
+    apiClient.apiUsersCompetitionPrizes(username) as Promise<ApiUsersCompetitionPrizesResult>,
 };

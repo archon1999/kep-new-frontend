@@ -45,5 +45,52 @@
       "viewDetails": "Profilni ko'rish"
     },
     "emptyValue": "—"
+  },
+  "userProfile": {
+    "tabs": {
+      "about": "Profil",
+      "ratings": "Reytinglar",
+      "activityHistory": "Faollik tarixi",
+      "achievements": "Yutuqlar"
+    },
+    "streak": "{{value}} kunlik seriya",
+    "status": {
+      "online": "Onlayn",
+      "lastSeen": "Oxirgi faollik {{value}}"
+    },
+    "kepcoin": "{{value}} Kepcoin",
+    "personal": {
+      "fullName": "To'liq ism",
+      "email": "Email",
+      "location": "Manzil",
+      "website": "Veb-sayt",
+      "joined": "Qo'shilgan sana",
+      "privacyNote": "Ba'zi ma'lumotlar yashirilgan bo'lishi mumkin."
+    },
+    "about": {
+      "bio": "Haqida",
+      "skills": "Ko'nikmalar",
+      "technologies": "Texnologiyalar",
+      "education": "Ta'lim",
+      "experience": "Ish tajribasi",
+      "empty": "Ma'lumot topilmadi"
+    },
+    "skills": {
+      "algorithms": "Algoritmlar",
+      "webDevelopment": "Veb-ishlab chiqish",
+      "webScraping": "Veb-skraping",
+      "dataScience": "Data science"
+    },
+    "ratings": {
+      "title": "Reytinglar",
+      "skills": "Ko'nikmalar",
+      "activity": "Faollik",
+      "contests": "Musobaqalar",
+      "challenges": "Challenjlar"
+    },
+    "achievements": {
+      "empty": "Hozircha yutuqlar yo'q",
+      "prizes": "Musobaqa sovrinlari"
+    }
   }
 }

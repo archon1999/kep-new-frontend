@@ -45,5 +45,52 @@
       "viewDetails": "Подробнее о пользователе"
     },
     "emptyValue": "—"
+  },
+  "userProfile": {
+    "tabs": {
+      "about": "О пользователе",
+      "ratings": "Рейтинги",
+      "activityHistory": "История активности",
+      "achievements": "Достижения"
+    },
+    "streak": "Серия {{value}} дней",
+    "status": {
+      "online": "В сети",
+      "lastSeen": "Был(а) {{value}}"
+    },
+    "kepcoin": "{{value}} Kepcoin",
+    "personal": {
+      "fullName": "Полное имя",
+      "email": "Email",
+      "location": "Город",
+      "website": "Сайт",
+      "joined": "Присоединился",
+      "privacyNote": "Некоторая информация профиля может быть скрыта."
+    },
+    "about": {
+      "bio": "О себе",
+      "skills": "Навыки",
+      "technologies": "Технологии",
+      "education": "Образование",
+      "experience": "Опыт работы",
+      "empty": "Информация отсутствует"
+    },
+    "skills": {
+      "algorithms": "Алгоритмы",
+      "webDevelopment": "Веб-разработка",
+      "webScraping": "Веб-скрейпинг",
+      "dataScience": "Data science"
+    },
+    "ratings": {
+      "title": "Рейтинги",
+      "skills": "Навыки",
+      "activity": "Активность",
+      "contests": "Контесты",
+      "challenges": "Челленджи"
+    },
+    "achievements": {
+      "empty": "Достижений пока нет",
+      "prizes": "Призы соревнований"
+    }
   }
 }
