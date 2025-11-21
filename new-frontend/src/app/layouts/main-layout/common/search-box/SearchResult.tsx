@@ -23,13 +23,15 @@ import useSWR from 'swr';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import SearchTextField from './SearchTextField';
 import sitemap, { MenuItem } from 'app/routes/sitemap';
-import { getResourceById, resources } from 'app/routes/resources';
+import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
 import { HttpUsersRepository } from 'modules/users/data-access/repository/http.users.repository';
 import { HttpProblemsRepository } from 'modules/problems/data-access/repository/http.problems.repository';
 import { HttpContestsRepository } from 'modules/contests/data-access/repository/http.contests.repository';
+import { HttpBlogRepository } from 'modules/blog/data-access/repository/http.blog.repository';
 import { UsersListItem } from 'modules/users/domain/entities/user.entity';
 import { ProblemListItem } from 'modules/problems/domain/entities/problem.entity';
 import { ContestListItem } from 'modules/contests/domain/entities/contest.entity';
+import { BlogPost } from 'modules/blog/domain/entities/blog.entity';
 import { useDebouncedValue } from 'shared/hooks/useDebouncedValue';
 import { clearRecentPages, getRecentPages, RecentPage } from 'shared/lib/recent-pages';
 import type { TFunction } from 'i18next';
@@ -37,6 +39,7 @@ import type { TFunction } from 'i18next';
 const usersRepository = new HttpUsersRepository();
 const problemsRepository = new HttpProblemsRepository();
 const contestsRepository = new HttpContestsRepository();
+const blogRepository = new HttpBlogRepository();
 
 type ResourceResult = {
   path: string;
@@ -99,6 +102,12 @@ const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
     { revalidateOnFocus: false },
   );
 
+  const { data: blogsData, isLoading: isBlogsLoading } = useSWR(
+    canSearch ? ['global-search-blogs', debouncedQuery] : null,
+    () => blogRepository.list({ page: 1, pageSize: 5, title: debouncedQuery }),
+    { revalidateOnFocus: false },
+  );
+
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -111,10 +120,11 @@ const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
   const users = usersData?.data ?? [];
   const problems = problemsData?.data ?? [];
   const contests = contestsData?.data ?? [];
+  const blogs = blogsData?.data ?? [];
 
-  const isLoading = isUsersLoading || isProblemsLoading || isContestsLoading;
+  const isLoading = isUsersLoading || isProblemsLoading || isContestsLoading || isBlogsLoading;
   const hasResults =
-    filteredResources.length > 0 || users.length > 0 || problems.length > 0 || contests.length > 0;
+    filteredResources.length > 0 || users.length > 0 || problems.length > 0 || contests.length > 0 || blogs.length > 0;
 
   const showEmptyState = canSearch && !isLoading && !hasResults;
 
@@ -206,7 +216,7 @@ const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
                       <ListItem key={user.username} disablePadding>
                         <ListItemButton
                           component={NavLink}
-                          to={getResourceById(resources.UserProfile, user.username)}
+                          to={getResourceByUsername(resources.UserProfile, user.username)}
                           onClick={handleClose}
                           sx={{ px: 3 }}
                         >
@@ -257,6 +267,37 @@ const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
                 </List>
               ) : (
                 <EmptyState message={t('search.problemsEmpty')} />
+              )}
+            </ResultSection>
+
+            <ResultSection title={t('search.blogs')}>
+              {isBlogsLoading ? (
+                <LoadingIndicator message={t('search.loading')} />
+              ) : blogs.length ? (
+                <List sx={{ pt: 0, pb: 1 }}>
+                  {blogs.map((post: BlogPost) => (
+                    <ListItem key={post.id} disablePadding>
+                      <ListItemButton
+                        component={NavLink}
+                        to={getResourceById(resources.BlogPost, post.id)}
+                        onClick={handleClose}
+                        sx={{ px: 3 }}
+                      >
+                        <ListItemIcon>
+                          <IconifyIcon icon="mdi:book-open-page-variant-outline" />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={post.title}
+                          secondary={post.author?.firstName || post.author?.username}
+                          primaryTypographyProps={{ variant: 'subtitle2', color: 'text.primary' }}
+                          secondaryTypographyProps={{ variant: 'caption', color: 'text.secondary' }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+                </List>
+              ) : (
+                <EmptyState message={t('search.blogsEmpty')} />
               )}
             </ResultSection>
 

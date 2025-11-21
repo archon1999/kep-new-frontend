@@ -9,6 +9,8 @@
   "search.usersEmpty": "Пользователи не найдены.",
   "search.problems": "Задачи",
   "search.problemsEmpty": "Задачи не найдены.",
+  "search.blogs": "Блог",
+  "search.blogsEmpty": "Посты не найдены.",
   "search.contests": "Контесты",
   "search.contestsEmpty": "Контесты не найдены.",
   "search.noResults": "По вашему запросу ничего не найдено.",
