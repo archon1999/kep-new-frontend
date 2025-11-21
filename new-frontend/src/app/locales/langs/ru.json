@@ -26,8 +26,40 @@
     "calendar": "Календарь",
     "projects": "Проекты",
     "project": "Проект",
+    "tests": "Тесты",
+    "test": "Тест",
+    "testPass": "Прохождение теста",
     "login": "Вход",
     "notFound": "Страница не найдена"
+  },
+  "testsPage": {
+    "title": "Практические тесты",
+    "subtitle": "Прокачивайте навыки в тайм-слотах по главам.",
+    "questions": "вопросов",
+    "testsCount": "{{count}} тестов",
+    "viewDetails": "Подробнее",
+    "difficulty": "Сложность",
+    "bestResult": "Лучший результат: {{result}}/{{total}}",
+    "lastPassed": "Последнее прохождение: {{value}}",
+    "notPassed": "Ещё не пройден",
+    "tags": "Теги",
+    "startTitle": "Начать тест",
+    "startDescription": "На ответы будет отведено ограниченное время.",
+    "startButton": "Начать",
+    "startSuccess": "Тест запущен",
+    "startError": "Не удалось запустить тест",
+    "bestResults": "Лучшие результаты",
+    "lastResults": "Последние результаты",
+    "passIntro": "Просмотр только для чтения. Ознакомьтесь с вопросами перед попыткой.",
+    "questionsCount": "{{count}} вопросов",
+    "questionNumber": "Вопрос {{number}}",
+    "questionType": "Тип {{type}}",
+    "viewPass": "Открыть попытку",
+    "metrics": {
+      "questions": "Вопросы",
+      "duration": "Длительность",
+      "passed": "Прошли"
+    }
   },
   "homePage": {
     "greeting": {

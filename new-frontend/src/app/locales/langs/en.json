@@ -26,8 +26,40 @@
     "calendar": "Calendar",
     "projects": "Projects",
     "project": "Project",
+    "tests": "Tests",
+    "test": "Test",
+    "testPass": "Test pass",
     "login": "Login",
     "notFound": "Page not found"
+  },
+  "testsPage": {
+    "title": "Practice tests",
+    "subtitle": "Sharpen your skills with timed test blocks organized by chapters.",
+    "questions": "questions",
+    "testsCount": "{{count}} tests",
+    "viewDetails": "View details",
+    "difficulty": "Difficulty",
+    "bestResult": "Best result: {{result}}/{{total}}",
+    "lastPassed": "Last passed: {{value}}",
+    "notPassed": "Not passed yet",
+    "tags": "Tags",
+    "startTitle": "Start this test",
+    "startDescription": "You will have a limited time window to answer all questions.",
+    "startButton": "Start now",
+    "startSuccess": "Test session started",
+    "startError": "Unable to start the test",
+    "bestResults": "Best results",
+    "lastResults": "Latest results",
+    "passIntro": "This view is read-only for now. Review the questions before starting your attempt.",
+    "questionsCount": "{{count}} questions",
+    "questionNumber": "Question {{number}}",
+    "questionType": "Type {{type}}",
+    "viewPass": "Open attempt",
+    "metrics": {
+      "questions": "Questions",
+      "duration": "Duration",
+      "passed": "Passed"
+    }
   },
   "homePage": {
     "greeting": {

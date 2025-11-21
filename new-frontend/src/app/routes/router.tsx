@@ -14,6 +14,9 @@ const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
 const ProjectsListPage = lazy(() => import('modules/projects/ui/pages/ProjectsListPage'));
 const ProjectDetailPage = lazy(() => import('modules/projects/ui/pages/ProjectDetailPage'));
+const TestsListPage = lazy(() => import('modules/tests/ui/pages/TestsListPage'));
+const TestDetailPage = lazy(() => import('modules/tests/ui/pages/TestDetailPage'));
+const TestPassPage = lazy(() => import('modules/tests/ui/pages/TestPassPage'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
@@ -60,6 +63,21 @@ export const routes: RouteObject[] = [
             path: paths.project,
             element: <ProjectDetailPage />,
             handle: { titleKey: 'pageTitles.project' },
+          },
+          {
+            path: paths.tests,
+            element: <TestsListPage />,
+            handle: { titleKey: 'pageTitles.tests' },
+          },
+          {
+            path: paths.test,
+            element: <TestDetailPage />,
+            handle: { titleKey: 'pageTitles.test' },
+          },
+          {
+            path: paths.testPass,
+            element: <TestPassPage />,
+            handle: { titleKey: 'pageTitles.testPass' },
           },
           {
             path: paths.shop,

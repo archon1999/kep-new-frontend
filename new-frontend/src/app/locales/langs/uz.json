@@ -26,8 +26,40 @@
     "calendar": "Kalendar",
     "projects": "Loyihalar",
     "project": "Loyiha",
+    "tests": "Testlar",
+    "test": "Test",
+    "testPass": "Testni topshirish",
     "login": "Kirish",
     "notFound": "Sahifa topilmadi"
+  },
+  "testsPage": {
+    "title": "Amaliy testlar",
+    "subtitle": "Boblar bo'yicha tashkil etilgan vaqtli bloklarda mashq qiling.",
+    "questions": "savol",
+    "testsCount": "{{count}} ta test",
+    "viewDetails": "Batafsil",
+    "difficulty": "Qiyinchilik",
+    "bestResult": "Eng yaxshi natija: {{result}}/{{total}}",
+    "lastPassed": "Oxirgi urinish: {{value}}",
+    "notPassed": "Hali topshirilmagan",
+    "tags": "Teglar",
+    "startTitle": "Testni boshlash",
+    "startDescription": "Savollarga javob berish uchun vaqt cheklangan.",
+    "startButton": "Boshlash",
+    "startSuccess": "Test boshlandi",
+    "startError": "Testni boshlab bo'lmadi",
+    "bestResults": "Eng yaxshi natijalar",
+    "lastResults": "So'nggi natijalar",
+    "passIntro": "Hozircha faqat o'qish uchun. Urinishdan oldin savollarni ko'rib chiqing.",
+    "questionsCount": "{{count}} ta savol",
+    "questionNumber": "Savol {{number}}",
+    "questionType": "Tur {{type}}",
+    "viewPass": "Urinishni ochish",
+    "metrics": {
+      "questions": "Savollar",
+      "duration": "Davomiyligi",
+      "passed": "Topshirilgan"
+    }
   },
   "homePage": {
     "greeting": {

@@ -45,6 +45,7 @@ export const resources = {
 
   Tests: '/practice/tests',
   Test: '/practice/tests/test/:id',
+  TestPass: '/practice/tests/test-pass/:id',
 
   Projects: '/practice/projects',
   Project: '/practice/projects/project/:slug',
