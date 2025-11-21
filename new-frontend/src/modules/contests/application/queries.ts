@@ -6,6 +6,10 @@ import {
 import { HttpContestsRepository } from '../data-access/repository/http.contests.repository';
 import { ContestCategoryEntity, ContestListItem } from '../domain/entities/contest.entity';
 import { ContestRatingRow } from '../domain/entities/contest-rating.entity';
+import {
+  ContestRatingChange,
+  ContestUserStatistics,
+} from '../domain/entities/contest-user-statistics.entity';
 import { PageResult } from '../domain/ports/contests.repository';
 
 const contestsRepository = new HttpContestsRepository();
@@ -31,6 +35,18 @@ export const useContestsRating = (params?: ApiContestsRatingListParams) =>
   useSWR<PageResult<ContestRatingRow>>(
     ['contests-rating', params?.page, params?.pageSize, params?.ordering],
     () => contestsRepository.rating(params),
+  );
+
+export const useContestUserStatistics = (username?: string) =>
+  useSWR<ContestUserStatistics | null>(
+    username ? ['contest-user-statistics', username] : null,
+    () => contestsRepository.userStatistics(username!),
+  );
+
+export const useContestRatingChanges = (username?: string) =>
+  useSWR<ContestRatingChange[]>(
+    username ? ['contest-rating-changes', username] : null,
+    () => contestsRepository.ratingChanges(username!),
   );
 
 export const contestsQueries = {
