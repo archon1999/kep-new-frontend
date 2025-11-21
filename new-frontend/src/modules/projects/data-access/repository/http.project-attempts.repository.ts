@@ -4,9 +4,9 @@ import { ProjectAttemptLog, ProjectAttemptsPage } from '../../domain/entities/pr
 import { ProjectAttemptsRepository } from '../../domain/ports/project-attempts.repository';
 
 export class HttpProjectAttemptsRepository implements ProjectAttemptsRepository {
-  async list(params: { projectId: number; page?: number; hackathonId?: number; username?: string }): Promise<ProjectAttemptsPage> {
+  async list(params: { projectId?: number; page?: number; hackathonId?: number; username?: string }): Promise<ProjectAttemptsPage> {
     const response = await projectsApiClient.listAttempts({
-      project_id: params.projectId.toString(),
+      project_id: params.projectId ? params.projectId.toString() : undefined,
       username: params.username,
       page: params.page,
       hackathon_id: params.hackathonId?.toString(),

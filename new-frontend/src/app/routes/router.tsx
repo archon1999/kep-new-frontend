@@ -24,6 +24,12 @@ const ChallengeUserStatisticsPage = lazy(() => import('modules/challenges/ui/pag
 const ArenaListPage = lazy(() => import('modules/arena/ui/pages/ArenaListPage'));
 const ArenaDetailPage = lazy(() => import('modules/arena/ui/pages/ArenaDetailPage'));
 const HackathonsListPage = lazy(() => import('modules/hackathons/ui/pages/HackathonsListPage'));
+const HackathonPage = lazy(() => import('modules/hackathons/ui/pages/HackathonPage'));
+const HackathonProjectsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonProjectsPage'));
+const HackathonProjectPage = lazy(() => import('modules/hackathons/ui/pages/HackathonProjectPage'));
+const HackathonAttemptsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonAttemptsPage'));
+const HackathonRegistrantsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonRegistrantsPage'));
+const HackathonStandingsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonStandingsPage'));
 const AccountSettingsPage = lazy(() => import('modules/account-settings/ui/pages/AccountSettingsPage'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
@@ -135,6 +141,36 @@ export const routes: RouteObject[] = [
           {
             path: paths.hackathons,
             element: <HackathonsListPage />,
+            handle: { titleKey: 'pageTitles.hackathons' },
+          },
+          {
+            path: paths.hackathon,
+            element: <HackathonPage />,
+            handle: { titleKey: 'pageTitles.hackathons' },
+          },
+          {
+            path: paths.hackathonProjects,
+            element: <HackathonProjectsPage />,
+            handle: { titleKey: 'pageTitles.hackathons' },
+          },
+          {
+            path: paths.hackathonProject,
+            element: <HackathonProjectPage />,
+            handle: { titleKey: 'pageTitles.hackathons' },
+          },
+          {
+            path: paths.hackathonAttempts,
+            element: <HackathonAttemptsPage />,
+            handle: { titleKey: 'pageTitles.hackathons' },
+          },
+          {
+            path: paths.hackathonRegistrants,
+            element: <HackathonRegistrantsPage />,
+            handle: { titleKey: 'pageTitles.hackathons' },
+          },
+          {
+            path: paths.hackathonStandings,
+            element: <HackathonStandingsPage />,
             handle: { titleKey: 'pageTitles.hackathons' },
           },
           {

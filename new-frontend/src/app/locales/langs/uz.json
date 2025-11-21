@@ -329,7 +329,16 @@
     "projectsCount": "{{count}} ta loyiha",
     "participantsCount": "{{count}} ta ishtirokchi",
     "schedule": "{{start}} — {{end}}",
-    "noSchedule": "Jadval tez orada e’lon qilinadi"
+    "noSchedule": "Jadval tez orada e’lon qilinadi",
+    "overview": "Umumiy",
+    "projects": "Loyihalar",
+    "attempts": "Urinishlar",
+    "standings": "Natijalar",
+    "registrants": "Ro'yxatdan o'tganlar",
+    "register": "Ro'yxatdan o'tish",
+    "unregister": "Ro'yxatdan o'chirish",
+    "contestant": "Ishtirokchi",
+    "points": "Ballar"
   },
   "projects": {
     "title": "Loyihalar",
