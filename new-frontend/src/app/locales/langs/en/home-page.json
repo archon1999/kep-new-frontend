@@ -47,6 +47,19 @@
       "title": "Latest news",
       "empty": "No news to display yet."
     },
+    "topUsers": {
+      "title": "Top users",
+      "subtitle": "Best performers in every category",
+      "empty": "No users to display yet.",
+      "tabs": {
+        "contests": "Contests",
+        "skills": "Skills",
+        "activity": "Activity",
+        "challenges": "Challenges",
+        "streak": "Streak",
+        "kepcoin": "Kepcoin"
+      }
+    },
     "birthdays": {
       "title": "Birthdays",
       "empty": "No upcoming birthdays yet.",
