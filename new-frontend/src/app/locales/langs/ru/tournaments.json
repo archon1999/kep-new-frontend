@@ -1,0 +1,18 @@
+{
+  "tournaments.subtitle": "Сетки нокаут-турниров и результаты этапов.",
+  "tournaments.countLabel": "{{count}} турниров",
+  "tournaments.emptyTitle": "Турниров пока нет",
+  "tournaments.emptySubtitle": "Загляните позже, чтобы увидеть новые сетки и победителей.",
+  "tournaments.playersCount": "{{count}} игроков",
+  "tournaments.startsAt": "Начало {{date}}",
+  "tournaments.playersPreview": "Участники",
+  "tournaments.bracket.title": "Сетка плей-офф",
+  "tournaments.bracket.roundOf16": "1/8 финала",
+  "tournaments.bracket.quarterfinals": "Четвертьфинал",
+  "tournaments.bracket.semifinals": "Полуфинал",
+  "tournaments.bracket.final": "Финал",
+  "tournaments.bracket.roundLabel": "Этап {{number}}",
+  "tournaments.bracket.winner": "Победитель",
+  "tournaments.bracket.eliminated": "Выбыл",
+  "tournaments.bracket.pending": "В ожидании"
+}

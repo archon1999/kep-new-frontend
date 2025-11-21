@@ -1,0 +1,18 @@
+{
+  "tournaments.subtitle": "Brackets for the latest competitive tournaments.",
+  "tournaments.countLabel": "{{count}} tournaments",
+  "tournaments.emptyTitle": "No tournaments yet",
+  "tournaments.emptySubtitle": "Check back soon to see knockout brackets and winners.",
+  "tournaments.playersCount": "{{count}} players",
+  "tournaments.startsAt": "Starts at {{date}}",
+  "tournaments.playersPreview": "Participants",
+  "tournaments.bracket.title": "Knockout bracket",
+  "tournaments.bracket.roundOf16": "Round of 16",
+  "tournaments.bracket.quarterfinals": "Quarterfinals",
+  "tournaments.bracket.semifinals": "Semifinals",
+  "tournaments.bracket.final": "Final",
+  "tournaments.bracket.roundLabel": "Stage {{number}}",
+  "tournaments.bracket.winner": "Winner",
+  "tournaments.bracket.eliminated": "Eliminated",
+  "tournaments.bracket.pending": "Pending"
+}

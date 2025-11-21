@@ -1,0 +1,18 @@
+{
+  "tournaments.subtitle": "So'nggi musobaqalar uchun knockout turnir setkalari.",
+  "tournaments.countLabel": "{{count}} ta turnir",
+  "tournaments.emptyTitle": "Turnirlar topilmadi",
+  "tournaments.emptySubtitle": "Yaqinda yangi setkalar va g'oliblarni bu yerdan topasiz.",
+  "tournaments.playersCount": "{{count}} nafar ishtirokchi",
+  "tournaments.startsAt": "Boshlanish vaqti {{date}}",
+  "tournaments.playersPreview": "Ishtirokchilar",
+  "tournaments.bracket.title": "Knockout setka",
+  "tournaments.bracket.roundOf16": "1/8 final",
+  "tournaments.bracket.quarterfinals": "Chorak final",
+  "tournaments.bracket.semifinals": "Yarim final",
+  "tournaments.bracket.final": "Final",
+  "tournaments.bracket.roundLabel": "Bosqich {{number}}",
+  "tournaments.bracket.winner": "G'olib",
+  "tournaments.bracket.eliminated": "Mag'lub",
+  "tournaments.bracket.pending": "Kutilmoqda"
+}
