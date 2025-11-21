@@ -1,0 +1,72 @@
+{
+  "problems": {
+    "pageTitle": "Problems",
+    "pageSubtitle": "Solve fresh problems, filter by difficulty and track your progress.",
+    "filter": {
+      "title": "Filter problems",
+      "subtitle": "{{count}} problems available",
+      "search": "Search",
+      "searchPlaceholder": "Search by title or keyword",
+      "category": "Category",
+      "difficulty": "Difficulty",
+      "status": {
+        "label": "Status",
+        "all": "Any status",
+        "solved": "Solved",
+        "attempted": "Attempted",
+        "unsolved": "Unsolved"
+      },
+      "ordering": {
+        "label": "Ordering",
+        "newest": "Newest first",
+        "oldest": "Oldest first",
+        "easier": "Easier first",
+        "harder": "Harder first",
+        "mostSolved": "Most solved",
+        "leastSolved": "Least solved"
+      },
+      "lang": "Language",
+      "tags": "Tags",
+      "tagsPlaceholder": "Choose tags",
+      "favorites": "Only favorites",
+      "all": "All"
+    },
+    "table": {
+      "title": "Problem list",
+      "columns": {
+        "title": "Title",
+        "difficulty": "Difficulty",
+        "solved": "Solved",
+        "attempts": "Attempts",
+        "tags": "Tags"
+      },
+      "empty": "No problems found for the selected filters."
+    },
+    "summary": {
+      "title": "Your statistics",
+      "solved": "Solved",
+      "rank": "Rank: {{rank}}",
+      "rating": "Rating",
+      "empty": "Log in to see your problem statistics."
+    },
+    "difficulties": {
+      "title": "Difficulty progress",
+      "beginner": "Beginner",
+      "basic": "Basic",
+      "normal": "Normal",
+      "medium": "Medium",
+      "advanced": "Advanced",
+      "hard": "Hard",
+      "extremal": "Extremal",
+      "progress": "{{solved}} / {{total}} solved"
+    },
+    "tabs": {
+      "lastAttempts": "Last attempts",
+      "lastContest": "Last contest problems",
+      "mostViewed": "Most viewed",
+      "emptyAttempts": "No attempts yet.",
+      "emptyContest": "No recent contest problems.",
+      "emptyViewed": "No viewed problems yet."
+    }
+  }
+}

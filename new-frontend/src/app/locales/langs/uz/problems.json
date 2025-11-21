@@ -1,0 +1,72 @@
+{
+  "problems": {
+    "pageTitle": "Masalalar",
+    "pageSubtitle": "Yangi masalalarni yeching, qiyinlik bo‘yicha filtrlang va taraqqiyotni kuzating.",
+    "filter": {
+      "title": "Masalalarni filtrlash",
+      "subtitle": "{{count}} ta masala mavjud",
+      "search": "Qidirish",
+      "searchPlaceholder": "Sarlavha yoki kalit so‘z bo‘yicha qidirish",
+      "category": "Kategoriya",
+      "difficulty": "Qiyinlik",
+      "status": {
+        "label": "Holat",
+        "all": "Har qanday",
+        "solved": "Yechilgan",
+        "attempted": "Urinilgan",
+        "unsolved": "Yechilmagan"
+      },
+      "ordering": {
+        "label": "Saralash",
+        "newest": "Avval yangi",
+        "oldest": "Avval eski",
+        "easier": "Avval oson",
+        "harder": "Avval qiyin",
+        "mostSolved": "Eng ko‘p yechilgan",
+        "leastSolved": "Kam yechilgan"
+      },
+      "lang": "Til",
+      "tags": "Teglar",
+      "tagsPlaceholder": "Teglarni tanlang",
+      "favorites": "Faqat sevimlilar",
+      "all": "Barchasi"
+    },
+    "table": {
+      "title": "Masalalar ro‘yxati",
+      "columns": {
+        "title": "Sarlavha",
+        "difficulty": "Qiyinlik",
+        "solved": "Yechilgan",
+        "attempts": "Urinishlar",
+        "tags": "Teglar"
+      },
+      "empty": "Tanlangan filtrlar bo‘yicha masalalar topilmadi."
+    },
+    "summary": {
+      "title": "Statistikangiz",
+      "solved": "Yechilgan",
+      "rank": "O‘rin: {{rank}}",
+      "rating": "Reyting",
+      "empty": "Masalalar statistikasi uchun tizimga kiring."
+    },
+    "difficulties": {
+      "title": "Qiyinlik bo‘yicha progress",
+      "beginner": "Boshlang‘ich",
+      "basic": "Asosiy",
+      "normal": "Oddiy",
+      "medium": "O‘rta",
+      "advanced": "Murakkab",
+      "hard": "Qiyin",
+      "extremal": "Juda qiyin",
+      "progress": "{{solved}} / {{total}} ta yechildi"
+    },
+    "tabs": {
+      "lastAttempts": "So‘nggi urinishlar",
+      "lastContest": "So‘nggi kontestdagi masalalar",
+      "mostViewed": "Eng ko‘p ko‘rilganlar",
+      "emptyAttempts": "Hali urinishlar yo‘q.",
+      "emptyContest": "Yaqinda kontest masalalari yo‘q.",
+      "emptyViewed": "Ko‘rilganlar ro‘yxati bo‘sh."
+    }
+  }
+}

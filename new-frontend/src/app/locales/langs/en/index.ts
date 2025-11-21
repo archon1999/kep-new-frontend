@@ -16,6 +16,7 @@ import tests from './tests.json';
 import users from './users.json';
 import tournaments from './tournaments.json';
 import contests from './contests.json';
+import problems from './problems.json';
 
 export const enTranslation = {
   ...common,
@@ -36,6 +37,7 @@ export const enTranslation = {
   ...blog,
   ...tournaments,
   ...contests,
+  ...problems,
 };
 
 export default enTranslation;

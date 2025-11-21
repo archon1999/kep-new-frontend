@@ -38,6 +38,7 @@ const paths = {
   tests: '/practice/tests',
   test: '/practice/tests/test/:id',
   testPass: '/practice/tests/test-pass/:testPassId',
+  problems: '/practice/problems',
   authLogin: `/${rootPaths.authRoot}/login`,
 };
 
