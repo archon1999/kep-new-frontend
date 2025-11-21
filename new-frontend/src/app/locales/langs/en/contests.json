@@ -2,12 +2,14 @@
   "contests": {
     "title": "Contests",
     "subtitle": "Join live programming contests, track standings, and get ready for the next challenge.",
+    "filters": "Filters",
     "searchLabel": "Search contests",
     "searchPlaceholder": "Search by title or author",
     "typeLabel": "Type",
     "allTypes": "All types",
     "categoriesLabel": "Categories",
     "allCategories": "All categories",
+    "participationLabel": "Participation",
     "participation": {
       "all": "All",
       "joined": "Registered",

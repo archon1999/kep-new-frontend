@@ -36,6 +36,11 @@ export const mapCategory = (payload: ContestsCategory): ContestCategoryEntity =>
   title: payload?.title ?? '',
   slug: payload?.slug ?? '',
   icon: payload?.icon ?? undefined,
+  code: payload?.code ?? undefined,
+  contestsCount:
+    payload?.contestsCount !== undefined && payload?.contestsCount !== null
+      ? Number(payload.contestsCount)
+      : undefined,
 });
 
 export const mapPageResult = (payload: ApiContestsList200, mapItem: (item: Contest) => ContestListItem): PageResult<ContestListItem> => ({

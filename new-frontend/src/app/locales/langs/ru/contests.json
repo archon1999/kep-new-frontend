@@ -2,12 +2,14 @@
   "contests": {
     "title": "Соревнования",
     "subtitle": "Участвуйте в контестах по программированию и следите за результатами в реальном времени.",
+    "filters": "Фильтры",
     "searchLabel": "Поиск контестов",
     "searchPlaceholder": "Поиск по названию или автору",
     "typeLabel": "Тип",
     "allTypes": "Все типы",
     "categoriesLabel": "Категории",
     "allCategories": "Все категории",
+    "participationLabel": "Участие",
     "participation": {
       "all": "Все",
       "joined": "Зарегистрирован",

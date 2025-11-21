@@ -29,4 +29,6 @@ export interface ContestCategoryEntity {
   title: string;
   slug: string;
   icon?: string;
+  code?: string;
+  contestsCount?: number;
 }
