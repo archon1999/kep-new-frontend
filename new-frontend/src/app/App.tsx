@@ -8,9 +8,12 @@ import SettingPanelToggler from 'shared/components/settings-panel/SettingPanelTo
 import SettingsPanel from 'shared/components/settings-panel/SettingsPanel.tsx';
 import useIcons from 'shared/hooks/useIcons.tsx';
 import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
+import { addRecentPage } from 'shared/lib/recent-pages.ts';
+
+const normalizeTitle = (title: string, fallback: string) => title.replace(/ - KEP\.uz$/, '') || fallback;
 
 const App = () => {
-  const { pathname } = useLocation();
+  const { pathname, search, hash } = useLocation();
   const { mode } = useThemeMode();
   const { configDispatch } = useSettingsContext();
   useIcons();
@@ -18,6 +21,16 @@ const App = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  useEffect(() => {
+    const fullPath = `${pathname}${search}${hash}`;
+    const pageTitle = normalizeTitle(document.title, fullPath);
+
+    addRecentPage({
+      path: fullPath,
+      title: pageTitle,
+    });
+  }, [pathname, search, hash]);
 
   useLayoutEffect(() => {
     configDispatch({ type: REFRESH });
