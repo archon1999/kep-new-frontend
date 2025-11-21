@@ -32,9 +32,11 @@ export const instance: AxiosInstance = axios.create({
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const headers: AxiosRequestHeaders = config.headers ?? {};
+    const params = config.params ?? {};
 
     const djangoLanguage = djangoLanguageMap[i18n.language as keyof typeof djangoLanguageMap] ?? 'en';
     headers['Django-Language'] = djangoLanguage;
+    params.django_language = djangoLanguage;
 
     if (shouldUseBasicAuth) {
       const basicAuthHeader = getBasicAuthHeader();
@@ -47,6 +49,7 @@ instance.interceptors.request.use(
     }
 
     config.headers = headers;
+    config.params = params;
 
     return config;
   },
