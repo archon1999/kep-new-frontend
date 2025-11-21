@@ -8,6 +8,7 @@ import {
 
 export interface UsersRepository {
   getUsers: (params: UsersListRequest) => Promise<UsersListResponse>;
+  getTopUsers: (params: UsersListRequest) => Promise<UsersListResponse>;
   getCountries: () => Promise<string[]>;
   getChartStatistics: () => Promise<UsersChartStatistics>;
   getUser: (username: string) => Promise<UserDetails>;

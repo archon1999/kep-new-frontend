@@ -41,6 +41,20 @@ export class HttpUsersRepository implements UsersRepository {
     return usersApiClient.chartStatistics();
   }
 
+  async getTopUsers(params: UsersListRequest): Promise<UsersListResponse> {
+    const response = await usersApiClient.topRating({
+      page: params.page,
+      pageSize: params.pageSize,
+      ordering: params.ordering,
+      search: params.search,
+      country: params.country,
+      age_from: params.ageFrom ? String(params.ageFrom) : undefined,
+      age_to: params.ageTo ? String(params.ageTo) : undefined,
+    });
+
+    return mapApiUsersListToDomain(response);
+  }
+
   async getUser(username: string): Promise<UserDetails> {
     const response = await usersApiClient.details(username);
 

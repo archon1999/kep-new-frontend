@@ -16,6 +16,21 @@ export const useUsersList = (params: UsersListRequest) =>
     revalidateOnFocus: false,
   });
 
+export const useTopUsersByOrdering = (ordering?: string, pageSize = 3) =>
+  useSWR<UsersListResponse>(
+    ordering ? ['users-top-rating', ordering, pageSize] : null,
+    () =>
+      repository.getTopUsers({
+        page: 1,
+        pageSize,
+        ordering,
+      }),
+    {
+      keepPreviousData: true,
+      revalidateOnFocus: false,
+    },
+  );
+
 export const useUsersCountries = () =>
   useSWR<string[]>(['users-countries'], () => repository.getCountries(), {
     keepPreviousData: true,

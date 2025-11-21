@@ -43,6 +43,22 @@
         "attempts": "Попытки"
       }
     },
+    "topUsers": {
+      "title": "Лучшие пользователи",
+      "tabs": {
+        "contests": "Соревнования",
+        "skills": "Навыки",
+        "activity": "Активность",
+        "challenges": "Челленджи",
+        "streak": "Серия",
+        "kepcoin": "Kepcoin"
+      },
+      "valueLabels": {
+        "streak": "Серия дней",
+        "kepcoin": "Заработано"
+      },
+      "empty": "Пока нет данных для отображения."
+    },
     "birthdays": {
       "title": "Дни рождения",
       "empty": "Предстоящих дней рождения пока нет.",

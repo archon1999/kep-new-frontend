@@ -43,6 +43,22 @@
         "attempts": "Urinishlar"
       }
     },
+    "topUsers": {
+      "title": "Eng yaxshi foydalanuvchilar",
+      "tabs": {
+        "contests": "Kontestlar",
+        "skills": "Ko'nikmalar",
+        "activity": "Faollik",
+        "challenges": "Challengelar",
+        "streak": "Streak",
+        "kepcoin": "Kepcoin"
+      },
+      "valueLabels": {
+        "streak": "Kunlik streak",
+        "kepcoin": "Toplangan"
+      },
+      "empty": "Hozircha ko'rsatish uchun foydalanuvchilar yo'q."
+    },
     "birthdays": {
       "title": "Tug'ilgan kunlar",
       "empty": "Yaqinlashayotgan tug'ilgan kunlar yo'q.",

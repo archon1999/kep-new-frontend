@@ -32,6 +32,8 @@ export const usersApiClient = {
   countries: () => apiClient.apiUsersCountries() as Promise<ApiUsersCountriesResult>,
   chartStatistics: () =>
     apiClient.apiUsersChartStat() as unknown as Promise<UsersChartStatisticsApiResponse>,
+  topRating: (params?: ApiUsersListParams) =>
+    apiClient.apiUsersTopRating(params) as Promise<ApiUsersListResult>,
   details: (username: string) => apiClient.apiUsersRead(username) as Promise<UserDetail>,
   ratings: (username: string) =>
     apiClient.apiUsersRatings(username) as unknown as Promise<UserRatingsApiResponse>,

@@ -43,6 +43,22 @@
         "attempts": "Attempts"
       }
     },
+    "topUsers": {
+      "title": "Top users",
+      "tabs": {
+        "contests": "Contests",
+        "skills": "Skills",
+        "activity": "Activity",
+        "challenges": "Challenges",
+        "streak": "Streak",
+        "kepcoin": "Kepcoin"
+      },
+      "valueLabels": {
+        "streak": "Day streak",
+        "kepcoin": "Earned"
+      },
+      "empty": "No users to display yet."
+    },
     "birthdays": {
       "title": "Birthdays",
       "empty": "No upcoming birthdays yet.",
