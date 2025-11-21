@@ -101,6 +101,11 @@ export const routes: RouteObject[] = [
             element: <HackathonsListPage />,
             handle: { titleKey: 'pageTitles.hackathons' },
           },
+          {
+            path: paths.accountSettings,
+            element: <AccountSettingsPage />,
+            handle: { titleKey: 'pageTitles.accountSettings' },
+          },
         ],
       },
 
