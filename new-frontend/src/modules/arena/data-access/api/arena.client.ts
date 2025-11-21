@@ -1,53 +1,22 @@
-import { instance } from 'shared/api/http/axiosInstance.ts';
+import { apiClient } from 'shared/api';
 import { ArenaStatus } from '../../domain/entities/arena.entity';
 import { ArenaChallengesFilters, ArenaListFilters, ArenaPlayersFilters } from '../../domain/ports/arena.repository';
 
 export const arenaApiClient = {
-  list: async (filters?: ArenaListFilters) => {
-    const response = await instance.get('/api/arena/', { params: filters });
-    return response.data;
-  },
-  getArena: async (arenaId: number | string) => {
-    const response = await instance.get(`/api/arena/${arenaId}/`);
-    return response.data;
-  },
-  register: async (arenaId: number | string) => {
-    const response = await instance.post(`/api/arena/${arenaId}/registration/`);
-    return response.data;
-  },
-  pause: async (arenaId: number | string) => {
-    const response = await instance.post(`/api/arena/${arenaId}/pause/`);
-    return response.data;
-  },
-  start: async (arenaId: number | string) => {
-    const response = await instance.post(`/api/arena/${arenaId}/start/`);
-    return response.data;
-  },
-  nextChallenge: async (arenaId: number | string) => {
-    const response = await instance.get(`/api/arena/${arenaId}/next-challenge/`);
-    return response.data;
-  },
-  listPlayers: async (arenaId: number | string, filters?: ArenaPlayersFilters) => {
-    const params = { ...filters, arena_id: arenaId };
-    const response = await instance.get('/api/arena-players/', { params });
-    return response.data;
-  },
-  listChallenges: async (arenaId: number | string, filters?: ArenaChallengesFilters) => {
-    const response = await instance.get(`/api/arena/${arenaId}/last-challenges/`, { params: filters });
-    return response.data;
-  },
-  playerStatistics: async (arenaId: number | string, username: string) => {
-    const response = await instance.get(`/api/arena/${arenaId}/arena-player-statistics/`, { params: { username } });
-    return response.data;
-  },
-  topPlayers: async (arenaId: number | string) => {
-    const response = await instance.get(`/api/arena/${arenaId}/top-3/`);
-    return response.data;
-  },
-  statistics: async (arenaId: number | string) => {
-    const response = await instance.get(`/api/arena/${arenaId}/statistics/`);
-    return response.data;
-  },
+  list: (filters?: ArenaListFilters) => apiClient.apiArenaList(filters),
+  getArena: (arenaId: number | string) => apiClient.apiArenaRead(String(arenaId)),
+  register: (arenaId: number | string) => apiClient.apiArenaRegistration(String(arenaId), {} as never),
+  pause: (arenaId: number | string) => apiClient.apiArenaPause(String(arenaId), {} as never),
+  start: (arenaId: number | string) => apiClient.apiArenaStart(String(arenaId), {} as never),
+  nextChallenge: (arenaId: number | string) => apiClient.apiArenaNextChallenge(String(arenaId)),
+  listPlayers: (arenaId: number | string, filters?: ArenaPlayersFilters) =>
+    apiClient.apiArenaPlayersList({ ...filters, arena_id: String(arenaId) }),
+  listChallenges: (arenaId: number | string, filters?: ArenaChallengesFilters) =>
+    apiClient.apiArenaLastChallenges(String(arenaId), { params: filters } as never),
+  playerStatistics: (arenaId: number | string, username: string) =>
+    apiClient.apiArenaArenaPlayerStatistics(String(arenaId), { params: { username } } as never),
+  topPlayers: (arenaId: number | string) => apiClient.apiArenaTop3(String(arenaId)),
+  statistics: (arenaId: number | string) => apiClient.apiArenaStatistics(String(arenaId)),
 };
 
 export const statusOptions: { label: string; value: ArenaStatus }[] = [

@@ -1,4 +1,4 @@
-import { instance } from 'shared/api/http/axiosInstance';
+import { apiClient } from 'shared/api';
 import type {
   AccountEducation,
   AccountGeneralInfo,
@@ -11,48 +11,39 @@ import type {
 } from '../../domain/entities/account-settings.entity';
 
 export const accountSettingsApiClient = {
-  getGeneralInfo: async (username: string) =>
-    (await instance.get<AccountGeneralInfo>(`/api/users/${username}/general-info/`)).data,
-  updateGeneralInfo: async (username: string, payload: AccountGeneralInfo) =>
-    (await instance.post<AccountGeneralInfo>(`/api/users/${username}/general-info/`, payload)).data,
+  getGeneralInfo: (username: string) => apiClient.apiUsersGeneralInfoRead(username) as Promise<AccountGeneralInfo>,
+  updateGeneralInfo: (username: string, payload: AccountGeneralInfo) =>
+    apiClient.apiUsersGeneralInfoCreate(username, payload as never) as Promise<AccountGeneralInfo>,
 
-  getProfileInfo: async (username: string) =>
-    (await instance.get<AccountProfileInfo>(`/api/users/${username}/info/`)).data,
-  updateProfileInfo: async (username: string, payload: AccountProfileInfo) =>
-    (await instance.post<AccountProfileInfo>(`/api/users/${username}/info/`, payload)).data,
+  getProfileInfo: (username: string) => apiClient.apiUsersInfoRead(username) as Promise<AccountProfileInfo>,
+  updateProfileInfo: (username: string, payload: AccountProfileInfo) =>
+    apiClient.apiUsersInfoCreate(username, payload as never) as Promise<AccountProfileInfo>,
 
-  getSocial: async (username: string) =>
-    (await instance.get<AccountSocialLinks>(`/api/users/${username}/social/`)).data,
-  updateSocial: async (username: string, payload: AccountSocialLinks) =>
-    (await instance.post<AccountSocialLinks>(`/api/users/${username}/social/`, payload)).data,
+  getSocial: (username: string) => apiClient.apiUsersSocialRead(username) as Promise<AccountSocialLinks>,
+  updateSocial: (username: string, payload: AccountSocialLinks) =>
+    apiClient.apiUsersSocialCreate(username, payload as never) as Promise<AccountSocialLinks>,
 
-  getSkills: async (username: string) =>
-    (await instance.get<AccountSkills>(`/api/users/${username}/skills/`)).data,
-  updateSkills: async (username: string, payload: AccountSkills) =>
-    (await instance.post<AccountSkills>(`/api/users/${username}/skills/`, payload)).data,
+  getSkills: (username: string) => apiClient.apiUsersSkillsRead(username) as Promise<AccountSkills>,
+  updateSkills: (username: string, payload: AccountSkills) =>
+    apiClient.apiUsersSkillsCreate(username, payload as never) as Promise<AccountSkills>,
 
-  getTechnologies: async (username: string) =>
-    (await instance.get<AccountTechnology[]>(`/api/users/${username}/technologies/`)).data,
-  updateTechnologies: async (username: string, payload: AccountTechnology[]) =>
-    (await instance.post<AccountTechnology[]>(`/api/users/${username}/technologies/`, payload)).data,
+  getTechnologies: (username: string) => apiClient.apiUsersTechnologiesRead(username) as Promise<AccountTechnology[]>,
+  updateTechnologies: (username: string, payload: AccountTechnology[]) =>
+    apiClient.apiUsersTechnologiesCreate(username, payload as never) as Promise<AccountTechnology[]>,
 
-  getEducations: async (username: string) =>
-    (await instance.get<AccountEducation[]>(`/api/users/${username}/educations/`)).data,
-  updateEducations: async (username: string, payload: AccountEducation[]) =>
-    (await instance.post<AccountEducation[]>(`/api/users/${username}/educations/`, payload)).data,
+  getEducations: (username: string) => apiClient.apiUsersEducationsRead(username) as Promise<AccountEducation[]>,
+  updateEducations: (username: string, payload: AccountEducation[]) =>
+    apiClient.apiUsersEducationsCreate(username, payload as never) as Promise<AccountEducation[]>,
 
-  getWorkExperiences: async (username: string) =>
-    (await instance.get<AccountWorkExperience[]>(`/api/users/${username}/work-experiences/`)).data,
-  updateWorkExperiences: async (username: string, payload: AccountWorkExperience[]) =>
-    (await instance.post<AccountWorkExperience[]>(`/api/users/${username}/work-experiences/`, payload)).data,
+  getWorkExperiences: (username: string) => apiClient.apiUsersWorkExperiencesRead(username) as Promise<AccountWorkExperience[]>,
+  updateWorkExperiences: (username: string, payload: AccountWorkExperience[]) =>
+    apiClient.apiUsersWorkExperiencesCreate(username, payload as never) as Promise<AccountWorkExperience[]>,
 
-  changePassword: async (username: string, payload: ChangePasswordPayload) => {
-    await instance.post(`/api/users/${username}/change-password/`, payload);
-  },
+  changePassword: (username: string, payload: ChangePasswordPayload) =>
+    apiClient.apiUsersChangePassword(username, payload as never).then(() => undefined),
 
-  getTeams: async () => (await instance.get('/api/user-teams/')).data,
-  createTeam: async (name: string) => (await instance.post('/api/user-teams/', { name })).data,
-  joinTeam: async (code: string) => (await instance.post(`/api/user-teams/${code}/join/`)).data,
-  refreshTeamCode: async (code: string) =>
-    (await instance.post(`/api/user-teams/${code}/refresh-code/`)).data,
+  getTeams: () => apiClient.apiUserTeamsList(),
+  createTeam: (name: string) => apiClient.apiUserTeamsCreate({ name } as never),
+  joinTeam: (code: string) => apiClient.apiUserTeamsJoin(code),
+  refreshTeamCode: (code: string) => apiClient.apiUserTeamsRefreshCode(code),
 };
