@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import {
   useKepcoinEarnHistory,
   useKepcoinSpendHistory,
@@ -10,6 +10,7 @@ import HowToEarnWidget from '../widgets/HowToEarnWidget';
 import HowToSpendWidget from '../widgets/HowToSpendWidget';
 import KepcoinActivityWidget from '../widgets/KepcoinActivityWidget';
 import StreakWidget from '../widgets/StreakWidget';
+import { responsivePagePaddingSx } from "shared/lib/styles.ts";
 
 const PAGE_SIZE = 10;
 
@@ -57,33 +58,37 @@ const KepcoinPage = () => {
   };
 
   return (
-    <Grid container>
+    <Grid sx={responsivePagePaddingSx} size={12} container spacing={3}>
       <Grid size={{ sm: 12, lg: 6 }}>
-        <StreakWidget
-          balance={summary?.balance}
-          streak={summary?.streak}
-          maxStreak={summary?.maxStreak}
-          streakFreeze={summary?.streakFreeze}
-          isLoading={isSummaryLoading}
-          onPurchaseStreakFreeze={handlePurchaseStreakFreeze}
-        />
+        <Stack direction="column" spacing={3}>
+          <StreakWidget
+            balance={summary?.balance}
+            streak={summary?.streak}
+            maxStreak={summary?.maxStreak}
+            streakFreeze={summary?.streakFreeze}
+            isLoading={isSummaryLoading}
+            onPurchaseStreakFreeze={handlePurchaseStreakFreeze}
+          />
 
-        <KepcoinActivityWidget
-          view={view}
-          onViewChange={handleViewChange}
-          isLoading={isHistoryLoading}
-          error={historyError}
-          historyItems={historyItems}
-          pagesCount={pagesCount}
-          page={page}
-          onPageChange={handlePageChange}
-          onRetry={retryHistory}
-        />
+          <KepcoinActivityWidget
+            view={view}
+            onViewChange={handleViewChange}
+            isLoading={isHistoryLoading}
+            error={historyError}
+            historyItems={historyItems}
+            pagesCount={pagesCount}
+            page={page}
+            onPageChange={handlePageChange}
+            onRetry={retryHistory}
+          />
+        </Stack>
       </Grid>
 
       <Grid size={{ sm: 12, lg: 6 }}>
-        <HowToEarnWidget />
-        <HowToSpendWidget />
+        <Stack direction="column" spacing={3}>
+          <HowToEarnWidget />
+          <HowToSpendWidget />
+        </Stack>
       </Grid>
     </Grid>
   );

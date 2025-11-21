@@ -1,9 +1,11 @@
+import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Box,
   Button,
-  Divider,
+  Card,
+  CardContent,
   Pagination,
   Skeleton,
   Stack,
@@ -11,6 +13,14 @@ import {
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
+import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineSeparator,
+} from '@mui/lab';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import {
@@ -149,99 +159,122 @@ const KepcoinActivityWidget = ({
   const { t } = useTranslation();
 
   return (
-    <Box sx={responsivePagePaddingSx}>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        flexWrap="wrap"
-        gap={2}
-        mb={2}
-      >
-        <Typography variant="h5" fontWeight={700}>
-          {t('kepcoinPage.history.title')}
-        </Typography>
-        <ToggleButtonGroup value={view} exclusive onChange={onViewChange} size="small">
-          <ToggleButton value="earns">{t('kepcoinPage.history.tabs.earns')}</ToggleButton>
-          <ToggleButton value="spends">{t('kepcoinPage.history.tabs.spends')}</ToggleButton>
-        </ToggleButtonGroup>
-      </Stack>
-
-      {isLoading ? (
-        <Stack spacing={2} direction="column">
-          {Array.from({ length: 10 }).map((_, index) => (
-            <Stack key={index} spacing={1.5} direction="column">
-              <Skeleton variant="text" width="60%" />
-              <Skeleton variant="text" width="40%" />
-              <Divider />
-            </Stack>
-          ))}
-        </Stack>
-      ) : error ? (
-        <Alert
-          severity="error"
-          action={
-            <Button color="inherit" size="small" onClick={onRetry}>
-              {t('kepcoinPage.history.retry')}
-            </Button>
-          }
-        >
-          {t('kepcoinPage.history.error')}
-        </Alert>
-      ) : historyItems.length === 0 ? (
-        <Stack spacing={1}>
-          <Typography variant="subtitle1" fontWeight={600}>
-            {t('kepcoinPage.history.emptyTitle')}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {t('kepcoinPage.history.emptySubtitle')}
-          </Typography>
-        </Stack>
-      ) : (
+    <Card>
+      <CardContent sx={responsivePagePaddingSx}>
         <Stack
-          direction="column"
-          spacing={2}
-          divider={<Divider flexItem sx={{ borderColor: 'divider' }} />}
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          flexWrap="wrap"
+          gap={2}
+          mb={2}
         >
-          {historyItems.map((item) => (
-            <Stack key={item.id} spacing={1.25}>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                flexWrap="wrap"
-                gap={1}
-              >
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <IconifyIcon
-                    icon="solar:coins-stacks-linear"
-                    fontSize={24}
-                    color="warning.main"
-                  />
-                  <Typography variant="h6" color={view === 'earns' ? 'success.main' : 'error.main'}>
-                    {`${view === 'earns' ? '+' : '-'}${item.amount}`}
-                  </Typography>
-                </Stack>
-              </Stack>
-              <Typography variant="body1" fontWeight={600}>
-                {getHistoryDescription(view, item, t)}
-              </Typography>
-              {item.note && (
-                <Typography variant="body2" color="text.secondary">
-                  {t('kepcoinPage.history.note', { value: item.note })}
-                </Typography>
-              )}
-            </Stack>
-          ))}
+          <Typography variant="h5" fontWeight={700}>
+            {t('kepcoinPage.history.title')}
+          </Typography>
+          <ToggleButtonGroup value={view} exclusive onChange={onViewChange} size="small">
+            <ToggleButton value="earns">{t('kepcoinPage.history.tabs.earns')}</ToggleButton>
+            <ToggleButton value="spends">{t('kepcoinPage.history.tabs.spends')}</ToggleButton>
+          </ToggleButtonGroup>
         </Stack>
-      )}
 
-      {pagesCount > 1 && (
-        <Box mt={3} display="flex" justifyContent="center">
-          <Pagination count={pagesCount} page={page} onChange={onPageChange} color="primary" />
-        </Box>
-      )}
-    </Box>
+        {isLoading ? (
+          <Timeline sx={{ '& .MuiTimelineItem-root:before': { flex: 0, padding: 0 } }}>
+            {Array.from({ length: 6 }).map((_, index, arr) => (
+              <TimelineItem key={index}>
+                <TimelineSeparator>
+                  <TimelineDot color="primary" variant="outlined" />
+                  {index < arr.length - 1 && <TimelineConnector />}
+                </TimelineSeparator>
+                <TimelineContent>
+                  <Stack spacing={1}>
+                    <Skeleton variant="text" width="50%" />
+                    <Skeleton variant="text" width="70%" />
+                    <Skeleton variant="text" width="40%" />
+                  </Stack>
+                </TimelineContent>
+              </TimelineItem>
+            ))}
+          </Timeline>
+        ) : error ? (
+          <Alert
+            severity="error"
+            action={
+              <Button color="inherit" size="small" onClick={onRetry}>
+                {t('kepcoinPage.history.retry')}
+              </Button>
+            }
+          >
+            {t('kepcoinPage.history.error')}
+          </Alert>
+        ) : historyItems.length === 0 ? (
+          <Stack spacing={1}>
+            <Typography variant="subtitle1" fontWeight={600}>
+              {t('kepcoinPage.history.emptyTitle')}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {t('kepcoinPage.history.emptySubtitle')}
+            </Typography>
+          </Stack>
+        ) : (
+          <Timeline sx={{ '& .MuiTimelineItem-root:before': { flex: 0, padding: 0 } }}>
+            {historyItems.map((item, index) => {
+              const isEarn = view === 'earns';
+              const happenedAt = item.happenedAt ? dayjs(item.happenedAt).format('DD MMM YYYY, HH:mm') : null;
+
+              return (
+                <TimelineItem key={item.id}>
+                  <TimelineSeparator>
+                    <TimelineDot color={isEarn ? 'success' : 'error'} variant="outlined">
+                      <IconifyIcon icon="solar:coins-stacks-linear" fontSize={16} />
+                    </TimelineDot>
+                    {index < historyItems.length - 1 && <TimelineConnector />}
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <Stack spacing={0.75}>
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        gap={1}
+                        flexWrap="wrap"
+                      >
+                        <Typography
+                          variant="h6"
+                          color={isEarn ? 'success.main' : 'error.main'}
+                          fontWeight={700}
+                        >
+                          {`${isEarn ? '+' : '-'}${item.amount}`}
+                        </Typography>
+                        {happenedAt && (
+                          <Typography variant="caption" color="text.secondary">
+                            {happenedAt}
+                          </Typography>
+                        )}
+                      </Stack>
+                      <Typography variant="body1" fontWeight={600}>
+                        {getHistoryDescription(view, item, t)}
+                      </Typography>
+                      {item.note && (
+                        <Typography variant="body2" color="text.secondary">
+                          {t('kepcoinPage.history.note', { value: item.note })}
+                        </Typography>
+                      )}
+                    </Stack>
+                  </TimelineContent>
+                </TimelineItem>
+              );
+            })}
+          </Timeline>
+        )}
+
+        {pagesCount > 1 && (
+          <Box mt={3} display="flex" justifyContent="center">
+            <Pagination count={pagesCount} page={page} onChange={onPageChange} color="primary" />
+          </Box>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 
