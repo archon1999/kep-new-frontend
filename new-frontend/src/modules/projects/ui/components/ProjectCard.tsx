@@ -33,13 +33,13 @@ const ProjectCard = ({ project, onPurchased }: ProjectCardProps) => {
 
   return (
     <Card
-      elevation={0}
+      background={1}
       sx={{
         height: 1,
         borderRadius: 3,
-        border: (theme) => `1px solid ${theme.palette.divider}`,
         display: 'flex',
         flexDirection: 'column',
+        outline: 'none',
       }}
     >
       <CardHeader
@@ -86,7 +86,7 @@ const ProjectCard = ({ project, onPurchased }: ProjectCardProps) => {
         {isPurchased ? (
           <Button
             fullWidth
-            variant="contained"
+            variant="text"
             component={RouterLink}
             to={getResourceByParams(resources.Project, { id: project.slug, slug: project.slug })}
             endIcon={<IconifyIcon icon="mdi:arrow-right" />}

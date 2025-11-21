@@ -39,7 +39,7 @@ const ProjectAttempts = ({ project, hackathonId }: ProjectAttemptsProps) => {
   };
 
   return (
-    <Stack spacing={2}>
+    <Stack direction="column" spacing={2}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h6" fontWeight={800}>
           {t('projects.attempts')}

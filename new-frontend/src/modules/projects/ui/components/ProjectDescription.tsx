@@ -12,7 +12,7 @@ const ProjectDescription = ({ project }: ProjectDescriptionProps) => {
   const { t } = useTranslation();
 
   return (
-    <Stack spacing={3}>
+    <Stack direction="column" spacing={3}>
       <Stack direction="row" spacing={2} alignItems="center">
         {project.logo ? (
           <Box
@@ -23,7 +23,7 @@ const ProjectDescription = ({ project }: ProjectDescriptionProps) => {
           />
         ) : null}
 
-        <Stack spacing={0.5}>
+        <Stack direction="column" spacing={0.5}>
           <Typography variant="h4" fontWeight={700}>
             {project.title}
           </Typography>
@@ -42,11 +42,11 @@ const ProjectDescription = ({ project }: ProjectDescriptionProps) => {
 
       <Divider />
 
-      <Stack spacing={2}>
+      <Stack direction="column" spacing={2}>
         <Typography variant="h6" fontWeight={700}>
           {t('projects.tasks')}
         </Typography>
-        <Stack spacing={1.5}>
+        <Stack direction="column" spacing={1.5}>
           {project.tasks.map((task) => (
             <Accordion key={task.number} disableGutters elevation={0} sx={{ borderRadius: 2, border: (theme) => `1px solid ${theme.palette.divider}` }}>
               <AccordionSummary expandIcon={<IconifyIcon icon="mdi:chevron-down" />}> 
@@ -65,11 +65,11 @@ const ProjectDescription = ({ project }: ProjectDescriptionProps) => {
         </Stack>
       </Stack>
 
-      <Stack spacing={2}>
+      <Stack direction="column" spacing={2}>
         <Typography variant="h6" fontWeight={700}>
           {t('projects.technologies')}
         </Typography>
-        <Stack spacing={1.5}>
+        <Stack direction="column" spacing={1.5}>
           {project.availableTechnologies.map((technology) => (
             <Accordion key={technology.technology} disableGutters elevation={0} sx={{ borderRadius: 2, border: (theme) => `1px solid ${theme.palette.divider}` }}>
               <AccordionSummary expandIcon={<IconifyIcon icon="mdi:chevron-down" />}> 

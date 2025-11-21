@@ -26,7 +26,7 @@ const ProjectInfoCard = ({ project }: ProjectInfoCardProps) => {
         }
       />
       <CardContent>
-        <Stack spacing={1.5}>
+        <Stack direction="column" spacing={1.5}>
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="body2" fontWeight={700}>
@@ -43,7 +43,7 @@ const ProjectInfoCard = ({ project }: ProjectInfoCardProps) => {
             <KepcoinValue value={project.kepcoins ?? project.purchaseKepcoinValue} />
           </Stack>
 
-          <Stack spacing={0.75}>
+          <Stack direction="row" justifyContent="space-between" spacing={0.75}>
             <Typography variant="body2" fontWeight={700}>
               {t('projects.technologies')}
             </Typography>

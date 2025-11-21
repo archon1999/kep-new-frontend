@@ -58,13 +58,13 @@ const ProjectSidebar = ({ project, onSubmitted, hackathonId, projectSymbol }: Pr
   };
 
   return (
-    <Stack spacing={3}>
+    <Stack direction="column" spacing={3}>
       <ProjectInfoCard project={project} />
 
       <Card elevation={0} sx={{ borderRadius: 3, border: (theme) => `1px solid ${theme.palette.divider}` }}>
         <CardHeader title={<Typography variant="subtitle1" fontWeight={800}>{t('projects.submit')}</Typography>} />
         <CardContent>
-          <Stack spacing={2}>
+          <Stack direction="column" spacing={2}>
             <TextField
               select
               fullWidth

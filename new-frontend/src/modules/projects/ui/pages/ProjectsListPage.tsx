@@ -1,8 +1,8 @@
-import { Box, Skeleton, Stack, Typography } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
 import { useTranslation } from 'react-i18next';
-import ProjectCard from '../components/ProjectCard.tsx';
+import { Box, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { useProjectsList } from '../../application/queries';
+import ProjectCard from '../components/ProjectCard.tsx';
+
 
 const ProjectsListPage = () => {
   const { t } = useTranslation();
@@ -12,7 +12,7 @@ const ProjectsListPage = () => {
 
   return (
     <Box sx={{ p: { xs: 3, md: 5 } }}>
-      <Stack spacing={3}>
+      <Stack direction="column" spacing={3}>
         <Box>
           <Typography variant="h4" fontWeight={800}>
             {t('projects.title')}
@@ -28,7 +28,6 @@ const ProjectsListPage = () => {
               py: 6,
               px: 3,
               borderRadius: 3,
-              border: (theme) => `1px dashed ${theme.palette.divider}`,
               bgcolor: 'background.paper',
               textAlign: 'center',
             }}

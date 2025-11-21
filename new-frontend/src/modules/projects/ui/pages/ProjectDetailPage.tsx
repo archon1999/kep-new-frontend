@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
-import { Box, CircularProgress, Tab, Tabs, Typography } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
-import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router';
+import { Box, CircularProgress, Grid, Tab, Tabs, Typography } from '@mui/material';
 import { useProjectDetails } from '../../application/queries';
-import ProjectDescription from '../components/ProjectDescription.tsx';
 import ProjectAttempts from '../components/ProjectAttempts.tsx';
+import ProjectDescription from '../components/ProjectDescription.tsx';
 import ProjectSidebar from '../components/ProjectSidebar.tsx';
+
 
 const ProjectDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
