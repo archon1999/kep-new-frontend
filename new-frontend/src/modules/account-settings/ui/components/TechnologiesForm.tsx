@@ -65,7 +65,7 @@ const TechnologiesForm = () => {
       <CardHeader title={t('settings.technologies')} subheader={t('settings.technologiesSubtitle')} />
       <CardContent>
         {isLoading || isMutating ? <LinearProgress sx={{ mb: 3 }} /> : null}
-        <Stack spacing={3}>
+        <Stack direction="column" spacing={3}>
           {items?.map((item, index) => (
             <Box
               key={`${item.text}-${index}`}

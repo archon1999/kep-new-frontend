@@ -83,7 +83,7 @@ const SystemSettingsPanel = () => {
       <CardHeader title={t('settings.system')} />
       <CardContent>
         {isLoading ? <LinearProgress sx={{ mb: 3 }} /> : null}
-        <Stack spacing={3}>
+        <Stack direction="column" spacing={3}>
           {renderSelect(t('settings.successSound'), successSound, setSuccessSound)}
           {renderSelect(t('settings.homeSound'), homeSound, setHomeSound)}
         </Stack>

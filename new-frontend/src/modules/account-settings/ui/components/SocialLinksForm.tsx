@@ -46,7 +46,7 @@ const SocialLinksForm = () => {
       <CardHeader title={t('settings.socialLinks')} />
       <CardContent>
         {isLoading || isMutating ? <LinearProgress sx={{ mb: 3 }} /> : null}
-        <Stack spacing={3}>
+        <Stack direction="column" spacing={3}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, md: 6 }}>
               <TextField

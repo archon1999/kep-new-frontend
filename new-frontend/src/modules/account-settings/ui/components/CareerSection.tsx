@@ -3,7 +3,7 @@ import EducationsForm from './EducationsForm';
 import WorkExperiencesForm from './WorkExperiencesForm';
 
 const CareerSection = () => (
-  <Stack spacing={3}>
+  <Stack direction="column" spacing={3}>
     <EducationsForm />
     <WorkExperiencesForm />
   </Stack>

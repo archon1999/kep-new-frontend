@@ -58,7 +58,7 @@ const WorkExperiencesForm = () => {
       <CardHeader title={t('settings.workExperience')} />
       <CardContent>
         {isLoading || isMutating ? <LinearProgress sx={{ mb: 3 }} /> : null}
-        <Stack spacing={3}>
+        <Stack direction="column" spacing={3}>
           {items?.map((item, index) => (
             <Grid container spacing={2} alignItems="center" key={`${item.company}-${index}`}>
               <Grid size={{ xs: 12, md: 4 }}>

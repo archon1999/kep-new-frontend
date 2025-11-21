@@ -1,6 +1,6 @@
 import { SyntheticEvent, useMemo, useState } from 'react';
 import { TabContext } from '@mui/lab';
-import { Alert, Button, Container, Drawer, Paper, Stack, useMediaQuery } from '@mui/material';
+import { Alert, Box, Button, Container, Divider, Drawer, Stack, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'app/providers/AuthProvider';
@@ -68,7 +68,7 @@ const AccountSettingsPage = () => {
         icon: 'material-symbols:activity',
         panelIcon: 'material-symbols:activity',
         render: (
-          <Stack spacing={3}>
+          <Stack direction="column" spacing={3}>
             <SkillsForm />
             <TechnologiesForm />
           </Stack>
@@ -138,20 +138,32 @@ const AccountSettingsPage = () => {
             </Drawer>
           </>
         ) : (
-          <Paper
+          <Box
             sx={{
               width: { md: 324, lg: 405 },
               position: 'sticky',
               top: ({ mixins }) => mixins.topbar.default,
               maxHeight: 'calc(100vh - 120px)',
               overflowY: 'auto',
+              border: (theme) => `1px solid ${theme.palette.divider}`,
+              borderRadius: 2,
+              bgcolor: 'background.paper',
             }}
           >
             <SideTabList tabs={tabs} onChange={handleTabChange} />
-          </Paper>
+          </Box>
         )}
 
-        <Paper sx={{ flex: 1 }}>
+        {!downMd ? <Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} /> : null}
+
+        <Box
+          sx={{
+            flex: 1,
+            border: (theme) => `1px solid ${theme.palette.divider}`,
+            borderRadius: 2,
+            bgcolor: 'background.paper',
+          }}
+        >
           <Container maxWidth="md" sx={{ py: { xs: 3, md: 5 } }}>
             {tabs.map((tab) => (
               <AccountTabPanel
@@ -165,7 +177,7 @@ const AccountSettingsPage = () => {
               </AccountTabPanel>
             ))}
           </Container>
-        </Paper>
+        </Box>
       </Stack>
     </TabContext>
   );

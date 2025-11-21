@@ -73,7 +73,7 @@ const GeneralSettingsForm = () => {
       <CardHeader title={t('settings.generalSettings')} subheader={t('settings.generalSettingsSubtitle')} />
       <CardContent>
         {isLoading || isMutating ? <LinearProgress sx={{ mb: 3 }} /> : null}
-        <Stack spacing={3}>
+        <Stack direction="column" spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} alignItems="center">
             <Box textAlign="center">
               <Avatar src={avatarPreview} sx={{ width: 96, height: 96, mb: 1 }} />

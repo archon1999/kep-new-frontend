@@ -78,7 +78,7 @@ const TeamsSection = () => {
       <Card>
         <CardHeader title={team.name} subheader={isCreator(team) ? t('settings.creator') : undefined} />
         <CardContent>
-          <Stack spacing={1.5}>
+          <Stack direction="column" spacing={1.5}>
             <AvatarGroup>
               {team.members?.map((member) => (
                 <Tooltip key={member.username} title={member.username}>
@@ -123,7 +123,7 @@ const TeamsSection = () => {
         {(isLoading || isBusy) && <LinearProgress sx={{ mb: 3 }} />}
         <Grid container spacing={3}>
           <Grid size={{ xs: 12, md: 8 }}>
-            <Stack spacing={2}>
+            <Stack direction="column" spacing={2}>
               {data?.length ? data.map(renderTeamCard) : (
                 <Box sx={{ p: 3, borderRadius: 2, border: (theme) => `1px dashed ${theme.palette.divider}` }}>
                   <Typography color="text.secondary">{t('settings.noTeams')}</Typography>
@@ -132,7 +132,7 @@ const TeamsSection = () => {
             </Stack>
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>
-            <Stack spacing={2}>
+            <Stack direction="column" spacing={2}>
               <Typography variant="h6">{t('settings.createTeam')}</Typography>
               <TextField
                 label={t('settings.teamName')}

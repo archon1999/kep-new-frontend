@@ -44,7 +44,7 @@ const SkillsForm = () => {
       <CardHeader title={t('settings.skills')} />
       <CardContent>
         {isLoading || isMutating ? <LinearProgress sx={{ mb: 3 }} /> : null}
-        <Stack spacing={4}>
+        <Stack direction="column" spacing={4}>
           <Grid container spacing={3}>
             {(['python', 'webDevelopment', 'webScraping', 'algorithms', 'dataScience'] as (keyof AccountSkills)[]).map(
               (key) => (

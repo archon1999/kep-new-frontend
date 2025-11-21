@@ -66,7 +66,7 @@ const ProfileInformationForm = () => {
       <CardHeader title={t('settings.information')} />
       <CardContent>
         {isLoading || isMutating ? <LinearProgress sx={{ mb: 3 }} /> : null}
-        <Stack spacing={3}>
+        <Stack direction="column" spacing={3}>
           <TextField
             multiline
             minRows={3}

@@ -12,7 +12,7 @@ interface AccountTabPanelProps extends PropsWithChildren {
 
 const AccountTabPanel = ({ value, title, panelIcon, description, children }: AccountTabPanelProps) => (
   <TabPanel value={value} sx={{ p: 0 }}>
-    <Stack spacing={2} sx={{ mb: 4 }}>
+    <Stack direction="column" spacing={2} sx={{ mb: 4 }}>
       <Stack direction="row" spacing={1.5} alignItems="center">
         {panelIcon ? <IconifyIcon icon={panelIcon} sx={{ fontSize: 24 }} /> : null}
         <Typography variant="h5">{title}</Typography>
