@@ -43,6 +43,27 @@
         "attempts": "Attempts"
       }
     },
+    "topUsers": {
+      "title": "Top users",
+      "loading": "Loading",
+      "empty": "Top users are not available yet.",
+      "tabs": {
+        "contests": "Contests",
+        "skills": "Skills",
+        "activity": "Activity",
+        "challenges": "Challenges",
+        "streak": "Streak",
+        "kepcoin": "Kepcoin"
+      },
+      "titles": {
+        "contests": "Best by contests rating",
+        "skills": "Best by skills rating",
+        "activity": "Best by activity rating",
+        "challenges": "Best by challenges rating",
+        "streak": "Longest streaks",
+        "kepcoin": "Most Kepcoin earned"
+      }
+    },
     "birthdays": {
       "title": "Birthdays",
       "empty": "No upcoming birthdays yet.",

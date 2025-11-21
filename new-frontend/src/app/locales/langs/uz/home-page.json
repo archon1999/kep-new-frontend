@@ -43,6 +43,27 @@
         "attempts": "Urinishlar"
       }
     },
+    "topUsers": {
+      "title": "Top foydalanuvchilar",
+      "loading": "Yuklanmoqda",
+      "empty": "Top ro'yxati hali mavjud emas.",
+      "tabs": {
+        "contests": "Musobaqalar",
+        "skills": "Ko'nikmalar",
+        "activity": "Faollik",
+        "challenges": "Chaqiriqlar",
+        "streak": "Seriya",
+        "kepcoin": "Kepcoin"
+      },
+      "titles": {
+        "contests": "Musobaqalar reytingida eng yaxshilar",
+        "skills": "Ko'nikmalar reytingida eng yaxshilar",
+        "activity": "Faollik reytingida eng yaxshilar",
+        "challenges": "Chaqiriqlar reytingida eng yaxshilar",
+        "streak": "Eng uzun seriyalar",
+        "kepcoin": "Eng ko'p Kepcoin yig'ganlar"
+      }
+    },
     "birthdays": {
       "title": "Tug'ilgan kunlar",
       "empty": "Yaqinlashayotgan tug'ilgan kunlar yo'q.",
