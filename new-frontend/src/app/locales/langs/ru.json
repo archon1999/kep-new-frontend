@@ -240,7 +240,10 @@
       "empty": "Статистика пока недоступна"
     },
     "popover": {
-      "viewDetails": "Подробнее о пользователе"
+      "viewDetails": "Подробнее о пользователе",
+      "online": "Онлайн",
+      "offline": "Офлайн",
+      "lastSeenTooltip": "Был(а) в сети: {{value}}"
     },
     "emptyValue": "—"
   },
