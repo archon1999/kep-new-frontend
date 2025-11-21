@@ -17,6 +17,7 @@ const paths = {
   challenge: '/practice/challenges/challenge/:id',
   challengesRating: '/practice/challenges/rating',
   challengesStats: '/practice/challenges/user-statistics',
+  contests: '/competitions/contests',
   arena: '/competitions/arena',
   arenaTournament: '/competitions/arena/tournament/:id',
   tournaments: '/competitions/tournaments',

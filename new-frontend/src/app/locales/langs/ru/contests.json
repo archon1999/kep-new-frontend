@@ -1,0 +1,27 @@
+{
+  "contests": {
+    "subtitle": "Следите за ближайшими, текущими и завершёнными контестами.",
+    "countLabel": "{{count}} контестов",
+    "emptyTitle": "Контестов пока нет",
+    "emptySubtitle": "Загляните позже — новые контесты скоро появятся.",
+    "searchPlaceholder": "Поиск контестов",
+    "filters": {
+      "category": "Категории",
+      "type": "Тип контеста",
+      "participation": "Участие",
+      "all": "Все",
+      "participated": "Принял участие",
+      "notParticipated": "Не участвовал"
+    },
+    "startsIn": "Начнётся {{time}}",
+    "endsIn": "Закончится {{time}}",
+    "finished": "Завершён",
+    "active": "Идёт сейчас",
+    "rated": "Рейтинговый",
+    "unrated": "Нерейтинговый",
+    "problems": "{{count}} задач",
+    "registrants": "{{count}} регистраций",
+    "contestants": "{{count}} участников",
+    "typeLabel": "Тип: {{type}}"
+  }
+}

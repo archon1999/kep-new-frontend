@@ -1,0 +1,27 @@
+{
+  "contests": {
+    "subtitle": "Follow upcoming, live, and finished contests in one place.",
+    "countLabel": "{{count}} contests",
+    "emptyTitle": "No contests yet",
+    "emptySubtitle": "New contests will appear here soon.",
+    "searchPlaceholder": "Search contests",
+    "filters": {
+      "category": "Categories",
+      "type": "Contest type",
+      "participation": "Participation",
+      "all": "All",
+      "participated": "Participated",
+      "notParticipated": "Not participated"
+    },
+    "startsIn": "Starts {{time}}",
+    "endsIn": "Ends {{time}}",
+    "finished": "Finished",
+    "active": "Live now",
+    "rated": "Rated",
+    "unrated": "Unrated",
+    "problems": "{{count}} problems",
+    "registrants": "{{count}} registrants",
+    "contestants": "{{count}} contestants",
+    "typeLabel": "Type: {{type}}"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "contests": {
+    "subtitle": "Yaqinlashayotgan, davom etayotgan va yakunlangan kontestlarni kuzating.",
+    "countLabel": "{{count}} ta kontest",
+    "emptyTitle": "Kontestlar hozircha yo'q",
+    "emptySubtitle": "Yangi kontestlar tez orada paydo bo'ladi.",
+    "searchPlaceholder": "Kontestlarni qidirish",
+    "filters": {
+      "category": "Kategoriyalar",
+      "type": "Kontest turi",
+      "participation": "Ishtirok",
+      "all": "Hammasi",
+      "participated": "Qatnashilgan",
+      "notParticipated": "Qatnashilmagan"
+    },
+    "startsIn": "Boshlanishiga {{time}}",
+    "endsIn": "Tugashiga {{time}}",
+    "finished": "Yakunlandi",
+    "active": "Hozir davom etmoqda",
+    "rated": "Reytingli",
+    "unrated": "Reytingsiz",
+    "problems": "{{count}} ta masala",
+    "registrants": "{{count}} ta ro'yxatdan o'tgan",
+    "contestants": "{{count}} ta ishtirokchi",
+    "typeLabel": "Turi: {{type}}"
+  }
+}
