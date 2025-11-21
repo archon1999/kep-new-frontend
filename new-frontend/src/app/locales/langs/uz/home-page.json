@@ -60,6 +60,7 @@
       "title": "Top foydalanuvchilar",
       "subtitle": "Har bir yo'nalishdagi eng kuchli 3 ta ishtirokchi",
       "empty": "Hozircha foydalanuvchilar topilmadi.",
+      "viewAll": "Barcha foydalanuvchilar",
       "tabs": {
         "contests": "Musobaqalar",
         "skills": "Ko'nikmalar",

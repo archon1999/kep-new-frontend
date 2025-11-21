@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Avatar, Box, Chip, Paper, Skeleton, Stack, Tab, Tabs, Typography } from '@mui/material';
+import { Avatar, Box, Button, Chip, Paper, Skeleton, Stack, Tab, Tabs, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { resources } from 'app/routes/resources';
 import { useUsersList } from 'modules/users/application/queries';
 import { UsersListItem } from 'modules/users/domain/entities/user.entity';
 import UserPopover from 'modules/users/ui/components/UserPopover';
@@ -269,6 +271,15 @@ const TopUsersSection = () => {
               {t('homePage.topUsers.title')}
             </Typography>
           </Box>
+
+          <Button
+            variant="text"
+            color="primary"
+            component={RouterLink}
+            to={resources.Users}
+          >
+            {t('homePage.topUsers.viewAll')}
+          </Button>
         </Stack>
 
         <Tabs

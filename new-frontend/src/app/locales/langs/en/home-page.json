@@ -60,6 +60,7 @@
       "title": "Top users",
       "subtitle": "Best performers in every category",
       "empty": "No users to display yet.",
+      "viewAll": "View all users",
       "tabs": {
         "contests": "Contests",
         "skills": "Skills",
