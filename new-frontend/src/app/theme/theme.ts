@@ -14,6 +14,7 @@ import Backdrop from './components/Backdrop';
 import Breadcrumbs from './components/Breadcrumbs';
 import Button, { ButtonBase } from './components/Button';
 import ButtonGroup from './components/ButtonGroup';
+import Card from './components/Card';
 import Checkbox from './components/Checkbox';
 import Chip from './components/Chip';
 import CssBaseline from './components/CssBaseline';
@@ -112,6 +113,7 @@ export const createTheme = (locale: SupportedLocales = 'en-US') => {
       components: {
         MuiAppBar: AppBar,
         MuiPaper: Paper,
+        MuiCard: Card,
         MuiDivider: Divider,
         MuiAccordion: Accordion,
         MuiAccordionSummary: AccordionSummary,
