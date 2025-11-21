@@ -1,0 +1,29 @@
+{
+  "contests": {
+    "title": "Kontestlar",
+    "subtitle": "Kelgusi kontestlarda hamjamiyat bilan bellashing.",
+    "countLabel": "{{count}} ta kontest",
+    "searchPlaceholder": "Kontestlarni qidirish",
+    "filterByCategory": "Kategoriyalar",
+    "filterByType": "Kontest turi",
+    "allCategories": "Barcha kategoriyalar",
+    "allTypes": "Barcha turlar",
+    "status": {
+      "all": "Hammasi",
+      "participated": "Qatnashilgan",
+      "notParticipated": "Qatnashilmagan"
+    },
+    "emptyTitle": "Kontestlar topilmadi",
+    "emptySubtitle": "Filtrlarni o'zgartiring yoki birozdan so'ng qayta tekshiring.",
+    "startsIn": "Boshlanishiga",
+    "endsIn": "Tugashiga",
+    "finished": "Kontest yakunlandi",
+    "active": "Hozirda davom etmoqda",
+    "rated": "Reytingli",
+    "unrated": "Reytingsiz",
+    "problemsCount": "{{count}} ta masala",
+    "registrantsCount": "{{count}} nafar ishtirokchi",
+    "registeredLabel": "Ro'yhatdan o'tilgan",
+    "pageSizeLabel": "Sahifada"
+  }
+}

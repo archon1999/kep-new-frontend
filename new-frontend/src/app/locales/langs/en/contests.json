@@ -1,0 +1,29 @@
+{
+  "contests": {
+    "title": "Contests",
+    "subtitle": "Compete with the community in upcoming programming contests.",
+    "countLabel": "{{count}} contests",
+    "searchPlaceholder": "Search contests",
+    "filterByCategory": "Categories",
+    "filterByType": "Contest type",
+    "allCategories": "All categories",
+    "allTypes": "All types",
+    "status": {
+      "all": "All",
+      "participated": "Participated",
+      "notParticipated": "Did not participate"
+    },
+    "emptyTitle": "No contests found",
+    "emptySubtitle": "Try adjusting your filters or check back later.",
+    "startsIn": "Starts in",
+    "endsIn": "Ends in",
+    "finished": "Contest finished",
+    "active": "Live now",
+    "rated": "Rated",
+    "unrated": "Unrated",
+    "problemsCount": "{{count}} problems",
+    "registrantsCount": "{{count}} participants",
+    "registeredLabel": "Registered",
+    "pageSizeLabel": "Per page"
+  }
+}

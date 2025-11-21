@@ -1,0 +1,29 @@
+{
+  "contests": {
+    "title": "Контесты",
+    "subtitle": "Соревнуйтесь с сообществом в предстоящих конкурсах.",
+    "countLabel": "{{count}} контестов",
+    "searchPlaceholder": "Поиск контестов",
+    "filterByCategory": "Категории",
+    "filterByType": "Тип контеста",
+    "allCategories": "Все категории",
+    "allTypes": "Все типы",
+    "status": {
+      "all": "Все",
+      "participated": "Принял участие",
+      "notParticipated": "Не участвовал"
+    },
+    "emptyTitle": "Контесты не найдены",
+    "emptySubtitle": "Измените фильтры или загляните позже.",
+    "startsIn": "Начнется через",
+    "endsIn": "Завершится через",
+    "finished": "Контест завершен",
+    "active": "Идет сейчас",
+    "rated": "Рейтинговый",
+    "unrated": "Нерейтинговый",
+    "problemsCount": "{{count}} задач",
+    "registrantsCount": "{{count}} участников",
+    "registeredLabel": "Зарегистрирован",
+    "pageSizeLabel": "На странице"
+  }
+}
