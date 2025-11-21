@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useLandingPageStatistics } from '../../application/queries.ts';
 import type { HomeStatisticKey } from '../../domain/entities/home.entity.ts';
+import { responsivePagePaddingSx } from 'shared/lib/styles.ts';
 
 type StatisticEntry = {
   key: HomeStatisticKey;
@@ -75,6 +76,13 @@ const StatisticsSection = () => {
 
   return (
     <Grid container size={12}>
+      <Grid size={12}>
+        <Paper sx={responsivePagePaddingSx}>
+          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            {t('homePage.statistics.title')}
+          </Typography>
+        </Paper>
+      </Grid>
       {statisticsList.map(({ key, value, percent, hasData }) => {
         const { color, icon } = getTrendStyles(percent);
         const showSkeleton = isLoading || !hasData;
