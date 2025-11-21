@@ -8,6 +8,9 @@
     "allTypes": "All types",
     "categoriesLabel": "Categories",
     "allCategories": "All categories",
+    "filters": {
+      "toggle": "Filters"
+    },
     "participation": {
       "all": "All",
       "joined": "Registered",

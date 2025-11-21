@@ -8,6 +8,9 @@
     "allTypes": "Barcha turlar",
     "categoriesLabel": "Kategoriyalar",
     "allCategories": "Barcha kategoriyalar",
+    "filters": {
+      "toggle": "Filterlar"
+    },
     "participation": {
       "all": "Hammasi",
       "joined": "Ro'yxatdan o'tgan",

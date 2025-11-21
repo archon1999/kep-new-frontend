@@ -8,6 +8,9 @@
     "allTypes": "Все типы",
     "categoriesLabel": "Категории",
     "allCategories": "Все категории",
+    "filters": {
+      "toggle": "Фильтры"
+    },
     "participation": {
       "all": "Все",
       "joined": "Зарегистрирован",
