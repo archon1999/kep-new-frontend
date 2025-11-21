@@ -30,7 +30,8 @@
     "test": "Test",
     "testPass": "Test pass",
     "login": "Login",
-    "notFound": "Page not found"
+    "notFound": "Page not found",
+    "account": "Account settings"
   },
   "homePage": {
     "greeting": {
@@ -373,5 +374,110 @@
       "checkSamples": "Check samples",
       "merch": "Merch"
     }
-  }
+  },
+  "account": {
+    "title": "Account settings",
+    "tabs": {
+      "general": "General",
+      "password": "Change password",
+      "info": "Information",
+      "social": "Social links",
+      "skills": "Skills",
+      "career": "Career",
+      "teams": "Teams",
+      "system": "System"
+    },
+    "actions": {
+      "save": "Save changes",
+      "reset": "Reset"
+    },
+    "general": {
+      "title": "General settings",
+      "subtitle": "Manage your name, username and profile media",
+      "uploadAvatar": "Upload avatar",
+      "uploadCover": "Upload cover",
+      "coverAlt": "Cover preview",
+      "noCover": "No cover selected",
+      "username": "Username",
+      "email": "Email",
+      "firstName": "First name",
+      "lastName": "Last name"
+    },
+    "password": {
+      "title": "Change password",
+      "subtitle": "Update your account password",
+      "old": "Old password",
+      "new": "New password",
+      "confirm": "Confirm new password",
+      "change": "Change password",
+      "mismatch": "New passwords do not match",
+      "updated": "Password updated successfully"
+    },
+    "info": {
+      "title": "Personal information",
+      "subtitle": "Update contact and profile details",
+      "country": "Country",
+      "region": "Region",
+      "website": "Website",
+      "email": "Contact email",
+      "birthdate": "Birthdate",
+      "bio": "Short bio",
+      "emailVisible": "Show email publicly"
+    },
+    "social": {
+      "title": "Social accounts",
+      "subtitle": "Connect your handles",
+      "codeforces": "Codeforces handle",
+      "badge": "Codeforces badge",
+      "telegram": "Telegram"
+    },
+    "skills": {
+      "title": "Skills",
+      "subtitle": "Rate your expertise",
+      "python": "Python",
+      "webDevelopment": "Web development",
+      "webScraping": "Web scraping",
+      "algorithms": "Algorithms",
+      "dataScience": "Data science"
+    },
+    "career": {
+      "title": "Career",
+      "subtitle": "Technologies, education and experience",
+      "technologies": "Technologies",
+      "techName": "Technology",
+      "devIcon": "Icon class",
+      "badgeColor": "Badge color",
+      "addTechnology": "Add technology",
+      "education": "Education",
+      "organization": "Organization",
+      "degree": "Degree",
+      "from": "From",
+      "to": "To",
+      "addEducation": "Add education",
+      "work": "Work experience",
+      "company": "Company",
+      "jobTitle": "Job title",
+      "addWork": "Add work"
+    },
+    "teams": {
+      "title": "Teams",
+      "subtitle": "Create or join a team",
+      "teamName": "Team name",
+      "teamCode": "Team code",
+      "create": "Create team",
+      "join": "Join team",
+      "refresh": "Refresh code",
+      "created": "Team created successfully",
+      "joined": "Joined team successfully",
+      "members": "{{count}} members",
+      "codeLabel": "Invite code: {{code}}"
+    },
+    "system": {
+      "title": "System preferences",
+      "subtitle": "Choose notification sounds",
+      "success": "Success sound",
+      "home": "Home sound"
+    }
+  },
+  "loading": "Loading... "
 }

@@ -30,7 +30,8 @@
     "test": "Test",
     "testPass": "Test topshirish",
     "login": "Kirish",
-    "notFound": "Sahifa topilmadi"
+    "notFound": "Sahifa topilmadi",
+    "account": "Profil sozlamalari"
   },
   "homePage": {
     "greeting": {
@@ -373,5 +374,110 @@
       "checkSamples": "Namunalarni tekshirish",
       "merch": "Merch"
     }
-  }
+  },
+  "account": {
+    "title": "Profil sozlamalari",
+    "tabs": {
+      "general": "Umumiy",
+      "password": "Parol",
+      "info": "Maʼlumot",
+      "social": "Ijtimoiy tarmoqlar",
+      "skills": "Koʻnikmalar",
+      "career": "Karera",
+      "teams": "Jamoalar",
+      "system": "Tizim"
+    },
+    "actions": {
+      "save": "Saqlash",
+      "reset": "Bekor qilish"
+    },
+    "general": {
+      "title": "Asosiy maʼlumotlar",
+      "subtitle": "Ism, login va profil rasmlarini yangilang",
+      "uploadAvatar": "Avatar yuklash",
+      "uploadCover": "Cover yuklash",
+      "coverAlt": "Cover koʼrinishi",
+      "noCover": "Cover tanlanmagan",
+      "username": "Foydalanuvchi nomi",
+      "email": "Email",
+      "firstName": "Ism",
+      "lastName": "Familiya"
+    },
+    "password": {
+      "title": "Parolni almashtirish",
+      "subtitle": "Profil parolini yangilang",
+      "old": "Eski parol",
+      "new": "Yangi parol",
+      "confirm": "Yangi parolni tasdiqlang",
+      "change": "Parolni almashtirish",
+      "mismatch": "Yangi parollar mos emas",
+      "updated": "Parol muvaffaqiyatli yangilandi"
+    },
+    "info": {
+      "title": "Shaxsiy maʼlumot",
+      "subtitle": "Aloqa va profil tafsilotlari",
+      "country": "Davlat",
+      "region": "Viloyat",
+      "website": "Veb-sayt",
+      "email": "Aloqa emaili",
+      "birthdate": "Tugʼilgan sana",
+      "bio": "Qisqa bio",
+      "emailVisible": "Emailni ochiq koʼrsatish"
+    },
+    "social": {
+      "title": "Ijtimoiy sahifalar",
+      "subtitle": "Hisoblarni ulang",
+      "codeforces": "Codeforces niki",
+      "badge": "Codeforces beydji",
+      "telegram": "Telegram"
+    },
+    "skills": {
+      "title": "Koʻnikmalar",
+      "subtitle": "Darajangizni baholang",
+      "python": "Python",
+      "webDevelopment": "Web dasturlash",
+      "webScraping": "Web scraping",
+      "algorithms": "Algoritmlar",
+      "dataScience": "Data Science"
+    },
+    "career": {
+      "title": "Karera",
+      "subtitle": "Texnologiyalar, taʼlim va tajriba",
+      "technologies": "Texnologiyalar",
+      "techName": "Texnologiya",
+      "devIcon": "Ikonka klassi",
+      "badgeColor": "Beydj rangi",
+      "addTechnology": "Texnologiya qoʼshish",
+      "education": "Taʼlim",
+      "organization": "Tashkilot",
+      "degree": "Daraja",
+      "from": "Boshlanish",
+      "to": "Tugash",
+      "addEducation": "Taʼlim qoʼshish",
+      "work": "Ish tajribasi",
+      "company": "Kompaniya",
+      "jobTitle": "Lavozim",
+      "addWork": "Ish qoʼshish"
+    },
+    "teams": {
+      "title": "Jamoalar",
+      "subtitle": "Jamoa ochish yoki qoʼshilish",
+      "teamName": "Jamoa nomi",
+      "teamCode": "Jamoa kodi",
+      "create": "Jamoa yaratish",
+      "join": "Qoʼshilish",
+      "refresh": "Kod yangilash",
+      "created": "Jamoa yaratildi",
+      "joined": "Jamoaga qoʼshildingiz",
+      "members": "{{count}} aʼzo",
+      "codeLabel": "Taklif kodi: {{code}}"
+    },
+    "system": {
+      "title": "Tizim sozlamalari",
+      "subtitle": "Ogohlantirish tovushlarini tanlang",
+      "success": "Muvaffaqiyat tovushi",
+      "home": "Bosh sahifa tovushi"
+    }
+  },
+  "loading": "Yuklanmoqda... "
 }

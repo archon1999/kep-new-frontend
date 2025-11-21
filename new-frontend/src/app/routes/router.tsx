@@ -19,6 +19,7 @@ const TestDetailPage = lazy(() => import('modules/testing/ui/pages/TestDetailPag
 const TestPassPage = lazy(() => import('modules/testing/ui/pages/TestPassPage'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
+const AccountSettingsPage = lazy(() => import('modules/account/ui/pages/AccountSettingsPage'));
 
 const Login = lazy(() => import('modules/authentication/ui/pages/LoginPage'));
 
@@ -93,6 +94,11 @@ export const routes: RouteObject[] = [
             path: paths.calendar,
             element: <CalendarPage />,
             handle: { titleKey: 'pageTitles.calendar' },
+          },
+          {
+            path: paths.account,
+            element: <AccountSettingsPage />,
+            handle: { titleKey: 'pageTitles.account' },
           },
         ],
       },
