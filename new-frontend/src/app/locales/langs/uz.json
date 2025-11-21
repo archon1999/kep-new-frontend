@@ -204,6 +204,9 @@
       "lastDays": "So'nggi {{count}} kunda qo'shilgan foydalanuvchilar",
       "empty": "Statistika hali mavjud emas"
     },
+    "popover": {
+      "viewDetails": "Profilni ko'rish"
+    },
     "emptyValue": "—"
   },
   "kepcoinPage": {
