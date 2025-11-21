@@ -67,8 +67,9 @@
     },
     "userActivity": {
       "title": "User activity",
-      "subtitle": "Last 12 days",
+      "subtitle": "Last {{days}} days",
       "tooltipSuffix": "users",
+      "changeLabel": "Since last period",
       "totals": {
         "new": "New users",
         "active": "Active users"

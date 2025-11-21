@@ -8,6 +8,7 @@ import type {
   HomePostsList,
   HomeLandingPageStatistics,
   HomeTopUsers,
+  HomeUserActivityStatistics,
   HomeUserActivityHistory,
   HomeUserRatings,
   HomeUsersChart,
@@ -40,6 +41,10 @@ export class HttpHomeRepository implements HomeRepository {
 
   getUserRatings(username: string): Promise<HomeUserRatings> {
     return homeApiClient.userRatings(username);
+  }
+
+  getUserActivityStatistics(): Promise<HomeUserActivityStatistics> {
+    return homeApiClient.userActivityStatistics();
   }
 
   getUserActivityHistory(username: string, params?: HomeListParams): Promise<HomeUserActivityHistory> {

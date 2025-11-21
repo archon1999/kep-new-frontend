@@ -67,8 +67,9 @@
     },
     "userActivity": {
       "title": "Foydalanuvchilar faolligi",
-      "subtitle": "Oxirgi 12 kun",
+      "subtitle": "Oxirgi {{days}} kun",
       "tooltipSuffix": "foydalanuvchi",
+      "changeLabel": "Oldingi davrga nisbatan",
       "totals": {
         "new": "Yangi foydalanuvchilar",
         "active": "Faol foydalanuvchilar"
