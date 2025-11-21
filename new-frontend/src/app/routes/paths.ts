@@ -15,6 +15,9 @@ const paths = {
   calendar: `/${rootPaths.calendarRoot}`,
   projects: '/practice/projects',
   project: '/practice/projects/project/:slug',
+  tests: '/practice/tests',
+  test: '/practice/tests/test/:id',
+  testPass: '/practice/tests/test-pass/:testPassId',
   authLogin: `/${rootPaths.authRoot}/login`,
 };
 
