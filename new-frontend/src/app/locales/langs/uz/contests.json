@@ -1,0 +1,49 @@
+{
+  "contests": {
+    "title": "Kontestlar",
+    "subtitle": "Dasturlash kontestlarida ishtirok eting va natijalarni jonli kuzating.",
+    "searchLabel": "Kontestlarni qidirish",
+    "searchPlaceholder": "Sarlavha yoki muallif bo'yicha qidirish",
+    "typeLabel": "Turi",
+    "allTypes": "Barcha turlar",
+    "categoriesLabel": "Kategoriyalar",
+    "allCategories": "Barcha kategoriyalar",
+    "participation": {
+      "all": "Hammasi",
+      "joined": "Ro'yxatdan o'tgan",
+      "notJoined": "Ro'yxatdan o'tmagan"
+    },
+    "status": {
+      "starts": "Boshlanishi {{date}}",
+      "live": "Jonli · yakunlanadi {{date}}",
+      "finished": "Yakunlangan {{date}}"
+    },
+    "startsLabel": "Boshlanishi {{date}}",
+    "startsUnknown": "Boshlanish vaqti tez orada e'lon qilinadi",
+    "endsLabel": "Tugashi {{date}}",
+    "type": "Format: {{type}}",
+    "problems": "{{count}} ta masala",
+    "registrants": "{{count}} ta ro'yxatdan o'tish",
+    "contestants": "{{count}} ta ishtirokchi",
+    "rated": "Reytingli",
+    "noDescription": "Tavsif qo'shilmagan.",
+    "emptyTitle": "Kontestlar topilmadi",
+    "emptySubtitle": "Yangi kontestlar tez orada qo'shiladi.",
+    "typeLabels": {
+      "ACM2H": "ACM (2 soat)",
+      "ACM10M": "ACM (10 daqiqa)",
+      "ACM20M": "ACM (20 daqiqa)",
+      "Ball525": "Ball 525",
+      "Ball550": "Ball 550",
+      "LessCode": "Kamroq kod",
+      "LessLine": "Kamroq satr",
+      "OneAttempt": "Bitta urinish",
+      "IQ": "IQ testi",
+      "Ball": "Ball",
+      "DC": "DC",
+      "MultiL": "Ko'p tilli",
+      "CodeGolf": "Code golf",
+      "Exam": "Imtihon"
+    }
+  }
+}

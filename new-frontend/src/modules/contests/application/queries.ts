@@ -1,0 +1,28 @@
+import useSWR from 'swr';
+import { ApiContestsListParams } from 'shared/api/orval/generated/endpoints/index.schemas';
+import { HttpContestsRepository } from '../data-access/repository/http.contests.repository';
+import { ContestCategoryEntity, ContestListItem } from '../domain/entities/contest.entity';
+import { PageResult } from '../domain/ports/contests.repository';
+
+const contestsRepository = new HttpContestsRepository();
+
+const listKey = (params?: ApiContestsListParams) => [
+  'contests-list',
+  params?.page,
+  params?.pageSize,
+  params?.title,
+  params?.category,
+  params?.type,
+  params?.is_participated,
+  params?.is_rated,
+];
+
+export const useContestsList = (params?: ApiContestsListParams) =>
+  useSWR<PageResult<ContestListItem>>(listKey(params), () => contestsRepository.list(params));
+
+export const useContestCategories = () =>
+  useSWR<ContestCategoryEntity[]>('contests-categories', () => contestsRepository.categories());
+
+export const contestsQueries = {
+  contestsRepository,
+};

@@ -15,6 +15,7 @@ import shop from './shop.json';
 import tests from './tests.json';
 import users from './users.json';
 import tournaments from './tournaments.json';
+import contests from './contests.json';
 
 export const uzTranslation = {
   ...common,
@@ -34,6 +35,7 @@ export const uzTranslation = {
   ...challenges,
   ...blog,
   ...tournaments,
+  ...contests,
 };
 
 export default uzTranslation;
