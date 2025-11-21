@@ -43,6 +43,11 @@
         "attempts": "Attempts"
       }
     },
+    "contests": {
+      "title": "Featured contest",
+      "viewAll": "View all contests",
+      "empty": "No contests to display yet."
+    },
     "news": {
       "title": "Latest news",
       "empty": "No news to display yet."
