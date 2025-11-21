@@ -6,6 +6,7 @@ import type {
   HomeNextBirthdays,
   HomeOnlineUsers,
   HomePostsList,
+  HomeLandingPageStatistics,
   HomeTopUsers,
   HomeUserActivityHistory,
   HomeUserRatings,
@@ -46,5 +47,9 @@ export class HttpHomeRepository implements HomeRepository {
       page: params?.page,
       pageSize: params?.pageSize,
     });
+  }
+
+  getLandingPageStatistics(): Promise<HomeLandingPageStatistics> {
+    return homeApiClient.landingPageStatistics();
   }
 }
