@@ -7,7 +7,7 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
+  CardContent, Chip,
   Divider,
   Grid,
   Popover,
@@ -15,9 +15,9 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { getResourceByUsername, resources } from 'app/routes/resources';
 import { useUserDetails, useUserRatings } from 'modules/users/application/queries';
 import { UserRatingInfo } from 'modules/users/domain/entities/user.entity';
-import { getResourceByUsername, resources } from 'app/routes/resources';
 import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
@@ -180,22 +180,25 @@ const UserPopover = ({
                       <Typography variant="caption" color="text.secondary">
                         {label}
                       </Typography>
-                      <Typography variant="subtitle2" fontWeight={700}>
-                        {stat?.value ?? t('users.emptyValue')}
-                      </Typography>
-                      {stat?.title && (
-                        <>
-                          {key === 'contestsRating' ? (
-                            <ContestsRatingChip title={stat.title} imgSize={20} withTitle />
-                          ) : key === 'challengesRating' ? (
-                            <ChallengesRatingChip title={stat.title} />
-                          ) : (
-                            <Typography variant="caption" color="text.secondary" noWrap>
-                              {stat.title}
-                            </Typography>
-                          )}
-                        </>
-                      )}
+                      <Stack spacing={0.5}>
+                        {stat?.title && (
+                          <>
+                            {key === 'contestsRating' ? (
+                              <ContestsRatingChip title={stat.title} imgSize={20} />
+                            ) : key === 'challengesRating' ? (
+                              <ChallengesRatingChip title={stat.title} />
+                            ) : (
+                              <Typography variant="caption" color="text.secondary" noWrap>
+                                {stat.title}
+                              </Typography>
+                            )}
+                          </>
+                        )}
+
+                        <Typography variant="subtitle2" fontWeight={700}>
+                          {stat?.value ?? t('users.emptyValue')}
+                        </Typography>
+                      </Stack>
                       {typeof stat?.rank === 'number' && (
                         <Typography variant="caption" color="text.secondary">
                           #{stat.rank}
@@ -210,12 +213,7 @@ const UserPopover = ({
                 <Stack direction="column" spacing={1} alignItems="center" flexWrap="wrap">
                   {userDetails?.lastSeen && (
                     <Typography variant="caption" color="text.secondary">
-                      {t('users.columns.lastSeen')}: {userDetails.lastSeen}
-                    </Typography>
-                  )}
-                  {typeof userDetails?.kepcoin === 'number' && (
-                    <Typography variant="caption" color="text.secondary">
-                      Kepcoin: {userDetails.kepcoin}
+                      {t('users.columns.lastSeen')}: <Chip color="neutral" label={userDetails.lastSeen}></Chip>
                     </Typography>
                   )}
                 </Stack>
