@@ -36,6 +36,10 @@ export const mapCategory = (payload: ContestsCategory): ContestCategoryEntity =>
   title: payload?.title ?? '',
   slug: payload?.slug ?? '',
   icon: payload?.icon ?? undefined,
+  contestsCount:
+    payload?.contestsCount === undefined || Number.isNaN(Number(payload?.contestsCount))
+      ? undefined
+      : Number(payload?.contestsCount),
 });
 
 export const mapPageResult = (payload: ApiContestsList200, mapItem: (item: Contest) => ContestListItem): PageResult<ContestListItem> => ({

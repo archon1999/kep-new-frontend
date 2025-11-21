@@ -2,6 +2,7 @@
   "contests": {
     "title": "Kontestlar",
     "subtitle": "Dasturlash kontestlarida ishtirok eting va natijalarni jonli kuzating.",
+    "filters": "Filtrlar",
     "searchLabel": "Kontestlarni qidirish",
     "searchPlaceholder": "Sarlavha yoki muallif bo'yicha qidirish",
     "typeLabel": "Turi",
