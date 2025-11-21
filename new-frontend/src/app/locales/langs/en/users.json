@@ -44,6 +44,38 @@
     "popover": {
       "viewDetails": "View user details"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "profile": {
+      "tabs": {
+        "about": "About",
+        "ratings": "Ratings",
+        "activityHistory": "Activity history",
+        "achievements": "Achievements"
+      },
+      "sections": {
+        "about": "About user",
+        "overview": "Overview",
+        "details": "Details"
+      },
+      "labels": {
+        "name": "Full name",
+        "username": "Username",
+        "country": "Country",
+        "streak": "Streak",
+        "kepcoin": "Kepcoin",
+        "lastSeen": "Last seen",
+        "online": "Online"
+      },
+      "about": {
+        "description": "{{name}} ({{username}}) is a member of the KEP community."
+      },
+      "achievements": {
+        "progress": "Progress",
+        "completed": "Completed",
+        "empty": "There are no achievements to display yet.",
+        "untitled": "Untitled achievement",
+        "noDescription": "Description is not available."
+      }
+    }
   }
 }

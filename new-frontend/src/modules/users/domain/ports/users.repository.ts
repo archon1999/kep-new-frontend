@@ -1,4 +1,5 @@
 import {
+  UserAchievement,
   UserDetails,
   UserRatings,
   UsersChartStatistics,
@@ -12,4 +13,5 @@ export interface UsersRepository {
   getChartStatistics: () => Promise<UsersChartStatistics>;
   getUser: (username: string) => Promise<UserDetails>;
   getUserRatings: (username: string) => Promise<UserRatings>;
+  getUserAchievements: (username: string) => Promise<UserAchievement[]>;
 }

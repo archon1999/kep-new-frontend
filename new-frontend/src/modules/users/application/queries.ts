@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import { HttpUsersRepository } from '../data-access/repository/http.users.repository';
 import {
+  UserAchievement,
   UserDetails,
   UserRatings,
   UsersChartStatistics,
@@ -39,3 +40,13 @@ export const useUserRatings = (username?: string | null) =>
     keepPreviousData: true,
     revalidateOnFocus: false,
   });
+
+export const useUserAchievements = (username?: string | null) =>
+  useSWR<UserAchievement[]>(
+    username ? ['user-achievements', username] : null,
+    () => repository.getUserAchievements(username!),
+    {
+      keepPreviousData: true,
+      revalidateOnFocus: false,
+    },
+  );

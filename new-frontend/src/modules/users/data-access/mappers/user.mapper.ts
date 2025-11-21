@@ -2,6 +2,7 @@ import type { ApiUsersCountriesResult, ApiUsersListResult } from 'shared/api/orv
 import type { UserDetail } from 'shared/api/orval/generated/endpoints/index.schemas';
 import {
   RatingValue,
+  UserAchievement,
   UserDetails,
   UserRatingInfo,
   UserRatings,
@@ -109,3 +110,24 @@ export const mapApiUserRatingsToDomain = (ratings: UserRatingsApiResponse): User
   contestsRating: normalizeRatingInfo(ratings.contestsRating ?? ratings.contests_rating),
   challengesRating: normalizeRatingInfo(ratings.challengesRating ?? ratings.challenges_rating),
 });
+
+const mapAchievementResult = (result?: any) => ({
+  progress:
+    result?.progress ?? result?.userProgress ?? result?.user_progress ?? result?.userResult?.progress,
+  done: result?.done ?? result?.isDone ?? result?.userResult?.done ?? false,
+});
+
+export const mapApiUserAchievementsToDomain = (achievements: any): UserAchievement[] => {
+  const data = Array.isArray(achievements?.data) ? achievements.data : achievements;
+
+  if (!Array.isArray(data)) return [];
+
+  return data.map((item) => ({
+    id: item?.id,
+    type: item?.type ?? item?.achievementType ?? item?.achievement_type,
+    title: item?.title ?? item?.name ?? item?.achievementTitle,
+    description: item?.description ?? item?.desc,
+    totalProgress: item?.totalProgress ?? item?.total_progress ?? item?.progressTotal,
+    userResult: mapAchievementResult(item?.userResult ?? item?.user_result ?? item),
+  }));
+};

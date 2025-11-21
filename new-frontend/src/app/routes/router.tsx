@@ -42,6 +42,11 @@ const BlogPostPage = lazy(() => import('modules/blog/ui/pages/BlogPostPage'));
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
 const Login = lazy(() => import('modules/authentication/ui/pages/LoginPage'));
+const UserProfilePage = lazy(() => import('modules/users/ui/pages/user-profile/UserProfilePage'));
+const UserAboutTab = lazy(() => import('modules/users/ui/pages/user-profile/UserAboutTab'));
+const UserRatingsTab = lazy(() => import('modules/users/ui/pages/user-profile/UserRatingsTab'));
+const UserActivityHistoryTab = lazy(() => import('modules/users/ui/pages/user-profile/UserActivityHistoryTab'));
+const UserAchievementsTab = lazy(() => import('modules/users/ui/pages/user-profile/UserAchievementsTab'));
 
 export const SuspenseOutlet = () => {
   const location = useLocation();
@@ -74,6 +79,17 @@ export const routes: RouteObject[] = [
             path: resources.Users,
             element: <UsersListPage />,
             handle: { titleKey: 'pageTitles.users' },
+          },
+          {
+            path: resources.UserProfile,
+            element: <UserProfilePage />,
+            handle: { titleKey: 'pageTitles.userProfile' },
+            children: [
+              { index: true, element: <UserAboutTab /> },
+              { path: 'ratings', element: <UserRatingsTab /> },
+              { path: 'activity-history', element: <UserActivityHistoryTab /> },
+              { path: 'achievements', element: <UserAchievementsTab /> },
+            ],
           },
           {
             path: resources.Problems,

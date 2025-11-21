@@ -1,12 +1,14 @@
 import { usersApiClient } from '../api/users.client';
 import {
   mapApiUserDetailToDomain,
+  mapApiUserAchievementsToDomain,
   mapApiUserRatingsToDomain,
   mapApiUsersListToDomain,
   mapCountriesToCodes,
 } from '../mappers/user.mapper';
 import { UsersRepository } from '../../domain/ports/users.repository';
 import {
+  UserAchievement,
   UserDetails,
   UserRatings,
   UsersChartStatistics,
@@ -51,5 +53,11 @@ export class HttpUsersRepository implements UsersRepository {
     const response = await usersApiClient.ratings(username);
 
     return mapApiUserRatingsToDomain(response);
+  }
+
+  async getUserAchievements(username: string): Promise<UserAchievement[]> {
+    const response = await usersApiClient.achievements(username);
+
+    return mapApiUserAchievementsToDomain(response);
   }
 }

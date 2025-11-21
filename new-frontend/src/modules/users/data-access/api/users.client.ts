@@ -1,5 +1,9 @@
 import { apiClient } from 'shared/api';
-import type { ApiUsersCountriesResult, ApiUsersListResult } from 'shared/api/orval/generated/endpoints';
+import type {
+  ApiUsersAchievementsResult,
+  ApiUsersCountriesResult,
+  ApiUsersListResult,
+} from 'shared/api/orval/generated/endpoints';
 import type { ApiUsersListParams, UserDetail } from 'shared/api/orval/generated/endpoints/index.schemas';
 
 
@@ -35,4 +39,6 @@ export const usersApiClient = {
   details: (username: string) => apiClient.apiUsersRead(username) as Promise<UserDetail>,
   ratings: (username: string) =>
     apiClient.apiUsersRatings(username) as unknown as Promise<UserRatingsApiResponse>,
+  achievements: (username: string) =>
+    apiClient.apiUsersAchievements(username) as Promise<ApiUsersAchievementsResult>,
 };

@@ -44,6 +44,38 @@
     "popover": {
       "viewDetails": "Profilni ko'rish"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "profile": {
+      "tabs": {
+        "about": "Haqida",
+        "ratings": "Reytinglar",
+        "activityHistory": "Faollik tarixi",
+        "achievements": "Yutuqlar"
+      },
+      "sections": {
+        "about": "Profil haqida",
+        "overview": "Umumiy ma'lumot",
+        "details": "Tafsilotlar"
+      },
+      "labels": {
+        "name": "Toʻliq ism",
+        "username": "Foydalanuvchi nomi",
+        "country": "Davlat",
+        "streak": "Seriya",
+        "kepcoin": "Kepcoin",
+        "lastSeen": "Oxirgi faol",
+        "online": "Onlayn"
+      },
+      "about": {
+        "description": "{{name}} ({{username}}) KEP hamjamiyati a'zosi."
+      },
+      "achievements": {
+        "progress": "Jarayon",
+        "completed": "Yakunlangan",
+        "empty": "Hozircha yutuqlar mavjud emas.",
+        "untitled": "Nomsiz yutuq",
+        "noDescription": "Tavsif mavjud emas."
+      }
+    }
   }
 }

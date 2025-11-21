@@ -44,6 +44,38 @@
     "popover": {
       "viewDetails": "Подробнее о пользователе"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "profile": {
+      "tabs": {
+        "about": "О пользователе",
+        "ratings": "Рейтинги",
+        "activityHistory": "Активность",
+        "achievements": "Достижения"
+      },
+      "sections": {
+        "about": "О профиле",
+        "overview": "Общая информация",
+        "details": "Подробности"
+      },
+      "labels": {
+        "name": "Полное имя",
+        "username": "Имя пользователя",
+        "country": "Страна",
+        "streak": "Серия",
+        "kepcoin": "Kepcoin",
+        "lastSeen": "Последний визит",
+        "online": "Онлайн"
+      },
+      "about": {
+        "description": "{{name}} ({{username}}) — участник сообщества KEP."
+      },
+      "achievements": {
+        "progress": "Прогресс",
+        "completed": "Завершено",
+        "empty": "Пока нет достижений для отображения.",
+        "untitled": "Достижение без названия",
+        "noDescription": "Описание недоступно."
+      }
+    }
   }
 }

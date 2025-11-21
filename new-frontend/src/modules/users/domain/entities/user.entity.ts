@@ -49,6 +49,20 @@ export interface UserRatings {
   challengesRating?: UserRatingInfo;
 }
 
+export interface UserAchievementResult {
+  progress?: number;
+  done?: boolean;
+}
+
+export interface UserAchievement {
+  id?: number;
+  type?: number;
+  title?: string;
+  description?: string;
+  totalProgress?: number;
+  userResult?: UserAchievementResult;
+}
+
 export interface UsersListResponse {
   page: number;
   pageSize: number;
