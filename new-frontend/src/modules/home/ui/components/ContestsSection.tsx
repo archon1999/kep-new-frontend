@@ -58,13 +58,36 @@ const HomeContestCard = ({ contest }: HomeContestCardProps) => {
     >
       <Box
         sx={(theme) => ({
+          position: 'relative',
           p: { xs: 3, sm: 3.5 },
           background: `linear-gradient(135deg, ${cssVarRgba(theme.vars.palette.primary.mainChannel, 0.08)}, ${cssVarRgba(theme.vars.palette.info.mainChannel, 0.06)})`,
           borderRadius: 3,
           border: `1px solid ${cssVarRgba(theme.vars.palette.primary.mainChannel, 0.1)}`,
+          overflow: 'hidden',
         })}
       >
-        <Stack direction="column" spacing={2}>
+        <Box
+          sx={(theme) => ({
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+            background: `radial-gradient(circle at 15% 20%, ${cssVarRgba(theme.vars.palette.primary.mainChannel, 0.12)}, transparent 38%), radial-gradient(circle at 85% 15%, ${cssVarRgba(theme.vars.palette.info.mainChannel, 0.08)}, transparent 42%)`,
+            '&::after': contest.logo
+              ? {
+                  content: '""',
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundImage: `url(${contest.logo})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  opacity: 0.08,
+                  filter: 'saturate(0.6)',
+                }
+              : undefined,
+          })}
+        />
+
+        <Stack direction="column" spacing={2} sx={{ position: 'relative', zIndex: 1 }}>
           <Stack direction="row" spacing={1.5} alignItems="center" justifyContent="space-between">
             <Stack direction="row" spacing={1} alignItems="center" flex={1} minWidth={0}>
               <KepIcon name="contest" fontSize={20} />
