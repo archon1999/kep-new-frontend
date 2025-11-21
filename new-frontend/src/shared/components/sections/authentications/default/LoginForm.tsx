@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -5,6 +6,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Divider,
   FormControlLabel,
   Link,
   Stack,
@@ -12,31 +14,25 @@ import {
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { useTranslation } from 'react-i18next';
+import type { LoginPayload } from 'modules/authentication/domain/entities/auth.entity';
+import IconifyIcon from 'shared/components/base/IconifyIcon';
 import PasswordTextField from 'shared/components/common/PasswordTextField';
 import * as yup from 'yup';
 import DefaultCredentialAlert from '../common/DefaultCredentialAlert';
 
 interface LoginFormProps {
-  handleLogin: (data: LoginFormValues) => any;
+  handleLogin: (data: LoginFormValues) => Promise<unknown>;
   signUpLink?: string;
   forgotPasswordLink?: string;
   rememberDevice?: boolean;
-  defaultCredential?: { email: string; password: string };
-}
-export interface LoginFormValues {
-  email: string;
-  password: string;
+  defaultCredential?: LoginPayload | null;
+  getSocialLoginUrl?: (provider: SocialProvider) => string;
 }
 
-const schema = yup
-  .object({
-    email: yup
-      .string()
-      .email('Please provide a valid email address.')
-      .required('This field is required'),
-    password: yup.string().required('This field is required'),
-  })
-  .required();
+export type LoginFormValues = Pick<LoginPayload, 'username' | 'password'>;
+
+type SocialProvider = 'google-oauth2' | 'github';
 
 const LoginForm = ({
   handleLogin,
@@ -44,7 +40,21 @@ const LoginForm = ({
   forgotPasswordLink,
   rememberDevice = true,
   defaultCredential,
+  getSocialLoginUrl,
 }: LoginFormProps) => {
+  const { t } = useTranslation();
+
+  const schema = useMemo(
+    () =>
+      yup
+        .object({
+          username: yup.string().required(t('auth.requiredField')),
+          password: yup.string().required(t('auth.requiredField')),
+        })
+        .required(),
+    [t],
+  );
+
   const {
     register,
     handleSubmit,
@@ -52,13 +62,26 @@ const LoginForm = ({
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: yupResolver(schema),
+    defaultValues: defaultCredential ?? { username: '', password: '' },
   });
+
+  const socialProviders: { provider: SocialProvider; icon: string; label: string }[] = [
+    {
+      provider: 'google-oauth2',
+      icon: 'logos:google-icon',
+      label: t('auth.loginWith', { title: 'Google' }),
+    },
+    {
+      provider: 'github',
+      icon: 'mdi:github',
+      label: t('auth.loginWith', { title: 'Github' }),
+    },
+  ];
 
   const onSubmit = async (data: LoginFormValues) => {
     await handleLogin(data).catch((error: any) => {
-      if (error) {
-        setError('root.credential', { type: 'manual', message: error.message });
-      }
+      const message = (error as Error)?.message || t('auth.loginError');
+      setError('root.credential', { type: 'manual', message });
     });
   };
 
@@ -71,6 +94,19 @@ const LoginForm = ({
         justifyContent: 'space-between',
         pt: { md: 10 },
         pb: 10,
+        width: '100%',
+        maxWidth: {
+          xs: 300,
+          sm: 500,
+          md: 720,
+          lg: 920,
+        },
+        maxHeight: {
+          xs: '40vh',
+          sm: '45vh',
+          md: '55vh',
+          lg: '60vh',
+        },
       }}
     >
       <div />
@@ -85,30 +121,43 @@ const LoginForm = ({
         }}
       >
         <Grid size={12}>
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={1}
-            sx={{
-              justifyContent: 'space-between',
-              alignItems: { xs: 'flex-start', sm: 'flex-end' },
-            }}
-          >
-            <Typography variant="h4">Log in</Typography>
-            {signUpLink && (
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  color: 'text.secondary',
-                }}
-              >
-                Don&apos;t have an account?
-                <Link href={signUpLink} sx={{ ml: 1 }}>
-                  Sign up
-                </Link>
-              </Typography>
-            )}
+          <Stack direction="column" spacing={1} sx={{ alignItems: { xs: 'flex-start', sm: 'center' } }}>
+            <Typography variant="h4">{t('auth.welcomeTitle')}</Typography>
+            <Typography variant="body1" color="text.secondary">
+              {t('auth.loginSubtitle')}
+            </Typography>
           </Stack>
         </Grid>
+
+        <Grid size={12}>
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={1.5}
+            sx={{ justifyContent: 'space-between', alignItems: 'stretch', mb: 2 }}
+          >
+            {socialProviders.map(({ provider, icon, label }) => (
+              <Button
+                key={provider}
+                fullWidth
+                variant="outlined"
+                color="inherit"
+                startIcon={<IconifyIcon icon={icon} fontSize={18} />}
+                href={getSocialLoginUrl?.(provider)}
+              >
+                {label}
+              </Button>
+            ))}
+          </Stack>
+        </Grid>
+
+        <Grid size={12}>
+          <Divider flexItem sx={{ my: 1 }}>
+            <Typography variant="caption" color="text.secondary">
+              {t('auth.or').toUpperCase()}
+            </Typography>
+          </Divider>
+        </Grid>
+
         <Grid size={12}>
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
             {errors.root?.credential?.message && (
@@ -116,7 +165,7 @@ const LoginForm = ({
                 {errors.root?.credential?.message}
               </Alert>
             )}
-            {defaultCredential && <DefaultCredentialAlert />}
+            {defaultCredential && <DefaultCredentialAlert credentials={defaultCredential} />}
             <Grid container>
               <Grid
                 sx={{
@@ -127,13 +176,12 @@ const LoginForm = ({
                 <TextField
                   fullWidth
                   size="large"
-                  id="email"
-                  type="email"
-                  label="Email"
-                  defaultValue={defaultCredential?.email}
-                  error={!!errors.email}
-                  helperText={<>{errors.email?.message}</>}
-                  {...register('email')}
+                  id="username"
+                  label={t('auth.username')}
+                  autoComplete="username"
+                  error={!!errors.username}
+                  helperText={<>{errors.username?.message}</>}
+                  {...register('username')}
                 />
               </Grid>
               <Grid
@@ -146,8 +194,8 @@ const LoginForm = ({
                   fullWidth
                   size="large"
                   id="password"
-                  label="Password"
-                  defaultValue={defaultCredential?.password}
+                  label={t('auth.password')}
+                  autoComplete="current-password"
                   error={!!errors.password}
                   helperText={<>{errors.password?.message}</>}
                   {...register('password')}
@@ -176,7 +224,7 @@ const LoginForm = ({
                             color: 'text.secondary',
                           }}
                         >
-                          Remember this device
+                          {t('auth.rememberDevice')}
                         </Typography>
                       }
                     />
@@ -184,7 +232,7 @@ const LoginForm = ({
 
                   {forgotPasswordLink && (
                     <Link href={forgotPasswordLink} variant="subtitle2">
-                      Forgot Password?
+                      {t('auth.forgotPassword')}
                     </Link>
                   )}
                 </Stack>
@@ -197,12 +245,28 @@ const LoginForm = ({
                   variant="contained"
                   loading={isSubmitting}
                 >
-                  Log in
+                  {t('auth.login')}
                 </Button>
               </Grid>
             </Grid>
           </Box>
         </Grid>
+
+        {signUpLink && (
+          <Grid size={12}>
+            <Typography
+              variant="subtitle2"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
+              {t('auth.noAccount')}
+              <Link href={signUpLink} sx={{ ml: 1 }}>
+                {t('auth.signUp')}
+              </Link>
+            </Typography>
+          </Grid>
+        )}
       </Grid>
     </Stack>
   );
