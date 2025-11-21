@@ -84,7 +84,7 @@ const UserPopover = ({
 
   const profileLink = getResourceByUsername(resources.UserProfile, username);
 
-  const streakValue = userDetails?.streak ?? 0;
+  const streakValue = userDetails?.streak ?? streak ?? 0;
   const coverPhoto = userDetails?.coverPhoto;
   const userAvatar = userDetails?.avatar ?? avatar;
 
