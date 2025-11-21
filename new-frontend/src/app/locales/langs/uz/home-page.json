@@ -47,6 +47,19 @@
       "title": "So‘nggi yangiliklar",
       "empty": "Hozircha yangiliklar mavjud emas."
     },
+    "topUsers": {
+      "title": "Top foydalanuvchilar",
+      "subtitle": "Har bir yo'nalishdagi eng kuchli 3 ta ishtirokchi",
+      "empty": "Hozircha foydalanuvchilar topilmadi.",
+      "tabs": {
+        "contests": "Musobaqalar",
+        "skills": "Ko'nikmalar",
+        "activity": "Faollik",
+        "challenges": "Chaqiriqlar",
+        "streak": "Seriya",
+        "kepcoin": "Kepcoin"
+      }
+    },
     "birthdays": {
       "title": "Tug'ilgan kunlar",
       "empty": "Yaqinlashayotgan tug'ilgan kunlar yo'q.",

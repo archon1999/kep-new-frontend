@@ -8,6 +8,7 @@ import UserActivitySection from '../components/UserActivitySection.tsx';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useUserActivityHistory, useUserRatings } from '../../application/queries';
 import NewsSection from '../components/NewsSection.tsx';
+import TopUsersSection from '../components/TopUsersSection.tsx';
 
 const HomePage = () => {
   const { currentUser } = useAuth();
@@ -35,6 +36,10 @@ const HomePage = () => {
           <Grid container>
             <Grid size={12}>
               <NewsSection />
+            </Grid>
+
+            <Grid size={12}>
+              <TopUsersSection />
             </Grid>
 
             <Grid size={12}>

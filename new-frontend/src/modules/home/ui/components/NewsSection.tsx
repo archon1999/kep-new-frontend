@@ -1,6 +1,6 @@
 import { PropsWithChildren, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Button, IconButton, Paper, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, IconButton, Paper, Skeleton, Stack, Typography } from '@mui/material';
 import bgGradient from 'assets/images/background/1.webp';
 import type { BlogPost } from 'modules/blog/domain/entities/blog.entity';
 import IconifyIcon from 'shared/components/base/IconifyIcon';

@@ -20,7 +20,7 @@ export class HttpUsersRepository implements UsersRepository {
       // @ts-ignore
       full: true,
       page: params.page,
-      pageSize: params.pageSize,
+      page_size: params.pageSize,
       ordering: params.ordering,
       search: params.search,
       country: params.country,
