@@ -38,7 +38,7 @@
     "challenges": "Баттлы",
     "challenge": "Баттл",
     "challengesRating": "Рейтинг баттлов",
-    "challengesStats": "Статистика баттлов"
+    "challengesStats": "Статистика баттлов",
     "accountSettings": "Настройки аккаунта"
   },
   "settings": {
@@ -608,16 +608,17 @@
     "delta": "Изменение: {{value}}",
     "ratingChanges": "Изменения рейтинга",
     "noChanges": "Пока нет изменений.",
-    "lastChallenges": "Последние баттлы"
-  "kepcoinSpend": {
-    "insufficientBalance": "Не хватает Kepcoin",
-    "confirmTitle": "Хотите купить?",
-    "confirmDescription": "Это действие нельзя будет отменить.",
-    "costLabel": "Цена",
-    "balanceLabel": "Ваш баланс",
-    "cancelAction": "Отмена",
-    "confirmAction": "Купить",
-    "success": "Покупка успешно выполнена",
-    "error": "Ошибка сервера"
+    "lastChallenges": "Последние баттлы",
+    "kepcoinSpend": {
+      "insufficientBalance": "Не хватает Kepcoin",
+      "confirmTitle": "Хотите купить?",
+      "confirmDescription": "Это действие нельзя будет отменить.",
+      "costLabel": "Цена",
+      "balanceLabel": "Ваш баланс",
+      "cancelAction": "Отмена",
+      "confirmAction": "Купить",
+      "success": "Покупка успешно выполнена",
+      "error": "Ошибка сервера"
+    }
   }
 }

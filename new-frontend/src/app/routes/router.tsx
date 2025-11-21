@@ -106,6 +106,8 @@ export const routes: RouteObject[] = [
             path: paths.challengesStats,
             element: <ChallengeUserStatisticsPage />,
             handle: { titleKey: 'pageTitles.challengesStats' },
+          },
+          {
             path: paths.arena,
             element: <ArenaListPage />,
             handle: { titleKey: 'pageTitles.arena' },

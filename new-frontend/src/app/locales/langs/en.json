@@ -38,7 +38,7 @@
     "challenges": "Challenges",
     "challenge": "Challenge",
     "challengesRating": "Challenges rating",
-    "challengesStats": "Challenge statistics"
+    "challengesStats": "Challenge statistics",
     "accountSettings": "Account Settings"
   },
   "settings": {
@@ -608,16 +608,17 @@
     "delta": "Change: {{value}}",
     "ratingChanges": "Rating changes",
     "noChanges": "No rating changes yet.",
-    "lastChallenges": "Latest challenges"
-  "kepcoinSpend": {
-    "insufficientBalance": "Not enough Kepcoin",
-    "confirmTitle": "Want to buy?",
-    "confirmDescription": "You won't be able to revert this!",
-    "costLabel": "Price",
-    "balanceLabel": "Your balance",
-    "cancelAction": "Cancel",
-    "confirmAction": "Purchase",
-    "success": "Purchase completed",
-    "error": "Server error"
+    "lastChallenges": "Latest challenges",
+    "kepcoinSpend": {
+      "insufficientBalance": "Not enough Kepcoin",
+      "confirmTitle": "Want to buy?",
+      "confirmDescription": "You won't be able to revert this!",
+      "costLabel": "Price",
+      "balanceLabel": "Your balance",
+      "cancelAction": "Cancel",
+      "confirmAction": "Purchase",
+      "success": "Purchase completed",
+      "error": "Server error"
+    }
   }
 }
