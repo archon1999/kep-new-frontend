@@ -1,19 +1,19 @@
-import { SyntheticEvent, useMemo, useState } from 'react';
+import { SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TabContext } from '@mui/lab';
 import {
   Alert,
-  Box,
   Button,
   Container,
   Divider,
   Drawer,
   Paper,
   Stack,
-  useMediaQuery,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useAuth } from 'app/providers/AuthProvider';
+import { useBreakpoints } from 'app/providers/BreakpointsProvider';
+import { useNavContext } from 'app/layouts/main-layout/NavProvider';
 import SimpleBar from 'shared/components/base/SimpleBar.tsx';
 import AccountTabPanel from '../components/AccountTabPanel';
 import CareerSection from '../components/CareerSection';
@@ -30,12 +30,22 @@ import { AccountSettingsTab } from '../components/accountSettingsTabs';
 
 const AccountSettingsPage = () => {
   const { t } = useTranslation();
+  const { down } = useBreakpoints();
   const theme = useTheme();
-  const downMd = useMediaQuery(theme.breakpoints.down('md'));
+  const downMd = down('md');
   const { currentUser } = useAuth();
+  const { topbarHeight } = useNavContext();
 
   const [activeTab, setActiveTab] = useState('general');
   const [showTabList, setShowTabList] = useState(true);
+
+  useEffect(() => {
+    if (!downMd) {
+      setShowTabList(false);
+    } else {
+      setShowTabList(true);
+    }
+  }, [downMd]);
 
   const tabs: AccountSettingsTab[] = useMemo(
     () => [
@@ -134,6 +144,7 @@ const AccountSettingsPage = () => {
           {downMd ? (
             <Drawer
               hideBackdrop
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
               open={showTabList}
               onClose={() => setShowTabList(false)}
               ModalProps={{
@@ -147,6 +158,8 @@ const AccountSettingsPage = () => {
                     width: 1,
                     overflow: 'hidden',
                     pointerEvents: 'auto',
+                    height: ({ mixins }) => mixins.contentHeight(topbarHeight),
+                    top: ({ mixins }) => mixins.topOffset(topbarHeight, 1),
                   },
                 },
               }}
@@ -155,17 +168,27 @@ const AccountSettingsPage = () => {
               }}
             >
               <SimpleBar>
-                <SideTabList tabs={tabs} onChange={handleTabChange} />
+                <SideTabList
+                  tabs={tabs}
+                  onChange={handleTabChange}
+                  onTabClick={() => setShowTabList(false)}
+                />
               </SimpleBar>
             </Drawer>
           ) : (
-            <Box
+            <Paper
+              background={1}
               sx={{
                 width: { md: 324, lg: 405 },
+                position: 'sticky',
+                top: ({ mixins }) => mixins.topOffset(topbarHeight),
+                height: ({ mixins }) => mixins.contentHeight(topbarHeight),
               }}
             >
-              <SideTabList tabs={tabs} onChange={handleTabChange} />
-            </Box>
+              <SimpleBar>
+                <SideTabList tabs={tabs} onChange={handleTabChange} />
+              </SimpleBar>
+            </Paper>
           )}
 
           {!downMd ? (
@@ -190,6 +213,7 @@ const AccountSettingsPage = () => {
                   title={tab.label}
                   panelIcon={tab.panelIcon}
                   description={tab.description}
+                  onOpenTabs={() => setShowTabList(true)}
                 >
                   {tab.render}
                 </AccountTabPanel>
