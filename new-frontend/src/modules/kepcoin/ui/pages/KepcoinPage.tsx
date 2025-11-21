@@ -17,7 +17,7 @@ const KepcoinPage = () => {
   const [view, setView] = useState<HistoryView>('earns');
   const [page, setPage] = useState(1);
 
-  const { data: summary, isLoading: isSummaryLoading } = useKepcoinSummary();
+  const { data: summary, isLoading: isSummaryLoading, mutate: reloadSummary } = useKepcoinSummary();
   const {
     data: earnHistory,
     isLoading: isEarnHistoryLoading,
@@ -52,6 +52,10 @@ const KepcoinPage = () => {
   const historyItems = activeHistory?.items ?? [];
   const pagesCount = activeHistory?.pagesCount ?? 1;
 
+  const handlePurchaseStreakFreeze = async () => {
+    await Promise.all([reloadSummary(), reloadSpend()]);
+  };
+
   return (
     <Grid container>
       <Grid size={{ sm: 12, lg: 6 }}>
@@ -61,6 +65,7 @@ const KepcoinPage = () => {
           maxStreak={summary?.maxStreak}
           streakFreeze={summary?.streakFreeze}
           isLoading={isSummaryLoading}
+          onPurchaseStreakFreeze={handlePurchaseStreakFreeze}
         />
 
         <KepcoinActivityWidget
