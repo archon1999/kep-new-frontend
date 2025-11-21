@@ -47,6 +47,28 @@
       "title": "So‘nggi yangiliklar",
       "empty": "Hozircha yangiliklar mavjud emas."
     },
+    "topUsers": {
+      "title": "Top foydalanuvchilar",
+      "subtitle": "Har bir yo'nalishda eng yaxshi natijalar",
+      "tabs": {
+        "contests": "Musobaqalar",
+        "skills": "Ko'nikmalar",
+        "activity": "Faollik",
+        "challenges": "Chaqiriqlar",
+        "streak": "Streak",
+        "kepcoin": "Kepcoin"
+      },
+      "valueLabels": {
+        "contests": "Musobaqalar reytingi",
+        "skills": "Ko'nikmalar reytingi",
+        "activity": "Faollik reytingi",
+        "challenges": "Chaqiriqlar reytingi",
+        "streak": "Joriy streak",
+        "kepcoin": "Kepcoin balansi"
+      },
+      "empty": "Hozircha foydalanuvchilar mavjud emas.",
+      "emptyValue": "—"
+    },
     "birthdays": {
       "title": "Tug'ilgan kunlar",
       "empty": "Yaqinlashayotgan tug'ilgan kunlar yo'q.",
