@@ -1,5 +1,6 @@
 import { Hackathon as HackathonDto } from 'shared/api/orval/generated/endpoints/index.schemas';
 import { Hackathon } from '../../domain/entities/hackathon.entity';
+import { HackathonProject, HackathonRegistrant, HackathonStanding } from '../../domain/entities/hackathon-project.entity';
 import { PageResult } from '../../domain/ports/hackathons.repository';
 
 export const mapHackathon = (payload: HackathonDto): Hackathon => ({
@@ -16,6 +17,27 @@ export const mapHackathon = (payload: HackathonDto): Hackathon => ({
   registrantsCount: payload?.registrantsCount ?? (payload as any)?.registrants_count ?? 0,
   isRegistered: Boolean(payload?.isRegistered ?? (payload as any)?.is_registered ?? false),
   isParticipated: Boolean(payload?.isParticipated ?? (payload as any)?.is_participated ?? false),
+});
+
+export const mapHackathonProject = (payload: any): HackathonProject => ({
+  id: payload?.id ?? 0,
+  symbol: payload?.symbol ?? '',
+  project: payload?.project,
+});
+
+export const mapHackathonStanding = (payload: any): HackathonStanding => ({
+  username: payload?.username ?? '',
+  userAvatar: payload?.userAvatar ?? payload?.user_avatar,
+  userFullName: payload?.userFullName ?? payload?.user_full_name,
+  points: payload?.points ?? 0,
+  projectResults: payload?.projectResults ?? payload?.project_results ?? payload?.projectresults,
+  rank: payload?.rank,
+});
+
+export const mapHackathonRegistrant = (payload: any): HackathonRegistrant => ({
+  username: payload?.username ?? '',
+  userAvatar: payload?.userAvatar ?? payload?.user_avatar,
+  userFullName: payload?.userFullName ?? payload?.user_full_name,
 });
 
 export const mapPageResult = <T>(payload: any, mapItem: (item: any) => T): PageResult<T> => ({

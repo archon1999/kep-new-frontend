@@ -325,7 +325,16 @@
     "projectsCount": "{{count}} проектов",
     "participantsCount": "{{count}} участников",
     "schedule": "{{start}} — {{end}}",
-    "noSchedule": "Расписание будет объявлено позже"
+    "noSchedule": "Расписание будет объявлено позже",
+    "overview": "Обзор",
+    "projects": "Проекты",
+    "attempts": "Посылки",
+    "standings": "Рейтинг",
+    "registrants": "Участники",
+    "register": "Зарегистрироваться",
+    "unregister": "Отменить регистрацию",
+    "contestant": "Участник",
+    "points": "Баллы"
   },
   "projects": {
     "title": "Проекты",
