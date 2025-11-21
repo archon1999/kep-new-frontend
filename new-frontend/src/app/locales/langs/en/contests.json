@@ -33,6 +33,26 @@
     "noDescription": "No description provided.",
     "emptyTitle": "No contests available",
     "emptySubtitle": "New contests will appear here soon.",
+    "viewRating": "Contests rating",
+    "rating": {
+      "title": "Contests rating",
+      "subtitle": "See the most consistent contestants across all rated contests.",
+      "ordering": {
+        "rating": "Rating",
+        "maxRating": "Max rating",
+        "contests": "Contests"
+      },
+      "columns": {
+        "place": "#",
+        "user": "User",
+        "rating": "Rating",
+        "maxRating": "Max rating",
+        "contests": "Contests"
+      },
+      "total": "{{count}} participants",
+      "pageInfo": "Page {{page}} of {{pages}}",
+      "empty": "No contestants have a rating yet."
+    },
     "typeLabels": {
       "ACM2H": "ACM (2 hours)",
       "ACM10M": "ACM (10 minutes)",
