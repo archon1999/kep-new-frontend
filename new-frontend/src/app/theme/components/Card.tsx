@@ -2,12 +2,12 @@ import { Components, Theme } from '@mui/material/styles';
 
 const Card: Components<Omit<Theme, 'components'>>['MuiCard'] = {
   defaultProps: {
-    variant: 'elevation',
     background: 1,
   },
   styleOverrides: {
     root: {
       outline: 'none',
+      border: 'none',
       borderRadius: 3,
     },
   },
