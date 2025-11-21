@@ -1,0 +1,33 @@
+{
+  "tournaments": {
+    "subtitle": "16 nafar ishtirokchi uchun nokaut tizimi.",
+    "emptyTitle": "Hozircha turnirlar yo'q",
+    "emptySubtitle": "Yangi nokaut setkalari qo'shilishini kuting.",
+    "startsAt": "Boshlanish vaqti: {{time}}",
+    "playersCount": "{{count}} ta ishtirokchi",
+    "bracketTitle": "Natijalar setkasi",
+    "bracketDescription": "Har bir bosqichdagi g'oliblarni kuzating.",
+    "roundOf": "{{count}} bosqichi",
+    "quarterfinal": "Chorak final",
+    "semifinal": "Yarim final",
+    "final": "Final",
+    "matchLabel": "Nokaut bahsi",
+    "noMatches": "Hali birorta o'yin o'tkazilmadi.",
+    "emptySlot": "Aniqlanmagan",
+    "registered": "Ro'yxatdan o'tilgan",
+    "register": "Ro'yxatdan o'tish",
+    "noDescription": "Turnir tavsifi hali qo'shilmagan.",
+    "infoTab": "Ma'lumot",
+    "resultsTab": "Natijalar",
+    "participants": "Ishtirokchilar",
+    "noParticipants": "Ishtirokchilar ro'yxati hali e'lon qilinmagan.",
+    "bracketHeading": "Setka",
+    "bracketTitleShort": "Setka",
+    "bracketCTA": "Setkani ko'rish",
+    "resultsHeader": "Natijalar",
+    "round": "Bosqich",
+    "bracketTitleAlt": "Nokaut",
+    "bracketTitleList": "Nokaut setka",
+    "bracketTitlePage": "Turnir setkasi"
+  }
+}

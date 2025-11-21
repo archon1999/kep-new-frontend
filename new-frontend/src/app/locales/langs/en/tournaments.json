@@ -1,0 +1,33 @@
+{
+  "tournaments": {
+    "subtitle": "Single elimination tournaments with 16 players.",
+    "emptyTitle": "No tournaments yet",
+    "emptySubtitle": "Check back later for new knockout brackets.",
+    "startsAt": "Starts at {{time}}",
+    "playersCount": "{{count}} players",
+    "bracketTitle": "Results bracket",
+    "bracketDescription": "Follow the knockout bracket and see who advances each round.",
+    "roundOf": "Round of {{count}}",
+    "quarterfinal": "Quarterfinal",
+    "semifinal": "Semifinal",
+    "final": "Final",
+    "matchLabel": "Knockout match",
+    "noMatches": "No matches have been reported yet.",
+    "emptySlot": "TBD",
+    "registered": "Registered",
+    "register": "Register",
+    "noDescription": "No description provided for this tournament yet.",
+    "infoTab": "Info",
+    "resultsTab": "Results",
+    "participants": "Participants",
+    "noParticipants": "Participants have not been published yet.",
+    "bracketHeading": "Bracket",
+    "bracketTitleShort": "Bracket",
+    "bracketCTA": "View bracket",
+    "resultsHeader": "Results",
+    "round": "Round",
+    "bracketTitleAlt": "Knockout",
+    "bracketTitleList": "Knockout bracket",
+    "bracketTitlePage": "Tournament bracket"
+  }
+}

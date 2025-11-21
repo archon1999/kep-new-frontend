@@ -1,0 +1,33 @@
+{
+  "tournaments": {
+    "subtitle": "Сетка на выбывание для 16 участников.",
+    "emptyTitle": "Турниров пока нет",
+    "emptySubtitle": "Загляните позже, когда появятся новые сетки.",
+    "startsAt": "Начало {{time}}",
+    "playersCount": "{{count}} игроков",
+    "bracketTitle": "Сетка результатов",
+    "bracketDescription": "Следите за выбыванием и проходом игроков по раундам.",
+    "roundOf": "Раунд {{count}}",
+    "quarterfinal": "Четвертьфинал",
+    "semifinal": "Полуфинал",
+    "final": "Финал",
+    "matchLabel": "Матч на выбывание",
+    "noMatches": "Матчи еще не сыграны.",
+    "emptySlot": "Определяется",
+    "registered": "Зарегистрирован",
+    "register": "Зарегистрироваться",
+    "noDescription": "Описание турнира пока не добавлено.",
+    "infoTab": "Инфо",
+    "resultsTab": "Результаты",
+    "participants": "Участники",
+    "noParticipants": "Список участников еще не опубликован.",
+    "bracketHeading": "Сетка",
+    "bracketTitleShort": "Сетка",
+    "bracketCTA": "Перейти к сетке",
+    "resultsHeader": "Результаты",
+    "round": "Раунд",
+    "bracketTitleAlt": "Плей-офф",
+    "bracketTitleList": "Плей-офф",
+    "bracketTitlePage": "Сетка турнира"
+  }
+}
