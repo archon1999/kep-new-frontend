@@ -4,6 +4,7 @@ import type {
   HomeNextBirthdays,
   HomeOnlineUsers,
   HomePostsList,
+  HomeLandingPageStatistics,
   HomeTopUsers,
   HomeUserActivityStatistics,
   HomeUserActivityHistory,
@@ -21,4 +22,5 @@ export interface HomeRepository {
   getUserRatings: (username: string) => Promise<HomeUserRatings>;
   getUserActivityStatistics: () => Promise<HomeUserActivityStatistics>;
   getUserActivityHistory: (username: string, params?: HomeListParams) => Promise<HomeUserActivityHistory>;
+  getLandingPageStatistics: () => Promise<HomeLandingPageStatistics>;
 }

@@ -3,44 +3,21 @@ import { useTranslation } from 'react-i18next';
 import { Paper } from '@mui/material';
 import Chip, { ChipProps } from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-
-const STATISTICS_DATA = {
-  users: {
-    value: 8548,
-    percent: 9.6,
-  },
-  problems: {
-    value: 1951,
-    percent: -8.4,
-  },
-  competitions: {
-    value: 365,
-    percent: -14.1,
-  },
-  attempts: {
-    value: 379607,
-    percent: 11.6,
-  },
-} as const;
-
-type StatisticKey = keyof typeof STATISTICS_DATA;
+import { useLandingPageStatistics } from '../../application/queries.ts';
+import type { HomeStatisticKey } from '../../domain/entities/home.entity.ts';
 
 type StatisticEntry = {
-  key: StatisticKey;
+  key: HomeStatisticKey;
   value: number;
   percent: number;
+  hasData: boolean;
 };
 
-const STATISTICS_LIST: StatisticEntry[] = (
-  Object.entries(STATISTICS_DATA) as [StatisticKey, (typeof STATISTICS_DATA)[StatisticKey]][]
-).map(([key, data]) => ({
-  key,
-  value: data.value,
-  percent: data.percent ?? 0,
-}));
+const STATISTIC_KEYS: HomeStatisticKey[] = ['users', 'problems', 'competitions', 'attempts'];
 
 const getTrendStyles = (value: number): { color: ChipProps['color']; icon: string } => {
   if (value > 0) {
@@ -65,6 +42,7 @@ const getTrendStyles = (value: number): { color: ChipProps['color']; icon: strin
 
 const StatisticsSection = () => {
   const { t } = useTranslation();
+  const { data, isLoading } = useLandingPageStatistics();
 
   const valueFormatter = useMemo(
     () =>
@@ -84,13 +62,25 @@ const StatisticsSection = () => {
     [],
   );
 
+  const statisticsList: StatisticEntry[] = useMemo(
+    () =>
+      STATISTIC_KEYS.map((key) => ({
+        key,
+        value: data?.[key]?.value ?? 0,
+        percent: data?.[key]?.percent ?? 0,
+        hasData: Boolean(data?.[key]),
+      })),
+    [data],
+  );
+
   return (
     <Grid container size={12}>
-      {STATISTICS_LIST.map(({ key, value, percent }) => {
+      {statisticsList.map(({ key, value, percent, hasData }) => {
         const { color, icon } = getTrendStyles(percent);
+        const showSkeleton = isLoading || !hasData;
 
         return (
-          <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Grid key={key} size={{ xs: 12, sm: 6, lg: 3 }}>
             <Paper sx={{ p: 4 }}>
               <Stack spacing={2} direction="column">
                 <Stack direction="column" spacing={0.5}>
@@ -107,7 +97,7 @@ const StatisticsSection = () => {
                     }}
                   >
                     <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                      {valueFormatter.format(value)}
+                      {showSkeleton ? <Skeleton width={96} /> : valueFormatter.format(value)}
                     </Typography>
                     <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
                       {t(`homePage.statistics.cards.${key}`)}
@@ -123,12 +113,16 @@ const StatisticsSection = () => {
                     alignItems: { xs: 'flex-start' },
                   }}
                 >
-                  <Chip
-                    label={`${percentFormatter.format(percent)}%`}
-                    color={color}
-                    icon={<IconifyIcon icon={icon} />}
-                    sx={{ flexDirection: 'row-reverse' }}
-                  />
+                  {showSkeleton ? (
+                    <Skeleton width={120} height={32} />
+                  ) : (
+                    <Chip
+                      label={`${percentFormatter.format(percent)}%`}
+                      color={color}
+                      icon={<IconifyIcon icon={icon} />}
+                      sx={{ flexDirection: 'row-reverse' }}
+                    />
+                  )}
                   <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
                     {t('homePage.statistics.changeLabel')}
                   </Typography>
