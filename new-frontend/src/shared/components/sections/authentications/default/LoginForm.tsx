@@ -94,6 +94,19 @@ const LoginForm = ({
         justifyContent: 'space-between',
         pt: { md: 10 },
         pb: 10,
+        width: '100%',
+        maxWidth: {
+          xs: 300,
+          sm: 500,
+          md: 720,
+          lg: 920,
+        },
+        maxHeight: {
+          xs: '40vh',
+          sm: '45vh',
+          md: '55vh',
+          lg: '60vh',
+        },
       }}
     >
       <div />
@@ -108,7 +121,7 @@ const LoginForm = ({
         }}
       >
         <Grid size={12}>
-          <Stack spacing={1} sx={{ alignItems: { xs: 'flex-start', sm: 'center' } }}>
+          <Stack direction="column" spacing={1} sx={{ alignItems: { xs: 'flex-start', sm: 'center' } }}>
             <Typography variant="h4">{t('auth.welcomeTitle')}</Typography>
             <Typography variant="body1" color="text.secondary">
               {t('auth.loginSubtitle')}
