@@ -7,8 +7,11 @@
     "typeLabel": "Тип",
     "allTypes": "Все типы",
     "categoriesLabel": "Категории",
+    "categoriesWithCount": "Категории ({{count}})",
     "allCategories": "Все категории",
+    "filtersButton": "Фильтры",
     "participation": {
+      "label": "Участие",
       "all": "Все",
       "joined": "Зарегистрирован",
       "notJoined": "Не зарегистрирован"

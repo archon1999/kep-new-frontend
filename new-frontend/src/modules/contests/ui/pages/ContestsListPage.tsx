@@ -1,9 +1,7 @@
-import { useMemo, useState } from 'react';
+import { MouseEvent, useMemo, useState } from 'react';
 import {
   Box,
-  Card,
-  CardContent,
-  Chip,
+  Button,
   Divider,
   FormControl,
   Grid,
@@ -11,6 +9,7 @@ import {
   InputLabel,
   MenuItem,
   Pagination,
+  Popover,
   Select,
   Skeleton,
   Stack,
@@ -57,6 +56,7 @@ const ContestsListPage = () => {
     type: undefined as string | undefined,
     participation: 'all' as 'all' | 'joined' | 'notJoined',
   });
+  const [filtersAnchor, setFiltersAnchor] = useState<HTMLElement | null>(null);
 
   const debouncedTitle = useDebouncedValue(filters.title, 400);
 
@@ -80,6 +80,7 @@ const ContestsListPage = () => {
   const { data: pageResult, isLoading } = useContestsList(queryParams);
   const contests = pageResult?.data ?? [];
   const showEmptyState = !isLoading && contests.length === 0;
+  const filtersOpen = Boolean(filtersAnchor);
 
   const handleCategory = (id?: number) => {
     setFilters((prev) => ({ ...prev, category: id }));
@@ -97,6 +98,14 @@ const ContestsListPage = () => {
     setPage(1);
   };
 
+  const handleOpenFilters = (event: MouseEvent<HTMLElement>) => {
+    setFiltersAnchor(event.currentTarget);
+  };
+
+  const handleCloseFilters = () => {
+    setFiltersAnchor(null);
+  };
+
   return (
     <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
@@ -110,13 +119,30 @@ const ContestsListPage = () => {
             background: 'linear-gradient(135deg, rgba(0, 255, 190, 0.06), rgba(86, 112, 255, 0.05))',
           }}
         >
-          <Stack direction="column" spacing={1}>
-            <Typography variant="h4" fontWeight={800}>
-              {t('contests.title')}
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 720 }}>
-              {t('contests.subtitle')}
-            </Typography>
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={{ xs: 2, sm: 1 }}
+            justifyContent="space-between"
+            alignItems={{ sm: 'center' }}
+          >
+            <Stack direction="column" spacing={1}>
+              <Typography variant="h4" fontWeight={800}>
+                {t('contests.title')}
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 720 }}>
+                {t('contests.subtitle')}
+              </Typography>
+            </Stack>
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleOpenFilters}
+              startIcon={<KepIcon name="filters" fontSize={20} />}
+              sx={{ alignSelf: { xs: 'stretch', sm: 'flex-start' } }}
+            >
+              {t('contests.filtersButton')}
+            </Button>
           </Stack>
 
           <Box sx={{ position: 'absolute', right: { xs: -24, md: 24 }, bottom: { xs: -24, md: 8 }, opacity: 0.08 }}>
@@ -124,84 +150,103 @@ const ContestsListPage = () => {
           </Box>
         </Box>
 
-        <Card variant="outlined">
-          <CardContent>
-            <Stack direction="column" spacing={3}>
-              <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-                <TextField
-                  value={filters.title}
-                  onChange={(event) => setFilters((prev) => ({ ...prev, title: event.target.value }))}
-                  placeholder={t('contests.searchPlaceholder')}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <KepIcon name="search" fontSize={20} />
-                      </InputAdornment>
-                    ),
-                  }}
-                  label={t('contests.searchLabel')}
-                  sx={{ minWidth: { xs: '100%', md: 320 } }}
-                />
+        <Popover
+          open={filtersOpen}
+          anchorEl={filtersAnchor}
+          onClose={handleCloseFilters}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          slotProps={{
+            paper: {
+              sx: {
+                p: 3,
+                width: { xs: '100%', sm: 420 },
+                maxWidth: '100%',
+              },
+            },
+          }}
+        >
+          <Stack direction="column" spacing={3} sx={{ minWidth: { xs: 280, sm: 360 } }}>
+            <Typography variant="h6" fontWeight={700}>
+              {t('contests.filtersButton')}
+            </Typography>
 
-                <FormControl sx={{ minWidth: { xs: '100%', sm: 200 } }}>
-                  <InputLabel>{t('contests.typeLabel')}</InputLabel>
-                  <Select
-                    label={t('contests.typeLabel')}
-                    size="small"
-                    value={filters.type ?? ''}
-                    onChange={(event) => handleTypeChange(event.target.value || undefined)}
-                  >
-                    <MenuItem value="">
-                      <em>{t('contests.allTypes')}</em>
-                    </MenuItem>
-                    {contestTypes.map((type) => (
-                      <MenuItem key={type} value={type}>
-                        {t(`contests.typeLabels.${type}` as const)}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+            <Stack direction="column" spacing={2}>
+              <TextField
+                value={filters.title}
+                onChange={(event) => setFilters((prev) => ({ ...prev, title: event.target.value }))}
+                placeholder={t('contests.searchPlaceholder')}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <KepIcon name="search" fontSize={20} />
+                    </InputAdornment>
+                  ),
+                }}
+                label={t('contests.searchLabel')}
+                size="small"
+                fullWidth
+              />
 
-                <ToggleButtonGroup
-                  color="primary"
-                  exclusive
-                  value={filters.participation}
-                  onChange={handleParticipationChange}
-                  size="small"
+              <FormControl fullWidth size="small">
+                <InputLabel>{t('contests.typeLabel')}</InputLabel>
+                <Select
+                  label={t('contests.typeLabel')}
+                  value={filters.type ?? ''}
+                  onChange={(event) => handleTypeChange(event.target.value || undefined)}
                 >
-                  <ToggleButton value="all">{t('contests.participation.all')}</ToggleButton>
-                  <ToggleButton value="joined">{t('contests.participation.joined')}</ToggleButton>
-                  <ToggleButton value="notJoined">{t('contests.participation.notJoined')}</ToggleButton>
-                </ToggleButtonGroup>
-              </Stack>
-
-              <Divider sx={{ borderStyle: 'dashed', opacity: 0.6 }} />
-
-              <Stack direction="column" spacing={1}>
-                <Typography variant="subtitle2" color="text.secondary">
-                  {t('contests.categoriesLabel')}
-                </Typography>
-                <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                  <Chip
-                    label={t('contests.allCategories')}
-                    onClick={() => handleCategory(undefined)}
-                    color={!filters.category ? 'primary' : 'default'}
-                    variant={!filters.category ? 'filled' : 'outlined'}
-                  />
-                  {(categories ?? []).map((category) => (
-                    <Chip
-                      key={category.id}
-                      label={category.title}
-                      onClick={() => handleCategory(category.id)}
-                      color={filters.category === category.id ? 'primary' : 'default'}
-                      variant={filters.category === category.id ? 'filled' : 'outlined'}
-                    />
+                  <MenuItem value="">
+                    <em>{t('contests.allTypes')}</em>
+                  </MenuItem>
+                  {contestTypes.map((type) => (
+                    <MenuItem key={type} value={type}>
+                      {t(`contests.typeLabels.${type}` as const)}
+                    </MenuItem>
                   ))}
-                </Stack>
-              </Stack>
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth size="small">
+                <InputLabel>
+                  {t('contests.categoriesWithCount', { count: categories?.length ?? 0 })}
+                </InputLabel>
+                <Select
+                  label={t('contests.categoriesWithCount', { count: categories?.length ?? 0 })}
+                  value={filters.category ?? ''}
+                  onChange={(event) => handleCategory(event.target.value ? Number(event.target.value) : undefined)}
+                >
+                  <MenuItem value="">
+                    <em>{t('contests.allCategories')}</em>
+                  </MenuItem>
+                  {(categories ?? []).map((category) => (
+                    <MenuItem key={category.id} value={category.id}>
+                      {category.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Stack>
-          </CardContent>
-        </Card>
+
+            <Divider sx={{ borderStyle: 'dashed', opacity: 0.6 }} />
+
+            <Stack direction="column" spacing={1}>
+              <Typography variant="subtitle2" color="text.secondary">
+                {t('contests.participation.label')}
+              </Typography>
+              <ToggleButtonGroup
+                color="primary"
+                exclusive
+                value={filters.participation}
+                onChange={handleParticipationChange}
+                size="small"
+              >
+                <ToggleButton value="all">{t('contests.participation.all')}</ToggleButton>
+                <ToggleButton value="joined">{t('contests.participation.joined')}</ToggleButton>
+                <ToggleButton value="notJoined">{t('contests.participation.notJoined')}</ToggleButton>
+              </ToggleButtonGroup>
+            </Stack>
+          </Stack>
+        </Popover>
 
         {showEmptyState ? (
           <Box

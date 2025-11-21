@@ -7,8 +7,11 @@
     "typeLabel": "Turi",
     "allTypes": "Barcha turlar",
     "categoriesLabel": "Kategoriyalar",
+    "categoriesWithCount": "Kategoriyalar ({{count}})",
     "allCategories": "Barcha kategoriyalar",
+    "filtersButton": "Filtrlar",
     "participation": {
+      "label": "Ishtirok",
       "all": "Hammasi",
       "joined": "Ro'yxatdan o'tgan",
       "notJoined": "Ro'yxatdan o'tmagan"

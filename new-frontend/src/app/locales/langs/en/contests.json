@@ -7,8 +7,11 @@
     "typeLabel": "Type",
     "allTypes": "All types",
     "categoriesLabel": "Categories",
+    "categoriesWithCount": "Categories ({{count}})",
     "allCategories": "All categories",
+    "filtersButton": "Filters",
     "participation": {
+      "label": "Participation",
       "all": "All",
       "joined": "Registered",
       "notJoined": "Not registered"
