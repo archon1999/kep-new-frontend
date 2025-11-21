@@ -7,6 +7,7 @@ import type {
   HomeNextBirthdays,
   HomeOnlineUsers,
   HomePostsList,
+  HomeLandingPageStatistics,
   HomeTopUsers,
   HomeUserActivityStatistics,
   HomeUserActivityHistory,
@@ -58,4 +59,9 @@ export const useUserActivityHistory = (username?: string | null, pageSize = 4) =
   useHomeSWR<HomeUserActivityHistory | null>(
     username ? homeKeys.detail(`activity-history-${username}-${pageSize}`) : null,
     () => repository.getUserActivityHistory(username as string, { pageSize }),
+  );
+
+export const useLandingPageStatistics = () =>
+  useHomeSWR<HomeLandingPageStatistics>(homeKeys.detail('landing-page-statistics'), () =>
+    repository.getLandingPageStatistics(),
   );
