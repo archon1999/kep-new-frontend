@@ -11,12 +11,11 @@ import { LineChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-
-import { useUserActivityStatistics } from '../../application/queries';
-import ReactEchart from 'shared/components/base/ReactEchart';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import ReactEchart from 'shared/components/base/ReactEchart';
 import { getColor } from 'shared/lib/echart-utils';
 import { getPastDates } from 'shared/lib/utils';
+import { useUserActivityStatistics } from '../../application/queries';
 
 echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
@@ -91,70 +90,69 @@ const UserActivitySection = () => {
   const tooltipSuffix = t('homePage.userActivity.tooltipSuffix');
 
   const createChartOptions = useMemo(
-    () =>
-      (series: number[], color: string) => {
-        const labels = getPastDates(series.length).map((date) => dayjs(date).format('MMM DD'));
-        const [min, max] = withPadding(series);
+    () => (series: number[], color: string) => {
+      const labels = getPastDates(series.length).map((date) => dayjs(date).format('MMM DD'));
+      const [min, max] = withPadding(series);
 
-        return {
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'line',
-              lineStyle: {
-                color: pointerColor,
-              },
-            },
-            valueFormatter: (value: string | number) => `${value} ${tooltipSuffix}`,
-          },
-          grid: { left: 12, right: 12, top: 24, bottom: 12, containLabel: true },
-          xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: labels,
-            axisLabel: {
-              color: axisLabelColor,
-              fontFamily: theme.typography.fontFamily,
-            },
-            axisTick: {
-              show: false,
-            },
-            axisLine: {
-              show: false,
+      return {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'line',
+            lineStyle: {
+              color: pointerColor,
             },
           },
-          yAxis: {
-            type: 'value',
-            min,
-            max,
-            axisLabel: {
-              color: axisLabelColor,
-            },
-            splitLine: {
-              lineStyle: {
-                color: splitLineColor,
-              },
-            },
-            axisLine: { show: false },
-            axisTick: { show: false },
+          valueFormatter: (value: string | number) => `${value} ${tooltipSuffix}`,
+        },
+        grid: { left: 12, right: 12, top: 24, bottom: 12, containLabel: true },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: labels,
+          axisLabel: {
+            color: axisLabelColor,
+            fontFamily: theme.typography.fontFamily,
           },
-          series: [
-            {
-              type: 'line',
-              data: series,
-              smooth: true,
-              showSymbol: false,
-              lineStyle: {
-                width: 3,
-                color,
-              },
-              emphasis: {
-                focus: 'series',
-              },
+          axisTick: {
+            show: false,
+          },
+          axisLine: {
+            show: false,
+          },
+        },
+        yAxis: {
+          type: 'value',
+          min,
+          max,
+          axisLabel: {
+            color: axisLabelColor,
+          },
+          splitLine: {
+            lineStyle: {
+              color: splitLineColor,
             },
-          ],
-        };
-      },
+          },
+          axisLine: { show: false },
+          axisTick: { show: false },
+        },
+        series: [
+          {
+            type: 'line',
+            data: series,
+            smooth: true,
+            showSymbol: false,
+            lineStyle: {
+              width: 3,
+              color,
+            },
+            emphasis: {
+              focus: 'series',
+            },
+          },
+        ],
+      };
+    },
     [axisLabelColor, pointerColor, splitLineColor, theme.typography.fontFamily, tooltipSuffix],
   );
 
@@ -188,7 +186,12 @@ const UserActivitySection = () => {
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 4, height: '100%' }}>
             <Stack spacing={3} direction="column" sx={{ height: '100%' }}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="flex-start"
+                spacing={2}
+              >
                 <Stack direction="column" spacing={0.5}>
                   <Typography variant="subtitle2" color="text.secondary">
                     {t('homePage.userActivity.series.newUsers')}
@@ -196,20 +199,29 @@ const UserActivitySection = () => {
                   <Typography variant="h4" sx={{ fontWeight: 600 }}>
                     {numberFormatter.format(newUsersStat?.total ?? 0)}
                   </Typography>
+                </Stack>
+
+                <Stack justifyContent="flex-end" direction="column" spacing={2}>
                   <Typography variant="subtitle2" color="text.secondary">
                     {t('homePage.userActivity.changeLabel')}
                   </Typography>
-                </Stack>
 
-                <Chip
-                  label={`${percentFormatter.format(newUsersStat?.percentage ?? 0)}%`}
-                  color={newUsersTrend.color}
-                  icon={<IconifyIcon icon={newUsersTrend.icon} />}
-                  sx={{ flexDirection: 'row-reverse' }}
-                />
+                  <Stack justifyContent="flex-end">
+                    <Chip
+                      label={`${percentFormatter.format(newUsersStat?.percentage ?? 0)}%`}
+                      color={newUsersTrend.color}
+                      icon={<IconifyIcon icon={newUsersTrend.icon} />}
+                      sx={{ flexDirection: 'row-reverse' }}
+                    />
+                  </Stack>
+                </Stack>
               </Stack>
 
-              <ReactEchart echarts={echarts} option={newUsersChartOptions} style={{ minHeight: 260 }} />
+              <ReactEchart
+                echarts={echarts}
+                option={newUsersChartOptions}
+                style={{ minHeight: 260 }}
+              />
             </Stack>
           </Paper>
         </Grid>
@@ -217,7 +229,12 @@ const UserActivitySection = () => {
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 4, height: '100%' }}>
             <Stack spacing={3} direction="column" sx={{ height: '100%' }}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="flex-start"
+                spacing={2}
+              >
                 <Stack direction="column" spacing={0.5}>
                   <Typography variant="subtitle2" color="text.secondary">
                     {t('homePage.userActivity.series.activeUsers')}
@@ -225,20 +242,29 @@ const UserActivitySection = () => {
                   <Typography variant="h4" sx={{ fontWeight: 600 }}>
                     {numberFormatter.format(activeUsersStat?.total ?? 0)}
                   </Typography>
+                </Stack>
+
+                <Stack justifyContent="flex-end" direction="column" spacing={2}>
                   <Typography variant="subtitle2" color="text.secondary">
                     {t('homePage.userActivity.changeLabel')}
                   </Typography>
-                </Stack>
 
-                <Chip
-                  label={`${percentFormatter.format(activeUsersStat?.percentage ?? 0)}%`}
-                  color={activeUsersTrend.color}
-                  icon={<IconifyIcon icon={activeUsersTrend.icon} />}
-                  sx={{ flexDirection: 'row-reverse' }}
-                />
+                  <Stack justifyContent="flex-end">
+                    <Chip
+                      label={`${percentFormatter.format(activeUsersStat?.percentage ?? 0)}%`}
+                      color={activeUsersTrend.color}
+                      icon={<IconifyIcon icon={activeUsersTrend.icon} />}
+                      sx={{ flexDirection: 'row-reverse' }}
+                    />
+                  </Stack>
+                </Stack>
               </Stack>
 
-              <ReactEchart echarts={echarts} option={activeUsersChartOptions} style={{ minHeight: 260 }} />
+              <ReactEchart
+                echarts={echarts}
+                option={activeUsersChartOptions}
+                style={{ minHeight: 260 }}
+              />
             </Stack>
           </Paper>
         </Grid>

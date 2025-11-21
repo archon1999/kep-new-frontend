@@ -87,9 +87,10 @@ const tabConfigs = [
 
 const backgroundByRank: Record<number, string> = {
   0: 'primary.lighter',
-  1: 'warning.lighter',
-  2: 'info.lighter',
+  1: 'primary.lighter',
+  2: 'primary.lighter',
 };
+
 
 type TabValue = (typeof tabConfigs)[number]['value'];
 
@@ -159,31 +160,43 @@ const TopUsersSection = () => {
   const showSkeleton = isLoading && !usersData?.data;
   const emptyLabel = t('users.emptyValue');
 
+  const stripeByRank: Record<number, string> = {
+    0: '#FACC15',
+    1: '#94A3B8',
+    2: '#F97316',
+  };
+
   const renderUserCard = (user: UsersListItem, index: number) => {
     const name = [user.firstName, user.lastName].filter(Boolean).join(' ');
     const countryCode = user.country?.toUpperCase();
-    const bgKey = backgroundByRank[index] ?? 'background.paper';
-    const isLeader = index === 0;
+    const stripeColor = stripeByRank[index] ?? '#CBD5E1';
 
     return (
       <Box
         key={user.username}
         sx={{
+          position: 'relative',
           borderRadius: 3,
-          p: 2.5,
-          bgcolor: bgKey,
-          transform: isLeader ? 'translateY(-4px)' : 'none',
+          p: 2.25,
+          pl: 3.25,
+          bgcolor: 'background.elevation1',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            left: 0,
+            top: 16,
+            bottom: 16,
+            width: 4,
+            borderRadius: 999,
+            bgcolor: stripeColor,
+          },
         }}
       >
-        <Stack direction="column" spacing={1.75}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Chip
-              size="small"
-              label={`Top ${index + 1}`}
-              color={isLeader ? 'primary' : 'default'}
-              variant="soft"
-            />
-          </Stack>
+        <Stack direction="column" spacing={1.5}>
+          <Typography variant="h4" fontWeight={8}>
+            {index + 1}
+          </Typography>
 
           <Stack direction="row" spacing={1.75} alignItems="center">
             <Avatar src={user.avatar} alt={user.username} sx={{ width: 52, height: 52 }} />
@@ -204,7 +217,7 @@ const TopUsersSection = () => {
 
           <Box
             sx={{
-              mt: 0.5,
+              mt: 0.75,
               minHeight: 40,
               display: 'flex',
               alignItems: 'center',

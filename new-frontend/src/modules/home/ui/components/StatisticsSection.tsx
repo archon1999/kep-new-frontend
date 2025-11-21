@@ -88,7 +88,7 @@ const StatisticsSection = () => {
         const showSkeleton = isLoading || !hasData;
 
         return (
-          <Grid key={key} size={{ xs: 12, sm: 6, lg: 3 }}>
+          <Grid key={key} size={{ xs: 12, sm: 6 }}>
             <Paper sx={{ p: 4 }}>
               <Stack spacing={2} direction="column">
                 <Stack direction="column" spacing={0.5}>
