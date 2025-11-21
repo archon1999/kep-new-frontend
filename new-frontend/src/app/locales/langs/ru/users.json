@@ -1,0 +1,49 @@
+{
+  "users": {
+    "title": "Пользователи",
+    "actions": {
+      "export": "Экспорт",
+      "invite": "Пригласить пользователя"
+    },
+    "tabs": {
+      "all": "Новые пользователи",
+      "skills": "Топ пользователей",
+      "activity": "Рейтинг активности",
+      "contests": "Рейтинг контестов",
+      "challenges": "Топ Kepcoin"
+    },
+    "filters": {
+      "toggle": "Фильтры",
+      "searchPlaceholder": "Поиск",
+      "username": "Логин",
+      "usernamePlaceholder": "Фильтр по логину",
+      "name": "Имя",
+      "namePlaceholder": "Поиск по имени или фамилии",
+      "country": "Страна",
+      "countryPlaceholder": "Выберите страну",
+      "anyCountry": "Любая страна",
+      "ageFrom": "Возраст от",
+      "ageTo": "Возраст до",
+      "agePlaceholder": "--"
+    },
+    "columns": {
+      "user": "Пользователь",
+      "skills": "Навыки",
+      "activity": "Активность",
+      "contests": "Контесты",
+      "challenges": "Челленджи",
+      "streak": "Серия",
+      "kepcoin": "Kepcoin",
+      "lastSeen": "Был(а) в сети"
+    },
+    "statistics": {
+      "totalUsers": "Всего пользователей",
+      "lastDays": "Новые пользователи · последние {{count}} дней",
+      "empty": "Статистика пока недоступна"
+    },
+    "popover": {
+      "viewDetails": "Подробнее о пользователе"
+    },
+    "emptyValue": "—"
+  }
+}
