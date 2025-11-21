@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Paper, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
+import { Button, Paper, Skeleton, Stack, Tooltip, Typography } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import KepcoinValue from 'shared/components/common/KepcoinValue.tsx';
 import Streak from 'shared/components/rating/Streak';
+import KepcoinSpendConfirm from 'shared/components/common/KepcoinSpendConfirm';
 
 interface StreakWidgetProps {
   balance?: number;
@@ -11,6 +12,7 @@ interface StreakWidgetProps {
   maxStreak?: number;
   streakFreeze?: number;
   isLoading: boolean;
+  onPurchaseStreakFreeze?: () => void;
 }
 
 const StreakWidget = ({
@@ -19,16 +21,24 @@ const StreakWidget = ({
   maxStreak = 0,
   streakFreeze = 0,
   isLoading,
+  onPurchaseStreakFreeze,
 }: StreakWidgetProps) => {
   const { t } = useTranslation();
 
-  const renderStat = (label: string, content: ReactNode, tooltip?: string) => {
+  const renderStat = (label: string, content: ReactNode, tooltip?: string, action?: ReactNode) => {
     const node = (
       <Stack spacing={0.75} minWidth={160}>
         <Typography variant="caption" color="text.secondary" textTransform="uppercase">
           {label}
         </Typography>
-        {content}
+        {action ? (
+          <Stack direction="row" spacing={1.25} alignItems="center" justifyContent="space-between" flexWrap="wrap">
+            {content}
+            {action}
+          </Stack>
+        ) : (
+          content
+        )}
       </Stack>
     );
 
@@ -42,6 +52,25 @@ const StreakWidget = ({
 
     return node;
   };
+
+  const streakFreezeAction = (
+    <KepcoinSpendConfirm
+      value={10}
+      purchaseUrl="/api/purchase-streak-freeze"
+      onSuccess={onPurchaseStreakFreeze}
+      disabled={isLoading}
+    >
+      <Button
+        size="small"
+        variant="contained"
+        disabled={isLoading}
+        sx={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}
+      >
+        {t('kepcoinPage.streakFreeze.purchaseAction')}
+        <KepcoinValue value={10} iconSize={16} textVariant="caption" fontWeight={700} />
+      </Button>
+    </KepcoinSpendConfirm>
+  );
 
   return (
     <Paper>
@@ -85,6 +114,7 @@ const StreakWidget = ({
               </Stack>
             ),
             t('kepcoinPage.streakFreeze.description'),
+            streakFreezeAction,
           )}
         </Stack>
       </Stack>

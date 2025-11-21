@@ -1,4 +1,5 @@
-import { ApiUsersCountriesResult, ApiUsersListResult, UserDetail } from 'shared/api/orval/generated/endpoints';
+import type { ApiUsersCountriesResult, ApiUsersListResult } from 'shared/api/orval/generated/endpoints';
+import type { UserDetail } from 'shared/api/orval/generated/endpoints/index.schemas';
 import {
   RatingValue,
   UserDetails,

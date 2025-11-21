@@ -15,6 +15,8 @@ const paths = {
   calendar: `/${rootPaths.calendarRoot}`,
   arena: '/competitions/arena',
   arenaTournament: '/competitions/arena/tournament/:id',
+  hackathons: '/competitions/hackathons',
+  accountSettings: '/account-settings',
   projects: '/practice/projects',
   project: '/practice/projects/project/:slug',
   tests: '/practice/tests',

@@ -16,7 +16,8 @@
     "hackathons": "Хакатоны",
     "kepcoin": "Кепкоин",
     "calendar": "Календарь",
-    "shop": "Магазин"
+    "shop": "Магазин",
+    "account": "Аккаунт"
   },
   "pageTitles": {
     "home": "Главная",
@@ -24,6 +25,7 @@
     "kepcoin": "Кепкоин",
     "shop": "Магазин",
     "calendar": "Календарь",
+    "hackathons": "Хакатоны",
     "projects": "Проекты",
     "project": "Проект",
     "tests": "Тесты",
@@ -32,7 +34,91 @@
     "arena": "Арена",
     "arenaTournament": "Турнир арены",
     "login": "Вход",
-    "notFound": "Страница не найдена"
+    "notFound": "Страница не найдена",
+    "accountSettings": "Настройки аккаунта"
+  },
+  "settings": {
+    "general": "Общие",
+    "changePassword": "Изменить пароль",
+    "information": "Информация",
+    "social": "Соцсети",
+    "skills": "Навыки",
+    "career": "Карьера",
+    "teams": "Команды",
+    "system": "Система",
+    "generalSettings": "Общие настройки",
+    "generalSettingsSubtitle": "Обновите основные данные профиля и обложку.",
+    "upload": "Загрузить",
+    "coverImage": "Изображение обложки",
+    "coverPlaceholder": "Загрузите обложку, чтобы персонализировать профиль.",
+    "username": "Имя пользователя",
+    "email": "Электронная почта",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "save": "Сохранить",
+    "reset": "Сбросить",
+    "saved": "Сохранено",
+    "error": "Ошибка",
+    "confirmNewPasswordIncorrect": "Подтверждение нового пароля неверно",
+    "wrongPassword": "Неверный пароль",
+    "oldPassword": "Старый пароль",
+    "newPassword": "Новый пароль",
+    "retypeNewPassword": "Повторите новый пароль",
+    "change": "Изменить",
+    "bio": "О себе",
+    "birthDate": "Дата рождения",
+    "website": "Веб-сайт",
+    "country": "Страна",
+    "region": "Регион",
+    "socialLinks": "Ссылки на соцсети",
+    "telegram": "Телеграм",
+    "codeforcesHandle": "Ник на Codeforces",
+    "technologies": "Технологии",
+    "technologiesSubtitle": "Добавьте любимые стеки и цвета бейджей.",
+    "text": "Текст",
+    "devIconClass": "Dev icon class",
+    "devIconHelper": "Используйте любой класс иконок с devicon.io",
+    "badgeColor": "Цвет бейджа",
+    "preview": "Превью",
+    "addNew": "Добавить новый",
+    "education": "Образование",
+    "organization": "Организация",
+    "degree": "Степень",
+    "fromYear": "С",
+    "toYear": "По",
+    "workExperience": "Опыт работы",
+    "company": "Компания",
+    "jobTitle": "Должность",
+    "creator": "Создатель",
+    "linkToJoin": "Ссылка для присоединения",
+    "refreshLink": "Обновить ссылку",
+    "teamCode": "Код команды: {{code}}",
+    "teamsEmpty": "Создайте команду или присоединитесь к существующей.",
+    "sounds": "Звуки",
+    "successSound": "Успешный",
+    "homeSound": "Домашний",
+    "openNavigation": "Открыть навигацию",
+    "loginRequired": "Войдите, чтобы управлять настройками аккаунта.",
+    "linkCopied": "Ссылка скопирована",
+    "teamCodeLabel": "Код команды",
+    "teamName": "Название",
+    "createTeam": "Создать команду",
+    "create": "Создать",
+    "joinTeam": "Присоединиться к команде",
+    "join": "Присоединиться",
+    "noTeams": "Вы еще не состоите в команде.",
+    "skillLabels": {
+      "python": "Python",
+      "webDevelopment": "Веб-разработка",
+      "webScraping": "Веб-скрейпинг",
+      "algorithms": "Алгоритмы",
+      "dataScience": "Data science"
+    },
+    "sound": {
+      "none": "Без звука",
+      "soft": "Мягкий звон",
+      "bright": "Яркий сигнал"
+    }
   },
   "arena": {
     "title": "Арена",
@@ -227,6 +313,20 @@
     "emptySubtitle": "Новые тренировки появятся здесь после публикации.",
     "untitled": "Событие без названия"
   },
+  "hackathons": {
+    "subtitle": "Присоединяйтесь к совместным разработкам и сдавайте проекты вовремя.",
+    "countLabel": "{{count}} хакатонов",
+    "emptyTitle": "Хакатонов пока нет",
+    "emptySubtitle": "Скоро здесь появятся новые хакатоны.",
+    "startsIn": "Начнется через",
+    "endsIn": "Закончится через",
+    "finished": "Хакатон завершён",
+    "active": "Идёт",
+    "projectsCount": "{{count}} проектов",
+    "participantsCount": "{{count}} участников",
+    "schedule": "{{start}} — {{end}}",
+    "noSchedule": "Расписание будет объявлено позже"
+  },
   "projects": {
     "title": "Проекты",
     "subtitle": "Выберите проект и отправьте решение на доступной технологии.",
@@ -355,7 +455,8 @@
     "streakFreeze": {
       "label": "Заморозка серии",
       "count": "Заморозка серии · {{value}}",
-      "description": "Заморозка автоматически сохраняет ваш прогресс, если вы пропустите день и не выполните ежедневные задания."
+      "description": "Заморозка автоматически сохраняет ваш прогресс, если вы пропустите день и не выполните ежедневные задания.",
+      "purchaseAction": "Купить заморозку"
     },
     "history": {
       "title": "История Kepcoin",
@@ -433,5 +534,16 @@
       "checkSamples": "Проверка примеров",
       "merch": "Мерч"
     }
+  },
+  "kepcoinSpend": {
+    "insufficientBalance": "Не хватает Kepcoin",
+    "confirmTitle": "Хотите купить?",
+    "confirmDescription": "Это действие нельзя будет отменить.",
+    "costLabel": "Цена",
+    "balanceLabel": "Ваш баланс",
+    "cancelAction": "Отмена",
+    "confirmAction": "Купить",
+    "success": "Покупка успешно выполнена",
+    "error": "Ошибка сервера"
   }
 }
