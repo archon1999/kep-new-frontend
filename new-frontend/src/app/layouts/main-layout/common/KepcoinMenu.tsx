@@ -17,10 +17,14 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
   const [todayStats, setTodayStats] = useState<TodayKepCoin | null>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const { currentUser, setCurrentUser } = useAuth();
-  const { data: fetchedBalance } = useSWR<KepCoinBalance>(['/api/my-kepcoin', { method: 'get' }], axiosFetcher, {
-    shouldRetryOnError: false,
-    revalidateOnFocus: false,
-  });
+  const { data: fetchedBalance, mutate: mutateBalance } = useSWR<KepCoinBalance>(
+    ['/api/my-kepcoin', { method: 'get' }],
+    axiosFetcher,
+    {
+      shouldRetryOnError: false,
+      revalidateOnFocus: false,
+    },
+  );
 
   const { trigger: fetchTodayStats, isMutating: loadingToday } = useSWRMutation(
     ['/api/today-kepcoin', { method: 'get' }],
@@ -30,7 +34,7 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
     },
   );
 
-  const balance = useMemo(() => fetchedBalance?.kepcoin ?? currentUser?.kepcoin ?? null, [
+  const balance = useMemo(() => currentUser?.kepcoin ?? fetchedBalance?.kepcoin ?? null, [
     currentUser?.kepcoin,
     fetchedBalance?.kepcoin,
   ]);
@@ -59,13 +63,15 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
 
     const unsubscribe = wsService.on<number>(`kepcoin-${username}`, (kepcoin) => {
       setCurrentUser((prevUser) => (prevUser ? { ...prevUser, kepcoin } : prevUser));
+
+      mutateBalance((prevBalance) => (prevBalance ? { ...prevBalance, kepcoin } : prevBalance), false);
     });
 
     return () => {
       wsService.send('kepcoin-delete', username);
       unsubscribe();
     };
-  }, [currentUser?.username, setCurrentUser]);
+  }, [currentUser?.username, mutateBalance, setCurrentUser]);
 
   return (
     <>
