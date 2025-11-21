@@ -39,7 +39,7 @@ const HomePage = () => {
             <StatisticsSection />
           </Grid>
 
-          <Grid size={12}>
+          <Grid size={6}>
             <BirthdaysSection />
           </Grid>
         </Grid>

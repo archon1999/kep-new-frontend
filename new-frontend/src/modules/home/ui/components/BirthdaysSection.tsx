@@ -88,7 +88,7 @@ const BirthdaysSection = () => {
             ))}
           </Stack>
         ) : birthdays?.length ? (
-          <Stack spacing={2.5} divider={<Divider />}>  
+          <Stack direction="column" spacing={2.5} divider={<Divider />}>
             {birthdays.map((user) => {
               const displayName = getDisplayName(user);
               const birthdayDate = formatBirthdayDate(user.birthday ?? user.date);
@@ -98,7 +98,7 @@ const BirthdaysSection = () => {
                 <Stack key={user.username} direction="row" spacing={2} alignItems="center">
                   <Avatar src={user.avatar} alt={displayName} sx={{ width: 48, height: 48 }} />
 
-                  <Stack spacing={0.5} sx={{ flex: 1 }}>
+                  <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
                     <Link
                       component={RouterLink}
                       to={profilePath}
