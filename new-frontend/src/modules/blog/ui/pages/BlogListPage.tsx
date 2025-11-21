@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Box, Grid, Pagination, Skeleton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { Box, Grid, Pagination, Skeleton, Stack, Typography } from '@mui/material';
+import useDebouncedValue from 'shared/hooks/useDebouncedValue';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { useBlogAuthors, useBlogPosts } from '../../application/queries';
 import BlogCard from '../components/BlogCard';
 import BlogFilters, { BlogFilterState } from '../components/BlogFilters';
-import { useBlogAuthors, useBlogPosts } from '../../application/queries';
-import useDebouncedValue from 'shared/hooks/useDebouncedValue';
 
 const PAGE_SIZE = 4;
 
@@ -48,29 +48,32 @@ const BlogListPage = () => {
 
   return (
     <Box sx={responsivePagePaddingSx}>
-      <Stack spacing={3}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" flexWrap="wrap" rowGap={1.5}>
+      <Stack direction="column" spacing={3}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          flexWrap="wrap"
+          rowGap={1.5}
+        >
           <Stack spacing={0.5}>
             <Typography variant="h4" fontWeight={800}>
               {t('blog.title')}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              {t('blog.subtitle')}
             </Typography>
           </Stack>
         </Stack>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Grid container spacing={2.5}>
               {isLoading
-                ? Array.from({ length: 4 }).map((_, idx) => (
-                    <Grid item xs={12} md={6} key={idx}>
+                ? Array.from({ length: 4 }).map((_) => (
+                    <Grid size={{ xs: 12, md: 6 }}>
                       <Skeleton variant="rounded" height={360} />
                     </Grid>
                   ))
                 : posts.map((post) => (
-                    <Grid item xs={12} md={6} key={post.id}>
+                    <Grid size={{ xs: 12, md: 6 }} key={post.id}>
                       <BlogCard post={post} />
                     </Grid>
                   ))}
@@ -90,7 +93,7 @@ const BlogListPage = () => {
             </Stack>
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <BlogFilters filters={filters} authors={authors} onChange={handleFilterChange} />
           </Grid>
         </Grid>

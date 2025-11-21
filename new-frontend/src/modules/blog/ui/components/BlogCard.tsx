@@ -40,10 +40,10 @@ const BlogCard = ({ post }: BlogCardProps) => {
       </CardActionArea>
 
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
+        <Stack direction="column" spacing={2} alignItems="start" justifyContent="space-between">
           <Stack direction="row" spacing={1.5} alignItems="center">
             <Avatar src={post.author.avatar} alt={post.author.username} />
-            <Stack spacing={0.25}>
+            <Stack direction="column" spacing={0.25}>
               <Typography variant="subtitle2" fontWeight={700} color="text.primary">
                 {post.author.username}
               </Typography>
@@ -62,7 +62,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
           </Stack>
         </Stack>
 
-        <Stack spacing={1.25}>
+        <Stack direction="column" spacing={1.25}>
           <Typography
             component={RouterLink}
             to={blogUrl}
@@ -72,8 +72,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
             {post.title}
           </Typography>
           {post.bodyShort ? (
-            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
-              {post.bodyShort}
+            <Typography dangerouslySetInnerHTML={{__html: post.bodyShort }} variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
             </Typography>
           ) : null}
 

@@ -29,7 +29,7 @@ const CommentsSection = ({ comments, isLoading, onLike, onDelete, onSubmit }: Co
   };
 
   return (
-    <Stack spacing={2.5}>
+    <Stack direction="column" spacing={2.5}>
       <Stack direction="row" spacing={1} alignItems="center">
         <KepIcon name="comment" fontSize={22} />
         <Typography variant="h6" fontWeight={800}>
@@ -50,7 +50,7 @@ const CommentsSection = ({ comments, isLoading, onLike, onDelete, onSubmit }: Co
         </Card>
       ) : null}
 
-      <Stack spacing={1.5}>
+      <Stack direction="column" spacing={1.5}>
         {sortedComments.map((comment) => (
           <Card key={comment.id} sx={{ borderRadius: 3 }}>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
@@ -62,7 +62,7 @@ const CommentsSection = ({ comments, isLoading, onLike, onDelete, onSubmit }: Co
                     alt={comment.username}
                     sx={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }}
                   />
-                  <Stack spacing={0.25}>
+                  <Stack direction="column" spacing={0.25}>
                     <Typography variant="subtitle2" fontWeight={700}>
                       {comment.username}
                     </Typography>
@@ -99,8 +99,7 @@ const CommentsSection = ({ comments, isLoading, onLike, onDelete, onSubmit }: Co
 
               <Divider sx={{ borderStyle: 'dashed' }} />
 
-              <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
-                {comment.body}
+              <Typography dangerouslySetInnerHTML={{__html: comment.body}} variant="body2" sx={{ whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
               </Typography>
             </CardContent>
           </Card>
