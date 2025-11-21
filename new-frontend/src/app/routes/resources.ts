@@ -47,7 +47,7 @@ export const resources = {
   Test: '/practice/tests/test/:id',
 
   Projects: '/practice/projects',
-  Project: '/practice/projects/project/:id',
+  Project: '/practice/projects/project/:slug',
 
   Courses: '/learn/courses',
   Course: '/learn/courses/course/:id',
