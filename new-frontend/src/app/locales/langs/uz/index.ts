@@ -7,6 +7,7 @@ import homePage from './home-page.json';
 import kepcoinPage from './kepcoin-page.json';
 import auth from './auth.json';
 import blog from './blog.json';
+import contests from './contests.json';
 import menu from './menu.json';
 import pageTitles from './page-titles.json';
 import projects from './projects.json';
@@ -32,6 +33,7 @@ export const uzTranslation = {
   ...kepcoinPage,
   ...challenges,
   ...blog,
+  ...contests,
 };
 
 export default uzTranslation;
