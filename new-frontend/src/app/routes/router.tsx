@@ -18,6 +18,7 @@ const TestsListPage = lazy(() => import('modules/testing/ui/pages/TestsListPage'
 const TestDetailPage = lazy(() => import('modules/testing/ui/pages/TestDetailPage'));
 const TestPassPage = lazy(() => import('modules/testing/ui/pages/TestPassPage'));
 const HackathonsListPage = lazy(() => import('modules/hackathons/ui/pages/HackathonsListPage'));
+const AccountSettingsPage = lazy(() => import('modules/account-settings/ui/pages/AccountSettingsPage'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 

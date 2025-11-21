@@ -14,6 +14,7 @@ const paths = {
   users: `/${rootPaths.usersRoot}`,
   calendar: `/${rootPaths.calendarRoot}`,
   hackathons: '/competitions/hackathons',
+  accountSettings: '/account-settings',
   projects: '/practice/projects',
   project: '/practice/projects/project/:slug',
   tests: '/practice/tests',
