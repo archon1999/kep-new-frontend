@@ -10,6 +10,7 @@ import HowToEarnWidget from '../widgets/HowToEarnWidget';
 import HowToSpendWidget from '../widgets/HowToSpendWidget';
 import KepcoinActivityWidget from '../widgets/KepcoinActivityWidget';
 import StreakWidget from '../widgets/StreakWidget';
+import { responsivePagePaddingSx } from "shared/lib/styles.ts";
 
 const PAGE_SIZE = 10;
 
@@ -57,9 +58,9 @@ const KepcoinPage = () => {
   };
 
   return (
-    <Grid container spacing={3}>
+    <Grid sx={responsivePagePaddingSx} size={12} container spacing={3}>
       <Grid size={{ sm: 12, lg: 6 }}>
-        <Stack spacing={3}>
+        <Stack direction="column" spacing={3}>
           <StreakWidget
             balance={summary?.balance}
             streak={summary?.streak}
@@ -84,7 +85,7 @@ const KepcoinPage = () => {
       </Grid>
 
       <Grid size={{ sm: 12, lg: 6 }}>
-        <Stack spacing={3}>
+        <Stack direction="column" spacing={3}>
           <HowToEarnWidget />
           <HowToSpendWidget />
         </Stack>
