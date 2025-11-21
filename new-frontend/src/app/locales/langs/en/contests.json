@@ -1,0 +1,32 @@
+{
+  "contests": {
+    "subtitle": "Compete in upcoming and past contests to grow your rating.",
+    "countLabel": "{{count}} contests",
+    "emptyTitle": "No contests available",
+    "emptySubtitle": "New contests will appear here as soon as they are published.",
+    "filters": {
+      "searchLabel": "Search",
+      "searchPlaceholder": "Search contests",
+      "category": "Category",
+      "allCategories": "All categories",
+      "type": "Type",
+      "allTypes": "All types",
+      "participation": "Participation",
+      "statusAll": "All",
+      "statusParticipated": "Participated",
+      "statusNotParticipated": "Not participated"
+    },
+    "status": {
+      "upcoming": "Upcoming",
+      "ongoing": "Ongoing",
+      "finished": "Finished"
+    },
+    "rated": "Rated",
+    "registered": "Registered",
+    "participants": "{{count}} participants",
+    "problems": "{{count}} problems",
+    "starts": "Starts {{value}}",
+    "ends": "Ends {{value}}",
+    "view": "View details"
+  }
+}

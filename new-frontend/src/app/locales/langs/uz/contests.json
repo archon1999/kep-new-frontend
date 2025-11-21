@@ -1,0 +1,32 @@
+{
+  "contests": {
+    "subtitle": "Musobaqalarda qatnashib, reytingingizni oshiring.",
+    "countLabel": "{{count}} ta kontest",
+    "emptyTitle": "Kontestlar topilmadi",
+    "emptySubtitle": "Yangi kontestlar e’lon qilinganda bu yerda paydo bo‘ladi.",
+    "filters": {
+      "searchLabel": "Qidirish",
+      "searchPlaceholder": "Kontest qidirish",
+      "category": "Kategoriya",
+      "allCategories": "Barcha kategoriyalar",
+      "type": "Turi",
+      "allTypes": "Barcha turlari",
+      "participation": "Ishtirok",
+      "statusAll": "Hammasi",
+      "statusParticipated": "Ishtirok etganman",
+      "statusNotParticipated": "Ishtirok etmaganman"
+    },
+    "status": {
+      "upcoming": "Tez orada",
+      "ongoing": "Davom etmoqda",
+      "finished": "Yakunlangan"
+    },
+    "rated": "Reytingli",
+    "registered": "Ro‘yxatdan o‘tgan",
+    "participants": "{{count}} nafar ishtirokchi",
+    "problems": "{{count}} ta masala",
+    "starts": "Boshlanishi {{value}}",
+    "ends": "Tugashi {{value}}",
+    "view": "Batafsil"
+  }
+}

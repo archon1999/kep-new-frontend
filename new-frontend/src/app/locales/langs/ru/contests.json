@@ -1,0 +1,32 @@
+{
+  "contests": {
+    "subtitle": "Участвуйте в контестах и повышайте рейтинг.",
+    "countLabel": "{{count}} контестов",
+    "emptyTitle": "Контесты пока недоступны",
+    "emptySubtitle": "Новые контесты появятся здесь после публикации.",
+    "filters": {
+      "searchLabel": "Поиск",
+      "searchPlaceholder": "Искать контест",
+      "category": "Категория",
+      "allCategories": "Все категории",
+      "type": "Тип",
+      "allTypes": "Все типы",
+      "participation": "Участие",
+      "statusAll": "Все",
+      "statusParticipated": "Участвовал",
+      "statusNotParticipated": "Не участвовал"
+    },
+    "status": {
+      "upcoming": "Скоро",
+      "ongoing": "Идет",
+      "finished": "Завершён"
+    },
+    "rated": "Рейтинговый",
+    "registered": "Зарегистрирован",
+    "participants": "{{count}} участников",
+    "problems": "{{count}} задач",
+    "starts": "Старт {{value}}",
+    "ends": "Окончание {{value}}",
+    "view": "Подробнее"
+  }
+}
