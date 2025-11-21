@@ -78,7 +78,8 @@
         "month": "Этот месяц"
       },
       "periodSolved": "{{value}} решено",
-      "periodEmpty": "Данных пока нет."
+      "periodEmpty": "Данных пока нет.",
+      "backToProblems": "Назад к задачам"
     },
     "attempts": {
       "title": "Попытки",
@@ -94,6 +95,7 @@
       "anyVerdict": "Любой вердикт",
       "empty": "Попыток не найдено.",
       "unknownVerdict": "Неизвестный вердикт",
+      "backToProblems": "Назад к задачам",
       "columns": {
         "id": "ID",
         "submitted": "Отправлено",

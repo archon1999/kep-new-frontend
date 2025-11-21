@@ -1,39 +1,40 @@
 import { useMemo, useState } from 'react';
 import { Link as RouterLink, useParams, useSearchParams } from 'react-router-dom';
 import {
+  Autocomplete,
+  Avatar,
   Box,
   Button,
   Card,
   CardContent,
   Chip,
   FormControl,
-  Grid,
   InputLabel,
   LinearProgress,
+  Menu,
   MenuItem,
   Select,
-  Skeleton,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TextField,
   Typography,
   alpha,
   useTheme,
 } from '@mui/material';
+import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import CustomTablePaginationAction from 'shared/components/pagination/CustomTablePaginationAction';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useAttemptVerdicts, useAttemptsList, useProblemLanguages } from '../../application/queries';
 import { AttemptsListParams } from '../../domain/ports/problems.repository';
 import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
 import { useAuth } from 'app/providers/AuthProvider';
+import { AttemptListItem } from '../../domain/entities/problem.entity';
+import { problemsQueries } from '../../application/queries';
+import { usersApiClient } from 'modules/users/data-access/api/users.client';
+import StyledTextField from 'shared/components/styled/StyledTextField';
+import useSWR from 'swr';
+import PageHeader from 'shared/components/sections/common/PageHeader';
+import AttemptLanguage from 'shared/components/problems/AttemptLanguage';
+import AttemptVerdict from 'shared/components/problems/AttemptVerdict';
 
 interface AttemptsFilterState {
   username: string;
@@ -48,6 +49,7 @@ const ProblemsAttemptsPage = () => {
   const { currentUser } = useAuth();
   const params = useParams<{ username?: string }>();
   const [searchParams] = useSearchParams();
+  const [filtersAnchorEl, setFiltersAnchorEl] = useState<null | HTMLElement>(null);
 
   const initialFilter: AttemptsFilterState = {
     username: params.username ?? searchParams.get('username') ?? '',
@@ -57,8 +59,9 @@ const ProblemsAttemptsPage = () => {
   };
 
   const [filter, setFilter] = useState<AttemptsFilterState>(initialFilter);
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
+  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({ page: 0, pageSize: 20 });
+  const [problemInput, setProblemInput] = useState('');
+  const [userInput, setUserInput] = useState('');
 
   const requestParams = useMemo<AttemptsListParams>(() => {
     const problemId = filter.problemId.trim() ? Number(filter.problemId) : NaN;
@@ -69,11 +72,11 @@ const ProblemsAttemptsPage = () => {
       problemId: Number.isNaN(problemId) ? undefined : problemId,
       verdict: Number.isNaN(verdict) ? undefined : verdict,
       lang: filter.lang || undefined,
-      page,
-      pageSize,
+      page: paginationModel.page + 1,
+      pageSize: paginationModel.pageSize,
       ordering: '-id',
     };
-  }, [filter, page, pageSize]);
+  }, [filter, paginationModel.page, paginationModel.pageSize]);
 
   const { data: attemptsPage, isLoading, mutate } = useAttemptsList(requestParams);
   const { data: languages } = useProblemLanguages();
@@ -82,14 +85,17 @@ const ProblemsAttemptsPage = () => {
   const attempts = attemptsPage?.data ?? [];
   const total = attemptsPage?.total ?? 0;
 
-  const handleFilterChange = <K extends keyof AttemptsFilterState>(key: K, value: AttemptsFilterState[K]) => {
+  const handleFilterChange = <K extends keyof AttemptsFilterState>(
+    key: K,
+    value: AttemptsFilterState[K],
+  ) => {
     setFilter((prev) => ({ ...prev, [key]: value }));
-    setPage(1);
+    setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
 
   const handleReset = () => {
     setFilter({ username: '', problemId: '', verdict: '', lang: '' });
-    setPage(1);
+    setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
 
   const handleMyAttempts = () => {
@@ -98,11 +104,59 @@ const ProblemsAttemptsPage = () => {
     }
   };
 
-  const handlePageChange = (_: unknown, newPage: number) => setPage(newPage + 1);
+  const handlePaginationChange = (model: GridPaginationModel) => setPaginationModel(model);
 
-  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPageSize(Number(event.target.value));
-    setPage(1);
+  const filtersOpen = Boolean(filtersAnchorEl);
+
+  const problemSuggestionsFetcher = async ([, search]: [string, string]) => {
+    const term = (search ?? '').trim();
+    const pageResult = await problemsQueries.problemsRepository.list({
+      search: term || undefined,
+      page: 1,
+      pageSize: 10,
+      ordering: 'id',
+    });
+    return pageResult.data.map((item) => ({ id: item.id, title: item.title }));
+  };
+
+  const userSuggestionsFetcher = async ([, search]: [string, string]) => {
+    const term = (search ?? '').trim();
+    const response = await usersApiClient.list({ page: 1, pageSize: 10, search: term || undefined });
+    return (response?.data ?? []).map((item) => ({
+      username: item.username ?? '',
+      fullName: `${item.firstName ?? ''} ${item.lastName ?? ''}`.trim(),
+      avatar: item.avatar ?? item.photo,
+    }));
+  };
+
+  const { data: problemOptions = [] } = useSWR(['attempts-problem-options', problemInput], problemSuggestionsFetcher);
+  const { data: userOptions = [] } = useSWR(['attempts-user-options', userInput], userSuggestionsFetcher);
+
+  const selectedProblem = useMemo(
+    () =>
+      problemOptions.find((option) => String(option.id) === filter.problemId) ??
+      (filter.problemId
+        ? {
+            id: Number(filter.problemId),
+            title: `${filter.problemId}`,
+          }
+        : null),
+    [problemOptions, filter.problemId],
+  );
+
+  const selectedUser = useMemo(() => {
+    if (!filter.username) return null;
+    return userOptions.find((option) => option.username === filter.username) ?? {
+      username: filter.username,
+      fullName: '',
+    };
+  }, [userOptions, filter.username]);
+
+  const verdictColor = (verdict?: number) => {
+    if (verdict === 1) return 'success';
+    if (verdict === -1 || verdict === 0) return 'warning';
+    if (verdict === -2) return 'info';
+    return 'default';
   };
 
   const formatDateTime = (value?: string) => {
@@ -111,82 +165,253 @@ const ProblemsAttemptsPage = () => {
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   };
 
+  const columns: GridColDef<AttemptListItem>[] = useMemo(
+    () => [
+      {
+        field: 'id',
+        headerName: t('problems.attempts.columns.id'),
+        minWidth: 90,
+        flex: 0.4,
+        sortable: false,
+        renderCell: ({ row }) => (
+          <Typography variant="body2" fontWeight={700}>
+            {row.id}
+          </Typography>
+        ),
+      },
+      {
+        field: 'created',
+        headerName: t('problems.attempts.columns.submitted'),
+        minWidth: 180,
+        flex: 0.8,
+        sortable: false,
+        renderCell: ({ row }) => (
+          <Typography variant="body2" color="text.secondary">
+            {formatDateTime(row.created)}
+          </Typography>
+        ),
+      },
+      {
+        field: 'lang',
+        headerName: t('problems.attempts.columns.lang'),
+        minWidth: 120,
+        flex: 0.5,
+        sortable: false,
+        renderCell: ({ row }) => <AttemptLanguage lang={row.lang} langFull={row.langFull} />,
+      },
+      {
+        field: 'user',
+        headerName: t('problems.attempts.columns.user'),
+        minWidth: 180,
+        flex: 1,
+        sortable: false,
+        renderCell: ({ row }) => (
+          <Typography
+            component={RouterLink}
+            to={getResourceByUsername(resources.UserProfile, row.user.username)}
+            sx={{ textDecoration: 'none', color: 'primary.main', fontWeight: 700 }}
+          >
+            {row.user.username}
+          </Typography>
+        ),
+      },
+      {
+        field: 'problemTitle',
+        headerName: t('problems.attempts.columns.problem'),
+        minWidth: 240,
+        flex: 1.4,
+        sortable: false,
+        renderCell: ({ row }) => (
+          <Typography
+            component={RouterLink}
+            to={getResourceById(resources.Problem, row.problemId)}
+            sx={{ textDecoration: 'none', color: 'text.primary', fontWeight: 700 }}
+          >
+            {row.contestProblemSymbol
+              ? `${row.contestProblemSymbol}. ${row.problemTitle}`
+              : `${row.problemId}. ${row.problemTitle}`}
+          </Typography>
+        ),
+      },
+      {
+        field: 'verdictTitle',
+        headerName: t('problems.attempts.columns.verdict'),
+        minWidth: 140,
+        flex: 0.6,
+        sortable: false,
+        renderCell: ({ row }) => (
+          <AttemptVerdict
+            verdict={row.verdict}
+            label={row.verdictTitle || t('problems.attempts.unknownVerdict')}
+          />
+        ),
+      },
+      {
+        field: 'time',
+        headerName: t('problems.attempts.columns.time'),
+        minWidth: 120,
+        flex: 0.5,
+        sortable: false,
+        align: 'right',
+        renderCell: ({ row }) => (
+          <Typography variant="body2" fontWeight={600}>
+            {row.time ?? '—'} {t('problems.attempts.ms')}
+          </Typography>
+        ),
+      },
+      {
+        field: 'memory',
+        headerName: t('problems.attempts.columns.memory'),
+        minWidth: 120,
+        flex: 0.5,
+        sortable: false,
+        align: 'right',
+        renderCell: ({ row }) => (
+          <Typography variant="body2" fontWeight={600}>
+            {row.memory ?? '—'} {t('problems.attempts.kb')}
+          </Typography>
+        ),
+      },
+      {
+        field: 'sourceCodeSize',
+        headerName: t('problems.attempts.columns.size'),
+        minWidth: 110,
+        flex: 0.4,
+        sortable: false,
+        align: 'right',
+        renderCell: ({ row }) => (
+          <Typography variant="body2" fontWeight={600}>
+            {row.sourceCodeSize ?? '—'} B
+          </Typography>
+        ),
+      },
+    ],
+    [t, theme],
+  );
+
   return (
     <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
-        <Stack direction="column" spacing={1}>
-          <Typography variant="h4" fontWeight={800}>
-            {t('problems.attempts.title')}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {t('problems.attempts.subtitle')}
-          </Typography>
-        </Stack>
-
-        <Card variant="outlined">
-          <CardContent>
-            <Stack
-              direction={{ xs: 'column', sm: 'row' }}
-              spacing={1.5}
-              justifyContent="space-between"
-              alignItems={{ sm: 'center' }}
-              mb={2}
-            >
-              <Stack direction="row" spacing={1}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleMyAttempts}
-                  startIcon={<IconifyIcon icon="mdi:account-circle-outline" width={18} height={18} />}
-                >
-                  {t('problems.attempts.myAttempts')}
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => mutate()}
-                  startIcon={<IconifyIcon icon="mdi:reload" width={18} height={18} />}
-                >
-                  {t('problems.attempts.refresh')}
-                </Button>
-              </Stack>
-
+          <PageHeader
+            title={t('problems.attempts.title')}
+            breadcrumb={[
+              { label: t('problems.title'), url: resources.Problems },
+              { label: t('problems.attempts.title'), active: true },
+          ]}
+          actionComponent={
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleMyAttempts}
+                startIcon={<IconifyIcon icon="mdi:account-circle-outline" width={18} height={18} />}
+              >
+                {t('problems.attempts.myAttempts')}
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => mutate()}
+                startIcon={<IconifyIcon icon="mdi:reload" width={18} height={18} />}
+              >
+                {t('problems.attempts.refresh')}
+              </Button>
+              <Button
+                id="attempts-filters-button"
+                variant="outlined"
+                color="secondary"
+                onClick={(event) => setFiltersAnchorEl(event.currentTarget)}
+                startIcon={<IconifyIcon icon="mdi:filter-variant" width={18} height={18} />}
+                aria-haspopup="true"
+                aria-expanded={filtersOpen ? 'true' : undefined}
+                aria-controls={filtersOpen ? 'attempts-filters-menu' : undefined}
+              >
+                {t('problems.filterTitle')}
+              </Button>
               <Button
                 variant="text"
                 color="error"
                 onClick={handleReset}
                 startIcon={<IconifyIcon icon="mdi:close" width={18} height={18} />}
-                sx={{ alignSelf: { xs: 'flex-start', sm: 'center' } }}
               >
                 {t('problems.attempts.clear')}
               </Button>
             </Stack>
+          }
+        />
 
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={3}>
-                <TextField
-                  label={t('problems.attempts.problem')}
-                  fullWidth
-                  size="small"
-                  value={filter.problemId}
-                  onChange={(event) => handleFilterChange('problemId', event.target.value)}
-                  type="number"
-                  placeholder="1234"
+        <Card variant="outlined">
+          <CardContent>
+            <Menu
+              id="attempts-filters-menu"
+              anchorEl={filtersAnchorEl}
+              open={filtersOpen}
+              onClose={() => setFiltersAnchorEl(null)}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+              MenuListProps={{ disablePadding: true }}
+              PaperProps={{ sx: { p: 2, width: 360 } }}
+            >
+              <Stack direction="column" spacing={2}>
+                <Autocomplete
+                  options={problemOptions}
+                  value={selectedProblem}
+                  onChange={(_, value) => handleFilterChange('problemId', value ? String(value.id) : '')}
+                  onInputChange={(_, value) => setProblemInput(value)}
+                  getOptionLabel={(option) => (`${option.id}. ${option.title}`).trim()}
+                  filterOptions={(opts) => opts}
+                  renderOption={(props, option) => (
+                    <li {...props} key={option.id}>
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography variant="body2" fontWeight={700}>
+                          {option.id}
+                        </Typography>
+                        <Typography variant="body2">{option.title}</Typography>
+                      </Stack>
+                    </li>
+                  )}
+                  renderInput={(params) => (
+                    <StyledTextField {...params} label={t('problems.attempts.problem')} placeholder="1234" />
+                  )}
+                  isOptionEqualToValue={(option, value) => option.id === value.id}
+                  blurOnSelect
+                  clearOnBlur={false}
                 />
-              </Grid>
 
-              <Grid item xs={12} md={3}>
-                <TextField
-                  label={t('problems.attempts.user')}
-                  fullWidth
-                  size="small"
-                  value={filter.username}
-                  onChange={(event) => handleFilterChange('username', event.target.value)}
-                  placeholder="username"
+                <Autocomplete
+                  options={userOptions}
+                  value={selectedUser}
+                  onChange={(_, value) => handleFilterChange('username', value?.username ?? '')}
+                  onInputChange={(_, value) => setUserInput(value)}
+                  getOptionLabel={(option) =>
+                    option.fullName ? `${option.username} (${option.fullName})` : option.username
+                  }
+                  filterOptions={(opts) => opts}
+                  renderOption={(props, option) => (
+                    <li {...props} key={option.username}>
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Avatar src={option.avatar} alt={option.username} sx={{ width: 28, height: 28 }} />
+                        <Stack spacing={0.25}>
+                          <Typography variant="body2" fontWeight={700}>
+                            {option.username}
+                          </Typography>
+                          {option.fullName ? (
+                            <Typography variant="caption" color="text.secondary">
+                              {option.fullName}
+                            </Typography>
+                          ) : null}
+                        </Stack>
+                      </Stack>
+                    </li>
+                  )}
+                  renderInput={(params) => (
+                    <StyledTextField {...params} label={t('problems.attempts.user')} placeholder="username" />
+                  )}
+                  isOptionEqualToValue={(option, value) => option.username === value.username}
+                  blurOnSelect
+                  clearOnBlur={false}
                 />
-              </Grid>
 
-              <Grid item xs={12} md={3}>
                 <FormControl fullWidth size="small">
                   <InputLabel>{t('problems.attempts.language')}</InputLabel>
                   <Select
@@ -205,9 +430,7 @@ const ProblemsAttemptsPage = () => {
                     ))}
                   </Select>
                 </FormControl>
-              </Grid>
 
-              <Grid item xs={12} md={3}>
                 <FormControl fullWidth size="small">
                   <InputLabel>{t('problems.attempts.verdict')}</InputLabel>
                   <Select
@@ -223,106 +446,31 @@ const ProblemsAttemptsPage = () => {
                     ))}
                   </Select>
                 </FormControl>
-              </Grid>
-            </Grid>
+              </Stack>
+            </Menu>
           </CardContent>
         </Card>
 
         <Card variant="outlined">
           {isLoading && <LinearProgress />}
-          <CardContent>
-            {isLoading && !attempts.length ? (
-              <Stack spacing={1.5}>
-                {Array.from({ length: 6 }).map((_, idx) => (
-                  <Skeleton key={idx} variant="rounded" height={56} />
-                ))}
-              </Stack>
-            ) : attempts.length === 0 ? (
-              <Typography variant="body2" color="text.secondary">
-                {t('problems.attempts.empty')}
-              </Typography>
-            ) : (
-              <TableContainer>
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>{t('problems.attempts.columns.id')}</TableCell>
-                      <TableCell>{t('problems.attempts.columns.submitted')}</TableCell>
-                      <TableCell>{t('problems.attempts.columns.lang')}</TableCell>
-                      <TableCell>{t('problems.attempts.columns.user')}</TableCell>
-                      <TableCell>{t('problems.attempts.columns.problem')}</TableCell>
-                      <TableCell>{t('problems.attempts.columns.verdict')}</TableCell>
-                      <TableCell align="right">{t('problems.attempts.columns.time')}</TableCell>
-                      <TableCell align="right">{t('problems.attempts.columns.memory')}</TableCell>
-                      <TableCell align="right">{t('problems.attempts.columns.size')}</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {attempts.map((attempt) => {
-                      const isOwner = attempt.user?.username === currentUser?.username;
-                      const rowBackground = isOwner ? alpha(theme.palette.primary.main, 0.06) : undefined;
-                      return (
-                        <TableRow key={attempt.id} sx={{ backgroundColor: rowBackground }}>
-                          <TableCell width={80}>{attempt.id}</TableCell>
-                          <TableCell width={160}>{formatDateTime(attempt.created)}</TableCell>
-                          <TableCell width={120}>
-                            <Chip size="small" label={attempt.lang.toUpperCase()} />
-                          </TableCell>
-                          <TableCell width={180}>
-                            <Typography
-                              component={RouterLink}
-                              to={getResourceByUsername(resources.UserProfile, attempt.user.username)}
-                              sx={{ textDecoration: 'none', color: 'text.primary', fontWeight: 700 }}
-                            >
-                              {attempt.user.username}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography
-                              component={RouterLink}
-                              to={getResourceById(resources.Problem, attempt.problemId)}
-                              sx={{ textDecoration: 'none', color: 'primary.main', fontWeight: 700 }}
-                            >
-                              {attempt.contestProblemSymbol ? `${attempt.contestProblemSymbol}. ` : `${attempt.problemId}. `}
-                              {attempt.problemTitle}
-                            </Typography>
-                          </TableCell>
-                          <TableCell width={160}>
-                            <Chip
-                              size="small"
-                              color={attempt.verdict === 1 ? 'success' : attempt.verdict === -1 ? 'warning' : 'default'}
-                              label={attempt.verdictTitle || t('problems.attempts.unknownVerdict')}
-                            />
-                          </TableCell>
-                          <TableCell align="right" width={120}>
-                            {attempt.time ?? '—'} {t('problems.attempts.ms')}
-                          </TableCell>
-                          <TableCell align="right" width={120}>
-                            {attempt.memory ?? '—'} {t('problems.attempts.kb')}
-                          </TableCell>
-                          <TableCell align="right" width={120}>
-                            {attempt.sourceCodeSize ?? '—'} B
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            )}
-          </CardContent>
-          {attempts.length > 0 && (
-            <TablePagination
-              component="div"
-              count={total}
-              page={page - 1}
-              onPageChange={handlePageChange}
-              rowsPerPage={pageSize}
-              rowsPerPageOptions={[10, 20, 50]}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              ActionsComponent={CustomTablePaginationAction}
-            />
-          )}
+          <DataGrid
+            autoHeight
+            disableColumnMenu
+            disableColumnSelector
+            disableRowSelectionOnClick
+            rows={attempts}
+            columns={columns}
+            loading={isLoading}
+            rowCount={total}
+            pageSizeOptions={[10, 20, 50]}
+            paginationMode="server"
+            paginationModel={paginationModel}
+            onPaginationModelChange={handlePaginationChange}
+            sortingMode="server"
+            disableColumnFilter
+            sx={{ '& .MuiDataGrid-row--hovered': { backgroundColor: alpha(theme.palette.primary.main, 0.04) } }}
+            getRowId={(row) => (row as AttemptListItem).id}
+          />
         </Card>
       </Stack>
     </Box>

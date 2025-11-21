@@ -185,6 +185,16 @@ const ProblemsRatingPage = () => {
           <Typography variant="body2" color="text.secondary">
             {t('problems.rating.subtitle')}
           </Typography>
+          <Button
+            variant="text"
+            color="primary"
+            component={RouterLink}
+            to={resources.Problems}
+            startIcon={<IconifyIcon icon="mdi:arrow-left" />}
+            sx={{ alignSelf: 'flex-start' }}
+          >
+            {t('problems.rating.backToProblems')}
+          </Button>
         </Stack>
 
         <Card variant="outlined">

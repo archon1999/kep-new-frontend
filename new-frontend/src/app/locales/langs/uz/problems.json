@@ -78,7 +78,8 @@
         "month": "Ushbu oy"
       },
       "periodSolved": "{{value}} ta",
-      "periodEmpty": "Hozircha ma’lumot yo‘q."
+      "periodEmpty": "Hozircha ma’lumot yo‘q.",
+      "backToProblems": "Masalalarga qaytish"
     },
     "attempts": {
       "title": "Urinishlar",
@@ -94,6 +95,7 @@
       "anyVerdict": "Istalgan natija",
       "empty": "Urinishlar topilmadi.",
       "unknownVerdict": "Noma’lum natija",
+      "backToProblems": "Masalalarga qaytish",
       "columns": {
         "id": "ID",
         "submitted": "Yuborilgan",

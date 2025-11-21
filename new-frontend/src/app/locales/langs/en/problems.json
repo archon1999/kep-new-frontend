@@ -78,7 +78,8 @@
         "month": "This month"
       },
       "periodSolved": "{{value}} solved",
-      "periodEmpty": "No data yet."
+      "periodEmpty": "No data yet.",
+      "backToProblems": "Back to problems"
     },
     "attempts": {
       "title": "Attempts",
@@ -94,6 +95,7 @@
       "anyVerdict": "Any verdict",
       "empty": "No attempts found.",
       "unknownVerdict": "Unknown verdict",
+      "backToProblems": "Back to problems",
       "columns": {
         "id": "ID",
         "submitted": "Submitted",
