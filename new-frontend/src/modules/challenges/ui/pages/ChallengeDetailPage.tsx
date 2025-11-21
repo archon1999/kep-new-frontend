@@ -13,7 +13,7 @@ import {
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useTranslation } from 'react-i18next';
-import paths from 'app/routes/paths.ts';
+import { resources } from 'app/routes/resources';
 import ChallengeUserChip from '../components/ChallengeUserChip.tsx';
 import ChallengeQuestionCard from '../components/ChallengeQuestionCard.tsx';
 import { useChallengeDetail } from '../../application/queries.ts';
@@ -59,7 +59,7 @@ const ChallengeDetailPage = () => {
   };
 
   const goBackToArena = () => {
-    navigate(paths.challenges);
+    navigate(resources.Challenges);
   };
 
   if (isLoading) {

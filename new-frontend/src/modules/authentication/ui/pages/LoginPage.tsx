@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router';
 import { useSnackbar } from 'notistack';
 import { defaultAuthCredentials } from 'app/config.ts';
 import { useAuth } from 'app/providers/AuthProvider';
-import { authPaths, rootPaths } from 'app/routes/paths';
+import { authPaths, rootPaths } from 'app/routes/route-config';
 import LoginForm, { type LoginFormValues } from 'shared/components/sections/authentications/default/LoginForm';
 import { useTranslation } from 'react-i18next';
 import { useLoginUser } from '../../application/mutations';

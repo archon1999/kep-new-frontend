@@ -14,7 +14,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import paths from 'app/routes/paths.ts';
+import { getResourceById, resources } from 'app/routes/resources';
 import { useSnackbar } from 'notistack';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { startTest } from '../../application/mutations.ts';
@@ -46,7 +46,7 @@ const TestDetailPage = () => {
     const response = await startTest(test.id);
 
     if (response.success && response.testPassId) {
-      navigate(paths.testPass.replace(':testPassId', response.testPassId.toString()));
+      navigate(getResourceById(resources.TestPass, response.testPassId));
       return;
     }
 

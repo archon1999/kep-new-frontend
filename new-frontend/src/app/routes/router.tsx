@@ -6,7 +6,8 @@ import DefaultAuthLayout from 'app/layouts/auth-layout/DefaultAuthLayout';
 import MainLayout from 'app/layouts/main-layout';
 import Page404 from 'modules/errors/ui/pages/Page404';
 import PageLoader from 'shared/components/loading/PageLoader';
-import paths, { authPaths, rootPaths } from './paths';
+import { resources } from './resources';
+import { authPaths, rootPaths } from './route-config';
 
 const Home = lazy(() => import('modules/home/ui/pages/HomePage'));
 const KepcoinPage = lazy(() => import('modules/kepcoin/ui/pages/KepcoinPage'));
@@ -70,147 +71,147 @@ export const routes: RouteObject[] = [
             handle: { titleKey: 'pageTitles.home' },
           },
           {
-            path: paths.users,
+            path: resources.Users,
             element: <UsersListPage />,
             handle: { titleKey: 'pageTitles.users' },
           },
           {
-            path: paths.problems,
+            path: resources.Problems,
             element: <ProblemsListPage />,
             handle: { titleKey: 'pageTitles.problems' },
           },
           {
-            path: paths.projects,
+            path: resources.Projects,
             element: <ProjectsListPage />,
             handle: { titleKey: 'pageTitles.projects' },
           },
           {
-            path: paths.project,
+            path: resources.Project,
             element: <ProjectDetailPage />,
             handle: { titleKey: 'pageTitles.project' },
           },
           {
-            path: paths.tests,
+            path: resources.Tests,
             element: <TestsListPage />,
             handle: { titleKey: 'pageTitles.tests' },
           },
           {
-            path: paths.test,
+            path: resources.Test,
             element: <TestDetailPage />,
             handle: { titleKey: 'pageTitles.test' },
           },
           {
-            path: paths.testPass,
+            path: resources.TestPass,
             element: <TestPassPage />,
             handle: { titleKey: 'pageTitles.testPass' },
           },
           {
-            path: paths.challenges,
+            path: resources.Challenges,
             element: <ChallengesListPage />,
             handle: { titleKey: 'pageTitles.challenges' },
           },
           {
-            path: paths.challenge,
+            path: resources.Challenge,
             element: <ChallengeDetailPage />,
             handle: { titleKey: 'pageTitles.challenge' },
           },
           {
-            path: paths.challengesRating,
+            path: resources.ChallengesRating,
             element: <ChallengesRatingPage />,
             handle: { titleKey: 'pageTitles.challengesRating' },
           },
           {
-            path: paths.challengesStats,
+            path: resources.ChallengesUserStatistics,
             element: <ChallengeUserStatisticsPage />,
             handle: { titleKey: 'pageTitles.challengesStats' },
           },
           {
-            path: paths.arena,
+            path: resources.Arena,
             element: <ArenaListPage />,
             handle: { titleKey: 'pageTitles.arena' },
           },
           {
-            path: paths.arenaTournament,
+            path: resources.ArenaTournament,
             element: <ArenaDetailPage />,
             handle: { titleKey: 'pageTitles.arenaTournament' },
           },
           {
-            path: paths.contests,
+            path: resources.Contests,
             element: <ContestsListPage />,
             handle: { titleKey: 'pageTitles.contests' },
           },
           {
-            path: paths.tournaments,
+            path: resources.Tournaments,
             element: <TournamentsListPage />,
             handle: { titleKey: 'pageTitles.tournaments' },
           },
           {
-            path: paths.tournament,
+            path: resources.Tournament,
             element: <TournamentPage />,
             handle: { titleKey: 'pageTitles.tournament' },
           },
           {
-            path: paths.shop,
+            path: resources.Shop,
             element: <ShopPage />,
             handle: { titleKey: 'pageTitles.shop' },
           },
           {
-            path: paths.kepcoin,
+            path: resources.Kepcoin,
             element: <KepcoinPage />,
             handle: { titleKey: 'pageTitles.kepcoin' },
           },
           {
-            path: paths.calendar,
+            path: resources.Calendar,
             element: <CalendarPage />,
             handle: { titleKey: 'pageTitles.calendar' },
           },
           {
-            path: paths.hackathons,
+            path: resources.Hackathons,
             element: <HackathonsListPage />,
             handle: { titleKey: 'pageTitles.hackathons' },
           },
           {
-            path: paths.hackathon,
+            path: resources.Hackathon,
             element: <HackathonPage />,
             handle: { titleKey: 'pageTitles.hackathons' },
           },
           {
-            path: paths.hackathonProjects,
+            path: resources.HackathonProjects,
             element: <HackathonProjectsPage />,
             handle: { titleKey: 'pageTitles.hackathons' },
           },
           {
-            path: paths.hackathonProject,
+            path: resources.HackathonProject,
             element: <HackathonProjectPage />,
             handle: { titleKey: 'pageTitles.hackathons' },
           },
           {
-            path: paths.hackathonAttempts,
+            path: resources.HackathonAttempts,
             element: <HackathonAttemptsPage />,
             handle: { titleKey: 'pageTitles.hackathons' },
           },
           {
-            path: paths.hackathonRegistrants,
+            path: resources.HackathonRegistrants,
             element: <HackathonRegistrantsPage />,
             handle: { titleKey: 'pageTitles.hackathons' },
           },
           {
-            path: paths.hackathonStandings,
+            path: resources.HackathonStandings,
             element: <HackathonStandingsPage />,
             handle: { titleKey: 'pageTitles.hackathons' },
           },
           {
-            path: paths.blog,
+            path: resources.Blog,
             element: <BlogListPage />,
             handle: { titleKey: 'pageTitles.blog' },
           },
           {
-            path: paths.blogPost,
+            path: resources.BlogPost,
             element: <BlogPostPage />,
             handle: { titleKey: 'pageTitles.blogPost' },
           },
           {
-            path: paths.accountSettings,
+            path: resources.Settings,
             element: <AccountSettingsPage />,
             handle: { titleKey: 'pageTitles.accountSettings' },
           },

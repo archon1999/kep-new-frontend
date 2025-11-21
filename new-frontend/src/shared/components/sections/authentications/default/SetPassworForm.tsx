@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert, Box, Button, Link, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { authPaths } from 'app/routes/paths';
+import { authPaths } from 'app/routes/route-config';
 import { useSnackbar } from 'notistack';
 import PasswordTextField from 'shared/components/common/PasswordTextField';
 import * as yup from 'yup';
