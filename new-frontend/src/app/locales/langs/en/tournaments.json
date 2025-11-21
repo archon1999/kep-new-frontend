@@ -1,0 +1,22 @@
+{
+  "tournaments": {
+    "subtitle": "{{count}} tournaments available for registration.",
+    "empty": "No tournaments available right now.",
+    "players": "Players",
+    "playersCount": "Players: {{count}}",
+    "register": "Register",
+    "registered": "Registered",
+    "infoTab": "Info",
+    "duelsTab": "Duels",
+    "resultsTab": "Results",
+    "scheduleTab": "Schedule",
+    "user": "User",
+    "ratingTitle": "Rating",
+    "stage": "Stage",
+    "noDuels": "No duels announced for this stage yet.",
+    "win": "Win",
+    "loss": "Loss",
+    "draw": "Draw",
+    "tbd": "TBD"
+  }
+}
