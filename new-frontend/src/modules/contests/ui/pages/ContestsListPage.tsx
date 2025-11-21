@@ -30,6 +30,7 @@ import { cssVarRgba } from 'shared/lib/utils';
 import ContestCard from '../components/ContestCard';
 import { useContestCategories, useContestsList } from '../../application/queries';
 import { resources } from 'app/routes/resources';
+import { useAuth } from 'app/providers/AuthProvider';
 
 const contestTypes = [
   'ACM2H',
@@ -53,6 +54,7 @@ const DEFAULT_PAGE_SIZE = 6;
 const ContestsListPage = () => {
   const { t } = useTranslation();
   const { data: categories } = useContestCategories();
+  const { currentUser } = useAuth();
 
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState({
@@ -148,12 +150,24 @@ const ContestsListPage = () => {
                   </Typography>
                 </Stack>
 
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.25} alignItems={{ xs: 'stretch', sm: 'center' }}>
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.25} alignItems={{ xs: 'stretch', sm: 'center' }}>
+                  {currentUser ? (
                     <Button
                       component={RouterLink}
-                      to={resources.ContestsRating}
-                      variant="contained"
+                      to={resources.ContestsUserStatistics}
+                      variant="outlined"
                       color="primary"
+                      startIcon={<IconifyIcon icon="mdi:chart-line" sx={{ fontSize: 20 }} />}
+                      sx={{ alignSelf: { xs: 'stretch', sm: 'flex-start' } }}
+                    >
+                      {t('contests.viewUserStatistics')}
+                    </Button>
+                  ) : null}
+                  <Button
+                    component={RouterLink}
+                    to={resources.ContestsRating}
+                    variant="contained"
+                    color="primary"
                       startIcon={<IconifyIcon icon="mdi:trophy" sx={{ fontSize: 20 }} />}
                       sx={{ alignSelf: { xs: 'stretch', sm: 'flex-start' } }}
                     >
