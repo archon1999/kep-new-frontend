@@ -7,7 +7,6 @@ import { ContestRatingRow } from '../../domain/entities/contest-rating.entity';
 import { ContestsRepository, PageResult } from '../../domain/ports/contests.repository';
 import { contestsApiClient } from '../api/contests.client';
 import { mapCategory, mapContest, mapContestRating, mapPageResult } from '../mappers/contest.mapper';
-import { mapContestUserStatistics } from '../mappers/contest-user-statistics.mapper';
 
 export class HttpContestsRepository implements ContestsRepository {
   async list(params?: ApiContestsListParams): Promise<PageResult<ContestListItem>> {
@@ -23,10 +22,5 @@ export class HttpContestsRepository implements ContestsRepository {
   async rating(params?: ApiContestsRatingListParams): Promise<PageResult<ContestRatingRow>> {
     const result = await contestsApiClient.rating(params);
     return mapPageResult(result, mapContestRating);
-  }
-
-  async userStatistics(username: string) {
-    const result = await contestsApiClient.userStatistics(username);
-    return mapContestUserStatistics(result);
   }
 }

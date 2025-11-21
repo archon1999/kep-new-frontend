@@ -5,7 +5,6 @@ import {
 } from 'shared/api/orval/generated/endpoints/index.schemas';
 import { HttpContestsRepository } from '../data-access/repository/http.contests.repository';
 import { ContestCategoryEntity, ContestListItem } from '../domain/entities/contest.entity';
-import { ContestUserStatisticsResponse } from '../domain/entities/contest-user-statistics.entity';
 import { ContestRatingRow } from '../domain/entities/contest-rating.entity';
 import { PageResult } from '../domain/ports/contests.repository';
 
@@ -32,12 +31,6 @@ export const useContestsRating = (params?: ApiContestsRatingListParams) =>
   useSWR<PageResult<ContestRatingRow>>(
     ['contests-rating', params?.page, params?.pageSize, params?.ordering],
     () => contestsRepository.rating(params),
-  );
-
-export const useContestUserStatistics = (username?: string | null) =>
-  useSWR<ContestUserStatisticsResponse>(
-    username ? ['contests-user-statistics', username] : null,
-    () => contestsRepository.userStatistics(username ?? ''),
   );
 
 export const contestsQueries = {

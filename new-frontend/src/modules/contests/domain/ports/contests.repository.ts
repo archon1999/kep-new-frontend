@@ -2,7 +2,6 @@ import {
   ApiContestsListParams,
   ApiContestsRatingListParams,
 } from 'shared/api/orval/generated/endpoints/index.schemas';
-import { ContestUserStatisticsResponse } from '../entities/contest-user-statistics.entity';
 import { ContestCategoryEntity, ContestListItem } from '../entities/contest.entity';
 import { ContestRatingRow } from '../entities/contest-rating.entity';
 
@@ -19,5 +18,4 @@ export interface ContestsRepository {
   list: (params?: ApiContestsListParams) => Promise<PageResult<ContestListItem>>;
   categories: () => Promise<ContestCategoryEntity[]>;
   rating: (params?: ApiContestsRatingListParams) => Promise<PageResult<ContestRatingRow>>;
-  userStatistics: (username: string) => Promise<ContestUserStatisticsResponse>;
 }
