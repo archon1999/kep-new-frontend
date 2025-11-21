@@ -47,6 +47,10 @@
       "title": "So‘nggi yangiliklar",
       "empty": "Hozircha yangiliklar mavjud emas."
     },
+    "posts": {
+      "title": "So'nggi blog postlar",
+      "empty": "Hozircha blog postlari mavjud emas."
+    },
     "topUsers": {
       "title": "Top foydalanuvchilar",
       "subtitle": "Har bir yo'nalishdagi eng kuchli 3 ta ishtirokchi",

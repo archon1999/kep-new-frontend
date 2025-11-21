@@ -9,6 +9,7 @@ import { useAuth } from 'app/providers/AuthProvider';
 import { useUserActivityHistory, useUserRatings } from '../../application/queries';
 import NewsSection from '../components/NewsSection.tsx';
 import TopUsersSection from '../components/TopUsersSection.tsx';
+import PostsSection from '../components/PostsSection.tsx';
 
 const HomePage = () => {
   const { currentUser } = useAuth();
@@ -50,7 +51,11 @@ const HomePage = () => {
               <StatisticsSection />
             </Grid>
 
-            <Grid size={{ xs: 12, md: 6 }}>
+            <Grid size={{ xs: 12, lg: 8 }}>
+              <PostsSection />
+            </Grid>
+
+            <Grid size={{ xs: 12, lg: 4 }}>
               <BirthdaysSection />
             </Grid>
           </Grid>
