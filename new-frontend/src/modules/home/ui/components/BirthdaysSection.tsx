@@ -3,17 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 import { Card, CardContent } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Box } from '@mui/system';
 import { getResourceByUsername, resources } from 'app/routes/resources';
 import dayjs from 'dayjs';
-import KepIcon from 'shared/components/base/KepIcon';
 import { responsivePagePaddingSx } from 'shared/lib/styles.ts';
+import UserPopover from 'modules/users/ui/components/UserPopover';
 import { useNextBirthdays } from '../../application/queries';
 import type { HomeNextBirthdays } from '../../domain/entities/home.entity';
 
@@ -94,28 +92,36 @@ const BirthdaysSection = () => {
               const displayName = getDisplayName(user);
               const birthdayDate = formatBirthdayDate(user.birthday ?? user.date);
               const profilePath = getResourceByUsername(resources.UserProfile, user.username);
+              const countryCode = user.country?.toUpperCase?.();
 
               return (
-                <Card>
+                <Card key={user.username}>
                   <CardContent>
-                    <Stack key={user.username} direction="row" spacing={2} alignItems="center">
-                      <Avatar src={user.avatar} alt={displayName} sx={{ width: 48, height: 48 }} />
+                    <UserPopover
+                      username={user.username}
+                      fullName={displayName}
+                      avatar={user.avatar}
+                      countryCode={countryCode}
+                    >
+                      <Stack direction="row" spacing={2} alignItems="center" sx={{ cursor: 'pointer' }}>
+                        <Avatar src={user.avatar} alt={displayName} sx={{ width: 48, height: 48 }} />
 
-                      <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
-                        <Link
-                          component={RouterLink}
-                          to={profilePath}
-                          underline="hover"
-                          color="text.primary"
-                          sx={{ fontWeight: 600 }}
-                        >
-                          {displayName}
-                        </Link>
-                        <Typography variant="body2" color="text.secondary">
-                          {birthdayDate}
-                        </Typography>
+                        <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
+                          <Link
+                            component={RouterLink}
+                            to={profilePath}
+                            underline="hover"
+                            color="text.primary"
+                            sx={{ fontWeight: 600 }}
+                          >
+                            {displayName}
+                          </Link>
+                          <Typography variant="body2" color="text.secondary">
+                            {birthdayDate}
+                          </Typography>
+                        </Stack>
                       </Stack>
-                    </Stack>
+                    </UserPopover>
                   </CardContent>
                 </Card>
               );
