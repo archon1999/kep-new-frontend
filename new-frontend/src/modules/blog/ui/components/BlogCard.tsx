@@ -27,7 +27,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
   const blogUrl = getResourceById(resources.BlogPost, post.id);
 
   return (
-    <Card sx={{ height: '100%', borderRadius: 3, overflow: 'hidden', bgcolor: 'background.paper' }}>
+    <Card sx={{ height: '100%', borderRadius: 3, overflow: 'hidden', bgcolor: 'none' }}>
       <CardActionArea component={RouterLink} to={blogUrl} sx={{ display: 'block' }}>
         {post.image ? (
           <Box

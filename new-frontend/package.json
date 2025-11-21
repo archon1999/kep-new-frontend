@@ -50,6 +50,7 @@
     "simplebar-core": "^1.3.2",
     "simplebar-react": "^3.3.2",
     "sonner": "2.0.7",
+    "swiper": "12.0.3",
     "swr": "^2.3.6",
     "yup": "^1.7.1"
   },
