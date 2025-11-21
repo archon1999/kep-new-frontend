@@ -395,7 +395,8 @@
     "streakFreeze": {
       "label": "Streak freeze",
       "count": "Streak freeze · {{value}}",
-      "description": "Freezing automatically saves your streak if you miss a day and don't complete daily tasks."
+      "description": "Freezing automatically saves your streak if you miss a day and don't complete daily tasks.",
+      "purchaseAction": "Buy freeze"
     },
     "history": {
       "title": "Kepcoin activity",
@@ -473,5 +474,16 @@
       "checkSamples": "Check samples",
       "merch": "Merch"
     }
+  },
+  "kepcoinSpend": {
+    "insufficientBalance": "Not enough Kepcoin",
+    "confirmTitle": "Want to buy?",
+    "confirmDescription": "You won't be able to revert this!",
+    "costLabel": "Price",
+    "balanceLabel": "Your balance",
+    "cancelAction": "Cancel",
+    "confirmAction": "Purchase",
+    "success": "Purchase completed",
+    "error": "Server error"
   }
 }

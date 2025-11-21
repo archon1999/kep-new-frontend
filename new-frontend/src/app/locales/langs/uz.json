@@ -395,7 +395,8 @@
     "streakFreeze": {
       "label": "Seriyani muzlatish",
       "count": "Muzlatish · {{value}}",
-      "description": "Agar kunni oʻtkazib yuborsangiz va kundalik vazifalarni bajarmasangiz, muzlatish avtomatik ravishda natijani saqlaydi."
+      "description": "Agar kunni oʻtkazib yuborsangiz va kundalik vazifalarni bajarmasangiz, muzlatish avtomatik ravishda natijani saqlaydi.",
+      "purchaseAction": "Muzlatishni sotib olish"
     },
     "history": {
       "title": "Kepcoin tarixi",
@@ -473,5 +474,16 @@
       "checkSamples": "Namunalarni tekshirish",
       "merch": "Merch"
     }
+  },
+  "kepcoinSpend": {
+    "insufficientBalance": "Kepcoin yetmaydi",
+    "confirmTitle": "Sotib olasizmi?",
+    "confirmDescription": "Bu amalni qaytarib bo‘lmaydi.",
+    "costLabel": "Narxi",
+    "balanceLabel": "Balansingiz",
+    "cancelAction": "Bekor qilish",
+    "confirmAction": "Sotib olish",
+    "success": "Xarid muvaffaqiyatli yakunlandi",
+    "error": "Server xatosi"
   }
 }
