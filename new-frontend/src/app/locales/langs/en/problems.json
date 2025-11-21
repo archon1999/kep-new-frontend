@@ -1,0 +1,62 @@
+{
+  "problems": {
+    "pageTitle": "Problems",
+    "pageSubtitle": "Solve daily problems, practice and become better.",
+    "filterTitle": "Filter problems",
+    "filterSubtitle": "Find the right challenge using tags, status or difficulty.",
+    "searchLabel": "Search by title or ID",
+    "difficultyLabel": "Difficulty",
+    "statusLabel": "Status",
+    "status": {
+      "0": "All",
+      "1": "Solved",
+      "2": "Attempted",
+      "3": "Unattempted",
+      "4": "Favorites"
+    },
+    "tagsLabel": "Tags",
+    "tagsPlaceholder": "Tags will appear here when available.",
+    "withSolution": "Has solution",
+    "withChecker": "Has checker",
+    "favoritesOnly": "Favorites only",
+    "listTitle": "All problems",
+    "listSubtitle": "Browse the latest tasks and track your progress.",
+    "columns": {
+      "title": "Title",
+      "difficulty": "Difficulty",
+      "stats": "Progress",
+      "tags": "Tags"
+    },
+    "authorLabel": "Author: {{username}}",
+    "anonymousAuthor": "Unknown",
+    "solved": "Solved",
+    "attempts": "Attempts",
+    "attemptsLabel": "{{attempts}} attempts",
+    "noTags": "No tags",
+    "summaryTitle": "Summary",
+    "summarySubtitle": "Your rating and activity on problems.",
+    "totalSolved": "Solved problems",
+    "rating": "Rating",
+    "totalAttempts": "Total attempts",
+    "likesReceived": "Likes received",
+    "userRank": "Ranking position",
+    "difficultiesTitle": "Difficulty coverage",
+    "difficultiesSubtitle": "Solved vs available by difficulty.",
+    "tabs": {
+      "lastAttempts": "Last attempts",
+      "lastContest": "Last contest problems",
+      "mostViewed": "Most viewed"
+    },
+    "noData": "Nothing to show yet.",
+    "pageTitleShort": "Problems",
+    "difficulty": {
+      "beginner": "Beginner",
+      "basic": "Basic",
+      "normal": "Normal",
+      "medium": "Medium",
+      "advanced": "Advanced",
+      "hard": "Hard",
+      "extremal": "Extremal"
+    }
+  }
+}

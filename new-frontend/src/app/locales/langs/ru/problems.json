@@ -1,0 +1,62 @@
+{
+  "problems": {
+    "pageTitle": "Задачи",
+    "pageSubtitle": "Решайте ежедневные задачи, тренируйтесь и становитесь лучше.",
+    "filterTitle": "Фильтр задач",
+    "filterSubtitle": "Подберите задачу по тегам, статусу или сложности.",
+    "searchLabel": "Поиск по названию или ID",
+    "difficultyLabel": "Сложность",
+    "statusLabel": "Статус",
+    "status": {
+      "0": "Все",
+      "1": "Решённые",
+      "2": "Есть попытки",
+      "3": "Без попыток",
+      "4": "Избранные"
+    },
+    "tagsLabel": "Теги",
+    "tagsPlaceholder": "Здесь появятся доступные теги.",
+    "withSolution": "Есть решение",
+    "withChecker": "Есть чекер",
+    "favoritesOnly": "Только избранные",
+    "listTitle": "Все задачи",
+    "listSubtitle": "Просматривайте свежие задачи и следите за прогрессом.",
+    "columns": {
+      "title": "Название",
+      "difficulty": "Сложность",
+      "stats": "Прогресс",
+      "tags": "Теги"
+    },
+    "authorLabel": "Автор: {{username}}",
+    "anonymousAuthor": "Неизвестно",
+    "solved": "Решено",
+    "attempts": "Попытки",
+    "attemptsLabel": "{{attempts}} попыток",
+    "noTags": "Без тегов",
+    "summaryTitle": "Сводка",
+    "summarySubtitle": "Ваш рейтинг и активность по задачам.",
+    "totalSolved": "Решено задач",
+    "rating": "Рейтинг",
+    "totalAttempts": "Всего попыток",
+    "likesReceived": "Получено лайков",
+    "userRank": "Позиция в рейтинге",
+    "difficultiesTitle": "Покрытие сложностей",
+    "difficultiesSubtitle": "Решено / доступно по уровням сложности.",
+    "tabs": {
+      "lastAttempts": "Последние попытки",
+      "lastContest": "Последние задачи контеста",
+      "mostViewed": "Самые просматриваемые"
+    },
+    "noData": "Пока нет данных.",
+    "pageTitleShort": "Задачи",
+    "difficulty": {
+      "beginner": "Новичок",
+      "basic": "Базовый",
+      "normal": "Нормальный",
+      "medium": "Средний",
+      "advanced": "Продвинутый",
+      "hard": "Сложный",
+      "extremal": "Экстремальный"
+    }
+  }
+}

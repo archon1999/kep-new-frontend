@@ -1,0 +1,62 @@
+{
+  "problems": {
+    "pageTitle": "Masalalar",
+    "pageSubtitle": "Har kuni masalalar yeching, mashq qiling va kuchliroq bo'ling.",
+    "filterTitle": "Masalalarni filtrlash",
+    "filterSubtitle": "Teglar, holat yoki qiyinligiga ko'ra kerakli masalani toping.",
+    "searchLabel": "Sarlavha yoki ID bo'yicha qidirish",
+    "difficultyLabel": "Qiyinlik",
+    "statusLabel": "Holat",
+    "status": {
+      "0": "Barchasi",
+      "1": "Yechilgan",
+      "2": "Urinishlar bor",
+      "3": "Urinish qilinmagan",
+      "4": "Sevimlilar"
+    },
+    "tagsLabel": "Teglar",
+    "tagsPlaceholder": "Bu yerda mavjud teglar paydo bo'ladi.",
+    "withSolution": "Yechnomasiga ega",
+    "withChecker": "Checker mavjud",
+    "favoritesOnly": "Faqat sevimlilar",
+    "listTitle": "Barcha masalalar",
+    "listSubtitle": "So'nggi masalalarni ko'ring va yutuqlaringizni kuzating.",
+    "columns": {
+      "title": "Sarlavha",
+      "difficulty": "Qiyinlik",
+      "stats": "Progres",
+      "tags": "Teglar"
+    },
+    "authorLabel": "Muallif: {{username}}",
+    "anonymousAuthor": "Noma'lum",
+    "solved": "Yechilgan",
+    "attempts": "Urinishlar",
+    "attemptsLabel": "{{attempts}} ta urinish",
+    "noTags": "Tegsiz",
+    "summaryTitle": "Xulosa",
+    "summarySubtitle": "Masalalar bo'yicha reyting va faolligingiz.",
+    "totalSolved": "Yechilgan masalalar",
+    "rating": "Reyting",
+    "totalAttempts": "Jami urinishlar",
+    "likesReceived": "Olingan layklar",
+    "userRank": "Reytingdagi o'rin",
+    "difficultiesTitle": "Qiyinliklar kesimi",
+    "difficultiesSubtitle": "Har bir darajadagi yechilgan / mavjud masalalar.",
+    "tabs": {
+      "lastAttempts": "So'nggi urinishlar",
+      "lastContest": "Oxirgi kontest masalalari",
+      "mostViewed": "Eng ko'p ko'rilganlar"
+    },
+    "noData": "Hozircha ma'lumot yo'q.",
+    "pageTitleShort": "Masalalar",
+    "difficulty": {
+      "beginner": "Boshlang'ich",
+      "basic": "Oddiy",
+      "normal": "Normal",
+      "medium": "O'rtacha",
+      "advanced": "Murakkab",
+      "hard": "Qiyin",
+      "extremal": "Juda qiyin"
+    }
+  }
+}

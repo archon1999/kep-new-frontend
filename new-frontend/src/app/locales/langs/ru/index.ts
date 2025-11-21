@@ -8,6 +8,7 @@ import kepcoinPage from './kepcoin-page.json';
 import auth from './auth.json';
 import blog from './blog.json';
 import menu from './menu.json';
+import problems from './problems.json';
 import pageTitles from './page-titles.json';
 import projects from './projects.json';
 import settings from './settings.json';
@@ -32,6 +33,7 @@ export const ruTranslation = {
   ...kepcoinPage,
   ...challenges,
   ...blog,
+  ...problems,
 };
 
 export default ruTranslation;
