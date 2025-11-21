@@ -11,6 +11,7 @@ import blog from './blog.json';
 import menu from './menu.json';
 import pageTitles from './page-titles.json';
 import projects from './projects.json';
+import search from './search.json';
 import settings from './settings.json';
 import shop from './shop.json';
 import tests from './tests.json';
@@ -32,6 +33,7 @@ export const enTranslation = {
   ...projects,
   ...tests,
   ...users,
+  ...search,
   ...kepcoinPage,
   ...challenges,
   ...blog,
