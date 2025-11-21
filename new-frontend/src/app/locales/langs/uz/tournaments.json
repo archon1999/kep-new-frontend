@@ -1,0 +1,30 @@
+{
+  "tournaments": {
+    "title": "Turnirlar",
+    "listSubtitle": "{{count}} ta turnir ochiq.",
+    "listEmptySubtitle": "Hozircha turnirlar e'lon qilinmagan.",
+    "playersLabel": "{{count}} ta ishtirokchi",
+    "typeLabel": "Turi: {{type}}",
+    "startsAt": "Boshlanishi: {{time}}",
+    "registered": "Ro'yxatdan o'tgansiz",
+    "about": "Turnir haqida",
+    "noDescription": "Hozircha tavsif yo'q.",
+    "bracketTitle": "Knockout setkasi",
+    "bracketSubtitle": "16 ishtirokchi, bir marta yutqazgan chiqadi",
+    "knockout": "Knockout",
+    "noBracket": "Setka hali tayyor emas.",
+    "roundLabel": "Bosqich {{number}}",
+    "roundOf16": "1/8 final",
+    "quarterfinals": "Chorak final",
+    "semifinals": "Yarim final",
+    "final": "Final",
+    "match": {
+      "win": "G'alaba",
+      "loss": "Mag'lubiyat",
+      "draw": "Durrang",
+      "pending": "Kutilmoqda",
+      "tbd": "Aniqlanadi",
+      "awaiting": "Raqib kutilmoqda"
+    }
+  }
+}

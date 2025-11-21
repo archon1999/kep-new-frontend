@@ -1,0 +1,30 @@
+{
+  "tournaments": {
+    "title": "Турниры",
+    "listSubtitle": "{{count}} турниров открыты для вас.",
+    "listEmptySubtitle": "Турниры пока не объявлены.",
+    "playersLabel": "{{count}} игроков",
+    "typeLabel": "Тип: {{type}}",
+    "startsAt": "Начало: {{time}}",
+    "registered": "Вы зарегистрированы",
+    "about": "О турнире",
+    "noDescription": "Описание пока не добавлено.",
+    "bracketTitle": "Сетка плей-офф",
+    "bracketSubtitle": "Сетка на 16 игроков, выбывание после поражения",
+    "knockout": "Плей-офф",
+    "noBracket": "Сетка пока недоступна.",
+    "roundLabel": "Раунд {{number}}",
+    "roundOf16": "1/8 финала",
+    "quarterfinals": "Четвертьфинал",
+    "semifinals": "Полуфинал",
+    "final": "Финал",
+    "match": {
+      "win": "Победа",
+      "loss": "Поражение",
+      "draw": "Ничья",
+      "pending": "В ожидании",
+      "tbd": "Уточняется",
+      "awaiting": "Ожидается соперник"
+    }
+  }
+}
