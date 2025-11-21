@@ -2,6 +2,7 @@
   "contests": {
     "title": "Contests",
     "subtitle": "Join live programming contests, track standings, and get ready for the next challenge.",
+    "filtersButton": "Filters",
     "searchLabel": "Search contests",
     "searchPlaceholder": "Search by title or author",
     "typeLabel": "Type",
