@@ -41,7 +41,7 @@ export const authPaths = {
 
 export const apiEndpoints = {
   register: '/auth/register',
-  login: '/auth/login',
+  login: '/api/login/',
   logout: '/auth/logout',
   profile: '/api/me',
   getUsers: '/users',

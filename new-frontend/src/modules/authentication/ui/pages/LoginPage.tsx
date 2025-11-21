@@ -1,26 +1,96 @@
-import { useNavigate } from 'react-router';
+import { useCallback, useMemo } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router';
+import { useSnackbar } from 'notistack';
 import { defaultAuthCredentials } from 'app/config.ts';
 import { useAuth } from 'app/providers/AuthProvider';
-import { rootPaths } from 'app/routes/paths';
+import { authPaths, rootPaths } from 'app/routes/paths';
 import LoginForm, { type LoginFormValues } from 'shared/components/sections/authentications/default/LoginForm';
+import { useTranslation } from 'react-i18next';
 import { useLoginUser } from '../../application/mutations';
 
 const LoginPage = () => {
-  const { setCurrentUser } = useAuth();
+  const { t } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
+  const { setCurrentUser, refreshCurrentUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { trigger: login } = useLoginUser();
 
+  const normalizeReturnUrl = useCallback((url?: string | null) => {
+    const fallbackUrl = rootPaths.root;
+
+    if (!url) {
+      return fallbackUrl;
+    }
+
+    let sanitizedUrl = url.trim();
+    if (!sanitizedUrl) {
+      return fallbackUrl;
+    }
+
+    try {
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost';
+      const parsedUrl = new URL(sanitizedUrl, baseUrl);
+      sanitizedUrl = `${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`;
+    } catch {
+      sanitizedUrl = sanitizedUrl.startsWith('/') ? sanitizedUrl : `/${sanitizedUrl}`;
+    }
+
+    if (sanitizedUrl.startsWith(authPaths.login)) {
+      return fallbackUrl;
+    }
+
+    return sanitizedUrl;
+  }, []);
+
+  const returnUrl = useMemo(() => {
+    const searchParamUrl = searchParams.get('returnUrl');
+    const state = location.state as { from?: { pathname?: string } } | null;
+
+    return normalizeReturnUrl(searchParamUrl ?? state?.from?.pathname ?? null);
+  }, [location.state, normalizeReturnUrl, searchParams]);
+
   const handleLogin = async (data: LoginFormValues) => {
-    const res = await login(data).catch((error) => {
-      throw new Error((error as any)?.data?.message || (error as Error).message);
-    });
-    if (res) {
-      setCurrentUser(res);
-      navigate(rootPaths.root);
+    try {
+      const res = await login(data);
+
+      if (res) {
+        setCurrentUser(res);
+        await refreshCurrentUser();
+
+        const welcomeName = res.firstName || res.username || '';
+        const welcomeText = welcomeName
+          ? `${t('auth.greeting')}, ${welcomeName}!`
+          : t('auth.loginSuccess');
+
+        enqueueSnackbar(welcomeText, { variant: 'success' });
+
+        navigate(returnUrl, { replace: true });
+      }
+    } catch (error: any) {
+      const errorMessage = error?.data?.message || (error as Error)?.message || t('auth.loginError');
+      enqueueSnackbar(errorMessage, { variant: 'error' });
+      throw new Error(errorMessage);
     }
   };
 
-  return <LoginForm handleLogin={handleLogin} defaultCredential={defaultAuthCredentials} />;
+  const getSocialLoginUrl = useCallback(
+    (provider: 'google-oauth2' | 'github') => {
+      const normalizedProvider = provider.endsWith('/') ? provider : `${provider}/`;
+
+      return `/login/${normalizedProvider}?next=${returnUrl}`;
+    },
+    [returnUrl],
+  );
+
+  return (
+    <LoginForm
+      handleLogin={handleLogin}
+      defaultCredential={defaultAuthCredentials ?? undefined}
+      getSocialLoginUrl={getSocialLoginUrl}
+    />
+  );
 };
 
 export default LoginPage;

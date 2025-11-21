@@ -9,6 +9,6 @@ export type AuthUser = UserAuth & {
 };
 
 export interface LoginPayload {
-  email: string;
+  username: string;
   password: string;
 }

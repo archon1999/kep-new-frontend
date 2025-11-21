@@ -1,4 +1,5 @@
 import { mainDrawerWidth } from 'shared/lib/constants.ts';
+import type { LoginPayload } from 'modules/authentication/domain/entities/auth.entity';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type NavigationMenuType = 'sidenav' | 'topnav';
@@ -31,7 +32,4 @@ export const initialConfig: Config = {
   locale: 'en-US',
 };
 
-export const defaultAuthCredentials = {
-  email: 'demo@aurora.com',
-  password: 'password123',
-};
+export const defaultAuthCredentials: LoginPayload | null = null;

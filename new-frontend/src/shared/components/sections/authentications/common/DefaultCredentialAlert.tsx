@@ -1,8 +1,15 @@
 import { Alert, Box, Typography } from '@mui/material';
-import { defaultAuthCredentials } from 'app/config.ts';
+import { useTranslation } from 'react-i18next';
+import type { LoginPayload } from 'modules/authentication/domain/entities/auth.entity';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 
-const DefaultCredentialAlert = () => {
+interface DefaultCredentialAlertProps {
+  credentials: LoginPayload;
+}
+
+const DefaultCredentialAlert = ({ credentials }: DefaultCredentialAlertProps) => {
+  const { t } = useTranslation();
+
   return (
     <Alert
       severity="info"
@@ -10,25 +17,25 @@ const DefaultCredentialAlert = () => {
       icon={<IconifyIcon icon="material-symbols:info-outline-rounded" />}
     >
       <Typography variant="body2">
-        Use Email :{' '}
+        {t('auth.defaultUsernameLabel')}:{' '}
         <Box
           component="span"
           sx={{
             fontWeight: 700,
           }}
         >
-          {defaultAuthCredentials.email}
+          {credentials.username}
         </Box>
       </Typography>
       <Typography variant="body2">
-        Password :{' '}
+        {t('auth.defaultPasswordLabel')}:{' '}
         <Box
           component="span"
           sx={{
             fontWeight: 700,
           }}
         >
-          {defaultAuthCredentials.password}
+          {credentials.password}
         </Box>
       </Typography>
     </Alert>

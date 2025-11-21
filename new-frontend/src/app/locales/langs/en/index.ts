@@ -5,6 +5,7 @@ import common from './common.json';
 import hackathons from './hackathons.json';
 import homePage from './home-page.json';
 import kepcoinPage from './kepcoin-page.json';
+import auth from './auth.json';
 import menu from './menu.json';
 import pageTitles from './page-titles.json';
 import projects from './projects.json';
@@ -21,6 +22,7 @@ export const enTranslation = {
   ...arena,
   ...homePage,
   ...shop,
+  ...auth,
   ...calendar,
   ...hackathons,
   ...projects,
