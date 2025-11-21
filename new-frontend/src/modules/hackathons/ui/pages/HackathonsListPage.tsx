@@ -24,7 +24,8 @@ const HackathonsListPage = () => {
           </Box>
 
           {pageResult ? (
-            <Chip label={t('hackathons.countLabel', { count: pageResult.total ?? pageResult.count ?? hackathons.length })} />
+            <Chip
+              label={t('hackathons.countLabel', { count: pageResult.total ?? pageResult.count ?? hackathons.length })} />
           ) : null}
         </Stack>
 
@@ -49,15 +50,15 @@ const HackathonsListPage = () => {
           <Grid container spacing={3}>
             {isLoading
               ? Array.from({ length: 3 }).map((_, idx) => (
-                  <Grid size={{ xs: 12, md: 6, lg: 4 }} key={idx}>
-                    <Skeleton variant="rounded" height={360} />
-                  </Grid>
-                ))
+                <Grid size={12} key={idx}>
+                  <Skeleton variant="rounded" height={360} />
+                </Grid>
+              ))
               : hackathons.map((hackathon) => (
-                  <Grid size={{ xs: 12, md: 6, lg: 4 }} key={hackathon.id}>
-                    <HackathonCard hackathon={hackathon} />
-                  </Grid>
-                ))}
+                <Grid size={12} key={hackathon.id}>
+                  <HackathonCard hackathon={hackathon} />
+                </Grid>
+              ))}
           </Grid>
         )}
       </Stack>

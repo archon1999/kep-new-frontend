@@ -38,6 +38,7 @@ const HackathonCard = ({ hackathon }: HackathonCardProps) => {
     <Card
       background={1}
       sx={{
+        outline: 'none',
         height: 1,
         borderRadius: 3,
         display: 'flex',
@@ -48,7 +49,7 @@ const HackathonCard = ({ hackathon }: HackathonCardProps) => {
       <Box
         sx={{
           position: 'relative',
-          height: 180,
+          height: 400,
           bgcolor: 'background.neutral',
           backgroundImage: hackathon.logo ? `url(${hackathon.logo})` : 'none',
           backgroundRepeat: 'no-repeat',
