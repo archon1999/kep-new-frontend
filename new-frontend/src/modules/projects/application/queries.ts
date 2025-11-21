@@ -17,11 +17,11 @@ export const useProjectDetails = (slug?: string) =>
   });
 
 export const useProjectAttempts = (
-  projectId?: number,
+  projectId: number,
   params?: { page?: number; username?: string; hackathonId?: number },
 ) =>
   useSWR(
-    projectId ? ['project-attempts', projectId, params?.page, params?.username, params?.hackathonId] : null,
+    ['project-attempts', projectId, params?.page, params?.username, params?.hackathonId],
     () =>
       attemptsRepository.list({
         projectId,

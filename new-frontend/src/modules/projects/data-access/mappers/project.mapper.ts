@@ -13,7 +13,7 @@ import {
   ProjectAttemptsPage,
   ProjectAvailableTechnology,
   ProjectTask as DomainProjectTask,
-} from '../../projects/domain/entities/project.entity';
+} from '../../domain/entities/project.entity';
 
 const toBoolean = (value?: string | boolean) => {
   if (typeof value === 'boolean') return value;
@@ -108,7 +108,9 @@ const mapAttemptLogTask = (task?: any): ProjectAttemptLogTask | undefined => {
   };
 };
 
-export const mapAttemptLogToDomain = (attempt: ProjectAttemptList): ProjectAttemptLog => ({
+export const mapAttemptLogToDomain = (
+  attempt: ProjectAttemptList & { tasks?: any[] },
+): ProjectAttemptLog => ({
   log: attempt.log,
   tasks: attempt.tasks?.map(mapAttemptLogTask).filter(Boolean) as ProjectAttemptLogTask[] | undefined,
 });

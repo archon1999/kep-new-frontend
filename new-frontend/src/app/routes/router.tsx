@@ -21,6 +21,10 @@ const ChallengesListPage = lazy(() => import('modules/challenges/ui/pages/Challe
 const ChallengeDetailPage = lazy(() => import('modules/challenges/ui/pages/ChallengeDetailPage'));
 const ChallengesRatingPage = lazy(() => import('modules/challenges/ui/pages/ChallengesRatingPage'));
 const ChallengeUserStatisticsPage = lazy(() => import('modules/challenges/ui/pages/UserStatisticsPage'));
+const ArenaListPage = lazy(() => import('modules/arena/ui/pages/ArenaListPage'));
+const ArenaDetailPage = lazy(() => import('modules/arena/ui/pages/ArenaDetailPage'));
+const HackathonsListPage = lazy(() => import('modules/hackathons/ui/pages/HackathonsListPage'));
+const AccountSettingsPage = lazy(() => import('modules/account-settings/ui/pages/AccountSettingsPage'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
@@ -102,6 +106,14 @@ export const routes: RouteObject[] = [
             path: paths.challengesStats,
             element: <ChallengeUserStatisticsPage />,
             handle: { titleKey: 'pageTitles.challengesStats' },
+            path: paths.arena,
+            element: <ArenaListPage />,
+            handle: { titleKey: 'pageTitles.arena' },
+          },
+          {
+            path: paths.arenaTournament,
+            element: <ArenaDetailPage />,
+            handle: { titleKey: 'pageTitles.arenaTournament' },
           },
           {
             path: paths.shop,
@@ -117,6 +129,16 @@ export const routes: RouteObject[] = [
             path: paths.calendar,
             element: <CalendarPage />,
             handle: { titleKey: 'pageTitles.calendar' },
+          },
+          {
+            path: paths.hackathons,
+            element: <HackathonsListPage />,
+            handle: { titleKey: 'pageTitles.hackathons' },
+          },
+          {
+            path: paths.accountSettings,
+            element: <AccountSettingsPage />,
+            handle: { titleKey: 'pageTitles.accountSettings' },
           },
         ],
       },
