@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { Avatar, Box, Chip, Paper, Skeleton, Stack, Tab, Tabs, Typography } from '@mui/material';
 import { useUsersList } from 'modules/users/application/queries';
 import { UsersListItem } from 'modules/users/domain/entities/user.entity';
+import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
+import KepcoinValue from 'shared/components/common/KepcoinValue';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import Streak from 'shared/components/rating/Streak';
-import KepcoinValue from 'shared/components/common/KepcoinValue';
-import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 const TAB_SWITCH_INTERVAL = 5000;
@@ -118,12 +118,30 @@ const TopUsersSection = () => {
     return () => clearInterval(interval);
   }, [tabOrder]);
 
-  const contestsParams = useMemo(() => ({ page: 1, pageSize: 3, ordering: tabConfigs[0].ordering }), []);
-  const skillsParams = useMemo(() => ({ page: 1, pageSize: 3, ordering: tabConfigs[1].ordering }), []);
-  const activityParams = useMemo(() => ({ page: 1, pageSize: 3, ordering: tabConfigs[2].ordering }), []);
-  const challengesParams = useMemo(() => ({ page: 1, pageSize: 3, ordering: tabConfigs[3].ordering }), []);
-  const streakParams = useMemo(() => ({ page: 1, pageSize: 3, ordering: tabConfigs[4].ordering }), []);
-  const kepcoinParams = useMemo(() => ({ page: 1, pageSize: 3, ordering: tabConfigs[5].ordering }), []);
+  const contestsParams = useMemo(
+    () => ({ page: 1, pageSize: 3, ordering: tabConfigs[0].ordering }),
+    [],
+  );
+  const skillsParams = useMemo(
+    () => ({ page: 1, pageSize: 3, ordering: tabConfigs[1].ordering }),
+    [],
+  );
+  const activityParams = useMemo(
+    () => ({ page: 1, pageSize: 3, ordering: tabConfigs[2].ordering }),
+    [],
+  );
+  const challengesParams = useMemo(
+    () => ({ page: 1, pageSize: 3, ordering: tabConfigs[3].ordering }),
+    [],
+  );
+  const streakParams = useMemo(
+    () => ({ page: 1, pageSize: 3, ordering: tabConfigs[4].ordering }),
+    [],
+  );
+  const kepcoinParams = useMemo(
+    () => ({ page: 1, pageSize: 3, ordering: tabConfigs[5].ordering }),
+    [],
+  );
 
   const contestsQuery = useUsersList(contestsParams);
   const skillsQuery = useUsersList(skillsParams);
@@ -146,7 +164,6 @@ const TopUsersSection = () => {
   const users = useMemo(() => usersData?.data ?? [], [usersData?.data]);
   const showSkeleton = isLoading && !usersData?.data;
   const emptyLabel = t('users.emptyValue');
-  const noData = !showSkeleton && users.length === 0;
 
   const renderUserRow = (user: UsersListItem, index: number) => {
     const name = [user.firstName, user.lastName].filter(Boolean).join(' ');
@@ -158,33 +175,28 @@ const TopUsersSection = () => {
         direction="row"
         alignItems="center"
         spacing={2}
-        sx={(theme) => ({
+        sx={{
           p: 2,
           borderRadius: 3,
-          bgcolor: backgroundByRank[index] ?? theme.vars.palette.background.level2,
-          border: '1px solid',
-          borderColor: borderByRank[index] ?? theme.vars.palette.divider,
-          boxShadow: theme.shadows[0],
-        })}
+          bgcolor: backgroundByRank[index],
+        }}
       >
         <Box
-          sx={(theme) => ({
+          sx={{
             width: 42,
             height: 42,
             display: 'grid',
             placeItems: 'center',
             borderRadius: '50%',
-            fontWeight: 800,
-            color: theme.vars.palette.common.white,
-            backgroundImage: `linear-gradient(135deg, ${theme.vars.palette[borderByRank[index]?.split('.')[0] as any]?.main ?? theme.vars.palette.primary.main}, ${theme.vars.palette.primary.dark})`,
-          })}
+            fontWeight: 600,
+          }}
         >
           {index + 1}
         </Box>
 
         <Avatar src={user.avatar} alt={user.username} sx={{ width: 52, height: 52 }} />
 
-        <Stack spacing={0.5} minWidth={0} flexGrow={1}>
+        <Stack direction="column" spacing={0.5} minWidth={0} flexGrow={1}>
           <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>
             <Typography color="primary" fontWeight={700} variant="subtitle1" noWrap>
               {user.username}
@@ -207,8 +219,14 @@ const TopUsersSection = () => {
 
   return (
     <Paper>
-      <Stack spacing={3} sx={responsivePagePaddingSx}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" flexWrap="wrap" gap={1}>
+      <Stack direction="column" spacing={3} sx={responsivePagePaddingSx}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          flexWrap="wrap"
+          gap={1}
+        >
           <Box>
             <Typography variant="h5" fontWeight={700}>
               {t('homePage.topUsers.title')}
@@ -232,25 +250,11 @@ const TopUsersSection = () => {
           ))}
         </Tabs>
 
-        <Stack spacing={1.5}>
-          {showSkeleton && Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} variant="rounded" height={88} />)}
-
-          {noData && (
-            <Box
-              sx={(theme) => ({
-                borderRadius: 3,
-                border: `1px dashed ${theme.vars.palette.divider}`,
-                py: 4,
-                textAlign: 'center',
-                bgcolor: theme.vars.palette.background.level2,
-              })}
-            >
-              <Typography variant="body2" color="text.secondary">
-                {t('homePage.topUsers.empty')}
-              </Typography>
-            </Box>
-          )}
-
+        <Stack direction="column" spacing={1.5}>
+          {showSkeleton &&
+            Array.from({ length: 3 }).map((_, index) => (
+              <Skeleton key={index} variant="rounded" height={88} />
+            ))}
           {!showSkeleton && users.map((user, index) => renderUserRow(user, index))}
         </Stack>
       </Stack>

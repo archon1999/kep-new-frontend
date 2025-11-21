@@ -39,15 +39,15 @@ const HomePage = () => {
             </Grid>
 
             <Grid size={12}>
+              <TopUsersSection />
+            </Grid>
+
+            <Grid size={12}>
               <UserActivitySection />
             </Grid>
 
             <Grid size={12}>
               <StatisticsSection />
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 6 }}>
-              <TopUsersSection />
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
