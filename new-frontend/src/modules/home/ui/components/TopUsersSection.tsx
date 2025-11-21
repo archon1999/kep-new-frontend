@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Avatar, Box, Chip, Paper, Skeleton, Stack, Tab, Tabs, Typography } from '@mui/material';
 import { useUsersList } from 'modules/users/application/queries';
 import { UsersListItem } from 'modules/users/domain/entities/user.entity';
+import UserPopover from 'modules/users/ui/components/UserPopover';
 import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
 import KepcoinValue from 'shared/components/common/KepcoinValue';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
@@ -199,20 +200,30 @@ const TopUsersSection = () => {
           </Typography>
 
           <Stack direction="row" spacing={1.75} alignItems="center">
-            <Avatar src={user.avatar} alt={user.username} sx={{ width: 52, height: 52 }} />
-            <Stack direction="column" spacing={0.5} minWidth={0}>
-              <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>
-                <Typography variant="subtitle1" fontWeight={700} noWrap>
-                  {user.username}
-                </Typography>
-                {countryCode && <CountryFlagIcon code={countryCode} size={18} />}
+            <UserPopover
+              username={user.username}
+              countryCode={countryCode}
+              fullName={name}
+              avatar={user.avatar}
+              streak={user.streak}
+            >
+              <Stack direction="row" spacing={1.75} alignItems="center" sx={{ cursor: 'pointer' }}>
+                <Avatar src={user.avatar} alt={user.username} sx={{ width: 52, height: 52 }} />
+                <Stack direction="column" spacing={0.5} minWidth={0}>
+                  <Stack direction="row" spacing={1} alignItems="center" minWidth={0}>
+                    <Typography variant="subtitle1" fontWeight={700} noWrap>
+                      {user.username}
+                    </Typography>
+                    {countryCode && <CountryFlagIcon code={countryCode} size={18} />}
+                  </Stack>
+                  {name && (
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                      {name}
+                    </Typography>
+                  )}
+                </Stack>
               </Stack>
-              {name && (
-                <Typography variant="body2" color="text.secondary" noWrap>
-                  {name}
-                </Typography>
-              )}
-            </Stack>
+            </UserPopover>
           </Stack>
 
           <Box
