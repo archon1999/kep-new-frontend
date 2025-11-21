@@ -21,11 +21,20 @@
   "pageTitles": {
     "home": "Bosh sahifa",
     "users": "Foydalanuvchilar",
+    "tests": "Testlar",
     "kepcoin": "Kepcoin",
     "shop": "Doʻkon",
     "calendar": "Kalendar",
     "login": "Kirish",
     "notFound": "Sahifa topilmadi"
+  },
+  "tests": {
+    "title": "Testlar",
+    "testsCount": "{{count}} ta test",
+    "questionsCount": "{{count}} ta savol",
+    "duration": "Davomiyligi: {{duration}}",
+    "bestResultTooltip": "Eng yaxshi natija",
+    "empty": "Testlar mavjud emas"
   },
   "homePage": {
     "greeting": {

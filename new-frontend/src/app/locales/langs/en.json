@@ -21,11 +21,20 @@
   "pageTitles": {
     "home": "Home",
     "users": "Users",
+    "tests": "Tests",
     "kepcoin": "Kepcoin",
     "shop": "Shop",
     "calendar": "Calendar",
     "login": "Login",
     "notFound": "Page not found"
+  },
+  "tests": {
+    "title": "Tests",
+    "testsCount": "{{count}} tests",
+    "questionsCount": "{{count}} questions",
+    "duration": "Duration: {{duration}}",
+    "bestResultTooltip": "Best result",
+    "empty": "No tests are available"
   },
   "homePage": {
     "greeting": {

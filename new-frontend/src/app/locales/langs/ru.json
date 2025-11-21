@@ -21,11 +21,20 @@
   "pageTitles": {
     "home": "Главная",
     "users": "Пользователи",
+    "tests": "Тесты",
     "kepcoin": "Кепкоин",
     "shop": "Магазин",
     "calendar": "Календарь",
     "login": "Вход",
     "notFound": "Страница не найдена"
+  },
+  "tests": {
+    "title": "Тесты",
+    "testsCount": "{{count}} тестов",
+    "questionsCount": "{{count}} вопросов",
+    "duration": "Продолжительность: {{duration}}",
+    "bestResultTooltip": "Лучший результат",
+    "empty": "Тесты недоступны"
   },
   "homePage": {
     "greeting": {

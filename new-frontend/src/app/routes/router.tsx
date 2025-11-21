@@ -6,12 +6,14 @@ import DefaultAuthLayout from 'app/layouts/auth-layout/DefaultAuthLayout';
 import MainLayout from 'app/layouts/main-layout';
 import Page404 from 'modules/errors/ui/pages/Page404';
 import PageLoader from 'shared/components/loading/PageLoader';
+import { resources } from './resources';
 import paths, { authPaths, rootPaths } from './paths';
 
 const Home = lazy(() => import('modules/home/ui/pages/HomePage'));
 const KepcoinPage = lazy(() => import('modules/kepcoin/ui/pages/KepcoinPage'));
 const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
+const TestsListPage = lazy(() => import('modules/testing/ui/pages/TestsListPage'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
@@ -48,6 +50,11 @@ export const routes: RouteObject[] = [
             path: paths.users,
             element: <UsersListPage />,
             handle: { titleKey: 'pageTitles.users' },
+          },
+          {
+            path: resources.Tests,
+            element: <TestsListPage />,
+            handle: { titleKey: 'pageTitles.tests' },
           },
           {
             path: paths.shop,
