@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Box, Stack, Typography } from '@mui/material';
 import { useShopProducts } from 'modules/shop/application/queries';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import ShopProductCard, { ShopProductCardSkeleton } from '../components/ShopProductCard';
 
 const ShopPage = () => {
@@ -10,7 +11,7 @@ const ShopPage = () => {
   const showEmptyState = !isLoading && !products?.length && !error;
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         <Typography variant="h4" fontWeight={700}>
           {t('shop.title')}

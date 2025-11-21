@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Box, Pagination, Skeleton, Stack, Typography } from '@mui/material';
 import { useArenasList } from '../../application/queries.ts';
 import ArenaListCard from '../components/ArenaListCard.tsx';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 const ArenaListPage = () => {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ const ArenaListPage = () => {
   );
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         <Stack direction="column" spacing={1}>
           <Typography variant="h4" fontWeight={800}>

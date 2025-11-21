@@ -19,6 +19,7 @@ import ChallengeQuestionCard from '../components/ChallengeQuestionCard.tsx';
 import { useChallengeDetail } from '../../application/queries.ts';
 import { useStartChallenge, useSubmitChallengeAnswer } from '../../application/mutations.ts';
 import { ChallengeStatus } from '../../domain';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 dayjs.extend(relativeTime);
 
@@ -71,7 +72,7 @@ const ChallengeDetailPage = () => {
 
   if (!challenge) {
     return (
-      <Box sx={{ p: { xs: 3, md: 5 } }}>
+      <Box sx={responsivePagePaddingSx}>
         <Typography variant="body1">{t('challenges.notFound')}</Typography>
       </Box>
     );
@@ -80,7 +81,7 @@ const ChallengeDetailPage = () => {
   const showQuestion = challenge.status !== ChallengeStatus.Finished && challenge.nextQuestion?.question;
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack spacing={3} direction="column">
         <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={1}>
           <Stack spacing={0.5} direction="column">

@@ -4,6 +4,7 @@ import { InputAdornment, Stack, Tab, Typography, styled, useMediaQuery } from '@
 import { useTheme } from '@mui/material/styles';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import StyledTextField from 'shared/components/styled/StyledTextField';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { AccountSettingsTab } from './accountSettingsTabs';
 
 interface SideTabListProps {
@@ -36,7 +37,7 @@ const SideTabList = ({ tabs, onChange, onTabClick }: SideTabListProps) => {
   const downMd = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
-    <Stack direction="column" spacing={3} sx={{ p: { xs: 3, md: 5 } }}>
+    <Stack direction="column" spacing={3} sx={responsivePagePaddingSx}>
       <Typography
         variant="h4"
         sx={{

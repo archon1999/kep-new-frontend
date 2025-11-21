@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 import paths from 'app/routes/paths.ts';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import ChallengeCallCard from '../components/ChallengeCallCard.tsx';
 import ChallengeCard from '../components/ChallengeCard.tsx';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
@@ -92,7 +93,7 @@ const ChallengesListPage = () => {
   };
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack spacing={4} direction="column">
         <Stack spacing={1} direction="column">
           <Typography variant="h4" fontWeight={800}>

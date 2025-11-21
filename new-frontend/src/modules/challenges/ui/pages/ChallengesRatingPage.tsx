@@ -15,6 +15,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useChallengesRating } from '../../application/queries.ts';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 const ChallengesRatingPage = () => {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ const ChallengesRatingPage = () => {
   const { data: ratingPage } = useChallengesRating({ page, pageSize, ordering: '-rating' });
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack spacing={3} direction="column">
         <Stack spacing={0.5} direction="column">
           <Typography variant="h4" fontWeight={800}>

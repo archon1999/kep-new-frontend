@@ -7,6 +7,7 @@ import { useHackathon, useHackathonProject } from '../../application/queries';
 import HackathonTabs from '../components/HackathonTabs';
 import HackathonCountdownCard from '../components/HackathonCountdownCard';
 import { HackathonStatus } from '../../domain/entities/hackathon.entity';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 const HackathonProjectPage = () => {
   const { id, symbol } = useParams();
@@ -18,7 +19,7 @@ const HackathonProjectPage = () => {
   const project = hackathonProject?.project;
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         {hackathon ? <HackathonTabs hackathon={hackathon} /> : <Skeleton variant="rectangular" height={56} />}
 

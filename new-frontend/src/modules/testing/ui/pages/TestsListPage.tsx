@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Box, Skeleton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useTestsList } from '../../application/queries.ts';
 import ChapterCard from '../components/ChapterCard.tsx';
 import { Test } from '../../domain';
@@ -32,7 +33,7 @@ const TestsListPage = () => {
   const showEmptyState = !isLoading && (!testsPage?.data?.length || chapters.length === 0);
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         <Box>
           <Typography variant="h4" fontWeight={800}>

@@ -2,6 +2,7 @@ import { Divider, Paper, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import type { HomeUserActivityHistory, HomeUserRatings } from '../../domain/entities/home.entity';
 import RanksSection from './RanksSection';
 import HomeActivityHistory from './HomeActivityHistory';
@@ -31,8 +32,8 @@ const HomeProfileSection = ({
       <Stack
         direction="column"
         sx={{
+          ...responsivePagePaddingSx,
           gap: 3,
-          p: { xs: 3, md: 5 },
           height: 1,
           overflow: 'hidden',
         }}

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import ProjectCard from 'modules/projects/ui/components/ProjectCard';
 import { useHackathon, useHackathonProjects } from '../../application/queries';
 import HackathonTabs from '../components/HackathonTabs';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 const HackathonProjectsPage = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const HackathonProjectsPage = () => {
   const { data: projects, isLoading } = useHackathonProjects(id);
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         {hackathon ? <HackathonTabs hackathon={hackathon} /> : <Skeleton variant="rectangular" height={56} />}
 

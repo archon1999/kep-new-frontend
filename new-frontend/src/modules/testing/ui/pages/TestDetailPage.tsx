@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import paths from 'app/routes/paths.ts';
 import { useSnackbar } from 'notistack';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { startTest } from '../../application/mutations.ts';
 import { useTestDetail, useTestResults } from '../../application/queries.ts';
 
@@ -54,14 +55,14 @@ const TestDetailPage = () => {
 
   if (isLoading || !test) {
     return (
-      <Box sx={{ p: { xs: 3, md: 5 }, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ ...responsivePagePaddingSx, display: 'flex', justifyContent: 'center' }}>
         <CircularProgress />
       </Box>
     );
   }
 
   return (
-    <Box sx={{ p: { xs: 3, md: 5 } }}>
+    <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         <Stack direction="column" spacing={1}>
           <Typography variant="h4" fontWeight={800}>
