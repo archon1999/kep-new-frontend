@@ -12,5 +12,16 @@
       "completed": "Completed",
       "empty": "No daily tasks for now"
     }
+  },
+  "search": {
+    "recent": "Recent",
+    "noRecent": "No recent pages yet",
+    "resources": "Resources",
+    "users": "Users",
+    "problems": "Problems",
+    "contests": "Contests",
+    "noResults": "No results found",
+    "problemId": "Problem #{{id}}",
+    "contestType": "Format: {{type}}"
   }
 }

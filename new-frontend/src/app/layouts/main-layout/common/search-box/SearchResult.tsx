@@ -1,414 +1,288 @@
-import { PropsWithChildren, useEffect, useRef } from 'react';
+import { ChangeEvent, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Avatar,
   Box,
-  Breadcrumbs,
   Chip,
+  CircularProgress,
   Divider,
   IconButton,
   InputAdornment,
-  Link,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Stack,
-  Tooltip,
   Typography,
   inputBaseClasses,
-  listItemSecondaryActionClasses,
 } from '@mui/material';
-import { initialConfig } from 'app/config.ts';
+import { Link as RouterLink } from 'react-router-dom';
+import useSWR from 'swr';
+import { useTranslation } from 'react-i18next';
+import { getRecentPages, RecentPage, searchableMenuItems } from 'app/routes/recent-pages.ts';
+import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
+import { HttpContestsRepository } from 'modules/contests/data-access/repository/http.contests.repository';
+import { HttpProblemsRepository } from 'modules/problems/data-access/repository/http.problems.repository';
+import { HttpUsersRepository } from 'modules/users/data-access/repository/http.users.repository';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import SimpleBar from 'simplebar-react';
+import useDebouncedValue from 'shared/hooks/useDebouncedValue';
 import SearchTextField from './SearchTextField';
 
-const avatar = (index: number) => `${initialConfig.assetsDir}/images/avatar/${index}.webp`;
+const usersRepository = new HttpUsersRepository();
+const problemsRepository = new HttpProblemsRepository();
+const contestsRepository = new HttpContestsRepository();
 
-const files = [
-  {
-    name: 'aurora_test17.zip',
-    path: ':: files / New folder / aurora /',
-    icon: 'material-symbols:folder-zip-outline-rounded',
-  },
-  {
-    name: 'Product image(11).webp',
-    path: ':: files / ... / assets /',
-    image: `${initialConfig.assetsDir}/images/ecommerce/products/96x96/3.webp`,
-  },
-  {
-    name: 'How_to_not_click_on_perfectly_innocent_looking_links_and_download_malware.pdf',
-    path: ':: files / Download /',
-    icon: 'material-symbols:picture-as-pdf-outline-rounded',
-  },
-];
+const MIN_QUERY_LENGTH = 2;
 
-const contacts = [
-  {
-    name: 'Gojo Satoru',
-    avatar: avatar(13),
-  },
-  {
-    name: 'Nanami Kento',
-    avatar: avatar(5),
-    disabled: true,
-  },
-  {
-    name: 'Kugisaki Nobara',
-    avatar: avatar(4),
-  },
-  {
-    name: 'Zenin Maki',
-    avatar: avatar(15),
-  },
-  {
-    name: 'Todo Aoi',
-    avatar: avatar(9),
-  },
-];
+const getMenuItemLabel = (item: (typeof searchableMenuItems)[number], translate: (key: string) => string) => {
+  const translated = item.key ? translate(item.key) : '';
+  if (translated && translated !== item.key) {
+    return translated;
+  }
+  return item.name;
+};
 
-const tags = ['Calender', 'Home', 'Back', 'Procrastination', 'Support', 'Ideate', 'Brainstorm', 'How Might We'];
-
-const breadcrumbs = [
-  [
-    {
-      label: 'App',
-      href: '#!',
-    },
-    {
-      label: 'E-commerce',
-      href: '#!',
-    },
-    {
-      label: 'Customers',
-      href: '#!',
-    },
-    {
-      label: 'Create new',
-      href: '#!',
-      active: true,
-    },
-  ],
-  [
-    {
-      label: 'Homepage',
-      href: '#!',
-    },
-    {
-      label: 'E-commerce',
-      href: '#!',
-      active: true,
-    },
-  ],
-  [
-    {
-      label: 'Pages',
-      href: '#!',
-    },
-    {
-      label: 'Home',
-      href: '#!',
-      active: true,
-    },
-  ],
-];
+const getRecentPageLabel = (page: RecentPage, translate: (key: string) => string) => {
+  const translated = page.labelKey ? translate(page.labelKey) : '';
+  if (translated && translated !== page.labelKey) {
+    return translated;
+  }
+  return page.fallbackLabel ?? page.path;
+};
 
 const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
+  const { t } = useTranslation();
+  const [searchValue, setSearchValue] = useState('');
+  const debouncedSearch = useDebouncedValue(searchValue, 250);
+  const [recentPages, setRecentPages] = useState<RecentPage[]>([]);
+
+  const shouldSearch = debouncedSearch.trim().length >= MIN_QUERY_LENGTH;
+
+  useEffect(() => {
+    const updateRecentPages = () => setRecentPages(getRecentPages());
+    updateRecentPages();
+    window.addEventListener('storage', updateRecentPages);
+    return () => window.removeEventListener('storage', updateRecentPages);
+  }, []);
+
+  const resourceResults = useMemo(() => {
+    if (!shouldSearch) return [] as { key?: string; label: string; path: string; icon?: string }[];
+    const normalized = debouncedSearch.toLowerCase();
+
+    return searchableMenuItems
+      .map((item) => ({
+        item,
+        label: getMenuItemLabel(item, t),
+      }))
+      .filter(({ item, label }) => {
+        const labelMatch = label.toLowerCase().includes(normalized);
+        const nameMatch = item.name.toLowerCase().includes(normalized);
+        const pathMatch = item.path?.toLowerCase().includes(normalized);
+        return labelMatch || nameMatch || pathMatch;
+      })
+      .slice(0, 5)
+      .map(({ item, label }) => ({
+        key: item.key,
+        label,
+        path: item.path!,
+        icon: item.icon,
+      }));
+  }, [debouncedSearch, shouldSearch, t]);
+
+  const { data: usersResult, isLoading: usersLoading } = useSWR(
+    shouldSearch ? ['global-search-users', debouncedSearch] : null,
+    () => usersRepository.getUsers({ search: debouncedSearch, page: 1, pageSize: 5 }),
+  );
+
+  const { data: problemsResult, isLoading: problemsLoading } = useSWR(
+    shouldSearch ? ['global-search-problems', debouncedSearch] : null,
+    () => problemsRepository.list({ search: debouncedSearch, page: 1, pageSize: 5 }),
+  );
+
+  const { data: contestsResult, isLoading: contestsLoading } = useSWR(
+    shouldSearch ? ['global-search-contests', debouncedSearch] : null,
+    () => contestsRepository.list({ title: debouncedSearch, page: 1, pageSize: 5 }),
+  );
+
+  const users = usersResult?.data ?? [];
+  const problems = problemsResult?.data ?? [];
+  const contests = contestsResult?.data ?? [];
+
   return (
     <>
-      <SearchField handleClose={handleClose} />
+      <SearchField
+        value={searchValue}
+        onChange={setSearchValue}
+        handleClose={handleClose}
+      />
       <SimpleBar style={{ maxHeight: 600, minHeight: 0, width: '100%' }}>
-        <Box sx={{ px: 3, py: 1.25 }}>
-          <Link
-            component="button"
-            variant="caption"
-            underline="none"
-            sx={{
-              fontWeight: 'medium',
-            }}
-          >
-            Advanced search
-          </Link>
-        </Box>
-        <Divider />
-        <Box>
-          <Stack
-            sx={{
-              justifyContent: 'space-between',
-              py: 2,
-              px: 3,
-            }}
-          >
-            <Typography
-              variant="caption"
-              sx={{
-                fontWeight: 'medium',
-                color: 'text.disabled',
-              }}
-            >
-              Recent
-            </Typography>
+        {!shouldSearch && (
+          <ResultItemSection title={t('search.recent')} bottomDivider={false}>
+            {recentPages.length ? (
+              <List disablePadding>
+                {recentPages.map((page) => (
+                  <ListItem disablePadding key={page.path}>
+                    <ListItemButton component={RouterLink} to={page.path} onClick={handleClose}>
+                      <ListItemIcon>
+                        <IconifyIcon icon="solar:clock-circle-line-duotone" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={getRecentPageLabel(page, t)}
+                        secondary={page.path}
+                        primaryTypographyProps={{ fontWeight: 'medium' }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <Typography px={3} pb={2} color="text.secondary">
+                {t('search.noRecent')}
+              </Typography>
+            )}
+          </ResultItemSection>
+        )}
 
-            <Link
-              component="button"
-              variant="caption"
-              underline="none"
-              sx={{
-                fontWeight: 'medium',
-              }}
-            >
-              Clear history
-            </Link>
-          </Stack>
+        {shouldSearch && (
+          <>
+            <ResultItemSection title={t('search.resources')}>
+              <List disablePadding>
+                {resourceResults.length ? (
+                  resourceResults.map((resource) => (
+                    <ListItem disablePadding key={resource.path}>
+                      <ListItemButton component={RouterLink} to={resource.path} onClick={handleClose}>
+                        <ListItemIcon>
+                          <IconifyIcon icon={resource.icon ?? 'material-symbols:search-rounded'} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={resource.label}
+                          secondary={resource.path}
+                          primaryTypographyProps={{ fontWeight: 'medium' }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  ))
+                ) : (
+                  <SectionEmptyState label={t('search.noResults')} />
+                )}
+              </List>
+            </ResultItemSection>
 
-          <List
-            dense
-            sx={{
-              pt: 0,
-              pb: 2,
-              listStyleType: 'disc',
-              listStylePosition: 'inside',
-              color: 'grey.300',
-            }}
-          >
-            {breadcrumbs.map((breadcrumb) => (
-              <ListItem
-                key={breadcrumb[0].label}
-                sx={{
-                  px: 3,
-                  display: 'list-item',
-                  '&:hover': {
-                    backgroundColor: 'background.menuElevation1',
-                  },
-                }}
-              >
-                <Breadcrumbs
-                  aria-label="breadcrumb"
-                  maxItems={2}
-                  sx={{
-                    py: 0.5,
-                    typography: 'caption',
-                    color: 'text.secondary',
-                    marginLeft: -0.5,
-                    display: 'inline-block',
-                    fontWeight: 'medium',
-                    '@supports (-moz-appearance:none)': {
-                      marginLeft: 0.5,
-                    },
-                  }}
-                >
-                  {breadcrumb.map((breadcrumbItem) => (
-                    <div key={breadcrumbItem.label}>
-                      <Link
-                        underline="none"
-                        href={breadcrumbItem.active ? '#!' : breadcrumbItem.href}
-                        sx={[
-                          {
-                            color: 'inherit',
-                          },
-                          !!breadcrumbItem.active && {
-                            color: 'text.primary',
-                          },
-                        ]}
-                      >
-                        {breadcrumbItem.label}
-                      </Link>
-
-                      {breadcrumbItem.active && (
-                        <Link
-                          underline="none"
-                          href={breadcrumbItem.href}
-                          sx={{
-                            marginLeft: 0.5,
-                          }}
-                        >
-                          <IconifyIcon
-                            icon="material-symbols:open-in-new-rounded"
-                            fontSize={16}
-                            sx={{ verticalAlign: 'bottom' }}
-                          />
-                        </Link>
-                      )}
-                    </div>
-                  ))}
-                </Breadcrumbs>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-        <Divider />
-        <ResultItemSection title="Files">
-          <List sx={{ pt: 0, pb: 2 }}>
-            {files.map((file) => (
-              <ListItem
-                disablePadding
-                key={file.name}
-                sx={{
-                  [`& .${listItemSecondaryActionClasses.root}`]: {
-                    display: 'none',
-                  },
-                  '&:hover': {
-                    [`& .${listItemSecondaryActionClasses.root}`]: {
-                      display: 'block',
-                    },
-                  },
-                }}
-                secondaryAction={
-                  <IconButton edge="end" aria-label="download" sx={{ mr: 1 }}>
-                    <IconifyIcon
-                      icon="material-symbols-light:download-rounded"
-                      color="primary.main"
-                    />
-                  </IconButton>
-                }
-              >
-                <ListItemButton
-                  sx={(theme) => ({
-                    gap: 1,
-                    py: 1,
-                    pl: 3,
-                    pr: `${theme.spacing(8)} !important`,
-                    borderRadius: 0,
-                    '&:hover': { bgcolor: 'background.menuElevation1' },
-                  })}
-                >
-                  <ListItemIcon>
-                    {file.icon && (
-                      <IconifyIcon icon={file.icon} fontSize={32} color="primary.main" />
-                    )}
-                    {file.image && <img src={file.image} alt={file.name} height={30} width={30} />}
-                  </ListItemIcon>
-                  <Tooltip title={file.name} placement="top-start">
-                    <ListItemText
-                      sx={{
-                        my: 0,
-                      }}
-                      secondary={file.path}
-                      slotProps={{
-                        primary: {
-                          variant: 'subtitle2',
-                          color: 'text.secondary',
-                          mb: 0.25,
-                          sx: {
-                            display: 'flex',
-                            lineClamp: 1,
-                            wordBreak: 'break-all',
-                          },
-                        },
-                        secondary: {
-                          variant: 'caption',
-                          color: 'text.disabled',
-                          fontWeight: 'medium',
-                          component: 'p',
-                        },
-                      }}
+            <ResultItemSection title={t('search.users')}>
+              <List disablePadding>
+                {usersLoading && <SectionLoader />}
+                {!usersLoading && users.length === 0 && <SectionEmptyState label={t('search.noResults')} />}
+                {users.map((user) => (
+                  <ListItem disablePadding key={user.username}>
+                    <ListItemButton
+                      component={RouterLink}
+                      to={getResourceByUsername(resources.UserProfile, user.username)}
+                      onClick={handleClose}
                     >
-                      {file.name}
-                    </ListItemText>
-                  </Tooltip>
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </ResultItemSection>
+                      <ListItemIcon>
+                        <Avatar src={user.avatar} alt={user.username} />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={user.username}
+                        secondary={[user.firstName, user.lastName].filter(Boolean).join(' ')}
+                        primaryTypographyProps={{ fontWeight: 'medium' }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            </ResultItemSection>
 
-        <ResultItemSection title="Contacts">
-          <Box sx={{ px: 3, mb: 2 }}>
-            <Stack
-              sx={{
-                gap: 1,
-                flexWrap: 'wrap',
-              }}
-            >
-              {contacts.map((contact) => (
-                <Chip
-                  key={contact.name}
-                  avatar={<Avatar alt={contact.name} src={contact.avatar} />}
-                  label={contact.name}
-                  variant="soft"
-                  color="neutral"
-                  component={Link}
-                  underline="none"
-                  href="#!"
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    console.log(`Clicked on contact: ${contact.name}`);
-                  }}
-                />
-              ))}
-              <Link
-                href="#!"
-                variant="caption"
-                underline="none"
-                sx={{
-                  fontWeight: 600,
-                  lineHeight: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                See All Contacts{' '}
-                <IconifyIcon icon="material-symbols:chevron-right-rounded" sx={{ fontSize: 16 }} />
-              </Link>
-            </Stack>
-          </Box>
-        </ResultItemSection>
+            <ResultItemSection title={t('search.problems')}>
+              <List disablePadding>
+                {problemsLoading && <SectionLoader />}
+                {!problemsLoading && problems.length === 0 && <SectionEmptyState label={t('search.noResults')} />}
+                {problems.map((problem) => (
+                  <ListItem disablePadding key={problem.id}>
+                    <ListItemButton
+                      component={RouterLink}
+                      to={getResourceById(resources.Problem, problem.id)}
+                      onClick={handleClose}
+                    >
+                      <ListItemIcon>
+                        <IconifyIcon icon="mdi:code-tags" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={problem.title}
+                        secondary={t('search.problemId', { id: problem.id })}
+                        primaryTypographyProps={{ fontWeight: 'medium' }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            </ResultItemSection>
 
-        <ResultItemSection title="Popular tags">
-          <Box sx={{ px: 3, mb: 2 }}>
-            <Stack
-              sx={{
-                gap: 1,
-                flexWrap: 'wrap',
-              }}
-            >
-              {tags.map((tag) => (
-                <Chip
-                  key={tag}
-                  label={tag}
-                  variant="soft"
-                  color="neutral"
-                  component={Link}
-                  underline="none"
-                  href="#!"
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    console.log(`Clicked on contact: ${tag}`);
-                  }}
-                />
-              ))}
-            </Stack>
-          </Box>
-        </ResultItemSection>
-        <Box sx={{ px: 3, py: 2 }}>
-          <Typography
-            component="p"
-            variant="caption"
-            sx={{
-              fontWeight: 'medium',
-              color: 'text.disabled',
-            }}
-          >
-            Not the results you expected? <Link href="#!">Give feedback</Link> or{' '}
-            <Link href="#!">learn more</Link>
-          </Typography>
-        </Box>
+            <ResultItemSection title={t('search.contests')} bottomDivider={false}>
+              <List disablePadding>
+                {contestsLoading && <SectionLoader />}
+                {!contestsLoading && contests.length === 0 && <SectionEmptyState label={t('search.noResults')} />}
+                {contests.map((contest) => (
+                  <ListItem disablePadding key={contest.id}>
+                    <ListItemButton
+                      component={RouterLink}
+                      to={getResourceById(resources.Contest, contest.id)}
+                      onClick={handleClose}
+                    >
+                      <ListItemIcon>
+                        <IconifyIcon icon="mdi:trophy-outline" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={contest.title}
+                        secondary={
+                          <Stack direction="row" spacing={1} alignItems="center">
+                            <Typography variant="body2" color="text.secondary">
+                              {t('search.contestType', {
+                                type: t(`contests.contests.typeLabels.${contest.type}`, { defaultValue: contest.type }),
+                              })}
+                            </Typography>
+                            <Chip size="small" variant="soft" color="primary" label={contest.categoryTitle} />
+                          </Stack>
+                        }
+                        primaryTypographyProps={{ fontWeight: 'medium' }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            </ResultItemSection>
+          </>
+        )}
       </SimpleBar>
     </>
   );
 };
 
-export const SearchField = ({ handleClose }: { handleClose: () => void }) => {
+export const SearchField = ({
+  handleClose,
+  value,
+  onChange,
+}: {
+  handleClose: () => void;
+  value: string;
+  onChange: (value: string) => void;
+}) => {
   const initialFocusRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     initialFocusRef.current?.focus({ preventScroll: true });
   }, []);
 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange(event.target.value);
+  };
+
   return (
     <SearchTextField
       fullWidth
+      value={value}
+      onChange={handleChange}
       sx={{
         [`& .${inputBaseClasses.root}`]: {
           borderRadius: '4px 4px 0 0',
@@ -466,5 +340,20 @@ const ResultItemSection = ({
     </Box>
   );
 };
+
+const SectionLoader = () => (
+  <Stack direction="row" alignItems="center" gap={1} px={3} pb={2}>
+    <CircularProgress size={16} />
+    <Typography variant="body2" color="text.secondary">
+      Loading...
+    </Typography>
+  </Stack>
+);
+
+const SectionEmptyState = ({ label }: { label: string }) => (
+  <Typography px={3} pb={2} color="text.secondary">
+    {label}
+  </Typography>
+);
 
 export default SearchResult;

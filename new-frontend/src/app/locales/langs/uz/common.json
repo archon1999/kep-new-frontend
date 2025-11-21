@@ -12,5 +12,16 @@
       "completed": "Bajarildi",
       "empty": "Hozircha kunlik vazifalar yoʻq"
     }
+  },
+  "search": {
+    "recent": "Yaqinda",
+    "noRecent": "Yaqinda ko'rilgan sahifalar yo'q",
+    "resources": "Bo'limlar",
+    "users": "Foydalanuvchilar",
+    "problems": "Masalalar",
+    "contests": "Musobaqalar",
+    "noResults": "Hech narsa topilmadi",
+    "problemId": "Masala #{{id}}",
+    "contestType": "Format: {{type}}"
   }
 }

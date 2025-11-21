@@ -4,6 +4,7 @@ import AuthProvider from 'app/providers/AuthProvider.tsx';
 import DocumentTitleProvider from 'app/providers/DocumentTitleProvider.tsx';
 import { useSettingsContext } from 'app/providers/SettingsProvider.tsx';
 import { REFRESH } from 'app/reducers/SettingsReducer.ts';
+import { storeRecentPage } from 'app/routes/recent-pages.ts';
 import SettingPanelToggler from 'shared/components/settings-panel/SettingPanelToggler.tsx';
 import SettingsPanel from 'shared/components/settings-panel/SettingsPanel.tsx';
 import useIcons from 'shared/hooks/useIcons.tsx';
@@ -17,6 +18,10 @@ const App = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [pathname]);
+
+  useEffect(() => {
+    storeRecentPage(pathname);
   }, [pathname]);
 
   useLayoutEffect(() => {
