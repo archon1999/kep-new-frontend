@@ -3,6 +3,14 @@
   "kepcoin": "Кепкоин",
   "common": {
     "back": "Назад",
-    "minutesShort": "мин"
+    "minutesShort": "мин",
+    "searchPlaceholder": "Поиск",
+    "dailyTasks": {
+      "title": "Ежедневные задания",
+      "subtitle": "Поддерживайте свою серию",
+      "tasksCount": "{{count}} заданий",
+      "completed": "Выполнено",
+      "empty": "Пока нет ежедневных заданий"
+    }
   }
 }

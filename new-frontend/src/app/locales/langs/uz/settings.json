@@ -80,6 +80,7 @@
       "none": "Tovushsiz",
       "soft": "Yumshoq chinqiriq",
       "bright": "Yorqin signal"
-    }
+    },
+    "findSettingPlaceholder": "Sozlamani topish"
   }
 }

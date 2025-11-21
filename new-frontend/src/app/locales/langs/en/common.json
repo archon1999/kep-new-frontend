@@ -3,6 +3,14 @@
   "kepcoin": "Kepcoin",
   "common": {
     "back": "Back",
-    "minutesShort": "min"
+    "minutesShort": "min",
+    "searchPlaceholder": "Search",
+    "dailyTasks": {
+      "title": "Daily tasks",
+      "subtitle": "Keep your streak growing",
+      "tasksCount": "{{count}} tasks",
+      "completed": "Completed",
+      "empty": "No daily tasks for now"
+    }
   }
 }

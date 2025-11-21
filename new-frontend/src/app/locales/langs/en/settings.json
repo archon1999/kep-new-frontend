@@ -80,6 +80,7 @@
       "none": "No sound",
       "soft": "Soft chime",
       "bright": "Bright ping"
-    }
+    },
+    "findSettingPlaceholder": "Find a setting"
   }
 }

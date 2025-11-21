@@ -1,6 +1,7 @@
 import { SyntheticEvent } from 'react';
 import { TabList } from '@mui/lab';
 import { InputAdornment, Stack, Tab, Typography, styled, useMediaQuery } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import StyledTextField from 'shared/components/styled/StyledTextField';
@@ -33,6 +34,7 @@ const AccountTab = styled(Tab)(({ theme }) => ({
 }));
 
 const SideTabList = ({ tabs, onChange, onTabClick }: SideTabListProps) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const downMd = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -51,12 +53,12 @@ const SideTabList = ({ tabs, onChange, onTabClick }: SideTabListProps) => {
           icon="material-symbols:settings-outline"
           sx={{ fontSize: { xs: 22, lg: 24 } }}
         />
-        Account Settings
+        {t('pageTitles.accountSettings')}
       </Typography>
 
       <StyledTextField
         size="large"
-        placeholder="Find a setting"
+        placeholder={t('settings.findSettingPlaceholder')}
         slotProps={{
           input: {
             startAdornment: (
