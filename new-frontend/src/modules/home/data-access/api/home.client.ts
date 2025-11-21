@@ -18,6 +18,7 @@ import type {
   ApiUsersOnlineParams,
   ApiUsersTopRatingParams,
 } from 'shared/api/orval/generated/endpoints/index.schemas';
+import type { HomeLandingPageStatistics } from '../../domain/entities/home.entity.ts';
 
 export const homeApiClient = {
   news: (params?: ApiNewsListParams) => apiClient.apiNewsList(params) as Promise<ApiNewsListResult>,
@@ -31,4 +32,6 @@ export const homeApiClient = {
   userRatings: (username: string) => apiClient.apiUsersRatings(username) as Promise<ApiUsersRatingsResult>,
   userActivityHistory: (username: string, params?: ApiUserActivityHistoryReadParams) =>
     apiClient.apiUserActivityHistoryRead(username, params) as Promise<ApiUserActivityHistoryReadResult>,
+  landingPageStatistics: () =>
+    apiClient.apiLandingPageStatisticsList() as unknown as Promise<HomeLandingPageStatistics>,
 };

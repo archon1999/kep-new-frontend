@@ -9,6 +9,16 @@ import type {
   ApiUsersTopRatingResult,
 } from 'shared/api/orval/generated/endpoints';
 
+export type HomeStatisticKey = 'users' | 'problems' | 'competitions' | 'attempts';
+
+export type HomeStatisticEntry = {
+  value: number;
+  percent: number;
+  difference: number;
+};
+
+export type HomeLandingPageStatistics = Record<HomeStatisticKey, HomeStatisticEntry>;
+
 export type HomeNewsList = ApiNewsListResult;
 export type HomePostsList = ApiBlogListResult;
 export type HomeTopUsers = ApiUsersTopRatingResult;
