@@ -31,6 +31,8 @@ const HackathonAttemptsPage = lazy(() => import('modules/hackathons/ui/pages/Hac
 const HackathonRegistrantsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonRegistrantsPage'));
 const HackathonStandingsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonStandingsPage'));
 const AccountSettingsPage = lazy(() => import('modules/account-settings/ui/pages/AccountSettingsPage'));
+const BlogListPage = lazy(() => import('modules/blog/ui/pages/BlogListPage'));
+const BlogPostPage = lazy(() => import('modules/blog/ui/pages/BlogPostPage'));
 
 const CalendarPage = lazy(() => import('modules/calendar/ui/pages/CalendarPage'));
 
@@ -172,6 +174,16 @@ export const routes: RouteObject[] = [
             path: paths.hackathonStandings,
             element: <HackathonStandingsPage />,
             handle: { titleKey: 'pageTitles.hackathons' },
+          },
+          {
+            path: paths.blog,
+            element: <BlogListPage />,
+            handle: { titleKey: 'pageTitles.blog' },
+          },
+          {
+            path: paths.blogPost,
+            element: <BlogPostPage />,
+            handle: { titleKey: 'pageTitles.blogPost' },
           },
           {
             path: paths.accountSettings,

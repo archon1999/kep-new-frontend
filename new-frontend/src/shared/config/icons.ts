@@ -43,6 +43,13 @@ export const kepIcons = {
   difficulty: 'mdi:speedometer',
   login: 'mdi:login',
   birthday: 'mdi:cake-variant-outline',
+  search: 'mdi:magnify',
+  like: 'mdi:heart-outline',
+  comment: 'mdi:comment-outline',
+  view: 'mdi:eye-outline',
+  info: 'mdi:information-outline',
+  share: 'mdi:share-outline',
+  close: 'mdi:close',
 } as const;
 
 export type KepIconName = keyof typeof kepIcons;

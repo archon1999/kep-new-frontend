@@ -114,6 +114,24 @@ const sitemap: MenuItem[] = [
     ],
   },
   {
+    name: 'Learn',
+    key: 'menu.learn',
+    pathName: 'learn',
+    icon: 'mdi:school-outline',
+    active: true,
+    items: [
+      {
+        name: 'Blog',
+        key: 'menu.blog',
+        path: resources.Blog,
+        pathName: 'learn-blog',
+        selectionPrefix: resources.Blog,
+        icon: 'mdi:notebook-outline',
+        active: true,
+      },
+    ],
+  },
+  {
     name: 'Users',
     key: 'menu.users',
     path: paths.users,

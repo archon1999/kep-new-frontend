@@ -26,6 +26,8 @@ const paths = {
   hackathonAttempts: '/competitions/hackathons/hackathon/:id/attempts',
   hackathonRegistrants: '/competitions/hackathons/hackathon/:id/registrants',
   hackathonStandings: '/competitions/hackathons/hackathon/:id/standings',
+  blog: '/learn/blog',
+  blogPost: '/learn/blog/post/:id',
   accountSettings: '/account-settings',
   projects: '/practice/projects',
   project: '/practice/projects/project/:slug',
