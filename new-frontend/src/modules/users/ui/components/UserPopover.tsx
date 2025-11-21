@@ -19,6 +19,8 @@ import { useUserDetails, useUserRatings } from 'modules/users/application/querie
 import { UserRatingInfo } from 'modules/users/domain/entities/user.entity';
 import { getResourceByUsername, resources } from 'app/routes/resources';
 import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
+import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import Streak from 'shared/components/rating/Streak';
 
 interface UserPopoverProps {
@@ -172,8 +174,8 @@ const UserPopover = ({
                   </Grid>
                 )}
 
-                {ratingStats.map(({ label, stat }) => (
-                  <Grid size={3}>
+                {ratingStats.map(({ key, label, stat }) => (
+                  <Grid key={key} size={3}>
                     <Stack direction="column" spacing={0.5}>
                       <Typography variant="caption" color="text.secondary">
                         {label}
@@ -182,9 +184,17 @@ const UserPopover = ({
                         {stat?.value ?? t('users.emptyValue')}
                       </Typography>
                       {stat?.title && (
-                        <Typography variant="caption" color="text.secondary" noWrap>
-                          {stat.title}
-                        </Typography>
+                        <>
+                          {key === 'contestsRating' ? (
+                            <ContestsRatingChip title={stat.title} imgSize={20} withTitle />
+                          ) : key === 'challengesRating' ? (
+                            <ChallengesRatingChip title={stat.title} />
+                          ) : (
+                            <Typography variant="caption" color="text.secondary" noWrap>
+                              {stat.title}
+                            </Typography>
+                          )}
+                        </>
                       )}
                       {typeof stat?.rank === 'number' && (
                         <Typography variant="caption" color="text.secondary">
