@@ -33,7 +33,7 @@ const TestsListPage = () => {
 
   return (
     <Box sx={{ p: { xs: 3, md: 5 } }}>
-      <Stack spacing={3}>
+      <Stack direction="column" spacing={3}>
         <Box>
           <Typography variant="h4" fontWeight={800}>
             {t('tests.title')}
@@ -67,7 +67,7 @@ const TestsListPage = () => {
             </Typography>
           </Box>
         ) : (
-          <Stack spacing={4}>
+          <Stack direction="column" spacing={4}>
             {chapters.map((chapter) => (
               <ChapterCard key={chapter.id} chapterTitle={chapter.title} tests={chapter.tests} />
             ))}

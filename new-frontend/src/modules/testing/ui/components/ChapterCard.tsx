@@ -1,6 +1,7 @@
-import { Grid2 as Grid, Stack, Typography } from '@mui/material';
-import TestCard from './TestCard.tsx';
+import { Grid, Stack, Typography } from '@mui/material';
 import { Test } from '../../domain';
+import TestCard from './TestCard.tsx';
+
 
 interface Props {
   chapterTitle: string;
@@ -8,7 +9,7 @@ interface Props {
 }
 
 const ChapterCard = ({ chapterTitle, tests }: Props) => (
-  <Stack spacing={2}>
+  <Stack direction="column" spacing={2}>
     <Typography variant="h6" fontWeight={800}>
       {chapterTitle}
     </Typography>

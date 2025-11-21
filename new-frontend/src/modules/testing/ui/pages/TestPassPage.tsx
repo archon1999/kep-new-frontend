@@ -14,13 +14,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { finishTest, submitAnswer, testingMutations } from '../../application/mutations.ts';
 import { useTestPass } from '../../application/queries.ts';
 import { Question, QuestionOption, QuestionType } from '../../domain';
 import paths from 'app/routes/paths.ts';
+import { GridArrowDownwardIcon, GridArrowUpwardIcon } from '@mui/x-data-grid';
 
 interface QuestionAnswerState {
   type: QuestionType;
@@ -350,10 +350,10 @@ const TestPassPage = () => {
                     >
                       <Typography sx={{ flex: 1 }}>{item}</Typography>
                       <IconButton onClick={() => moveOrderingItem(currentQuestion.id, index, -1)} size="small">
-                        <ArrowUpward fontSize="small" />
+                        <GridArrowUpwardIcon fontSize="small" />
                       </IconButton>
                       <IconButton onClick={() => moveOrderingItem(currentQuestion.id, index, 1)} size="small">
-                        <ArrowDownward fontSize="small" />
+                        <GridArrowDownwardIcon fontSize="small" />
                       </IconButton>
                     </Stack>
                   ))}

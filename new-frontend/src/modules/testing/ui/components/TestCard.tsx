@@ -6,7 +6,7 @@ import {
   Chip,
   Divider,
   LinearProgress,
-  Link,
+  Link, Paper,
   Stack,
   Typography,
 } from '@mui/material';
@@ -27,17 +27,16 @@ const TestCard = ({ test }: Props) => {
   }, [test.questionsCount, test.userBestResult]);
 
   return (
-    <Box
+    <Paper
+      background={1}
       sx={{
+        outline: 'none',
         p: 3,
         borderRadius: 3,
-        bgcolor: 'background.paper',
-        boxShadow: 1,
-        height: '100%',
       }}
     >
-      <Stack direction="row" spacing={2} alignItems="flex-start" justifyContent="space-between">
-        <Stack spacing={1} sx={{ flex: 1 }}>
+      <Stack direction="column" spacing={2} alignItems="flex-start" justifyContent="space-between">
+        <Stack direction="column" spacing={1} sx={{ width: 1 }}>
           <Stack direction="row" spacing={1} alignItems="center">
             <Box
               component="img"
@@ -72,7 +71,7 @@ const TestCard = ({ test }: Props) => {
             </Typography>
           </Stack>
 
-          <Stack spacing={1}>
+          <Stack direction="column" spacing={1}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Typography variant="body2" color="text.secondary">
                 {t('tests.bestResult')}
@@ -99,11 +98,11 @@ const TestCard = ({ test }: Props) => {
 
         <Box>
           <Link component={RouterLink} to={paths.test.replace(':id', test.id.toString())} underline="none">
-            <Button variant="contained">{t('tests.viewDetails')}</Button>
+            <Button variant="text">{t('tests.viewDetails')}</Button>
           </Link>
         </Box>
       </Stack>
-    </Box>
+    </Paper>
   );
 };
 
