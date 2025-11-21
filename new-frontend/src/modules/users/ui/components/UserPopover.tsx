@@ -7,7 +7,7 @@ import {
   Box,
   Button,
   Card,
-  CardContent, Chip,
+  CardContent,
   Divider,
   Grid,
   Popover,
