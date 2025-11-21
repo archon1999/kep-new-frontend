@@ -11,6 +11,20 @@
       "tasksCount": "{{count}} ta vazifa",
       "completed": "Bajarildi",
       "empty": "Hozircha kunlik vazifalar yoʻq"
+    },
+    "globalSearch": {
+      "recent": "So'nggi",
+      "clearHistory": "Tarixni tozalash",
+      "emptyRecent": "Hozircha so'nggi sahifalar yo'q",
+      "pathLabel": "Manzil: {{path}}",
+      "minimumChars": "Qidirish uchun kamida {{count}} ta belgi kiriting",
+      "resources": "Resurslar",
+      "users": "Foydalanuvchilar",
+      "problems": "Masalalar",
+      "contests": "Musobaqalar",
+      "loading": "Qidirilmoqda...",
+      "noResults": "Natijalar topilmadi",
+      "error": "Qidirishda xatolik yuz berdi"
     }
   }
 }

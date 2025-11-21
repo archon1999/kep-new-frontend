@@ -1,405 +1,318 @@
-import { PropsWithChildren, useEffect, useRef } from 'react';
+import { ChangeEvent, ComponentProps, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Avatar,
   Box,
-  Breadcrumbs,
-  Chip,
   Divider,
   IconButton,
   InputAdornment,
   Link,
   List,
-  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Stack,
-  Tooltip,
   Typography,
   inputBaseClasses,
-  listItemSecondaryActionClasses,
 } from '@mui/material';
+import { Link as RouterLink } from 'react-router';
+import { useTranslation } from 'react-i18next';
 import { initialConfig } from 'app/config.ts';
+import { resources, getResourceById, getResourceByUsername } from 'app/routes/resources';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import useDebouncedValue from 'shared/hooks/useDebouncedValue';
+import { problemsApiClient } from 'modules/problems/data-access/api/problems.client';
+import { contestsApiClient } from 'modules/contests/data-access/api/contests.client';
+import { usersApiClient } from 'modules/users/data-access/api/users.client';
+import { clearRecentPages, getRecentPages, RecentPage } from 'shared/lib/recent-pages';
+import { getFlatSitemap } from 'shared/lib/sitemap';
 import SimpleBar from 'simplebar-react';
 import SearchTextField from './SearchTextField';
+import type { Contest, ProblemList, UserList } from 'shared/api/orval/generated/endpoints/index.schemas';
 
-const avatar = (index: number) => `${initialConfig.assetsDir}/images/avatar/${index}.webp`;
+const MIN_SEARCH_LENGTH = 2;
+const MAX_RESULTS = 5;
 
-const files = [
-  {
-    name: 'aurora_test17.zip',
-    path: ':: files / New folder / aurora /',
-    icon: 'material-symbols:folder-zip-outline-rounded',
-  },
-  {
-    name: 'Product image(11).webp',
-    path: ':: files / ... / assets /',
-    image: `${initialConfig.assetsDir}/images/ecommerce/products/96x96/3.webp`,
-  },
-  {
-    name: 'How_to_not_click_on_perfectly_innocent_looking_links_and_download_malware.pdf',
-    path: ':: files / Download /',
-    icon: 'material-symbols:picture-as-pdf-outline-rounded',
-  },
-];
-
-const contacts = [
-  {
-    name: 'Gojo Satoru',
-    avatar: avatar(13),
-  },
-  {
-    name: 'Nanami Kento',
-    avatar: avatar(5),
-    disabled: true,
-  },
-  {
-    name: 'Kugisaki Nobara',
-    avatar: avatar(4),
-  },
-  {
-    name: 'Zenin Maki',
-    avatar: avatar(15),
-  },
-  {
-    name: 'Todo Aoi',
-    avatar: avatar(9),
-  },
-];
-
-const tags = ['Calender', 'Home', 'Back', 'Procrastination', 'Support', 'Ideate', 'Brainstorm', 'How Might We'];
-
-const breadcrumbs = [
-  [
-    {
-      label: 'App',
-      href: '#!',
-    },
-    {
-      label: 'E-commerce',
-      href: '#!',
-    },
-    {
-      label: 'Customers',
-      href: '#!',
-    },
-    {
-      label: 'Create new',
-      href: '#!',
-      active: true,
-    },
-  ],
-  [
-    {
-      label: 'Homepage',
-      href: '#!',
-    },
-    {
-      label: 'E-commerce',
-      href: '#!',
-      active: true,
-    },
-  ],
-  [
-    {
-      label: 'Pages',
-      href: '#!',
-    },
-    {
-      label: 'Home',
-      href: '#!',
-      active: true,
-    },
-  ],
-];
+const formatUserFullName = (user: UserList) =>
+  [user.firstName, user.lastName].filter(Boolean).join(' ');
 
 const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
+  const { t } = useTranslation();
+  const [searchValue, setSearchValue] = useState('');
+  const [recentPages, setRecentPages] = useState<RecentPage[]>(getRecentPages());
+  const [users, setUsers] = useState<UserList[]>([]);
+  const [problems, setProblems] = useState<ProblemList[]>([]);
+  const [contests, setContests] = useState<Contest[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  const debouncedSearch = useDebouncedValue(searchValue.trim(), 400);
+  const hasQuery = debouncedSearch.length >= MIN_SEARCH_LENGTH;
+
+  const sitemapEntries = useMemo(() => getFlatSitemap(), []);
+
+  useEffect(() => {
+    setRecentPages(getRecentPages());
+  }, []);
+
+  useEffect(() => {
+    if (!hasQuery) {
+      setUsers([]);
+      setProblems([]);
+      setContests([]);
+      setIsLoading(false);
+      setHasError(false);
+      return;
+    }
+
+    setIsLoading(true);
+    setHasError(false);
+
+    Promise.all([
+      usersApiClient.list({ search: debouncedSearch, pageSize: MAX_RESULTS }),
+      problemsApiClient.list({ search: debouncedSearch, pageSize: MAX_RESULTS }),
+      contestsApiClient.list({ title: debouncedSearch, pageSize: MAX_RESULTS }),
+    ])
+      .then(([usersResponse, problemsResponse, contestsResponse]) => {
+        setUsers(usersResponse?.data ?? []);
+        setProblems(problemsResponse?.data ?? []);
+        setContests(contestsResponse?.data ?? []);
+      })
+      .catch(() => {
+        setHasError(true);
+      })
+      .finally(() => setIsLoading(false));
+  }, [debouncedSearch, hasQuery]);
+
+  const resourceResults = useMemo(() => {
+    if (!hasQuery) {
+      return [];
+    }
+
+    const normalized = debouncedSearch.toLowerCase();
+
+    return sitemapEntries
+      .map((entry) => ({
+        ...entry,
+        translated: t(entry.key ?? entry.name),
+      }))
+      .filter(({ translated }) => translated.toLowerCase().includes(normalized))
+      .slice(0, MAX_RESULTS);
+  }, [debouncedSearch, hasQuery, sitemapEntries, t]);
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleClearHistory = () => {
+    clearRecentPages();
+    setRecentPages([]);
+  };
+
+  const hasAnyResults =
+    resourceResults.length > 0 || users.length > 0 || problems.length > 0 || contests.length > 0;
+  const showNoResults = hasQuery && !isLoading && !hasAnyResults && !hasError;
+
   return (
     <>
-      <SearchField handleClose={handleClose} />
+      <SearchField value={searchValue} onChange={handleSearchChange} handleClose={handleClose} />
       <SimpleBar style={{ maxHeight: 600, minHeight: 0, width: '100%' }}>
         <Box sx={{ px: 3, py: 1.25 }}>
-          <Link
-            component="button"
-            variant="caption"
-            underline="none"
-            sx={{
-              fontWeight: 'medium',
-            }}
-          >
-            Advanced search
-          </Link>
-        </Box>
-        <Divider />
-        <Box>
-          <Stack
-            sx={{
-              justifyContent: 'space-between',
-              py: 2,
-              px: 3,
-            }}
-          >
-            <Typography
-              variant="caption"
-              sx={{
-                fontWeight: 'medium',
-                color: 'text.disabled',
-              }}
-            >
-              Recent
+          {!hasQuery && (
+            <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ py: 2 }}>
+              <Typography variant="caption" sx={{ fontWeight: 'medium', color: 'text.disabled' }}>
+                {t('common.globalSearch.recent')}
+              </Typography>
+
+              {recentPages.length > 0 && (
+                <Link
+                  component="button"
+                  variant="caption"
+                  underline="none"
+                  sx={{ fontWeight: 'medium' }}
+                  onClick={handleClearHistory}
+                >
+                  {t('common.globalSearch.clearHistory')}
+                </Link>
+              )}
+            </Stack>
+          )}
+
+          {!hasQuery && recentPages.length === 0 && (
+            <Typography variant="body2" color="text.secondary" sx={{ py: 1 }}>
+              {t('common.globalSearch.emptyRecent')}
             </Typography>
+          )}
 
-            <Link
-              component="button"
-              variant="caption"
-              underline="none"
-              sx={{
-                fontWeight: 'medium',
-              }}
-            >
-              Clear history
-            </Link>
-          </Stack>
-
-          <List
-            dense
-            sx={{
-              pt: 0,
-              pb: 2,
-              listStyleType: 'disc',
-              listStylePosition: 'inside',
-              color: 'grey.300',
-            }}
-          >
-            {breadcrumbs.map((breadcrumb) => (
-              <ListItem
-                key={breadcrumb[0].label}
-                sx={{
-                  px: 3,
-                  display: 'list-item',
-                  '&:hover': {
-                    backgroundColor: 'background.menuElevation1',
-                  },
-                }}
-              >
-                <Breadcrumbs
-                  aria-label="breadcrumb"
-                  maxItems={2}
-                  sx={{
-                    py: 0.5,
-                    typography: 'caption',
-                    color: 'text.secondary',
-                    marginLeft: -0.5,
-                    display: 'inline-block',
-                    fontWeight: 'medium',
-                    '@supports (-moz-appearance:none)': {
-                      marginLeft: 0.5,
-                    },
-                  }}
-                >
-                  {breadcrumb.map((breadcrumbItem) => (
-                    <div key={breadcrumbItem.label}>
-                      <Link
-                        underline="none"
-                        href={breadcrumbItem.active ? '#!' : breadcrumbItem.href}
-                        sx={[
-                          {
-                            color: 'inherit',
-                          },
-                          !!breadcrumbItem.active && {
-                            color: 'text.primary',
-                          },
-                        ]}
-                      >
-                        {breadcrumbItem.label}
-                      </Link>
-
-                      {breadcrumbItem.active && (
-                        <Link
-                          underline="none"
-                          href={breadcrumbItem.href}
-                          sx={{
-                            marginLeft: 0.5,
-                          }}
-                        >
-                          <IconifyIcon
-                            icon="material-symbols:open-in-new-rounded"
-                            fontSize={16}
-                            sx={{ verticalAlign: 'bottom' }}
-                          />
-                        </Link>
-                      )}
-                    </div>
-                  ))}
-                </Breadcrumbs>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-        <Divider />
-        <ResultItemSection title="Files">
-          <List sx={{ pt: 0, pb: 2 }}>
-            {files.map((file) => (
-              <ListItem
-                disablePadding
-                key={file.name}
-                sx={{
-                  [`& .${listItemSecondaryActionClasses.root}`]: {
-                    display: 'none',
-                  },
-                  '&:hover': {
-                    [`& .${listItemSecondaryActionClasses.root}`]: {
-                      display: 'block',
-                    },
-                  },
-                }}
-                secondaryAction={
-                  <IconButton edge="end" aria-label="download" sx={{ mr: 1 }}>
-                    <IconifyIcon
-                      icon="material-symbols-light:download-rounded"
-                      color="primary.main"
-                    />
-                  </IconButton>
-                }
-              >
+          {!hasQuery && recentPages.length > 0 && (
+            <List dense sx={{ pt: 0, pb: 2 }}>
+              {recentPages.map((page) => (
                 <ListItemButton
-                  sx={(theme) => ({
-                    gap: 1,
-                    py: 1,
-                    pl: 3,
-                    pr: `${theme.spacing(8)} !important`,
-                    borderRadius: 0,
-                    '&:hover': { bgcolor: 'background.menuElevation1' },
-                  })}
+                  key={page.path}
+                  component={RouterLink}
+                  to={page.path}
+                  onClick={handleClose}
+                  sx={{ borderRadius: 1 }}
                 >
-                  <ListItemIcon>
-                    {file.icon && (
-                      <IconifyIcon icon={file.icon} fontSize={32} color="primary.main" />
-                    )}
-                    {file.image && <img src={file.image} alt={file.name} height={30} width={30} />}
+                  <ListItemIcon sx={{ minWidth: 36 }}>
+                    <IconifyIcon
+                      icon={page.icon ?? 'material-symbols:history-rounded'}
+                      fontSize={20}
+                      color={page.icon ? undefined : 'grey.500'}
+                    />
                   </ListItemIcon>
-                  <Tooltip title={file.name} placement="top-start">
-                    <ListItemText
-                      sx={{
-                        my: 0,
-                      }}
-                      secondary={file.path}
-                      slotProps={{
-                        primary: {
-                          variant: 'subtitle2',
-                          color: 'text.secondary',
-                          mb: 0.25,
-                          sx: {
-                            display: 'flex',
-                            lineClamp: 1,
-                            wordBreak: 'break-all',
-                          },
-                        },
-                        secondary: {
-                          variant: 'caption',
-                          color: 'text.disabled',
-                          fontWeight: 'medium',
-                          component: 'p',
-                        },
-                      }}
-                    >
-                      {file.name}
-                    </ListItemText>
-                  </Tooltip>
+                  <ListItemText
+                    primary={page.label}
+                    secondary={t('common.globalSearch.pathLabel', { path: page.path })}
+                    primaryTypographyProps={{ fontWeight: 600 }}
+                  />
                 </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </ResultItemSection>
-
-        <ResultItemSection title="Contacts">
-          <Box sx={{ px: 3, mb: 2 }}>
-            <Stack
-              sx={{
-                gap: 1,
-                flexWrap: 'wrap',
-              }}
-            >
-              {contacts.map((contact) => (
-                <Chip
-                  key={contact.name}
-                  avatar={<Avatar alt={contact.name} src={contact.avatar} />}
-                  label={contact.name}
-                  variant="soft"
-                  color="neutral"
-                  component={Link}
-                  underline="none"
-                  href="#!"
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    console.log(`Clicked on contact: ${contact.name}`);
-                  }}
-                />
               ))}
-              <Link
-                href="#!"
-                variant="caption"
-                underline="none"
-                sx={{
-                  fontWeight: 600,
-                  lineHeight: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                See All Contacts{' '}
-                <IconifyIcon icon="material-symbols:chevron-right-rounded" sx={{ fontSize: 16 }} />
-              </Link>
-            </Stack>
-          </Box>
-        </ResultItemSection>
-
-        <ResultItemSection title="Popular tags">
-          <Box sx={{ px: 3, mb: 2 }}>
-            <Stack
-              sx={{
-                gap: 1,
-                flexWrap: 'wrap',
-              }}
-            >
-              {tags.map((tag) => (
-                <Chip
-                  key={tag}
-                  label={tag}
-                  variant="soft"
-                  color="neutral"
-                  component={Link}
-                  underline="none"
-                  href="#!"
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    console.log(`Clicked on contact: ${tag}`);
-                  }}
-                />
-              ))}
-            </Stack>
-          </Box>
-        </ResultItemSection>
-        <Box sx={{ px: 3, py: 2 }}>
-          <Typography
-            component="p"
-            variant="caption"
-            sx={{
-              fontWeight: 'medium',
-              color: 'text.disabled',
-            }}
-          >
-            Not the results you expected? <Link href="#!">Give feedback</Link> or{' '}
-            <Link href="#!">learn more</Link>
-          </Typography>
+            </List>
+          )}
         </Box>
+
+        {!hasQuery && <Divider />}
+
+        {!hasQuery && searchValue.length > 0 && (
+          <Box sx={{ px: 3, py: 2 }}>
+            <Typography variant="body2" color="text.secondary">
+              {t('common.globalSearch.minimumChars', { count: MIN_SEARCH_LENGTH })}
+            </Typography>
+          </Box>
+        )}
+
+        {hasQuery && resourceResults.length > 0 && (
+          <ResultItemSection title={t('common.globalSearch.resources')}>
+            <List sx={{ pt: 0, pb: 2 }}>
+              {resourceResults.map((item) => (
+                <ListItemButton
+                  key={item.path}
+                  component={RouterLink}
+                  to={item.path!}
+                  onClick={handleClose}
+                  sx={{ borderRadius: 1 }}
+                >
+                  <ListItemIcon sx={{ minWidth: 36 }}>
+                    <IconifyIcon icon={item.icon ?? 'material-symbols:menu-rounded'} fontSize={20} />
+                  </ListItemIcon>
+                  <ListItemText primary={item.translated} />
+                </ListItemButton>
+              ))}
+            </List>
+          </ResultItemSection>
+        )}
+
+        {hasQuery && (
+          <Stack spacing={2} sx={{ px: 3 }}>
+            <SearchResultSection
+              title={t('common.globalSearch.users')}
+              loading={isLoading}
+              hasContent={users.length > 0}
+              emptyLabel={t('common.globalSearch.noResults')}
+              loadingLabel={t('common.globalSearch.loading')}
+            >
+              <List sx={{ pt: 0, pb: 0 }}>
+                {users.map((user) => {
+                  const fullName = formatUserFullName(user);
+                  return (
+                    <ListItemButton
+                      key={user.username}
+                      component={RouterLink}
+                      to={getResourceByUsername(resources.UserProfile, user.username)}
+                      onClick={handleClose}
+                      sx={{ borderRadius: 1 }}
+                    >
+                      <ListItemIcon sx={{ minWidth: 36 }}>
+                        <Avatar src={user.avatar || `${initialConfig.assetsDir}/images/avatar/1.webp`} sx={{ width: 28, height: 28 }} />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={user.username}
+                        secondary={fullName || undefined}
+                        primaryTypographyProps={{ fontWeight: 600 }}
+                      />
+                    </ListItemButton>
+                  );
+                })}
+              </List>
+            </SearchResultSection>
+
+            <SearchResultSection
+              title={t('common.globalSearch.problems')}
+              loading={isLoading}
+              hasContent={problems.length > 0}
+              emptyLabel={t('common.globalSearch.noResults')}
+              loadingLabel={t('common.globalSearch.loading')}
+            >
+              <List sx={{ pt: 0, pb: 0 }}>
+                {problems.map((problem) => (
+                  <ListItemButton
+                    key={problem.id}
+                    component={RouterLink}
+                    to={getResourceById(resources.Problem, Number(problem.id))}
+                    onClick={handleClose}
+                    sx={{ borderRadius: 1 }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <IconifyIcon icon="mdi:code-tags" fontSize={20} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={problem.title}
+                      secondary={`#${problem.id}`}
+                      primaryTypographyProps={{ fontWeight: 600 }}
+                    />
+                  </ListItemButton>
+                ))}
+              </List>
+            </SearchResultSection>
+
+            <SearchResultSection
+              title={t('common.globalSearch.contests')}
+              loading={isLoading}
+              hasContent={contests.length > 0}
+              emptyLabel={t('common.globalSearch.noResults')}
+              loadingLabel={t('common.globalSearch.loading')}
+            >
+              <List sx={{ pt: 0, pb: 2 }}>
+                {contests.map((contest) => (
+                  <ListItemButton
+                    key={contest.id}
+                    component={RouterLink}
+                    to={getResourceById(resources.Contest, Number(contest.id))}
+                    onClick={handleClose}
+                    sx={{ borderRadius: 1 }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 36 }}>
+                      <IconifyIcon icon="mdi:trophy-outline" fontSize={20} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={contest.title}
+                      secondary={contest.type}
+                      primaryTypographyProps={{ fontWeight: 600 }}
+                    />
+                  </ListItemButton>
+                ))}
+              </List>
+            </SearchResultSection>
+          </Stack>
+        )}
+
+        {hasError && (
+          <Typography variant="body2" color="error" sx={{ px: 3, py: 2 }}>
+            {t('common.globalSearch.error')}
+          </Typography>
+        )}
+
+        {showNoResults && (
+          <Typography variant="body2" color="text.secondary" sx={{ px: 3, py: 2 }}>
+            {t('common.globalSearch.noResults')}
+          </Typography>
+        )}
       </SimpleBar>
     </>
   );
 };
 
-export const SearchField = ({ handleClose }: { handleClose: () => void }) => {
+export const SearchField = ({ handleClose, ...rest }: { handleClose: () => void } & ComponentProps<typeof SearchTextField>) => {
   const initialFocusRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -431,13 +344,16 @@ export const SearchField = ({ handleClose }: { handleClose: () => void }) => {
           },
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton size="small" edge="end" onClick={handleClose}>
-                <IconifyIcon icon="material-symbols:close-rounded" color="grey.500" />
+              <IconButton edge="end" size="small" onClick={handleClose}
+                sx={{ color: 'grey.500' }}
+              >
+                <IconifyIcon icon="material-symbols:close-rounded" />
               </IconButton>
             </InputAdornment>
           ),
         },
       }}
+      {...rest}
     />
   );
 };
@@ -463,6 +379,39 @@ const ResultItemSection = ({
       </Box>
       {children}
       {bottomDivider && <Divider />}
+    </Box>
+  );
+};
+
+const SearchResultSection = ({
+  title,
+  children,
+  loading,
+  hasContent,
+  emptyLabel,
+  loadingLabel,
+}: PropsWithChildren<{
+  title: string;
+  loading: boolean;
+  hasContent: boolean;
+  emptyLabel: string;
+  loadingLabel: string;
+}>) => {
+  return (
+    <Box>
+      <Typography variant="caption" color="text.disabled" sx={{ fontWeight: 'medium', mb: 1.5, display: 'block' }}>
+        {title}
+      </Typography>
+      {loading && (
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          {loadingLabel}
+        </Typography>
+      )}
+      {hasContent ? children : !loading ? (
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          {emptyLabel}
+        </Typography>
+      ) : null}
     </Box>
   );
 };

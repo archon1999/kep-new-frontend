@@ -11,6 +11,20 @@
       "tasksCount": "{{count}} заданий",
       "completed": "Выполнено",
       "empty": "Пока нет ежедневных заданий"
+    },
+    "globalSearch": {
+      "recent": "Недавние",
+      "clearHistory": "Очистить историю",
+      "emptyRecent": "Недавние страницы отсутствуют",
+      "pathLabel": "Путь: {{path}}",
+      "minimumChars": "Введите минимум {{count}} символа, чтобы начать поиск",
+      "resources": "Ресурсы",
+      "users": "Пользователи",
+      "problems": "Задачи",
+      "contests": "Контесты",
+      "loading": "Поиск...",
+      "noResults": "Ничего не найдено",
+      "error": "Произошла ошибка при поиске"
     }
   }
 }

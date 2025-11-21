@@ -11,6 +11,20 @@
       "tasksCount": "{{count}} tasks",
       "completed": "Completed",
       "empty": "No daily tasks for now"
+    },
+    "globalSearch": {
+      "recent": "Recent",
+      "clearHistory": "Clear history",
+      "emptyRecent": "No recent pages yet",
+      "pathLabel": "Path: {{path}}",
+      "minimumChars": "Type at least {{count}} characters to search",
+      "resources": "Resources",
+      "users": "Users",
+      "problems": "Problems",
+      "contests": "Contests",
+      "loading": "Searching...",
+      "noResults": "No results found",
+      "error": "Something went wrong while searching"
     }
   }
 }

@@ -9,12 +9,15 @@ import {
   useState,
 } from 'react';
 import { useLocation } from 'react-router';
+import { useTranslation } from 'react-i18next';
 import { Breakpoint, ToolbarOwnProps, useTheme } from '@mui/material';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { COLLAPSE_NAVBAR, EXPAND_NAVBAR } from 'app/reducers/SettingsReducer';
-import { MenuItem } from 'app/routes/sitemap';
+import sitemap, { MenuItem } from 'app/routes/sitemap';
 import { mainDrawerWidth } from 'shared/lib/constants';
+import { addRecentPage } from 'shared/lib/recent-pages';
+import { findMenuItemByPath } from 'shared/lib/sitemap';
 
 interface NavContextInterface {
   openItems: string[];
@@ -32,6 +35,7 @@ const NavProvider = ({ children }: PropsWithChildren) => {
   const [loaded, setLoaded] = useState(false);
   const [responsievSidenavCollapsed, setResponsiveSidenavCollapsed] = useState(false);
   const { pathname } = useLocation();
+  const { t } = useTranslation();
 
   const { currentBreakpoint, down } = useBreakpoints();
 
@@ -82,6 +86,17 @@ const NavProvider = ({ children }: PropsWithChildren) => {
       return theme.mixins.topbar[topnavType];
     }
   }, [navigationMenuType, topnavType]);
+
+  useEffect(() => {
+    const matchedItem = findMenuItemByPath(pathname, sitemap);
+    const label = matchedItem ? t(matchedItem.key ?? matchedItem.name) : pathname;
+
+    addRecentPage({
+      path: pathname,
+      label,
+      icon: matchedItem?.icon,
+    });
+  }, [pathname, t]);
 
   useEffect(() => {
     if (navigationMenuType === 'sidenav') {
