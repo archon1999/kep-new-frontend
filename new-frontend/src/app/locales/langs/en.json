@@ -26,11 +26,53 @@
     "calendar": "Calendar",
     "projects": "Projects",
     "project": "Project",
+    "hackathons": "Hackathons",
+    "hackathon": "Hackathon",
+    "hackathonProjects": "Hackathon projects",
+    "hackathonProject": "Hackathon project",
+    "hackathonAttempts": "Hackathon attempts",
+    "hackathonStandings": "Hackathon standings",
+    "hackathonRegistrants": "Hackathon registrants",
     "tests": "Tests",
     "test": "Test",
     "testPass": "Test pass",
     "login": "Login",
     "notFound": "Page not found"
+  },
+  "hackathons": {
+    "title": "Hackathons",
+    "subtitle": "Join community coding hackathons and track your progress.",
+    "starts": "Starts",
+    "ends": "Ends",
+    "projects": "Projects",
+    "participants": "Participants",
+    "registrants": "Registrants",
+    "about": "About hackathon",
+    "noDescription": "No description available yet.",
+    "quickStats": "Quick stats",
+    "projectsTabTitle": "{{title}} projects",
+    "symbol": "Symbol",
+    "attemptsTitle": "{{title}} attempts",
+    "standingsTitle": "{{title}} standings",
+    "registrantsTitle": "{{title}} registrants",
+    "contestant": "Contestant",
+    "points": "Points",
+    "loading": "Loading...",
+    "register": "Register",
+    "unregister": "Cancel registration",
+    "registeredMessage": "You are registered for this hackathon.",
+    "tabs": {
+      "overview": "Overview",
+      "projects": "Projects",
+      "attempts": "Attempts",
+      "standings": "Standings",
+      "registrants": "Registrants"
+    },
+    "status": {
+      "-1": "Scheduled",
+      "0": "In progress",
+      "1": "Finished"
+    }
   },
   "homePage": {
     "greeting": {

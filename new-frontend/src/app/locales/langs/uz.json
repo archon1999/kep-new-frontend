@@ -26,11 +26,53 @@
     "calendar": "Kalendar",
     "projects": "Loyihalar",
     "project": "Loyiha",
+    "hackathons": "Xakatonlar",
+    "hackathon": "Xakaton",
+    "hackathonProjects": "Xakaton loyihalari",
+    "hackathonProject": "Xakaton loyihasi",
+    "hackathonAttempts": "Xakaton urinishi",
+    "hackathonStandings": "Xakaton natijalari",
+    "hackathonRegistrants": "Xakaton qatnashchilari",
     "tests": "Testlar",
     "test": "Test",
     "testPass": "Test topshirish",
     "login": "Kirish",
     "notFound": "Sahifa topilmadi"
+  },
+  "hackathons": {
+    "title": "Xakatonlar",
+    "subtitle": "Hamjamiyat xakatonlarida ishtirok eting va natijalarni kuzating.",
+    "starts": "Boshlanish",
+    "ends": "Tugash",
+    "projects": "Loyihalar",
+    "participants": "Ishtirokchilar",
+    "registrants": "Ro'yxatdan o'tganlar",
+    "about": "Xakaton haqida",
+    "noDescription": "Hozircha tavsif mavjud emas.",
+    "quickStats": "Qisqa statistika",
+    "projectsTabTitle": "{{title}} loyihalari",
+    "symbol": "Belgisi",
+    "attemptsTitle": "{{title}} urinishlari",
+    "standingsTitle": "{{title}} natijalari",
+    "registrantsTitle": "{{title}} qatnashchilari",
+    "contestant": "Ishtirokchi",
+    "points": "Ball",
+    "loading": "Yuklanmoqda...",
+    "register": "Ro'yxatdan o'tish",
+    "unregister": "Ro'yxatdan chiqish",
+    "registeredMessage": "Siz ushbu xakatonga ro'yxatdan o'tdingiz.",
+    "tabs": {
+      "overview": "Umumiy",
+      "projects": "Loyihalar",
+      "attempts": "Urinishlar",
+      "standings": "Natijalar",
+      "registrants": "Ishtirokchilar"
+    },
+    "status": {
+      "-1": "Rejalashtirilgan",
+      "0": "Jarayonda",
+      "1": "Yakunlangan"
+    }
   },
   "homePage": {
     "greeting": {

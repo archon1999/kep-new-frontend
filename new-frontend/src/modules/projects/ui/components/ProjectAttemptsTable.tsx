@@ -23,7 +23,7 @@ import { projectsQueries } from '../../application/queries';
 import { useAuth } from 'app/providers/AuthProvider';
 
 interface ProjectAttemptsTableProps {
-  project: Project;
+  project?: Project;
   attempts: ProjectAttempt[] | undefined;
   isLoading?: boolean;
   onRerun?: () => void;
@@ -94,7 +94,7 @@ const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: Project
             <>
               {' '}
               {attempt.kepcoins}
-              {project.kepcoins ? ` / ${project.kepcoins}` : ''}
+              {project?.kepcoins ? ` / ${project.kepcoins}` : ''}
             </>
           )}
         </Typography>

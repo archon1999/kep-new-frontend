@@ -14,6 +14,13 @@ const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
 const ProjectsListPage = lazy(() => import('modules/projects/ui/pages/ProjectsListPage'));
 const ProjectDetailPage = lazy(() => import('modules/projects/ui/pages/ProjectDetailPage'));
+const HackathonsListPage = lazy(() => import('modules/hackathons/ui/pages/HackathonsListPage'));
+const HackathonPage = lazy(() => import('modules/hackathons/ui/pages/HackathonPage'));
+const HackathonProjectsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonProjectsPage'));
+const HackathonProjectPage = lazy(() => import('modules/hackathons/ui/pages/HackathonProjectPage'));
+const HackathonAttemptsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonAttemptsPage'));
+const HackathonStandingsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonStandingsPage'));
+const HackathonRegistrantsPage = lazy(() => import('modules/hackathons/ui/pages/HackathonRegistrantsPage'));
 const TestsListPage = lazy(() => import('modules/testing/ui/pages/TestsListPage'));
 const TestDetailPage = lazy(() => import('modules/testing/ui/pages/TestDetailPage'));
 const TestPassPage = lazy(() => import('modules/testing/ui/pages/TestPassPage'));
@@ -63,6 +70,41 @@ export const routes: RouteObject[] = [
             path: paths.project,
             element: <ProjectDetailPage />,
             handle: { titleKey: 'pageTitles.project' },
+          },
+          {
+            path: paths.hackathons,
+            element: <HackathonsListPage />,
+            handle: { titleKey: 'pageTitles.hackathons' },
+          },
+          {
+            path: paths.hackathon,
+            element: <HackathonPage />,
+            handle: { titleKey: 'pageTitles.hackathon' },
+          },
+          {
+            path: paths.hackathonProjects,
+            element: <HackathonProjectsPage />,
+            handle: { titleKey: 'pageTitles.hackathonProjects' },
+          },
+          {
+            path: paths.hackathonProject,
+            element: <HackathonProjectPage />,
+            handle: { titleKey: 'pageTitles.hackathonProject' },
+          },
+          {
+            path: paths.hackathonAttempts,
+            element: <HackathonAttemptsPage />,
+            handle: { titleKey: 'pageTitles.hackathonAttempts' },
+          },
+          {
+            path: paths.hackathonStandings,
+            element: <HackathonStandingsPage />,
+            handle: { titleKey: 'pageTitles.hackathonStandings' },
+          },
+          {
+            path: paths.hackathonRegistrants,
+            element: <HackathonRegistrantsPage />,
+            handle: { titleKey: 'pageTitles.hackathonRegistrants' },
           },
           {
             path: paths.tests,

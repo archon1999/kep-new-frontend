@@ -26,11 +26,53 @@
     "calendar": "Календарь",
     "projects": "Проекты",
     "project": "Проект",
+    "hackathons": "Хакатоны",
+    "hackathon": "Хакатон",
+    "hackathonProjects": "Проекты хакатона",
+    "hackathonProject": "Проект хакатона",
+    "hackathonAttempts": "Посылки хакатона",
+    "hackathonStandings": "Таблица хакатона",
+    "hackathonRegistrants": "Участники хакатона",
     "tests": "Тесты",
     "test": "Тест",
     "testPass": "Прохождение теста",
     "login": "Вход",
     "notFound": "Страница не найдена"
+  },
+  "hackathons": {
+    "title": "Хакатоны",
+    "subtitle": "Участвуйте в хакатонах сообщества и следите за результатами.",
+    "starts": "Начало",
+    "ends": "Окончание",
+    "projects": "Проекты",
+    "participants": "Участники",
+    "registrants": "Зарегистрированы",
+    "about": "О хакатоне",
+    "noDescription": "Описание пока недоступно.",
+    "quickStats": "Быстрая статистика",
+    "projectsTabTitle": "Проекты {{title}}",
+    "symbol": "Символ",
+    "attemptsTitle": "Посылки {{title}}",
+    "standingsTitle": "Результаты {{title}}",
+    "registrantsTitle": "Участники {{title}}",
+    "contestant": "Участник",
+    "points": "Баллы",
+    "loading": "Загрузка...",
+    "register": "Зарегистрироваться",
+    "unregister": "Отменить регистрацию",
+    "registeredMessage": "Вы зарегистрированы на этот хакатон.",
+    "tabs": {
+      "overview": "Обзор",
+      "projects": "Проекты",
+      "attempts": "Посылки",
+      "standings": "Результаты",
+      "registrants": "Участники"
+    },
+    "status": {
+      "-1": "Запланирован",
+      "0": "Идёт",
+      "1": "Завершён"
+    }
   },
   "homePage": {
     "greeting": {
