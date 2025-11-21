@@ -1,0 +1,27 @@
+{
+  "tournaments": {
+    "title": "Tournaments",
+    "subtitle": "Join knockout brackets and compete for the top spot.",
+    "emptyTitle": "No tournaments yet",
+    "emptySubtitle": "Upcoming tournaments will appear here once they are announced.",
+    "playersCount": "{{count}} players",
+    "overview": "Overview",
+    "results": "Results",
+    "schedule": "Schedule",
+    "participantsTitle": "Participants",
+    "quickFacts": "Quick facts",
+    "singleElimination": "Single-elimination bracket",
+    "knockoutPlayers": "Knockout for {{count}} players",
+    "startLabel": "Starts at {{time}}",
+    "stageTitle": "Stage {{number}}",
+    "tbd": "To be announced",
+    "matchesCount": "{{count}} matches",
+    "scheduleEmpty": "Schedule will be shared soon.",
+    "resultsTitle": "Bracket",
+    "knockoutHint": "16-player knockout bracket",
+    "type": {
+      "LessCode": "LessCode",
+      "BallF": "BallF"
+    }
+  }
+}

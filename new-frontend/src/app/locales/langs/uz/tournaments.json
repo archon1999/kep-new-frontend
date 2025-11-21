@@ -1,0 +1,27 @@
+{
+  "tournaments": {
+    "title": "Turnirlar",
+    "subtitle": "Knockout setkalarga qo'shiling va g'oliblik uchun bellashing.",
+    "emptyTitle": "Hozircha turnirlar yo'q",
+    "emptySubtitle": "E'lon qilingach yangi turnirlar shu yerda chiqadi.",
+    "playersCount": "{{count}} ishtirokchi",
+    "overview": "Umumiy",
+    "results": "Natijalar",
+    "schedule": "Jadval",
+    "participantsTitle": "Ishtirokchilar",
+    "quickFacts": "Qisqa ma'lumot",
+    "singleElimination": "Bitta mag'lubiyatda chiqib ketish",
+    "knockoutPlayers": "{{count}} o'yinchi uchun olimpiyka",
+    "startLabel": "Boshlanish vaqti: {{time}}",
+    "stageTitle": "Bosqich {{number}}",
+    "tbd": "Keyinroq e'lon qilinadi",
+    "matchesCount": "{{count}} ta juftlik",
+    "scheduleEmpty": "Jadval tez orada e'lon qilinadi.",
+    "resultsTitle": "Braket",
+    "knockoutHint": "16 o'yinchilik knockout braket",
+    "type": {
+      "LessCode": "LessCode",
+      "BallF": "BallF"
+    }
+  }
+}

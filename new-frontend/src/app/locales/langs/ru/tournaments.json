@@ -1,0 +1,27 @@
+{
+  "tournaments": {
+    "title": "Турниры",
+    "subtitle": "Участвуйте в олимпийских сетках и боритесь за первое место.",
+    "emptyTitle": "Пока нет турниров",
+    "emptySubtitle": "Будущие турниры появятся здесь после анонса.",
+    "playersCount": "{{count}} игроков",
+    "overview": "Обзор",
+    "results": "Результаты",
+    "schedule": "Расписание",
+    "participantsTitle": "Участники",
+    "quickFacts": "Кратко",
+    "singleElimination": "Сетка на выбывание",
+    "knockoutPlayers": "Олимпийка на {{count}} игроков",
+    "startLabel": "Старт в {{time}}",
+    "stageTitle": "Этап {{number}}",
+    "tbd": "Будет объявлено",
+    "matchesCount": "{{count}} матчей",
+    "scheduleEmpty": "Расписание скоро будет опубликовано.",
+    "resultsTitle": "Сетка",
+    "knockoutHint": "Сетка на 16 игроков",
+    "type": {
+      "LessCode": "LessCode",
+      "BallF": "BallF"
+    }
+  }
+}
