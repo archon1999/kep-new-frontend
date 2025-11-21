@@ -1,7 +1,11 @@
 import useSWR from 'swr';
-import { ApiContestsListParams } from 'shared/api/orval/generated/endpoints/index.schemas';
+import {
+  ApiContestsListParams,
+  ApiContestsRatingListParams,
+} from 'shared/api/orval/generated/endpoints/index.schemas';
 import { HttpContestsRepository } from '../data-access/repository/http.contests.repository';
 import { ContestCategoryEntity, ContestListItem } from '../domain/entities/contest.entity';
+import { ContestRatingRow } from '../domain/entities/contest-rating.entity';
 import { PageResult } from '../domain/ports/contests.repository';
 
 const contestsRepository = new HttpContestsRepository();
@@ -22,6 +26,12 @@ export const useContestsList = (params?: ApiContestsListParams) =>
 
 export const useContestCategories = () =>
   useSWR<ContestCategoryEntity[]>('contests-categories', () => contestsRepository.categories());
+
+export const useContestsRating = (params?: ApiContestsRatingListParams) =>
+  useSWR<PageResult<ContestRatingRow>>(
+    ['contests-rating', params?.page, params?.pageSize, params?.ordering],
+    () => contestsRepository.rating(params),
+  );
 
 export const contestsQueries = {
   contestsRepository,

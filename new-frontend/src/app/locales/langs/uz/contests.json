@@ -33,6 +33,26 @@
     "noDescription": "Tavsif qo'shilmagan.",
     "emptyTitle": "Kontestlar topilmadi",
     "emptySubtitle": "Yangi kontestlar tez orada qo'shiladi.",
+    "viewRating": "Kontestlar reytingi",
+    "rating": {
+      "title": "Kontestlar reytingi",
+      "subtitle": "Reytingli kontestlardagi eng kuchli ishtirokchilarni kuzating.",
+      "ordering": {
+        "rating": "Reyting",
+        "maxRating": "Maksimal reyting",
+        "contests": "Kontestlar"
+      },
+      "columns": {
+        "place": "#",
+        "user": "Foydalanuvchi",
+        "rating": "Reyting",
+        "maxRating": "Maksimal reyting",
+        "contests": "Kontestlar"
+      },
+      "total": "{{count}} ishtirokchi",
+      "pageInfo": "Sahifa {{page}} / {{pages}}",
+      "empty": "Reyting hali shakllanmadi."
+    },
     "typeLabels": {
       "ACM2H": "ACM (2 soat)",
       "ACM10M": "ACM (10 daqiqa)",

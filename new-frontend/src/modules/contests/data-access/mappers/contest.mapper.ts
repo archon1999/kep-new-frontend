@@ -1,10 +1,6 @@
-import {
-  ApiContestsList200,
-  Contest,
-  ContestAuthor,
-  ContestsCategory,
-} from 'shared/api/orval/generated/endpoints/index.schemas';
+import { Contest, ContestAuthor, ContestsCategory } from 'shared/api/orval/generated/endpoints/index.schemas';
 import { ContestAuthorEntity, ContestCategoryEntity, ContestListItem } from '../../domain/entities/contest.entity';
+import { ContestRatingRow } from '../../domain/entities/contest-rating.entity';
 import { PageResult } from '../../domain/ports/contests.repository';
 
 const mapAuthor = (payload?: ContestAuthor): ContestAuthorEntity => ({
@@ -39,11 +35,42 @@ export const mapCategory = (payload: ContestsCategory): ContestCategoryEntity =>
   contestsCount: Number(payload?.contestsCount ?? 0),
 });
 
-export const mapPageResult = (payload: ApiContestsList200, mapItem: (item: Contest) => ContestListItem): PageResult<ContestListItem> => ({
-  page: payload?.page ?? 1,
-  pageSize: payload?.pageSize ?? payload?.page_size ?? payload?.per_page ?? 0,
-  count: payload?.count ?? payload?.data?.length ?? 0,
-  total: payload?.total ?? payload?.count ?? payload?.data?.length ?? 0,
-  pagesCount: payload?.pagesCount ?? payload?.pages_count ?? payload?.total_pages ?? 0,
-  data: (payload?.data ?? []).map(mapItem),
-});
+export const mapContestRating = (
+  payload: any,
+  index: number,
+  page: number,
+  pageSize: number,
+): ContestRatingRow => {
+  const baseIndex = Math.max(0, (page - 1) * pageSize);
+
+  return {
+    rowIndex: payload?.rowIndex ?? payload?.row_index ?? baseIndex + index + 1,
+    username: payload?.username ?? '',
+    ratingTitle: payload?.ratingTitle ?? payload?.rating_title ?? '',
+    rating: payload?.rating ?? payload?.rating_value ?? undefined,
+    maxRating: payload?.maxRating ?? payload?.max_rating ?? undefined,
+    maxRatingTitle: payload?.maxRatingTitle ?? payload?.max_rating_title ?? undefined,
+    contestantsCount: payload?.contestantsCount ?? payload?.contestants_count ?? 0,
+  };
+};
+
+export const mapPageResult = <T>(
+  payload: any,
+  mapItem: (item: any, index: number, page: number, pageSize: number) => T,
+): PageResult<T> => {
+  const page = payload?.page ?? (payload as any)?.current_page ?? 1;
+  const pageSize = payload?.pageSize ?? payload?.page_size ?? payload?.per_page ?? 0;
+  const data = (payload as any)?.data ?? (payload as any)?.results ?? [];
+  const count = payload?.count ?? data.length ?? 0;
+  const total = payload?.total ?? payload?.count ?? data.length ?? 0;
+  const pagesCount = payload?.pagesCount ?? payload?.pages_count ?? payload?.total_pages ?? 0;
+
+  return {
+    page,
+    pageSize,
+    count,
+    total,
+    pagesCount,
+    data: data.map((item: any, index: number) => mapItem(item, index, page, pageSize)),
+  };
+};

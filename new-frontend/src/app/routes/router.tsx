@@ -26,6 +26,7 @@ const ChallengeUserStatisticsPage = lazy(() => import('modules/challenges/ui/pag
 const ArenaListPage = lazy(() => import('modules/arena/ui/pages/ArenaListPage'));
 const ArenaDetailPage = lazy(() => import('modules/arena/ui/pages/ArenaDetailPage'));
 const ContestsListPage = lazy(() => import('modules/contests/ui/pages/ContestsListPage'));
+const ContestsRatingPage = lazy(() => import('modules/contests/ui/pages/ContestsRatingPage'));
 const TournamentsListPage = lazy(() => import('modules/tournaments/ui/pages/TournamentsListPage'));
 const TournamentPage = lazy(() => import('modules/tournaments/ui/pages/TournamentPage'));
 const HackathonsListPage = lazy(() => import('modules/hackathons/ui/pages/HackathonsListPage'));
@@ -171,6 +172,11 @@ export const routes: RouteObject[] = [
             path: resources.Contests,
             element: <ContestsListPage />,
             handle: { titleKey: 'pageTitles.contests' },
+          },
+          {
+            path: resources.ContestsRating,
+            element: <ContestsRatingPage />,
+            handle: { titleKey: 'pageTitles.contestsRating' },
           },
           {
             path: resources.Tournaments,
