@@ -1,5 +1,4 @@
 import { apiClient } from 'shared/api';
-import { instance } from 'shared/api/http/axiosInstance';
 import {
   ApiContestsList200,
   ApiContestsListParams,
@@ -13,8 +12,4 @@ export const contestsApiClient = {
   categories: () => apiClient.apiContestsCategoriesList() as Promise<ContestsCategory[]>,
   rating: (params?: ApiContestsRatingListParams) =>
     apiClient.apiContestsRatingList(params) as Promise<ApiContestsRatingList200>,
-  userStatistics: async (username: string) => {
-    const response = await instance.get(`/api/contests-rating/${username}/statistics/`);
-    return response.data;
-  },
 };
