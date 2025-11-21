@@ -81,9 +81,9 @@ const ChallengeDetailPage = () => {
 
   return (
     <Box sx={{ p: { xs: 3, md: 5 } }}>
-      <Stack spacing={3}>
+      <Stack spacing={3} direction="column">
         <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={1}>
-          <Stack spacing={0.5}>
+          <Stack spacing={0.5} direction="column">
             <Typography variant="h4" fontWeight={800}>
               {t('challenges.detailTitle')}
             </Typography>
@@ -98,7 +98,7 @@ const ChallengeDetailPage = () => {
 
         <Card variant="outlined">
           <CardContent>
-            <Stack spacing={2}>
+            <Stack spacing={2} direction="column">
               <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center">
                 <Typography variant="subtitle2" color="text.secondary">
                   {statusLabel}
@@ -122,7 +122,7 @@ const ChallengeDetailPage = () => {
                   player={challenge.playerFirst}
                   highlight={challenge.playerFirst.result > challenge.playerSecond.result}
                 />
-                <Stack spacing={0.5} alignItems="center" justifyContent="center" px={2}>
+                <Stack spacing={0.5} direction="column" alignItems="center" justifyContent="center" px={2}>
                   <Typography variant="h4" fontWeight={800}>
                     {challenge.playerFirst.result} : {challenge.playerSecond.result}
                   </Typography>

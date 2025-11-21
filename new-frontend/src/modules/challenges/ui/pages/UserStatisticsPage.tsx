@@ -9,6 +9,7 @@ import {
 } from '../../application/queries.ts';
 import ChallengeCard from '../components/ChallengeCard.tsx';
 import ChallengeUserChip from '../components/ChallengeUserChip.tsx';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
 
 const UserStatisticsPage = () => {
   const { t } = useTranslation();
@@ -32,8 +33,8 @@ const UserStatisticsPage = () => {
 
   return (
     <Box sx={{ p: { xs: 3, md: 5 } }}>
-      <Stack spacing={3}>
-        <Stack spacing={0.5}>
+      <Stack spacing={3} direction="column">
+        <Stack spacing={0.5} direction="column">
           <Typography variant="h4" fontWeight={800}>
             {t('challenges.statisticsTitle')}
           </Typography>
@@ -51,16 +52,14 @@ const UserStatisticsPage = () => {
         >
           <Card variant="outlined">
             <CardContent>
-              <Stack spacing={1.5}>
+              <Stack spacing={1.5} direction="column">
                 <Typography variant="subtitle2" color="text.secondary">
                   {t('challenges.currentRank')}
                 </Typography>
                 {userRating ? (
-                  <Stack spacing={0.5}>
+                  <Stack spacing={0.5} direction="column">
                     <Typography variant="h5" fontWeight={800}>{userRating.rating}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {userRating.rankTitle}
-                    </Typography>
+                    <ChallengesRatingChip title={userRating.rankTitle} size="small" />
                     <Typography variant="caption" color={totalRatingChange >= 0 ? 'success.main' : 'error.main'}>
                       {t('challenges.delta', { value: totalRatingChange })}
                     </Typography>
@@ -75,7 +74,7 @@ const UserStatisticsPage = () => {
           </Card>
           <Card variant="outlined">
             <CardContent>
-              <Stack spacing={1.5}>
+              <Stack spacing={1.5} direction="column">
                 <Typography variant="subtitle2" color="text.secondary">
                   {t('challenges.ratingChanges')}
                 </Typography>
@@ -101,7 +100,7 @@ const UserStatisticsPage = () => {
 
         <Card variant="outlined">
           <CardContent>
-            <Stack spacing={1.5}>
+            <Stack spacing={1.5} direction="column">
               <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }}>
                 <Typography variant="h6">{t('challenges.lastChallenges')}</Typography>
                 {userRating && (
@@ -120,7 +119,7 @@ const UserStatisticsPage = () => {
                 )}
               </Stack>
 
-              <Stack spacing={1.5}>
+              <Stack spacing={1.5} direction="column">
                 {(lastChallenges?.data ?? []).map((challenge) => (
                   <ChallengeCard key={challenge.id} challenge={challenge} />
                 ))}

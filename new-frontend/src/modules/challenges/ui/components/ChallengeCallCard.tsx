@@ -6,6 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { ChallengeCall } from '../../domain';
 import { useAcceptChallengeCall, useDeleteChallengeCall } from '../../application/mutations.ts';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
 
 dayjs.extend(relativeTime);
 
@@ -46,9 +47,9 @@ const ChallengeCallCard = ({ challengeCall, onAccepted, onRemoved }: ChallengeCa
   return (
     <Card variant="outlined">
       <CardContent>
-        <Stack spacing={1.5}>
+        <Stack spacing={1.5} direction="column">
           <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Stack spacing={0.5}>
+            <Stack spacing={0.5} direction="column">
               <Typography variant="subtitle1" fontWeight={700}>
                 {challengeCall.username}
               </Typography>
@@ -56,24 +57,24 @@ const ChallengeCallCard = ({ challengeCall, onAccepted, onRemoved }: ChallengeCa
                 {t('challenges.callCreated', { time: dayjs(challengeCall.created).fromNow() })}
               </Typography>
             </Stack>
-            <Chip label={challengeCall.rankTitle || t('challenges.rankUnknown')} color="primary" variant="soft" />
+            <ChallengesRatingChip title={challengeCall.rankTitle || t('challenges.rankUnknown')} />
           </Stack>
 
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} divider={<Divider flexItem orientation="vertical" />}>
-            <Stack spacing={0.5}>
+            <Stack spacing={0.5} direction="column">
               <Typography variant="overline" color="text.secondary">
                 {t('challenges.questions')}
               </Typography>
               <Typography variant="subtitle2">{challengeCall.questionsCount}</Typography>
             </Stack>
-            <Stack spacing={0.5}>
+            <Stack spacing={0.5} direction="column">
               <Typography variant="overline" color="text.secondary">
                 {t('challenges.timeLimit')}
               </Typography>
               <Typography variant="subtitle2">{formatDuration(challengeCall.timeSeconds, t)}</Typography>
             </Stack>
             {challengeCall.chapters?.length ? (
-              <Stack spacing={0.5}>
+              <Stack spacing={0.5} direction="column">
                 <Typography variant="overline" color="text.secondary">
                   {t('challenges.chapters')}
                 </Typography>

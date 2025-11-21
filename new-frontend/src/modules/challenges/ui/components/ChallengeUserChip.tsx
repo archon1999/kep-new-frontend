@@ -1,4 +1,5 @@
 import { Avatar, Stack, Typography } from '@mui/material';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
 import { ChallengePlayer } from '../../domain';
 
 interface ChallengeUserChipProps {
@@ -22,13 +23,11 @@ const ChallengeUserChip = ({ player, align = 'left', highlight = false }: Challe
         {player.username?.charAt(0).toUpperCase()}
       </Avatar>
     )}
-    <Stack spacing={0.25} alignItems={align === 'left' ? 'flex-start' : 'flex-end'}>
+    <Stack spacing={0.25} direction="column" alignItems={align === 'left' ? 'flex-start' : 'flex-end'}>
       <Typography variant="subtitle2" fontWeight={700} noWrap>
         {player.username}
       </Typography>
-      <Typography variant="caption" color="text.secondary">
-        {player.rankTitle}
-      </Typography>
+      <ChallengesRatingChip title={player.rankTitle} size="small" />
       <Typography variant="caption" color={player.delta > 0 ? 'success.main' : player.delta < 0 ? 'error.main' : 'text.secondary'}>
         {player.rating} → {player.newRating} ({player.delta > 0 ? '+' : ''}{player.delta})
       </Typography>

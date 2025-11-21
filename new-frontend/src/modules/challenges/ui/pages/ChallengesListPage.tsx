@@ -19,6 +19,7 @@ import paths from 'app/routes/paths.ts';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
 import ChallengeCallCard from '../components/ChallengeCallCard.tsx';
 import ChallengeCard from '../components/ChallengeCard.tsx';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
 import {
   useChallengeCalls,
   useChallengesList,
@@ -92,8 +93,8 @@ const ChallengesListPage = () => {
 
   return (
     <Box sx={{ p: { xs: 3, md: 5 } }}>
-      <Stack spacing={4}>
-        <Stack spacing={1}>
+      <Stack spacing={4} direction="column">
+        <Stack spacing={1} direction="column">
           <Typography variant="h4" fontWeight={800}>
             {t('challenges.title')}
           </Typography>
@@ -104,8 +105,8 @@ const ChallengesListPage = () => {
 
         <Card variant="outlined">
           <CardContent>
-            <Stack spacing={3}>
-              <Stack spacing={1}>
+            <Stack spacing={3} direction="column">
+              <Stack spacing={1} direction="column">
                 <Typography variant="h6">{t('challenges.quickStartTitle')}</Typography>
                 <Typography variant="body2" color="text.secondary">
                   {t('challenges.quickStartSubtitle')}
@@ -127,7 +128,7 @@ const ChallengesListPage = () => {
 
               <Divider />
 
-              <Stack spacing={2}>
+              <Stack spacing={2} direction="column">
                 <Typography variant="subtitle1" fontWeight={700}>
                   {t('challenges.customChallenge')}
                 </Typography>
@@ -214,7 +215,7 @@ const ChallengesListPage = () => {
           </CardContent>
         </Card>
 
-        <Stack spacing={2}>
+        <Stack spacing={2} direction="column">
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="h6">{t('challenges.waitingRoom')}</Typography>
             <Button variant="text" onClick={() => mutateCalls()}>
@@ -249,14 +250,14 @@ const ChallengesListPage = () => {
           </Box>
         </Stack>
 
-        <Stack spacing={2}>
+        <Stack spacing={2} direction="column">
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="h6">{t('challenges.recent')}</Typography>
             <Button variant="text" onClick={() => navigate(paths.challengesRating)}>
               {t('challenges.viewRating')}
             </Button>
           </Stack>
-          <Stack spacing={1.5}>
+          <Stack spacing={1.5} direction="column">
             {(challengesPage?.data ?? []).map((challenge) => (
               <ChallengeCard key={challenge.id} challenge={challenge} />
             ))}
@@ -271,7 +272,7 @@ const ChallengesListPage = () => {
         <Card variant="outlined">
           <CardContent>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} justifyContent="space-between" alignItems="center">
-              <Stack spacing={0.5}>
+              <Stack spacing={0.5} direction="column">
                 <Typography variant="h6">{t('challenges.ratingPreview')}</Typography>
                 <Typography variant="body2" color="text.secondary">
                   {t('challenges.ratingPreviewSubtitle')}
@@ -282,14 +283,12 @@ const ChallengesListPage = () => {
               </Button>
             </Stack>
 
-            <Stack spacing={1.5} sx={{ mt: 2 }}>
+            <Stack spacing={1.5} direction="column" sx={{ mt: 2 }}>
               {(ratingPreview?.data ?? []).map((row) => (
                 <Stack key={row.username} direction="row" justifyContent="space-between" alignItems="center">
-                  <Stack spacing={0.25}>
+                  <Stack spacing={0.25} direction="column">
                     <Typography variant="subtitle2">{row.username}</Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {row.rankTitle}
-                    </Typography>
+                    <ChallengesRatingChip title={row.rankTitle} size="small" />
                   </Stack>
                   <Typography variant="subtitle2" fontWeight={700}>{row.rating}</Typography>
                 </Stack>

@@ -185,8 +185,8 @@ const ChallengeQuestionCard = ({ question, onSubmit, disabled, isSubmitting }: C
   return (
     <Card variant="outlined">
       <CardContent>
-        <Stack spacing={2}>
-          <Stack spacing={1}>
+        <Stack spacing={2} direction="column">
+          <Stack spacing={1} direction="column">
             <Typography variant="overline" color="text.secondary">
               {t('challenges.questionNumber', { number: question.number })}
             </Typography>
@@ -194,7 +194,7 @@ const ChallengeQuestionCard = ({ question, onSubmit, disabled, isSubmitting }: C
           </Stack>
 
           {question.type === QuestionType.SingleChoice && (
-            <Stack spacing={1}>
+            <Stack spacing={1} direction="column">
               {question.options?.map((option, index) => (
                 <Chip
                   key={option.option}
@@ -209,7 +209,7 @@ const ChallengeQuestionCard = ({ question, onSubmit, disabled, isSubmitting }: C
           )}
 
           {question.type === QuestionType.MultipleChoice && (
-            <Stack spacing={1}>
+            <Stack spacing={1} direction="column">
               {question.options?.map((option, index) => (
                 <Chip
                   key={option.option}
@@ -238,7 +238,7 @@ const ChallengeQuestionCard = ({ question, onSubmit, disabled, isSubmitting }: C
           )}
 
           {question.type === QuestionType.Conformity && (
-            <Stack spacing={1}>
+            <Stack spacing={1} direction="column">
               {question.options?.map((option, index) => (
                 <Stack key={option.optionMain} direction="row" spacing={1} alignItems="center">
                   <Typography minWidth={140}>{option.optionMain}</Typography>
@@ -266,7 +266,7 @@ const ChallengeQuestionCard = ({ question, onSubmit, disabled, isSubmitting }: C
           )}
 
           {question.type === QuestionType.Ordering && (
-            <Stack spacing={1}>
+            <Stack spacing={1} direction="column">
               {currentAnswer?.order?.map((option, index) => (
                 <Stack key={option} direction="row" alignItems="center" spacing={1}>
                   <Typography sx={{ minWidth: 24 }}>{index + 1}.</Typography>
@@ -284,10 +284,10 @@ const ChallengeQuestionCard = ({ question, onSubmit, disabled, isSubmitting }: C
 
           {question.type === QuestionType.Classification && (
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-              <Stack spacing={1} flex={1}>
+              <Stack spacing={1} direction="column" flex={1}>
                 <Typography variant="subtitle2">{t('challenges.labels')}</Typography>
                 {Object.keys(currentAnswer?.assignment ?? {}).map((key) => (
-                  <Stack key={key} spacing={0.5}>
+                  <Stack key={key} spacing={0.5} direction="column">
                     <Typography variant="body2" fontWeight={600}>
                       {key}
                     </Typography>
@@ -305,7 +305,7 @@ const ChallengeQuestionCard = ({ question, onSubmit, disabled, isSubmitting }: C
                 ))}
               </Stack>
 
-              <Stack spacing={1} flex={1}>
+              <Stack spacing={1} direction="column" flex={1}>
                 <Typography variant="subtitle2">{t('challenges.pool')}</Typography>
                 <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
                   {(question.options ?? []).map((option: QuestionOption) => (

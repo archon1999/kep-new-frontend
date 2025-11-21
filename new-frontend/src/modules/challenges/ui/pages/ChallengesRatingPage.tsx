@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useChallengesRating } from '../../application/queries.ts';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
 
 const ChallengesRatingPage = () => {
   const { t } = useTranslation();
@@ -24,8 +25,8 @@ const ChallengesRatingPage = () => {
 
   return (
     <Box sx={{ p: { xs: 3, md: 5 } }}>
-      <Stack spacing={3}>
-        <Stack spacing={0.5}>
+      <Stack spacing={3} direction="column">
+        <Stack spacing={0.5} direction="column">
           <Typography variant="h4" fontWeight={800}>
             {t('challenges.ratingTitle')}
           </Typography>
@@ -51,7 +52,9 @@ const ChallengesRatingPage = () => {
                   <TableRow key={row.username}>
                     <TableCell>{row.rowIndex}</TableCell>
                     <TableCell>{row.username}</TableCell>
-                    <TableCell>{row.rankTitle}</TableCell>
+                    <TableCell>
+                      <ChallengesRatingChip title={row.rankTitle} size="small" />
+                    </TableCell>
                     <TableCell>{row.rating}</TableCell>
                     <TableCell align="right">
                       {t('challenges.record', { wins: row.wins, draws: row.draws, losses: row.losses })}

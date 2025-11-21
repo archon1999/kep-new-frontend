@@ -29,9 +29,9 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
   return (
     <Card variant="outlined">
       <CardContent>
-        <Stack spacing={1.5}>
+        <Stack spacing={1.5} direction="column">
           <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={1}>
-            <Stack spacing={0.5}>
+            <Stack spacing={0.5} direction="column">
               <Typography variant="caption" color="text.secondary">
                 {t('challenges.challengeStarted', { time: dayjs(challenge.finished || undefined).fromNow() })}
               </Typography>
