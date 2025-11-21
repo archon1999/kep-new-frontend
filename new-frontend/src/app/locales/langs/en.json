@@ -16,7 +16,8 @@
     "hackathons": "Hackathons",
     "kepcoin": "Kepcoin",
     "calendar": "Calendar",
-    "shop": "Shop"
+    "shop": "Shop",
+    "account": "Account"
   },
   "pageTitles": {
     "home": "Home",
@@ -30,7 +31,111 @@
     "test": "Test",
     "testPass": "Test pass",
     "login": "Login",
-    "notFound": "Page not found"
+    "notFound": "Page not found",
+    "account": "Account settings"
+  },
+  "common": {
+    "save": "Save",
+    "reset": "Reset",
+    "delete": "Delete",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  },
+  "account": {
+    "heading": "Account Settings",
+    "loading": "Loading account details...",
+    "messages": {
+      "saved": "Changes saved",
+      "error": "Something went wrong"
+    },
+    "tabs": {
+      "general": "General",
+      "information": "Information",
+      "social": "Social",
+      "skills": "Skills",
+      "career": "Career",
+      "teams": "Teams",
+      "password": "Password",
+      "system": "System"
+    },
+    "general": {
+      "title": "General information",
+      "uploadAvatar": "Upload avatar",
+      "uploadCover": "Upload cover"
+    },
+    "information": {
+      "title": "Personal information"
+    },
+    "social": {
+      "title": "Social accounts"
+    },
+    "skills": {
+      "title": "Skills",
+      "technologies": "Technologies",
+      "addTechnology": "Add technology"
+    },
+    "career": {
+      "education": "Education",
+      "work": "Work experience",
+      "addEducation": "Add education",
+      "addWork": "Add work"
+    },
+    "teams": {
+      "title": "Teams",
+      "teamName": "Team name",
+      "teamCode": "Invitation code",
+      "create": "Create team",
+      "join": "Join team",
+      "code": "Code",
+      "members": "Members",
+      "refresh": "Refresh code"
+    },
+    "password": {
+      "title": "Change password",
+      "change": "Change",
+      "mismatch": "New passwords do not match"
+    },
+    "system": {
+      "title": "System preferences",
+      "successSound": "Success sound",
+      "homeSound": "Home sound",
+      "animations": "Interface animations",
+      "default": "Default",
+      "celebration": "Celebration",
+      "pop": "Pop",
+      "pulse": "Pulse",
+      "soft": "Soft"
+    },
+    "fields": {
+      "username": "Username",
+      "email": "Email",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "bio": "Bio",
+      "birthDate": "Birth date",
+      "website": "Website",
+      "country": "Country",
+      "region": "Region",
+      "codeforces": "Codeforces handle",
+      "codeforcesBadge": "Codeforces badge",
+      "telegram": "Telegram",
+      "webDevelopment": "Web development",
+      "webScraping": "Web scraping",
+      "algorithms": "Algorithms",
+      "dataScience": "Data science",
+      "technologyName": "Technology name",
+      "iconClass": "Icon class",
+      "badgeColor": "Badge color",
+      "organization": "Organization",
+      "degree": "Degree",
+      "fromYear": "From year",
+      "toYear": "To year",
+      "company": "Company",
+      "jobTitle": "Job title",
+      "oldPassword": "Old password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password"
+    }
   },
   "homePage": {
     "greeting": {

@@ -16,7 +16,8 @@
     "hackathons": "Хакатоны",
     "kepcoin": "Кепкоин",
     "calendar": "Календарь",
-    "shop": "Магазин"
+    "shop": "Магазин",
+    "account": "Аккаунт"
   },
   "pageTitles": {
     "home": "Главная",
@@ -30,7 +31,111 @@
     "test": "Тест",
     "testPass": "Прохождение теста",
     "login": "Вход",
-    "notFound": "Страница не найдена"
+    "notFound": "Страница не найдена",
+    "account": "Настройки аккаунта"
+  },
+  "common": {
+    "save": "Сохранить",
+    "reset": "Сбросить",
+    "delete": "Удалить",
+    "enabled": "Включено",
+    "disabled": "Выключено"
+  },
+  "account": {
+    "heading": "Настройки аккаунта",
+    "loading": "Загрузка данных аккаунта...",
+    "messages": {
+      "saved": "Изменения сохранены",
+      "error": "Произошла ошибка"
+    },
+    "tabs": {
+      "general": "Основное",
+      "information": "Информация",
+      "social": "Соцсети",
+      "skills": "Навыки",
+      "career": "Карьера",
+      "teams": "Команды",
+      "password": "Пароль",
+      "system": "Система"
+    },
+    "general": {
+      "title": "Общая информация",
+      "uploadAvatar": "Загрузить аватар",
+      "uploadCover": "Загрузить обложку"
+    },
+    "information": {
+      "title": "Персональные данные"
+    },
+    "social": {
+      "title": "Социальные сети"
+    },
+    "skills": {
+      "title": "Навыки",
+      "technologies": "Технологии",
+      "addTechnology": "Добавить технологию"
+    },
+    "career": {
+      "education": "Образование",
+      "work": "Опыт работы",
+      "addEducation": "Добавить образование",
+      "addWork": "Добавить место работы"
+    },
+    "teams": {
+      "title": "Команды",
+      "teamName": "Название команды",
+      "teamCode": "Код приглашения",
+      "create": "Создать",
+      "join": "Присоединиться",
+      "code": "Код",
+      "members": "Участники",
+      "refresh": "Обновить код"
+    },
+    "password": {
+      "title": "Смена пароля",
+      "change": "Изменить",
+      "mismatch": "Новые пароли не совпадают"
+    },
+    "system": {
+      "title": "Системные настройки",
+      "successSound": "Звук успеха",
+      "homeSound": "Звук главной",
+      "animations": "Анимации интерфейса",
+      "default": "По умолчанию",
+      "celebration": "Праздничный",
+      "pop": "Поп",
+      "pulse": "Пульс",
+      "soft": "Мягкий"
+    },
+    "fields": {
+      "username": "Логин",
+      "email": "Email",
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "bio": "Био",
+      "birthDate": "Дата рождения",
+      "website": "Сайт",
+      "country": "Страна",
+      "region": "Регион",
+      "codeforces": "Профиль Codeforces",
+      "codeforcesBadge": "Бейдж Codeforces",
+      "telegram": "Telegram",
+      "webDevelopment": "Веб-разработка",
+      "webScraping": "Веб-скрейпинг",
+      "algorithms": "Алгоритмы",
+      "dataScience": "Data science",
+      "technologyName": "Название технологии",
+      "iconClass": "Класс иконки",
+      "badgeColor": "Цвет бейджа",
+      "organization": "Организация",
+      "degree": "Степень",
+      "fromYear": "Год начала",
+      "toYear": "Год окончания",
+      "company": "Компания",
+      "jobTitle": "Должность",
+      "oldPassword": "Старый пароль",
+      "newPassword": "Новый пароль",
+      "confirmPassword": "Повторите пароль"
+    }
   },
   "homePage": {
     "greeting": {

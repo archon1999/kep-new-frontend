@@ -16,7 +16,8 @@
     "hackathons": "Xakatonlar",
     "kepcoin": "Kepcoin",
     "calendar": "Kalendar",
-    "shop": "Doʻkon"
+    "shop": "Doʻkon",
+    "account": "Hisob"
   },
   "pageTitles": {
     "home": "Bosh sahifa",
@@ -30,7 +31,111 @@
     "test": "Test",
     "testPass": "Test topshirish",
     "login": "Kirish",
-    "notFound": "Sahifa topilmadi"
+    "notFound": "Sahifa topilmadi",
+    "account": "Profil sozlamalari"
+  },
+  "common": {
+    "save": "Saqlash",
+    "reset": "Tiklash",
+    "delete": "O'chirish",
+    "enabled": "Yoqilgan",
+    "disabled": "O'chirilgan"
+  },
+  "account": {
+    "heading": "Hisob sozlamalari",
+    "loading": "Hisob ma'lumotlari yuklanmoqda...",
+    "messages": {
+      "saved": "O'zgarishlar saqlandi",
+      "error": "Xatolik yuz berdi"
+    },
+    "tabs": {
+      "general": "Umumiy",
+      "information": "Ma'lumot",
+      "social": "Ijtimoiy tarmoqlar",
+      "skills": "Ko'nikmalar",
+      "career": "Karyera",
+      "teams": "Jamoalar",
+      "password": "Parol",
+      "system": "Tizim"
+    },
+    "general": {
+      "title": "Umumiy ma'lumot",
+      "uploadAvatar": "Avatar yuklash",
+      "uploadCover": "Muqova yuklash"
+    },
+    "information": {
+      "title": "Shaxsiy ma'lumot"
+    },
+    "social": {
+      "title": "Ijtimoiy tarmoqlar"
+    },
+    "skills": {
+      "title": "Ko'nikmalar",
+      "technologies": "Texnologiyalar",
+      "addTechnology": "Texnologiya qo'shish"
+    },
+    "career": {
+      "education": "Ta'lim",
+      "work": "Ish tajribasi",
+      "addEducation": "Ta'lim qo'shish",
+      "addWork": "Ish qo'shish"
+    },
+    "teams": {
+      "title": "Jamoalar",
+      "teamName": "Jamoa nomi",
+      "teamCode": "Taklif kodi",
+      "create": "Jamoa yaratish",
+      "join": "Qo'shilish",
+      "code": "Kod",
+      "members": "A'zolar",
+      "refresh": "Kodni yangilash"
+    },
+    "password": {
+      "title": "Parolni almashtirish",
+      "change": "Almashtirish",
+      "mismatch": "Yangi parollar mos emas"
+    },
+    "system": {
+      "title": "Tizim sozlamalari",
+      "successSound": "Muvaffaqiyat ovozi",
+      "homeSound": "Asosiy sahifa ovozi",
+      "animations": "Animatsiyalar",
+      "default": "Standart",
+      "celebration": "Bayramona",
+      "pop": "Pop",
+      "pulse": "Pulse",
+      "soft": "Yumshoq"
+    },
+    "fields": {
+      "username": "Foydalanuvchi nomi",
+      "email": "Email",
+      "firstName": "Ism",
+      "lastName": "Familiya",
+      "bio": "Bio",
+      "birthDate": "Tug'ilgan sana",
+      "website": "Veb-sayt",
+      "country": "Davlat",
+      "region": "Hudud",
+      "codeforces": "Codeforces hisob",
+      "codeforcesBadge": "Codeforces belgisi",
+      "telegram": "Telegram",
+      "webDevelopment": "Veb dasturlash",
+      "webScraping": "Veb skreyping",
+      "algorithms": "Algoritmlar",
+      "dataScience": "Ma'lumotlar ilmi",
+      "technologyName": "Texnologiya nomi",
+      "iconClass": "Ikona klassi",
+      "badgeColor": "Bej rang",
+      "organization": "Tashkilot",
+      "degree": "Daraja",
+      "fromYear": "Boshlanish yili",
+      "toYear": "Tugash yili",
+      "company": "Kompaniya",
+      "jobTitle": "Lavozim",
+      "oldPassword": "Eski parol",
+      "newPassword": "Yangi parol",
+      "confirmPassword": "Parolni tasdiqlash"
+    }
   },
   "homePage": {
     "greeting": {

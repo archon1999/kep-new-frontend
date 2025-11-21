@@ -6,9 +6,11 @@ import DefaultAuthLayout from 'app/layouts/auth-layout/DefaultAuthLayout';
 import MainLayout from 'app/layouts/main-layout';
 import Page404 from 'modules/errors/ui/pages/Page404';
 import PageLoader from 'shared/components/loading/PageLoader';
+import AuthGurad from 'shared/components/guard/AuthGuard';
 import paths, { authPaths, rootPaths } from './paths';
 
 const Home = lazy(() => import('modules/home/ui/pages/HomePage'));
+const AccountSettingsPage = lazy(() => import('modules/account/ui/pages/AccountSettingsPage'));
 const KepcoinPage = lazy(() => import('modules/kepcoin/ui/pages/KepcoinPage'));
 const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
@@ -93,6 +95,15 @@ export const routes: RouteObject[] = [
             path: paths.calendar,
             element: <CalendarPage />,
             handle: { titleKey: 'pageTitles.calendar' },
+          },
+          {
+            path: paths.account,
+            element: (
+              <AuthGurad>
+                <AccountSettingsPage />
+              </AuthGurad>
+            ),
+            handle: { titleKey: 'pageTitles.account' },
           },
         ],
       },
