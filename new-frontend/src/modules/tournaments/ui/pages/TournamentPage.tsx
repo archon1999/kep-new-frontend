@@ -25,12 +25,12 @@ const TournamentPage = () => {
           </Stack>
         ) : (
           <Grid container spacing={3}>
-            <Grid size={{ xs: 12, lg: 5 }}>
+            <Grid size={{ xs: 12 }}>
               <Stack direction="column" spacing={3}>
                 <TournamentInfoCard tournament={tournament} />
               </Stack>
             </Grid>
-            <Grid size={{ xs: 12, lg: 7 }}>
+            <Grid size={{ xs: 12}}>
               <TournamentBracket tournament={tournament} />
             </Grid>
           </Grid>
