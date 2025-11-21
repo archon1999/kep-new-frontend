@@ -25,7 +25,8 @@
     "shop": "Doʻkon",
     "calendar": "Kalendar",
     "login": "Kirish",
-    "notFound": "Sahifa topilmadi"
+    "notFound": "Sahifa topilmadi",
+    "challenges": "Challengelar"
   },
   "homePage": {
     "greeting": {
@@ -295,6 +296,40 @@
       "answerForInput": "Kiritish uchun javob",
       "checkSamples": "Namunalarni tekshirish",
       "merch": "Merch"
+    }
+  },
+  "challenges": {
+    "title": "Challengelar",
+    "overview": {
+      "title": "Challengelar reytingingiz",
+      "wins": "G'alabalar",
+      "draws": "Durranglar",
+      "losses": "Mag'lubiyatlar",
+      "winRate": "G'alaba foizi",
+      "empty": "Challengelar statistikasi uchun tizimga kiring"
+    },
+    "quickStart": {
+      "title": "Tez start",
+      "description": "Yangi challenge'ni tezda boshlash uchun preset tanlang.",
+      "questions": "savol",
+      "time": "{{seconds}} soniya",
+      "note": "Challenge yaratish va qabul qilish tez orada React versiyasida qo'shiladi."
+    },
+    "queue": {
+      "title": "Navbatda",
+      "empty": "Hozircha chaqiruvlar yo'q.",
+      "meta": "{{questions}} ta savol · {{time}}",
+      "created": "{{time}}"
+    },
+    "list": {
+      "title": "So'nggi challengelar",
+      "empty": "Hali challengelar o'ynalmagan.",
+      "meta": "{{questions}} ta savol · {{time}}s"
+    },
+    "top": {
+      "title": "Eng yaxshi reyting",
+      "empty": "Reyting jadvali bo'sh.",
+      "rating": "Reyting: {{rating}}"
     }
   }
 }

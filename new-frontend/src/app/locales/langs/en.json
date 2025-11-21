@@ -25,7 +25,8 @@
     "shop": "Shop",
     "calendar": "Calendar",
     "login": "Login",
-    "notFound": "Page not found"
+    "notFound": "Page not found",
+    "challenges": "Challenges"
   },
   "homePage": {
     "greeting": {
@@ -295,6 +296,40 @@
       "answerForInput": "Answer for input",
       "checkSamples": "Check samples",
       "merch": "Merch"
+    }
+  },
+  "challenges": {
+    "title": "Challenges",
+    "overview": {
+      "title": "Your challenge rating",
+      "wins": "Wins",
+      "draws": "Draws",
+      "losses": "Losses",
+      "winRate": "Win rate",
+      "empty": "Sign in to see your challenge statistics"
+    },
+    "quickStart": {
+      "title": "Quick start",
+      "description": "Pick one of the presets to jump into a new challenge instantly.",
+      "questions": "questions",
+      "time": "{{seconds}}s",
+      "note": "Challenge creation and acceptance will arrive soon in this React version."
+    },
+    "queue": {
+      "title": "In queue",
+      "empty": "No challenge calls are waiting right now.",
+      "meta": "{{questions}} questions · {{time}}",
+      "created": "{{time}}"
+    },
+    "list": {
+      "title": "Recent challenges",
+      "empty": "No challenges have been played yet.",
+      "meta": "{{questions}} questions · {{time}}s"
+    },
+    "top": {
+      "title": "Top rating",
+      "empty": "No one is in the rating table yet.",
+      "rating": "Rating: {{rating}}"
     }
   }
 }
