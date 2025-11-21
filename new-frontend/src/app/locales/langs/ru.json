@@ -24,8 +24,13 @@
     "kepcoin": "Кепкоин",
     "shop": "Магазин",
     "calendar": "Календарь",
+    "tests": "Тесты",
     "login": "Вход",
     "notFound": "Страница не найдена"
+  },
+  "testing": {
+    "title": "Тесты",
+    "bestResult": "Лучший результат"
   },
   "homePage": {
     "greeting": {

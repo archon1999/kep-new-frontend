@@ -24,8 +24,13 @@
     "kepcoin": "Kepcoin",
     "shop": "Doʻkon",
     "calendar": "Kalendar",
+    "tests": "Testlar",
     "login": "Kirish",
     "notFound": "Sahifa topilmadi"
+  },
+  "testing": {
+    "title": "Testlar",
+    "bestResult": "Eng yaxshi natija"
   },
   "homePage": {
     "greeting": {

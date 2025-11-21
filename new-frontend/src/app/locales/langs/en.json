@@ -24,8 +24,13 @@
     "kepcoin": "Kepcoin",
     "shop": "Shop",
     "calendar": "Calendar",
+    "tests": "Tests",
     "login": "Login",
     "notFound": "Page not found"
+  },
+  "testing": {
+    "title": "Tests",
+    "bestResult": "Best result"
   },
   "homePage": {
     "greeting": {
