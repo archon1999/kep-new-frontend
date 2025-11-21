@@ -5,6 +5,7 @@ import HomeProfileSection from '../components/HomeProfileSection.tsx';
 import BirthdaysSection from '../components/BirthdaysSection';
 import StatisticsSection from '../components/StatisticsSection.tsx';
 import UserActivitySection from '../components/UserActivitySection.tsx';
+import TopUsersSection from '../components/TopUsersSection.tsx';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useUserActivityHistory, useUserRatings } from '../../application/queries';
 
@@ -37,6 +38,10 @@ const HomePage = () => {
 
           <Grid size={12}>
             <StatisticsSection />
+          </Grid>
+
+          <Grid size={6}>
+            <TopUsersSection />
           </Grid>
 
           <Grid size={6}>

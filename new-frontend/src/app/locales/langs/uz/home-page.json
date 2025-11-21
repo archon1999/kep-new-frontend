@@ -43,6 +43,19 @@
         "attempts": "Urinishlar"
       }
     },
+    "topUsers": {
+      "title": "Top foydalanuvchilar",
+      "subtitle": "Har bir yo'nalish bo'yicha eng kuchli uchlik",
+      "tabs": {
+        "contests": "Musobaqalar",
+        "skills": "Ko'nikmalar",
+        "activity": "Faollik",
+        "challenges": "Chaqiriqlar",
+        "streak": "Seriya",
+        "kepcoin": "Kepcoin"
+      },
+      "empty": "Top foydalanuvchilar hali mavjud emas."
+    },
     "birthdays": {
       "title": "Tug'ilgan kunlar",
       "empty": "Yaqinlashayotgan tug'ilgan kunlar yo'q.",

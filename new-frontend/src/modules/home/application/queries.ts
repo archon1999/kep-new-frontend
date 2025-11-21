@@ -19,7 +19,7 @@ const homeKeys = createKeyFactory('home');
 const useHomeSWR = <T>(key: readonly unknown[] | null, fetcher: () => Promise<T>) =>
   useSWR<T>(key, fetcher, { suspense: false });
 
-const mapListParams = (pageSize?: number): HomeListParams => ({ pageSize });
+const mapListParams = (pageSize?: number, ordering?: string): HomeListParams => ({ pageSize, ordering });
 
 export const useHomeNews = (pageSize = 3) =>
   useHomeSWR<HomeNewsList>(homeKeys.detail(`news-${pageSize}`), () => repository.getNews(mapListParams(pageSize)));
@@ -27,8 +27,10 @@ export const useHomeNews = (pageSize = 3) =>
 export const useHomePosts = (pageSize = 6) =>
   useHomeSWR<HomePostsList>(homeKeys.detail(`posts-${pageSize}`), () => repository.getPosts(mapListParams(pageSize)));
 
-export const useTopUsers = (pageSize = 3) =>
-  useHomeSWR<HomeTopUsers>(homeKeys.detail(`top-users-${pageSize}`), () => repository.getTopUsers(mapListParams(pageSize)));
+export const useTopUsers = (pageSize = 3, ordering?: string) =>
+  useHomeSWR<HomeTopUsers>(homeKeys.detail(`top-users-${pageSize}-${ordering ?? 'default'}`), () =>
+    repository.getTopUsers(mapListParams(pageSize, ordering)),
+  );
 
 export const useNextBirthdays = (pageSize = 5) =>
   useHomeSWR<HomeNextBirthdays>(homeKeys.detail(`birthdays-${pageSize}`), () =>

@@ -43,6 +43,19 @@
         "attempts": "Attempts"
       }
     },
+    "topUsers": {
+      "title": "Top users",
+      "subtitle": "Best performers across each track",
+      "tabs": {
+        "contests": "Contests",
+        "skills": "Skills",
+        "activity": "Activity",
+        "challenges": "Challenges",
+        "streak": "Streak",
+        "kepcoin": "Kepcoin"
+      },
+      "empty": "Top users are not available yet."
+    },
     "birthdays": {
       "title": "Birthdays",
       "empty": "No upcoming birthdays yet.",

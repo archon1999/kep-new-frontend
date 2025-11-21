@@ -22,4 +22,5 @@ export type HomeUserActivityHistoryItem = HomeUserActivityHistory['data'][number
 export interface HomeListParams {
   pageSize?: number;
   page?: number;
+  ordering?: string;
 }

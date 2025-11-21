@@ -22,7 +22,7 @@ export class HttpHomeRepository implements HomeRepository {
   }
 
   getTopUsers(params?: HomeListParams): Promise<HomeTopUsers> {
-    return homeApiClient.topUsers({ pageSize: params?.pageSize });
+    return homeApiClient.topUsers({ pageSize: params?.pageSize, ordering: params?.ordering });
   }
 
   getNextBirthdays(params?: HomeListParams): Promise<HomeNextBirthdays> {
