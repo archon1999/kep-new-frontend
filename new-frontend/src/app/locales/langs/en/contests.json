@@ -11,6 +11,7 @@
     "filters": {
       "toggle": "Filters"
     },
+    "viewRating": "View rating",
     "participation": {
       "all": "All",
       "joined": "Registered",
@@ -48,6 +49,23 @@
       "MultiL": "Multi-language",
       "CodeGolf": "Code golf",
       "Exam": "Exam"
+    },
+    "rating": {
+      "title": "Contests rating",
+      "subtitle": "Track contest players, their peak rating, and total participations.",
+      "ordering": {
+        "rating": "Rating",
+        "max_rating": "Max rating",
+        "contestants_count": "Contests"
+      },
+      "table": {
+        "place": "Place",
+        "user": "User",
+        "rating": "Rating",
+        "maxRating": "Max rating",
+        "contests": "Contests"
+      },
+      "empty": "No rating data yet."
     }
   }
 }

@@ -10,6 +10,7 @@ export const resources = {
   AttemptsByUser: '/problems/attempts/:username',
 
   Contests: '/contests',
+  ContestsRating: '/contests/rating',
   Contest: '/contests/:id',
   ContestStandings: '/contests/:id/standings',
   ContestProblems: '/contests/:id/problems',

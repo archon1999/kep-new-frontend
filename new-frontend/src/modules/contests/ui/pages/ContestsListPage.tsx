@@ -20,6 +20,8 @@ import {
   Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
+import { resources } from 'app/routes/resources';
 import KepIcon from 'shared/components/base/KepIcon';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import Logo from 'shared/components/common/Logo';
@@ -50,6 +52,7 @@ const DEFAULT_PAGE_SIZE = 6;
 
 const ContestsListPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { data: categories } = useContestCategories();
 
   const [page, setPage] = useState(1);
@@ -146,18 +149,29 @@ const ContestsListPage = () => {
                   </Typography>
                 </Stack>
 
-                <Button
-                  variant="soft"
-                  color="neutral"
-                  onClick={handleFiltersToggle}
-                  startIcon={<IconifyIcon icon="mdi:filter-variant" sx={{ fontSize: 20 }} />}
-                  aria-haspopup="true"
-                  aria-expanded={filtersOpen ? 'true' : undefined}
-                  aria-controls={filtersOpen ? 'contests-filters-menu' : undefined}
-                  sx={{ alignSelf: { xs: 'stretch', sm: 'flex-start' } }}
-                >
-                  {t('contests.filters.toggle')}
-                </Button>
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems="center">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate(resources.ContestsRating)}
+                    startIcon={<KepIcon name="rating" fontSize={20} />}
+                    sx={{ alignSelf: { xs: 'stretch', sm: 'flex-start' } }}
+                  >
+                    {t('contests.viewRating')}
+                  </Button>
+                  <Button
+                    variant="soft"
+                    color="neutral"
+                    onClick={handleFiltersToggle}
+                    startIcon={<IconifyIcon icon="mdi:filter-variant" sx={{ fontSize: 20 }} />}
+                    aria-haspopup="true"
+                    aria-expanded={filtersOpen ? 'true' : undefined}
+                    aria-controls={filtersOpen ? 'contests-filters-menu' : undefined}
+                    sx={{ alignSelf: { xs: 'stretch', sm: 'flex-start' } }}
+                  >
+                    {t('contests.filters.toggle')}
+                  </Button>
+                </Stack>
               </Stack>
             </Stack>
           </CardContent>

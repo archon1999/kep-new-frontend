@@ -31,3 +31,13 @@ export interface ContestCategoryEntity {
   icon?: string;
   contestsCount?: number;
 }
+
+export interface ContestRatingRow {
+  rowIndex: number;
+  username: string;
+  rating: number;
+  ratingTitle: string;
+  maxRating: number;
+  maxRatingTitle: string;
+  contestantsCount: number;
+}

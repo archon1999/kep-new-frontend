@@ -11,6 +11,7 @@
     "filters": {
       "toggle": "Filtrlar"
     },
+    "viewRating": "Reytingni ko'rish",
     "participation": {
       "all": "Hammasi",
       "joined": "Ro'yxatdan o'tgan",
@@ -48,6 +49,23 @@
       "MultiL": "Ko'p tilli",
       "CodeGolf": "Code golf",
       "Exam": "Imtihon"
+    },
+    "rating": {
+      "title": "Kontest reytingi",
+      "subtitle": "Ishtirokchilar reytingini, maksimal ballini va kontestlar sonini kuzating.",
+      "ordering": {
+        "rating": "Reyting",
+        "max_rating": "Maks. reyting",
+        "contestants_count": "Kontestlar"
+      },
+      "table": {
+        "place": "O'rin",
+        "user": "Foydalanuvchi",
+        "rating": "Reyting",
+        "maxRating": "Maks. reyting",
+        "contests": "Kontestlar"
+      },
+      "empty": "Hozircha reyting ma'lumoti yo'q."
     }
   }
 }

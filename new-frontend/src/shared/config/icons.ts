@@ -50,6 +50,8 @@ export const kepIcons = {
   info: 'mdi:information-outline',
   share: 'mdi:share-outline',
   close: 'mdi:close',
+  'arrow-up': 'mdi:arrow-up',
+  'arrow-down': 'mdi:arrow-down',
 } as const;
 
 export type KepIconName = keyof typeof kepIcons;
