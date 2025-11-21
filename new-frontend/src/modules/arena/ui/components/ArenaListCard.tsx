@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router';
 import { Card, CardActionArea, CardContent, Chip, Divider, Stack, Typography } from '@mui/material';
-import paths from 'app/routes/paths.ts';
+import { getResourceById, resources } from 'app/routes/resources';
 import dayjs from 'dayjs';
 import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
 import { Arena, ArenaStatus } from '../../domain/entities/arena.entity.ts';
@@ -48,7 +48,7 @@ const ArenaListCard = ({ arena }: ArenaListCardProps) => {
     <Card background={1} sx={{ outline: 'none', borderRadius: 3 }}>
       <CardActionArea
         component={RouterLink}
-        to={`${paths.arena}/tournament/${arena.id}`}
+        to={getResourceById(resources.ArenaTournament, arena.id)}
         sx={{ height: '100%' }}
       >
         <CardContent sx={{ p: 3 }}>

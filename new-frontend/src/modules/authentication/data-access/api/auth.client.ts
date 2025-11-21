@@ -1,4 +1,4 @@
-import { apiEndpoints } from 'app/routes/paths';
+import { apiEndpoints } from 'app/routes/route-config';
 import axiosFetcher from 'shared/services/axios/axiosFetcher';
 import type { AuthUser, LoginPayload } from '../../domain/entities/auth.entity';
 

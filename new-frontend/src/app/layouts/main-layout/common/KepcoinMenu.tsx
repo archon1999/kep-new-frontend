@@ -1,6 +1,6 @@
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { Button, Link, Popover, Skeleton, Stack, Typography, paperClasses } from '@mui/material';
-import paths from 'app/routes/paths';
+import { resources } from 'app/routes/resources';
 import { useAuth } from 'app/providers/AuthProvider';
 import { TodayKepCoin, type KepCoinBalance } from 'shared/api/orval/generated/endpoints/index.schemas';
 import useSWR from 'swr';
@@ -114,7 +114,7 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
 
           <Button
             component={Link}
-            href={paths.kepcoin}
+            href={resources.Kepcoin}
             variant="text"
             color="primary"
             onClick={handleClose}

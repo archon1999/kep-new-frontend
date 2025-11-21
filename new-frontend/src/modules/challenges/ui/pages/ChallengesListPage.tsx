@@ -15,7 +15,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
-import paths from 'app/routes/paths.ts';
+import { authPaths } from 'app/routes/route-config';
+import { getResourceById, resources } from 'app/routes/resources';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import ChallengeCallCard from '../components/ChallengeCallCard.tsx';
@@ -55,7 +56,7 @@ const ChallengesListPage = () => {
 
   const handleCreate = async (payload: { timeSeconds: number; questionsCount: number; chapters?: number[] }) => {
     if (!currentUser) {
-      navigate(paths.authLogin);
+      navigate(authPaths.login);
       return;
     }
 
@@ -66,7 +67,7 @@ const ChallengesListPage = () => {
 
   const handleQuickStart = async (payload: { timeSeconds: number; questionsCount: number }) => {
     if (!currentUser) {
-      navigate(paths.authLogin);
+      navigate(authPaths.login);
       return;
     }
 
@@ -79,7 +80,7 @@ const ChallengesListPage = () => {
     if (existing) {
       const result = await acceptCall(existing.id);
       if (result?.challengeId) {
-        navigate(paths.challenge.replace(':id', String(result.challengeId)));
+        navigate(getResourceById(resources.Challenge, result.challengeId));
         return;
       }
     }
@@ -88,7 +89,7 @@ const ChallengesListPage = () => {
   };
 
   const handleAccept = (challengeId?: number) => {
-    if (challengeId) navigate(paths.challenge.replace(':id', String(challengeId)));
+    if (challengeId) navigate(getResourceById(resources.Challenge, challengeId));
     mutateCalls();
   };
 
@@ -254,7 +255,7 @@ const ChallengesListPage = () => {
         <Stack spacing={2} direction="column">
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="h6">{t('challenges.recent')}</Typography>
-            <Button variant="text" onClick={() => navigate(paths.challengesRating)}>
+            <Button variant="text" onClick={() => navigate(resources.ChallengesRating)}>
               {t('challenges.viewRating')}
             </Button>
           </Stack>
@@ -279,7 +280,7 @@ const ChallengesListPage = () => {
                   {t('challenges.ratingPreviewSubtitle')}
                 </Typography>
               </Stack>
-              <Button variant="contained" onClick={() => navigate(paths.challengesRating)}>
+              <Button variant="contained" onClick={() => navigate(resources.ChallengesRating)}>
                 {t('challenges.openRating')}
               </Button>
             </Stack>

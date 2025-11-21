@@ -11,8 +11,8 @@ import {
   Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { getResourceById, resources } from 'app/routes/resources';
 import { Test } from '../../domain';
-import paths from 'app/routes/paths.ts';
 
 interface Props {
   test: Test;
@@ -97,7 +97,7 @@ const TestCard = ({ test }: Props) => {
         </Stack>
 
         <Box>
-          <Link component={RouterLink} to={paths.test.replace(':id', test.id.toString())} underline="none">
+          <Link component={RouterLink} to={getResourceById(resources.Test, test.id)} underline="none">
             <Button variant="text">{t('tests.viewDetails')}</Button>
           </Link>
         </Box>

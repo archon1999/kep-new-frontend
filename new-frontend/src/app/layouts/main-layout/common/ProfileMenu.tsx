@@ -18,7 +18,8 @@ import {
 import Menu from '@mui/material/Menu';
 import { demoUser, useAuth } from 'app/providers/AuthProvider';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
-import paths, { authPaths } from 'app/routes/paths';
+import { authPaths } from 'app/routes/route-config';
+import { resources } from 'app/routes/resources';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import StatusAvatar from 'shared/components/base/StatusAvatar';
 
@@ -164,7 +165,7 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
           <ProfileMenuItem icon="solar:user-circle-bold" onClick={handleClose}>
             Profile
           </ProfileMenuItem>
-          <ProfileMenuItem href={paths.accountSettings} icon="solar:settings-linear" onClick={handleClose}>
+          <ProfileMenuItem href={resources.Settings} icon="solar:settings-linear" onClick={handleClose}>
             Settings
           </ProfileMenuItem>
         </Box>

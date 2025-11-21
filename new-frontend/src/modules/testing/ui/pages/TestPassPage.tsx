@@ -20,7 +20,7 @@ import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { finishTest, submitAnswer, testingMutations } from '../../application/mutations.ts';
 import { useTestPass } from '../../application/queries.ts';
 import { Question, QuestionOption, QuestionType } from '../../domain';
-import paths from 'app/routes/paths.ts';
+import { getResourceById, resources } from 'app/routes/resources';
 import { GridArrowDownwardIcon, GridArrowUpwardIcon } from '@mui/x-data-grid';
 
 interface QuestionAnswerState {
@@ -218,7 +218,7 @@ const TestPassPage = () => {
 
     if (response.success) {
       enqueueSnackbar(t('tests.finishSuccess', { result: response.result }), { variant: 'success' });
-      navigate(paths.test.replace(':id', testPass.test.id.toString()));
+      navigate(getResourceById(resources.Test, testPass.test.id));
     } else {
       enqueueSnackbar(t('tests.finishError'), { variant: 'error' });
     }

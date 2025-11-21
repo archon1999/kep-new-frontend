@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, SvgIcon, SvgIconProps, Typography, typographyClasses } from '@mui/material';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
-import { rootPaths } from 'app/routes/paths';
+import { rootPaths } from 'app/routes/route-config';
 
 interface LogoProps extends SvgIconProps {
   showName?: boolean;
