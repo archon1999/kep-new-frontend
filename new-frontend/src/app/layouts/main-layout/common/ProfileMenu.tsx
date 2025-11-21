@@ -19,7 +19,7 @@ import Menu from '@mui/material/Menu';
 import { demoUser, useAuth } from 'app/providers/AuthProvider';
 import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { authPaths } from 'app/routes/route-config';
-import { resources } from 'app/routes/resources';
+import { getResourceByUsername, resources } from 'app/routes/resources';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import StatusAvatar from 'shared/components/base/StatusAvatar';
 
@@ -162,7 +162,7 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
         </Stack>
         <Divider />
         <Box sx={{ py: 1 }}>
-          <ProfileMenuItem icon="solar:user-circle-bold" onClick={handleClose}>
+          <ProfileMenuItem href={getResourceByUsername(resources.UserProfile, user.username)} icon="solar:user-circle-bold" onClick={handleClose}>
             Profile
           </ProfileMenuItem>
           <ProfileMenuItem href={resources.Settings} icon="solar:settings-linear" onClick={handleClose}>

@@ -38,12 +38,65 @@
     },
     "statistics": {
       "totalUsers": "Total users",
-      "lastDays": "New users · last {{count}} days",
+      "lastDays": "New users in last {{count}} days",
       "empty": "User statistics are not available yet"
     },
     "popover": {
       "viewDetails": "View user details"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "profile": {
+      "tabs": {
+        "about": "About",
+        "ratings": "Ratings",
+        "activityHistory": "Activity history",
+        "achievements": "Achievements"
+      },
+      "personal": {
+        "title": "Personal info",
+        "fullName": "Full name",
+        "wasBorn": "Was born",
+        "lives": "Lives",
+        "email": "Email",
+        "website": "Website",
+        "joined": "Joined"
+      },
+      "social": {
+        "title": "Social links"
+      },
+      "followers": {
+        "title": "Followers",
+        "viewAll": "View all"
+      },
+      "about": "About",
+      "skills": "Skills",
+      "technologies": "Technologies",
+      "education": "Education",
+      "workExperience": "Work experience",
+      "achievements": {
+        "title": "Achievements",
+        "completed": "Completed",
+        "notCompleted": "Not completed",
+        "all": "All",
+        "empty": "No achievements yet."
+      },
+      "prizes": {
+        "title": "Competition prizes",
+        "empty": "No prizes yet."
+      },
+      "ratings": {
+        "solved": "Solved",
+        "rating": "Rating",
+        "rank": "Rank",
+        "percentile": "Percentile: {{value}}",
+        "wins": "Wins",
+        "draws": "Draws",
+        "losses": "Losses"
+      },
+      "actions": {
+        "follow": "Follow",
+        "unfollow": "Unfollow"
+      }
+    }
   }
 }

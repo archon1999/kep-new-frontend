@@ -44,6 +44,59 @@
     "popover": {
       "viewDetails": "Подробнее о пользователе"
     },
-    "emptyValue": "—"
+    "emptyValue": "—",
+    "profile": {
+      "tabs": {
+        "about": "О себе",
+        "ratings": "Рейтинги",
+        "activityHistory": "История активности",
+        "achievements": "Достижения"
+      },
+      "personal": {
+        "title": "Персональная информация",
+        "fullName": "Полное имя",
+        "wasBorn": "Родился",
+        "lives": "Живет",
+        "email": "Электронная почта",
+        "website": "Веб-сайт",
+        "joined": "Дата регистрации"
+      },
+      "social": {
+        "title": "Социальные ссылки"
+      },
+      "followers": {
+        "title": "Подписчики",
+        "viewAll": "Смотреть всех"
+      },
+      "about": "О себе",
+      "skills": "Навыки",
+      "technologies": "Технологии",
+      "education": "Образование",
+      "workExperience": "Опыт работы",
+      "achievements": {
+        "title": "Достижения",
+        "completed": "Завершенные",
+        "notCompleted": "Незавершенные",
+        "all": "Все",
+        "empty": "Достижений пока нет."
+      },
+      "prizes": {
+        "title": "Призы в соревнованиях",
+        "empty": "Призов пока нет."
+      },
+      "ratings": {
+        "solved": "Решено",
+        "rating": "Рейтинг",
+        "rank": "Место",
+        "percentile": "Перцентиль: {{value}}",
+        "wins": "Победы",
+        "draws": "Ничьи",
+        "losses": "Поражения"
+      },
+      "actions": {
+        "follow": "Подписаться",
+        "unfollow": "Отписаться"
+      }
+    }
   }
 }
