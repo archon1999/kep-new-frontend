@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import { HttpProblemsRepository } from '../data-access/repository/http.problems.repository.ts';
-import { ProblemsListParams } from '../domain/ports/problems.repository.ts';
+import { AttemptsListParams, ProblemsListParams, ProblemsRatingParams } from '../domain/ports/problems.repository.ts';
 
 const problemsRepository = new HttpProblemsRepository();
 
@@ -26,6 +26,17 @@ export const useUserProblemsAttempts = (username?: string, pageSize = 10) =>
 
 export const useUserProblemsRating = (username?: string) =>
   useSWR(username ? ['problems-user-rating', username] : null, () => problemsRepository.getUserRating(username!));
+
+export const useProblemsRating = (params: ProblemsRatingParams) =>
+  useSWR(['problems-rating', params], () => problemsRepository.listRating(params));
+
+export const useProblemsPeriodRating = (period: 'today' | 'week' | 'month') =>
+  useSWR(['problems-period-rating', period], () => problemsRepository.listPeriodRating(period));
+
+export const useAttemptsList = (params: AttemptsListParams) =>
+  useSWR(['problems-attempts', params], () => problemsRepository.listAttempts(params));
+
+export const useAttemptVerdicts = () => useSWR(['attempts-verdicts'], () => problemsRepository.listVerdicts());
 
 export const problemsQueries = {
   problemsRepository,

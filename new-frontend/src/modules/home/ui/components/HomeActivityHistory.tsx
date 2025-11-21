@@ -24,6 +24,7 @@ interface HomeActivityHistoryProps {
   username?: string | null;
   history?: HomeUserActivityHistory | null;
   isLoading?: boolean;
+  maxHeight?: number;
 }
 
 type ActivityType = HomeUserActivityHistoryItem['activityType'];
@@ -235,7 +236,7 @@ const getActivityTexts = (
   }
 };
 
-const HomeActivityHistory = ({ username: _username, history, isLoading }: HomeActivityHistoryProps) => {
+const HomeActivityHistory = ({ username: _username, history, isLoading, maxHeight=354.5, }: HomeActivityHistoryProps) => {
   const { t } = useTranslation();
   const activities = history?.data ?? [];
   const showEmpty = !isLoading && activities.length === 0;
@@ -248,7 +249,7 @@ const HomeActivityHistory = ({ username: _username, history, isLoading }: HomeAc
 
       <Box
         sx={{
-          maxHeight: 450,
+          maxHeight: maxHeight,
           overflowY: 'auto',
         }}
       >

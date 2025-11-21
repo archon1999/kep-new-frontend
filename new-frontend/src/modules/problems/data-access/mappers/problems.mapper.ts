@@ -1,15 +1,22 @@
 import { CategoryTag, ProblemList, ProblemsCategory } from 'shared/api/orval/generated/endpoints/index.schemas';
 import {
+  AttemptFilterOption,
+  AttemptListItem,
   DifficultyBreakdown,
+  PeriodRatingEntry,
   ProblemAttemptSummary,
   ProblemCategory,
   ProblemLanguageOption,
   ProblemListItem,
+  ProblemUserSummary,
+  ProblemsRatingRow,
   ProblemsRatingSummary,
 } from '../../domain/entities/problem.entity.ts';
 import { PageResult } from '../../domain/ports/problems.repository.ts';
 
 const toNumber = (value: unknown) => (typeof value === 'number' ? value : Number(value) || 0);
+const toNullableNumber = (value: any) =>
+  value === null || value === undefined || value === '' ? undefined : toNumber(value);
 
 export const mapProblemTag = (tag: CategoryTag | { id?: number | string; name?: string; category?: string }): {
   id: number;
@@ -27,6 +34,7 @@ export const mapProblem = (problem: ProblemList): ProblemListItem => ({
   difficulty: toNumber(problem.difficulty),
   difficultyTitle: problem.difficultyTitle,
   solved: toNumber(problem.solved),
+  notSolved: toNumber((problem as any).notSolved ?? (problem as any).not_solved),
   attemptsCount: toNumber((problem as any).attemptsCount),
   tags: (problem.tags ?? []).map((tag) => mapProblemTag(tag as CategoryTag)),
   likesCount: toNumber((problem as any).likesCount),
@@ -37,16 +45,32 @@ export const mapProblem = (problem: ProblemList): ProblemListItem => ({
   userInfo: typeof (problem as any).userInfo === 'object' ? (problem as any).userInfo : undefined,
 });
 
-export const mapProblemsPage = (page: any): PageResult<ProblemListItem> => {
-  const data = Array.isArray(page?.data) ? page.data : (page ?? []);
+const mapPageResult = <T>(
+  payload: any,
+  mapItem: (item: any, index: number, page: number, pageSize: number) => T,
+): PageResult<T> => {
+  const page = payload?.page ?? (payload as any)?.current_page ?? 1;
+  const data = Array.isArray(payload?.data) ? payload.data : Array.isArray(payload) ? payload : [];
+  const pageSize =
+    payload?.pageSize ?? payload?.page_size ?? payload?.per_page ?? (data.length ? data.length : 0);
+  const total = payload?.total ?? payload?.count ?? data.length ?? 0;
+  const pagesCount =
+    payload?.pagesCount ??
+    payload?.pages_count ??
+    payload?.total_pages ??
+    (pageSize ? Math.ceil(total / (pageSize || 1)) : 1);
+
   return {
-    page: page?.page ?? 1,
-    pageSize: page?.pageSize ?? data.length ?? 0,
-    pagesCount: page?.pagesCount ?? 1,
-    total: page?.total ?? data.length ?? 0,
-    data: (data as ProblemList[]).map(mapProblem),
+    page,
+    pageSize,
+    total,
+    pagesCount,
+    data: data.map((item: any, index: number) => mapItem(item, index, page, pageSize)),
   };
 };
+
+export const mapProblemsPage = (payload: any): PageResult<ProblemListItem> =>
+  mapPageResult(payload, (item) => mapProblem(item as ProblemList));
 
 export const mapLanguages = (response: any): ProblemLanguageOption[] => {
   const items = Array.isArray(response?.data) ? response.data : Array.isArray(response) ? response : [];
@@ -74,6 +98,15 @@ export const mapAttempts = (response: any): ProblemAttemptSummary[] => {
     problemTitle: item.problemTitle ?? '',
   }));
 };
+
+export const mapProblemUser = (payload: any): ProblemUserSummary => ({
+  username: payload?.username ?? '',
+  firstName: payload?.firstName ?? payload?.first_name,
+  lastName: payload?.lastName ?? payload?.last_name,
+  avatar: payload?.avatar ?? payload?.photo ?? payload?.avatarUrl,
+  rating: payload?.rating !== undefined ? toNumber(payload.rating) : undefined,
+  ratingTitle: payload?.ratingTitle ?? payload?.rating_title,
+});
 
 export const mapContestPreview = (response: any) => {
   if (!response) return null;
@@ -132,4 +165,87 @@ export const mapDifficultyBreakdown = (stats: any): DifficultyBreakdown => {
     totalSolved,
     totalProblems,
   };
+};
+
+export const mapProblemsRatingRow = (
+  payload: any,
+  index: number,
+  page: number,
+  pageSize: number,
+): ProblemsRatingRow => {
+  const baseIndex = Math.max(0, (page - 1) * pageSize);
+  return {
+    rowIndex: toNumber(payload?.rowIndex ?? payload?.row_index ?? baseIndex + index + 1),
+    rating: payload?.rating !== undefined ? toNumber(payload.rating) : undefined,
+    solved: payload?.solved !== undefined ? toNumber(payload.solved) : undefined,
+    beginner: toNumber(payload?.beginner),
+    basic: toNumber(payload?.basic),
+    normal: toNumber(payload?.normal),
+    medium: toNumber(payload?.medium),
+    advanced: toNumber(payload?.advanced),
+    hard: toNumber(payload?.hard),
+    extremal: toNumber(payload?.extremal),
+    user: mapProblemUser(payload?.user ?? payload),
+  };
+};
+
+export const mapProblemsRatingPage = (payload: any): PageResult<ProblemsRatingRow> =>
+  mapPageResult(payload, mapProblemsRatingRow);
+
+export const mapAttempt = (payload: any): AttemptListItem => ({
+  id: payload?.id ?? 0,
+  user: mapProblemUser(payload?.user ?? {}),
+  teamName: payload?.team?.name,
+  problemId: toNumber(payload?.problemId ?? payload?.problem_id),
+  problemTitle: payload?.problemTitle ?? '',
+  contestProblemSymbol:
+    payload?.contestProblem?.symbol ??
+    payload?.contest_problem?.symbol ??
+    payload?.contestProblemSymbol ??
+    payload?.contest_problem_symbol,
+  contestId:
+    payload?.contestProblem?.contest ??
+    payload?.contest_problem?.contest ??
+    payload?.contestId ??
+    payload?.contest_id,
+  contestTime: payload?.contestTime ?? payload?.contest_time ?? null,
+  verdict: payload?.verdict !== undefined ? toNumber(payload.verdict) : undefined,
+  verdictTitle: payload?.verdictTitle ?? '',
+  lang: payload?.lang ?? '',
+  langFull: payload?.langFull ?? payload?.lang_full ?? payload?.lang,
+  testCaseNumber: toNullableNumber(payload?.testCaseNumber ?? payload?.test_case_number),
+  time: toNullableNumber(payload?.time),
+  memory: toNullableNumber(payload?.memory),
+  sourceCodeSize: toNullableNumber(payload?.sourceCodeSize ?? payload?.source_code_size),
+  balls: toNullableNumber(payload?.balls),
+  canView: payload?.canView ?? payload?.can_view,
+  canTestView: payload?.canTestView ?? payload?.can_test_view,
+  kepcoinValue: toNullableNumber(payload?.kepcoinValue ?? payload?.kepcoin_value),
+  testCaseKepcoinValue: toNullableNumber(
+    payload?.testCaseKepcoinValue ?? payload?.test_case_kepcoin_value,
+  ),
+  created: payload?.created,
+  problemHasCheckInput: payload?.problemHasCheckInput ?? payload?.problem_has_check_input,
+});
+
+export const mapAttemptsPage = (payload: any): PageResult<AttemptListItem> =>
+  mapPageResult(payload, (item) => mapAttempt(item));
+
+export const mapVerdicts = (payload: any): AttemptFilterOption[] => {
+  const data = Array.isArray(payload?.data) ? payload.data : Array.isArray(payload) ? payload : [];
+  return data
+    .map((item: any) => ({
+      label: item.label ?? item.title ?? item.verdictTitle ?? String(item.value ?? item.verdict ?? ''),
+      value: toNumber(item.value ?? item.verdict ?? item.id),
+    }))
+    .filter((item) => item.label);
+};
+
+export const mapPeriodRating = (payload: any): PeriodRatingEntry[] => {
+  const data = Array.isArray(payload?.data) ? payload.data : Array.isArray(payload) ? payload : [];
+  return data.map((item: any) => ({
+    username: item.username ?? item.user?.username ?? '',
+    solved: toNumber(item.solved ?? item.result),
+    ratingTitle: item.ratingTitle ?? item.user?.ratingTitle,
+  }));
 };

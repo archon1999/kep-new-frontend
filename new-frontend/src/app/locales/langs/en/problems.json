@@ -55,6 +55,58 @@
     "noLastContest": "No contest data available.",
     "goToContest": "Go to contest",
     "noMostViewed": "No popular problems yet.",
-    "allLanguagesLabel": "All languages"
+    "allLanguagesLabel": "All languages",
+    "ratingButton": "Problems rating",
+    "attemptsButton": "Attempts",
+    "solvedCount": "{{count}} solved",
+    "unsolvedCount": "{{count}} unsolved",
+    "rating": {
+      "title": "Problems rating",
+      "subtitle": "See the strongest solvers by difficulty.",
+      "ordering": {
+        "solved": "Solved",
+        "rating": "Rating"
+      },
+      "total": "{{count}} users",
+      "score": "Rating {{value}}",
+      "solved": "{{value}} solved",
+      "empty": "Rating is empty.",
+      "periodTitle": "Top solvers",
+      "period": {
+        "today": "Today",
+        "week": "This week",
+        "month": "This month"
+      },
+      "periodSolved": "{{value}} solved",
+      "periodEmpty": "No data yet."
+    },
+    "attempts": {
+      "title": "Attempts",
+      "subtitle": "All submissions across problems.",
+      "myAttempts": "My attempts",
+      "refresh": "Refresh",
+      "clear": "Clear filters",
+      "problem": "Problem",
+      "user": "User",
+      "language": "Language",
+      "anyLanguage": "Any language",
+      "verdict": "Verdict",
+      "anyVerdict": "Any verdict",
+      "empty": "No attempts found.",
+      "unknownVerdict": "Unknown verdict",
+      "columns": {
+        "id": "ID",
+        "submitted": "Submitted",
+        "lang": "Lang",
+        "user": "User",
+        "problem": "Problem",
+        "verdict": "Verdict",
+        "time": "Time",
+        "memory": "Memory",
+        "size": "Size"
+      },
+      "ms": "ms",
+      "kb": "KB"
+    }
   }
 }

@@ -271,15 +271,6 @@ const TopUsersSection = () => {
               {t('homePage.topUsers.title')}
             </Typography>
           </Box>
-
-          <Button
-            variant="text"
-            color="primary"
-            component={RouterLink}
-            to={resources.Users}
-          >
-            {t('homePage.topUsers.viewAll')}
-          </Button>
         </Stack>
 
         <Tabs
@@ -312,7 +303,7 @@ const TopUsersSection = () => {
           <Box
             sx={{
               display: 'grid',
-              gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, minmax(0, 1fr))' },
+              gridTemplateColumns: { xs: 'repeat(1, minmax(0, 1fr))', lg: 'repeat(3, minmax(0, 1fr))' },
               gap: 2,
             }}
           >
@@ -325,6 +316,14 @@ const TopUsersSection = () => {
             {emptyLabel}
           </Typography>
         )}
+        <Button
+          variant="text"
+          color="primary"
+          component={RouterLink}
+          to={resources.Users}
+        >
+          {t('homePage.topUsers.viewAll')}
+        </Button>
       </Stack>
     </Paper>
   );

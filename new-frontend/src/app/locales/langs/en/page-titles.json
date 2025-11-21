@@ -16,6 +16,8 @@
     "blog": "Blog",
     "blogPost": "Blog post",
     "problems": "Problems",
+    "problemsRating": "Problems rating",
+    "problemsAttempts": "Problem attempts",
     "login": "Login",
     "notFound": "Page not found",
     "challenges": "Challenges",

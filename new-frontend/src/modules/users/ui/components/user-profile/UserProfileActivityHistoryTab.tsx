@@ -13,7 +13,7 @@ const UserProfileActivityHistoryTab = () => {
     <Card variant="outlined">
       <CardContent>
         <Stack direction="column" spacing={2}>
-          <HomeActivityHistory username={username} history={data ?? undefined} isLoading={isLoading} />
+          <HomeActivityHistory maxHeight={500} username={username} history={data ?? undefined} isLoading={isLoading} />
         </Stack>
       </CardContent>
     </Card>

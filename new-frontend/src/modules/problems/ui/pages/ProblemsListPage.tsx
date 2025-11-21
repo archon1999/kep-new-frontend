@@ -20,16 +20,10 @@ import {
   Stack,
   Switch,
   Tab,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
   TablePagination,
-  TableRow,
-  TableSortLabel,
   Tabs,
   TextField,
+  Tooltip,
   Typography,
   alpha,
   useTheme,
@@ -192,13 +186,43 @@ const ProblemsListPage = () => {
   return (
     <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={4}>
-        <Stack direction="column" spacing={1}>
-          <Typography variant="h4" fontWeight={800}>
-            {t('problems.title')}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {t('problems.subtitle')}
-          </Typography>
+        <Stack direction="column" spacing={2}>
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            alignItems={{ xs: 'flex-start', sm: 'center' }}
+            justifyContent="space-between"
+            spacing={1.5}
+          >
+            <Stack direction="column" spacing={1}>
+              <Typography variant="h4" fontWeight={800}>
+                {t('problems.title')}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {t('problems.subtitle')}
+              </Typography>
+            </Stack>
+
+            <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}>
+              <Button
+                component={RouterLink}
+                to={resources.ProblemsRating}
+                variant="outlined"
+                color="primary"
+                startIcon={<IconifyIcon icon="mdi:chart-line" />}
+              >
+                {t('problems.ratingButton')}
+              </Button>
+              <Button
+                component={RouterLink}
+                to={resources.Attempts}
+                variant="outlined"
+                color="secondary"
+                startIcon={<IconifyIcon icon="mdi:target" />}
+              >
+                {t('problems.attemptsButton')}
+              </Button>
+            </Stack>
+          </Stack>
         </Stack>
 
         <Grid container spacing={3}>
@@ -211,13 +235,11 @@ const ProblemsListPage = () => {
                 total={total}
                 onChange={handleFilterChange}
               />
-              <ProblemsTable
+              <ProblemsList
                 problems={problems}
                 isLoading={isLoading}
                 filter={filter}
                 total={total}
-                difficultyMap={difficultyMap}
-                onChange={handleFilterChange}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 renderDifficultyBadge={renderDifficultyBadge}
@@ -473,13 +495,11 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
   );
 };
 
-interface ProblemsTableProps {
+interface ProblemsListProps {
   problems: ProblemListItem[];
   isLoading: boolean;
   filter: ProblemsListParams;
   total: number;
-  difficultyMap: Map<number, string>;
-  onChange: <K extends keyof ProblemsListParams>(key: K, value: ProblemsListParams[K]) => void;
   onPageChange: (event: unknown, page: number) => void;
   onRowsPerPageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   renderDifficultyBadge: (problem: ProblemListItem) => React.ReactNode;
@@ -488,42 +508,68 @@ interface ProblemsTableProps {
   getRowBackground: (problem: ProblemListItem) => string | undefined;
 }
 
-const ProblemsTable = ({
+const ProblemsList = ({
   problems,
   isLoading,
   filter,
   total,
-  onChange,
   onPageChange,
   onRowsPerPageChange,
   renderDifficultyBadge,
   renderProblemBadges,
   renderTags,
   getRowBackground,
-}: ProblemsTableProps) => {
+}: ProblemsListProps) => {
   const { t } = useTranslation();
+  const theme = useTheme();
 
-  const getOrderingState = (column: string) => {
-    const value = filter.ordering ?? '';
-    const isDesc = value.startsWith('-');
-    const clean = isDesc ? value.substring(1) : value;
-    return { active: clean === column, direction: isDesc ? 'desc' : 'asc' as const };
+  const renderStatusIcon = (problem: ProblemListItem) => {
+    if (problem.userInfo?.hasSolved) {
+      return (
+        <Tooltip title={t('problems.statusSolved')}>
+          <IconifyIcon icon="mdi:check-circle" width={26} height={26} color={theme.palette.success.main} />
+        </Tooltip>
+      );
+    }
+
+    if (problem.userInfo?.hasAttempted) {
+      return (
+        <Tooltip title={t('problems.statusUnsolved')}>
+          <IconifyIcon icon="mdi:close-circle" width={26} height={26} color={theme.palette.error.main} />
+        </Tooltip>
+      );
+    }
+
+    return (
+      <Tooltip title={t('problems.statusUnknown')}>
+        <IconifyIcon icon="mdi:minus-circle-outline" width={26} height={26} color={theme.palette.warning.main} />
+      </Tooltip>
+    );
   };
 
-  const handleSort = (column: string) => {
-    const { active, direction } = getOrderingState(column);
-    const nextDirection = active && direction === 'desc' ? 'asc' : 'desc';
-    const prefix = nextDirection === 'desc' ? '-' : '';
-    onChange('ordering', `${prefix}${column}`);
+  const renderSolvedBadges = (problem: ProblemListItem) => {
+    const solved = problem.solved ?? 0;
+    const notSolved = problem.notSolved ?? Math.max((problem.attemptsCount ?? 0) - solved, 0);
+
+    return (
+      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
+        <Chip size="small" color="success" label={t('problems.solvedCount', { count: solved })} />
+        <Chip
+          size="small"
+          color={notSolved > 0 ? 'error' : 'default'}
+          label={t('problems.unsolvedCount', { count: notSolved })}
+        />
+      </Stack>
+    );
   };
 
   return (
     <Card variant="outlined">
       <CardContent>
         {isLoading ? (
-          <Stack direction="column" spacing={2}>
+          <Stack direction="column" spacing={1.5}>
             {Array.from({ length: 5 }).map((_, idx) => (
-              <Skeleton key={idx} variant="rectangular" height={54} />
+              <Skeleton key={idx} variant="rounded" height={96} />
             ))}
           </Stack>
         ) : problems.length === 0 ? (
@@ -536,118 +582,80 @@ const ProblemsTable = ({
             </Typography>
           </Box>
         ) : (
-          <TableContainer>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <TableSortLabel
-                      active={getOrderingState('id').active}
-                      direction={getOrderingState('id').direction}
-                      onClick={() => handleSort('id')}
+          <Stack direction="column" spacing={1.5}>
+            {problems.map((problem) => (
+              <Box
+                key={problem.id}
+                component={RouterLink}
+                to={getResourceById(resources.Problem, problem.id)}
+                sx={{
+                  textDecoration: 'none',
+                  borderRadius: 2,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  p: 2,
+                  backgroundColor: getRowBackground(problem),
+                  transition: 'background-color 0.2s ease, transform 0.2s ease',
+                  '&:hover': {
+                    backgroundColor: alpha(theme.palette.primary.main, 0.04),
+                    transform: 'translateY(-2px)',
+                  },
+                }}
+              >
+                <Stack
+                  direction={{ xs: 'column', sm: 'row' }}
+                  spacing={1.5}
+                  alignItems={{ sm: 'flex-start' }}
+                  justifyContent="space-between"
+                >
+                  <Stack spacing={1} alignItems="center" flexShrink={0} width={48}>
+                    {renderStatusIcon(problem)}
+                    <Typography variant="caption" color="text.secondary">
+                      #{problem.id}
+                    </Typography>
+                  </Stack>
+
+                  <Stack spacing={1} flex={1}>
+                    <Stack
+                      direction={{ xs: 'column', sm: 'row' }}
+                      spacing={1}
+                      justifyContent="space-between"
+                      alignItems={{ sm: 'center' }}
                     >
-                      ID
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell>
-                    <TableSortLabel
-                      active={getOrderingState('title').active}
-                      direction={getOrderingState('title').direction}
-                      onClick={() => handleSort('title')}
-                    >
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <IconifyIcon icon="mdi:format-text" width={18} height={18} />
-                        <Typography variant="body2" fontWeight={600}>
-                          {t('problems.titleColumn')}
-                        </Typography>
-                      </Stack>
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <IconifyIcon icon="mdi:tag" width={18} height={18} />
-                      <Typography variant="body2" fontWeight={600}>
-                        {t('problems.tags')}
+                      <Typography variant="subtitle1" fontWeight={700}>
+                        {problem.title}
                       </Typography>
+                      {renderDifficultyBadge(problem)}
                     </Stack>
-                  </TableCell>
-                  <TableCell align="center">
-                    <TableSortLabel
-                      active={getOrderingState('difficulty').active}
-                      direction={getOrderingState('difficulty').direction}
-                      onClick={() => handleSort('difficulty')}
+
+                    {renderProblemBadges(problem)}
+
+                    {problem.tags.length ? renderTags(problem) : null}
+
+                    <Stack
+                      direction={{ xs: 'column', sm: 'row' }}
+                      spacing={1}
+                      justifyContent="space-between"
+                      alignItems={{ sm: 'center' }}
                     >
-                      <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
-                        <IconifyIcon icon="mdi:chart-line" width={18} height={18} />
-                        <Typography variant="body2" fontWeight={600}>
-                          {t('problems.difficultyLabel')}
-                        </Typography>
-                      </Stack>
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell align="center">
-                    <TableSortLabel
-                      active={getOrderingState('solved').active}
-                      direction={getOrderingState('solved').direction}
-                      onClick={() => handleSort('solved')}
-                    >
-                      <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
-                        <IconifyIcon icon="mdi:counter" width={18} height={18} />
-                        <Typography variant="body2" fontWeight={600}>
-                          {t('problems.attempts')}
-                        </Typography>
-                      </Stack>
-                    </TableSortLabel>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {problems.map((problem) => (
-                  <TableRow key={problem.id} sx={{ backgroundColor: getRowBackground(problem) }}>
-                    <TableCell width={70}>{problem.id}</TableCell>
-                    <TableCell>
-                      <Stack direction="column" spacing={1}>
-                        <Button
-                          component={RouterLink}
-                          to={getResourceById(resources.Problem, problem.id)}
-                          variant="text"
-                          color="inherit"
-                          sx={{ justifyContent: 'flex-start', textTransform: 'none', px: 0 }}
-                        >
-                          <Typography variant="subtitle2" fontWeight={700}>
-                            {problem.title}
-                          </Typography>
-                        </Button>
-                        {renderProblemBadges(problem)}
-                        <Stack direction="row" spacing={1} alignItems="center">
-                          <IconifyIcon icon="mdi:thumb-up-outline" width={16} height={16} />
-                          <Typography variant="caption" color="text.secondary">
-                            {problem.likesCount}
-                          </Typography>
-                          <IconifyIcon icon="mdi:thumb-down-outline" width={16} height={16} />
-                          <Typography variant="caption" color="text.secondary">
-                            {problem.dislikesCount}
-                          </Typography>
+                      {renderSolvedBadges(problem)}
+
+                      <Stack direction="row" spacing={1.5} alignItems="center" color="text.secondary">
+                        <Stack direction="row" spacing={0.5} alignItems="center">
+                          <IconifyIcon icon="mdi:thumb-up-outline" width={18} height={18} />
+                          <Typography variant="caption">{problem.likesCount}</Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={0.5} alignItems="center">
+                          <IconifyIcon icon="mdi:thumb-down-outline" width={18} height={18} />
+                          <Typography variant="caption">{problem.dislikesCount}</Typography>
                         </Stack>
                       </Stack>
-                    </TableCell>
-                    <TableCell width={260}>{renderTags(problem)}</TableCell>
-                    <TableCell align="center" width={160}>
-                      {renderDifficultyBadge(problem)}
-                    </TableCell>
-                    <TableCell align="center" width={140}>
-                      <Typography variant="body2" color="success.main" fontWeight={700}>
-                        {problem.solved}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        / {problem.attemptsCount ?? 0}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </Box>
+            ))}
+          </Stack>
         )}
 
         {problems.length > 0 && (

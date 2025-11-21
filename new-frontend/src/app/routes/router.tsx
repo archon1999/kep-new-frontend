@@ -13,6 +13,8 @@ const Home = lazy(() => import('modules/home/ui/pages/HomePage'));
 const KepcoinPage = lazy(() => import('modules/kepcoin/ui/pages/KepcoinPage'));
 const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
 const ProblemsListPage = lazy(() => import('modules/problems/ui/pages/ProblemsListPage'));
+const ProblemsRatingPage = lazy(() => import('modules/problems/ui/pages/ProblemsRatingPage'));
+const ProblemsAttemptsPage = lazy(() => import('modules/problems/ui/pages/ProblemsAttemptsPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
 const ProjectsListPage = lazy(() => import('modules/projects/ui/pages/ProjectsListPage'));
 const ProjectDetailPage = lazy(() => import('modules/projects/ui/pages/ProjectDetailPage'));
@@ -112,6 +114,21 @@ export const routes: RouteObject[] = [
             path: resources.Problems,
             element: <ProblemsListPage />,
             handle: { titleKey: 'pageTitles.problems' },
+          },
+          {
+            path: resources.ProblemsRating,
+            element: <ProblemsRatingPage />,
+            handle: { titleKey: 'pageTitles.problemsRating' },
+          },
+          {
+            path: resources.Attempts,
+            element: <ProblemsAttemptsPage />,
+            handle: { titleKey: 'pageTitles.problemsAttempts' },
+          },
+          {
+            path: resources.AttemptsByUser,
+            element: <ProblemsAttemptsPage />,
+            handle: { titleKey: 'pageTitles.problemsAttempts' },
           },
           {
             path: resources.Projects,

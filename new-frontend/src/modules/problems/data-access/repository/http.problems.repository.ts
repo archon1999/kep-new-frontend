@@ -1,21 +1,30 @@
-import { ApiProblemsListParams } from 'shared/api/orval/generated/endpoints/index.schemas';
+import { ApiAttemptsListParams, ApiProblemsListParams, ApiProblemsRatingListParams } from 'shared/api/orval/generated/endpoints/index.schemas';
 import {
   mapAttempts,
   mapCategories,
   mapContestPreview,
   mapDifficultyBreakdown,
   mapLanguages,
+  mapPeriodRating,
+  mapProblemsRatingPage,
   mapProblemsPage,
   mapRatingSummary,
+  mapAttemptsPage,
+  mapVerdicts,
 } from '../mappers/problems.mapper.ts';
 import { problemsApiClient } from '../api/problems.client.ts';
 import {
+  AttemptListItem,
+  PeriodRatingEntry,
   ProblemListItem,
+  ProblemsRatingRow,
   ProblemsRatingSummary,
 } from '../../domain/entities/problem.entity.ts';
 import {
+  AttemptsListParams,
   PageResult,
   ProblemsListParams,
+  ProblemsRatingParams,
   ProblemsRepository,
 } from '../../domain/ports/problems.repository.ts';
 
@@ -87,7 +96,47 @@ export class HttpProblemsRepository implements ProblemsRepository {
     return mapRatingSummary(response, difficulties);
   }
 
+  async listRating(params: ProblemsRatingParams): Promise<PageResult<ProblemsRatingRow>> {
+    const response = await problemsApiClient.listRating(mapRatingFilter(params));
+    return mapProblemsRatingPage(response);
+  }
+
+  async listPeriodRating(period: 'today' | 'week' | 'month'): Promise<PeriodRatingEntry[]> {
+    const response = await problemsApiClient.listPeriodRating(period);
+    return mapPeriodRating(response);
+  }
+
+  async listAttempts(params: AttemptsListParams): Promise<PageResult<AttemptListItem>> {
+    const response = await problemsApiClient.listAttempts(mapAttemptsFilter(params));
+    return mapAttemptsPage(response);
+  }
+
+  async listVerdicts() {
+    const response = await problemsApiClient.listVerdicts();
+    return mapVerdicts(response);
+  }
+
   mapDifficulties(stats: unknown) {
     return mapDifficultyBreakdown(stats);
   }
 }
+
+const mapRatingFilter = (params: ProblemsRatingParams): ApiProblemsRatingListParams => ({
+  ordering: params.ordering,
+  page: params.page,
+  pageSize: params.pageSize,
+});
+
+const mapAttemptsFilter = (params: AttemptsListParams): ApiAttemptsListParams => ({
+  ordering: params.ordering,
+  username: params.username || undefined,
+  problem_id: params.problemId !== undefined ? String(params.problemId) : undefined,
+  contest_id: params.contestId !== undefined ? String(params.contestId) : undefined,
+  duel_id: params.duelId !== undefined ? String(params.duelId) : undefined,
+  contest_problem: params.contestProblem,
+  duel_problem: params.duelProblem,
+  verdict: params.verdict !== undefined ? String(params.verdict) : undefined,
+  lang: params.lang || undefined,
+  page: params.page,
+  pageSize: params.pageSize,
+});

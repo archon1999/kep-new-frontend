@@ -10,6 +10,7 @@ export interface ProblemListItem {
   difficulty: number;
   difficultyTitle?: string;
   solved?: number;
+  notSolved?: number;
   attemptsCount?: number;
   tags: ProblemTag[];
   likesCount?: number;
@@ -21,6 +22,35 @@ export interface ProblemListItem {
     hasSolved?: boolean;
     hasAttempted?: boolean;
   };
+}
+
+export interface ProblemUserSummary {
+  username: string;
+  firstName?: string;
+  lastName?: string;
+  avatar?: string;
+  rating?: number;
+  ratingTitle?: string;
+}
+
+export interface ProblemsRatingRow {
+  rowIndex: number;
+  rating?: number;
+  solved?: number;
+  beginner?: number;
+  basic?: number;
+  normal?: number;
+  medium?: number;
+  advanced?: number;
+  hard?: number;
+  extremal?: number;
+  user: ProblemUserSummary;
+}
+
+export interface PeriodRatingEntry {
+  username: string;
+  solved: number;
+  ratingTitle?: string;
 }
 
 export interface ProblemLanguageOption {
@@ -41,6 +71,37 @@ export interface ProblemAttemptSummary {
   id: number;
   problemId: number;
   problemTitle: string;
+}
+
+export interface AttemptListItem {
+  id: number;
+  user: ProblemUserSummary;
+  teamName?: string;
+  problemId: number;
+  problemTitle: string;
+  contestProblemSymbol?: string;
+  contestId?: number;
+  contestTime?: string | null;
+  verdict?: number;
+  verdictTitle: string;
+  lang: string;
+  langFull: string;
+  testCaseNumber?: number | null;
+  time?: number;
+  memory?: number;
+  sourceCodeSize?: number;
+  balls?: number | null;
+  canView?: boolean;
+  canTestView?: boolean;
+  kepcoinValue?: number;
+  testCaseKepcoinValue?: number;
+  created?: string;
+  problemHasCheckInput?: boolean;
+}
+
+export interface AttemptFilterOption {
+  label: string;
+  value: number;
 }
 
 export interface ProblemContestPreview {

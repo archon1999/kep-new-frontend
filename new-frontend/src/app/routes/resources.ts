@@ -3,6 +3,7 @@ export const resources = {
 
   Problems: '/problems',
   Problem: '/problems/:id',
+  ProblemsRating: '/problems/rating',
   Attempt: '/problems/attempts/:id',
   StudyPlan: '/problems/study-plan/:id',
 
