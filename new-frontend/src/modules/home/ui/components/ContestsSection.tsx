@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
+  Button,
   CardActionArea,
   Chip,
   Paper,
@@ -10,15 +11,16 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { getResourceById, resources } from 'app/routes/resources';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import { getResourceById, resources } from 'app/routes/resources';
 import { useContestsList } from 'modules/contests/application/queries';
 import { ContestListItem } from 'modules/contests/domain/entities/contest.entity';
-import KepIcon from 'shared/components/base/KepIcon';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import KepIcon from 'shared/components/base/KepIcon';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { cssVarRgba } from 'shared/lib/utils';
+
 
 dayjs.extend(duration);
 
@@ -93,18 +95,6 @@ const HomeContestCard = ({ contest }: HomeContestCardProps) => {
             <Typography variant="h6" fontWeight={800} sx={{ wordBreak: 'break-word' }}>
               {contest.title}
             </Typography>
-
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              }}
-              dangerouslySetInnerHTML={{ __html: contest.description || t('contests.noDescription') }}
-            />
           </Stack>
 
           <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
@@ -139,10 +129,10 @@ const HomeContestCard = ({ contest }: HomeContestCardProps) => {
 
 const ContestsSection = () => {
   const { t } = useTranslation();
-  const params = useMemo(() => ({ page: 1, pageSize: 1 }), []);
+  const params = useMemo(() => ({ page: 1, page_size: 2 }), []);
   const { data, isLoading } = useContestsList(params);
 
-  const latestContest = data?.data?.[0];
+  const latestContest = data?.data?.[1];
 
   return (
     <Paper>
@@ -153,16 +143,14 @@ const ContestsSection = () => {
           </Typography>
 
           <Stack direction="row" spacing={1} alignItems="center">
-            <IconifyIcon icon="mdi:lightning-bolt" fontSize={18} color="warning.main" />
-            <Typography
+            <Button
+              variant="text"
+              color="primary"
               component={RouterLink}
               to={resources.Contests}
-              variant="body2"
-              color="primary"
-              sx={{ fontWeight: 700, textDecoration: 'none' }}
             >
               {t('homePage.contests.viewAll')}
-            </Typography>
+            </Button>
           </Stack>
         </Stack>
 

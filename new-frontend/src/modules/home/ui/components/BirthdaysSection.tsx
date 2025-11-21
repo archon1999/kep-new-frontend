@@ -75,7 +75,7 @@ const BirthdaysSection = () => {
         </Stack>
 
         {isLoading ? (
-          <Stack spacing={2.5}>
+          <Stack direction="column" spacing={2.5}>
             {SKELETON_ITEMS.map((_, index) => (
               <Stack key={index} direction="row" spacing={2} alignItems="center">
                 <Skeleton variant="circular" width={48} height={48} />

@@ -48,20 +48,20 @@ const HomePage = () => {
               <TopUsersSection />
             </Grid>
 
-            <Grid size={12}>
-              <UserActivitySection />
-            </Grid>
-
-            <Grid size={12}>
-              <StatisticsSection />
-            </Grid>
-
             <Grid size={{ xs: 12, lg: 4 }}>
               <BirthdaysSection />
             </Grid>
 
             <Grid size={{ xs: 12, lg: 8 }}>
               <PostsSection />
+            </Grid>
+
+            <Grid size={12}>
+              <UserActivitySection />
+            </Grid>
+
+            <Grid size={12}>
+              <StatisticsSection />
             </Grid>
           </Grid>
         </Grid>
