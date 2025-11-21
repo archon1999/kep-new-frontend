@@ -44,6 +44,16 @@
     "popover": {
       "viewDetails": "Подробнее о пользователе"
     },
+    "profile": {
+      "about": "О пользователе",
+      "fullName": "Полное имя",
+      "country": "Страна",
+      "ratings": "Рейтинги",
+      "activityHistory": "Активность {{name}}",
+      "streak": "Серия",
+      "maxStreak": "Лучшая серия",
+      "kepcoin": "Kepcoin"
+    },
     "emptyValue": "—"
   }
 }

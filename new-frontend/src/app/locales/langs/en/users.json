@@ -44,6 +44,16 @@
     "popover": {
       "viewDetails": "View user details"
     },
+    "profile": {
+      "about": "About user",
+      "fullName": "Full name",
+      "country": "Country",
+      "ratings": "Ratings",
+      "activityHistory": "{{name}}'s activity",
+      "streak": "Streak",
+      "maxStreak": "Best streak",
+      "kepcoin": "Kepcoin"
+    },
     "emptyValue": "—"
   }
 }

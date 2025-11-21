@@ -44,6 +44,16 @@
     "popover": {
       "viewDetails": "Profilni ko'rish"
     },
+    "profile": {
+      "about": "Foydalanuvchi haqida",
+      "fullName": "To'liq ism",
+      "country": "Mamlakat",
+      "ratings": "Reytinglar",
+      "activityHistory": "{{name}} faoliyati",
+      "streak": "Seriya",
+      "maxStreak": "Eng uzun seriya",
+      "kepcoin": "Kepcoin"
+    },
     "emptyValue": "—"
   }
 }

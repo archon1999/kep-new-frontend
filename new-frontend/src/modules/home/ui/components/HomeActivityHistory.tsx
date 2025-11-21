@@ -24,6 +24,7 @@ interface HomeActivityHistoryProps {
   username?: string | null;
   history?: HomeUserActivityHistory | null;
   isLoading?: boolean;
+  title?: string;
 }
 
 type ActivityType = HomeUserActivityHistoryItem['activityType'];
@@ -235,7 +236,7 @@ const getActivityTexts = (
   }
 };
 
-const HomeActivityHistory = ({ username: _username, history, isLoading }: HomeActivityHistoryProps) => {
+const HomeActivityHistory = ({ username: _username, history, isLoading, title }: HomeActivityHistoryProps) => {
   const { t } = useTranslation();
   const activities = history?.data ?? [];
   const showEmpty = !isLoading && activities.length === 0;
@@ -243,7 +244,7 @@ const HomeActivityHistory = ({ username: _username, history, isLoading }: HomeAc
   return (
     <Stack direction="column" spacing={2}>
       <Typography variant="h6" fontWeight={600}>
-        {t('homePage.activityHistory.title')}
+        {title ?? t('homePage.activityHistory.title')}
       </Typography>
 
       <Box

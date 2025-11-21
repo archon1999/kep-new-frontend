@@ -14,6 +14,7 @@ const KepcoinPage = lazy(() => import('modules/kepcoin/ui/pages/KepcoinPage'));
 const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
 const ProblemsListPage = lazy(() => import('modules/problems/ui/pages/ProblemsListPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
+const UserProfilePage = lazy(() => import('modules/users/ui/pages/UserProfilePage'));
 const ProjectsListPage = lazy(() => import('modules/projects/ui/pages/ProjectsListPage'));
 const ProjectDetailPage = lazy(() => import('modules/projects/ui/pages/ProjectDetailPage'));
 const TestsListPage = lazy(() => import('modules/testing/ui/pages/TestsListPage'));
@@ -74,6 +75,36 @@ export const routes: RouteObject[] = [
             path: resources.Users,
             element: <UsersListPage />,
             handle: { titleKey: 'pageTitles.users' },
+          },
+          {
+            path: resources.UserProfile,
+            element: <UserProfilePage />,
+            handle: { titleKey: 'pageTitles.userProfile' },
+          },
+          {
+            path: resources.UserProfileRatings,
+            element: <UserProfilePage />,
+            handle: { titleKey: 'pageTitles.userProfile' },
+          },
+          {
+            path: resources.UserProfileActivityHistory,
+            element: <UserProfilePage />,
+            handle: { titleKey: 'pageTitles.userProfile' },
+          },
+          {
+            path: resources.UserProfileAchievements,
+            element: <UserProfilePage />,
+            handle: { titleKey: 'pageTitles.userProfile' },
+          },
+          {
+            path: resources.UserProfileFollowers,
+            element: <UserProfilePage />,
+            handle: { titleKey: 'pageTitles.userProfile' },
+          },
+          {
+            path: resources.UserProfileBlog,
+            element: <UserProfilePage />,
+            handle: { titleKey: 'pageTitles.userProfile' },
           },
           {
             path: resources.Problems,

@@ -25,6 +25,7 @@
     "accountSettings": "Настройки аккаунта",
     "contests": "Контесты",
     "tournaments": "Турниры",
-    "tournament": "Турнир"
+    "tournament": "Турнир",
+    "userProfile": "Профиль пользователя"
   }
 }

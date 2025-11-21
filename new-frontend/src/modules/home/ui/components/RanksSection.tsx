@@ -12,10 +12,12 @@ import {
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import KepIcon from 'shared/components/base/KepIcon';
 import type { HomeUserRatings } from '../../domain/entities/home.entity';
+import type { UserRatings } from 'modules/users/domain/entities/user.entity';
 
 interface RanksSectionProps {
-  ratings?: HomeUserRatings | null;
+  ratings?: HomeUserRatings | UserRatings | null;
   isLoading?: boolean;
+  titleKey?: string;
 }
 
 type RatingKey = 'skillsRating' | 'activityRating' | 'contestsRating' | 'challengesRating';
@@ -68,7 +70,7 @@ const getRatingEntry = (ratings?: HomeUserRatings | null, key?: RatingKey): Rati
   return (ratings as unknown as Record<string, RatingEntry | undefined>)[key] ?? {};
 };
 
-const RanksSection = ({ ratings, isLoading }: RanksSectionProps) => {
+const RanksSection = ({ ratings, isLoading, titleKey = 'homePage.ranks.title' }: RanksSectionProps) => {
   const { t } = useTranslation();
   const cards = useMemo(
     () => rankCards.map((card) => ({ ...card, ...getRatingEntry(ratings, card.key) })),
@@ -78,7 +80,7 @@ const RanksSection = ({ ratings, isLoading }: RanksSectionProps) => {
   return (
     <Stack direction="column" spacing={3}>
       <Typography variant="h5" fontWeight={600}>
-        {t('homePage.ranks.title')}
+        {t(titleKey)}
       </Typography>
 
       <Stack spacing={2} direction="column">
