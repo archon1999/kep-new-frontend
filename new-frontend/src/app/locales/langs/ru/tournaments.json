@@ -1,0 +1,26 @@
+{
+  "tournaments": {
+    "title": "Турниры",
+    "listSubtitle": "Доступно {{count}} турниров.",
+    "listEmptySubtitle": "Турниров пока нет.",
+    "searchPlaceholder": "Поиск турниров",
+    "playersCount": "{{count}} участников",
+    "players": "Игроки",
+    "user": "Пользователь",
+    "tabs": {
+      "info": "Информация",
+      "duels": "Дуэли",
+      "results": "Результаты",
+      "schedule": "Расписание"
+    },
+    "round": "Раунд",
+    "schedule": "Расписание",
+    "stageNumber": "Этап {{number}}",
+    "scheduleTbd": "Расписание будет объявлено позже",
+    "bye": "BYE",
+    "noDuels": "Дуэли еще не сформированы.",
+    "noResults": "Результаты еще не опубликованы.",
+    "register": "Регистрация",
+    "registered": "Зарегистрирован"
+  }
+}

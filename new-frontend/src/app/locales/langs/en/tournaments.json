@@ -1,0 +1,26 @@
+{
+  "tournaments": {
+    "title": "Tournaments",
+    "listSubtitle": "{{count}} tournaments are open for you.",
+    "listEmptySubtitle": "No tournaments found yet.",
+    "searchPlaceholder": "Search tournaments",
+    "playersCount": "{{count}} participants",
+    "players": "Players",
+    "user": "User",
+    "tabs": {
+      "info": "Info",
+      "duels": "Duels",
+      "results": "Results",
+      "schedule": "Schedule"
+    },
+    "round": "Round",
+    "schedule": "Schedule",
+    "stageNumber": "Stage {{number}}",
+    "scheduleTbd": "Schedule will be announced soon",
+    "bye": "BYE",
+    "noDuels": "Duels have not been generated yet.",
+    "noResults": "Results have not been published yet.",
+    "register": "Registration",
+    "registered": "Registered"
+  }
+}

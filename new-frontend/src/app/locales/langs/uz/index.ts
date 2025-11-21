@@ -12,6 +12,7 @@ import settings from './settings.json';
 import shop from './shop.json';
 import tests from './tests.json';
 import users from './users.json';
+import tournaments from './tournaments.json';
 
 export const uzTranslation = {
   ...common,
@@ -28,6 +29,7 @@ export const uzTranslation = {
   ...users,
   ...kepcoinPage,
   ...challenges,
+  ...tournaments,
 };
 
 export default uzTranslation;

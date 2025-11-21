@@ -1,0 +1,26 @@
+{
+  "tournaments": {
+    "title": "Turnirlar",
+    "listSubtitle": "{{count}} ta turnir ochiq.",
+    "listEmptySubtitle": "Hozircha turnirlar topilmadi.",
+    "searchPlaceholder": "Turnirlarni qidirish",
+    "playersCount": "{{count}} ishtirokchi",
+    "players": "Ishtirokchilar",
+    "user": "Foydalanuvchi",
+    "tabs": {
+      "info": "Ma'lumot",
+      "duels": "Duellar",
+      "results": "Natijalar",
+      "schedule": "Jadval"
+    },
+    "round": "Bosqich",
+    "schedule": "Jadval",
+    "stageNumber": "{{number}}-bosqich",
+    "scheduleTbd": "Jadval tez orada e'lon qilinadi",
+    "bye": "BYE",
+    "noDuels": "Duellar hali shakllantirilmagan.",
+    "noResults": "Natijalar hali e'lon qilinmagan.",
+    "register": "Ro'yxatdan o'tish",
+    "registered": "Ro'yxatdan o'tilgan"
+  }
+}
