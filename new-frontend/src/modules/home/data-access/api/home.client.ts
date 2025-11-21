@@ -1,4 +1,5 @@
 import { apiClient } from 'shared/api';
+import { axiosMutator } from 'shared/api/http/axiosMutator';
 import type {
   ApiBlogListResult,
   ApiNewsListResult,
@@ -18,6 +19,7 @@ import type {
   ApiUsersOnlineParams,
   ApiUsersTopRatingParams,
 } from 'shared/api/orval/generated/endpoints/index.schemas';
+import type { HomeUserActivityStatistics } from '../../domain/entities/home.entity';
 
 export const homeApiClient = {
   news: (params?: ApiNewsListParams) => apiClient.apiNewsList(params) as Promise<ApiNewsListResult>,
@@ -31,4 +33,6 @@ export const homeApiClient = {
   userRatings: (username: string) => apiClient.apiUsersRatings(username) as Promise<ApiUsersRatingsResult>,
   userActivityHistory: (username: string, params?: ApiUserActivityHistoryReadParams) =>
     apiClient.apiUserActivityHistoryRead(username, params) as Promise<ApiUserActivityHistoryReadResult>,
+  userActivityStatistics: () =>
+    axiosMutator<HomeUserActivityStatistics>({ url: '/api/users/user-activity-statistics/', method: 'GET' }),
 };

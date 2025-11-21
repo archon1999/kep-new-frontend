@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import Chip, { type ChipProps } from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -7,35 +8,64 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import { LineChart } from 'echarts/charts';
-import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
+import { GridComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
+
+import { useUserActivityStatistics } from '../../application/queries';
 import ReactEchart from 'shared/components/base/ReactEchart';
+import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { getColor } from 'shared/lib/echart-utils';
 import { getPastDates } from 'shared/lib/utils';
 
-echarts.use([LineChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
+echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
-const USER_ACTIVITY_DATA = {
-  newUsersSeries: [3, 0, 2, 5, 2, 21, 5, 4, 2, 4, 3, 2],
-  total: 8550,
-  activeUsersSeries: [42, 57, 15, 88, 61, 34, 77, 52, 19, 66, 48, 25],
-  activeTotal: 584,
-} as const;
+type TrendStyles = { color: ChipProps['color']; icon: string };
+
+const getTrendStyles = (value: number): TrendStyles => {
+  if (value > 0) {
+    return {
+      color: 'success',
+      icon: 'material-symbols:trending-up-rounded',
+    };
+  }
+
+  if (value < 0) {
+    return {
+      color: 'error',
+      icon: 'material-symbols:trending-down-rounded',
+    };
+  }
+
+  return {
+    color: 'neutral',
+    icon: 'material-symbols:trending-flat-rounded',
+  };
+};
+
+const withPadding = (series: number[]): [number, number] => {
+  const min = Math.min(...series);
+  const max = Math.max(...series);
+  const range = max - min;
+  const padding = range === 0 ? 1 : range * 0.15;
+
+  return [Math.max(0, Math.floor(min - padding)), Math.ceil(max + padding)];
+};
 
 const UserActivitySection = () => {
   const theme = useTheme();
   const { t } = useTranslation();
+  const { data } = useUserActivityStatistics();
 
-  const labels = useMemo(
-    () =>
-      getPastDates(USER_ACTIVITY_DATA.newUsersSeries.length).map((date) =>
-        dayjs(date).format('MMM DD'),
-      ),
-    [],
-  );
+  const newUsersStat = data?.newUsers;
+  const activeUsersStat = data?.activeUsers;
 
-  const formatter = useMemo(
+  const newUsersSeries = newUsersStat?.series?.length ? newUsersStat.series : [0];
+  const activeUsersSeries = activeUsersStat?.series?.length ? activeUsersStat.series : [0];
+
+  const periodLength = Math.max(newUsersSeries.length, activeUsersSeries.length, 1);
+
+  const numberFormatter = useMemo(
     () =>
       new Intl.NumberFormat(undefined, {
         maximumFractionDigits: 0,
@@ -43,174 +73,176 @@ const UserActivitySection = () => {
     [],
   );
 
+  const percentFormatter = useMemo(
+    () =>
+      new Intl.NumberFormat(undefined, {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+        signDisplay: 'always',
+      }),
+    [],
+  );
+
   const axisLabelColor = getColor(theme.vars.palette.text.secondary);
-  const legendTextColor = getColor(theme.vars.palette.text.secondary);
   const splitLineColor = getColor(theme.vars.palette.chGrey[200]);
   const pointerColor = getColor(theme.vars.palette.chGrey[300]);
   const newUsersColor = getColor(theme.vars.palette.primary.main);
   const activeUsersColor = getColor(theme.vars.palette.success.main);
-  const primaryMainChannel = theme.vars.palette.primary.mainChannel;
+  const tooltipSuffix = t('homePage.userActivity.tooltipSuffix');
 
-  const chartOptions = useMemo(() => {
-    const tooltipSuffix = t('homePage.userActivity.tooltipSuffix');
-    const newUsersLabel = t('homePage.userActivity.series.newUsers');
-    const activeUsersLabel = t('homePage.userActivity.series.activeUsers');
+  const createChartOptions = useMemo(
+    () =>
+      (series: number[], color: string) => {
+        const labels = getPastDates(series.length).map((date) => dayjs(date).format('MMM DD'));
+        const [min, max] = withPadding(series);
 
-    const withPadding = (min: number, max: number) => {
-      const range = max - min;
-      const padding = range === 0 ? 1 : range * 0.15;
-      return [Math.max(0, Math.floor(min - padding)), Math.ceil(max + padding)];
-    };
-
-    const [newUsersMin, newUsersMax] = withPadding(
-      Math.min(...USER_ACTIVITY_DATA.newUsersSeries),
-      Math.max(...USER_ACTIVITY_DATA.newUsersSeries),
-    );
-    const [activeUsersMin, activeUsersMax] = withPadding(
-      Math.min(...USER_ACTIVITY_DATA.activeUsersSeries),
-      Math.max(...USER_ACTIVITY_DATA.activeUsersSeries),
-    );
-
-    return {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'line',
-          lineStyle: {
-            color: pointerColor,
+        return {
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'line',
+              lineStyle: {
+                color: pointerColor,
+              },
+            },
+            valueFormatter: (value: string | number) => `${value} ${tooltipSuffix}`,
           },
-        },
-        valueFormatter: (value: string | number) => `${value} ${tooltipSuffix}`,
-      },
-      grid: { left: 12, right: 12, top: 50, bottom: 0, containLabel: true },
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: labels,
-        axisLabel: {
-          color: axisLabelColor,
-          fontFamily: theme.typography.fontFamily,
-        },
-        axisTick: {
-          show: false,
-        },
-        axisLine: {
-          show: false,
-        },
-      },
-      yAxis: [
-        {
-          type: 'value',
-          min: newUsersMin,
-          max: newUsersMax,
-          axisLabel: {
-            color: axisLabelColor,
-          },
-          splitLine: {
-            lineStyle: {
-              color: splitLineColor,
+          grid: { left: 12, right: 12, top: 24, bottom: 12, containLabel: true },
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: labels,
+            axisLabel: {
+              color: axisLabelColor,
+              fontFamily: theme.typography.fontFamily,
+            },
+            axisTick: {
+              show: false,
+            },
+            axisLine: {
+              show: false,
             },
           },
-          axisLine: { show: false },
-          axisTick: { show: false },
-          alignTicks: true,
-        },
-        {
-          type: 'value',
-          min: activeUsersMin,
-          max: activeUsersMax,
-          axisLabel: {
-            show: false,
+          yAxis: {
+            type: 'value',
+            min,
+            max,
+            axisLabel: {
+              color: axisLabelColor,
+            },
+            splitLine: {
+              lineStyle: {
+                color: splitLineColor,
+              },
+            },
+            axisLine: { show: false },
+            axisTick: { show: false },
           },
-          splitLine: { show: false },
-          axisLine: { show: false },
-          axisTick: { show: false },
-          alignTicks: true,
-        },
-      ],
-      series: [
-        {
-          name: newUsersLabel,
-          type: 'line',
-          data: USER_ACTIVITY_DATA.newUsersSeries,
-          smooth: true,
-          showSymbol: false,
-          lineStyle: {
-            width: 3,
-            color: newUsersColor,
-          },
-          emphasis: {
-            focus: 'series',
-          },
-        },
-        {
-          name: activeUsersLabel,
-          type: 'line',
-          data: USER_ACTIVITY_DATA.activeUsersSeries,
-          smooth: true,
-          showSymbol: false,
-          yAxisIndex: 1,
-          lineStyle: {
-            width: 3,
-            color: activeUsersColor,
-          },
-          emphasis: {
-            focus: 'series',
-          },
-        },
-      ],
-    };
-  }, [
-    activeUsersColor,
-    axisLabelColor,
-    labels,
-    legendTextColor,
-    pointerColor,
-    splitLineColor,
-    t,
-    theme.typography.fontFamily,
-    newUsersColor,
-    primaryMainChannel,
-  ]);
+          series: [
+            {
+              type: 'line',
+              data: series,
+              smooth: true,
+              showSymbol: false,
+              lineStyle: {
+                width: 3,
+                color,
+              },
+              emphasis: {
+                focus: 'series',
+              },
+            },
+          ],
+        };
+      },
+    [axisLabelColor, pointerColor, splitLineColor, theme.typography.fontFamily, tooltipSuffix],
+  );
+
+  const newUsersChartOptions = useMemo(
+    () => createChartOptions(newUsersSeries, newUsersColor),
+    [createChartOptions, newUsersColor, newUsersSeries],
+  );
+
+  const activeUsersChartOptions = useMemo(
+    () => createChartOptions(activeUsersSeries, activeUsersColor),
+    [createChartOptions, activeUsersColor, activeUsersSeries],
+  );
+
+  const newUsersTrend = getTrendStyles(newUsersStat?.percentage ?? 0);
+  const activeUsersTrend = getTrendStyles(activeUsersStat?.percentage ?? 0);
 
   return (
-    <Stack direction="column">
-      <Paper>
-        <Typography variant="h5" sx={{ p: 4, fontWeight: 600 }}>
-          {t('homePage.userActivity.title')}
-        </Typography>
+    <Stack direction="column" spacing={2}>
+      <Paper sx={{ p: 4 }}>
+        <Stack spacing={0.5}>
+          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            {t('homePage.userActivity.title')}
+          </Typography>
+          <Typography variant="subtitle2" color="text.secondary">
+            {t('homePage.userActivity.subtitle', { days: periodLength })}
+          </Typography>
+        </Stack>
       </Paper>
 
-      <Grid container>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Paper sx={{ p: 4 }}>
-            <Stack direction="column" spacing={0.5}>
-              <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                {formatter.format(USER_ACTIVITY_DATA.total)}
-              </Typography>
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Paper sx={{ p: 4, height: '100%' }}>
+            <Stack spacing={3} direction="column" sx={{ height: '100%' }}>
+              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+                <Stack direction="column" spacing={0.5}>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    {t('homePage.userActivity.series.newUsers')}
+                  </Typography>
+                  <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                    {numberFormatter.format(newUsersStat?.total ?? 0)}
+                  </Typography>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    {t('homePage.userActivity.changeLabel')}
+                  </Typography>
+                </Stack>
 
-              <Typography variant="subtitle2">{t('homePage.userActivity.totals.new')}</Typography>
+                <Chip
+                  label={`${percentFormatter.format(newUsersStat?.percentage ?? 0)}%`}
+                  color={newUsersTrend.color}
+                  icon={<IconifyIcon icon={newUsersTrend.icon} />}
+                  sx={{ flexDirection: 'row-reverse' }}
+                />
+              </Stack>
+
+              <ReactEchart echarts={echarts} option={newUsersChartOptions} style={{ minHeight: 260 }} />
             </Stack>
           </Paper>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Paper sx={{ p: 4 }}>
-            <Stack direction="column" spacing={0.5}>
-              <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                {formatter.format(USER_ACTIVITY_DATA.activeTotal)}
-              </Typography>
 
-              <Typography variant="subtitle2">
-                {t('homePage.userActivity.totals.active')}
-              </Typography>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Paper sx={{ p: 4, height: '100%' }}>
+            <Stack spacing={3} direction="column" sx={{ height: '100%' }}>
+              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+                <Stack direction="column" spacing={0.5}>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    {t('homePage.userActivity.series.activeUsers')}
+                  </Typography>
+                  <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                    {numberFormatter.format(activeUsersStat?.total ?? 0)}
+                  </Typography>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    {t('homePage.userActivity.changeLabel')}
+                  </Typography>
+                </Stack>
+
+                <Chip
+                  label={`${percentFormatter.format(activeUsersStat?.percentage ?? 0)}%`}
+                  color={activeUsersTrend.color}
+                  icon={<IconifyIcon icon={activeUsersTrend.icon} />}
+                  sx={{ flexDirection: 'row-reverse' }}
+                />
+              </Stack>
+
+              <ReactEchart echarts={echarts} option={activeUsersChartOptions} style={{ minHeight: 260 }} />
             </Stack>
           </Paper>
         </Grid>
       </Grid>
-
-      <Paper sx={{ pb: 4, px: 2 }}>
-        <ReactEchart echarts={echarts} option={chartOptions}/>
-      </Paper>
     </Stack>
   );
 };

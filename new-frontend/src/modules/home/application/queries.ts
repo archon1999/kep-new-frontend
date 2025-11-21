@@ -8,6 +8,7 @@ import type {
   HomeOnlineUsers,
   HomePostsList,
   HomeTopUsers,
+  HomeUserActivityStatistics,
   HomeUserActivityHistory,
   HomeUserRatings,
   HomeUsersChart,
@@ -42,6 +43,11 @@ export const useOnlineUsers = (pageSize = 8) =>
 
 export const useUsersChart = () =>
   useHomeSWR<HomeUsersChart>(homeKeys.detail('users-chart'), () => repository.getUsersChart());
+
+export const useUserActivityStatistics = () =>
+  useHomeSWR<HomeUserActivityStatistics>(homeKeys.detail('user-activity-statistics'), () =>
+    repository.getUserActivityStatistics(),
+  );
 
 export const useUserRatings = (username?: string | null) =>
   useHomeSWR<HomeUserRatings | null>(username ? homeKeys.detail(`ratings-${username}`) : null, () =>
