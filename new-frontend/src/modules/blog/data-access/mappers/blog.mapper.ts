@@ -33,6 +33,8 @@ const mapBasePost = (payload: BlogList): BlogPost => ({
   created: payload.created,
 });
 
+export const mapBlogListItem = (payload: BlogList): BlogPost => mapBasePost(payload);
+
 export const mapBlogPost = (payload: BlogDetail): BlogPost => ({
   ...mapBasePost(payload),
   body: payload.body,
@@ -57,4 +59,4 @@ export const mapBlogComment = (payload: ApiBlogComment): BlogComment => ({
   created: payload.created,
 });
 
-export const blogMappers = { mapBlogPost, mapPageResult, mapBlogComment };
+export const blogMappers = { mapBlogPost, mapBlogListItem, mapPageResult, mapBlogComment };

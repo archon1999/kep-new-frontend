@@ -43,6 +43,10 @@
         "attempts": "Attempts"
       }
     },
+    "news": {
+      "title": "Latest news",
+      "empty": "No news to show yet."
+    },
     "birthdays": {
       "title": "Birthdays",
       "empty": "No upcoming birthdays yet.",

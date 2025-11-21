@@ -43,6 +43,10 @@
         "attempts": "Urinishlar"
       }
     },
+    "news": {
+      "title": "Soʻngi yangiliklar",
+      "empty": "Hozircha yangiliklar yo'q."
+    },
     "birthdays": {
       "title": "Tug'ilgan kunlar",
       "empty": "Yaqinlashayotgan tug'ilgan kunlar yo'q.",

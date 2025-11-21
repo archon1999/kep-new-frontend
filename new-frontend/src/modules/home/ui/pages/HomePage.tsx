@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import HomeProfileSection from '../components/HomeProfileSection.tsx';
 import BirthdaysSection from '../components/BirthdaysSection';
 import StatisticsSection from '../components/StatisticsSection.tsx';
+import NewsSection from '../components/NewsSection';
 import UserActivitySection from '../components/UserActivitySection.tsx';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useUserActivityHistory, useUserRatings } from '../../application/queries';
@@ -31,16 +32,22 @@ const HomePage = () => {
         </Grid>
 
         <Grid size={{ xs: 12, md: 6, lg: 8, xl: 9 }}>
-          <Grid size={12}>
-            <UserActivitySection />
-          </Grid>
+          <Grid container spacing={3}>
+            <Grid size={12}>
+              <UserActivitySection />
+            </Grid>
 
-          <Grid size={12}>
-            <StatisticsSection />
-          </Grid>
+            <Grid size={12}>
+              <StatisticsSection />
+            </Grid>
 
-          <Grid size={6}>
-            <BirthdaysSection />
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <NewsSection />
+            </Grid>
+
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <BirthdaysSection />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
