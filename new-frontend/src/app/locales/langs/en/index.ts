@@ -10,6 +10,7 @@ import blog from './blog.json';
 import menu from './menu.json';
 import pageTitles from './page-titles.json';
 import projects from './projects.json';
+import problems from './problems.json';
 import settings from './settings.json';
 import shop from './shop.json';
 import tests from './tests.json';
@@ -27,6 +28,7 @@ export const enTranslation = {
   ...calendar,
   ...hackathons,
   ...projects,
+  ...problems,
   ...tests,
   ...users,
   ...kepcoinPage,
