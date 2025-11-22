@@ -1,9 +1,24 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@mui/lab';
-import { Card, CardContent, Chip, Divider, LinearProgress, Skeleton, Stack, Typography } from '@mui/material';
-import KepIcon from 'shared/components/base/KepIcon';
+import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineSeparator,
+} from '@mui/lab';
+import {
+  Card,
+  CardContent,
+  Chip,
+  Divider,
+  LinearProgress,
+  Skeleton,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { useUserAbout } from '../../../application/queries';
 
 const UserProfileAboutTab = () => {
@@ -42,7 +57,9 @@ const UserProfileAboutTab = () => {
           <TimelineItem key={`${getTitle(item)}-${index}`}>
             <TimelineSeparator>
               <TimelineDot color="primary" variant="outlined" />
-              {!isLast ? <TimelineConnector sx={{ bgcolor: 'primary.main', opacity: 0.2 }} /> : null}
+              {!isLast ? (
+                <TimelineConnector sx={{ bgcolor: 'primary.main', opacity: 0.2 }} />
+              ) : null}
             </TimelineSeparator>
             <TimelineContent sx={{ py: 0.5 }}>
               <Stack direction="column" spacing={0.35}>
@@ -52,9 +69,7 @@ const UserProfileAboutTab = () => {
                 <Typography variant="body2" color="text.secondary">
                   {getSubtitle(item)}
                 </Typography>
-                <Typography>
-                  {period}
-                </Typography>
+                <Typography>{period}</Typography>
               </Stack>
             </TimelineContent>
           </TimelineItem>
