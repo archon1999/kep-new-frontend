@@ -9,6 +9,7 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import SimpleBar from 'shared/components/base/SimpleBar';
 import { useThemeMode } from 'shared/hooks/useThemeMode';
 import { cssVarRgba } from 'shared/lib/utils';
+import FontFamilyPanel from './FontFamilyPanel';
 import NavColorPanel from './NavColorPanel';
 import NavigationMenuPanel from './NavigationMenuPanel';
 import SidenavShapePanel from './SidenavShapePanel';
@@ -124,6 +125,10 @@ const SettingsPanel = () => {
               >
                 <Section title="Theme Mode">
                   <ThemeModeToggleTab />
+                </Section>
+
+                <Section title="Typography">
+                  <FontFamilyPanel />
                 </Section>
 
                 <Section title="Navigation Menu" disable={disableNavigationMenuSection}>

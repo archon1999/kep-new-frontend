@@ -30,6 +30,7 @@ const SettingsProvider = ({ children }: PropsWithChildren) => {
     navigationMenuType: getItemFromStore('navigationMenuType', initialConfig.navigationMenuType),
     navColor: getItemFromStore('navColor', initialConfig.navColor),
     locale: getItemFromStore('locale', initialConfig.locale),
+    fontFamily: getItemFromStore('fontFamily', initialConfig.fontFamily),
   };
   const [config, configDispatch] = useReducer(settingsReducer, configState);
   const { i18n } = useTranslation();
