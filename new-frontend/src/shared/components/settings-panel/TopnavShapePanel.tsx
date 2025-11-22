@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { FormControlLabel, Radio } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { TopnavType } from 'app/config.ts';
 import SettingsItem from './SettingsItem';
@@ -10,6 +11,7 @@ const TopnavShapePanel = () => {
     config: { topnavType, assetsDir },
     setConfig,
   } = useSettingsContext();
+  const { t } = useTranslation();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value as TopnavType;
@@ -25,7 +27,7 @@ const TopnavShapePanel = () => {
         control={<Radio />}
         label={
           <SettingsItem
-            label="Default"
+            label={t('customizePanel.shapeOptions.default')}
             image={{
               light: `${assetsDir}/images/settings-panel/topnav-default.webp`,
               dark: `${assetsDir}/images/settings-panel/topnav-default-dark.webp`,
@@ -39,7 +41,7 @@ const TopnavShapePanel = () => {
         control={<Radio />}
         label={
           <SettingsItem
-            label="Slim"
+            label={t('customizePanel.shapeOptions.slim')}
             image={{
               light: `${assetsDir}/images/settings-panel/topnav-slim.webp`,
               dark: `${assetsDir}/images/settings-panel/topnav-slim-dark.webp`,
@@ -53,7 +55,7 @@ const TopnavShapePanel = () => {
         control={<Radio />}
         label={
           <SettingsItem
-            label="Stacked"
+            label={t('customizePanel.shapeOptions.stacked')}
             image={{
               light: `${assetsDir}/images/settings-panel/topnav-stacked.webp`,
               dark: `${assetsDir}/images/settings-panel/topnav-stacked-dark.webp`,

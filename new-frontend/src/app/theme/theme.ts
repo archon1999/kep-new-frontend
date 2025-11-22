@@ -4,7 +4,8 @@ import * as locales from '@mui/material/locale';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 import type {} from '@mui/x-data-grid/themeAugmentation';
 import createPalette from 'app/theme/palette';
-import { SupportedLocales } from 'app/config.ts';
+import { FontFamilyOption, SupportedLocales } from 'app/config.ts';
+import { getFontFamilyStack } from './fonts';
 import Accordion, { AccordionDetails, AccordionSummary } from './components/Accordion';
 import Alert from './components/Alert';
 import AppBar from './components/AppBar';
@@ -85,12 +86,13 @@ import TextField from './components/text-fields/TextField';
 import mixins from './mixins';
 import shadows, { darkShadows } from './shadows';
 import sxConfig from './sxConfig';
-import typography from './typography';
+import createTypography from './typography';
 
 export type MuiSupportedLocales = keyof typeof locales;
 
-export const createTheme = (locale: SupportedLocales = 'en-US') => {
+export const createTheme = (locale: SupportedLocales = 'en-US', fontFamily: FontFamilyOption = 'plusJakartaSans') => {
   const muiLocales = locales[locale.split('-').join('') as MuiSupportedLocales];
+  const fontFamilyStack = getFontFamilyStack(fontFamily);
 
   return muiCreateTheme(
     {
@@ -106,7 +108,7 @@ export const createTheme = (locale: SupportedLocales = 'en-US') => {
           shadows: ['none', ...Array(shadows.length).fill(darkShadows[0])],
         },
       },
-      typography,
+      typography: createTypography(fontFamilyStack),
       direction: 'ltr',
       unstable_sxConfig: sxConfig,
       mixins,

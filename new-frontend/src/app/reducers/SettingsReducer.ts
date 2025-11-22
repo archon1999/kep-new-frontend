@@ -1,5 +1,6 @@
 import {
   Config,
+  FontFamilyOption,
   NavColor,
   NavigationMenuType,
   SidenavType,
@@ -19,6 +20,7 @@ export const SET_SIDENAV_SHAPE = 'SET_SIDENAV_SHAPE';
 export const SET_NAVIGATION_MENU_TYPE = 'SET_NAVIGATION_MENU_TYPE';
 export const SET_NAV_COLOR = 'SET_NAV_COLOR';
 export const SET_LOCALE = 'SET_LOCALE';
+export const SET_FONT_FAMILY = 'SET_FONT_FAMILY';
 
 //Action ts type
 export type ACTIONTYPE =
@@ -30,7 +32,8 @@ export type ACTIONTYPE =
   | { type: typeof SET_SIDENAV_SHAPE; payload: SidenavType }
   | { type: typeof SET_NAV_COLOR; payload: NavColor }
   | { type: typeof RESET }
-  | { type: typeof SET_LOCALE; payload: SupportedLocales };
+  | { type: typeof SET_LOCALE; payload: SupportedLocales }
+  | { type: typeof SET_FONT_FAMILY; payload: FontFamilyOption };
 
 export const settingsReducer = (state: Config, action: ACTIONTYPE) => {
   let updatedState: Partial<Config> = {};
@@ -108,6 +111,13 @@ export const settingsReducer = (state: Config, action: ACTIONTYPE) => {
       };
       break;
     }
+    case SET_FONT_FAMILY: {
+      const { payload } = action;
+      updatedState = {
+        fontFamily: payload,
+      };
+      break;
+    }
     case RESET:
       updatedState = {
         ...initialConfig,
@@ -130,6 +140,7 @@ export const settingsReducer = (state: Config, action: ACTIONTYPE) => {
         'topnavType',
         'navColor',
         'locale',
+        'fontFamily',
       ].includes(key)
     ) {
       setItemToStore(key, String(updatedState[key as keyof Config]));

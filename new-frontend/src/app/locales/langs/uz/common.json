@@ -16,5 +16,42 @@
       "completed": "Bajarilgan",
       "empty": "Hozircha kunlik vazifalar yo'q"
     }
+  },
+  "customizePanel": {
+    "title": "Moslashtirish",
+    "reset": "Tiklash",
+    "themeMode": "Mavzu rejimi",
+    "navigationMenu": "Navigatsiya menyusi",
+    "sidenavShape": "Yon menyu ko'rinishi",
+    "topnavShape": "Yuqori menyu ko'rinishi",
+    "navColor": "Navigatsiya rangi",
+    "fontFamily": "Shrift",
+    "notAvailable": "Ushbu tartibda mavjud emas.",
+    "andMore": "Yana ko'p",
+    "comingSoon": "Tez orada...",
+    "navigationMenuOptions": {
+      "sidenav": "Yon menyu",
+      "topnav": "Yuqori menyu"
+    },
+    "shapeOptions": {
+      "default": "Standart",
+      "slim": "Yupqa",
+      "stacked": "Ustma-ust"
+    },
+    "navColorOptions": {
+      "default": "Standart",
+      "vibrant": "Rang-barang"
+    },
+    "themeModes": {
+      "light": "Yorug'",
+      "dark": "Tungi",
+      "system": "Tizim"
+    },
+    "fontOptions": {
+      "plusJakartaSans": "Plus Jakarta Sans",
+      "inter": "Inter",
+      "manrope": "Manrope",
+      "spaceGrotesk": "Space Grotesk"
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { Box, Button, Stack, Toolbar, Typography, paperClasses } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
+import { useTranslation } from 'react-i18next';
 import { useSettingsPanelContext } from 'app/providers/SettingsPanelProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { RESET } from 'app/reducers/SettingsReducer';
@@ -9,6 +10,7 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import SimpleBar from 'shared/components/base/SimpleBar';
 import { useThemeMode } from 'shared/hooks/useThemeMode';
 import { cssVarRgba } from 'shared/lib/utils';
+import FontFamilyPanel from './FontFamilyPanel';
 import NavColorPanel from './NavColorPanel';
 import NavigationMenuPanel from './NavigationMenuPanel';
 import SidenavShapePanel from './SidenavShapePanel';
@@ -31,6 +33,7 @@ const SettingsPanel = () => {
     },
     setSettingsPanelConfig,
   } = useSettingsPanelContext();
+  const { t } = useTranslation();
 
   const handleReset = () => {
     resetTheme();
@@ -71,7 +74,7 @@ const SettingsPanel = () => {
               flex: 1,
             }}
           >
-            Customize
+            {t('customizePanel.title')}
           </Typography>
           <Button
             variant="soft"
@@ -82,7 +85,7 @@ const SettingsPanel = () => {
             startIcon={<IconifyIcon icon="material-symbols:reset-settings-rounded" />}
             onClick={handleReset}
           >
-            Reset
+            {t('customizePanel.reset')}
           </Button>
           <Button
             variant="soft"
@@ -122,25 +125,48 @@ const SettingsPanel = () => {
                   gap: 5,
                 }}
               >
-                <Section title="Theme Mode">
+                <Section title={t('customizePanel.themeMode')} disableText={t('customizePanel.notAvailable')}>
                   <ThemeModeToggleTab />
                 </Section>
 
-                <Section title="Navigation Menu" disable={disableNavigationMenuSection}>
+                <Section
+                  title={t('customizePanel.fontFamily')}
+                  disableText={t('customizePanel.notAvailable')}
+                >
+                  <FontFamilyPanel />
+                </Section>
+
+                <Section
+                  title={t('customizePanel.navigationMenu')}
+                  disable={disableNavigationMenuSection}
+                  disableText={t('customizePanel.notAvailable')}
+                >
                   <NavigationMenuPanel />
                 </Section>
 
                 {navigationMenuType !== 'topnav' && (
-                  <Section title="Sidenav Shape" disable={disableSidenavShapeSection}>
+                  <Section
+                    title={t('customizePanel.sidenavShape')}
+                    disable={disableSidenavShapeSection}
+                    disableText={t('customizePanel.notAvailable')}
+                  >
                     <SidenavShapePanel />
                   </Section>
                 )}
                 {navigationMenuType !== 'sidenav' && (
-                  <Section title="Topnav Shape" disable={disableTopShapeSection}>
+                  <Section
+                    title={t('customizePanel.topnavShape')}
+                    disable={disableTopShapeSection}
+                    disableText={t('customizePanel.notAvailable')}
+                  >
                     <TopnavShapePanel />
                   </Section>
                 )}
-                <Section title="Nav Color" disable={disableNavColorSection}>
+                <Section
+                  title={t('customizePanel.navColor')}
+                  disable={disableNavColorSection}
+                  disableText={t('customizePanel.notAvailable')}
+                >
                   <NavColorPanel />
                 </Section>
               </Stack>
@@ -164,7 +190,7 @@ const SettingsPanel = () => {
               WebkitTextFillColor: 'transparent',
             }}
           >
-            And more
+            {t('customizePanel.andMore')}
           </Typography>
           <Typography
             variant="body2"
@@ -174,7 +200,7 @@ const SettingsPanel = () => {
               WebkitTextFillColor: 'transparent',
             }}
           >
-            Coming Soon...
+            {t('customizePanel.comingSoon')}
           </Typography>
         </Toolbar>
       </Drawer>
@@ -187,8 +213,9 @@ export default SettingsPanel;
 const Section = ({
   title,
   disable,
+  disableText,
   children,
-}: PropsWithChildren<{ title: string; disable?: boolean }>) => {
+}: PropsWithChildren<{ title: string; disable?: boolean; disableText: string }>) => {
   return (
     <Box
       sx={[
@@ -217,7 +244,7 @@ const Section = ({
       {disable && (
         <Stack sx={{ alignItems: 'center', gap: 0.5, mb: 2, color: 'info.main' }}>
           <IconifyIcon icon="material-symbols:info-outline" sx={{ fontSize: 16 }} />
-          <Typography variant="subtitle2">Not available in this layout.</Typography>
+          <Typography variant="subtitle2">{disableText}</Typography>
         </Stack>
       )}
       <Box sx={[!!disable && { opacity: 0.4 }]}>{children}</Box>

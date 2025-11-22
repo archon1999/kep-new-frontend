@@ -1,4 +1,5 @@
 import { Box, Button, Stack, SxProps, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { SET_NAV_COLOR } from 'app/reducers/SettingsReducer';
 import { NavColor } from 'app/config.ts';
@@ -50,6 +51,7 @@ const NavColorPanel = () => {
     config: { navColor },
     configDispatch,
   } = useSettingsContext();
+  const { t } = useTranslation();
 
   const handleClick = (value: NavColor) => {
     configDispatch({
@@ -65,7 +67,7 @@ const NavColorPanel = () => {
       }}
     >
       <Item
-        label="Default"
+        label={t('customizePanel.navColorOptions.default')}
         sx={{
           bgcolor: 'background.default',
           border: 2,
@@ -75,7 +77,7 @@ const NavColorPanel = () => {
         onClick={() => handleClick('default')}
       />
       <Item
-        label="Vibrant"
+        label={t('customizePanel.navColorOptions.vibrant')}
         sx={{
           background: 'linear-gradient(163.93deg, #7DB1F5 3.83%, #62C29F 132.96%)',
         }}

@@ -6,6 +6,7 @@ export type NavigationMenuType = 'sidenav' | 'topnav';
 export type SidenavType = 'default' | 'slim';
 export type TopnavType = 'default' | 'stacked' | 'slim';
 export type NavColor = 'default' | 'vibrant';
+export type FontFamilyOption = 'plusJakartaSans' | 'inter' | 'manrope' | 'spaceGrotesk';
 export type SupportedLocales = 'en-US' | 'ru-RU' | 'uz-UZ';
 
 export interface Config {
@@ -18,6 +19,7 @@ export interface Config {
   openNavbarDrawer: boolean;
   drawerWidth: number;
   locale: SupportedLocales;
+  fontFamily: FontFamilyOption;
 }
 
 export const initialConfig: Config = {
@@ -30,6 +32,7 @@ export const initialConfig: Config = {
   openNavbarDrawer: false,
   drawerWidth: mainDrawerWidth.full,
   locale: 'en-US',
+  fontFamily: 'plusJakartaSans',
 };
 
 export const defaultAuthCredentials: LoginPayload | null = null;

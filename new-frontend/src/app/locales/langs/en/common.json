@@ -16,5 +16,42 @@
       "completed": "Completed",
       "empty": "No daily tasks for now"
     }
+  },
+  "customizePanel": {
+    "title": "Customize",
+    "reset": "Reset",
+    "themeMode": "Theme Mode",
+    "navigationMenu": "Navigation Menu",
+    "sidenavShape": "Sidenav Shape",
+    "topnavShape": "Topnav Shape",
+    "navColor": "Nav Color",
+    "fontFamily": "Font",
+    "notAvailable": "Not available in this layout.",
+    "andMore": "And more",
+    "comingSoon": "Coming Soon...",
+    "navigationMenuOptions": {
+      "sidenav": "Sidenav",
+      "topnav": "Topnav"
+    },
+    "shapeOptions": {
+      "default": "Default",
+      "slim": "Slim",
+      "stacked": "Stacked"
+    },
+    "navColorOptions": {
+      "default": "Default",
+      "vibrant": "Vibrant"
+    },
+    "themeModes": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "fontOptions": {
+      "plusJakartaSans": "Plus Jakarta Sans",
+      "inter": "Inter",
+      "manrope": "Manrope",
+      "spaceGrotesk": "Space Grotesk"
+    }
   }
 }

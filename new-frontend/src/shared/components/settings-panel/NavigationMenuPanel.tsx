@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { FormControlLabel, Radio } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useSettingsPanelContext } from 'app/providers/SettingsPanelProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { SET_NAVIGATION_MENU_TYPE } from 'app/reducers/SettingsReducer';
@@ -16,6 +17,7 @@ const NavigationMenuPanel = () => {
   const {
     settingsPanelConfig: { disableNavigationMenuSection },
   } = useSettingsPanelContext();
+  const { t } = useTranslation();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value as NavigationMenuType;
@@ -36,7 +38,7 @@ const NavigationMenuPanel = () => {
         control={<Radio />}
         label={
           <SettingsItem
-            label="Sidenav"
+            label={t('customizePanel.navigationMenuOptions.sidenav')}
             image={{
               light: `${assetsDir}/images/settings-panel/sidenav.webp`,
               dark: `${assetsDir}/images/settings-panel/sitenav-dark.webp`,
@@ -50,7 +52,7 @@ const NavigationMenuPanel = () => {
         control={<Radio />}
         label={
           <SettingsItem
-            label="Topnav"
+            label={t('customizePanel.navigationMenuOptions.topnav')}
             image={{
               light: `${assetsDir}/images/settings-panel/topnav.webp`,
               dark: `${assetsDir}/images/settings-panel/topnav-dark.webp`,

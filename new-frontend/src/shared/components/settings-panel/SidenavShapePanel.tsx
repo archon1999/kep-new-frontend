@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { FormControlLabel, Radio } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useSettingsPanelContext } from 'app/providers/SettingsPanelProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { SET_SIDENAV_SHAPE } from 'app/reducers/SettingsReducer';
@@ -16,6 +17,7 @@ const SidenavShapePanel = () => {
   const {
     settingsPanelConfig: { disableSidenavShapeSection },
   } = useSettingsPanelContext();
+  const { t } = useTranslation();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value as SidenavType;
@@ -33,7 +35,7 @@ const SidenavShapePanel = () => {
         control={<Radio />}
         label={
           <SettingsItem
-            label="Default"
+            label={t('customizePanel.shapeOptions.default')}
             image={{
               light: `${assetsDir}/images/settings-panel/sidenav-default.webp`,
               dark: `${assetsDir}/images/settings-panel/sidenav-default-dark.webp`,
@@ -47,7 +49,7 @@ const SidenavShapePanel = () => {
         control={<Radio />}
         label={
           <SettingsItem
-            label="Slim"
+            label={t('customizePanel.shapeOptions.slim')}
             image={{
               light: `${assetsDir}/images/settings-panel/slim.webp`,
               dark: `${assetsDir}/images/settings-panel/slim-dark.webp`,

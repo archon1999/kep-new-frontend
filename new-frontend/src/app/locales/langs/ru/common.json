@@ -16,5 +16,42 @@
       "completed": "Выполнено",
       "empty": "Ежедневных задач нет"
     }
+  },
+  "customizePanel": {
+    "title": "Настроить",
+    "reset": "Сбросить",
+    "themeMode": "Режим темы",
+    "navigationMenu": "Навигационное меню",
+    "sidenavShape": "Форма бокового меню",
+    "topnavShape": "Форма верхнего меню",
+    "navColor": "Цвет навигации",
+    "fontFamily": "Шрифт",
+    "notAvailable": "Недоступно в этом макете.",
+    "andMore": "И другое",
+    "comingSoon": "Скоро...",
+    "navigationMenuOptions": {
+      "sidenav": "Боковое меню",
+      "topnav": "Верхнее меню"
+    },
+    "shapeOptions": {
+      "default": "Стандартный",
+      "slim": "Узкий",
+      "stacked": "Многоярусный"
+    },
+    "navColorOptions": {
+      "default": "По умолчанию",
+      "vibrant": "Яркий"
+    },
+    "themeModes": {
+      "light": "Светлая",
+      "dark": "Тёмная",
+      "system": "Системный"
+    },
+    "fontOptions": {
+      "plusJakartaSans": "Plus Jakarta Sans",
+      "inter": "Inter",
+      "manrope": "Manrope",
+      "spaceGrotesk": "Space Grotesk"
+    }
   }
 }
