@@ -1,4 +1,15 @@
 {
+  "kepcoinSpend": {
+    "insufficientBalance": "Не хватает Kepcoin",
+    "confirmTitle": "Хотите купить?",
+    "confirmDescription": "Это действие нельзя будет отменить.",
+    "costLabel": "Цена",
+    "balanceLabel": "Ваш баланс",
+    "cancelAction": "Отмена",
+    "confirmAction": "Купить",
+    "success": "Покупка успешно выполнена",
+    "error": "Ошибка сервера"
+  },
   "kepcoinPage": {
     "youHave": "У вас {{value}} Kepcoin",
     "balanceSubtitle": "Следите, как вы зарабатываете и тратите Kepcoin каждый день.",

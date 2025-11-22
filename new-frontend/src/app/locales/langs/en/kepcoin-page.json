@@ -1,4 +1,15 @@
 {
+  "kepcoinSpend": {
+    "insufficientBalance": "Not enough Kepcoin",
+    "confirmTitle": "Want to buy?",
+    "confirmDescription": "You won't be able to revert this!",
+    "costLabel": "Price",
+    "balanceLabel": "Your balance",
+    "cancelAction": "Cancel",
+    "confirmAction": "Purchase",
+    "success": "Purchase completed",
+    "error": "Server error"
+  },
   "kepcoinPage": {
     "youHave": "You have {{value}} Kepcoin",
     "balanceSubtitle": "Track how you earn and spend Kepcoin every day.",

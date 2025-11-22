@@ -1,4 +1,15 @@
 {
+  "kepcoinSpend": {
+    "insufficientBalance": "Kepcoin yetmaydi",
+    "confirmTitle": "Sotib olasizmi?",
+    "confirmDescription": "Bu amalni qaytarib bo‘lmaydi.",
+    "costLabel": "Narxi",
+    "balanceLabel": "Balansingiz",
+    "cancelAction": "Bekor qilish",
+    "confirmAction": "Sotib olish",
+    "success": "Xarid muvaffaqiyatli yakunlandi",
+    "error": "Server xatosi"
+  },
   "kepcoinPage": {
     "youHave": "Sizda {{value}} Kepcoin bor",
     "balanceSubtitle": "Har kuni Kepcoin qanday yig'ilishi va sarflanishini kuzating.",
