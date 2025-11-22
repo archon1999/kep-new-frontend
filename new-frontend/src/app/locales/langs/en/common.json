@@ -3,6 +3,10 @@
   "kepcoin": "Kepcoin",
   "common": {
     "back": "Back",
+    "loading": "Loading...",
+    "wins": "Wins",
+    "draws": "Draws",
+    "losses": "Losses",
     "minutesShort": "min",
     "searchPlaceholder": "Search",
     "dailyTasks": {

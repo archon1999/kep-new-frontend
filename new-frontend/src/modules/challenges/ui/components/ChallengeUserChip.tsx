@@ -28,8 +28,11 @@ const ChallengeUserChip = ({ player, align = 'left', highlight = false }: Challe
         {player.username}
       </Typography>
       <ChallengesRatingChip title={player.rankTitle} size="small" />
-      <Typography variant="caption" color={player.delta > 0 ? 'success.main' : player.delta < 0 ? 'error.main' : 'text.secondary'}>
-        {player.rating} → {player.newRating} ({player.delta > 0 ? '+' : ''}{player.delta})
+      <Typography
+        variant="caption"
+        color={player.delta > 0 ? 'success.main' : player.delta < 0 ? 'error.main' : 'text.secondary'}
+      >
+        {`${player.rating} -> ${player.newRating} (${player.delta > 0 ? '+' : ''}${player.delta})`}
       </Typography>
     </Stack>
     {align === 'right' && (

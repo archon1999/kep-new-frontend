@@ -4,7 +4,7 @@
     "subtitle": "Create quick challenges or join others in the queue.",
     "quickStartTitle": "Quick start",
     "quickStartSubtitle": "Pick a preset to instantly search for an opponent.",
-    "quickStartButton": "{{questionsCount}} questions · {{timeSeconds}}s",
+    "quickStartButton": "{{questionsCount}} questions -> {{timeSeconds}}s",
     "customChallenge": "Custom challenge",
     "questions": "Questions",
     "timeLimit": "Time limit",
@@ -34,6 +34,9 @@
     "rated": "Rated",
     "unrated": "Unrated",
     "questionsCount": "{{count}} questions",
+    "answerCorrect": "Correct",
+    "answerWrong": "Wrong",
+    "answerPending": "Pending",
     "detailTitle": "Challenge details",
     "detailSubtitle": "Last update {{time}}",
     "statusFinished": "Finished",
@@ -42,13 +45,16 @@
     "finishedDescription": "The challenge has finished. Check the final results above.",
     "waitingForStart": "The challenge will start as soon as both players are ready.",
     "questionNumber": "Question #{{number}}",
+    "activeQuestion": "Question #{{number}} is active",
     "yourAnswer": "Your answer",
     "labels": "Labels",
     "pool": "Options",
+    "myRating": "My challenge rating",
     "submitAnswer": "Submit answer",
     "notFound": "Challenge not found.",
     "ratingTitle": "Challenge rating",
     "ratingSubtitle": "Track the strongest head-to-head players.",
+    "totalPlayers": "{{count}} players",
     "table": {
       "place": "Place",
       "username": "Username",
@@ -64,6 +70,14 @@
     "delta": "Change: {{value}}",
     "ratingChanges": "Rating changes",
     "noChanges": "No rating changes yet.",
-    "lastChallenges": "Latest challenges"
+    "lastChallenges": "Latest challenges",
+    "timer": {
+      "perQuestion": "Per-question timer",
+      "wholeChallenge": "Challenge timer"
+    },
+    "arenaWinners": "Arena winners",
+    "arenaWinnersSubtitle": "See who topped recent arenas.",
+    "viewArena": "Go to arena",
+    "noArenas": "No arena history yet."
   }
 }

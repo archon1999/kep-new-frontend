@@ -1,7 +1,21 @@
-import { useMemo } from 'react';
-import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
+import { useMemo, useState } from 'react';
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Pagination,
+  Stack,
+  Typography,
+} from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { useTranslation } from 'react-i18next';
+import { LineChart, GridComponent, TooltipComponent } from 'echarts/components';
+import * as echarts from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import type { EChartsCoreOption } from 'echarts/core';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
+import ReactEchart from 'shared/components/base/ReactEchart.tsx';
 import {
   useChallengeRatingChanges,
   useChallengeUserRating,
@@ -12,17 +26,50 @@ import ChallengeUserChip from '../components/ChallengeUserChip.tsx';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 
+echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
+
 const UserStatisticsPage = () => {
   const { t } = useTranslation();
   const { currentUser } = useAuth();
 
   const username = currentUser?.username;
+  const [page, setPage] = useState(1);
+  const pageSize = 7;
+
   const { data: userRating } = useChallengeUserRating(username);
   const { data: ratingChanges } = useChallengeRatingChanges(username);
-  const { data: lastChallenges } = useUserChallenges({ username: username ?? '', page: 1, pageSize: 5 });
+  const { data: lastChallenges, isLoading: isChallengesLoading } = useUserChallenges({
+    username: username ?? '',
+    page,
+    pageSize,
+  });
 
-  const totalRatingChange = useMemo(() =>
-    (ratingChanges ?? []).reduce((acc, item) => acc + (item.value ?? 0), 0), [ratingChanges]);
+  const totalRatingChange = useMemo(
+    () => (ratingChanges ?? []).reduce((acc, item) => acc + (item.value ?? 0), 0),
+    [ratingChanges],
+  );
+
+  const ratingChangesOptions: EChartsCoreOption = useMemo(
+    () => ({
+      grid: { left: 36, right: 12, bottom: 28, top: 10 },
+      tooltip: { trigger: 'axis' },
+      xAxis: {
+        type: 'category',
+        data: (ratingChanges ?? []).map((item) => item.date?.slice(0, 10)),
+        boundaryGap: false,
+      },
+      yAxis: { type: 'value' },
+      series: [
+        {
+          type: 'line',
+          data: (ratingChanges ?? []).map((item) => item.value ?? 0),
+          areaStyle: {},
+          smooth: true,
+        },
+      ],
+    }),
+    [ratingChanges],
+  );
 
   if (!username) {
     return (
@@ -44,65 +91,77 @@ const UserStatisticsPage = () => {
           </Typography>
         </Stack>
 
-        <Box
-          sx={{
-            display: 'grid',
-            gap: 2,
-            gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-          }}
-        >
-          <Card variant="outlined">
-            <CardContent>
-              <Stack spacing={1.5} direction="column">
-                <Typography variant="subtitle2" color="text.secondary">
-                  {t('challenges.currentRank')}
-                </Typography>
-                {userRating ? (
-                  <Stack spacing={0.5} direction="column">
-                    <Typography variant="h5" fontWeight={800}>{userRating.rating}</Typography>
-                    <ChallengesRatingChip title={userRating.rankTitle} size="small" />
-                    <Typography variant="caption" color={totalRatingChange >= 0 ? 'success.main' : 'error.main'}>
-                      {t('challenges.delta', { value: totalRatingChange })}
-                    </Typography>
-                  </Stack>
-                ) : (
-                  <Typography variant="body2" color="text.secondary">
-                    {t('challenges.noRating')}
+        <Grid container spacing={3}>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <Card variant="outlined">
+              <CardContent>
+                <Stack spacing={1.5} direction="column">
+                  <Typography variant="subtitle2" color="text.secondary">
+                    {t('challenges.currentRank')}
                   </Typography>
-                )}
-              </Stack>
-            </CardContent>
-          </Card>
-          <Card variant="outlined">
-            <CardContent>
-              <Stack spacing={1.5} direction="column">
-                <Typography variant="subtitle2" color="text.secondary">
-                  {t('challenges.ratingChanges')}
-                </Typography>
-                <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                  {(ratingChanges ?? []).map((change) => (
-                    <Chip
-                      key={`${change.date}-${change.value}`}
-                      label={`${change.date?.slice(0, 10)} · ${change.value > 0 ? '+' : ''}${change.value}`}
-                      color={change.value > 0 ? 'success' : change.value < 0 ? 'error' : 'default'}
-                      variant="soft"
+                  {userRating ? (
+                    <>
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography variant="h5" fontWeight={800}>
+                          {userRating.rating}
+                        </Typography>
+                        <ChallengesRatingChip title={userRating.rankTitle} size="small" />
+                      </Stack>
+                      <Typography
+                        variant="caption"
+                        color={totalRatingChange >= 0 ? 'success.main' : 'error.main'}
+                      >
+                        {t('challenges.delta', { value: totalRatingChange })}
+                      </Typography>
+                      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                        <Chip label={`W ${userRating.wins}`} size="small" color="success" variant="soft" />
+                        <Chip label={`D ${userRating.draws}`} size="small" color="warning" variant="soft" />
+                        <Chip label={`L ${userRating.losses}`} size="small" color="error" variant="soft" />
+                        <Chip label={`Σ ${userRating.all}`} size="small" variant="outlined" />
+                      </Stack>
+                    </>
+                  ) : (
+                    <Typography variant="body2" color="text.secondary">
+                      {t('challenges.noRating')}
+                    </Typography>
+                  )}
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 8 }}>
+            <Card variant="outlined">
+              <CardContent>
+                <Stack spacing={1.5} direction="column">
+                  <Typography variant="subtitle2" color="text.secondary">
+                    {t('challenges.ratingChanges')}
+                  </Typography>
+                  {ratingChanges?.length ? (
+                    <ReactEchart
+                      option={ratingChangesOptions}
+                      echarts={echarts}
+                      style={{ width: '100%', height: 240 }}
                     />
-                  ))}
-                  {!ratingChanges?.length && (
+                  ) : (
                     <Typography variant="body2" color="text.secondary">
                       {t('challenges.noChanges')}
                     </Typography>
                   )}
                 </Stack>
-              </Stack>
-            </CardContent>
-          </Card>
-        </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
 
         <Card variant="outlined">
           <CardContent>
             <Stack spacing={1.5} direction="column">
-              <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }}>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems={{ xs: 'flex-start', sm: 'center' }}
+              >
                 <Typography variant="h6">{t('challenges.lastChallenges')}</Typography>
                 {userRating && (
                   <ChallengeUserChip
@@ -121,15 +180,37 @@ const UserStatisticsPage = () => {
               </Stack>
 
               <Stack spacing={1.5} direction="column">
-                {(lastChallenges?.data ?? []).map((challenge) => (
-                  <ChallengeCard key={challenge.id} challenge={challenge} />
-                ))}
-                {!lastChallenges?.data?.length && (
+                {isChallengesLoading
+                  ? Array.from({ length: 3 }).map((_, index) => (
+                      <Card key={index} variant="outlined">
+                        <CardContent>
+                          <Typography variant="body2" color="text.secondary">
+                            {t('common.loading', { defaultValue: 'Loading...' })}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    ))
+                  : (lastChallenges?.data ?? []).map((challenge) => (
+                      <ChallengeCard key={challenge.id} challenge={challenge} />
+                    ))}
+                {!isChallengesLoading && !lastChallenges?.data?.length && (
                   <Typography variant="body2" color="text.secondary">
                     {t('challenges.noChallenges')}
                   </Typography>
                 )}
               </Stack>
+
+              {(lastChallenges?.pagesCount ?? 0) > 1 && (
+                <Box display="flex" justifyContent="flex-end">
+                  <Pagination
+                    color="primary"
+                    shape="rounded"
+                    page={page}
+                    count={lastChallenges?.pagesCount ?? 0}
+                    onChange={(_, value) => setPage(value)}
+                  />
+                </Box>
+              )}
             </Stack>
           </CardContent>
         </Card>

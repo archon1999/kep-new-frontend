@@ -3,6 +3,10 @@
   "kepcoin": "Kepcoin",
   "common": {
     "back": "Orqaga",
+    "loading": "Yuklanmoqda...",
+    "wins": "G'alabalar",
+    "draws": "Duranglar",
+    "losses": "Mag'lubiyatlar",
     "minutesShort": "daq",
     "searchPlaceholder": "Qidirish",
     "dailyTasks": {
@@ -10,7 +14,7 @@
       "subtitle": "Seriyani davom ettiring",
       "tasksCount": "{{count}} ta vazifa",
       "completed": "Bajarildi",
-      "empty": "Hozircha kunlik vazifalar yoʻq"
+      "empty": "Hozircha kunlik vazifalar yo'q"
     }
   }
 }

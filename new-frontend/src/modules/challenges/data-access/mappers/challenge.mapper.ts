@@ -1,5 +1,4 @@
-import { hydrateQuestion } from 'modules/testing/data-access/mappers/test.mapper.ts';
-import { Question, QuestionType } from 'modules/testing/domain';
+import { hydrateQuestion, mapQuestion } from 'modules/testing/data-access/mappers/test.mapper.ts';
 import { PageResult } from '../../domain/ports/challenges.repository.ts';
 import {
   Challenge,
@@ -23,25 +22,15 @@ const normalizePlayer = (payload: any): ChallengePlayer => ({
   delta: payload?.delta ?? 0,
 });
 
-const normalizeQuestion = (payload: any): Question => ({
-  id: payload?.id,
-  number: payload?.number ?? payload?.questionNumber ?? 0,
-  type: (payload?.type ?? payload?.questionType) as QuestionType,
-  text: payload?.text ?? payload?.title ?? payload?.question ?? '',
-  options: (payload?.options ?? payload?.variants ?? []).map((option: any) => ({
-    option: option?.option ?? option?.title ?? option?.text ?? '',
-    optionMain: option?.optionMain ?? option?.option_main ?? option?.group ?? '',
-    optionSecondary: option?.optionSecondary ?? option?.option_secondary ?? option?.value ?? option?.answer ?? '',
-    selected: option?.selected ?? Boolean(option?.isSelected),
-  })),
-  input: payload?.input ?? payload?.answer ?? '',
-  answered: payload?.answered ?? false,
-});
-
-const mapChallengeQuestion = (payload: any): ChallengeQuestion => ({
-  number: payload?.number ?? payload?.questionNumber ?? 0,
-  question: hydrateQuestion(normalizeQuestion(payload?.question ?? payload)),
-});
+const mapChallengeQuestion = (payload: any): ChallengeQuestion => {
+  const questionPayload = payload?.question ?? payload;
+  const number = payload?.number ?? payload?.questionNumber ?? questionPayload?.number ?? 0;
+  const question = hydrateQuestion(mapQuestion({ ...questionPayload, number }));
+  return {
+    number,
+    question: { ...question, number },
+  };
+};
 
 export const mapChallenge = (payload: any): Challenge => {
   const challenge: Challenge = {

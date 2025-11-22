@@ -10,7 +10,12 @@ import { PageResult } from '../domain/ports/challenges.repository.ts';
 
 const challengesRepository = new HttpChallengesRepository();
 
-export const useChallengeCalls = () => useSWR<ChallengeCall[]>('challenge-calls', () => challengesRepository.getChallengeCalls());
+export const useChallengeCalls = () =>
+  useSWR<ChallengeCall[]>(
+    'challenge-calls',
+    () => challengesRepository.getChallengeCalls(),
+    { refreshInterval: 5000, revalidateOnFocus: false },
+  );
 
 export const useChallengesList = (params?: { page?: number; pageSize?: number; ordering?: string }) =>
   useSWR<PageResult<Challenge>>(['challenges-list', params?.page, params?.pageSize, params?.ordering], () =>

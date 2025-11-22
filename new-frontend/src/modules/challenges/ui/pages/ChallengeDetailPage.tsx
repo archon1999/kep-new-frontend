@@ -1,38 +1,49 @@
-import { useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 import {
   Box,
   Button,
   Card,
   CardContent,
+  Chip,
   CircularProgress,
-  Divider,
   Stack,
   Typography,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useTranslation } from 'react-i18next';
+import { useSnackbar } from 'notistack';
 import { resources } from 'app/routes/resources';
-import ChallengeUserChip from '../components/ChallengeUserChip.tsx';
-import ChallengeQuestionCard from '../components/ChallengeQuestionCard.tsx';
+import ChallengeQuestionCard, { ChallengeQuestionCardHandle } from '../components/ChallengeQuestionCard.tsx';
+import ChallengeResultsCard from '../components/ChallengeResultsCard.tsx';
+import ChallengeCountdown from '../components/ChallengeCountdown.tsx';
 import { useChallengeDetail } from '../../application/queries.ts';
 import { useStartChallenge, useSubmitChallengeAnswer } from '../../application/mutations.ts';
-import { ChallengeStatus } from '../../domain';
+import { ChallengeQuestionTimeType, ChallengeStatus } from '../../domain';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 dayjs.extend(relativeTime);
 
 const ChallengeDetailPage = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const arenaId = searchParams.get('arena');
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { data: challenge, isLoading, mutate } = useChallengeDetail(id);
   const { trigger: startChallenge, isMutating: starting } = useStartChallenge();
   const { trigger: submitAnswer, isMutating: submitting } = useSubmitChallengeAnswer();
 
-  dayjs.extend(relativeTime);
+  const questionCardRef = useRef<ChallengeQuestionCardHandle>(null);
+  const timerStartedRef = useRef(false);
+  const [secondsLeft, setSecondsLeft] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
+
+  const question = useMemo(() => challenge?.nextQuestion?.question, [challenge?.nextQuestion?.question]);
 
   const statusLabel = useMemo(() => {
     if (!challenge) return '';
@@ -46,19 +57,62 @@ const ChallengeDetailPage = () => {
     }
   }, [challenge, t]);
 
+  useEffect(() => {
+    if (!challenge || challenge.status !== ChallengeStatus.Already || !question) {
+      setTimerRunning(false);
+      timerStartedRef.current = false;
+      return;
+    }
+
+    if (challenge.questionTimeType === ChallengeQuestionTimeType.TimeToOne) {
+      setSecondsLeft(challenge.timeSeconds);
+      setTimerRunning(true);
+    } else if (!timerStartedRef.current) {
+      setSecondsLeft(challenge.timeSeconds);
+      setTimerRunning(true);
+      timerStartedRef.current = true;
+    }
+  }, [challenge?.id, challenge?.status, challenge?.nextQuestion?.number, challenge?.questionTimeType, challenge?.timeSeconds, question]);
+
+  useEffect(() => {
+    if (!timerRunning || secondsLeft <= 0) return;
+    const interval = setInterval(() => setSecondsLeft((prev) => Math.max(prev - 1, 0)), 1000);
+    return () => clearInterval(interval);
+  }, [timerRunning, secondsLeft]);
+
+  useEffect(() => {
+    if (!timerRunning || secondsLeft > 0) return;
+    setTimerRunning(false);
+    questionCardRef.current?.submit({
+      isFinish: challenge?.questionTimeType === ChallengeQuestionTimeType.TimeToAll,
+      force: true,
+    });
+  }, [timerRunning, secondsLeft, challenge?.questionTimeType]);
+
   const handleStart = async () => {
     if (!challenge) return;
     await startChallenge(challenge.id);
     await mutate();
   };
 
-  const handleSubmit = async (answer: unknown) => {
+  const handleSubmit = async (payload: { answer: unknown; isFinish?: boolean }) => {
     if (!challenge) return;
-    await submitAnswer({ challengeId: challenge.id, payload: { answer } });
+    const result = await submitAnswer({ challengeId: challenge.id, payload });
+
+    if (result?.success !== undefined) {
+      enqueueSnackbar(result.success ? t('challenges.answerCorrect') : t('challenges.answerWrong'), {
+        variant: result.success ? 'success' : 'error',
+      });
+    }
+
     await mutate();
   };
 
-  const goBackToArena = () => {
+  const goBack = () => {
+    if (arenaId) {
+      navigate(resources.ArenaTournament.replace(':id', arenaId));
+      return;
+    }
     navigate(resources.Challenges);
   };
 
@@ -78,7 +132,7 @@ const ChallengeDetailPage = () => {
     );
   }
 
-  const showQuestion = challenge.status !== ChallengeStatus.Finished && challenge.nextQuestion?.question;
+  const showQuestion = challenge.status === ChallengeStatus.Already && question;
 
   return (
     <Box sx={responsivePagePaddingSx}>
@@ -92,76 +146,87 @@ const ChallengeDetailPage = () => {
               {t('challenges.detailSubtitle', { time: dayjs(challenge.finished || undefined).fromNow() })}
             </Typography>
           </Stack>
-          <Button variant="text" onClick={goBackToArena}>
-            {t('common.back')}
-          </Button>
+          <Stack direction="row" spacing={1}>
+            <Button variant="text" onClick={goBack}>
+              {t('common.back')}
+            </Button>
+            {challenge.status === ChallengeStatus.NotStarted && (
+              <Button variant="contained" onClick={handleStart} disabled={starting}>
+                {t('challenges.start')}
+              </Button>
+            )}
+          </Stack>
         </Stack>
 
         <Card variant="outlined">
           <CardContent>
-            <Stack spacing={2} direction="column">
-              <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center">
-                <Typography variant="subtitle2" color="text.secondary">
-                  {statusLabel}
-                </Typography>
-                <Stack direction="row" spacing={1}>
-                  {challenge.status === ChallengeStatus.NotStarted && (
-                    <Button variant="contained" onClick={handleStart} disabled={starting}>
-                      {t('challenges.start')}
-                    </Button>
-                  )}
-                  {challenge.status === ChallengeStatus.Finished && (
-                    <Button variant="outlined" onClick={goBackToArena}>
-                      {t('challenges.backToList')}
-                    </Button>
-                  )}
-                </Stack>
-              </Stack>
-
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} divider={<Divider flexItem orientation="vertical" />}>
-                <ChallengeUserChip
-                  player={challenge.playerFirst}
-                  highlight={challenge.playerFirst.result > challenge.playerSecond.result}
-                />
-                <Stack spacing={0.5} direction="column" alignItems="center" justifyContent="center" px={2}>
-                  <Typography variant="h4" fontWeight={800}>
-                    {challenge.playerFirst.result} : {challenge.playerSecond.result}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {t('challenges.questionsCount', { count: challenge.questionsCount })}
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    {t('challenges.timeLimitShort', { seconds: challenge.timeSeconds })}
-                  </Typography>
-                </Stack>
-                <ChallengeUserChip
-                  player={challenge.playerSecond}
-                  align="right"
-                  highlight={challenge.playerSecond.result > challenge.playerFirst.result}
-                />
+            <Stack spacing={1.5} direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" useFlexGap>
+              <Chip label={statusLabel} color={challenge.status === ChallengeStatus.Finished ? 'success' : 'primary'} variant="soft" />
+              <Stack direction="row" spacing={1}>
+                <Chip label={challenge.rated ? t('challenges.rated') : t('challenges.unrated')} variant="outlined" />
+                <Chip label={t('challenges.questionsCount', { count: challenge.questionsCount })} variant="outlined" />
+                <Chip label={t('challenges.timeLimitShort', { seconds: challenge.timeSeconds })} variant="outlined" />
               </Stack>
             </Stack>
           </CardContent>
         </Card>
 
-        {showQuestion ? (
-          <ChallengeQuestionCard
-            question={challenge.nextQuestion?.question}
-            onSubmit={handleSubmit}
-            disabled={challenge.status !== ChallengeStatus.Already}
-            isSubmitting={submitting}
-          />
-        ) : (
-          <Card variant="outlined">
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {challenge.status === ChallengeStatus.Finished
-                  ? t('challenges.finishedDescription')
-                  : t('challenges.waitingForStart')}
-              </Typography>
-            </CardContent>
-          </Card>
-        )}
+        <Grid container spacing={3}>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <ChallengeResultsCard challenge={challenge} />
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 5 }}>
+            {showQuestion ? (
+              <ChallengeQuestionCard
+                ref={questionCardRef}
+                question={question}
+                onSubmit={handleSubmit}
+                disabled={submitting}
+                isSubmitting={submitting}
+              />
+            ) : (
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="body2" color="text.secondary">
+                    {challenge.status === ChallengeStatus.Finished
+                      ? t('challenges.finishedDescription')
+                      : t('challenges.waitingForStart')}
+                  </Typography>
+                </CardContent>
+              </Card>
+            )}
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 3 }}>
+            <Stack spacing={2}>
+              <ChallengeCountdown
+                secondsLeft={secondsLeft}
+                totalSeconds={challenge.timeSeconds}
+                chapterTitle={question?.chapter?.title}
+                chapterIcon={question?.chapter?.icon}
+                mode={challenge.questionTimeType}
+              />
+              <Card variant="outlined">
+                <CardContent>
+                  <Stack spacing={1} direction="column">
+                    <Typography variant="subtitle2" color="text.secondary">
+                      {t('challenges.detailSubtitle', { time: dayjs(challenge.finished || undefined).fromNow() })}
+                    </Typography>
+                    {challenge.status === ChallengeStatus.Finished && (
+                      <Typography variant="body2">{t('challenges.finishedDescription')}</Typography>
+                    )}
+                    {challenge.status === ChallengeStatus.Already && (
+                      <Typography variant="body2" color="text.secondary">
+                        {t('challenges.activeQuestion', { number: challenge.nextQuestion?.number })}
+                      </Typography>
+                    )}
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Stack>
+          </Grid>
+        </Grid>
       </Stack>
     </Box>
   );

@@ -1,6 +1,8 @@
 import { QuestionType } from '../enums/question-type.enum.ts';
+import { Chapter } from './chapter.entity.ts';
 
 export interface QuestionOption {
+  id?: number;
   option?: string;
   optionMain?: string;
   optionSecondary?: string;
@@ -17,4 +19,5 @@ export interface Question {
   options?: QuestionOption[];
   input?: string;
   answered?: boolean;
+  chapter?: Chapter;
 }
