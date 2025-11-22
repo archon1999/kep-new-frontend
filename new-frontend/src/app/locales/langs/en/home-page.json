@@ -94,6 +94,7 @@
     "activityHistory": {
       "title": "Activity history",
       "empty": "There is no activity to display yet.",
+      "onlineNow": "Online now",
       "viewAll": "View all",
       "defaultLabel": "Activity update",
       "types": {

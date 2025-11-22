@@ -94,6 +94,7 @@
     "activityHistory": {
       "title": "Faollik tarixi",
       "empty": "Hozircha faollik haqida maʼlumot yo‘q.",
+      "onlineNow": "Hozir onlayn",
       "viewAll": "Barchasini ko‘rish",
       "defaultLabel": "Faollik yangilanishi",
       "types": {

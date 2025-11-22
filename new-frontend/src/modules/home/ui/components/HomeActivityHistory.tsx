@@ -8,6 +8,8 @@ import {
   TimelineOppositeContent,
   TimelineSeparator,
 } from '@mui/lab';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
 import { Box, Paper, Skeleton, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { TFunction } from 'i18next';
@@ -17,6 +19,8 @@ import type {
 } from 'modules/home/domain/entities/home.entity.ts';
 import KepIcon from 'shared/components/base/KepIcon';
 import type { KepIconName } from 'shared/config/icons';
+import UserPopover from 'modules/users/ui/components/UserPopover';
+import { useOnlineUsers } from '../../application/queries';
 
 const SKELETON_ITEMS = 3;
 
@@ -236,16 +240,57 @@ const getActivityTexts = (
   }
 };
 
-const HomeActivityHistory = ({ username: _username, history, isLoading, maxHeight=354.5, }: HomeActivityHistoryProps) => {
+const HomeActivityHistory = ({ username: _username, history, isLoading, maxHeight = 354.5 }: HomeActivityHistoryProps) => {
   const { t } = useTranslation();
+  const { data: onlineUsers, isLoading: isOnlineLoading } = useOnlineUsers(6);
   const activities = history?.data ?? [];
   const showEmpty = !isLoading && activities.length === 0;
+  const onlineUsersList = onlineUsers?.data ?? [];
+  const showOnlineUsers = isOnlineLoading || onlineUsersList.length > 0;
 
   return (
     <Stack direction="column" spacing={2}>
-      <Typography variant="h6" fontWeight={600}>
-        {t('homePage.activityHistory.title')}
-      </Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
+        <Typography variant="h6" fontWeight={600}>
+          {t('homePage.activityHistory.title')}
+        </Typography>
+
+        {showOnlineUsers && (
+          <Stack direction="row" spacing={1.5} alignItems="center" flexShrink={0}>
+            <Typography variant="body2" color="text.secondary">
+              {t('homePage.activityHistory.onlineNow')}
+            </Typography>
+
+            {isOnlineLoading ? (
+              <Stack direction="row" spacing={0.75}>
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <Skeleton key={index} variant="circular" width={32} height={32} />
+                ))}
+              </Stack>
+            ) : (
+              <AvatarGroup
+                max={5}
+                spacing="small"
+                sx={{
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    fontSize: 14,
+                  },
+                }}
+              >
+                {onlineUsersList.map((user) => (
+                  <UserPopover key={user.username} username={user.username} avatar={user.avatar}>
+                    <Avatar src={user.avatar ?? undefined} alt={user.username}>
+                      {user.username?.charAt(0).toUpperCase()}
+                    </Avatar>
+                  </UserPopover>
+                ))}
+              </AvatarGroup>
+            )}
+          </Stack>
+        )}
+      </Stack>
 
       <Box
         sx={{
