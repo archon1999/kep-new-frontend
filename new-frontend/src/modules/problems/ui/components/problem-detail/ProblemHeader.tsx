@@ -13,25 +13,28 @@ export const ProblemHeader = ({ problem, selectedDifficultyColor }: ProblemHeade
   return (
     <Card variant="outlined">
       <CardContent>
-        <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
+        <Stack direction="column" spacing={1} flexWrap="wrap">
           <Typography variant="h5" fontWeight={800} sx={{ mr: 1 }}>
             {problem.id}. {problem.title}
           </Typography>
-          <Chip label={problem.difficultyTitle} color={selectedDifficultyColor as any} size="small" />
-          <Chip
-            label={`${t('problems.detail.timeLimit')}: ${
-              problem.timeLimit ?? problem.availableLanguages?.[0]?.timeLimit ?? 0
-            } ms`}
-            variant="outlined"
-            size="small"
-          />
-          <Chip
-            label={`${t('problems.detail.memoryLimit')}: ${
-              problem.memoryLimit ?? problem.availableLanguages?.[0]?.memoryLimit ?? 0
-            } MB`}
-            variant="outlined"
-            size="small"
-          />
+
+          <Stack spacing={1}>
+            <Chip label={problem.difficultyTitle} color={selectedDifficultyColor as any} size="small" />
+            <Chip
+              label={`${t('problems.detail.timeLimit')}: ${
+                problem.timeLimit ?? problem.availableLanguages?.[0]?.timeLimit ?? 0
+              } ms`}
+              variant="outlined"
+              size="small"
+            />
+            <Chip
+              label={`${t('problems.detail.memoryLimit')}: ${
+                problem.memoryLimit ?? problem.availableLanguages?.[0]?.memoryLimit ?? 0
+              } MB`}
+              variant="outlined"
+              size="small"
+            />
+          </Stack>
         </Stack>
       </CardContent>
     </Card>

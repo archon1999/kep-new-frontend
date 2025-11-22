@@ -1,6 +1,6 @@
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useProblemStatistics } from '../../../problems/application/queries';
+import { useProblemStatistics } from 'modules/problems/application/queries.ts';
 
 export const ProblemStatisticsTab = ({ problemId }: { problemId: number }) => {
   const { t } = useTranslation();

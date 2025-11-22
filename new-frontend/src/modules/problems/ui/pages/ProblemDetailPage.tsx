@@ -2,7 +2,23 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Autocomplete, Box, Button, Card, CardContent, Chip, IconButton, Stack, Tab, Tabs, TextField, Tooltip, Typography } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
+  IconButton,
+  LinearProgress,
+  Stack,
+  Tab,
+  Tabs,
+  TextField,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import AppbarActionItems from 'app/layouts/main-layout/common/AppbarActionItems';
@@ -17,21 +33,28 @@ import useDebouncedValue from 'shared/hooks/useDebouncedValue';
 import { getItemFromStore, setItemToStore } from 'shared/lib/utils';
 import { wsService } from 'shared/services/websocket';
 import useSWR from 'swr';
-import { problemsQueries, useAttemptsList, useHackAttempts, useProblemDetail } from '../../application/queries';
+import {
+  problemsQueries,
+  useAttemptsList,
+  useHackAttempts,
+  useProblemDetail,
+} from '../../application/queries';
 import { ProblemSampleTest } from '../../domain/entities/problem.entity';
 import { AttemptsListParams, HackAttemptsListParams } from '../../domain/ports/problems.repository';
 import ProblemsAttemptsTable from '../components/ProblemsAttemptsTable';
-import { ProblemDescription } from '../components/problem-detail/ProblemDescription';
-import { ProblemFooter } from '../components/problem-detail/ProblemFooter';
 import { HackAttemptsCard } from '../components/problem-detail/HackAttemptsCard';
-import { ProblemStatisticsTab } from '../components/problem-detail/ProblemStatisticsTab';
-import { ProblemEditorPanel } from '../components/problem-detail/ProblemEditorPanel';
 import { PanelHandle } from '../components/problem-detail/PanelHandles';
-
+import { ProblemDescription } from '../components/problem-detail/ProblemDescription';
+import { ProblemEditorPanel } from '../components/problem-detail/ProblemEditorPanel';
+import { ProblemFooter } from '../components/problem-detail/ProblemFooter';
+import { ProblemStatisticsTab } from '../components/problem-detail/ProblemStatisticsTab';
 
 const STORAGE_LANG_KEY = 'problem-submit-lang';
 
-const difficultyColorMap: Record<number, 'success' | 'info' | 'primary' | 'warning' | 'error' | 'secondary'> = {
+const difficultyColorMap: Record<
+  number,
+  'success' | 'info' | 'primary' | 'warning' | 'error' | 'secondary'
+> = {
   1: 'success',
   2: 'info',
   3: 'primary',
@@ -43,29 +66,36 @@ const difficultyColorMap: Record<number, 'success' | 'info' | 'primary' | 'warni
 
 const useProblemPermissions = (permissionsRaw: any) => {
   return useMemo(() => {
-    if (!permissionsRaw) return {canCreateProblems: false, canChangeProblemTags: false, canUseCheckSamples: false};
+    if (!permissionsRaw)
+      return { canCreateProblems: false, canChangeProblemTags: false, canUseCheckSamples: false };
     if (typeof permissionsRaw === 'string') {
       try {
         permissionsRaw = JSON.parse(permissionsRaw);
       } catch {
-        return {canCreateProblems: false, canChangeProblemTags: false, canUseCheckSamples: false};
+        return { canCreateProblems: false, canChangeProblemTags: false, canUseCheckSamples: false };
       }
     }
 
     return {
-      canCreateProblems: Boolean(permissionsRaw.canCreateProblems ?? permissionsRaw.can_create_problems),
-      canChangeProblemTags: Boolean(permissionsRaw.canChangeProblemTags ?? permissionsRaw.can_change_problem_tags),
-      canUseCheckSamples: Boolean(permissionsRaw.canUseCheckSamples ?? permissionsRaw.can_use_check_samples),
+      canCreateProblems: Boolean(
+        permissionsRaw.canCreateProblems ?? permissionsRaw.can_create_problems,
+      ),
+      canChangeProblemTags: Boolean(
+        permissionsRaw.canChangeProblemTags ?? permissionsRaw.can_change_problem_tags,
+      ),
+      canUseCheckSamples: Boolean(
+        permissionsRaw.canUseCheckSamples ?? permissionsRaw.can_use_check_samples,
+      ),
     };
   }, [permissionsRaw]);
 };
 
 const ProblemDetailPage = () => {
-  const {t, i18n} = useTranslation();
-  const {enqueueSnackbar} = useSnackbar();
-  const {currentUser} = useAuth();
+  const { t, i18n } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
+  const { currentUser } = useAuth();
   const theme = useTheme();
-  const {navColor} = useSettingsContext();
+  const { navColor } = useSettingsContext();
   const permissions = useProblemPermissions(currentUser?.permissions);
   const editorTheme = theme.palette.mode === 'dark' ? 'vs-dark' : 'vs';
 
@@ -92,16 +122,21 @@ const ProblemDetailPage = () => {
   >([]);
   const [editorTab, setEditorTab] = useState<'console' | 'samples'>('console');
   const [myAttemptsOnly, setMyAttemptsOnly] = useState(true);
-  const [hackPagination, setHackPagination] = useState({page: 0, pageSize: 10});
-  const [attemptsPagination, setAttemptsPagination] = useState<GridPaginationModel>({page: 0, pageSize: 10});
+  const [hackPagination, setHackPagination] = useState({ page: 0, pageSize: 10 });
+  const [attemptsPagination, setAttemptsPagination] = useState<GridPaginationModel>({
+    page: 0,
+    pageSize: 10,
+  });
   const [problemSearch, setProblemSearch] = useState('');
   const debouncedProblemSearch = useDebouncedValue(problemSearch, 300);
 
-  const {data: problem, isLoading: isProblemLoading, mutate: mutateProblem} = useProblemDetail(
-    Number.isNaN(problemId) ? undefined : problemId,
-  );
+  const {
+    data: problem,
+    isLoading: isProblemLoading,
+    mutate: mutateProblem,
+  } = useProblemDetail(Number.isNaN(problemId) ? undefined : problemId);
 
-  const {data: hackAttemptsPage, mutate: mutateHackAttempts} = useHackAttempts(
+  const { data: hackAttemptsPage, mutate: mutateHackAttempts } = useHackAttempts(
     useMemo<HackAttemptsListParams>(
       () => ({
         problemId: problemId || undefined,
@@ -120,10 +155,20 @@ const ProblemDetailPage = () => {
       pageSize: attemptsPagination.pageSize,
       ordering: '-id',
     }),
-    [problemId, myAttemptsOnly, currentUser?.username, attemptsPagination.page, attemptsPagination.pageSize],
+    [
+      problemId,
+      myAttemptsOnly,
+      currentUser?.username,
+      attemptsPagination.page,
+      attemptsPagination.pageSize,
+    ],
   );
 
-  const {data: attemptsPage, mutate: mutateAttempts, isLoading: isAttemptsLoading} = useAttemptsList(attemptsParams);
+  const {
+    data: attemptsPage,
+    mutate: mutateAttempts,
+    isLoading: isAttemptsLoading,
+  } = useAttemptsList(attemptsParams);
 
   const selectedLanguage = useMemo(
     () => problem?.availableLanguages?.find((lang) => lang.lang === selectedLang) ?? null,
@@ -134,7 +179,8 @@ const ProblemDetailPage = () => {
 
   useEffect(() => {
     if (problem?.id) {
-      const storedLang = (getItemFromStore(STORAGE_LANG_KEY, problem.availableLanguages?.[0]?.lang) as string) || '';
+      const storedLang =
+        (getItemFromStore(STORAGE_LANG_KEY, problem.availableLanguages?.[0]?.lang) as string) || '';
       const available = problem.availableLanguages?.find((lang) => lang.lang === storedLang);
       const fallback = problem.availableLanguages?.[0];
       const langToUse = available?.lang ?? fallback?.lang ?? '';
@@ -167,7 +213,10 @@ const ProblemDetailPage = () => {
     unsubscribers.push(
       wsService.on('custom-test-result', (result: any) => {
         const text = `${result.output ?? ''}${result.error ?? ''}`;
-        const meta = [result.time ? `Time: ${result.time}ms` : null, result.memory ? `Memory: ${result.memory}KB` : null]
+        const meta = [
+          result.time ? `Time: ${result.time}ms` : null,
+          result.memory ? `Memory: ${result.memory}KB` : null,
+        ]
           .filter(Boolean)
           .join(' | ');
         setOutput([text.trim(), meta].filter(Boolean).join('\n'));
@@ -212,7 +261,7 @@ const ProblemDetailPage = () => {
     } else {
       next.set('tab', value);
     }
-    setSearchParams(next, {replace: true});
+    setSearchParams(next, { replace: true });
   };
 
   const handlePrev = async () => {
@@ -238,10 +287,13 @@ const ProblemDetailPage = () => {
       pageSize: 8,
       ordering: 'id',
     });
-    return page.data.map((item) => ({id: item.id, title: item.title}));
+    return page.data.map((item) => ({ id: item.id, title: item.title }));
   };
 
-  const {data: problemOptions = []} = useSWR(['problem-switcher', debouncedProblemSearch], problemOptionsFetcher);
+  const { data: problemOptions = [] } = useSWR(
+    ['problem-switcher', debouncedProblemSearch],
+    problemOptionsFetcher,
+  );
 
   useEffect(() => {
     if (problem?.id && problemOptions.length) {
@@ -254,7 +306,7 @@ const ProblemDetailPage = () => {
 
   const selectedProblemOption = useMemo(() => {
     if (!problem?.id) return null;
-    return {id: problem.id, title: problem.title};
+    return { id: problem.id, title: problem.title };
   }, [problem?.id, problem?.title]);
 
   const combinedProblemOptions = useMemo(() => {
@@ -273,8 +325,11 @@ const ProblemDetailPage = () => {
     if (!problem?.id || !selectedLang || !code || isSubmitting) return;
     setIsSubmitting(true);
     try {
-      await problemsQueries.problemsRepository.submitSolution(problem.id, {sourceCode: code, lang: selectedLang});
-      enqueueSnackbar(t('problems.detail.submitSuccess'), {variant: 'success'});
+      await problemsQueries.problemsRepository.submitSolution(problem.id, {
+        sourceCode: code,
+        lang: selectedLang,
+      });
+      enqueueSnackbar(t('problems.detail.submitSuccess'), { variant: 'success' });
       setActiveTab('attempts');
       setSearchParams((prev) => {
         const next = new URLSearchParams(prev);
@@ -283,8 +338,9 @@ const ProblemDetailPage = () => {
       });
       mutateAttempts();
     } catch (error: any) {
-      const message = error?.response?.data?.message ?? error?.message ?? t('problems.detail.error');
-      enqueueSnackbar(message, {variant: 'error'});
+      const message =
+        error?.response?.data?.message ?? error?.message ?? t('problems.detail.error');
+      enqueueSnackbar(message, { variant: 'error' });
     } finally {
       setIsSubmitting(false);
     }
@@ -362,13 +418,21 @@ const ProblemDetailPage = () => {
   const selectedDifficultyColor = difficultyColorMap[problem?.difficulty ?? 0] || 'primary';
 
   return (
-    <Box sx={{height: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default'}}>
+    <Box
+      sx={{
+        height: '100vh',
+        display: 'flex',
+        minWidth: 1000,
+        flexDirection: 'column',
+        bgcolor: 'background.elevation1',
+      }}
+    >
       <Box
         component="header"
         sx={{
           borderBottom: 1,
           borderColor: 'divider',
-          px: {xs: 2, md: 3},
+          px: { xs: 2, md: 3 },
           py: 1.5,
           display: 'flex',
           alignItems: 'center',
@@ -380,11 +444,11 @@ const ProblemDetailPage = () => {
           color: navColor === 'vibrant' ? 'common.white' : undefined,
         }}
       >
-        <Stack direction="row" spacing={1.5} alignItems="center" sx={{minWidth: 0, flex: 1}}>
-          <Logo showName={false}/>
+        <Stack direction="row" spacing={1.5} alignItems="center" sx={{ minWidth: 0, flex: 1 }}>
+          <Logo showName={false} />
           <Autocomplete
             size="small"
-            sx={{minWidth: 240}}
+            sx={{ minWidth: 240 }}
             options={combinedProblemOptions}
             getOptionLabel={(option) => `${option.id}. ${option.title}`}
             onChange={handleProblemSelect}
@@ -392,31 +456,46 @@ const ProblemDetailPage = () => {
             filterOptions={(opts) => opts}
             value={selectedProblemOption}
             renderInput={(params) => (
-              <TextField {...params} size="small" label={t('problems.detail.selectProblem')} placeholder="1234"/>
+              <TextField
+                {...params}
+                size="small"
+                label={t('problems.detail.selectProblem')}
+                placeholder="1234"
+              />
             )}
           />
           <Tooltip title={t('problems.detail.previousProblem')}>
             <span>
               <IconButton onClick={handlePrev} color="primary" disabled={!problem?.id}>
-                <IconifyIcon icon="mdi:chevron-left"/>
+                <IconifyIcon icon="mdi:chevron-left" />
               </IconButton>
             </span>
           </Tooltip>
           <Tooltip title={t('problems.detail.nextProblem')}>
             <span>
               <IconButton onClick={handleNext} color="primary" disabled={!problem?.id}>
-                <IconifyIcon icon="mdi:chevron-right"/>
+                <IconifyIcon icon="mdi:chevron-right" />
               </IconButton>
             </span>
           </Tooltip>
         </Stack>
 
-        <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" sx={{flex: 1, minWidth: 0}}>
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          justifyContent="center"
+          sx={{ flex: 1, minWidth: 0 }}
+        >
           <Tooltip title={isRunning ? t('problems.detail.running') : t('problems.detail.run')}>
             <span>
-              <IconButton color="primary" onClick={handleRun} disabled={!currentUser || isRunning || !code}
-                          size="large">
-                <IconifyIcon icon="mdi:play-circle-outline" width={22} height={22}/>
+              <IconButton
+                color="primary"
+                onClick={handleRun}
+                disabled={!currentUser || isRunning || !code}
+                size="large"
+              >
+                <IconifyIcon icon="mdi:play-circle-outline" width={22} height={22} />
               </IconButton>
             </span>
           </Tooltip>
@@ -430,7 +509,7 @@ const ProblemDetailPage = () => {
                   disabled={!currentUser || isCheckingSamples || !code}
                   size="large"
                 >
-                  <IconifyIcon icon="mdi:check-all" width={22} height={22}/>
+                  <IconifyIcon icon="mdi:check-all" width={22} height={22} />
                 </IconButton>
               </span>
             </Tooltip>
@@ -444,7 +523,7 @@ const ProblemDetailPage = () => {
                   onSuccess={() => mutateProblem()}
                 >
                   <IconButton color="secondary" disabled={!currentUser} size="large">
-                    <IconifyIcon icon="mdi:check-all" width={22} height={22}/>
+                    <IconifyIcon icon="mdi:check-all" width={22} height={22} />
                   </IconButton>
                 </KepcoinSpendConfirm>
               </span>
@@ -452,17 +531,21 @@ const ProblemDetailPage = () => {
           )}
 
           {problem?.hasSolution && problem?.hasCheckInput ? (
-            <Tooltip title={isAnswering ? t('problems.detail.waiting') : t('problems.detail.answerForInput')}>
+            <Tooltip
+              title={
+                isAnswering ? t('problems.detail.waiting') : t('problems.detail.answerForInput')
+              }
+            >
               <span>
                 <KepcoinSpendConfirm
                   value={1}
                   purchaseUrl={`/api/problems/${problem?.id}/answer-for-input/`}
-                  requestBody={{input_data: input}}
+                  requestBody={{ input_data: input }}
                   onSuccess={handleAnswerForInput}
                   disabled={!currentUser}
                 >
                   <IconButton color="info" disabled={!currentUser || isAnswering} size="large">
-                    <IconifyIcon icon="mdi:chat-question-outline" width={22} height={22}/>
+                    <IconifyIcon icon="mdi:chat-question-outline" width={22} height={22} />
                   </IconButton>
                 </KepcoinSpendConfirm>
               </span>
@@ -476,73 +559,87 @@ const ProblemDetailPage = () => {
                 color="primary"
                 onClick={handleSubmit}
                 disabled={!currentUser || isSubmitting || !code}
-                sx={{minWidth: 44, px: 1}}
+                sx={{ minWidth: 44, px: 1 }}
               >
-                <IconifyIcon icon="mdi:send-outline" width={18} height={18}/>
+                <IconifyIcon icon="mdi:send-outline" width={18} height={18} />
               </Button>
             </span>
           </Tooltip>
         </Stack>
 
-        <Box sx={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
-          <AppbarActionItems type="slim"/>
+        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+          <AppbarActionItems type="slim" />
         </Box>
       </Box>
 
-      <Card variant="outlined" sx={{flex: 1, m: {xs: 1, md: 2}, display: 'flex', flexDirection: 'column'}}>
-        {isProblemLoading && <LinearProgress/>}
+      <Card sx={{ display: 'flex', flexDirection: 'column' }}>
+        {isProblemLoading && <LinearProgress />}
 
-        <Box sx={{flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column'}}>
-          <PanelGroup direction="horizontal" style={{flex: 1, minHeight: 0}}>
+        <Box sx={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+          <PanelGroup direction="horizontal" style={{ flex: 1, minHeight: 0 }}>
             <Panel defaultSize={50} minSize={35}>
-              <Box sx={{height: '100%', overflow: 'auto', px: {xs: 2, md: 3}, py: 2}}>
+              <Card background={0} sx={{ height: '100%', overflow: 'auto' }}>
                 {problem ? (
                   <>
-                    <Tabs
-                      value={activeTab}
-                      onChange={handleTabChange}
-                      variant="scrollable"
-                      scrollButtons="auto"
-                      textColor="primary"
-                      indicatorColor="primary"
-                      sx={{mb: 1.5}}
-                    >
-                      <Tab
-                        value="description"
-                        label={t('problems.detail.problemTab')}
-                        icon={<IconifyIcon icon="mdi:book-open-page-variant" color="#7C4DFF"/>}
-                        iconPosition="start"
-                      />
-                      <Tab
-                        value="attempts"
-                        label={t('problems.detail.attemptsTab')}
-                        icon={<IconifyIcon icon="mdi:history" color="#0288D1"/>}
-                        iconPosition="start"
-                      />
-                      <Tab
-                        value="stats"
-                        label={t('problems.detail.stats')}
-                        icon={<IconifyIcon icon="mdi:chart-bar" color="#43A047"/>}
-                        iconPosition="start"
-                      />
-                      <Tab
-                        value="hacks"
-                        label={t('problems.detail.hacksTab')}
-                        icon={<IconifyIcon icon="mdi:sword-cross" color="#E53935"/>}
-                        iconPosition="start"
-                        disabled={!problem?.hasCheckInput}
-                      />
-                    </Tabs>
+                    <CardHeader
+                      title={
+                        <Tabs
+                          value={activeTab}
+                          onChange={handleTabChange}
+                          variant="scrollable"
+                          scrollButtons="auto"
+                          textColor="primary"
+                          indicatorColor="primary"
+                        >
+                          <Tab
+                            value="description"
+                            label={t('problems.detail.problemTab')}
+                            icon={<IconifyIcon icon="mdi:book-open-page-variant" />}
+                            iconPosition="start"
+                          />
+                          <Tab
+                            value="attempts"
+                            label={t('problems.detail.attemptsTab')}
+                            icon={<IconifyIcon icon="mdi:history" />}
+                            iconPosition="start"
+                          />
+                          <Tab
+                            value="stats"
+                            label={t('problems.detail.stats')}
+                            icon={<IconifyIcon icon="mdi:chart-bar" />}
+                            iconPosition="start"
+                          />
+                          <Tab
+                            value="hacks"
+                            label={t('problems.detail.hacksTab')}
+                            icon={<IconifyIcon icon="mdi:sword-cross" />}
+                            iconPosition="start"
+                            disabled={!problem?.hasCheckInput}
+                          />
+                        </Tabs>
+                      }
+                    ></CardHeader>
 
                     {activeTab === 'description' && (
-                      <ProblemDescription
-                        problem={problem}
-                        selectedDifficultyColor={selectedDifficultyColor}
-                      />
+                      <>
+                        <CardContent>
+                          <ProblemDescription
+                            problem={problem}
+                            selectedDifficultyColor={selectedDifficultyColor}
+                          />
+                        </CardContent>
+
+                        <ProblemFooter
+                          problem={problem}
+                          onFavoriteToggle={handleFavoriteToggle}
+                          onLike={() => handleLikeDislike('like')}
+                          onDislike={() => handleLikeDislike('dislike')}
+                        />
+                      </>
                     )}
 
                     {activeTab === 'attempts' && (
-                      <Card variant="outlined" sx={{mt: 2}}>
+                      <Card variant="outlined" sx={{ mt: 2 }}>
                         <CardContent>
                           {currentUser ? (
                             <Stack direction="row" alignItems="center" spacing={1} mb={2}>
@@ -565,7 +662,7 @@ const ProblemDetailPage = () => {
                       </Card>
                     )}
 
-                    {activeTab === 'stats' && <ProblemStatisticsTab problemId={problem.id}/>}
+                    {activeTab === 'stats' && <ProblemStatisticsTab problemId={problem.id} />}
 
                     {activeTab === 'hacks' && (
                       <HackAttemptsCard
@@ -576,21 +673,14 @@ const ProblemDetailPage = () => {
                         onRefresh={() => mutateHackAttempts()}
                       />
                     )}
-
-                    <ProblemFooter
-                      problem={problem}
-                      onFavoriteToggle={handleFavoriteToggle}
-                      onLike={() => handleLikeDislike('like')}
-                      onDislike={() => handleLikeDislike('dislike')}
-                    />
                   </>
                 ) : (
                   <Typography color="text.secondary">{t('problems.detail.noProblem')}</Typography>
                 )}
-              </Box>
+              </Card>
             </Panel>
 
-            <PanelHandle/>
+            <PanelHandle />
 
             <Panel defaultSize={50} minSize={35}>
               <ProblemEditorPanel
@@ -628,7 +718,6 @@ const ProblemDetailPage = () => {
           </PanelGroup>
         </Box>
       </Card>
-
     </Box>
   );
 };

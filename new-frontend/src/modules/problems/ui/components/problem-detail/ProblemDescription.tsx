@@ -13,8 +13,8 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useProblemSolution } from 'modules/problems/application/queries.ts';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import { useProblemSolution } from '../../../problems/application/queries';
 import { ProblemDetail } from '../../../domain/entities/problem.entity';
 import { ProblemHeader } from './ProblemHeader';
 
@@ -23,11 +23,17 @@ interface ProblemDescriptionProps {
   selectedDifficultyColor: string;
 }
 
-export const ProblemDescription = ({ problem, selectedDifficultyColor }: ProblemDescriptionProps) => {
+export const ProblemDescription = ({
+  problem,
+  selectedDifficultyColor,
+}: ProblemDescriptionProps) => {
   const { t } = useTranslation();
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [solutionExpanded, setSolutionExpanded] = useState(false);
-  const { data: solution, isLoading: isSolutionLoading } = useProblemSolution(problem.id, solutionExpanded);
+  const { data: solution, isLoading: isSolutionLoading } = useProblemSolution(
+    problem.id,
+    solutionExpanded,
+  );
 
   useEffect(() => {
     if (!contentRef.current) return;
@@ -44,24 +50,34 @@ export const ProblemDescription = ({ problem, selectedDifficultyColor }: Problem
   }, [problem.body, problem.inputData, problem.outputData, problem.comment]);
 
   return (
-    <Box mt={2}>
+    <Box>
       <ProblemHeader problem={problem} selectedDifficultyColor={selectedDifficultyColor} />
       <Card variant="outlined">
         <CardContent>
           <Box ref={contentRef} className="problem-body">
-            <Typography variant="body1" color="text.primary" dangerouslySetInnerHTML={{ __html: problem.body ?? '' }} />
+            <Typography
+              variant="body1"
+              color="text.primary"
+              dangerouslySetInnerHTML={{ __html: problem.body ?? '' }}
+            />
 
             {problem.inputData ? (
               <Box mt={3}>
                 <Typography variant="h6">{t('problems.detail.inputData')}</Typography>
-                <Typography variant="body1" dangerouslySetInnerHTML={{ __html: problem.inputData }} />
+                <Typography
+                  variant="body1"
+                  dangerouslySetInnerHTML={{ __html: problem.inputData }}
+                />
               </Box>
             ) : null}
 
             {problem.outputData ? (
               <Box mt={3}>
                 <Typography variant="h6">{t('problems.detail.outputData')}</Typography>
-                <Typography variant="body1" dangerouslySetInnerHTML={{ __html: problem.outputData }} />
+                <Typography
+                  variant="body1"
+                  dangerouslySetInnerHTML={{ __html: problem.outputData }}
+                />
               </Box>
             ) : null}
 
@@ -74,13 +90,20 @@ export const ProblemDescription = ({ problem, selectedDifficultyColor }: Problem
                   {problem.sampleTests.map((test, index) => (
                     <Card key={`${test.input}-${index}`} variant="outlined">
                       <CardContent>
-                        <Stack spacing={2}>
+                        <Stack direction="column" spacing={2}>
                           <Box>
-                            <Stack direction="row" alignItems="center" justifyContent="space-between">
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              justifyContent="space-between"
+                            >
                               <Typography fontWeight={700}>
-                                {t('problems.detail.input')} #{index + 1}
+                                {t('problems.detail.input')}
                               </Typography>
-                              <IconButton size="small" onClick={() => navigator.clipboard.writeText(test.input ?? '')}>
+                              <IconButton
+                                size="small"
+                                onClick={() => navigator.clipboard.writeText(test.input ?? '')}
+                              >
                                 <IconifyIcon icon="mdi:content-copy" width={16} height={16} />
                               </IconButton>
                             </Stack>
@@ -101,9 +124,18 @@ export const ProblemDescription = ({ problem, selectedDifficultyColor }: Problem
                           </Box>
 
                           <Box>
-                            <Stack direction="row" alignItems="center" justifyContent="space-between">
-                              <Typography fontWeight={700}>{t('problems.detail.output')}</Typography>
-                              <IconButton size="small" onClick={() => navigator.clipboard.writeText(test.output ?? '')}>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              justifyContent="space-between"
+                            >
+                              <Typography fontWeight={700}>
+                                {t('problems.detail.expectedOutput')}
+                              </Typography>
+                              <IconButton
+                                size="small"
+                                onClick={() => navigator.clipboard.writeText(test.output ?? '')}
+                              >
                                 <IconifyIcon icon="mdi:content-copy" width={16} height={16} />
                               </IconButton>
                             </Stack>
@@ -161,7 +193,11 @@ export const ProblemDescription = ({ problem, selectedDifficultyColor }: Problem
       ) : null}
 
       {problem.hasSolution ? (
-        <Accordion sx={{ mt: 2 }} expanded={solutionExpanded} onChange={(_, expanded) => setSolutionExpanded(expanded)}>
+        <Accordion
+          sx={{ mt: 2 }}
+          expanded={solutionExpanded}
+          onChange={(_, expanded) => setSolutionExpanded(expanded)}
+        >
           <AccordionSummary expandIcon={<IconifyIcon icon="eva:arrow-ios-downward-fill" />}>
             <Typography fontWeight={700}>{t('problems.detail.solution')}</Typography>
           </AccordionSummary>

@@ -161,7 +161,7 @@ export const ProblemEditorPanel = ({
       </Stack>
 
       <PanelGroup direction="vertical" style={{ height: 'calc(100% - 40px)' }}>
-        <Panel defaultSize={65} minSize={45}>
+        <Panel defaultSize={45} minSize={25}>
           <Box
             sx={{
               height: '100%',
@@ -189,7 +189,7 @@ export const ProblemEditorPanel = ({
 
         <VerticalHandle />
 
-        <Panel defaultSize={35} minSize={25}>
+        <Panel defaultSize={55} minSize={25}>
           <Card variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             <Tabs
               value={editorTab}
@@ -229,41 +229,6 @@ export const ProblemEditorPanel = ({
                       value={answer}
                       InputProps={{ readOnly: true }}
                     />
-                  </Stack>
-
-                  <Stack direction="row" spacing={1}>
-                    <Tooltip title={isRunning ? t('problems.detail.running') : t('problems.detail.run')}>
-                      <span>
-                        <IconButton color="primary" onClick={onRun} disabled={isRunning || !code} size="large">
-                          <IconifyIcon icon="mdi:play-circle-outline" width={20} height={20} />
-                        </IconButton>
-                      </span>
-                    </Tooltip>
-                    <Tooltip title={t('problems.detail.checkSamples')}>
-                      <span>
-                        <IconButton
-                          color="secondary"
-                          onClick={onCheckSamples}
-                          disabled={isCheckingSamples || !canUseCheckSamples || !code}
-                          size="large"
-                        >
-                          <IconifyIcon icon="mdi:check-all" width={20} height={20} />
-                        </IconButton>
-                      </span>
-                    </Tooltip>
-                    <Tooltip title={t('problems.detail.submit')}>
-                      <span>
-                        <Button
-                          variant="contained"
-                          color="success"
-                          onClick={onSubmit}
-                          disabled={isSubmitting || !code}
-                          sx={{ minWidth: 44, px: 1 }}
-                        >
-                          <IconifyIcon icon="mdi:send-outline" width={18} height={18} />
-                        </Button>
-                      </span>
-                    </Tooltip>
                   </Stack>
                 </Stack>
               ) : (
