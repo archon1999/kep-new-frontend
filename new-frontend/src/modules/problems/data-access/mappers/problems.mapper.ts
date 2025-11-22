@@ -234,12 +234,12 @@ export const mapAttemptsPage = (payload: any): PageResult<AttemptListItem> =>
 
 export const mapVerdicts = (payload: any): AttemptFilterOption[] => {
   const data = Array.isArray(payload?.data) ? payload.data : Array.isArray(payload) ? payload : [];
-  const mapped = data.map<AttemptFilterOption>((item: any) => ({
+  const mapped = data.map((item: any): AttemptFilterOption => ({
     label: item.label ?? item.title ?? item.verdictTitle ?? String(item.value ?? item.verdict ?? ''),
     value: toNumber(item.value ?? item.verdict ?? item.id),
   }));
 
-  return mapped.filter((item) => item.label);
+  return mapped.filter((item: AttemptFilterOption) => Boolean(item.label));
 };
 
 export const mapPeriodRating = (payload: any): PeriodRatingEntry[] => {

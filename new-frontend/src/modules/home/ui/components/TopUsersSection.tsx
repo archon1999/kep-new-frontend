@@ -88,13 +88,6 @@ const tabConfigs = [
   },
 ] as const;
 
-const backgroundByRank: Record<number, string> = {
-  0: 'primary.lighter',
-  1: 'primary.lighter',
-  2: 'primary.lighter',
-};
-
-
 type TabValue = (typeof tabConfigs)[number]['value'];
 
 const TopUsersSection = () => {

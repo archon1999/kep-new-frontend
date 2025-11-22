@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Grid, Paper, Skeleton, Stack, Typography } from '@mui/material';
+import { Card, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import KepIcon from 'shared/components/base/KepIcon';
 import { UserRatingInfo, UserRatings } from '../../../domain/entities/user.entity';
 
@@ -39,7 +39,7 @@ const UserRanksGrid = ({ ratings, isLoading }: UserRanksGridProps) => {
   return (
     <Grid container spacing={1.5}>
       {items.map(({ key, labelKey, icon, stat }) => (
-        <Grid size={{ xs: 6, md: 3 }}>
+        <Grid key={key} size={{ xs: 6, md: 3 }}>
           <Card
             background={2}
             sx={{
