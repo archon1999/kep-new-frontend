@@ -37,11 +37,6 @@ const TestCardSkeleton = () => (
           <Skeleton variant="rounded" height={8} />
         </Stack>
 
-        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-          {[1, 2, 3].map((chip) => (
-            <Skeleton key={chip} variant="rounded" width={70 + chip * 10} height={26} />
-          ))}
-        </Stack>
       </Stack>
 
       <Box>

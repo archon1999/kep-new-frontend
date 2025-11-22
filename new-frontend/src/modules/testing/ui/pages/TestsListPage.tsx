@@ -46,9 +46,9 @@ const TestsListPage = () => {
         </Box>
 
         {isLoading ? (
-          <Stack spacing={4}>
+          <Stack direction="column" spacing={4}>
             {[1, 2].map((section) => (
-              <Stack key={section} spacing={2}>
+              <Stack direction="column" key={section} spacing={2}>
                 <Skeleton variant="text" width={240} height={32} />
                 <Grid container spacing={2}>
                   {[1, 2].map((item) => (
