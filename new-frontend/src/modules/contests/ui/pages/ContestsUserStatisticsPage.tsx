@@ -323,12 +323,12 @@ const ContestsUserStatisticsPage = () => {
     () =>
       [
         {
-          icon: 'contest',
+          icon: 'contest' as KepIconName,
           label: t('contests.statistics.bestRank'),
           entry: statistics?.contestRanks?.best,
         },
         {
-          icon: 'contest',
+          icon: 'contest' as KepIconName,
           label: t('contests.statistics.toughestRank'),
           entry: statistics?.contestRanks?.worst,
         },
@@ -351,12 +351,12 @@ const ContestsUserStatisticsPage = () => {
     () =>
       [
         {
-          icon: 'statistics',
+          icon: 'statistics' as KepIconName,
           label: t('contests.statistics.bestDelta'),
           entry: statistics?.contestDeltas?.best,
         },
         {
-          icon: 'statistics',
+          icon: 'statistics' as KepIconName,
           label: t('contests.statistics.worstDelta'),
           entry: statistics?.contestDeltas?.worst,
         },

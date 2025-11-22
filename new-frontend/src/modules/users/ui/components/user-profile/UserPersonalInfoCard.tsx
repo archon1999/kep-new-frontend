@@ -28,32 +28,32 @@ const UserPersonalInfoCard = ({ username }: UserPersonalInfoCardProps) => {
     icon?: KepIconName;
   }> = [
     {
-    label: t('users.profile.personal.fullName'),
-    value: [generalInfo?.firstName, generalInfo?.lastName].filter(Boolean).join(' '),
-    icon: 'profile',
-  },
-  {
-    label: t('users.profile.personal.wasBorn'),
-    value: formatDate(profileInfo?.dateOfBirth),
-    icon: 'challenge-time',
-  },
-  {
-    label: t('users.profile.personal.lives'),
-    value: [profileInfo?.country, profileInfo?.region].filter(Boolean).join(', '),
-    icon: 'info',
-  },
-  {
-    label: t('users.profile.personal.email'),
-    value: profileInfo?.email,
-  },
-  {
-    label: t('users.profile.personal.website'),
-    value: profileInfo?.website,
-  },
-  {
-    label: t('users.profile.personal.joined'),
-    value: formatDate(profileInfo?.dateJoined),
-    icon: 'contest',
+      label: t('users.profile.personal.fullName'),
+      value: [generalInfo?.firstName, generalInfo?.lastName].filter(Boolean).join(' '),
+      icon: 'profile' as KepIconName,
+    },
+    {
+      label: t('users.profile.personal.wasBorn'),
+      value: formatDate(profileInfo?.dateOfBirth),
+      icon: 'challenge-time' as KepIconName,
+    },
+    {
+      label: t('users.profile.personal.lives'),
+      value: [profileInfo?.country, profileInfo?.region].filter(Boolean).join(', '),
+      icon: 'info' as KepIconName,
+    },
+    {
+      label: t('users.profile.personal.email'),
+      value: profileInfo?.email,
+    },
+    {
+      label: t('users.profile.personal.website'),
+      value: profileInfo?.website,
+    },
+    {
+      label: t('users.profile.personal.joined'),
+      value: formatDate(profileInfo?.dateJoined),
+      icon: 'contest' as KepIconName,
     },
   ].filter((item) => Boolean(item.value));
 

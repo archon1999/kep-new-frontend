@@ -36,6 +36,6 @@ export class HttpContestsRepository implements ContestsRepository {
 
   async ratingChanges(username: string) {
     const result = await contestsApiClient.ratingChanges(username);
-    return (result ?? []).map(mapContestRatingChange);
+    return Array.isArray(result) ? result.map(mapContestRatingChange) : [];
   }
 }
