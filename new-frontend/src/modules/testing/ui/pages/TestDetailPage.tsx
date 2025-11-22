@@ -16,7 +16,7 @@ import {
   Typography,
 } from '@mui/material';
 import { getResourceById, resources } from 'app/routes/resources';
-import { useSnackbar } from 'notistack';
+import { toast } from 'sonner';
 import KepIcon from 'shared/components/base/KepIcon';
 import KepcoinSpendConfirm from 'shared/components/common/KepcoinSpendConfirm';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
@@ -32,7 +32,6 @@ type MetricItem = {
 
 const TestDetailPage = () => {
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -92,9 +91,9 @@ const TestDetailPage = () => {
         return;
       }
 
-      enqueueSnackbar(t('tests.startError'), { variant: 'error' });
+      toast.error(t('tests.startError'));
     } catch {
-      enqueueSnackbar(t('tests.startError'), { variant: 'error' });
+      toast.error(t('tests.startError'));
     } finally {
       setIsStarting(false);
     }

@@ -12,8 +12,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { useAuth } from 'app/providers/AuthProvider';
 import type { AccountTechnology } from '../../domain/entities/account-settings.entity';
 import { useAccountTechnologies } from '../../application/queries';
@@ -22,7 +22,6 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 
 const TechnologiesForm = () => {
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const { currentUser } = useAuth();
   const username = currentUser?.username;
 
@@ -54,9 +53,9 @@ const TechnologiesForm = () => {
     try {
       await trigger({ username, payload: items });
       await mutate();
-      enqueueSnackbar(t('settings.saved'), { variant: 'success' });
+      toast.success(t('settings.saved'));
     } catch {
-      enqueueSnackbar(t('settings.error'), { variant: 'error' });
+      toast.error(t('settings.error'));
     }
   };
 

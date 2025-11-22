@@ -1,14 +1,13 @@
 import { useMemo, useState } from 'react';
 import { Button, Card, CardContent, CardHeader, Grid, IconButton, InputAdornment, TextField } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useChangePassword } from '../../application/mutations';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 
 const PasswordForm = () => {
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const { currentUser } = useAuth();
   const username = currentUser?.username;
 
@@ -24,18 +23,18 @@ const PasswordForm = () => {
   const handleSave = async () => {
     if (!username) return;
     if (passwordsMismatch) {
-      enqueueSnackbar(t('settings.confirmNewPasswordIncorrect'), { variant: 'error' });
+      toast.error(t('settings.confirmNewPasswordIncorrect'));
       return;
     }
 
     try {
       await trigger({ username, payload: { oldPassword, newPassword } });
-      enqueueSnackbar(t('settings.saved'), { variant: 'success' });
+      toast.success(t('settings.saved'));
       setOldPassword('');
       setNewPassword('');
       setConfirmPassword('');
     } catch {
-      enqueueSnackbar(t('settings.wrongPassword'), { variant: 'error' });
+      toast.error(t('settings.wrongPassword'));
     }
   };
 

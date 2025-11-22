@@ -14,7 +14,7 @@ import Grid from '@mui/material/Grid';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useTranslation } from 'react-i18next';
-import { useSnackbar } from 'notistack';
+import { toast } from 'sonner';
 import { resources } from 'app/routes/resources';
 import ChallengeQuestionCard, { ChallengeQuestionCardHandle } from '../components/ChallengeQuestionCard.tsx';
 import ChallengeResultsCard from '../components/ChallengeResultsCard.tsx';
@@ -32,7 +32,6 @@ const ChallengeDetailPage = () => {
   const arenaId = searchParams.get('arena');
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
 
   const { data: challenge, isLoading, mutate } = useChallengeDetail(id);
   const { trigger: startChallenge, isMutating: starting } = useStartChallenge();
@@ -100,9 +99,9 @@ const ChallengeDetailPage = () => {
     const result = await submitAnswer({ challengeId: challenge.id, payload });
 
     if (result?.success !== undefined) {
-      enqueueSnackbar(result.success ? t('challenges.answerCorrect') : t('challenges.answerWrong'), {
-        variant: result.success ? 'success' : 'error',
-      });
+      const message = result.success ? t('challenges.answerCorrect') : t('challenges.answerWrong');
+      const notify = result.success ? toast.success : toast.error;
+      notify(message);
     }
 
     await mutate();

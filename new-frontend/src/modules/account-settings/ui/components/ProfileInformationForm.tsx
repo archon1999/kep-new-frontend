@@ -2,8 +2,8 @@ import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { Button, Card, CardContent, CardHeader, Grid, LinearProgress, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import { useSnackbar } from 'notistack';
 import { useAuth } from 'app/providers/AuthProvider';
+import { toast } from 'sonner';
 import { useUsersCountries } from 'modules/users/application/queries';
 import type { AccountProfileInfo } from '../../domain/entities/account-settings.entity';
 import { useAccountProfileInfo } from '../../application/queries';
@@ -11,7 +11,6 @@ import { useUpdateProfileInfo } from '../../application/mutations';
 
 const ProfileInformationForm = () => {
   const { t, i18n } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const { currentUser } = useAuth();
   const username = currentUser?.username;
 
@@ -54,10 +53,10 @@ const ProfileInformationForm = () => {
       await trigger({ username, payload: formState });
       await mutate();
       setErrors(undefined);
-      enqueueSnackbar(t('settings.saved'), { variant: 'success' });
+      toast.success(t('settings.saved'));
     } catch (error: any) {
       setErrors(error?.data);
-      enqueueSnackbar(t('settings.error'), { variant: 'error' });
+      toast.error(t('settings.error'));
     }
   };
 

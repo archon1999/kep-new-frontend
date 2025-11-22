@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, CardContent, CardHeader, Grid, LinearProgress, Slider, Stack, Typography } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { useAuth } from 'app/providers/AuthProvider';
 import type { AccountSkills } from '../../domain/entities/account-settings.entity';
 import { useAccountSkills } from '../../application/queries';
@@ -9,7 +9,6 @@ import { useUpdateSkills } from '../../application/mutations';
 
 const SkillsForm = () => {
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const { currentUser } = useAuth();
   const username = currentUser?.username;
 
@@ -33,9 +32,9 @@ const SkillsForm = () => {
     try {
       await trigger({ username, payload: formState });
       await mutate();
-      enqueueSnackbar(t('settings.saved'), { variant: 'success' });
+      toast.success(t('settings.saved'));
     } catch {
-      enqueueSnackbar(t('settings.error'), { variant: 'error' });
+      toast.error(t('settings.error'));
     }
   };
 

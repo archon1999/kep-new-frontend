@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useAuth } from 'app/providers/AuthProvider';
-import { useSnackbar } from 'notistack';
+import { toast } from 'sonner';
 import { useUpdateGeneralInfo } from '../../application/mutations';
 import { useAccountGeneralInfo } from '../../application/queries';
 import type { AccountGeneralInfo } from '../../domain/entities/account-settings.entity';
@@ -29,7 +29,6 @@ const readFileAsDataUrl = (file: File) =>
 
 const GeneralSettingsForm = () => {
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const { currentUser, refreshCurrentUser } = useAuth();
 
   const username = currentUser?.username;
@@ -80,10 +79,10 @@ const GeneralSettingsForm = () => {
       await mutate();
       await refreshCurrentUser();
       setErrors(undefined);
-      enqueueSnackbar(t('settings.saved'), { variant: 'success' });
+      toast.success(t('settings.saved'));
     } catch (error: any) {
       setErrors(error?.data);
-      enqueueSnackbar(t('settings.error'), { variant: 'error' });
+      toast.error(t('settings.error'));
     }
   };
 

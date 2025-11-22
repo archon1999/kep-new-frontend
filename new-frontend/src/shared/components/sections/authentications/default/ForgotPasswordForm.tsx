@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { useSnackbar } from 'notistack';
+import { toast } from 'sonner';
 import useCountdown from 'shared/hooks/useCountdown';
 import * as yup from 'yup';
 import CheckMailBoxDialog from '../CheckMailBoxDialog';
@@ -25,7 +25,6 @@ const schema = yup
 const ForgotPasswordForm = ({ handleSendResetLink }: ForgotPasswordFormProps) => {
   const [linkSent, setLinkSent] = useState(false);
   const [openCheckEmailDialog, setOpenCheckEmailDialog] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
   const { time, startTimer } = useCountdown();
 
   const {
@@ -45,7 +44,7 @@ const ForgotPasswordForm = ({ handleSendResetLink }: ForgotPasswordFormProps) =>
       setLinkSent(true);
       setOpenCheckEmailDialog(true);
       if (res?.message) {
-        enqueueSnackbar(res.message, { variant: 'success' });
+        toast.success(res.message);
       }
       startTimer(30, () => {
         setLinkSent(false);
