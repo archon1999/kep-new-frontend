@@ -122,7 +122,7 @@
       "answerForInputHotkey": "Answer for input (Ctrl+.)",
       "waiting": "Waiting...",
       "submit": "Submit",
-      "submitHotkey": "Submit (Ctrl+Enter)",
+      "submitHotkey": "Submit (Ctrl+Alt+Enter)",
       "submitSuccess": "Solution submitted.",
       "problemTab": "Problem",
       "attemptsTab": "Attempts",

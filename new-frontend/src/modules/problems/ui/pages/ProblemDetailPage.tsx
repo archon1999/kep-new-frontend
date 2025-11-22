@@ -452,7 +452,13 @@ const ProblemDetailPage = () => {
         return;
       }
 
-      if ((event.key === 'Enter' || event.key === 'NumpadEnter') && stateUser && hasCode && !isSubmitting) {
+      if (
+        (event.key === 'Enter' || event.key === 'NumpadEnter') &&
+        event.altKey &&
+        stateUser &&
+        hasCode &&
+        !isSubmitting
+      ) {
         event.preventDefault();
         onSubmit();
       }
