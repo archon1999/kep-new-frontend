@@ -11,7 +11,7 @@ import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import AttemptLanguage from 'shared/components/problems/AttemptLanguage';
-import AttemptVerdict from 'shared/components/problems/AttemptVerdict';
+import AttemptVerdict, { VerdictKey } from 'shared/components/problems/AttemptVerdict';
 import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
 import { useAuth } from 'app/providers/AuthProvider';
 import { wsService } from 'shared/services/websocket';
@@ -185,8 +185,8 @@ const ProblemsAttemptsTable = ({
         sortable: false,
         renderCell: ({ row }) => (
           <AttemptVerdict
-            verdict={row.verdict}
-            label={row.verdictTitle || t('problems.attempts.unknownVerdict')}
+            verdict={row.verdict as VerdictKey | undefined}
+            title={row.verdictTitle || t('problems.attempts.unknownVerdict')}
           />
         ),
       },

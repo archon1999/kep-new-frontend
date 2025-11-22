@@ -7,7 +7,6 @@ import {
   CardContent,
   Chip,
   Divider,
-  Grid,
   LinearProgress,
   Skeleton,
   Stack,
@@ -16,6 +15,7 @@ import {
   alpha,
   useTheme,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { useTranslation } from 'react-i18next';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
