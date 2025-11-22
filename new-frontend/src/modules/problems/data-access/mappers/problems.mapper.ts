@@ -1,4 +1,5 @@
 import { CategoryTag, ProblemList, ProblemsCategory } from 'shared/api/orval/generated/endpoints/index.schemas';
+import { ProblemTag } from '../../domain/entities/problem.entity.ts';
 import {
   AttemptFilterOption,
   AttemptListItem,
@@ -18,7 +19,7 @@ const toNumber = (value: unknown) => (typeof value === 'number' ? value : Number
 const toNullableNumber = (value: any) =>
   value === null || value === undefined || value === '' ? undefined : toNumber(value);
 
-export const mapProblemTag = (tag: CategoryTag | { id?: number | string; name?: string; category?: string }): {
+export const mapProblemTag = (tag: CategoryTag | ProblemTag | { id?: number | string; name?: string; category?: string }): {
   id: number;
   name: string;
   category?: string;
@@ -36,7 +37,7 @@ export const mapProblem = (problem: ProblemList): ProblemListItem => ({
   solved: toNumber(problem.solved),
   notSolved: toNumber((problem as any).notSolved ?? (problem as any).not_solved),
   attemptsCount: toNumber((problem as any).attemptsCount),
-  tags: (problem.tags ?? []).map((tag) => mapProblemTag(tag as CategoryTag)),
+  tags: (problem.tags ?? []).map((tag) => mapProblemTag(tag)),
   likesCount: toNumber((problem as any).likesCount),
   dislikesCount: toNumber((problem as any).dislikesCount),
   hasSolution: Boolean((problem as any).hasSolution),
@@ -233,12 +234,12 @@ export const mapAttemptsPage = (payload: any): PageResult<AttemptListItem> =>
 
 export const mapVerdicts = (payload: any): AttemptFilterOption[] => {
   const data = Array.isArray(payload?.data) ? payload.data : Array.isArray(payload) ? payload : [];
-  return data
-    .map((item: any) => ({
-      label: item.label ?? item.title ?? item.verdictTitle ?? String(item.value ?? item.verdict ?? ''),
-      value: toNumber(item.value ?? item.verdict ?? item.id),
-    }))
-    .filter((item) => item.label);
+  const mapped = data.map<AttemptFilterOption>((item: any) => ({
+    label: item.label ?? item.title ?? item.verdictTitle ?? String(item.value ?? item.verdict ?? ''),
+    value: toNumber(item.value ?? item.verdict ?? item.id),
+  }));
+
+  return mapped.filter((item) => item.label);
 };
 
 export const mapPeriodRating = (payload: any): PeriodRatingEntry[] => {

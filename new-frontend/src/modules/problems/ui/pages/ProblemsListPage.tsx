@@ -27,8 +27,8 @@ import {
   Typography,
   alpha,
   useTheme,
-  Grid,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
@@ -397,7 +397,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                   label={t('problems.category')}
                   value={filter.category ?? ''}
                   onChange={(event) =>
-                    onChange('category', event.target.value === '' ? undefined : Number(event.target.value))
+                    onChange('category', event.target.value === '' ? undefined : String(event.target.value))
                   }
                 >
                   <MenuItem value="">{t('problems.allCategories')}</MenuItem>
@@ -453,7 +453,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                   label={t('problems.difficultyLabel')}
                   value={filter.difficulty ?? ''}
                   onChange={(event) =>
-                    onChange('difficulty', event.target.value === '' ? undefined : Number(event.target.value))
+                    onChange('difficulty', event.target.value === '' ? undefined : String(event.target.value))
                   }
                 >
                   <MenuItem value="">{t('problems.allDifficulties')}</MenuItem>

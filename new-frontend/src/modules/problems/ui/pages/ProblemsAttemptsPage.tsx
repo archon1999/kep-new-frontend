@@ -21,7 +21,7 @@ import { GridPaginationModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
-import { useAttemptVerdicts, useAttemptsList, useProblemLanguages } from '../../application/queries';
+import { problemsQueries, useAttemptVerdicts, useAttemptsList, useProblemLanguages } from '../../application/queries';
 import { AttemptsListParams } from '../../domain/ports/problems.repository';
 import { resources } from 'app/routes/resources';
 import { useAuth } from 'app/providers/AuthProvider';
@@ -110,7 +110,7 @@ const ProblemsAttemptsPage = () => {
       pageSize: 10,
       ordering: 'id',
     });
-    return pageResult.data.map((item) => ({ id: item.id, title: item.title }));
+    return pageResult.data.map((item): { id: number; title: string } => ({ id: item.id, title: item.title }));
   };
 
   const userSuggestionsFetcher = async ([, search]: [string, string]) => {
@@ -119,7 +119,7 @@ const ProblemsAttemptsPage = () => {
     return (response?.data ?? []).map((item) => ({
       username: item.username ?? '',
       fullName: `${item.firstName ?? ''} ${item.lastName ?? ''}`.trim(),
-      avatar: item.avatar ?? item.photo,
+      avatar: item.avatar ?? (item as any).photo,
     }));
   };
 
@@ -140,10 +140,13 @@ const ProblemsAttemptsPage = () => {
 
   const selectedUser = useMemo(() => {
     if (!filter.username) return null;
-    return userOptions.find((option) => option.username === filter.username) ?? {
-      username: filter.username,
-      fullName: '',
-    };
+    return (
+      userOptions.find((option) => option.username === filter.username) ?? {
+        username: filter.username,
+        fullName: '',
+        avatar: undefined,
+      }
+    );
   }, [userOptions, filter.username]);
 
   return (

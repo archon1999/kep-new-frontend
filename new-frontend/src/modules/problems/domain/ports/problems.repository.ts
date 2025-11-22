@@ -21,7 +21,7 @@ export interface PageResult<T> {
   data: T[];
 }
 
-export type ProblemsListParams = ApiProblemsListParams & {
+export type ProblemsListParams = Omit<ApiProblemsListParams, 'tags'> & {
   status?: number;
   tags?: number[];
   search?: string;
