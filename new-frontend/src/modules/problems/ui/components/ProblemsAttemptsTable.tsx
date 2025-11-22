@@ -20,6 +20,7 @@ interface ProblemsAttemptsTableProps {
   onPaginationChange: (model: GridPaginationModel) => void;
   isLoading?: boolean;
   onRerun?: () => void;
+  showProblemColumn?: boolean;
 }
 
 interface AttemptUpdatePayload {
@@ -39,6 +40,7 @@ const ProblemsAttemptsTable = ({
   onPaginationChange,
   isLoading,
   onRerun,
+  showProblemColumn = true,
 }: ProblemsAttemptsTableProps) => {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
@@ -222,6 +224,13 @@ const ProblemsAttemptsTable = ({
       },
     ];
 
+    if (!showProblemColumn) {
+      const problemColumnIndex = baseColumns.findIndex((column) => column.field === 'problemTitle');
+      if (problemColumnIndex !== -1) {
+        baseColumns.splice(problemColumnIndex, 1);
+      }
+    }
+
     if (currentUser?.isSuperuser) {
       baseColumns.push({
         field: 'actions',
@@ -237,9 +246,8 @@ const ProblemsAttemptsTable = ({
         ),
       });
     }
-
     return baseColumns;
-  }, [currentUser?.isSuperuser, t]);
+  }, [currentUser?.isSuperuser, showProblemColumn, t]);
 
   return (
     <DataGrid

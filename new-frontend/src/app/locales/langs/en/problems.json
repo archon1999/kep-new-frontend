@@ -164,6 +164,7 @@
       "stats": "Statistics",
       "statsPlaceholder": "Detailed statistics will appear here.",
       "noStatistics": "No statistics.",
+      "onlyMyAttempts": "Only mine",
       "myAttempts": "My attempts",
       "checkInputSaved": "Check input saved",
       "error": "Something went wrong",
