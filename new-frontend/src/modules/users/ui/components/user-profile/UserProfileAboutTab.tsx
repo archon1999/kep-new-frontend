@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   Chip,
+  Divider,
   LinearProgress,
   Skeleton,
   Stack,
@@ -64,109 +65,121 @@ const UserProfileAboutTab = () => {
       </Card>
 
       {skillEntries.length ? (
-        <Card variant="outlined">
-          <CardContent>
-            <Stack direction="column" spacing={2}>
-              <Typography variant="h6" fontWeight={700}>
-                {t('users.profile.skills')}
-              </Typography>
+        <>
+          <Divider />
+          <Card variant="outlined">
+            <CardContent>
+              <Stack direction="column" spacing={2}>
+                <Typography variant="h6" fontWeight={700}>
+                  {t('users.profile.skills')}
+                </Typography>
 
-              <Stack direction="column" spacing={1.5}>
-                {skillEntries.map((entry) => (
-                  <Stack key={entry.label} direction="column" spacing={0.5}>
-                    <Typography variant="body2" color="text.secondary">
-                      {t(`settings.skillLabels.${entry.label}`, { defaultValue: entry.label })}
-                    </Typography>
-                    <LinearProgress
-                      variant="determinate"
-                      value={entry.value}
-                      sx={{ height: 8, borderRadius: 2 }}
-                    />
-                  </Stack>
-                ))}
+                <Stack direction="column" spacing={1.5}>
+                  {skillEntries.map((entry) => (
+                    <Stack key={entry.label} direction="column" spacing={0.5}>
+                      <Typography variant="body2" color="text.secondary">
+                        {t(`settings.skillLabels.${entry.label}`, { defaultValue: entry.label })}
+                      </Typography>
+                      <LinearProgress
+                        variant="determinate"
+                        value={entry.value}
+                        sx={{ height: 8, borderRadius: 2 }}
+                      />
+                    </Stack>
+                  ))}
+                </Stack>
               </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </>
       ) : null}
 
       {technologies.length ? (
-        <Card variant="outlined">
-          <CardContent>
-            <Stack direction="column" spacing={1.5}>
-              <Typography variant="h6" fontWeight={700}>
-                {t('users.profile.technologies')}
-              </Typography>
-              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                {technologies.map((tech) => (
-                  <Chip
-                    key={`${tech.text}-${tech.devIconClass}`}
-                    label={tech.text}
-                    sx={{ color: 'white', bgcolor: tech.badgeColor || 'action.hover' }}
-                  />
-                ))}
+        <>
+          <Divider />
+          <Card variant="outlined">
+            <CardContent>
+              <Stack direction="column" spacing={1.5}>
+                <Typography variant="h6" fontWeight={700}>
+                  {t('users.profile.technologies')}
+                </Typography>
+                <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                  {technologies.map((tech) => (
+                    <Chip
+                      key={`${tech.text}-${tech.devIconClass}`}
+                      label={tech.text}
+                      sx={{ color: 'white', bgcolor: tech.badgeColor || 'action.hover' }}
+                    />
+                  ))}
+                </Stack>
               </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </>
       ) : null}
 
       {educations.length ? (
-        <Card variant="outlined">
-          <CardContent>
-            <Stack direction="column" spacing={1.25}>
-              <Typography variant="h6" fontWeight={700}>
-                {t('users.profile.education')}
-              </Typography>
-              <Stack direction="column" spacing={1}>
-                {educations.map((education, index) => (
-                  <Stack
-                    key={`${education.organization}-${index}`}
-                    direction="column"
-                    spacing={0.25}
-                  >
-                    <Typography variant="subtitle2" fontWeight={700}>
-                      {education.organization}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {education.degree}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {education.fromYear} - {education.toYear}
-                    </Typography>
-                  </Stack>
-                ))}
+        <>
+          <Divider />
+          <Card variant="outlined">
+            <CardContent>
+              <Stack direction="column" spacing={1.25}>
+                <Typography variant="h6" fontWeight={700}>
+                  {t('users.profile.education')}
+                </Typography>
+                <Stack direction="column" spacing={1}>
+                  {educations.map((education, index) => (
+                    <Stack
+                      key={`${education.organization}-${index}`}
+                      direction="column"
+                      spacing={0.25}
+                    >
+                      <Typography variant="subtitle2" fontWeight={700}>
+                        {education.organization}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {education.degree}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {education.fromYear} - {education.toYear}
+                      </Typography>
+                    </Stack>
+                  ))}
+                </Stack>
               </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </>
       ) : null}
 
       {workExperiences.length ? (
-        <Card variant="outlined">
-          <CardContent>
-            <Stack direction="column" spacing={1.25}>
-              <Typography variant="h6" fontWeight={700}>
-                {t('users.profile.workExperience')}
-              </Typography>
-              <Stack direction="column" spacing={1}>
-                {workExperiences.map((work, index) => (
-                  <Stack key={`${work.company}-${index}`} direction="column" spacing={0.25}>
-                    <Typography variant="subtitle2" fontWeight={700}>
-                      {work.company}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {work.jobTitle}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {work.fromYear} - {work.toYear}
-                    </Typography>
-                  </Stack>
-                ))}
+        <>
+          <Divider />
+          <Card variant="outlined">
+            <CardContent>
+              <Stack direction="column" spacing={1.25}>
+                <Typography variant="h6" fontWeight={700}>
+                  {t('users.profile.workExperience')}
+                </Typography>
+                <Stack direction="column" spacing={1}>
+                  {workExperiences.map((work, index) => (
+                    <Stack key={`${work.company}-${index}`} direction="column" spacing={0.25}>
+                      <Typography variant="subtitle2" fontWeight={700}>
+                        {work.company}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {work.jobTitle}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {work.fromYear} - {work.toYear}
+                      </Typography>
+                    </Stack>
+                  ))}
+                </Stack>
               </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </>
       ) : null}
     </Stack>
   );
