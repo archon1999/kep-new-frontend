@@ -10,10 +10,12 @@ import {
   CardHeader,
   Chip,
   Divider,
+  FormControlLabel,
   LinearProgress,
   Stack,
   Tab,
   Tabs,
+  Switch,
   Typography,
 } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
@@ -414,10 +416,9 @@ export const ProblemDescription = ({
           <>
             {currentUser ? (
               <Stack direction="row" alignItems="center" spacing={1} mb={2}>
-                <Chip
-                  label={t('problems.detail.myAttempts')}
-                  color={myAttemptsOnly ? 'primary' : 'default'}
-                  onClick={onToggleMyAttempts}
+                <FormControlLabel
+                  control={<Switch checked={myAttemptsOnly} onChange={onToggleMyAttempts} />}
+                  label={t('problems.detail.onlyMyAttempts')}
                 />
               </Stack>
             ) : null}
@@ -428,6 +429,7 @@ export const ProblemDescription = ({
               onPaginationChange={onAttemptsPaginationChange}
               isLoading={isAttemptsLoading}
               onRerun={onAttemptsRefresh}
+              showProblemColumn={false}
             />
           </>
         ) : null}

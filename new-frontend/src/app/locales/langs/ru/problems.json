@@ -168,6 +168,7 @@
       "stats": "Статистика",
       "statsPlaceholder": "Подробная статистика появится здесь.",
       "noStatistics": "Нет статистики.",
+      "onlyMyAttempts": "Только мои",
       "myAttempts": "Мои попытки",
       "checkInputSaved": "Проверочный ввод сохранен",
       "error": "Что-то пошло не так",
