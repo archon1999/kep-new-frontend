@@ -1,7 +1,90 @@
+export enum AttemptLangs {
+  PYTHON = 'py',
+  CPP = 'cpp',
+  R = 'r',
+  HASKELL = 'hs',
+  KEP = 'kep',
+  C = 'c',
+  KOTLIN = 'kt',
+  TEXT = 'text',
+  HTML = 'html',
+  SQL = 'sql',
+  BASH = 'bash',
+  JS = 'js',
+  PHP = 'php',
+  CSHARP = 'cs',
+  JAVA = 'java',
+  RUST = 'rs',
+  TS = 'ts',
+}
+
+export enum Verdicts {
+  InQueue = -2,
+  Running,
+  JudgementFailed,
+  Accepted,
+  WrongAnswer,
+  TimeLimitExceeded,
+  RuntimeError,
+  OutputFormatError,
+  MemoryLimitExceeded,
+  Rejected,
+  CompilationError,
+  CommandExecutingError,
+  IdlenessLimitExceeded,
+  SyntaxError,
+  CheckerNotFound,
+  OnlyPython,
+  ObjectNotFound,
+  FakeAccepted,
+  PartialSolution,
+  NotAvailableLanguage,
+  Hacked,
+}
+
+export enum HackAttemptVerdict {
+  InQueue = -2,
+  Testing = -1,
+  CheckerFailed = 0,
+  SuccessfulHack = 1,
+  UnsuccessfulHack = 2,
+  InvalidInput = 3,
+  GeneratorIncompilable = 4,
+  GeneratorCrashed = 5,
+}
+
 export interface ProblemTag {
   id: number;
   name: string;
   category?: string;
+}
+
+export interface ProblemUserInfo {
+  hasSolved?: boolean;
+  hasAttempted?: boolean;
+  canViewSolution?: boolean;
+  isFavorite?: boolean;
+  voteType?: number | null;
+}
+
+export interface ProblemTopic {
+  id: number;
+  name: string;
+}
+
+export interface ProblemAvailableLanguage {
+  lang: AttemptLangs | string;
+  langFull: string;
+  timeLimit?: number | null;
+  memoryLimit?: number | null;
+  codeTemplate?: string | null;
+  codeGolf?: number | null;
+}
+
+export interface ProblemSampleTest {
+  input: string;
+  output?: string;
+  problem?: number;
 }
 
 export interface ProblemListItem {
@@ -18,10 +101,27 @@ export interface ProblemListItem {
   hasSolution?: boolean;
   hasChecker?: boolean;
   hidden?: boolean;
-  userInfo?: {
-    hasSolved?: boolean;
-    hasAttempted?: boolean;
-  };
+  userInfo?: ProblemUserInfo;
+}
+
+export interface ProblemDetail extends ProblemListItem {
+  authorUsername?: string;
+  authorAvatar?: string;
+  voteType?: number | null;
+  timeLimit?: number | null;
+  memoryLimit?: number | null;
+  availableLanguages: ProblemAvailableLanguage[];
+  hasCheckInput?: boolean;
+  solutionKepcoinValue?: number;
+  checkInputSource?: string;
+  body?: string | null;
+  inputData?: string | null;
+  outputData?: string | null;
+  comment?: string | null;
+  sampleTests: ProblemSampleTest[];
+  topics: ProblemTopic[];
+  image?: string | null;
+  partialSolvable?: boolean;
 }
 
 export interface ProblemUserSummary {
@@ -139,4 +239,75 @@ export interface ProblemsRatingSummary {
   rank: number;
   usersCount: number;
   difficulties: DifficultyBreakdown;
+}
+
+export interface ProblemSolutionCode {
+  lang: string;
+  code: string;
+}
+
+export interface ProblemSolution {
+  solution: string;
+  codes: ProblemSolutionCode[];
+}
+
+export interface ProblemAttemptStatistic {
+  verdict: number;
+  verdictTitle: string;
+  value: number;
+  color: string;
+}
+
+export interface ProblemLanguageStatistic {
+  langFull: string;
+  lang: string;
+  value: number;
+}
+
+export interface ProblemTopAttempt {
+  username: string;
+  ratingTitle?: string;
+  time?: number;
+  memory?: number;
+  sourceCodeSize?: number;
+}
+
+export interface ProblemTopAttempts {
+  time: ProblemTopAttempt[];
+  memory: ProblemTopAttempt[];
+  sourceCodeSize: ProblemTopAttempt[];
+}
+
+export interface ProblemAttemptsForSolveStatistic {
+  attempts: number;
+  value: number;
+}
+
+export interface ProblemStatistics {
+  attemptStatistics: ProblemAttemptStatistic[];
+  languageStatistics: ProblemLanguageStatistic[];
+  topAttempts: ProblemTopAttempts;
+  attemptsForSolveStatistics: ProblemAttemptsForSolveStatistic[];
+}
+
+export interface HackAttempt {
+  id: number;
+  attemptId: number;
+  hackType: string;
+  hackerUsername: string;
+  hackerRatingTitle?: string;
+  defenderUsername: string;
+  defenderRatingTitle?: string;
+  problemId: number;
+  problemTitle: string;
+  verdict?: HackAttemptVerdict;
+  verdictTitle: string;
+  created?: string;
+}
+
+export interface ProblemVoteResult {
+  likesCount: number;
+  dislikesCount: number;
+  voteType?: number | null;
+  isFavorite?: boolean;
 }

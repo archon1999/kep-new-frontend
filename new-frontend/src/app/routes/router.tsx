@@ -15,6 +15,7 @@ const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
 const ProblemsListPage = lazy(() => import('modules/problems/ui/pages/ProblemsListPage'));
 const ProblemsRatingPage = lazy(() => import('modules/problems/ui/pages/ProblemsRatingPage'));
 const ProblemsAttemptsPage = lazy(() => import('modules/problems/ui/pages/ProblemsAttemptsPage'));
+const ProblemDetailPage = lazy(() => import('modules/problems/ui/pages/ProblemDetailPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
 const ProjectsListPage = lazy(() => import('modules/projects/ui/pages/ProjectsListPage'));
 const ProjectDetailPage = lazy(() => import('modules/projects/ui/pages/ProjectDetailPage'));
@@ -279,6 +280,16 @@ export const routes: RouteObject[] = [
             handle: { titleKey: 'pageTitles.accountSettings' },
           },
         ],
+      },
+
+      {
+        path: resources.Problem,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ProblemDetailPage />
+          </Suspense>
+        ),
+        handle: { titleKey: 'pageTitles.problem' },
       },
 
       {

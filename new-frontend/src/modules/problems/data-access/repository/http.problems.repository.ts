@@ -4,8 +4,14 @@ import {
   mapCategories,
   mapContestPreview,
   mapDifficultyBreakdown,
+  mapHackAttemptsPage,
   mapLanguages,
   mapPeriodRating,
+  mapProblemDetail,
+  mapProblemSolution,
+  mapProblemStatistics,
+  mapProblemTag,
+  mapProblemVoteResult,
   mapProblemsRatingPage,
   mapProblemsPage,
   mapRatingSummary,
@@ -15,13 +21,21 @@ import {
 import { problemsApiClient } from '../api/problems.client.ts';
 import {
   AttemptListItem,
+  HackAttempt,
   PeriodRatingEntry,
+  ProblemDetail,
   ProblemListItem,
+  ProblemSolution,
+  ProblemStatistics,
+  ProblemTag,
+  ProblemTopic,
+  ProblemVoteResult,
   ProblemsRatingRow,
   ProblemsRatingSummary,
 } from '../../domain/entities/problem.entity.ts';
 import {
   AttemptsListParams,
+  HackAttemptsListParams,
   PageResult,
   ProblemsListParams,
   ProblemsRatingParams,
@@ -60,6 +74,115 @@ const mapFilterToApiParams = (params: ProblemsListParams): ApiProblemsListParams
 };
 
 export class HttpProblemsRepository implements ProblemsRepository {
+  async getProblem(id: number): Promise<ProblemDetail> {
+    const response = await problemsApiClient.getProblem(id);
+    return mapProblemDetail(response);
+  }
+
+  async getProblemNext(id: number): Promise<number | null> {
+    const response = await problemsApiClient.getProblemNext(id);
+    return this.extractProblemId(response);
+  }
+
+  async getProblemPrev(id: number): Promise<number | null> {
+    const response = await problemsApiClient.getProblemPrev(id);
+    return this.extractProblemId(response);
+  }
+
+  async likeProblem(id: number): Promise<ProblemVoteResult> {
+    const response = await problemsApiClient.likeProblem(id);
+    return mapProblemVoteResult(response);
+  }
+
+  async dislikeProblem(id: number): Promise<ProblemVoteResult> {
+    const response = await problemsApiClient.dislikeProblem(id);
+    return mapProblemVoteResult(response);
+  }
+
+  async addFavorite(id: number): Promise<ProblemVoteResult> {
+    const response = await problemsApiClient.addFavorite(id);
+    return mapProblemVoteResult(response);
+  }
+
+  async removeFavorite(id: number): Promise<void> {
+    await problemsApiClient.removeFavorite(id);
+  }
+
+  async listTags(): Promise<ProblemTag[]> {
+    const response = await problemsApiClient.listTags();
+    const data = Array.isArray((response as any)?.data) ? (response as any).data : response;
+    return (data ?? []).map((tag: any) => mapProblemTag(tag));
+  }
+
+  async listTopics(): Promise<ProblemTopic[]> {
+    const response = await problemsApiClient.listTopics();
+    const data = Array.isArray((response as any)?.data) ? (response as any).data : response ?? [];
+    return data.map((topic: any) => ({
+      id: Number(topic?.id ?? 0),
+      name: topic?.name ?? '',
+    }));
+  }
+
+  async addTag(problemId: number, tagId: number): Promise<void> {
+    await problemsApiClient.addTag(problemId, tagId);
+  }
+
+  async removeTag(problemId: number, tagId: number): Promise<void> {
+    await problemsApiClient.removeTag(problemId, tagId);
+  }
+
+  async addTopic(problemId: number, topicId: number): Promise<void> {
+    await problemsApiClient.addTopic(problemId, topicId);
+  }
+
+  async removeTopic(problemId: number, topicId: number): Promise<void> {
+    await problemsApiClient.removeTopic(problemId, topicId);
+  }
+
+  async getProblemSolution(problemId: number): Promise<ProblemSolution> {
+    const response = await problemsApiClient.getSolution(problemId);
+    return mapProblemSolution(response);
+  }
+
+  async purchaseSolution(problemId: number): Promise<void> {
+    await problemsApiClient.purchaseSolution(problemId);
+  }
+
+  async purchaseCheckSamples(problemId: number): Promise<void> {
+    await problemsApiClient.purchaseCheckSamples(problemId);
+  }
+
+  async getProblemStatistics(problemId: number): Promise<ProblemStatistics> {
+    const response = await problemsApiClient.getStatistics(problemId);
+    return mapProblemStatistics(response);
+  }
+
+  async saveCheckInput(problemId: number, source: string): Promise<void> {
+    await problemsApiClient.saveCheckInput(problemId, { source });
+  }
+
+  async submitSolution(
+    problemId: number,
+    payload: { sourceCode: string; lang: string; [key: string]: unknown },
+  ): Promise<void> {
+    await problemsApiClient.submit(problemId, payload);
+  }
+
+  async runCustomTest(payload: { sourceCode: string; lang: string; inputData: string }) {
+    const response = await problemsApiClient.customTest(payload);
+    return { id: (response as any)?.id };
+  }
+
+  async answerForInput(problemId: number, payload: { input_data: string; sourceCode?: string; lang?: string }) {
+    const response = await problemsApiClient.answerForInput(problemId, payload);
+    return { id: (response as any)?.id };
+  }
+
+  async checkSampleTests(problemId: number, payload: { sourceCode: string; lang: string }) {
+    const response = await problemsApiClient.checkSampleTests(problemId, payload);
+    return { id: (response as any)?.id };
+  }
+
   async list(params: ProblemsListParams): Promise<PageResult<ProblemListItem>> {
     const page = await problemsApiClient.list(mapFilterToApiParams(params));
     return mapProblemsPage(page);
@@ -120,8 +243,26 @@ export class HttpProblemsRepository implements ProblemsRepository {
     await problemsApiClient.rerunAttempt(attemptId);
   }
 
+  async listHackAttempts(params: HackAttemptsListParams): Promise<PageResult<HackAttempt>> {
+    const response = await problemsApiClient.listHackAttempts(mapHackAttemptsFilter(params));
+    return mapHackAttemptsPage(response);
+  }
+
+  async rerunHackAttempt(hackAttemptId: number): Promise<void> {
+    await problemsApiClient.rerunHackAttempt(hackAttemptId);
+  }
+
   mapDifficulties(stats: unknown) {
     return mapDifficultyBreakdown(stats);
+  }
+
+  private extractProblemId(payload: any): number | null {
+    const value = payload?.id ?? payload?.problemId ?? payload?.problem_id;
+    const parsed = Number(value);
+    if (Number.isNaN(parsed) || parsed === 0) {
+      return null;
+    }
+    return parsed;
   }
 }
 
@@ -141,6 +282,12 @@ const mapAttemptsFilter = (params: AttemptsListParams): ApiAttemptsListParams =>
   duel_problem: params.duelProblem,
   verdict: params.verdict !== undefined ? String(params.verdict) : undefined,
   lang: params.lang || undefined,
+  page: params.page,
+  pageSize: params.pageSize,
+});
+
+const mapHackAttemptsFilter = (params: HackAttemptsListParams) => ({
+  problem_id: params.problemId !== undefined ? String(params.problemId) : undefined,
   page: params.page,
   pageSize: params.pageSize,
 });

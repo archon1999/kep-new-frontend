@@ -1,6 +1,11 @@
 import useSWR from 'swr';
 import { HttpProblemsRepository } from '../data-access/repository/http.problems.repository.ts';
-import { AttemptsListParams, ProblemsListParams, ProblemsRatingParams } from '../domain/ports/problems.repository.ts';
+import {
+  AttemptsListParams,
+  HackAttemptsListParams,
+  ProblemsListParams,
+  ProblemsRatingParams,
+} from '../domain/ports/problems.repository.ts';
 
 const problemsRepository = new HttpProblemsRepository();
 
@@ -37,6 +42,30 @@ export const useAttemptsList = (params: AttemptsListParams) =>
   useSWR(['problems-attempts', params], () => problemsRepository.listAttempts(params));
 
 export const useAttemptVerdicts = () => useSWR(['attempts-verdicts'], () => problemsRepository.listVerdicts());
+
+export const useProblemDetail = (problemId?: number) =>
+  useSWR(problemId ? ['problem-detail', problemId] : null, () => problemsRepository.getProblem(problemId!));
+
+export const useProblemStatistics = (problemId?: number) =>
+  useSWR(
+    problemId ? ['problem-statistics', problemId] : null,
+    () => problemsRepository.getProblemStatistics(problemId!),
+  );
+
+export const useProblemSolution = (problemId?: number, enabled = false) =>
+  useSWR(
+    problemId && enabled ? ['problem-solution', problemId] : null,
+    () => problemsRepository.getProblemSolution(problemId!),
+  );
+
+export const useProblemTags = (enabled = false) =>
+  useSWR(enabled ? ['problem-tags'] : null, () => problemsRepository.listTags());
+
+export const useProblemTopics = (enabled = false) =>
+  useSWR(enabled ? ['problem-topics'] : null, () => problemsRepository.listTopics());
+
+export const useHackAttempts = (params: HackAttemptsListParams) =>
+  useSWR(['hack-attempts', params], () => problemsRepository.listHackAttempts(params));
 
 export const problemsQueries = {
   problemsRepository,
