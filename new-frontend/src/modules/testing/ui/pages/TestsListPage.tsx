@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useTestsList } from '../../application/queries.ts';
 import ChapterCard from '../components/ChapterCard.tsx';
+import TestCardSkeleton from '../components/TestCardSkeleton.tsx';
 import { Test } from '../../domain';
 
 const TestsListPage = () => {
@@ -52,7 +53,7 @@ const TestsListPage = () => {
                 <Grid container spacing={2}>
                   {[1, 2].map((item) => (
                     <Grid key={`${section}-${item}`} size={{ xs: 12, md: 6 }}>
-                      <Skeleton variant="rounded" height={220} />
+                      <TestCardSkeleton />
                     </Grid>
                   ))}
                 </Grid>
