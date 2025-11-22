@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -375,6 +375,92 @@ const ProblemDetailPage = () => {
   const canUseCheckSamples = Boolean(permissions.canUseCheckSamples || currentUser?.isSuperuser);
   const showInitialSkeleton = !hasLoadedOnce && (isProblemLoading || !problem);
   const isRevalidating = Boolean(problem) && hasLoadedOnce && (isProblemValidating || isProblemLoading);
+  const showAnswerForInputAction = Boolean(problem?.hasSolution && problem?.hasCheckInput);
+
+  const actionStatesRef = useRef({
+    currentUser: currentUser,
+    hasCode: Boolean(code),
+    isRunning,
+    isCheckingSamples,
+    isAnswering,
+    isSubmitting,
+    canUseCheckSamples,
+    showAnswerForInputAction,
+  });
+
+  const actionHandlersRef = useRef({
+    onRun: handleRun,
+    onCheckSamples: handleCheckSamples,
+    onAnswerForInput: handleAnswerForInput,
+    onSubmit: handleSubmit,
+  });
+
+  useEffect(() => {
+    actionStatesRef.current = {
+      currentUser: currentUser,
+      hasCode: Boolean(code),
+      isRunning,
+      isCheckingSamples,
+      isAnswering,
+      isSubmitting,
+      canUseCheckSamples,
+      showAnswerForInputAction,
+    };
+  }, [
+    currentUser,
+    code,
+    isRunning,
+    isCheckingSamples,
+    isAnswering,
+    isSubmitting,
+    canUseCheckSamples,
+    showAnswerForInputAction,
+  ]);
+
+  useEffect(() => {
+    actionHandlersRef.current = {
+      onRun: handleRun,
+      onCheckSamples: handleCheckSamples,
+      onAnswerForInput: handleAnswerForInput,
+      onSubmit: handleSubmit,
+    };
+  }, [handleRun, handleCheckSamples, handleAnswerForInput, handleSubmit]);
+
+  useEffect(() => {
+    const handleHotkeys = (event: KeyboardEvent) => {
+      if (!event.ctrlKey) return;
+
+      const { currentUser: stateUser, hasCode, isRunning, isCheckingSamples, isAnswering, isSubmitting, canUseCheckSamples: canCheckSamples, showAnswerForInputAction: canAnswer } =
+        actionStatesRef.current;
+      const { onRun, onCheckSamples, onAnswerForInput, onSubmit } = actionHandlersRef.current;
+
+      if (event.key === "'" && stateUser && hasCode && !isRunning) {
+        event.preventDefault();
+        onRun();
+        return;
+      }
+
+      if (event.key === ',' && stateUser && hasCode && canCheckSamples && !isCheckingSamples) {
+        event.preventDefault();
+        onCheckSamples();
+        return;
+      }
+
+      if (event.key === '.' && stateUser && canAnswer && !isAnswering) {
+        event.preventDefault();
+        onAnswerForInput();
+        return;
+      }
+
+      if ((event.key === 'Enter' || event.key === 'NumpadEnter') && stateUser && hasCode && !isSubmitting) {
+        event.preventDefault();
+        onSubmit();
+      }
+    };
+
+    window.addEventListener('keydown', handleHotkeys);
+    return () => window.removeEventListener('keydown', handleHotkeys);
+  }, []);
 
   return (
     <Box
@@ -404,7 +490,7 @@ const ProblemDetailPage = () => {
         onSubmit={handleSubmit}
         onRefreshProblem={() => mutateProblem()}
         canUseCheckSamples={canUseCheckSamples}
-        showAnswerForInput={Boolean(problem?.hasSolution && problem?.hasCheckInput)}
+        showAnswerForInput={showAnswerForInputAction}
         inputValue={input}
       />
 
