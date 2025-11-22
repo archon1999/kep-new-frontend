@@ -64,17 +64,6 @@
     "delta": "O’zgarish: {{value}}",
     "ratingChanges": "Reyting o’zgarishlari",
     "noChanges": "Hozircha o’zgarishlar yo’q.",
-    "lastChallenges": "So’nggi bellashuvlar",
-    "kepcoinSpend": {
-      "insufficientBalance": "Kepcoin yetmaydi",
-      "confirmTitle": "Sotib olasizmi?",
-      "confirmDescription": "Bu amalni qaytarib bo‘lmaydi.",
-      "costLabel": "Narxi",
-      "balanceLabel": "Balansingiz",
-      "cancelAction": "Bekor qilish",
-      "confirmAction": "Sotib olish",
-      "success": "Xarid muvaffaqiyatli yakunlandi",
-      "error": "Server xatosi"
-    }
+    "lastChallenges": "So’nggi bellashuvlar"
   }
 }
