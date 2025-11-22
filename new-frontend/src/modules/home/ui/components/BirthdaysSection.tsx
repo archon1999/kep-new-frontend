@@ -2,12 +2,10 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { getResourceByUsername, resources } from 'app/routes/resources';
 import dayjs from 'dayjs';
 import { responsivePagePaddingSx } from 'shared/lib/styles.ts';
 import UserPopover from 'modules/users/ui/components/UserPopover';
@@ -91,7 +89,6 @@ const BirthdaysSection = () => {
             {birthdays.map((user) => {
               const displayName = getDisplayName(user);
               const birthdayDate = formatBirthdayDate(user.birthday ?? user.date);
-              const profilePath = getResourceByUsername(resources.UserProfile, user.username);
               const countryCode = user.country?.toUpperCase?.();
 
               return (
@@ -103,17 +100,13 @@ const BirthdaysSection = () => {
                       avatar={user.avatar}
                       countryCode={countryCode}
                     >
-                      <Stack direction="row" spacing={2} alignItems="center" sx={{ cursor: 'pointer' }}>
+                      <Stack direction="row" spacing={2} alignItems="center">
                         <Avatar src={user.avatar} alt={displayName} sx={{ width: 48, height: 48 }} />
 
-                      <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
-                        <Link
-                          underline="hover"
-                          color="text.primary"
-                          sx={{ fontWeight: 600 }}
-                        >
-                          {displayName}
-                          </Link>
+                        <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
+                          <Typography sx={{ fontWeight: 600 }} color="text.primary">
+                            {displayName}
+                          </Typography>
                           <Typography variant="body2" color="text.secondary">
                             {birthdayDate}
                           </Typography>

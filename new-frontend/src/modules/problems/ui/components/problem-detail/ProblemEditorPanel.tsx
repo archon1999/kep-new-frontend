@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import { Link as RouterLink } from 'react-router-dom';
-import Editor, { useMonaco } from '@monaco-editor/react';
+import Editor from '@monaco-editor/react';
 import {
   Box,
   Button,
@@ -16,7 +15,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import { resources } from 'app/routes/resources';
 import AttemptVerdict, { VerdictKey } from 'shared/components/problems/AttemptVerdict';
 import {
@@ -65,75 +64,30 @@ interface ProblemEditorPanelProps {
   editorTheme: string;
 }
 
-export const ProblemEditorPanel = ({
-  problem,
-  code,
-  onCodeChange,
-  selectedLang,
-  onLangChange,
-  sampleTests,
-  selectedSampleIndex,
-  onSampleChange,
-  input,
-  onInputChange,
-  output,
-  answer,
-  onRun,
-  onSubmit,
-  onCheckSamples,
-  isRunning,
-  isSubmitting,
-  isCheckingSamples,
-  checkSamplesResult,
-  editorTab,
-  onEditorTabChange,
-  currentUser,
-  canUseCheckSamples,
-  editorTheme,
-}: ProblemEditorPanelProps) => {
+export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
+  const {
+    problem,
+    code,
+    onCodeChange,
+    selectedLang,
+    onLangChange,
+    sampleTests,
+    selectedSampleIndex,
+    onSampleChange,
+    input,
+    onInputChange,
+    output,
+    answer,
+    checkSamplesResult,
+    editorTab,
+    onEditorTabChange,
+    currentUser,
+    editorTheme,
+  } = props;
   const { t } = useTranslation();
-  const monaco = useMonaco();
-  const theme = useTheme();
   const selectedLanguageInfo = problem?.availableLanguages?.find(
     (lang) => lang.lang === selectedLang,
   );
-
-  useEffect(() => {
-    if (!monaco) return;
-
-    const lightBackground = theme.palette.background.paper;
-    const darkBackground = theme.palette.background.default;
-    const lineNumberColor = alpha(theme.palette.text.secondary, 0.7);
-    const selectionColor = alpha(theme.palette.primary.main, 0.18);
-    const selectionHighlightColor = alpha(theme.palette.primary.main, 0.1);
-    const gutterBackground = alpha(
-      theme.palette.background.default,
-      theme.palette.mode === 'dark' ? 0.42 : 0.6,
-    );
-    const scrollbarColor = alpha(theme.palette.text.primary, 0.16);
-    const scrollbarHoverColor = alpha(theme.palette.text.primary, 0.24);
-    const scrollbarActiveColor = alpha(theme.palette.primary.main, 0.35);
-
-    monaco.editor.defineTheme('kep-light', {
-      base: 'vs',
-      inherit: true,
-      rules: [
-      ],
-      colors: {
-      },
-    });
-
-    monaco.editor.defineTheme('kep-dark', {
-      base: 'vs-dark',
-      inherit: true,
-      rules: [
-      ],
-      colors: {
-      },
-    });
-
-    monaco.editor.setTheme(editorTheme);
-  }, [editorTheme, monaco, theme]);
 
   if (!currentUser) {
     return (
