@@ -60,5 +60,6 @@ export interface ProblemsRepository {
   listPeriodRating(period: 'today' | 'week' | 'month'): Promise<PeriodRatingEntry[]>;
   listAttempts(params: AttemptsListParams): Promise<PageResult<AttemptListItem>>;
   listVerdicts(): Promise<AttemptFilterOption[]>;
+  rerunAttempt(attemptId: number): Promise<void>;
   mapDifficulties(stats: unknown): DifficultyBreakdown;
 }

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Link as RouterLink, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import {
   Autocomplete,
   Avatar,
@@ -16,25 +16,20 @@ import {
   Select,
   Stack,
   Typography,
-  alpha,
-  useTheme,
 } from '@mui/material';
-import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
+import { GridPaginationModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useAttemptVerdicts, useAttemptsList, useProblemLanguages } from '../../application/queries';
 import { AttemptsListParams } from '../../domain/ports/problems.repository';
-import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
+import { resources } from 'app/routes/resources';
 import { useAuth } from 'app/providers/AuthProvider';
-import { AttemptListItem } from '../../domain/entities/problem.entity';
-import { problemsQueries } from '../../application/queries';
 import { usersApiClient } from 'modules/users/data-access/api/users.client';
 import StyledTextField from 'shared/components/styled/StyledTextField';
 import useSWR from 'swr';
 import PageHeader from 'shared/components/sections/common/PageHeader';
-import AttemptLanguage from 'shared/components/problems/AttemptLanguage';
-import AttemptVerdict from 'shared/components/problems/AttemptVerdict';
+import ProblemsAttemptsTable from '../components/ProblemsAttemptsTable.tsx';
 
 interface AttemptsFilterState {
   username: string;
@@ -45,7 +40,6 @@ interface AttemptsFilterState {
 
 const ProblemsAttemptsPage = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const { currentUser } = useAuth();
   const params = useParams<{ username?: string }>();
   const [searchParams] = useSearchParams();
@@ -151,143 +145,6 @@ const ProblemsAttemptsPage = () => {
       fullName: '',
     };
   }, [userOptions, filter.username]);
-
-  const verdictColor = (verdict?: number) => {
-    if (verdict === 1) return 'success';
-    if (verdict === -1 || verdict === 0) return 'warning';
-    if (verdict === -2) return 'info';
-    return 'default';
-  };
-
-  const formatDateTime = (value?: string) => {
-    if (!value) return '—';
-    const date = new Date(value);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-  };
-
-  const columns: GridColDef<AttemptListItem>[] = useMemo(
-    () => [
-      {
-        field: 'id',
-        headerName: t('problems.attempts.columns.id'),
-        minWidth: 90,
-        flex: 0.4,
-        sortable: false,
-        renderCell: ({ row }) => (
-          <Typography variant="body2" fontWeight={700}>
-            {row.id}
-          </Typography>
-        ),
-      },
-      {
-        field: 'created',
-        headerName: t('problems.attempts.columns.submitted'),
-        minWidth: 180,
-        flex: 0.8,
-        sortable: false,
-        renderCell: ({ row }) => (
-          <Typography variant="body2" color="text.secondary">
-            {formatDateTime(row.created)}
-          </Typography>
-        ),
-      },
-      {
-        field: 'lang',
-        headerName: t('problems.attempts.columns.lang'),
-        minWidth: 120,
-        flex: 0.5,
-        sortable: false,
-        renderCell: ({ row }) => <AttemptLanguage lang={row.lang} langFull={row.langFull} />,
-      },
-      {
-        field: 'user',
-        headerName: t('problems.attempts.columns.user'),
-        minWidth: 180,
-        flex: 1,
-        sortable: false,
-        renderCell: ({ row }) => (
-          <Typography
-            component={RouterLink}
-            to={getResourceByUsername(resources.UserProfile, row.user.username)}
-            sx={{ textDecoration: 'none', color: 'primary.main', fontWeight: 700 }}
-          >
-            {row.user.username}
-          </Typography>
-        ),
-      },
-      {
-        field: 'problemTitle',
-        headerName: t('problems.attempts.columns.problem'),
-        minWidth: 240,
-        flex: 1.4,
-        sortable: false,
-        renderCell: ({ row }) => (
-          <Typography
-            component={RouterLink}
-            to={getResourceById(resources.Problem, row.problemId)}
-            sx={{ textDecoration: 'none', color: 'text.primary', fontWeight: 700 }}
-          >
-            {row.contestProblemSymbol
-              ? `${row.contestProblemSymbol}. ${row.problemTitle}`
-              : `${row.problemId}. ${row.problemTitle}`}
-          </Typography>
-        ),
-      },
-      {
-        field: 'verdictTitle',
-        headerName: t('problems.attempts.columns.verdict'),
-        minWidth: 140,
-        flex: 0.6,
-        sortable: false,
-        renderCell: ({ row }) => (
-          <AttemptVerdict
-            verdict={row.verdict}
-            label={row.verdictTitle || t('problems.attempts.unknownVerdict')}
-          />
-        ),
-      },
-      {
-        field: 'time',
-        headerName: t('problems.attempts.columns.time'),
-        minWidth: 120,
-        flex: 0.5,
-        sortable: false,
-        align: 'right',
-        renderCell: ({ row }) => (
-          <Typography variant="body2" fontWeight={600}>
-            {row.time ?? '—'} {t('problems.attempts.ms')}
-          </Typography>
-        ),
-      },
-      {
-        field: 'memory',
-        headerName: t('problems.attempts.columns.memory'),
-        minWidth: 120,
-        flex: 0.5,
-        sortable: false,
-        align: 'right',
-        renderCell: ({ row }) => (
-          <Typography variant="body2" fontWeight={600}>
-            {row.memory ?? '—'} {t('problems.attempts.kb')}
-          </Typography>
-        ),
-      },
-      {
-        field: 'sourceCodeSize',
-        headerName: t('problems.attempts.columns.size'),
-        minWidth: 110,
-        flex: 0.4,
-        sortable: false,
-        align: 'right',
-        renderCell: ({ row }) => (
-          <Typography variant="body2" fontWeight={600}>
-            {row.sourceCodeSize ?? '—'} B
-          </Typography>
-        ),
-      },
-    ],
-    [t, theme],
-  );
 
   return (
     <Box sx={responsivePagePaddingSx}>
@@ -453,23 +310,13 @@ const ProblemsAttemptsPage = () => {
 
         <Card variant="outlined">
           {isLoading && <LinearProgress />}
-          <DataGrid
-            autoHeight
-            disableColumnMenu
-            disableColumnSelector
-            disableRowSelectionOnClick
-            rows={attempts}
-            columns={columns}
-            loading={isLoading}
-            rowCount={total}
-            pageSizeOptions={[10, 20, 50]}
-            paginationMode="server"
+          <ProblemsAttemptsTable
+            attempts={attempts}
+            total={total}
             paginationModel={paginationModel}
-            onPaginationModelChange={handlePaginationChange}
-            sortingMode="server"
-            disableColumnFilter
-            sx={{ '& .MuiDataGrid-row--hovered': { backgroundColor: alpha(theme.palette.primary.main, 0.04) } }}
-            getRowId={(row) => (row as AttemptListItem).id}
+            onPaginationChange={handlePaginationChange}
+            isLoading={isLoading}
+            onRerun={() => mutate()}
           />
         </Card>
       </Stack>
