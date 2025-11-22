@@ -26,6 +26,7 @@
     "verdict": "Вердикт",
     "timeMemory": "Время/Память",
     "log": "Лог",
+    "rerun": "Перезапустить",
     "noAttempts": "Посылок нет",
     "attemptLog": "Лог посылки",
     "loadingLog": "Загрузка лога...",
