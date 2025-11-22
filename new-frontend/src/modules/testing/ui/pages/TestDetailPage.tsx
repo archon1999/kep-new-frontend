@@ -16,10 +16,18 @@ import {
 } from '@mui/material';
 import { getResourceById, resources } from 'app/routes/resources';
 import { useSnackbar } from 'notistack';
+import KepIcon from 'shared/components/base/KepIcon';
 import KepcoinSpendConfirm from 'shared/components/common/KepcoinSpendConfirm';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { startTest } from '../../application/mutations.ts';
 import { useTestDetail, useTestResults } from '../../application/queries.ts';
+
+type MetricItem = {
+  key: string;
+  label: string;
+  value: string | number;
+  icon: Parameters<typeof KepIcon>[0]['name'];
+};
 
 const TestDetailPage = () => {
   const { t } = useTranslation();
@@ -38,21 +46,36 @@ const TestDetailPage = () => {
     }
   }, [test?.canStart]);
 
-  const metrics = useMemo(
+  const questionsCount = test?.questionsCount ?? test?.questions?.length ?? 0;
+
+  const metrics: MetricItem[] = useMemo(
     () => [
-      { label: t('tests.questions'), value: test?.questionsCount ?? test?.questions?.length ?? 0 },
-      { label: t('tests.durationLabel'), value: test?.duration || '—' },
-      { label: t('tests.difficulty'), value: test?.difficultyTitle || '—' },
-      { label: t('tests.passes'), value: test?.passesCount ?? 0 },
+      {
+        key: 'questions',
+        label: t('tests.questions'),
+        value: questionsCount,
+        icon: 'question',
+      },
+      {
+        key: 'duration',
+        label: t('tests.durationLabel'),
+        value: test?.duration || '—',
+        icon: 'challenge-time',
+      },
+      {
+        key: 'difficulty',
+        label: t('tests.difficulty'),
+        value: test?.difficultyTitle || '—',
+        icon: 'difficulty',
+      },
+      {
+        key: 'passes',
+        label: t('tests.passes'),
+        value: test?.passesCount ?? 0,
+        icon: 'attempt',
+      },
     ],
-    [
-      t,
-      test?.questionsCount,
-      test?.questions?.length,
-      test?.duration,
-      test?.difficultyTitle,
-      test?.passesCount,
-    ],
+    [t, questionsCount, test?.duration, test?.difficultyTitle, test?.passesCount],
   );
 
   const handleStart = async () => {
@@ -83,12 +106,9 @@ const TestDetailPage = () => {
       onClick={enableStart ? handleStart : undefined}
       fullWidth
       disabled={enableStart && isStarting}
+      sx={{ py: 1.25, fontWeight: 700 }}
     >
-      {enableStart && isStarting ? (
-        <CircularProgress size={20} color="inherit" />
-      ) : (
-        t('tests.start')
-      )}
+      {enableStart && isStarting ? <CircularProgress size={20} color="inherit" /> : t('tests.start')}
     </Button>
   );
 
@@ -103,134 +123,191 @@ const TestDetailPage = () => {
   return (
     <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
-        <Stack direction="column" spacing={1}>
-          <Typography variant="h4" fontWeight={800}>
-            {test.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {test.description}
-          </Typography>
-        </Stack>
-
-        <Grid container spacing={3}>
-          <Grid size={{ xs: 12, md: 8 }}>
-            <Card sx={{ height: '100%' }}>
-              <CardContent>
+        <Card
+          sx={{
+            position: 'relative',
+            overflow: 'hidden',
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(79,70,229,0.9), rgba(14,165,233,0.9))',
+            color: 'common.white',
+            boxShadow: '0 18px 40px rgba(0,0,0,0.15)',
+          }}
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              background: 'radial-gradient(120% 120% at 80% 0%, rgba(255,255,255,0.16), transparent)',
+            }}
+          />
+          <Box
+            sx={{
+              position: 'relative',
+              p: { xs: 3, md: 4 },
+            }}
+          >
+            <Grid container spacing={3} alignItems="center">
+              <Grid size={{ xs: 12, md: 8 }}>
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
                   <Avatar
                     src={test.chapter.icon}
                     variant="rounded"
-                    sx={{width: 48, height: 48 }}
+                    sx={{ width: 56, height: 56, border: '2px solid rgba(255,255,255,0.35)' }}
                   />
                   <Stack direction="column" spacing={0.5}>
-                    <Typography variant="subtitle2" color="text.secondary">
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.75)' }}>
                       {test.chapter.title}
                     </Typography>
-                    <Typography variant="subtitle1" fontWeight={700}>
-                      {t('tests.passTitle')}
+                    <Typography variant="h5" fontWeight={800}>
+                      {test.title}
                     </Typography>
                   </Stack>
                 </Stack>
 
-                <Grid container spacing={2}>
-                  {metrics.map((metric) => (
-                    <Grid key={metric.label} size={{ xs: 6, sm: 3 }}>
-                      <Stack direction="column" spacing={0.5} alignItems="center" textAlign="center">
-                        <Typography variant="h6" fontWeight={800}>
-                          {metric.value}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {metric.label}
-                        </Typography>
-                      </Stack>
-                    </Grid>
-                  ))}
-                </Grid>
+                <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)' }}>
+                  {test.description}
+                </Typography>
 
                 {test.tags?.length ? (
-                  <Stack direction="column" spacing={1} sx={{ mt: 3 }}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      {t('tests.tags')}
-                    </Typography>
-                    <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                      {test.tags.map((tag) => (
-                        <Chip key={tag.id} label={tag.name} size="small" />
-                      ))}
-                    </Stack>
+                  <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mt: 2 }}>
+                    {test.tags.map((tag) => (
+                      <Chip
+                        key={tag.id}
+                        label={tag.name}
+                        size="small"
+                        sx={{
+                          bgcolor: 'rgba(255,255,255,0.08)',
+                          color: 'common.white',
+                          border: '1px solid rgba(255,255,255,0.18)',
+                        }}
+                      />
+                    ))}
                   </Stack>
                 ) : null}
-              </CardContent>
-            </Card>
-          </Grid>
+              </Grid>
 
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card>
-              <CardContent>
-                <Stack direction="column" spacing={2}>
-                  {canStart ? (
-                    renderStartButton(true)
-                  ) : (
-                    <KepcoinSpendConfirm
-                      value={1}
-                      purchaseUrl={`/api/tests/${test.id}/purchase/`}
-                      onSuccess={() => setCanStart(true)}
-                      disabled={isStarting}
-                    >
-                      {renderStartButton(false)}
-                    </KepcoinSpendConfirm>
-                  )}
+              <Grid  size={{ xs: 12, md: 4 }}>
+                <Card
+                  sx={{
+                    p: 2.5,
+                    bgcolor: 'background.paper',
+                    color: 'text.primary',
+                    boxShadow: 6,
+                  }}
+                >
+                  <Stack direction="column" spacing={1.5}>
+                    {canStart ? (
+                      renderStartButton(true)
+                    ) : (
+                      <KepcoinSpendConfirm
+                        value={1}
+                        purchaseUrl={`/api/tests/${test.id}/purchase/`}
+                        onSuccess={() => setCanStart(true)}
+                        disabled={isStarting}
+                      >
+                        {renderStartButton(false)}
+                      </KepcoinSpendConfirm>
+                    )}
 
-                  <Divider />
+                    <Divider />
 
-                  <Stack direction="column" spacing={1}>
-                    <Typography variant="subtitle1" fontWeight={700}>
-                      {t('tests.bestResult')}
-                    </Typography>
-                    <Typography variant="h5" color="primary">
-                      {test.userBestResult ?? 0}/
-                      {test.questionsCount ?? test.questions?.length ?? 0}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {t('tests.lastPass')}: {test.lastPassed || t('tests.notPassed')}
-                    </Typography>
+                    <Stack direction="column" spacing={0.5}>
+                      <Typography variant="subtitle2" color="text.secondary">
+                        {t('tests.bestResult')}
+                      </Typography>
+                      <Typography variant="h4" fontWeight={800}>
+                        {test.userBestResult ?? 0}/{questionsCount}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {t('tests.lastPass')}: {test.lastPassed || t('tests.notPassed')}
+                      </Typography>
+                    </Stack>
                   </Stack>
-                </Stack>
-              </CardContent>
-            </Card>
-          </Grid>
+                </Card>
+              </Grid>
+            </Grid>
+          </Box>
+        </Card>
+
+        <Grid container spacing={2}>
+          {metrics.map((metric) => (
+            <Grid  size={{ xs: 12, sm: 6, md: 3 }} key={metric.key}>
+              <Card
+                sx={{
+                  height: '100%',
+                  borderRadius: 2,
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+                }}
+              >
+                <CardContent>
+                  <Stack direction="row" spacing={1.5} alignItems="center">
+                    <Box
+                      sx={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 1.5,
+                        bgcolor: 'background.neutral',
+                        display: 'grid',
+                        placeItems: 'center',
+                      }}
+                    >
+                      <KepIcon name={metric.icon} fontSize={22} />
+                    </Box>
+                    <Stack direction="column" spacing={0.5}>
+                      <Typography variant="subtitle2" color="text.secondary">
+                        {metric.label}
+                      </Typography>
+                      <Typography variant="h6" fontWeight={800}>
+                        {metric.value}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
         </Grid>
 
-        <Grid spacing={2} container size={12}>
-          <Grid size={{ xs: 12, lg: 6 }}>
-            <Card>
+        <Grid container spacing={3}>
+          <Grid  size={{ xs: 12, lg: 6 }}>
+            <Card sx={{ height: '100%', borderRadius: 2 }}>
               <CardContent>
                 <Stack direction="column" spacing={2}>
-                  <Typography variant="h6" fontWeight={800}>
-                    {t('tests.recentResults')}
-                  </Typography>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <KepIcon name="rating" fontSize={22} />
+                    <Typography variant="h6" fontWeight={800}>
+                      {t('tests.recentResults')}
+                    </Typography>
+                  </Stack>
                   {isResultsLoading ? (
                     <CircularProgress size={24} />
                   ) : (
-                    <Stack direction="column" spacing={2}>
-                      <Stack direction="column" spacing={1}>
-                        <Typography variant="subtitle2" color="text.secondary">
-                          {t('tests.bestAttempts')}
-                        </Typography>
-                        <Stack direction="column" spacing={1}>
-                          {results?.bestResults?.map((result) => (
-                            <Stack
-                              key={`${result.username}-${result.finished}`}
-                              direction="row"
-                              justifyContent="space-between"
-                            >
-                              <Typography variant="body2">{result.username}</Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                {result.result}/{test.questionsCount ?? test.questions?.length ?? 0}
-                              </Typography>
-                            </Stack>
-                          )) || null}
+                    <Stack direction="column" spacing={1}>
+                      {(results?.bestResults ?? []).map((result) => (
+                        <Stack
+                          key={`${result.username}-${result.finished}`}
+                          direction="row"
+                          justifyContent="space-between"
+                          alignItems="center"
+                          sx={{
+                            p: 1.25,
+                            borderRadius: 1,
+                            bgcolor: 'background.neutral',
+                          }}
+                        >
+                          <Typography variant="body2" fontWeight={600}>
+                            {result.username}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {result.result}/{questionsCount}
+                          </Typography>
                         </Stack>
-                      </Stack>
+                      ))}
+                      {!results?.bestResults?.length ? (
+                        <Typography variant="body2" color="text.secondary">
+                          {t('tests.emptyTitle')}
+                        </Typography>
+                      ) : null}
                     </Stack>
                   )}
                 </Stack>
@@ -239,30 +316,46 @@ const TestDetailPage = () => {
           </Grid>
 
           <Grid size={{ xs: 12, lg: 6 }}>
-            <Card>
+            <Card sx={{ height: '100%', borderRadius: 2 }}>
               <CardContent>
                 <Stack direction="column" spacing={2}>
-                  <Typography variant="h6" fontWeight={800}>
-                    {t('tests.lastAttempts')}
-                  </Typography>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <KepIcon name="attempt" fontSize={22} />
+                    <Typography variant="h6" fontWeight={800}>
+                      {t('tests.lastAttempts')}
+                    </Typography>
+                  </Stack>
                   <Stack direction="column" spacing={1}>
-                    {results?.lastResults?.map((result) => (
+                    {(results?.lastResults ?? []).map((result) => (
                       <Stack
                         key={`${result.username}-${result.finished}`}
                         direction="row"
                         justifyContent="space-between"
+                        alignItems="center"
+                        sx={{
+                          p: 1.25,
+                          borderRadius: 1,
+                          bgcolor: 'background.neutral',
+                        }}
                       >
                         <Stack direction="column" spacing={0.25}>
-                          <Typography variant="body2">{result.username}</Typography>
+                          <Typography variant="body2" fontWeight={600}>
+                            {result.username}
+                          </Typography>
                           <Typography variant="caption" color="text.secondary">
                             {result.finished}
                           </Typography>
                         </Stack>
                         <Typography variant="body2" color="text.secondary">
-                          {result.result}/{test.questionsCount ?? test.questions?.length ?? 0}
+                          {result.result}/{questionsCount}
                         </Typography>
                       </Stack>
-                    )) || null}
+                    ))}
+                    {!results?.lastResults?.length ? (
+                      <Typography variant="body2" color="text.secondary">
+                        {t('tests.emptyTitle')}
+                      </Typography>
+                    ) : null}
                   </Stack>
                 </Stack>
               </CardContent>
