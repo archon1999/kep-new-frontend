@@ -73,13 +73,13 @@ const ProblemDetailPage = () => {
   const { currentUser } = useAuth();
   const themeMode = useThemeMode();
   const permissions = useProblemPermissions(currentUser?.permissions);
-  const [editorTheme, setEditorTheme] = useState<'kep-light' | 'kep-dark'>(
-    themeMode.mode === 'dark' ? 'kep-dark' : 'kep-light',
+  const [editorTheme, setEditorTheme] = useState<'vs' | 'vs-dark'>(
+    themeMode.mode === 'dark' ? 'vs-dark' : 'vs',
   );
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 
   useEffect(() => {
-    setEditorTheme(themeMode.mode === 'dark' ? 'kep-dark' : 'kep-light');
+    setEditorTheme(themeMode.mode === 'dark' ? 'vs-dark' : 'vs');
   }, [themeMode.mode]);
 
   const params = useParams<{ id: string }>();

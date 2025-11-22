@@ -13,6 +13,7 @@ declare module '@mui/material' {
 }
 
 const backgrounds: { [key: number]: { [key: string]: string } } = {
+  0: { light: 'white', dark: 'black' },
   1: { light: grey[50], dark: grey[900] },
   2: { light: grey[100], dark: grey[800] },
   3: { light: grey[200], dark: grey[700] },
@@ -25,18 +26,12 @@ const backgroundVariants = [0, ...Object.keys(backgrounds).map(Number)].map((bac
   style: ({ theme }: { theme: Theme }) => [
     theme.applyStyles('light', {
       [`&.${paperClasses.root}`]: {
-        backgroundColor:
-          Number(background) === 0
-            ? theme.palette.background.default
-            : backgrounds[Number(background)].light,
+        backgroundColor: backgrounds[Number(background)].light,
       },
     }),
     theme.applyStyles('dark', {
       [`&.${paperClasses.root}`]: {
-        backgroundColor:
-          Number(background) === 0
-            ? theme.palette.background.default
-            : backgrounds[Number(background)].dark,
+        backgroundColor: backgrounds[Number(background)].dark,
       },
     }),
   ],

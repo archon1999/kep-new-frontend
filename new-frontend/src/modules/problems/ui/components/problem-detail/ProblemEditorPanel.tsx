@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import { Link as RouterLink } from 'react-router-dom';
-import Editor from '@monaco-editor/react';
+import Editor, { useMonaco } from '@monaco-editor/react';
 import {
   Box,
   Button,
@@ -56,7 +57,13 @@ interface ProblemEditorPanelProps {
   isRunning: boolean;
   isSubmitting: boolean;
   isCheckingSamples: boolean;
-  checkSamplesResult: Array<{ verdict?: VerdictKey; verdictTitle?: string; input?: string; output?: string; answer?: string }>;
+  checkSamplesResult: Array<{
+    verdict?: VerdictKey;
+    verdictTitle?: string;
+    input?: string;
+    output?: string;
+    answer?: string;
+  }>;
   editorTab: 'console' | 'samples';
   onEditorTabChange: (value: 'console' | 'samples') => void;
   currentUser: any;
@@ -88,6 +95,14 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
   const selectedLanguageInfo = problem?.availableLanguages?.find(
     (lang) => lang.lang === selectedLang,
   );
+
+  const monaco = useMonaco();
+
+  useEffect(() => {
+    if (monaco) {
+      monaco.editor.setTheme(editorTheme);
+    }
+  }, [monaco, editorTheme]);
 
   if (!currentUser) {
     return (
