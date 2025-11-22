@@ -122,7 +122,7 @@
       "answerForInputHotkey": "Kirish uchun javob (Ctrl+.)",
       "waiting": "Kutilmoqda...",
       "submit": "Yuborish",
-      "submitHotkey": "Yuborish (Ctrl+Enter)",
+      "submitHotkey": "Yuborish (Ctrl+Alt+Enter)",
       "submitSuccess": "Yechim yuborildi.",
       "problemTab": "Masala",
       "attemptsTab": "Urinishlar",

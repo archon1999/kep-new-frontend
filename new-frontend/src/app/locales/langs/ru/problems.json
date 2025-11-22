@@ -122,7 +122,7 @@
       "answerForInputHotkey": "Ответ для ввода (Ctrl+.)",
       "waiting": "Ожидание...",
       "submit": "Отправить",
-      "submitHotkey": "Отправить (Ctrl+Enter)",
+      "submitHotkey": "Отправить (Ctrl+Alt+Enter)",
       "submitSuccess": "Решение отправлено.",
       "problemTab": "Условие",
       "attemptsTab": "Попытки",
