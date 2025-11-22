@@ -1,16 +1,14 @@
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
   Autocomplete,
   Avatar,
   Box,
   Button,
-  Card,
-  CardContent,
   Chip,
   FormControl,
   InputLabel,
-  LinearProgress,
   Menu,
   MenuItem,
   Select,
@@ -18,17 +16,21 @@ import {
   Typography,
 } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
-import { useTranslation } from 'react-i18next';
-import IconifyIcon from 'shared/components/base/IconifyIcon';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
-import { problemsQueries, useAttemptVerdicts, useAttemptsList, useProblemLanguages } from '../../application/queries';
-import { AttemptsListParams } from '../../domain/ports/problems.repository';
-import { resources } from 'app/routes/resources';
 import { useAuth } from 'app/providers/AuthProvider';
+import { resources } from 'app/routes/resources';
 import { usersApiClient } from 'modules/users/data-access/api/users.client';
-import StyledTextField from 'shared/components/styled/StyledTextField';
-import useSWR from 'swr';
+import IconifyIcon from 'shared/components/base/IconifyIcon';
 import PageHeader from 'shared/components/sections/common/PageHeader';
+import StyledTextField from 'shared/components/styled/StyledTextField';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
+import useSWR from 'swr';
+import {
+  problemsQueries,
+  useAttemptVerdicts,
+  useAttemptsList,
+  useProblemLanguages,
+} from '../../application/queries';
+import { AttemptsListParams } from '../../domain/ports/problems.repository';
 import ProblemsAttemptsTable from '../components/ProblemsAttemptsTable.tsx';
 
 interface AttemptsFilterState {
@@ -53,7 +55,10 @@ const ProblemsAttemptsPage = () => {
   };
 
   const [filter, setFilter] = useState<AttemptsFilterState>(initialFilter);
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({ page: 0, pageSize: 20 });
+  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
+    page: 0,
+    pageSize: 20,
+  });
   const [problemInput, setProblemInput] = useState('');
   const [userInput, setUserInput] = useState('');
 
@@ -110,12 +115,19 @@ const ProblemsAttemptsPage = () => {
       pageSize: 10,
       ordering: 'id',
     });
-    return pageResult.data.map((item): { id: number; title: string } => ({ id: item.id, title: item.title }));
+    return pageResult.data.map((item): { id: number; title: string } => ({
+      id: item.id,
+      title: item.title,
+    }));
   };
 
   const userSuggestionsFetcher = async ([, search]: [string, string]) => {
     const term = (search ?? '').trim();
-    const response = await usersApiClient.list({ page: 1, pageSize: 10, search: term || undefined });
+    const response = await usersApiClient.list({
+      page: 1,
+      pageSize: 10,
+      search: term || undefined,
+    });
     return (response?.data ?? []).map((item) => ({
       username: item.username ?? '',
       fullName: `${item.firstName ?? ''} ${item.lastName ?? ''}`.trim(),
@@ -123,8 +135,14 @@ const ProblemsAttemptsPage = () => {
     }));
   };
 
-  const { data: problemOptions = [] } = useSWR(['attempts-problem-options', problemInput], problemSuggestionsFetcher);
-  const { data: userOptions = [] } = useSWR(['attempts-user-options', userInput], userSuggestionsFetcher);
+  const { data: problemOptions = [] } = useSWR(
+    ['attempts-problem-options', problemInput],
+    problemSuggestionsFetcher,
+  );
+  const { data: userOptions = [] } = useSWR(
+    ['attempts-user-options', userInput],
+    userSuggestionsFetcher,
+  );
 
   const selectedProblem = useMemo(
     () =>
@@ -150,180 +168,185 @@ const ProblemsAttemptsPage = () => {
   }, [userOptions, filter.username]);
 
   return (
-    <Box sx={responsivePagePaddingSx}>
-      <Stack direction="column" spacing={3}>
-          <PageHeader
-            title={t('problems.attempts.title')}
-            breadcrumb={[
-              { label: t('problems.title'), url: resources.Problems },
-              { label: t('problems.attempts.title'), active: true },
-          ]}
-          actionComponent={
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleMyAttempts}
-                startIcon={<IconifyIcon icon="mdi:account-circle-outline" width={18} height={18} />}
-              >
-                {t('problems.attempts.myAttempts')}
-              </Button>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => mutate()}
-                startIcon={<IconifyIcon icon="mdi:reload" width={18} height={18} />}
-              >
-                {t('problems.attempts.refresh')}
-              </Button>
-              <Button
-                id="attempts-filters-button"
-                variant="outlined"
-                color="secondary"
-                onClick={(event) => setFiltersAnchorEl(event.currentTarget)}
-                startIcon={<IconifyIcon icon="mdi:filter-variant" width={18} height={18} />}
-                aria-haspopup="true"
-                aria-expanded={filtersOpen ? 'true' : undefined}
-                aria-controls={filtersOpen ? 'attempts-filters-menu' : undefined}
-              >
-                {t('problems.filterTitle')}
-              </Button>
-              <Button
-                variant="text"
-                color="error"
-                onClick={handleReset}
-                startIcon={<IconifyIcon icon="mdi:close" width={18} height={18} />}
-              >
-                {t('problems.attempts.clear')}
-              </Button>
-            </Stack>
-          }
-        />
-
-        <Card variant="outlined">
-          <CardContent>
-            <Menu
-              id="attempts-filters-menu"
-              anchorEl={filtersAnchorEl}
-              open={filtersOpen}
-              onClose={() => setFiltersAnchorEl(null)}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-              MenuListProps={{ disablePadding: true }}
-              PaperProps={{ sx: { p: 2, width: 360 } }}
+    <Stack direction="column" spacing={3}>
+      <PageHeader
+        title={t('problems.attempts.title')}
+        breadcrumb={[
+          { label: t('problems.title'), url: resources.Problems },
+          { label: t('problems.attempts.title'), active: true },
+        ]}
+        actionComponent={
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleMyAttempts}
+              startIcon={<IconifyIcon icon="mdi:account-circle-outline" width={18} height={18} />}
             >
-              <Stack direction="column" spacing={2}>
-                <Autocomplete
-                  options={problemOptions}
-                  value={selectedProblem}
-                  onChange={(_, value) => handleFilterChange('problemId', value ? String(value.id) : '')}
-                  onInputChange={(_, value) => setProblemInput(value)}
-                  getOptionLabel={(option) => (`${option.id}. ${option.title}`).trim()}
-                  filterOptions={(opts) => opts}
-                  renderOption={(props, option) => (
-                    <li {...props} key={option.id}>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <Typography variant="body2" fontWeight={700}>
-                          {option.id}
-                        </Typography>
-                        <Typography variant="body2">{option.title}</Typography>
-                      </Stack>
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <StyledTextField {...params} label={t('problems.attempts.problem')} placeholder="1234" />
-                  )}
-                  isOptionEqualToValue={(option, value) => option.id === value.id}
-                  blurOnSelect
-                  clearOnBlur={false}
-                />
+              {t('problems.attempts.myAttempts')}
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => mutate()}
+              startIcon={<IconifyIcon icon="mdi:reload" width={18} height={18} />}
+            >
+              {t('problems.attempts.refresh')}
+            </Button>
+            <Button
+              id="attempts-filters-button"
+              variant="outlined"
+              color="secondary"
+              onClick={(event) => setFiltersAnchorEl(event.currentTarget)}
+              startIcon={<IconifyIcon icon="mdi:filter-variant" width={18} height={18} />}
+              aria-haspopup="true"
+              aria-expanded={filtersOpen ? 'true' : undefined}
+              aria-controls={filtersOpen ? 'attempts-filters-menu' : undefined}
+            >
+              {t('problems.filterTitle')}
+            </Button>
+            <Button
+              variant="text"
+              color="error"
+              onClick={handleReset}
+              startIcon={<IconifyIcon icon="mdi:close" width={18} height={18} />}
+            >
+              {t('problems.attempts.clear')}
+            </Button>
+          </Stack>
+        }
+      />
 
-                <Autocomplete
-                  options={userOptions}
-                  value={selectedUser}
-                  onChange={(_, value) => handleFilterChange('username', value?.username ?? '')}
-                  onInputChange={(_, value) => setUserInput(value)}
-                  getOptionLabel={(option) =>
-                    option.fullName ? `${option.username} (${option.fullName})` : option.username
-                  }
-                  filterOptions={(opts) => opts}
-                  renderOption={(props, option) => (
-                    <li {...props} key={option.username}>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <Avatar src={option.avatar} alt={option.username} sx={{ width: 28, height: 28 }} />
-                        <Stack spacing={0.25}>
-                          <Typography variant="body2" fontWeight={700}>
-                            {option.username}
-                          </Typography>
-                          {option.fullName ? (
-                            <Typography variant="caption" color="text.secondary">
-                              {option.fullName}
-                            </Typography>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <StyledTextField {...params} label={t('problems.attempts.user')} placeholder="username" />
-                  )}
-                  isOptionEqualToValue={(option, value) => option.username === value.username}
-                  blurOnSelect
-                  clearOnBlur={false}
-                />
-
-                <FormControl fullWidth size="small">
-                  <InputLabel>{t('problems.attempts.language')}</InputLabel>
-                  <Select
-                    label={t('problems.attempts.language')}
-                    value={filter.lang}
-                    onChange={(event) => handleFilterChange('lang', event.target.value)}
-                  >
-                    <MenuItem value="">{t('problems.attempts.anyLanguage')}</MenuItem>
-                    {(languages ?? []).map((lang) => (
-                      <MenuItem key={lang.lang} value={lang.lang}>
-                        <Stack direction="row" spacing={1} alignItems="center">
-                          <Chip label={lang.lang.toUpperCase()} size="small" />
-                          <Typography variant="body2">{lang.langFull}</Typography>
-                        </Stack>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-
-                <FormControl fullWidth size="small">
-                  <InputLabel>{t('problems.attempts.verdict')}</InputLabel>
-                  <Select
-                    label={t('problems.attempts.verdict')}
-                    value={filter.verdict}
-                    onChange={(event) => handleFilterChange('verdict', event.target.value)}
-                  >
-                    <MenuItem value="">{t('problems.attempts.anyVerdict')}</MenuItem>
-                    {(verdictOptions ?? []).map((option) => (
-                      <MenuItem key={option.value} value={String(option.value)}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Stack>
-            </Menu>
-          </CardContent>
-        </Card>
-
-        <Card variant="outlined">
-          {isLoading && <LinearProgress />}
-          <ProblemsAttemptsTable
-            attempts={attempts}
-            total={total}
-            paginationModel={paginationModel}
-            onPaginationChange={handlePaginationChange}
-            isLoading={isLoading}
-            onRerun={() => mutate()}
+      <Menu
+        id="attempts-filters-menu"
+        anchorEl={filtersAnchorEl}
+        open={filtersOpen}
+        onClose={() => setFiltersAnchorEl(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        MenuListProps={{ disablePadding: true }}
+        PaperProps={{ sx: { p: 2, width: 360 } }}
+      >
+        <Stack direction="column" spacing={2}>
+          <Autocomplete
+            options={problemOptions}
+            value={selectedProblem}
+            onChange={(_, value) => handleFilterChange('problemId', value ? String(value.id) : '')}
+            onInputChange={(_, value) => setProblemInput(value)}
+            getOptionLabel={(option) => `${option.id}. ${option.title}`.trim()}
+            filterOptions={(opts) => opts}
+            renderOption={(props, option) => (
+              <li {...props} key={option.id}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography variant="body2" fontWeight={700}>
+                    {option.id}
+                  </Typography>
+                  <Typography variant="body2">{option.title}</Typography>
+                </Stack>
+              </li>
+            )}
+            renderInput={(params) => (
+              <StyledTextField
+                {...params}
+                label={t('problems.attempts.problem')}
+                placeholder="1234"
+              />
+            )}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            blurOnSelect
+            clearOnBlur={false}
           />
-        </Card>
-      </Stack>
-    </Box>
+
+          <Autocomplete
+            options={userOptions}
+            value={selectedUser}
+            onChange={(_, value) => handleFilterChange('username', value?.username ?? '')}
+            onInputChange={(_, value) => setUserInput(value)}
+            getOptionLabel={(option) =>
+              option.fullName ? `${option.username} (${option.fullName})` : option.username
+            }
+            filterOptions={(opts) => opts}
+            renderOption={(props, option) => (
+              <li {...props} key={option.username}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Avatar
+                    src={option.avatar}
+                    alt={option.username}
+                    sx={{ width: 28, height: 28 }}
+                  />
+                  <Stack spacing={0.25}>
+                    <Typography variant="body2" fontWeight={700}>
+                      {option.username}
+                    </Typography>
+                    {option.fullName ? (
+                      <Typography variant="caption" color="text.secondary">
+                        {option.fullName}
+                      </Typography>
+                    ) : null}
+                  </Stack>
+                </Stack>
+              </li>
+            )}
+            renderInput={(params) => (
+              <StyledTextField
+                {...params}
+                label={t('problems.attempts.user')}
+                placeholder="username"
+              />
+            )}
+            isOptionEqualToValue={(option, value) => option.username === value.username}
+            blurOnSelect
+            clearOnBlur={false}
+          />
+
+          <FormControl fullWidth size="small">
+            <InputLabel>{t('problems.attempts.language')}</InputLabel>
+            <Select
+              label={t('problems.attempts.language')}
+              value={filter.lang}
+              onChange={(event) => handleFilterChange('lang', event.target.value)}
+            >
+              <MenuItem value="">{t('problems.attempts.anyLanguage')}</MenuItem>
+              {(languages ?? []).map((lang) => (
+                <MenuItem key={lang.lang} value={lang.lang}>
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Chip label={lang.lang.toUpperCase()} size="small" />
+                    <Typography variant="body2">{lang.langFull}</Typography>
+                  </Stack>
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth size="small">
+            <InputLabel>{t('problems.attempts.verdict')}</InputLabel>
+            <Select
+              label={t('problems.attempts.verdict')}
+              value={filter.verdict}
+              onChange={(event) => handleFilterChange('verdict', event.target.value)}
+            >
+              <MenuItem value="">{t('problems.attempts.anyVerdict')}</MenuItem>
+              {(verdictOptions ?? []).map((option) => (
+                <MenuItem key={option.value} value={String(option.value)}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Stack>
+      </Menu>
+
+      <Box sx={{...responsivePagePaddingSx, py: {md: 0}}}>
+        <ProblemsAttemptsTable
+          attempts={attempts}
+          total={total}
+          paginationModel={paginationModel}
+          onPaginationChange={handlePaginationChange}
+          isLoading={isLoading}
+          onRerun={() => mutate()}
+        />
+      </Box>
+    </Stack>
   );
 };
 
