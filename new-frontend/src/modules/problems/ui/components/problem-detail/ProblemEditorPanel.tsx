@@ -233,7 +233,7 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
 
           <Button
             component="label"
-            variant="outlined"
+            variant="text"
             size="small"
             startIcon={<KepIcon name="upload" width={18} height={18} />}
             sx={{ borderRadius: 2 }}

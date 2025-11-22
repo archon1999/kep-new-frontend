@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
-import { IconButton, Tooltip, Typography, alpha, useTheme, Chip } from '@mui/material';
+import { Chip, IconButton, Tooltip, Typography, alpha, useTheme } from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
-import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
+import { getResourceById, resources } from 'app/routes/resources';
+import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import AttemptLanguage from 'shared/components/problems/AttemptLanguage';
 import AttemptVerdict, { VerdictKey } from 'shared/components/problems/AttemptVerdict';
@@ -144,26 +145,24 @@ const ProblemsAttemptsTable = ({
         flex: 1,
         sortable: false,
         renderCell: ({ row }) => (
-          <Typography
-            component={RouterLink}
-            to={getResourceByUsername(resources.UserProfile, row.user.username)}
-            sx={{ textDecoration: 'none', color: 'primary.main', fontWeight: 700 }}
-          >
-            {row.user.username}
-          </Typography>
+          <UserPopover username={row.user.username}>
+            <Typography sx={{ textDecoration: 'none', color: 'primary.main', fontWeight: 500 }}>
+              {row.user.username}
+            </Typography>
+          </UserPopover>
         ),
       },
       {
         field: 'problemTitle',
         headerName: t('problems.attempts.columns.problem'),
-        minWidth: 240,
+        minWidth: 150,
         flex: 1.4,
         sortable: false,
         renderCell: ({ row }) => (
           <Typography
             component={RouterLink}
             to={getResourceById(resources.Problem, row.problemId)}
-            sx={{ textDecoration: 'none', color: 'text.primary', fontWeight: 700 }}
+            sx={{ textDecoration: 'none', color: 'text.primary', fontWeight: 500 }}
           >
             {row.contestProblemSymbol
               ? `${row.contestProblemSymbol}. ${row.problemTitle}`

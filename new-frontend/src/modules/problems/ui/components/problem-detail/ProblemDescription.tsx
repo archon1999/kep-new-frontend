@@ -411,27 +411,25 @@ export const ProblemDescription = ({
         ) : null}
 
         {activeTab === 'attempts' ? (
-          <Card variant="outlined">
-            <CardContent>
-              {currentUser ? (
-                <Stack direction="row" alignItems="center" spacing={1} mb={2}>
-                  <Chip
-                    label={t('problems.detail.myAttempts')}
-                    color={myAttemptsOnly ? 'primary' : 'default'}
-                    onClick={onToggleMyAttempts}
-                  />
-                </Stack>
-              ) : null}
-              <ProblemsAttemptsTable
-                attempts={attempts}
-                total={attemptsTotal}
-                paginationModel={attemptsPagination}
-                onPaginationChange={onAttemptsPaginationChange}
-                isLoading={isAttemptsLoading}
-                onRerun={onAttemptsRefresh}
-              />
-            </CardContent>
-          </Card>
+          <>
+            {currentUser ? (
+              <Stack direction="row" alignItems="center" spacing={1} mb={2}>
+                <Chip
+                  label={t('problems.detail.myAttempts')}
+                  color={myAttemptsOnly ? 'primary' : 'default'}
+                  onClick={onToggleMyAttempts}
+                />
+              </Stack>
+            ) : null}
+            <ProblemsAttemptsTable
+              attempts={attempts}
+              total={attemptsTotal}
+              paginationModel={attemptsPagination}
+              onPaginationChange={onAttemptsPaginationChange}
+              isLoading={isAttemptsLoading}
+              onRerun={onAttemptsRefresh}
+            />
+          </>
         ) : null}
 
         {activeTab === 'stats' ? <ProblemStatisticsTab problemId={problem.id} /> : null}
