@@ -288,7 +288,7 @@ const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
                         </ListItemIcon>
                         <ListItemText
                           primary={post.title}
-                          secondary={post.author?.firstName || post.author?.username}
+                          secondary={post.author?.username}
                           primaryTypographyProps={{ variant: 'subtitle2', color: 'text.primary' }}
                           secondaryTypographyProps={{ variant: 'caption', color: 'text.secondary' }}
                         />

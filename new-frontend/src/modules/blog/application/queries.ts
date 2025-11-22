@@ -23,25 +23,22 @@ export const useBlogComments = (id?: string) =>
   });
 
 export const useBlogCommentCreate = (id?: string) =>
-  useSWRMutation<void, Error, readonly unknown[], string>(
+  useSWRMutation(
     id ? blogKeys.detail(`create-comment-${id}`) : null,
-    (_, { arg }) => blogRepository.createComment(id!, arg),
+    (_, { arg }: { arg: string }) => blogRepository.createComment(id!, arg),
   );
 
 export const useBlogPostLike = (id?: string) =>
-  useSWRMutation<number, Error, readonly unknown[], void>(
-    id ? blogKeys.detail(`like-${id}`) : null,
-    () => blogRepository.likePost(id!),
-  );
+  useSWRMutation(id ? blogKeys.detail(`like-${id}`) : null, () => blogRepository.likePost(id!));
 
 export const useBlogCommentLike = (id?: string) =>
-  useSWRMutation<number, Error, readonly unknown[], number>(
+  useSWRMutation(
     id ? blogKeys.detail(`like-comment-${id}`) : null,
-    (_, { arg }) => blogRepository.likeComment(arg),
+    (_, { arg }: { arg: number }) => blogRepository.likeComment(arg),
   );
 
 export const useBlogCommentDelete = (id?: string) =>
-  useSWRMutation<void, Error, readonly unknown[], number>(
+  useSWRMutation(
     id ? blogKeys.detail(`delete-comment-${id}`) : null,
-    (_, { arg }) => blogRepository.deleteComment(arg),
+    (_, { arg }: { arg: number }) => blogRepository.deleteComment(arg),
   );
