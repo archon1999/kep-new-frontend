@@ -23,8 +23,8 @@ const HomePage = () => {
 
   return (
     <Box>
-      <Grid size={12} container>
-        <Grid size={{ xs: 12, md: 6, lg: 4 }}>
+      <Grid size={12} container spacing={3}>
+        <Grid size={{ xs: 12, md: 6, lg: 4 }} display="flex">
           <HomeProfileSection
             displayName={displayName}
             ratings={ratings}
@@ -36,24 +36,22 @@ const HomePage = () => {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
-          <Grid container>
-            <Grid size={12}>
-              <ContestsSection />
-            </Grid>
-
-            <Grid size={12}>
-              <NewsSection />
-            </Grid>
-
-            <Grid size={12}>
-              <TopUsersSection />
-            </Grid>
-          </Grid>
+        <Grid size={{ xs: 12, md: 6, lg: 8 }} display="flex">
+          <TopUsersSection />
         </Grid>
       </Grid>
 
-      <Grid container size={12}>
+      <Grid container size={12} spacing={3} sx={{ mt: 3 }}>
+        <Grid size={12}>
+          <ContestsSection />
+        </Grid>
+
+        <Grid size={12}>
+          <NewsSection />
+        </Grid>
+      </Grid>
+
+      <Grid container size={12} spacing={3} sx={{ mt: 3 }}>
         <Grid size={{ xs: 12, lg: 4 }}>
           <BirthdaysSection />
         </Grid>

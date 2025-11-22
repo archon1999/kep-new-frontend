@@ -32,7 +32,7 @@ const HomeProfileSection = ({
   const todayLabel = useMemo(() => dayjs().format('dddd, MMM DD, YYYY'), []);
 
   return (
-    <Paper background={1}>
+    <Paper background={1} sx={{ height: 1 }}>
       <Stack
         direction="column"
         sx={{
