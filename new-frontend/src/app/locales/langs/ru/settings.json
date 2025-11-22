@@ -1,6 +1,6 @@
 {
   "settings": {
-    "general": "Общие",
+    "general": "Общее",
     "changePassword": "Изменить пароль",
     "information": "Информация",
     "social": "Соцсети",
@@ -72,7 +72,7 @@
     "skillLabels": {
       "python": "Python",
       "webDevelopment": "Веб-разработка",
-      "webScraping": "Веб-скрейпинг",
+      "webScraping": "Веб скрейпинг",
       "algorithms": "Алгоритмы",
       "dataScience": "Data science"
     },

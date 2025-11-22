@@ -70,12 +70,12 @@
     "delta": "O'zgarish: {{value}}",
     "ratingChanges": "Reyting o'zgarishlari",
     "noChanges": "O'zgarishlar yo'q.",
-    "lastChallenges": "Oxirgi bellashuvlar",
+    "lastChallenges": "Soʻngi bellashuvlar",
     "timer": {
       "perQuestion": "Savol taymeri",
       "wholeChallenge": "Bellashuv taymeri"
     },
-    "arenaWinners": "Arena g'oliblari",
+    "arenaWinners": "Arena gʻoliblari",
     "arenaWinnersSubtitle": "So'nggi arenalardagi g'oliblar.",
     "viewArena": "Arenaga o'tish",
     "noArenas": "Arena tarixi yo'q."

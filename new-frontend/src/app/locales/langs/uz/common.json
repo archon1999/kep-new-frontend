@@ -13,7 +13,7 @@
       "title": "Kunlik vazifalar",
       "subtitle": "Seriyani davom ettiring",
       "tasksCount": "{{count}} ta vazifa",
-      "completed": "Bajarildi",
+      "completed": "Bajarilgan",
       "empty": "Hozircha kunlik vazifalar yo'q"
     }
   }

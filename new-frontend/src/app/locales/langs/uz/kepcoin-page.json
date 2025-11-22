@@ -29,7 +29,7 @@
       "title": "Kepcoin tarixi",
       "tabs": {
         "earns": "Toplangan",
-        "spends": "Sarflangan"
+        "spends": "Sarflandi"
       },
       "error": "Kepcoin tarixini yuklab bo'lmadi.",
       "retry": "Qayta urinish",
@@ -59,7 +59,7 @@
         "viewTest": "Yechim yiqilgan testni ko‘rish",
         "problemSolution": "Masala yechimini xarid qilish",
         "coverPhoto": "Profil orqa rasmini o‘zgartirish",
-        "passTest": "Testdan o‘tish",
+        "passTest": "Testdan oʻtish",
         "course": "Kurs sotib olish",
         "testFunction": "Kodni tahrirlashda testlash funksiyasi (to‘liq)",
         "doubleRating": "Kontestda ikki barobar reyting o‘zgarishi (manfiy bo‘lsa ham)",
@@ -73,9 +73,9 @@
       "bonusFromAdmin": "Admindan bonus",
       "dailyActivity": "Kunlik faollik",
       "dailyTaskCompletion": "Kunlik topshiriq bajarildi",
-      "dailyRatingWinner": "Kunlik masalalar reytingi gʻolibi",
-      "weeklyRatingWinner": "Haftalik masalalar reytingi gʻolibi",
-      "monthlyRatingWinner": "Oylik masalalar reytingi gʻolibi",
+      "dailyRatingWinner": "Kunlik masalalar reytingi g‘olibi",
+      "weeklyRatingWinner": "Haftalik masalalar reytingi g‘olibi",
+      "monthlyRatingWinner": "Oylik masalalar reytingi g‘olibi",
       "contestParticipant": "Kontest ishtirokchisi",
       "arenaParticipant": "Arena ishtirokchisi",
       "tournamentParticipant": "Turnir ishtirokchisi",

@@ -42,7 +42,7 @@
       "empty": "Statistika hali mavjud emas"
     },
     "popover": {
-      "viewDetails": "Profilni ko'rish"
+      "viewDetails": "Profilni koʻrish"
     },
     "emptyValue": "—",
     "profile": {
@@ -54,7 +54,7 @@
       },
       "personal": {
         "title": "Shaxsiy maʻlumot",
-        "fullName": "Toʻliq ism",
+        "fullName": "Toʻliq ismi",
         "wasBorn": "Tugʻilgan",
         "lives": "Yashaydi",
         "email": "Elektron manzil",

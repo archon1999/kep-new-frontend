@@ -18,10 +18,10 @@
     },
     "now": "Hozir",
     "about": "Arena haqida",
-    "registered": "Roʻyxatdan oʻtgan",
+    "registered": "Roʻyhatdan oʻtilgan",
     "duration": "Bellashuv vaqti",
     "actions": {
-      "register": "Roʻyxatdan oʻtish",
+      "register": "Roʻyhatdan oʻtish",
       "nextChallenge": "Keyingi bellashuv",
       "start": "Boshlash",
       "pause": "Pauza"
