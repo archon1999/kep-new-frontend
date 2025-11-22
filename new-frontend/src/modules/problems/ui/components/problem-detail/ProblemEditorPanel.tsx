@@ -185,7 +185,7 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
         }}
       >
         <Stack
-          direction={{ xs: 'column', md: 'row' }}
+          direction="row"
           spacing={1.5}
           alignItems="center"
           flexWrap="wrap"

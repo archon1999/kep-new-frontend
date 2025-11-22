@@ -124,7 +124,7 @@
       "submit": "Submit",
       "submitHotkey": "Submit (Ctrl+Enter)",
       "submitSuccess": "Solution submitted.",
-      "problemTab": "Problem",
+      "problemTab": "Description",
       "attemptsTab": "Attempts",
       "hacksTab": "Hacks",
       "noProblem": "Problem not found.",
