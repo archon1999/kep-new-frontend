@@ -472,7 +472,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                 <InputLabel>{t('problems.status')}</InputLabel>
                 <Select
                   label={t('problems.status')}
-                  value={filter.status ?? ''}
+                  value={filter.status != null ? String(filter.status) : ''}
                   onChange={(event: SelectChangeEvent<string>) => {
                     const value = event.target.value;
                     onChange('status', value === '' ? undefined : Number(value));
