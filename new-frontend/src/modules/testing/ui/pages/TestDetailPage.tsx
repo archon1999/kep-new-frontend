@@ -70,9 +70,15 @@ const TestDetailPage = () => {
     }
   };
 
-  const renderStartButton = () => (
-    <Button variant="contained" size="large" onClick={handleStart} fullWidth disabled={isStarting}>
-      {isStarting ? <CircularProgress size={20} color="inherit" /> : t('tests.start')}
+  const renderStartButton = (enableStart: boolean) => (
+    <Button
+      variant="contained"
+      size="large"
+      onClick={enableStart ? handleStart : undefined}
+      fullWidth
+      disabled={enableStart && isStarting}
+    >
+      {enableStart && isStarting ? <CircularProgress size={20} color="inherit" /> : t('tests.start')}
     </Button>
   );
 
@@ -148,7 +154,7 @@ const TestDetailPage = () => {
               <CardContent>
                 <Stack direction="column" spacing={2}>
                   {canStart ? (
-                    renderStartButton()
+                    renderStartButton(true)
                   ) : (
                     <KepcoinSpendConfirm
                       value={1}
@@ -156,7 +162,7 @@ const TestDetailPage = () => {
                       onSuccess={() => setCanStart(true)}
                       disabled={isStarting}
                     >
-                      {renderStartButton()}
+                      {renderStartButton(false)}
                     </KepcoinSpendConfirm>
                   )}
 
