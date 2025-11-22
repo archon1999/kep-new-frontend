@@ -24,8 +24,7 @@ import UserPersonalInfoCard from '../components/user-profile/UserPersonalInfoCar
 import UserRanksGrid from '../components/user-profile/UserRanksGrid';
 import UserSocialCard from '../components/user-profile/UserSocialCard';
 
-const TAB_KEYS = ['about', 'ratings', 'activity-history', 'achievements'] as const;
-type TabKey = (typeof TAB_KEYS)[number];
+type TabKey = 'about' | 'ratings' | 'activity-history' | 'achievements';
 
 const getCurrentTab = (pathname: string): TabKey => {
   if (pathname.includes('/ratings')) return 'ratings';
@@ -40,7 +39,7 @@ const UserProfilePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { data: userDetails, isLoading: isDetailsLoading } = useUserDetails(username);
+  const { data: userDetails } = useUserDetails(username);
   const { data: userRatings, isLoading: isRatingsLoading } = useUserRatings(username);
 
   const currentTab = getCurrentTab(location.pathname);

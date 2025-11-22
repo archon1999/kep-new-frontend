@@ -1,6 +1,5 @@
 import { Link as RouterLink } from 'react-router';
 import { Avatar, Box, Card, CardActionArea, CardContent, Chip, Divider, Stack, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { BlogPost } from '../../domain/entities/blog.entity';
 import { getResourceById, resources } from 'app/routes/resources';
 import KepIcon from 'shared/components/base/KepIcon';

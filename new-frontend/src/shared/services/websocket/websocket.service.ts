@@ -36,7 +36,11 @@ class WebsocketService {
   connect() {
     if (!this.url) return;
 
-    if (this.socket && [WebSocket.OPEN, WebSocket.CONNECTING].includes(this.socket.readyState)) return;
+    if (
+      this.socket &&
+      (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)
+    )
+      return;
 
     this.socket = new WebSocket(this.url);
 
