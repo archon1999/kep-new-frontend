@@ -110,7 +110,7 @@ export const ProblemHeader = ({
         justifyContent="center"
         sx={{ flex: 1, minWidth: 0 }}
       >
-        <Tooltip title={isRunning ? t('problems.detail.running') : t('problems.detail.run')}>
+        <Tooltip title={isRunning ? t('problems.detail.running') : t('problems.detail.runHotkey')}>
           <span>
             <IconButton
               color="primary"
@@ -124,7 +124,7 @@ export const ProblemHeader = ({
         </Tooltip>
 
         {canUseCheckSamples ? (
-          <Tooltip title={t('problems.detail.checkSamples')}>
+          <Tooltip title={t('problems.detail.checkSamplesHotkey')}>
             <span>
               <IconButton
                 color="secondary"
@@ -137,7 +137,7 @@ export const ProblemHeader = ({
             </span>
           </Tooltip>
         ) : (
-          <Tooltip title={t('problems.detail.checkSamples')}>
+          <Tooltip title={t('problems.detail.checkSamplesHotkey')}>
             <span>
               <KepcoinSpendConfirm
                 value={100}
@@ -155,7 +155,9 @@ export const ProblemHeader = ({
 
         {showAnswerForInput && problem?.hasCheckInput ? (
           <Tooltip
-            title={isAnswering ? t('problems.detail.waiting') : t('problems.detail.answerForInput')}
+            title={
+              isAnswering ? t('problems.detail.waiting') : t('problems.detail.answerForInputHotkey')
+            }
           >
             <span>
               <KepcoinSpendConfirm
@@ -173,7 +175,7 @@ export const ProblemHeader = ({
           </Tooltip>
         ) : null}
 
-        <Tooltip title={t('problems.detail.submit')}>
+        <Tooltip title={t('problems.detail.submitHotkey')}>
           <span>
             <Button
               variant="contained"
