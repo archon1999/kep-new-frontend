@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, CircularProgress } from '@mui/material';
+import { CircularProgress, IconButton, Tooltip } from '@mui/material';
 import { usersApiClient } from '../../../data-access/api/users.client';
 import { useAuth } from 'app/providers/AuthProvider';
+import KepIcon from 'shared/components/base/KepIcon';
 
 type ProfileFollowButtonProps = {
   username: string;
@@ -45,15 +46,25 @@ const ProfileFollowButton = ({ username, isFollowing: isFollowingProp }: Profile
   }
 
   return (
-    <Button
-      size="small"
-      variant={isFollowing ? 'outlined' : 'contained'}
-      color="primary"
-      onClick={handleToggle}
-      startIcon={loading ? <CircularProgress size={16} /> : undefined}
+    <Tooltip
+      title={
+        isFollowing ? t('users.profile.actions.unfollowTooltip') : t('users.profile.actions.followTooltip')
+      }
     >
-      {isFollowing ? t('users.profile.actions.unfollow') : t('users.profile.actions.follow')}
-    </Button>
+      <span>
+        <IconButton size="small" color="primary" onClick={handleToggle} disabled={loading}>
+          {loading ? (
+            <CircularProgress size={18} />
+          ) : (
+            <KepIcon
+              name={isFollowing ? 'star' : 'star-outline'}
+              fontSize={20}
+              color={isFollowing ? 'primary.main' : 'text.secondary'}
+            />
+          )}
+        </IconButton>
+      </span>
+    </Tooltip>
   );
 };
 
