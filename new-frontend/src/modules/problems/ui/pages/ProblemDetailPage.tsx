@@ -6,7 +6,6 @@ import { Box, Card, CircularProgress, LinearProgress } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { getResourceById, resources } from 'app/routes/resources';
-import { useSnackbar } from 'notistack';
 import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
 import { alpha } from '@mui/material/styles';
 import { getItemFromStore, setItemToStore } from 'shared/lib/utils';
@@ -69,8 +68,7 @@ const useProblemPermissions = (permissionsRaw: any) => {
 };
 
 const ProblemDetailPage = () => {
-  const { t, i18n } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation();
   const { currentUser } = useAuth();
   const themeMode = useThemeMode();
   const permissions = useProblemPermissions(currentUser?.permissions);
@@ -115,6 +113,7 @@ const ProblemDetailPage = () => {
   const {
     data: problem,
     isLoading: isProblemLoading,
+    isValidating: isProblemValidating,
     mutate: mutateProblem,
   } = useProblemDetail(Number.isNaN(problemId) ? undefined : problemId);
 
@@ -164,6 +163,15 @@ const ProblemDetailPage = () => {
   );
 
   const sampleTests: ProblemSampleTest[] = problem?.sampleTests ?? [];
+
+  useEffect(() => {
+    setSelectedSampleIndex(0);
+    setInput('');
+    setOutput('');
+    setAnswer('');
+    setCheckSamplesResult([]);
+    setEditorTab('console');
+  }, [problem?.id]);
 
   useEffect(() => {
     if (problem?.id) {
@@ -230,7 +238,7 @@ const ProblemDetailPage = () => {
     // wsService.send('lang-change', i18n.language);
 
     return () => unsubscribers.forEach((off) => off());
-  }, [i18n.language, t]);
+  }, [t]);
 
   useEffect(() => {
     const tab = searchParams.get('tab');
@@ -363,8 +371,9 @@ const ProblemDetailPage = () => {
   };
 
   const selectedDifficultyColor = difficultyColorMap[problem?.difficulty ?? 0] || 'primary';
+  const canUseCheckSamples = permissions.canUseCheckSamples || currentUser?.isSuperuser;
   const showInitialSkeleton = !hasLoadedOnce && (isProblemLoading || !problem);
-  const isRevalidating = isProblemLoading && hasLoadedOnce;
+  const isRevalidating = Boolean(problem) && hasLoadedOnce && (isProblemValidating || isProblemLoading);
 
   return (
     <Box
@@ -393,7 +402,7 @@ const ProblemDetailPage = () => {
         onAnswerForInput={handleAnswerForInput}
         onSubmit={handleSubmit}
         onRefreshProblem={() => mutateProblem()}
-        canUseCheckSamples={permissions.canUseCheckSamples || currentUser?.isSuperuser}
+        canUseCheckSamples={canUseCheckSamples}
         showAnswerForInput={Boolean(problem?.hasSolution && problem?.hasCheckInput)}
         inputValue={input}
       />
@@ -434,77 +443,77 @@ const ProblemDetailPage = () => {
           </Box>
         ) : null}
 
-          <PanelGroup direction="horizontal" style={{ flex: 1, minHeight: 0 }}>
-            <Panel defaultSize={50} minSize={35}>
-              {problem && !showInitialSkeleton ? (
-                <ProblemDescription
-                  problem={problem}
-                  selectedDifficultyColor={selectedDifficultyColor}
-                  activeTab={activeTab}
-                  onTabChange={handleTabChange}
-                  currentUser={currentUser}
-                  myAttemptsOnly={myAttemptsOnly}
-                  onToggleMyAttempts={() => setMyAttemptsOnly((prev) => !prev)}
-                  attempts={attemptsPage?.data ?? []}
-                  attemptsTotal={attemptsPage?.total ?? 0}
-                  attemptsPagination={attemptsPagination}
-                  onAttemptsPaginationChange={setAttemptsPagination}
-                  isAttemptsLoading={isAttemptsLoading}
-                  onAttemptsRefresh={() => mutateAttempts()}
-                  hackAttempts={hackAttemptsPage?.data ?? []}
-                  hackTotal={hackAttemptsPage?.total ?? 0}
-                  hackPagination={hackPagination}
-                  onHackPaginationChange={setHackPagination}
-                  onHackRefresh={() => mutateHackAttempts()}
-                  onFavoriteToggle={handleFavoriteToggle}
-                  onLike={() => handleLikeDislike('like')}
-                  onDislike={() => handleLikeDislike('dislike')}
-                />
-              ) : (
-                <ProblemDescriptionSkeleton />
-              )}
-            </Panel>
+        <PanelGroup direction="horizontal" style={{ flex: 1, minHeight: 0 }}>
+          <Panel defaultSize={50} minSize={35}>
+            {problem && !showInitialSkeleton ? (
+              <ProblemDescription
+                problem={problem}
+                selectedDifficultyColor={selectedDifficultyColor}
+                activeTab={activeTab}
+                onTabChange={handleTabChange}
+                currentUser={currentUser}
+                myAttemptsOnly={myAttemptsOnly}
+                onToggleMyAttempts={() => setMyAttemptsOnly((prev) => !prev)}
+                attempts={attemptsPage?.data ?? []}
+                attemptsTotal={attemptsPage?.total ?? 0}
+                attemptsPagination={attemptsPagination}
+                onAttemptsPaginationChange={setAttemptsPagination}
+                isAttemptsLoading={isAttemptsLoading}
+                onAttemptsRefresh={() => mutateAttempts()}
+                hackAttempts={hackAttemptsPage?.data ?? []}
+                hackTotal={hackAttemptsPage?.total ?? 0}
+                hackPagination={hackPagination}
+                onHackPaginationChange={setHackPagination}
+                onHackRefresh={() => mutateHackAttempts()}
+                onFavoriteToggle={handleFavoriteToggle}
+                onLike={() => handleLikeDislike('like')}
+                onDislike={() => handleLikeDislike('dislike')}
+              />
+            ) : (
+              <ProblemDescriptionSkeleton />
+            )}
+          </Panel>
 
-            <PanelHandle />
+          <PanelHandle />
 
-            <Panel defaultSize={50} minSize={35}>
-              {problem && !showInitialSkeleton ? (
-                <ProblemEditorPanel
-                  problem={problem}
-                  code={code}
-                  onCodeChange={(value) => {
-                    if (!problem?.id || !selectedLang) return;
-                    setCode(value);
-                    const codeKey = `problem-${problem.id}-code-${selectedLang}`;
-                    setItemToStore(codeKey, JSON.stringify(value ?? ''));
-                  }}
-                  selectedLang={selectedLang}
-                  onLangChange={setSelectedLang}
-                  sampleTests={sampleTests}
-                  selectedSampleIndex={selectedSampleIndex}
-                  onSampleChange={setSelectedSampleIndex}
-                  input={input}
-                  onInputChange={setInput}
-                  output={output}
-                  answer={answer}
-                  onRun={handleRun}
-                  onSubmit={handleSubmit}
-                  onCheckSamples={handleCheckSamples}
-                  isRunning={isRunning}
-                  isSubmitting={isSubmitting}
-                  isCheckingSamples={isCheckingSamples}
-                  checkSamplesResult={checkSamplesResult}
-                  editorTab={editorTab}
-                  onEditorTabChange={setEditorTab}
-                  currentUser={currentUser}
-                  canUseCheckSamples={permissions.canUseCheckSamples || currentUser?.isSuperuser}
-                  editorTheme={editorTheme}
-                />
-              ) : (
-                <ProblemEditorSkeleton />
-              )}
-            </Panel>
-          </PanelGroup>
+          <Panel defaultSize={50} minSize={35}>
+            {problem && !showInitialSkeleton ? (
+              <ProblemEditorPanel
+                problem={problem}
+                code={code}
+                onCodeChange={(value) => {
+                  if (!problem?.id || !selectedLang) return;
+                  setCode(value);
+                  const codeKey = `problem-${problem.id}-code-${selectedLang}`;
+                  setItemToStore(codeKey, JSON.stringify(value ?? ''));
+                }}
+                selectedLang={selectedLang}
+                onLangChange={setSelectedLang}
+                sampleTests={sampleTests}
+                selectedSampleIndex={selectedSampleIndex}
+                onSampleChange={setSelectedSampleIndex}
+                input={input}
+                onInputChange={setInput}
+                output={output}
+                answer={answer}
+                onRun={handleRun}
+                onSubmit={handleSubmit}
+                onCheckSamples={handleCheckSamples}
+                isRunning={isRunning}
+                isSubmitting={isSubmitting}
+                isCheckingSamples={isCheckingSamples}
+                checkSamplesResult={checkSamplesResult}
+                editorTab={editorTab}
+                onEditorTabChange={setEditorTab}
+                currentUser={currentUser}
+                canUseCheckSamples={canUseCheckSamples}
+                editorTheme={editorTheme}
+              />
+            ) : (
+              <ProblemEditorSkeleton />
+            )}
+          </Panel>
+        </PanelGroup>
       </Card>
     </Box>
   );
