@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link as RouterLink } from 'react-router-dom';
 import { Card, CardContent } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Link from '@mui/material/Link';

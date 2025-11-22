@@ -371,7 +371,7 @@ const ProblemDetailPage = () => {
   };
 
   const selectedDifficultyColor = difficultyColorMap[problem?.difficulty ?? 0] || 'primary';
-  const canUseCheckSamples = permissions.canUseCheckSamples || currentUser?.isSuperuser;
+  const canUseCheckSamples = Boolean(permissions.canUseCheckSamples || currentUser?.isSuperuser);
   const showInitialSkeleton = !hasLoadedOnce && (isProblemLoading || !problem);
   const isRevalidating = Boolean(problem) && hasLoadedOnce && (isProblemValidating || isProblemLoading);
 
