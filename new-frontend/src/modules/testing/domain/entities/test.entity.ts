@@ -20,4 +20,5 @@ export interface Test {
   questionsCount?: number;
   passesCount?: number;
   lastPassed?: string;
+  canStart?: boolean;
 }

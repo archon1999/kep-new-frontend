@@ -39,6 +39,7 @@ export const mapTest = (payload: any): Test => ({
   questionsCount: payload?.questionsCount ?? payload?.questions_count ?? payload?.questions?.length,
   passesCount: payload?.passesCount ?? payload?.passes_count,
   lastPassed: payload?.lastPassed ?? payload?.last_passed,
+  canStart: payload?.canStart ?? payload?.can_start ?? false,
 });
 
 export const mapTestPass = (payload: any): TestPass => ({

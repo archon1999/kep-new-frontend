@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import {
@@ -17,6 +17,7 @@ import {
 import { getResourceById, resources } from 'app/routes/resources';
 import { useSnackbar } from 'notistack';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import KepcoinSpendConfirm from 'shared/components/common/KepcoinSpendConfirm';
 import { startTest } from '../../application/mutations.ts';
 import { useTestDetail, useTestResults } from '../../application/queries.ts';
 
@@ -29,6 +30,14 @@ const TestDetailPage = () => {
 
   const { data: test, isLoading } = useTestDetail(id);
   const { data: results, isLoading: isResultsLoading } = useTestResults(id);
+  const [canStart, setCanStart] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
+
+  useEffect(() => {
+    if (test?.canStart !== undefined) {
+      setCanStart(Boolean(test.canStart));
+    }
+  }, [test?.canStart]);
 
   const metrics = useMemo(
     () => [
@@ -43,15 +52,29 @@ const TestDetailPage = () => {
   const handleStart = async () => {
     if (!test) return;
 
-    const response = await startTest(test.id);
+    setIsStarting(true);
 
-    if (response.success && response.testPassId) {
-      navigate(getResourceById(resources.TestPass, response.testPassId));
-      return;
+    try {
+      const response = await startTest(test.id);
+
+      if (response.success && response.testPassId) {
+        navigate(getResourceById(resources.TestPass, response.testPassId));
+        return;
+      }
+
+      enqueueSnackbar(t('tests.startError'), { variant: 'error' });
+    } catch (error) {
+      enqueueSnackbar(t('tests.startError'), { variant: 'error' });
+    } finally {
+      setIsStarting(false);
     }
-
-    enqueueSnackbar(t('tests.startError'), { variant: 'error' });
   };
+
+  const renderStartButton = () => (
+    <Button variant="contained" size="large" onClick={handleStart} fullWidth disabled={isStarting}>
+      {isStarting ? <CircularProgress size={20} color="inherit" /> : t('tests.start')}
+    </Button>
+  );
 
   if (isLoading || !test) {
     return (
@@ -124,9 +147,18 @@ const TestDetailPage = () => {
             <Card>
               <CardContent>
                 <Stack direction="column" spacing={2}>
-                  <Button variant="contained" size="large" onClick={handleStart} fullWidth>
-                    {t('tests.start')}
-                  </Button>
+                  {canStart ? (
+                    renderStartButton()
+                  ) : (
+                    <KepcoinSpendConfirm
+                      value={1}
+                      purchaseUrl={`/api/tests/${test.id}/purchase/`}
+                      onSuccess={() => setCanStart(true)}
+                      disabled={isStarting}
+                    >
+                      {renderStartButton()}
+                    </KepcoinSpendConfirm>
+                  )}
 
                   <Divider />
 
