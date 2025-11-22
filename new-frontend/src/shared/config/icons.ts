@@ -46,6 +46,7 @@ export const kepIcons = {
   search: 'mdi:magnify',
   like: 'mdi:heart-outline',
   comment: 'mdi:comment-outline',
+  email: 'mdi:email-outline',
   view: 'mdi:eye-outline',
   info: 'mdi:information-outline',
   share: 'mdi:share-outline',

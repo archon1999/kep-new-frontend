@@ -1,16 +1,9 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import {
-  Card,
-  CardContent,
-  Chip,
-  Divider,
-  LinearProgress,
-  Skeleton,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@mui/lab';
+import { Card, CardContent, Chip, Divider, LinearProgress, Skeleton, Stack, Typography } from '@mui/material';
+import KepIcon from 'shared/components/base/KepIcon';
 import { useUserAbout } from '../../../application/queries';
 
 const UserProfileAboutTab = () => {
@@ -30,6 +23,44 @@ const UserProfileAboutTab = () => {
         .filter(([, value]) => value !== undefined && value !== null)
         .map(([label, value]) => ({ label, value: Number(value ?? 0) })),
     [skills],
+  );
+
+  const renderTimeline = <T extends { fromYear: number | null; toYear: number | null }>(
+    items: T[],
+    getTitle: (item: T) => string,
+    getSubtitle: (item: T) => string,
+  ) => (
+    <Timeline sx={{ '& .MuiTimelineItem-root:before': { flex: 0, padding: 0 }, mt: -1 }}>
+      {items.map((item, index) => {
+        const period =
+          item.fromYear || item.toYear
+            ? `${item.fromYear ?? t('users.emptyValue')} - ${item.toYear ?? t('users.profile.timeline.present')}`
+            : t('users.profile.timeline.present');
+        const isLast = index === items.length - 1;
+
+        return (
+          <TimelineItem key={`${getTitle(item)}-${index}`}>
+            <TimelineSeparator>
+              <TimelineDot color="primary" variant="outlined" />
+              {!isLast ? <TimelineConnector sx={{ bgcolor: 'primary.main', opacity: 0.2 }} /> : null}
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: 0.5 }}>
+              <Stack direction="column" spacing={0.35}>
+                <Typography variant="subtitle1" fontWeight={700}>
+                  {getTitle(item)}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {getSubtitle(item)}
+                </Typography>
+                <Typography>
+                  {period}
+                </Typography>
+              </Stack>
+            </TimelineContent>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
   );
 
   if (isLoading) {
@@ -108,7 +139,11 @@ const UserProfileAboutTab = () => {
                     <Chip
                       key={`${tech.text}-${tech.devIconClass}`}
                       label={tech.text}
-                      sx={{ color: 'white', bgcolor: tech.badgeColor || 'action.hover' }}
+                      sx={{
+                        bgcolor: tech.badgeColor || 'background.neutral',
+                        color: 'white',
+                        borderColor: tech.badgeColor || 'divider',
+                      }}
                     />
                   ))}
                 </Stack>
@@ -124,28 +159,16 @@ const UserProfileAboutTab = () => {
           <Card variant="outlined">
             <CardContent>
               <Stack direction="column" spacing={1.25}>
-                <Typography variant="h6" fontWeight={700}>
-                  {t('users.profile.education')}
-                </Typography>
-                <Stack direction="column" spacing={1}>
-                  {educations.map((education, index) => (
-                    <Stack
-                      key={`${education.organization}-${index}`}
-                      direction="column"
-                      spacing={0.25}
-                    >
-                      <Typography variant="subtitle2" fontWeight={700}>
-                        {education.organization}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {education.degree}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        {education.fromYear} - {education.toYear}
-                      </Typography>
-                    </Stack>
-                  ))}
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography variant="h6" fontWeight={700}>
+                    {t('users.profile.education')}
+                  </Typography>
                 </Stack>
+                {renderTimeline(
+                  educations,
+                  (education) => education.organization,
+                  (education) => education.degree,
+                )}
               </Stack>
             </CardContent>
           </Card>
@@ -158,24 +181,16 @@ const UserProfileAboutTab = () => {
           <Card variant="outlined">
             <CardContent>
               <Stack direction="column" spacing={1.25}>
-                <Typography variant="h6" fontWeight={700}>
-                  {t('users.profile.workExperience')}
-                </Typography>
-                <Stack direction="column" spacing={1}>
-                  {workExperiences.map((work, index) => (
-                    <Stack key={`${work.company}-${index}`} direction="column" spacing={0.25}>
-                      <Typography variant="subtitle2" fontWeight={700}>
-                        {work.company}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {work.jobTitle}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        {work.fromYear} - {work.toYear}
-                      </Typography>
-                    </Stack>
-                  ))}
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography variant="h6" fontWeight={700}>
+                    {t('users.profile.workExperience')}
+                  </Typography>
                 </Stack>
+                {renderTimeline(
+                  workExperiences,
+                  (work) => work.company,
+                  (work) => work.jobTitle,
+                )}
               </Stack>
             </CardContent>
           </Card>

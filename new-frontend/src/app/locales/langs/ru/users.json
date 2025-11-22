@@ -91,13 +91,23 @@
         "percentile": "Перцентиль: {{value}}",
         "wins": "Победы",
         "draws": "Ничьи",
-        "losses": "Поражения"
+        "losses": "Поражения",
+        "maxRating": "Максимальный рейтинг",
+        "noHistory": "История рейтинга пока отсутствует.",
+        "games": "{{total}} игр",
+        "overview": "Обзор рейтингов",
+        "skillsRating": "Рейтинг навыков",
+        "activityRating": "Рейтинг активности",
+        "challengeRank": "Звание в челленджах"
       },
       "actions": {
         "follow": "Подписаться",
         "unfollow": "Отписаться",
         "followTooltip": "Подписаться на пользователя",
         "unfollowTooltip": "Отписаться от пользователя"
+      },
+      "timeline": {
+        "present": "По настоящее время"
       }
     }
   }

@@ -45,6 +45,7 @@ const UserPersonalInfoCard = ({ username }: UserPersonalInfoCardProps) => {
     {
       label: t('users.profile.personal.email'),
       value: profileInfo?.email,
+      icon: 'email' as KepIconName,
     },
     {
       label: t('users.profile.personal.website'),

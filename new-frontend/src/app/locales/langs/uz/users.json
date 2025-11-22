@@ -73,6 +73,9 @@
       "technologies": "Texnologiyalar",
       "education": "Taʻlim",
       "workExperience": "Ish tajribasi",
+      "timeline": {
+        "present": "Hozirgacha"
+      },
       "achievements": {
         "title": "Yutuqlar",
         "completed": "Bajarilgan",
@@ -91,7 +94,14 @@
         "percentile": "Foiz: {{value}}",
         "wins": "Gʻalabalar",
         "draws": "Duranglar",
-        "losses": "Magʻlubiyatlar"
+        "losses": "Magʻlubiyatlar",
+        "maxRating": "Eng yuqori reyting",
+        "noHistory": "Reyting tarixi hali yo\\'q.",
+        "games": "{{total}} ta o\\'yin",
+        "overview": "Reytinglar sharhi",
+        "skillsRating": "Ko\\'nikmalar reytingi",
+        "activityRating": "Faollik reytingi",
+        "challengeRank": "Chaqiriq unvoni"
       },
       "actions": {
         "follow": "Obuna boʻlish",

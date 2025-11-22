@@ -73,6 +73,9 @@
       "technologies": "Technologies",
       "education": "Education",
       "workExperience": "Work experience",
+      "timeline": {
+        "present": "Present"
+      },
       "achievements": {
         "title": "Achievements",
         "completed": "Completed",
@@ -91,7 +94,14 @@
         "percentile": "Percentile: {{value}}",
         "wins": "Wins",
         "draws": "Draws",
-        "losses": "Losses"
+        "losses": "Losses",
+        "maxRating": "Max rating",
+        "noHistory": "No rating history yet.",
+        "games": "{{total}} games",
+        "overview": "Ratings overview",
+        "skillsRating": "Skills rating",
+        "activityRating": "Activity rating",
+        "challengeRank": "Challenge rank"
       },
       "actions": {
         "follow": "Follow",
