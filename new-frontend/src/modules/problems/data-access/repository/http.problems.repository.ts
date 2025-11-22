@@ -116,6 +116,10 @@ export class HttpProblemsRepository implements ProblemsRepository {
     return mapVerdicts(response);
   }
 
+  async rerunAttempt(attemptId: number): Promise<void> {
+    await problemsApiClient.rerunAttempt(attemptId);
+  }
+
   mapDifficulties(stats: unknown) {
     return mapDifficultyBreakdown(stats);
   }

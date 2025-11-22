@@ -3,6 +3,7 @@ import {
   ApiProblemsLastContestParams,
   ApiProblemsListParams,
   ApiProblemsRatingListParams,
+  AttemptListBody,
   ProblemsCategory,
   ProblemsRating,
 } from 'shared/api/orval/generated/endpoints/index.schemas';
@@ -24,4 +25,5 @@ export const problemsApiClient = {
   },
   listAttempts: (params: ApiAttemptsListParams) => apiClient.apiAttemptsList(params),
   listVerdicts: () => apiClient.apiAttemptsVerdicts(),
+  rerunAttempt: (attemptId: number) => apiClient.apiAttemptsRerun(attemptId.toString(), {} as AttemptListBody),
 };
