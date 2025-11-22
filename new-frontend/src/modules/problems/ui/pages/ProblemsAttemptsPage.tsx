@@ -144,7 +144,7 @@ const ProblemsAttemptsPage = () => {
       userOptions.find((option) => option.username === filter.username) ?? {
         username: filter.username,
         fullName: '',
-        avatar: undefined,
+        avatar: '',
       }
     );
   }, [userOptions, filter.username]);

@@ -215,7 +215,7 @@ const ContestsUserStatisticsPage = () => {
         subtitle: general.maxRatingTitle,
       },
       {
-        icon: 'ranking',
+        icon: 'statistics',
         label: t('contests.statistics.rank'),
         value: general.ratingPlace ? `#${general.ratingPlace}` : '—',
         subtitle: general.contestantsCount
@@ -323,12 +323,12 @@ const ContestsUserStatisticsPage = () => {
     () =>
       [
         {
-          icon: 'ranking',
+          icon: 'contest',
           label: t('contests.statistics.bestRank'),
           entry: statistics?.contestRanks?.best,
         },
         {
-          icon: 'ranking',
+          icon: 'contest',
           label: t('contests.statistics.toughestRank'),
           entry: statistics?.contestRanks?.worst,
         },
