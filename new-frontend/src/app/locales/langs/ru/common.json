@@ -16,5 +16,8 @@
       "completed": "Выполнено",
       "empty": "Ежедневных задач нет"
     }
+  },
+  "notifications": {
+    "systemInfoTitle": "Информация"
   }
 }

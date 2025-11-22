@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -20,6 +20,9 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
+import { useAuth } from 'app/providers/AuthProvider';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import SimpleBar from 'shared/components/base/SimpleBar';
 import OutlinedBadge from 'shared/components/styled/OutlinedBadge';
@@ -29,6 +32,7 @@ import {
   NotificationBody,
   NotificationType as ApiNotificationType,
 } from 'shared/api/orval/generated/endpoints/index.schemas';
+import { wsService } from 'shared/services/websocket';
 
 const NOTIFICATIONS_PAGE_SIZE = 4;
 
@@ -150,6 +154,9 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { currentUser } = useAuth();
+  const showAllRef = useRef(showAll);
+  const { t } = useTranslation();
 
   const open = Boolean(anchorEl);
 
@@ -165,6 +172,15 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
   const fetchNotifications = useCallback(async () => {
     setIsLoading(true);
+
+    if (!currentUser) {
+      setNotifications([]);
+      setTotal(0);
+      setPagesCount(0);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const params = { page: pageNumber, pageSize: NOTIFICATIONS_PAGE_SIZE };
       const response = showAll
@@ -182,11 +198,80 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
     } finally {
       setIsLoading(false);
     }
-  }, [pageNumber, showAll]);
+  }, [currentUser, pageNumber, showAll]);
 
   useEffect(() => {
     fetchNotifications();
   }, [fetchNotifications]);
+
+  useEffect(() => {
+    showAllRef.current = showAll;
+  }, [showAll]);
+
+  const showSystemNotification = useCallback(
+    (message?: string) => {
+      if (!message) return;
+
+      toast.custom(
+        () => (
+          <Stack spacing={0.75} sx={{ p: 1.5, maxWidth: 360 }}>
+            <Typography variant="subtitle1" color="text.primary">
+              {t('notifications.systemInfoTitle')}
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                '& a': {
+                  color: 'primary.main',
+                  textDecoration: 'underline',
+                },
+              }}
+              dangerouslySetInnerHTML={{ __html: message }}
+            />
+          </Stack>
+        ),
+        {
+          duration: 8000,
+          className: 'system-notification-toast',
+        },
+      );
+    },
+    [t],
+  );
+
+  useEffect(() => {
+    const username = currentUser?.username;
+
+    if (!username) return undefined;
+
+    wsService.send('notification-add', username);
+
+    const unsubscribe = wsService.on<ApiNotification>(`notification-${username}`, (notification) => {
+      if (!notification) return;
+
+      setNotifications((prevNotifications) => {
+        if (prevNotifications.some((item) => item.id === notification.id)) {
+          return prevNotifications;
+        }
+
+        return [notification, ...prevNotifications];
+      });
+
+      if (notification.type === ApiNotificationType.NUMBER_1) {
+        showSystemNotification(notification.message);
+      }
+
+      if (!showAllRef.current) {
+        setTotal((prevTotal) => prevTotal + 1);
+      }
+    });
+
+    return () => {
+      wsService.send('notification-delete', username);
+      unsubscribe();
+    };
+  }, [currentUser?.username, showSystemNotification]);
 
   const handleMarkRead = async (notificationId?: number) => {
     if (!notificationId || showAll) return;
