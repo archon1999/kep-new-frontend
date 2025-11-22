@@ -150,7 +150,7 @@ const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: Project
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
+            <TableCell>{t('projects.id')}</TableCell>
             <TableCell>{t('projects.submitted')}</TableCell>
             <TableCell>{t('projects.technology')}</TableCell>
             <TableCell>{t('projects.user')}</TableCell>
