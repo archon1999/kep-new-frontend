@@ -118,58 +118,7 @@ const ChallengesListPage = () => {
         </Stack>
 
         <Grid container spacing={3}>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card variant="outlined">
-              <CardContent>
-                {currentUser ? (
-                  <Stack spacing={1.5} direction="column">
-                    <Typography variant="subtitle2" color="text.secondary">
-                      {t('challenges.myRating')}
-                    </Typography>
-                    {userRating ? (
-                      <>
-                        <Stack direction="row" spacing={1} alignItems="center">
-                          <Typography variant="h4" fontWeight={800}>
-                            {userRating.rating}
-                          </Typography>
-                          <ChallengesRatingChip title={userRating.rankTitle} />
-                        </Stack>
-                        <Typography variant="body2" color="text.secondary">
-                          {t('challenges.record', { wins: userRating.wins, draws: userRating.draws, losses: userRating.losses })}
-                        </Typography>
-                        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                          <Chip label={`${t('common.wins', { defaultValue: 'W' })}: ${userRating.wins}`} color="success" variant="soft" />
-                          <Chip label={`${t('common.draws', { defaultValue: 'D' })}: ${userRating.draws}`} color="warning" variant="soft" />
-                          <Chip label={`${t('common.losses', { defaultValue: 'L' })}: ${userRating.losses}`} color="error" variant="soft" />
-                        </Stack>
-                      </>
-                    ) : (
-                      <Typography variant="body2" color="text.secondary">
-                        {t('challenges.noRating')}
-                      </Typography>
-                    )}
-                    <Stack direction="row" spacing={1}>
-                      <Button variant="outlined" size="small" onClick={() => navigate(resources.ChallengesRating)}>
-                        {t('challenges.viewRating')}
-                      </Button>
-                      <Button variant="contained" size="small" onClick={() => navigate(resources.ChallengesUserStatistics)}>
-                        {t('challenges.statisticsTitle')}
-                      </Button>
-                    </Stack>
-                  </Stack>
-                ) : (
-                  <Stack spacing={1}>
-                    <Typography variant="subtitle2">{t('challenges.authRequired')}</Typography>
-                    <Button variant="contained" onClick={() => navigate(authPaths.login)}>
-                      {t('auth.login')}
-                    </Button>
-                  </Stack>
-                )}
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 8 }}>
+          <Grid size={{ xs: 12 }}>
             <Card variant="outlined">
               <CardContent>
                 <Stack spacing={3} direction="column">
@@ -283,9 +232,7 @@ const ChallengesListPage = () => {
               </CardContent>
             </Card>
           </Grid>
-        </Grid>
 
-        <Grid container spacing={3}>
           <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={2} direction="column">
               <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -364,72 +311,120 @@ const ChallengesListPage = () => {
               </Card>
             </Stack>
           </Grid>
-        </Grid>
 
-        <Stack spacing={2} direction="column">
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h6">{t('challenges.recent')}</Typography>
-            <Button variant="text" onClick={() => navigate(resources.ChallengesRating)}>
-              {t('challenges.viewRating')}
-            </Button>
-          </Stack>
-          <Stack spacing={1.5} direction="column">
-            {isChallengesLoading
-              ? Array.from({ length: 3 }).map((_, index) => (
-                  <Skeleton key={index} variant="rectangular" height={140} sx={{ borderRadius: 2 }} />
-                ))
-              : (challengesPage?.data ?? []).map((challenge) => <ChallengeCard key={challenge.id} challenge={challenge} />)}
-            {!isChallengesLoading && !challengesPage?.data?.length && (
-              <Typography variant="body2" color="text.secondary">
-                {t('challenges.noChallenges')}
-              </Typography>
-            )}
-          </Stack>
-          {(challengesPage?.pagesCount ?? 0) > 1 && (
-            <Box display="flex" justifyContent="flex-end">
-              <Pagination
-                color="primary"
-                shape="rounded"
-                page={page}
-                count={challengesPage?.pagesCount ?? 0}
-                onChange={(_, value) => setPage(value)}
-              />
-            </Box>
-          )}
-        </Stack>
-
-        <Card variant="outlined">
-          <CardContent>
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} justifyContent="space-between" alignItems="center">
-              <Stack spacing={0.5} direction="column">
-                <Typography variant="h6">{t('challenges.arenaWinners')}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {t('challenges.arenaWinnersSubtitle')}
-                </Typography>
+          <Grid size={{ xs: 12 }}>
+            <Stack spacing={2} direction="column">
+              <Stack direction="row" alignItems="center" justifyContent="space-between">
+                <Typography variant="h6">{t('challenges.recent')}</Typography>
+                <Button variant="text" onClick={() => navigate(resources.ChallengesRating)}>
+                  {t('challenges.viewRating')}
+                </Button>
               </Stack>
-              <Button variant="contained" onClick={() => navigate(resources.Arena)}>
-                {t('challenges.viewArena')}
-              </Button>
-            </Stack>
-
-            <Stack spacing={1.5} direction="column" sx={{ mt: 2 }}>
-              {(arenas?.data ?? []).map((arena) => (
-                <Stack key={arena.id} direction="row" justifyContent="space-between" alignItems="center">
-                  <Typography variant="subtitle2">{arena.title}</Typography>
-                  <Chip
-                    label={arena.status === ArenaStatus.Finished ? t('challenges.statusFinished') : ''}
-                    variant="outlined"
+              <Stack spacing={1.5} direction="column">
+                {isChallengesLoading
+                  ? Array.from({ length: 3 }).map((_, index) => (
+                      <Skeleton key={index} variant="rectangular" height={140} sx={{ borderRadius: 2 }} />
+                    ))
+                  : (challengesPage?.data ?? []).map((challenge) => <ChallengeCard key={challenge.id} challenge={challenge} />)}
+                {!isChallengesLoading && !challengesPage?.data?.length && (
+                  <Typography variant="body2" color="text.secondary">
+                    {t('challenges.noChallenges')}
+                  </Typography>
+                )}
+              </Stack>
+              {(challengesPage?.pagesCount ?? 0) > 1 && (
+                <Box display="flex" justifyContent="flex-end">
+                  <Pagination
+                    color="primary"
+                    shape="rounded"
+                    page={page}
+                    count={challengesPage?.pagesCount ?? 0}
+                    onChange={(_, value) => setPage(value)}
                   />
-                </Stack>
-              ))}
-              {!arenas?.data?.length && (
-                <Typography variant="body2" color="text.secondary">
-                  {t('challenges.noArenas')}
-                </Typography>
+                </Box>
               )}
             </Stack>
-          </CardContent>
-        </Card>
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Card variant="outlined">
+              <CardContent>
+                <Stack spacing={0.5} direction="column">
+                  <Typography variant="h6">{t('challenges.arenaWinners')}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {t('challenges.arenaWinnersSubtitle')}
+                  </Typography>
+                </Stack>
+
+                <Stack spacing={1.5} direction="column" sx={{ mt: 2 }}>
+                  {(arenas?.data ?? []).map((arena) => (
+                    <Stack key={arena.id} direction="row" justifyContent="space-between" alignItems="center">
+                      <Typography variant="subtitle2">{arena.title}</Typography>
+                      <Chip
+                        label={arena.status === ArenaStatus.Finished ? t('challenges.statusFinished') : ''}
+                        variant="outlined"
+                      />
+                    </Stack>
+                  ))}
+                  {!arenas?.data?.length && (
+                    <Typography variant="body2" color="text.secondary">
+                      {t('challenges.noArenas')}
+                    </Typography>
+                  )}
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Card variant="outlined">
+              <CardContent>
+                <Stack spacing={1.5} direction="column">
+                  <Typography variant="subtitle2" color="text.secondary">
+                    {t('challenges.myRating')}
+                  </Typography>
+                  {userRating ? (
+                    <>
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography variant="h4" fontWeight={800}>
+                          {userRating.rating}
+                        </Typography>
+                        <ChallengesRatingChip title={userRating.rankTitle} />
+                      </Stack>
+                      <Typography variant="body2" color="text.secondary">
+                        {t('challenges.record', { wins: userRating.wins, draws: userRating.draws, losses: userRating.losses })}
+                      </Typography>
+                      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                        <Chip label={`${t('common.wins')}: ${userRating.wins}`} color="success" variant="soft" />
+                        <Chip label={`${t('common.draws')}: ${userRating.draws}`} color="warning" variant="soft" />
+                        <Chip label={`${t('common.losses')}: ${userRating.losses}`} color="error" variant="soft" />
+                      </Stack>
+                      <Stack direction="row" spacing={1}>
+                        <Button variant="outlined" size="small" onClick={() => navigate(resources.ChallengesRating)}>
+                          {t('challenges.viewRating')}
+                        </Button>
+                        <Button variant="contained" size="small" onClick={() => navigate(resources.ChallengesUserStatistics)}>
+                          {t('challenges.statisticsTitle')}
+                        </Button>
+                      </Stack>
+                    </>
+                  ) : (
+                    <Stack spacing={1}>
+                      <Typography variant="body2" color="text.secondary">
+                        {currentUser ? t('challenges.noRating') : t('challenges.authRequired')}
+                      </Typography>
+                      {!currentUser && (
+                        <Button variant="contained" onClick={() => navigate(authPaths.login)}>
+                          {t('auth.login')}
+                        </Button>
+                      )}
+                    </Stack>
+                  )}
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
       </Stack>
     </Box>
   );

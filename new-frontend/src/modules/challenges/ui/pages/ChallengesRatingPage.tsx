@@ -1,38 +1,93 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
 import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Chip,
-  Pagination,
-  Skeleton,
-  Stack,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from '@mui/material';
-import Grid from '@mui/material/Grid';
+  DataGrid,
+  GridColDef,
+  GridPaginationModel,
+  GridSortModel,
+  GridValidRowModel,
+} from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { useChallengesRating } from '../../application/queries.ts';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
+import DataGridPaginationAction from 'shared/components/pagination/DataGridPaginationAction.tsx';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 
 const ChallengesRatingPage = () => {
   const { t } = useTranslation();
-  const [page, setPage] = useState(1);
-  const [pageSize] = useState(12);
-  const [ordering, setOrdering] = useState('-rating');
+  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
+    page: 0,
+    pageSize: 12,
+  });
+  const [sortModel, setSortModel] = useState<GridSortModel>([
+    { field: 'rating', sort: 'desc' },
+  ]);
+
+  const ordering = useMemo(() => {
+    if (!sortModel.length) return '-rating';
+    const [{ field, sort }] = sortModel;
+    const prefix = sort === 'asc' ? '' : '-';
+    return `${prefix}${field}`;
+  }, [sortModel]);
+
+  const page = paginationModel.page + 1;
+  const pageSize = paginationModel.pageSize;
 
   const { data: ratingPage, isLoading } = useChallengesRating({ page, pageSize, ordering });
 
-  const handleOrderingChange = (_: unknown, value: string) => {
-    if (!value) return;
-    setOrdering(value);
-    setPage(1);
-  };
+  const columns: GridColDef<GridValidRowModel>[] = [
+    {
+      field: 'rowIndex',
+      headerName: t('challenges.table.place'),
+      width: 90,
+      sortable: true,
+    },
+    {
+      field: 'username',
+      headerName: t('challenges.table.username'),
+      flex: 1.4,
+      minWidth: 180,
+      sortable: true,
+    },
+    {
+      field: 'rankTitle',
+      headerName: t('challenges.table.rank'),
+      flex: 0.8,
+      minWidth: 140,
+      sortable: false,
+      renderCell: ({ value }) => <ChallengesRatingChip title={value as string} size="small" />,
+    },
+    {
+      field: 'rating',
+      headerName: t('challenges.table.rating'),
+      flex: 0.6,
+      minWidth: 120,
+      sortable: true,
+    },
+    {
+      field: 'record',
+      headerName: t('challenges.table.record'),
+      flex: 1.1,
+      minWidth: 180,
+      sortable: false,
+      valueGetter: (params) =>
+        t('challenges.record', {
+          wins: params?.row?.wins ?? 0,
+          draws: params?.row?.draws ?? 0,
+          losses: params?.row?.losses ?? 0,
+        }),
+    },
+  ];
 
-  const rows = ratingPage?.data ?? [];
+  const rows = (ratingPage?.data ?? []).map((row) => ({
+    id: row.username,
+    ...row,
+    record: t('challenges.record', {
+      wins: row?.wins ?? 0,
+      draws: row?.draws ?? 0,
+      losses: row?.losses ?? 0,
+    }),
+  }));
 
   return (
     <Box sx={responsivePagePaddingSx}>
@@ -48,76 +103,24 @@ const ChallengesRatingPage = () => {
 
         <Card variant="outlined">
           <CardContent>
-            <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center">
-              <ToggleButtonGroup
-                value={ordering}
-                exclusive
-                size="small"
-                onChange={handleOrderingChange}
-                aria-label="ordering"
-              >
-                <ToggleButton value="-rating">{t('challenges.table.rating')}</ToggleButton>
-                <ToggleButton value="-wins">{t('common.wins', { defaultValue: 'Wins' })}</ToggleButton>
-                <ToggleButton value="-draws">{t('common.draws', { defaultValue: 'Draws' })}</ToggleButton>
-                <ToggleButton value="-losses">{t('common.losses', { defaultValue: 'Losses' })}</ToggleButton>
-              </ToggleButtonGroup>
-              {ratingPage?.total ? (
-                <Typography variant="caption" color="text.secondary">
-                  {t('challenges.totalPlayers', { count: ratingPage.total })}
-                </Typography>
-              ) : null}
-            </Stack>
-
-            <Grid container spacing={2} sx={{ mt: 1 }}>
-              {isLoading
-                ? Array.from({ length: 6 }).map((_, index) => (
-                    <Grid size={{ xs: 12, md: 6 }} key={index}>
-                      <Skeleton variant="rectangular" height={140} sx={{ borderRadius: 2 }} />
-                    </Grid>
-                  ))
-                : rows.map((row) => (
-                    <Grid size={{ xs: 12, md: 6 }} key={row.username}>
-                      <Card variant="outlined" sx={{ height: '100%' }}>
-                        <CardContent>
-                          <Stack spacing={1.25} direction="column">
-                            <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-                              <Chip label={`#${row.rowIndex}`} size="small" color="primary" />
-                              <ChallengesRatingChip title={row.rankTitle} size="small" />
-                            </Stack>
-                            <Typography variant="subtitle1" fontWeight={700}>
-                              {row.username}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              {t('challenges.record', { wins: row.wins, draws: row.draws, losses: row.losses })}
-                            </Typography>
-                            <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-                              <Typography variant="h6" fontWeight={800}>
-                                {row.rating}
-                              </Typography>
-                              <Stack direction="row" spacing={1}>
-                                <Chip label={`W ${row.wins}`} color="success" size="small" variant="soft" />
-                                <Chip label={`D ${row.draws}`} color="warning" size="small" variant="soft" />
-                                <Chip label={`L ${row.losses}`} color="error" size="small" variant="soft" />
-                              </Stack>
-                            </Stack>
-                          </Stack>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))}
-            </Grid>
-
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mt: 2 }}>
-              <Button variant="outlined" size="small" onClick={() => setOrdering('-rating')}>
-                {t('challenges.openRating')}
-              </Button>
-              <Pagination
-                count={ratingPage?.pagesCount ?? 0}
-                page={page}
-                onChange={(_, value) => setPage(value)}
-                color="primary"
-              />
-            </Stack>
+            <DataGrid
+              autoHeight
+              disableRowSelectionOnClick
+              columns={columns}
+              rows={rows}
+              rowCount={ratingPage?.total ?? 0}
+              paginationMode="server"
+              sortingMode="server"
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+              sortModel={sortModel}
+              onSortModelChange={(model) => setSortModel(model.length ? model : [{ field: 'rating', sort: 'desc' }])}
+              loading={isLoading}
+              pageSizeOptions={[12, 24, 48]}
+              slots={{
+                pagination: DataGridPaginationAction,
+              }}
+            />
           </CardContent>
         </Card>
       </Stack>
