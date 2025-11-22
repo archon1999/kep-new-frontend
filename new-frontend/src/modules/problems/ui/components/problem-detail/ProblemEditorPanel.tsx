@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import { Link as RouterLink } from 'react-router-dom';
@@ -19,6 +19,8 @@ import {
 import { alpha } from '@mui/material/styles';
 import { resources } from 'app/routes/resources';
 import AttemptVerdict, { VerdictKey } from 'shared/components/problems/AttemptVerdict';
+import KepIcon from 'shared/components/base/KepIcon';
+import { toast } from 'sonner';
 import {
   AttemptLangs,
   ProblemDetail,
@@ -41,7 +43,7 @@ const getEditorLanguage = (lang: string) =>
 interface ProblemEditorPanelProps {
   problem?: ProblemDetail;
   code: string;
-  onCodeChange: (value: string) => void;
+  onCodeChange: (value: string, langOverride?: string) => void;
   selectedLang: string;
   onLangChange: (value: string) => void;
   sampleTests: ProblemSampleTest[];
@@ -71,6 +73,10 @@ interface ProblemEditorPanelProps {
   editorTheme: string;
 }
 
+const fileAcceptTypes = Object.values(AttemptLangs)
+  .map((lang) => `.${lang}`)
+  .join(',');
+
 export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
   const {
     problem,
@@ -97,12 +103,44 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
   );
 
   const monaco = useMonaco();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (monaco) {
       monaco.editor.setTheme(editorTheme);
     }
   }, [monaco, editorTheme]);
+
+  const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    const matchedLang =
+      extension &&
+      Object.values(AttemptLangs).find((lang) => lang.toLowerCase() === extension);
+
+    if (!matchedLang) {
+      toast.error(t('problems.detail.unsupportedFileExtension'));
+      event.target.value = '';
+      return;
+    }
+
+    const isLangAvailable = problem?.availableLanguages?.some((lang) => lang.lang === matchedLang);
+    if (!isLangAvailable) {
+      toast.error(t('problems.detail.languageNotAvailable'));
+      event.target.value = '';
+      return;
+    }
+
+    const content = await file.text();
+    onCodeChange(content, matchedLang);
+    if (matchedLang !== selectedLang) {
+      onLangChange(matchedLang);
+    }
+
+    event.target.value = '';
+  };
 
   if (!currentUser) {
     return (
@@ -192,6 +230,23 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
               ))}
             </TextField>
           ) : null}
+
+          <Button
+            component="label"
+            variant="outlined"
+            size="small"
+            startIcon={<KepIcon name="upload" width={18} height={18} />}
+            sx={{ borderRadius: 2 }}
+          >
+            {t('problems.detail.uploadFile')}
+            <input
+              hidden
+              type="file"
+              accept={fileAcceptTypes}
+              ref={fileInputRef}
+              onChange={handleFileUpload}
+            />
+          </Button>
         </Stack>
       </Box>
 

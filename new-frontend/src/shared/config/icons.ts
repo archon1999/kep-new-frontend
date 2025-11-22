@@ -49,6 +49,7 @@ export const kepIcons = {
   view: 'mdi:eye-outline',
   info: 'mdi:information-outline',
   share: 'mdi:share-outline',
+  upload: 'mdi:upload',
   close: 'mdi:close',
   copy: 'mdi:content-copy',
   check: 'mdi:check-circle-outline',

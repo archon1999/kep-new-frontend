@@ -482,10 +482,12 @@ const ProblemDetailPage = () => {
               <ProblemEditorPanel
                 problem={problem}
                 code={code}
-                onCodeChange={(value) => {
-                  if (!problem?.id || !selectedLang) return;
+                onCodeChange={(value, langOverride) => {
+                  const langToUse = langOverride || selectedLang;
+                  if (!problem?.id || !langToUse) return;
+
                   setCode(value);
-                  const codeKey = `problem-${problem.id}-code-${selectedLang}`;
+                  const codeKey = `problem-${problem.id}-code-${langToUse}`;
                   setItemToStore(codeKey, JSON.stringify(value ?? ''));
                 }}
                 selectedLang={selectedLang}
