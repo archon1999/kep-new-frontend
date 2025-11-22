@@ -12,9 +12,10 @@ export const authPaths = {
 export const apiEndpoints = {
   register: '/auth/register',
   login: '/api/login/',
-  logout: '/auth/logout',
+  logout: '/api/logout/',
   profile: '/api/me',
   getUsers: '/users',
+  setLanguage: '/api/set-language/',
 } as const;
 
 export type RootPathKey = keyof typeof rootPaths;

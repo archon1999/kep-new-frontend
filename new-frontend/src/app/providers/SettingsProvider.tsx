@@ -1,4 +1,4 @@
-import { Dispatch, PropsWithChildren, createContext, use, useEffect, useReducer } from 'react';
+import { Dispatch, PropsWithChildren, createContext, use, useEffect, useReducer, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ACTIONTYPE,
@@ -9,6 +9,7 @@ import {
 } from 'app/reducers/SettingsReducer';
 import { Config, initialConfig } from 'app/config.ts';
 import { getItemFromStore } from 'shared/lib/utils';
+import { preferencesApiClient } from 'shared/api/preferences.client';
 
 interface SettingsContextInterFace {
   config: Config;
@@ -58,9 +59,28 @@ const SettingsProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const prevLocaleRef = useRef(config.locale);
+
   useEffect(() => {
-    i18n.changeLanguage(config.locale.split('-').join(''));
-  }, [config.locale]);
+    const language = config.locale.split('-')[0].toLowerCase();
+    const localeCode = config.locale.split('-').join('');
+
+    i18n.changeLanguage(localeCode);
+
+    if (prevLocaleRef.current !== config.locale) {
+      prevLocaleRef.current = config.locale;
+
+      const updateLanguagePreference = async () => {
+        try {
+          await preferencesApiClient.setLanguage(language);
+        } catch (error) {
+          console.error('Failed to update language preference', error);
+        }
+      };
+
+      void updateLanguagePreference();
+    }
+  }, [config.locale, i18n]);
 
   return (
     <SettingsContext
