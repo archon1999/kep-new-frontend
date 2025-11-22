@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Avatar, Box, Button, Chip, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Avatar, Box, Button, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import UserPopover from 'modules/users/ui/components/UserPopover';
 import { ProblemDetail } from '../../../domain/entities/problem.entity';
@@ -17,11 +17,11 @@ export const ProblemFooter = ({ problem, onFavoriteToggle, onLike, onDislike }: 
   return (
     <Box>
       <Stack direction="row" alignItems="center" spacing={1.5} flexWrap="wrap">
-        <UserPopover username={problem.authorUsername}>
+        <UserPopover username={problem.authorUsername ?? ''}>
           <Stack direction="row" spacing={0.75} alignItems="center">
             <Avatar src={problem.authorAvatar} sx={{ width: 28, height: 28 }} />
             <Typography variant="body2" fontWeight={700}>
-              {problem.authorUsername}
+              {problem.authorUsername ?? ''}
             </Typography>
           </Stack>
         </UserPopover>

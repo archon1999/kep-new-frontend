@@ -3,7 +3,7 @@ import { Box, Card, Skeleton, Stack } from '@mui/material';
 const ProblemEditorSkeleton = () => {
   return (
     <Card
-      background={0}
+      background={1}
       sx={{
         height: '100%',
         display: 'flex',

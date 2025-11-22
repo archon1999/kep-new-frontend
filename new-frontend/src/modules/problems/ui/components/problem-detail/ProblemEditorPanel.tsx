@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { resources } from 'app/routes/resources';
-import AttemptVerdict from 'shared/components/problems/AttemptVerdict';
+import AttemptVerdict, { VerdictKey } from 'shared/components/problems/AttemptVerdict';
 import {
   AttemptLangs,
   ProblemDetail,
@@ -57,7 +57,7 @@ interface ProblemEditorPanelProps {
   isRunning: boolean;
   isSubmitting: boolean;
   isCheckingSamples: boolean;
-  checkSamplesResult: Array<{ verdict: number; input?: string; output?: string; answer?: string }>;
+  checkSamplesResult: Array<{ verdict?: VerdictKey; input?: string; output?: string; answer?: string }>;
   editorTab: 'console' | 'samples';
   onEditorTabChange: (value: 'console' | 'samples') => void;
   currentUser: any;
@@ -138,7 +138,7 @@ export const ProblemEditorPanel = ({
   if (!currentUser) {
     return (
       <Card
-        background={0}
+        background={1}
         sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
         <Card variant="outlined" sx={{ maxWidth: 520 }}>
@@ -160,7 +160,7 @@ export const ProblemEditorPanel = ({
 
   return (
     <Card
-      background={0}
+      background={1}
       sx={{
         height: '100%',
         display: 'flex',

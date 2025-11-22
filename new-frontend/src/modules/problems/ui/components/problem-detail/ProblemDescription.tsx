@@ -140,7 +140,7 @@ export const ProblemDescription = ({
 
   return (
     <Card
-      background={0}
+      background={1}
       sx={{
         height: '100%',
         display: 'flex',

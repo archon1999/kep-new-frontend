@@ -12,7 +12,7 @@ interface ClipboardButtonProps {
 const ClipboardButton = ({ text = '', onCopy, size = 'small' }: ClipboardButtonProps) => {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
-  const timeoutRef = useRef<number>();
+  const timeoutRef = useRef<number | undefined>(undefined);
 
   useEffect(
     () => () => {

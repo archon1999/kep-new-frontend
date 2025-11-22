@@ -6,6 +6,7 @@ import {
   GridPaginationModel,
   GridSortModel,
   GridValidRowModel,
+  GridValueGetterParams,
 } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { useChallengesRating } from '../../application/queries.ts';
@@ -35,7 +36,17 @@ const ChallengesRatingPage = () => {
 
   const { data: ratingPage, isLoading } = useChallengesRating({ page, pageSize, ordering });
 
-  const columns: GridColDef<GridValidRowModel>[] = [
+  type RatingRow = GridValidRowModel & {
+    username: string;
+    rating: number;
+    rankTitle?: string;
+    wins?: number;
+    draws?: number;
+    losses?: number;
+    record?: string;
+  };
+
+  const columns: GridColDef<RatingRow>[] = [
     {
       field: 'rowIndex',
       headerName: t('challenges.table.place'),
@@ -70,7 +81,7 @@ const ChallengesRatingPage = () => {
       flex: 1.1,
       minWidth: 180,
       sortable: false,
-      valueGetter: (params) =>
+      valueGetter: (params: GridValueGetterParams<RatingRow>) =>
         t('challenges.record', {
           wins: params?.row?.wins ?? 0,
           draws: params?.row?.draws ?? 0,
@@ -79,7 +90,7 @@ const ChallengesRatingPage = () => {
     },
   ];
 
-  const rows = (ratingPage?.data ?? []).map((row) => ({
+  const rows: RatingRow[] = (ratingPage?.data ?? []).map((row) => ({
     id: row.username,
     ...row,
     record: t('challenges.record', {
