@@ -8,7 +8,7 @@ declare module '@mui/material' {
   }
 
   interface PaperOwnProps {
-    background?: 1 | 2 | 3 | 4 | 5;
+    background?: 0 | 1 | 2 | 3 | 4 | 5;
   }
 }
 
@@ -20,17 +20,23 @@ const backgrounds: { [key: number]: { [key: string]: string } } = {
   5: { light: blue[50], dark: blue[950] },
 };
 
-const backgroundVariants = Object.keys(backgrounds).map((background) => ({
-  props: { background: Number(background) as PaperProps['background'] },
+const backgroundVariants = [0, ...Object.keys(backgrounds).map(Number)].map((background) => ({
+  props: { background: background as PaperProps['background'] },
   style: ({ theme }: { theme: Theme }) => [
     theme.applyStyles('light', {
       [`&.${paperClasses.root}`]: {
-        backgroundColor: backgrounds[Number(background)].light,
+        backgroundColor:
+          Number(background) === 0
+            ? theme.palette.background.default
+            : backgrounds[Number(background)].light,
       },
     }),
     theme.applyStyles('dark', {
       [`&.${paperClasses.root}`]: {
-        backgroundColor: backgrounds[Number(background)].dark,
+        backgroundColor:
+          Number(background) === 0
+            ? theme.palette.background.default
+            : backgrounds[Number(background)].dark,
       },
     }),
   ],
