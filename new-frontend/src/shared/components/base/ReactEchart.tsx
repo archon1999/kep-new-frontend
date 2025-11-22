@@ -9,9 +9,10 @@ import { getColor } from 'shared/lib/echart-utils';
 export interface ReactEchartProps extends BoxProps {
   echarts: EChartsReactProps['echarts'];
   option: EChartsReactProps['option'];
+  onEvents?: EChartsReactProps['onEvents'];
 }
 
-const ReactEchart = ({ option, ref, ...rest }: ReactEchartProps) => {
+const ReactEchart = ({ option, ref, onEvents, ...rest }: ReactEchartProps) => {
   const theme = useTheme();
 
   const isTouchDevice = useMemo(() => {
@@ -53,6 +54,7 @@ const ReactEchart = ({ option, ref, ...rest }: ReactEchartProps) => {
         ...option,
         tooltip: merge(defaultTooltip, option?.tooltip),
       }}
+      onEvents={onEvents}
       {...rest}
     />
   );

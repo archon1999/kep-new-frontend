@@ -21,6 +21,7 @@ const SKELETON_ITEMS = Array.from({ length: 5 });
 type NextBirthdayUser = (HomeNextBirthdays['data'] extends Array<infer Item> ? Item : never) & {
   date?: string;
   birthday?: string;
+  country?: string | null;
 };
 
 const getDisplayName = (user: NextBirthdayUser) => {
@@ -106,13 +107,15 @@ const BirthdaysSection = () => {
                       <Stack direction="row" spacing={2} alignItems="center" sx={{ cursor: 'pointer' }}>
                         <Avatar src={user.avatar} alt={displayName} sx={{ width: 48, height: 48 }} />
 
-                        <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
-                          <Link
-                            underline="hover"
-                            color="text.primary"
-                            sx={{ fontWeight: 600 }}
-                          >
-                            {displayName}
+                      <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
+                        <Link
+                          component={RouterLink}
+                          to={profilePath}
+                          underline="hover"
+                          color="text.primary"
+                          sx={{ fontWeight: 600 }}
+                        >
+                          {displayName}
                           </Link>
                           <Typography variant="body2" color="text.secondary">
                             {birthdayDate}

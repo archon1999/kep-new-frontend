@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { BarChart, LineChart, PieChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
+import type { EChartsCoreOption } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useAuth } from 'app/providers/AuthProvider';
 import { getResourceById, getResourceByParams, resources } from 'app/routes/resources';
@@ -28,15 +29,16 @@ import {
   ContestUserStatisticsTopAttempt,
   ContestUserStatisticsUnsolvedProblem,
 } from '../../domain/entities/contest-user-statistics.entity';
-import ReactEchart from 'shared/components/base/ReactEchart';
+import ReactEchart, { type ReactEchartProps } from 'shared/components/base/ReactEchart';
 import KepIcon from 'shared/components/base/KepIcon';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { getColor } from 'shared/lib/echart-utils';
+import type { KepIconName } from 'shared/config/icons';
 
 echarts.use([GridComponent, TooltipComponent, LegendComponent, LineChart, BarChart, PieChart, CanvasRenderer]);
 
 interface StatCardProps {
-  icon: string;
+  icon: KepIconName;
   label: string;
   value?: string;
   subtitle?: string;
@@ -79,7 +81,7 @@ const StatCard = ({ icon, label, value, subtitle, highlight, valueColor }: StatC
 );
 
 interface HighlightCardProps {
-  icon: string;
+  icon: KepIconName;
   label: string;
   valueLabel?: string;
   meta?: string;
@@ -136,10 +138,10 @@ const HighlightCard = ({
 
 interface ChartCardProps {
   title: string;
-  option: echarts.EChartsOption | null;
+  option: EChartsCoreOption | null;
   height?: number;
   emptyText: string;
-  onEvents?: Record<string, (params: any) => void>;
+  onEvents?: ReactEchartProps['onEvents'];
   extra?: React.ReactNode;
 }
 
@@ -196,7 +198,7 @@ const ContestsUserStatisticsPage = () => {
   const infoColor = getColor(theme.vars.palette.info.main);
   const warningColor = getColor(theme.vars.palette.warning.main);
 
-  const generalCards = useMemo(() => {
+  const generalCards = useMemo<StatCardProps[]>(() => {
     if (!statistics?.general) return [];
     const general = statistics.general;
     return [
@@ -230,7 +232,7 @@ const ContestsUserStatisticsPage = () => {
     ];
   }, [numberFormatter, statistics?.general, t]);
 
-  const overviewCards = useMemo(() => {
+  const overviewCards = useMemo<StatCardProps[]>(() => {
     if (!statistics?.overview) return [];
     const overview = statistics.overview;
     return [
@@ -261,7 +263,7 @@ const ContestsUserStatisticsPage = () => {
     ];
   }, [numberFormatter, statistics?.overview, t]);
 
-  const highlightCards = useMemo(() => {
+  const highlightCards = useMemo<HighlightCardProps[]>(() => {
     const overview = statistics?.overview;
     return [
       {
@@ -310,7 +312,14 @@ const ContestsUserStatisticsPage = () => {
     ];
   }, [numberFormatter, statistics?.overview, t]);
 
-  const contestRankCards = useMemo(
+  const contestRankCards = useMemo<
+    {
+      icon: KepIconName;
+      label: string;
+      entry: ContestUserStatisticsContestRankEntry | null | undefined;
+      valueColor?: string;
+    }[]
+  >(
     () =>
       [
         {
@@ -331,7 +340,14 @@ const ContestsUserStatisticsPage = () => {
     [statistics?.contestRanks, t],
   );
 
-  const contestDeltaCards = useMemo(
+  const contestDeltaCards = useMemo<
+    {
+      icon: KepIconName;
+      label: string;
+      entry: ContestUserStatisticsContestDeltaEntry | null | undefined;
+      valueColor?: string;
+    }[]
+  >(
     () =>
       [
         {
@@ -360,7 +376,7 @@ const ContestsUserStatisticsPage = () => {
   );
 
   const formatRankCard = (card: {
-    icon: string;
+    icon: KepIconName;
     label: string;
     entry: ContestUserStatisticsContestRankEntry | null | undefined;
     valueColor?: string;
@@ -379,7 +395,7 @@ const ContestsUserStatisticsPage = () => {
   });
 
   const formatDeltaCard = (card: {
-    icon: string;
+    icon: KepIconName;
     label: string;
     entry: ContestUserStatisticsContestDeltaEntry | null | undefined;
     valueColor?: string;
@@ -432,7 +448,7 @@ const ContestsUserStatisticsPage = () => {
           itemStyle: { borderRadius: 6 },
         },
       ],
-    } satisfies echarts.EChartsOption;
+    } satisfies EChartsCoreOption;
   }, [axisLabelColor, neutralColor, primaryColor, statistics?.timeline]);
 
   const languagesOption = useMemo(() => {
@@ -461,7 +477,7 @@ const ContestsUserStatisticsPage = () => {
           itemStyle: { borderRadius: 6 },
         },
       ],
-    } satisfies echarts.EChartsOption;
+    } satisfies EChartsCoreOption;
   }, [axisLabelColor, neutralColor, primaryColor, statistics?.languages]);
 
   const createDonutOption = useCallback(
@@ -592,7 +608,7 @@ const ContestsUserStatisticsPage = () => {
           lineStyle: { width: 3 },
         },
       ],
-    } satisfies echarts.EChartsOption;
+    } satisfies EChartsCoreOption;
   }, [axisLabelColor, neutralColor, numberFormatter, primaryColor, ratingChanges]);
 
   const handleRatingPointClick = useCallback(
@@ -642,7 +658,7 @@ const ContestsUserStatisticsPage = () => {
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Typography variant="body2" color="text.secondary">
               {t('contests.statistics.attemptsCount', {
-                count: numberFormatter.format(attempt.attemptsCount),
+                count: attempt.attemptsCount,
               })}
             </Typography>
             <Button
@@ -725,7 +741,7 @@ const ContestsUserStatisticsPage = () => {
                   </Typography>
                   <Chip
                     label={t('contests.statistics.sharedContests', {
-                      count: numberFormatter.format(opponent.sharedCount),
+                      count: opponent.sharedCount,
                     })}
                     size="small"
                     color="primary"
@@ -1020,7 +1036,7 @@ const ContestsUserStatisticsPage = () => {
               extra={
                 <Typography variant="body2" color="text.secondary">
                   {t('contests.statistics.attemptsCount', {
-                    count: numberFormatter.format(statistics.overview?.totalAttempts ?? 0),
+                    count: statistics.overview?.totalAttempts ?? 0,
                   })}
                 </Typography>
               }

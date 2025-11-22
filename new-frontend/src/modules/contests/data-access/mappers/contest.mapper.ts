@@ -30,9 +30,9 @@ export const mapContest = (payload: Contest): ContestListItem => ({
 export const mapCategory = (payload: ContestsCategory): ContestCategoryEntity => ({
   id: payload?.id ?? 0,
   title: payload?.title ?? '',
-  slug: payload?.slug ?? '',
-  icon: payload?.icon ?? undefined,
-  contestsCount: Number(payload?.contestsCount ?? 0),
+  slug: (payload as any)?.slug ?? (payload as any)?.code ?? '',
+  icon: (payload as any)?.icon ?? undefined,
+  contestsCount: Number((payload as any)?.contestsCount ?? 0),
 });
 
 export const mapContestRating = (
