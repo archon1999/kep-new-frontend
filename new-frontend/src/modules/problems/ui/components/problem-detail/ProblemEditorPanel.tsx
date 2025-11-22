@@ -138,7 +138,7 @@ export const ProblemEditorPanel = ({
   if (!currentUser) {
     return (
       <Card
-        background={1}
+        background={0}
         sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
         <Card variant="outlined" sx={{ maxWidth: 520 }}>
@@ -160,7 +160,7 @@ export const ProblemEditorPanel = ({
 
   return (
     <Card
-      background={1}
+      background={0}
       sx={{
         height: '100%',
         display: 'flex',

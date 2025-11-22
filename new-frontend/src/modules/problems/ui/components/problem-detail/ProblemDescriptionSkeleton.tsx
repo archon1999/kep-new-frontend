@@ -3,7 +3,7 @@ import { Card, CardContent, Divider, Skeleton, Stack, Box } from '@mui/material'
 const ProblemDescriptionSkeleton = () => {
   return (
     <Card
-      background={1}
+      background={0}
       sx={{
         height: '100%',
         display: 'flex',
