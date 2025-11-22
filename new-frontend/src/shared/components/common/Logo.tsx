@@ -287,13 +287,12 @@ const Logo = ({ sx, viewBox = '0 0 1000 1000', showName = true, vibrant = false,
         <Typography
           sx={[
             {
-              color: 'text.secondary',
+              color: 'text.main',
               fontSize: 29.5,
               lineHeight: 1,
               margin: 1,
               marginLeft: 1,
               marginBottom: 1.5,
-              letterSpacing: '-.8px',
             },
             navColor !== 'vibrant' && {
               background: ({ vars }) =>

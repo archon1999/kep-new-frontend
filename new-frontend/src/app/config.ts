@@ -22,7 +22,7 @@ export interface Config {
 
 export const initialConfig: Config = {
   assetsDir: import.meta.env.VITE_ASSET_BASE_URL ?? '',
-  navigationMenuType: 'sidenav',
+  navigationMenuType: 'topnav',
   sidenavType: 'default',
   sidenavCollapsed: false,
   topnavType: 'default',
