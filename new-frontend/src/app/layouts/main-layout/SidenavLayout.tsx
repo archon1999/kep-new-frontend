@@ -1,10 +1,11 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useMemo, useRef, type TouchEventHandler } from 'react';
 import { Drawer, drawerClasses } from '@mui/material';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from 'app/layouts/main-layout/app-bar';
 import Sidenav from 'app/layouts/main-layout/sidenav';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
+import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { sidenavVibrantStyle } from 'app/theme/styles/vibrantNav';
 import clsx from 'clsx';
 import VibrantBackground from 'shared/components/common/VibrantBackground';
@@ -21,11 +22,43 @@ const SidenavLayout = ({ children }: PropsWithChildren) => {
     config: { drawerWidth, sidenavType, openNavbarDrawer, navColor },
     setConfig,
   } = useSettingsContext();
+  const { down } = useBreakpoints();
+  const isMobile = down('md');
+
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
+
+  const shouldHandleSwipe = useMemo(() => isMobile && !openNavbarDrawer, [isMobile, openNavbarDrawer]);
 
   const toggleNavbarDrawer = () => {
     setConfig({
       openNavbarDrawer: !openNavbarDrawer,
     });
+  };
+
+  const handleTouchStart: TouchEventHandler<HTMLDivElement> = (event) => {
+    if (!shouldHandleSwipe) return;
+
+    const touch = event.touches[0];
+    touchStartXRef.current = touch.clientX;
+    touchStartYRef.current = touch.clientY;
+  };
+
+  const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
+    if (!shouldHandleSwipe || touchStartXRef.current === null || touchStartYRef.current === null) return;
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStartXRef.current;
+    const deltaY = touch.clientY - touchStartYRef.current;
+
+    const isHorizontalSwipe = Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY);
+
+    if (isHorizontalSwipe && deltaX < 0) {
+      setConfig({ openNavbarDrawer: true });
+    }
+
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
   };
 
   useSettingsPanelMountEffect({
@@ -74,6 +107,8 @@ const SidenavLayout = ({ children }: PropsWithChildren) => {
 
           <Box
             component="main"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
             sx={[
               {
                 flexGrow: 1,
