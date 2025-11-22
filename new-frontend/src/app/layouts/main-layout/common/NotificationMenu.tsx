@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Avatar,
   Box,
@@ -18,21 +19,20 @@ import {
   badgeClasses,
   paperClasses,
 } from '@mui/material';
+import { useAuth } from 'app/providers/AuthProvider';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
-import { useAuth } from 'app/providers/AuthProvider';
-import IconifyIcon from 'shared/components/base/IconifyIcon';
-import SimpleBar from 'shared/components/base/SimpleBar';
-import OutlinedBadge from 'shared/components/styled/OutlinedBadge';
 import { apiClient } from 'shared/api/http/apiClient';
 import {
   Notification as ApiNotification,
-  NotificationBody,
   NotificationType as ApiNotificationType,
+  NotificationBody,
 } from 'shared/api/orval/generated/endpoints/index.schemas';
+import IconifyIcon from 'shared/components/base/IconifyIcon';
+import SimpleBar from 'shared/components/base/SimpleBar';
+import OutlinedBadge from 'shared/components/styled/OutlinedBadge';
 import { wsService } from 'shared/services/websocket';
+import { toast } from 'sonner';
 
 const NOTIFICATIONS_PAGE_SIZE = 4;
 
@@ -52,6 +52,7 @@ interface NotificationContent {
     title?: string;
   };
   achievementTitle?: string;
+
   [key: string]: unknown;
 }
 
@@ -210,32 +211,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
   const showSystemNotification = useCallback(
     (message?: string) => {
-      if (!message) return;
-
-      toast.custom(
-        () => (
-          <Stack spacing={0.75} sx={{ p: 1.5, maxWidth: 360 }}>
-            <Typography variant="subtitle1" color="text.primary">
-              {t('notifications.systemInfoTitle')}
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{
-                '& a': {
-                  color: 'primary.main',
-                  textDecoration: 'underline',
-                },
-              }}
-              dangerouslySetInnerHTML={{ __html: message }}
-            />
-          </Stack>
-        ),
-        {
-          duration: 8000,
-          className: 'system-notification-toast',
-        },
-      );
+      toast.info(message);
     },
     [t],
   );
@@ -247,25 +223,28 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
     wsService.send('notification-add', username);
 
-    const unsubscribe = wsService.on<ApiNotification>(`notification-${username}`, (notification) => {
-      if (!notification) return;
+    const unsubscribe = wsService.on<ApiNotification>(
+      `notification-${username}`,
+      (notification) => {
+        if (!notification) return;
 
-      setNotifications((prevNotifications) => {
-        if (prevNotifications.some((item) => item.id === notification.id)) {
-          return prevNotifications;
+        setNotifications((prevNotifications) => {
+          if (prevNotifications.some((item) => item.id === notification.id)) {
+            return prevNotifications;
+          }
+
+          return [notification, ...prevNotifications];
+        });
+
+        if (notification.type === ApiNotificationType.NUMBER_1) {
+          showSystemNotification(notification.message ?? '');
         }
 
-        return [notification, ...prevNotifications];
-      });
-
-      if (notification.type === ApiNotificationType.NUMBER_1) {
-        showSystemNotification(notification.message);
-      }
-
-      if (!showAllRef.current) {
-        setTotal((prevTotal) => prevTotal + 1);
-      }
-    });
+        if (!showAllRef.current) {
+          setTotal((prevTotal) => prevTotal + 1);
+        }
+      },
+    );
 
     return () => {
       wsService.send('notification-delete', username);
@@ -344,8 +323,16 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
     if (!notifications.length) {
       return (
-        <Stack direction="column" alignItems="center" justifyContent="center" spacing={1.5} sx={{ py: 6, height: '100%' }}>
-          <Avatar sx={{ bgcolor: 'background.level1', color: 'text.neutral', width: 56, height: 56 }}>
+        <Stack
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          spacing={1.5}
+          sx={{ py: 6, height: '100%' }}
+        >
+          <Avatar
+            sx={{ bgcolor: 'background.level1', color: 'text.neutral', width: 56, height: 56 }}
+          >
             <IconifyIcon icon="material-symbols:notifications-off-outline" sx={{ fontSize: 28 }} />
           </Avatar>
           <Typography variant="body2" color="text.secondary">
@@ -359,55 +346,59 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
       <SimpleBar disableHorizontal>
         <List disablePadding>
           {notifications.map((notification, index) => {
-            const itemKey = notification.id || notification.created || `${notification.type}-${index}`;
+            const itemKey =
+              notification.id || notification.created || `${notification.type}-${index}`;
 
             return (
               <Box key={itemKey} component="li">
                 <ListItem
-                alignItems="flex-start"
-                sx={{ py: 1.25, px: 2 }}
-                secondaryAction={
-                  !showAll && (
-                    <IconButton
-                      size="small"
-                      edge="end"
-                      aria-label="mark as read"
-                      onClick={() => handleMarkRead(notification.id)}
+                  alignItems="flex-start"
+                  sx={{ py: 1.25, px: 2 }}
+                  secondaryAction={
+                    !showAll && (
+                      <IconButton
+                        size="small"
+                        edge="end"
+                        aria-label="mark as read"
+                        onClick={() => handleMarkRead(notification.id)}
+                      >
+                        <IconifyIcon icon="material-symbols:close-rounded" />
+                      </IconButton>
+                    )
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      variant="rounded"
+                      sx={{
+                        bgcolor: 'primary.lighter',
+                        color: 'primary.main',
+                        width: 44,
+                        height: 44,
+                      }}
                     >
-                      <IconifyIcon icon="material-symbols:close-rounded" />
-                    </IconButton>
-                  )
-                }
-              >
-                <ListItemAvatar>
-                  <Avatar
-                    variant="rounded"
-                    sx={{
-                      bgcolor: 'primary.lighter',
-                      color: 'primary.main',
-                      width: 44,
-                      height: 44,
-                    }}
-                  >
-                    <IconifyIcon
-                      icon={typeIconMap[notification.type] || 'material-symbols:notifications-outline-rounded'}
-                      sx={{ fontSize: 22 }}
-                    />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Typography variant="subtitle2" color="text.primary">
-                      {getNotificationMessage(notification)}
-                    </Typography>
-                  }
-                  secondary={
-                    <Typography variant="caption" color="text.secondary">
-                      {getNotificationMeta(notification)}
-                    </Typography>
-                  }
-                  sx={{ mr: showAll ? 0 : 5 }}
-                />
+                      <IconifyIcon
+                        icon={
+                          typeIconMap[notification.type] ||
+                          'material-symbols:notifications-outline-rounded'
+                        }
+                        sx={{ fontSize: 22 }}
+                      />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <Typography variant="subtitle2" color="text.primary">
+                        {getNotificationMessage(notification)}
+                      </Typography>
+                    }
+                    secondary={
+                      <Typography variant="caption" color="text.secondary">
+                        {getNotificationMeta(notification)}
+                      </Typography>
+                    }
+                    sx={{ mr: showAll ? 0 : 5 }}
+                  />
                 </ListItem>
                 <Divider component="div" />
               </Box>
@@ -473,7 +464,12 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
           },
         }}
       >
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 2, pt: 2, pb: 1 }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ px: 2, pt: 2, pb: 1 }}
+        >
           <Box>
             <Typography variant="h6">Notifications</Typography>
             <Typography variant="caption" color="text.secondary">
@@ -502,7 +498,12 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
         {pagesCount > 1 && (
           <Stack alignItems="center" justifyContent="center" sx={{ py: 1 }}>
-            <Pagination count={pagesCount} page={pageNumber} onChange={handlePageChange} size="medium" />
+            <Pagination
+              count={pagesCount}
+              page={pageNumber}
+              onChange={handlePageChange}
+              size="medium"
+            />
           </Stack>
         )}
 
