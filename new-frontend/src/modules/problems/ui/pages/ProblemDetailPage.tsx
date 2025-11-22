@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Box, Card, LinearProgress } from '@mui/material';
+import { Box, Card, CircularProgress, LinearProgress } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { getResourceById, resources } from 'app/routes/resources';
 import { useSnackbar } from 'notistack';
 import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
+import { alpha } from '@mui/material/styles';
 import { getItemFromStore, setItemToStore } from 'shared/lib/utils';
 import { wsService } from 'shared/services/websocket';
 import { toast } from 'sonner';
@@ -76,6 +77,7 @@ const ProblemDetailPage = () => {
   const [editorTheme, setEditorTheme] = useState<'kep-light' | 'kep-dark'>(
     themeMode.mode === 'dark' ? 'kep-dark' : 'kep-light',
   );
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 
   useEffect(() => {
     setEditorTheme(themeMode.mode === 'dark' ? 'kep-dark' : 'kep-light');
@@ -115,6 +117,12 @@ const ProblemDetailPage = () => {
     isLoading: isProblemLoading,
     mutate: mutateProblem,
   } = useProblemDetail(Number.isNaN(problemId) ? undefined : problemId);
+
+  useEffect(() => {
+    if (problem?.id) {
+      setHasLoadedOnce(true);
+    }
+  }, [problem?.id]);
 
   const { data: hackAttemptsPage, mutate: mutateHackAttempts } = useHackAttempts(
     useMemo<HackAttemptsListParams>(
@@ -355,7 +363,8 @@ const ProblemDetailPage = () => {
   };
 
   const selectedDifficultyColor = difficultyColorMap[problem?.difficulty ?? 0] || 'primary';
-  const showLoadingState = isProblemLoading || !problem;
+  const showInitialSkeleton = !hasLoadedOnce && (isProblemLoading || !problem);
+  const isRevalidating = isProblemLoading && hasLoadedOnce;
 
   return (
     <Box
@@ -397,83 +406,105 @@ const ProblemDetailPage = () => {
           position: 'relative',
           minHeight: 0,
         }}
-        aria-busy={showLoadingState}
+        aria-busy={isProblemLoading}
       >
         {isProblemLoading ? (
           <LinearProgress sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 2 }} />
         ) : null}
 
-        <PanelGroup direction="horizontal" style={{ flex: 1, minHeight: 0 }}>
-          <Panel defaultSize={50} minSize={35}>
-            {problem ? (
-              <ProblemDescription
-                problem={problem}
-                selectedDifficultyColor={selectedDifficultyColor}
-                activeTab={activeTab}
-                onTabChange={handleTabChange}
-                currentUser={currentUser}
-                myAttemptsOnly={myAttemptsOnly}
-                onToggleMyAttempts={() => setMyAttemptsOnly((prev) => !prev)}
-                attempts={attemptsPage?.data ?? []}
-                attemptsTotal={attemptsPage?.total ?? 0}
-                attemptsPagination={attemptsPagination}
-                onAttemptsPaginationChange={setAttemptsPagination}
-                isAttemptsLoading={isAttemptsLoading}
-                onAttemptsRefresh={() => mutateAttempts()}
-                hackAttempts={hackAttemptsPage?.data ?? []}
-                hackTotal={hackAttemptsPage?.total ?? 0}
-                hackPagination={hackPagination}
-                onHackPaginationChange={setHackPagination}
-                onHackRefresh={() => mutateHackAttempts()}
-                onFavoriteToggle={handleFavoriteToggle}
-                onLike={() => handleLikeDislike('like')}
-                onDislike={() => handleLikeDislike('dislike')}
-              />
-            ) : (
-              <ProblemDescriptionSkeleton />
-            )}
-          </Panel>
+        {isRevalidating ? (
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 3,
+              bgcolor: (theme) =>
+                alpha(
+                  theme.palette.background.paper,
+                  theme.palette.mode === 'dark' ? 0.3 : 0.45,
+                ),
+              backdropFilter: 'blur(2px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              pointerEvents: 'auto',
+            }}
+          >
+            <CircularProgress size={28} />
+          </Box>
+        ) : null}
 
-          <PanelHandle />
+          <PanelGroup direction="horizontal" style={{ flex: 1, minHeight: 0 }}>
+            <Panel defaultSize={50} minSize={35}>
+              {problem && !showInitialSkeleton ? (
+                <ProblemDescription
+                  problem={problem}
+                  selectedDifficultyColor={selectedDifficultyColor}
+                  activeTab={activeTab}
+                  onTabChange={handleTabChange}
+                  currentUser={currentUser}
+                  myAttemptsOnly={myAttemptsOnly}
+                  onToggleMyAttempts={() => setMyAttemptsOnly((prev) => !prev)}
+                  attempts={attemptsPage?.data ?? []}
+                  attemptsTotal={attemptsPage?.total ?? 0}
+                  attemptsPagination={attemptsPagination}
+                  onAttemptsPaginationChange={setAttemptsPagination}
+                  isAttemptsLoading={isAttemptsLoading}
+                  onAttemptsRefresh={() => mutateAttempts()}
+                  hackAttempts={hackAttemptsPage?.data ?? []}
+                  hackTotal={hackAttemptsPage?.total ?? 0}
+                  hackPagination={hackPagination}
+                  onHackPaginationChange={setHackPagination}
+                  onHackRefresh={() => mutateHackAttempts()}
+                  onFavoriteToggle={handleFavoriteToggle}
+                  onLike={() => handleLikeDislike('like')}
+                  onDislike={() => handleLikeDislike('dislike')}
+                />
+              ) : (
+                <ProblemDescriptionSkeleton />
+              )}
+            </Panel>
 
-          <Panel defaultSize={50} minSize={35}>
-            {problem ? (
-              <ProblemEditorPanel
-                problem={problem}
-                code={code}
-                onCodeChange={(value) => {
-                  if (!problem?.id || !selectedLang) return;
-                  setCode(value);
-                  const codeKey = `problem-${problem.id}-code-${selectedLang}`;
-                  setItemToStore(codeKey, JSON.stringify(value ?? ''));
-                }}
-                selectedLang={selectedLang}
-                onLangChange={setSelectedLang}
-                sampleTests={sampleTests}
-                selectedSampleIndex={selectedSampleIndex}
-                onSampleChange={setSelectedSampleIndex}
-                input={input}
-                onInputChange={setInput}
-                output={output}
-                answer={answer}
-                onRun={handleRun}
-                onSubmit={handleSubmit}
-                onCheckSamples={handleCheckSamples}
-                isRunning={isRunning}
-                isSubmitting={isSubmitting}
-                isCheckingSamples={isCheckingSamples}
-                checkSamplesResult={checkSamplesResult}
-                editorTab={editorTab}
-                onEditorTabChange={setEditorTab}
-                currentUser={currentUser}
-                canUseCheckSamples={permissions.canUseCheckSamples || currentUser?.isSuperuser}
-                editorTheme={editorTheme}
-              />
-            ) : (
-              <ProblemEditorSkeleton />
-            )}
-          </Panel>
-        </PanelGroup>
+            <PanelHandle />
+
+            <Panel defaultSize={50} minSize={35}>
+              {problem && !showInitialSkeleton ? (
+                <ProblemEditorPanel
+                  problem={problem}
+                  code={code}
+                  onCodeChange={(value) => {
+                    if (!problem?.id || !selectedLang) return;
+                    setCode(value);
+                    const codeKey = `problem-${problem.id}-code-${selectedLang}`;
+                    setItemToStore(codeKey, JSON.stringify(value ?? ''));
+                  }}
+                  selectedLang={selectedLang}
+                  onLangChange={setSelectedLang}
+                  sampleTests={sampleTests}
+                  selectedSampleIndex={selectedSampleIndex}
+                  onSampleChange={setSelectedSampleIndex}
+                  input={input}
+                  onInputChange={setInput}
+                  output={output}
+                  answer={answer}
+                  onRun={handleRun}
+                  onSubmit={handleSubmit}
+                  onCheckSamples={handleCheckSamples}
+                  isRunning={isRunning}
+                  isSubmitting={isSubmitting}
+                  isCheckingSamples={isCheckingSamples}
+                  checkSamplesResult={checkSamplesResult}
+                  editorTab={editorTab}
+                  onEditorTabChange={setEditorTab}
+                  currentUser={currentUser}
+                  canUseCheckSamples={permissions.canUseCheckSamples || currentUser?.isSuperuser}
+                  editorTheme={editorTheme}
+                />
+              ) : (
+                <ProblemEditorSkeleton />
+              )}
+            </Panel>
+          </PanelGroup>
       </Card>
     </Box>
   );

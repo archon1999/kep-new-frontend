@@ -44,7 +44,11 @@ export const useAttemptsList = (params: AttemptsListParams) =>
 export const useAttemptVerdicts = () => useSWR(['attempts-verdicts'], () => problemsRepository.listVerdicts());
 
 export const useProblemDetail = (problemId?: number) =>
-  useSWR(problemId ? ['problem-detail', problemId] : null, () => problemsRepository.getProblem(problemId!));
+  useSWR(
+    problemId ? ['problem-detail', problemId] : null,
+    () => problemsRepository.getProblem(problemId!),
+    { keepPreviousData: true },
+  );
 
 export const useProblemStatistics = (problemId?: number) =>
   useSWR(

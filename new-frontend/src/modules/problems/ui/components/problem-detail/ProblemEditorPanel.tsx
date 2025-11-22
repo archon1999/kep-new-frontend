@@ -172,10 +172,8 @@ export const ProblemEditorPanel = ({
         component="header"
         sx={{
           flexShrink: 0,
-          px: 3,
+          px: 2,
           py: 1.5,
-          borderBottom: '1px solid',
-          borderColor: 'divider',
           bgcolor: 'background.paper',
         }}
       >
@@ -228,7 +226,7 @@ export const ProblemEditorPanel = ({
         </Stack>
       </Box>
 
-      <Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden', px: 3, py: 2 }}>
+      <Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden', px: 2 }}>
         <PanelGroup direction="vertical" style={{ height: '100%' }}>
           <Panel defaultSize={45} minSize={25}>
             <Box
