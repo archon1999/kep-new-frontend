@@ -7,7 +7,7 @@ import { BlogDetail } from 'shared/api/orval/generated/endpoints/index.schemas.t
 import { responsivePagePaddingSx } from 'shared/lib/styles.ts';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { A11y, Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { A11y, Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useHomePosts } from '../../application/queries';
 import { SwiperNavigation } from './NewsSection.tsx';

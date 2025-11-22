@@ -91,7 +91,7 @@ const UserProfileAchievementsTab = () => {
             {isLoading ? (
               <Grid container spacing={2}>
                 {Array.from({ length: 4 }).map((_, index) => (
-                  <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+                  <Grid key={index} size={{ xs: 12, md: 6, lg: 3 }}>
                     <Skeleton variant="rectangular" height={120} />
                   </Grid>
                 ))}

@@ -27,7 +27,7 @@ const UserProfileAboutTab = () => {
     () =>
       Object.entries(skills)
         .filter(([, value]) => value !== undefined && value !== null)
-        .map(([label, value]) => ({ label, value: Number(value) ?? 0 })),
+        .map(([label, value]) => ({ label, value: Number(value) })),
     [skills],
   );
 
