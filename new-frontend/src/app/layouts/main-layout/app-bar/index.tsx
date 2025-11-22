@@ -5,10 +5,9 @@ import { useBreakpoints } from 'app/providers/BreakpointsProvider';
 import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { topnavVibrantStyle } from 'app/theme/styles/vibrantNav';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import Logo from 'shared/components/common/Logo';
 import VibrantBackground from 'shared/components/common/VibrantBackground';
 import AppbarActionItems from '../common/AppbarActionItems';
-import SearchBox, { SearchBoxButton } from '../common/search-box/SearchBox';
+import SearchBox from '../common/search-box/SearchBox';
 
 const AppBar = () => {
   const {
@@ -17,7 +16,6 @@ const AppBar = () => {
   } = useSettingsContext();
 
   const { up } = useBreakpoints();
-  const upSm = up('sm');
   const upMd = up('md');
 
   return (
@@ -42,8 +40,8 @@ const AppBar = () => {
           sx={{
             display: { xs: 'flex', md: 'none' },
             alignItems: 'center',
-            gap: 1,
-            pr: 2,
+            gap: 0,
+            pr: 0,
           }}
         >
           <Button
@@ -55,10 +53,6 @@ const AppBar = () => {
           >
             <IconifyIcon icon="material-symbols:menu-rounded" sx={{ fontSize: 20 }} />
           </Button>
-
-          <Box>
-            <Logo showName={upSm} />
-          </Box>
         </Box>
 
         <Stack
@@ -67,15 +61,13 @@ const AppBar = () => {
             flex: 1,
           }}
         >
-          {upMd ? (
+          {upMd && (
             <SearchBox
               sx={{
                 width: 1,
                 maxWidth: 420,
               }}
             />
-          ) : (
-            <SearchBoxButton />
           )}
           <AppbarActionItems />
         </Stack>
