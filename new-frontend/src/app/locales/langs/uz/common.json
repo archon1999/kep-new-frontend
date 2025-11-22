@@ -18,6 +18,9 @@
     }
   },
   "notifications": {
-    "systemInfoTitle": "Ma'lumot"
+    "systemInfoTitle": "Ma'lumot",
+    "systemNotificationTitle": "Tizim bildirishi",
+    "systemNotificationOk": "OK",
+    "systemNotificationFallback": "Bildirishnoma"
   }
 }

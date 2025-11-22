@@ -18,6 +18,9 @@
     }
   },
   "notifications": {
-    "systemInfoTitle": "Information"
+    "systemInfoTitle": "Information",
+    "systemNotificationTitle": "System notification",
+    "systemNotificationOk": "OK",
+    "systemNotificationFallback": "Notification"
   }
 }

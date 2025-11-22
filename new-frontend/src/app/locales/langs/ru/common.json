@@ -18,6 +18,9 @@
     }
   },
   "notifications": {
-    "systemInfoTitle": "Информация"
+    "systemInfoTitle": "Информация",
+    "systemNotificationTitle": "Системное уведомление",
+    "systemNotificationOk": "OK",
+    "systemNotificationFallback": "Уведомление"
   }
 }

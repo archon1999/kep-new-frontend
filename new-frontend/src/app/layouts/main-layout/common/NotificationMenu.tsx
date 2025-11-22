@@ -5,6 +5,11 @@ import {
   Box,
   Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   IconButton,
   List,
@@ -32,7 +37,6 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import SimpleBar from 'shared/components/base/SimpleBar';
 import OutlinedBadge from 'shared/components/styled/OutlinedBadge';
 import { wsService } from 'shared/services/websocket';
-import { toast } from 'sonner';
 
 const NOTIFICATIONS_PAGE_SIZE = 4;
 
@@ -156,6 +160,8 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
   const [showAll, setShowAll] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { currentUser } = useAuth();
+  const [isSystemDialogOpen, setIsSystemDialogOpen] = useState(false);
+  const [systemNotificationMessage, setSystemNotificationMessage] = useState('');
   const showAllRef = useRef(showAll);
   const { t } = useTranslation();
 
@@ -211,7 +217,9 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
   const showSystemNotification = useCallback(
     (message?: string) => {
-      toast.info(message);
+      const fallbackMessage = t('notifications.systemNotificationFallback');
+      setSystemNotificationMessage(message?.trim() ? message : fallbackMessage);
+      setIsSystemDialogOpen(true);
     },
     [t],
   );
@@ -515,6 +523,22 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
           </Button>
         </Stack>
       </Popover>
+      <Dialog
+        open={isSystemDialogOpen}
+        onClose={() => setIsSystemDialogOpen(false)}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle>{t('notifications.systemNotificationTitle')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{systemNotificationMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button variant="contained" fullWidth onClick={() => setIsSystemDialogOpen(false)}>
+            {t('notifications.systemNotificationOk')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
