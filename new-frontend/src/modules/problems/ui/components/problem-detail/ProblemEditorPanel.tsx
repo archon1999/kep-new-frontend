@@ -1,27 +1,28 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Panel, PanelGroup } from 'react-resizable-panels';
 import { Link as RouterLink } from 'react-router-dom';
+import Editor, { useMonaco } from '@monaco-editor/react';
 import {
   Box,
   Button,
   Card,
   CardContent,
-  IconButton,
   LinearProgress,
   MenuItem,
   Stack,
   Tab,
   Tabs,
   TextField,
-  Tooltip,
   Typography,
 } from '@mui/material';
-import Editor, { useMonaco } from '@monaco-editor/react';
-import { Panel, PanelGroup } from 'react-resizable-panels';
-import IconifyIcon from 'shared/components/base/IconifyIcon';
-import AttemptVerdict from 'shared/components/problems/AttemptVerdict';
 import { resources } from 'app/routes/resources';
-import { AttemptLangs, ProblemDetail, ProblemSampleTest } from '../../../domain/entities/problem.entity';
+import AttemptVerdict from 'shared/components/problems/AttemptVerdict';
+import {
+  AttemptLangs,
+  ProblemDetail,
+  ProblemSampleTest,
+} from '../../../domain/entities/problem.entity';
 import { VerticalHandle } from './PanelHandles';
 
 const getEditorLanguage = (lang: string) =>
@@ -32,7 +33,9 @@ const getEditorLanguage = (lang: string) =>
     [AttemptLangs.JS]: 'javascript',
     [AttemptLangs.TS]: 'typescript',
     [AttemptLangs.RUST]: 'rust',
-  }[lang] || lang || 'javascript');
+  })[lang] ||
+  lang ||
+  'javascript';
 
 interface ProblemEditorPanelProps {
   problem?: ProblemDetail;
@@ -89,6 +92,9 @@ export const ProblemEditorPanel = ({
 }: ProblemEditorPanelProps) => {
   const { t } = useTranslation();
   const monaco = useMonaco();
+  const selectedLanguageInfo = problem?.availableLanguages?.find(
+    (lang) => lang.lang === selectedLang,
+  );
 
   useEffect(() => {
     if (monaco) {
@@ -98,7 +104,10 @@ export const ProblemEditorPanel = ({
 
   if (!currentUser) {
     return (
-      <Box sx={{ height: '100%', p: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Card
+        background={0}
+        sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
         <Card variant="outlined" sx={{ maxWidth: 520 }}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
@@ -112,207 +121,268 @@ export const ProblemEditorPanel = ({
             </Button>
           </CardContent>
         </Card>
-      </Box>
+      </Card>
     );
   }
 
   return (
-    <Box sx={{ height: '100%', p: { xs: 2, md: 3 }, bgcolor: 'background.default' }}>
-      <Tabs value="code" textColor="primary" indicatorColor="primary" sx={{ mb: 1 }}>
-        <Tab
-          value="code"
-          label={t('problems.detail.codeTab', { defaultValue: 'Code' })}
-          icon={<IconifyIcon icon="mdi:code-tags" color="#7E57C2" />}
-          iconPosition="start"
-        />
-      </Tabs>
-      <Stack direction={{ xs: 'column', md: 'row' }} spacing={1.5} alignItems="center" mb={1.5}>
-        <TextField
-          select
-          size="small"
-          label={t('problems.detail.language')}
-          value={selectedLang}
-          onChange={(event) => onLangChange(event.target.value)}
-          sx={{ minWidth: 180 }}
+    <Card
+      background={0}
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
+    >
+      <Box
+        component="header"
+        sx={{
+          flexShrink: 0,
+          px: 3,
+          py: 1.5,
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+          bgcolor: 'background.paper',
+        }}
+      >
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          spacing={1.5}
+          alignItems="center"
+          flexWrap="wrap"
+          useFlexGap
         >
-          {problem?.availableLanguages?.map((lang) => (
-            <MenuItem key={lang.lang} value={lang.lang}>
-              {lang.langFull || lang.lang}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        {sampleTests.length ? (
           <TextField
             select
             size="small"
-            label={t('problems.detail.sample')}
-            value={selectedSampleIndex}
-            onChange={(event) => onSampleChange(Number(event.target.value))}
-            sx={{ minWidth: 140 }}
+            variant="outlined"
+            label={t('problems.detail.language')}
+            value={selectedLang}
+            onChange={(event) => onLangChange(event.target.value)}
+            sx={{ minWidth: 180}}
           >
-            {sampleTests.map((_, index) => (
-              <MenuItem key={index} value={index}>
-                #{index + 1}
+            {problem?.availableLanguages?.map((lang) => (
+              <MenuItem key={lang.lang} value={lang.lang}>
+                {lang.langFull || lang.lang}
               </MenuItem>
             ))}
           </TextField>
-        ) : null}
-      </Stack>
 
-      <PanelGroup direction="vertical" style={{ height: 'calc(100% - 40px)' }}>
-        <Panel defaultSize={45} minSize={25}>
-          <Box
-            sx={{
-              height: '100%',
-              border: '1px solid',
-              borderColor: 'divider',
-              borderRadius: 2,
-              overflow: 'hidden',
-            }}
-          >
-            <Editor
-              key={editorTheme}
-              language={getEditorLanguage(selectedLang)}
-              value={code}
-              onChange={(value) => onCodeChange(value ?? '')}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-              }}
-              theme={editorTheme}
-              loading={<LinearProgress />}
-              height="100%"
-            />
-          </Box>
-        </Panel>
-
-        <VerticalHandle />
-
-        <Panel defaultSize={55} minSize={25}>
-          <Card variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <Tabs
-              value={editorTab}
-              onChange={(_, value) => onEditorTabChange(value)}
-              variant="fullWidth"
-              textColor="primary"
-              indicatorColor="primary"
+          {sampleTests.length ? (
+            <TextField
+              select
+              size="small"
+              variant="outlined"
+              label={t('problems.detail.sample')}
+              value={selectedSampleIndex}
+              onChange={(event) => onSampleChange(Number(event.target.value))}
+              sx={{ minWidth: 140 }}
             >
-              <Tab value="console" label={t('problems.detail.console')} />
-              <Tab value="samples" label={t('problems.detail.samplesResult')} />
-            </Tabs>
+              {sampleTests.map((_, index) => (
+                <MenuItem key={index} value={index}>
+                  #{index + 1}
+                </MenuItem>
+              ))}
+            </TextField>
+          ) : null}
+        </Stack>
+      </Box>
 
-            <Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
-              {editorTab === 'console' ? (
-                <Stack direction="column" spacing={1.5}>
-                  <TextField
-                    multiline
-                    minRows={3}
-                    label={t('problems.detail.customInput')}
-                    value={input}
-                    onChange={(event) => onInputChange(event.target.value)}
-                  />
-                  <Stack direction={{ xs: 'column', md: 'row' }} spacing={1.5}>
-                    <TextField
-                      fullWidth
-                      label={t('problems.detail.yourOutput')}
-                      multiline
-                      minRows={4}
-                      value={output}
-                      InputProps={{ readOnly: true }}
-                    />
-                    <TextField
-                      fullWidth
-                      label={t('problems.detail.answer')}
-                      multiline
-                      minRows={4}
-                      value={answer}
-                      InputProps={{ readOnly: true }}
-                    />
-                  </Stack>
-                </Stack>
-              ) : (
-                <Stack direction="column" spacing={1}>
-                  {checkSamplesResult.length === 0 ? (
-                    <Typography color="text.secondary">{t('problems.detail.noSamplesResult')}</Typography>
-                  ) : (
-                    checkSamplesResult.map((result, index) => (
-                      <Card key={index} variant="outlined">
-                        <CardContent>
-                          <Stack direction="row" alignItems="center" justifyContent="space-between">
-                            <Typography variant="subtitle2">#{index + 1}</Typography>
-                            {result.verdict != null ? <AttemptVerdict verdict={result.verdict} /> : null}
-                          </Stack>
-                          {result.input ? (
-                            <Box mt={1}>
-                              <Typography variant="caption" color="text.secondary">
-                                {t('problems.detail.customInput')}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontFamily: 'monospace',
-                                  whiteSpace: 'pre-wrap',
-                                  p: 1,
-                                  borderRadius: 1,
-                                  bgcolor: 'background.paper',
-                                  border: '1px solid',
-                                  borderColor: 'divider',
-                                }}
-                              >
-                                {result.input}
-                              </Typography>
-                            </Box>
-                          ) : null}
-                          {result.output ? (
-                            <Box mt={1}>
-                              <Typography variant="caption" color="text.secondary">
-                                {t('problems.detail.yourOutput')}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontFamily: 'monospace',
-                                  whiteSpace: 'pre-wrap',
-                                  p: 1,
-                                  borderRadius: 1,
-                                  bgcolor: 'background.paper',
-                                  border: '1px solid',
-                                  borderColor: 'divider',
-                                }}
-                              >
-                                {result.output}
-                              </Typography>
-                            </Box>
-                          ) : null}
-                          {result.answer ? (
-                            <Box mt={1}>
-                              <Typography variant="caption" color="text.secondary">
-                                {t('problems.detail.answer')}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontFamily: 'monospace',
-                                  whiteSpace: 'pre-wrap',
-                                  p: 1,
-                                  borderRadius: 1,
-                                  bgcolor: 'background.paper',
-                                  border: '1px solid',
-                                  borderColor: 'divider',
-                                }}
-                              >
-                                {result.answer}
-                              </Typography>
-                            </Box>
-                          ) : null}
-                        </CardContent>
-                      </Card>
-                    ))
-                  )}
-                </Stack>
-              )}
+      <Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden', px: 3, py: 2 }}>
+        <PanelGroup direction="vertical" style={{ height: '100%' }}>
+          <Panel defaultSize={45} minSize={25}>
+            <Box
+              sx={{
+                height: '100%',
+                border: '1px solid',
+                borderColor: 'divider',
+                borderRadius: 2,
+                overflow: 'hidden',
+              }}
+            >
+              <Editor
+                key={editorTheme}
+                language={getEditorLanguage(selectedLang)}
+                value={code}
+                onChange={(value) => onCodeChange(value ?? '')}
+                options={{
+                  minimap: { enabled: false },
+                  fontSize: 14,
+                }}
+                theme={editorTheme}
+                loading={<LinearProgress />}
+                height="100%"
+              />
             </Box>
-          </Card>
-        </Panel>
-      </PanelGroup>
-    </Box>
+          </Panel>
+
+          <VerticalHandle />
+
+          <Panel defaultSize={55} minSize={25}>
+            <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+              <Tabs
+                value={editorTab}
+                onChange={(_, value) => onEditorTabChange(value)}
+                variant="fullWidth"
+                textColor="primary"
+                indicatorColor="primary"
+              >
+                <Tab value="console" label={t('problems.detail.console')} />
+                <Tab value="samples" label={t('problems.detail.samplesResult')} />
+              </Tabs>
+
+              <Box sx={{ p: 1, flex: 1, overflow: 'auto', mt: 1 }}>
+                {editorTab === 'console' ? (
+                  <Stack direction="column" spacing={1.5}>
+                    <TextField
+                      multiline
+                      minRows={3}
+                      label={t('problems.detail.customInput')}
+                      value={input}
+                      onChange={(event) => onInputChange(event.target.value)}
+                    />
+                    <Stack direction={{ xs: 'column', md: 'row' }} spacing={1.5}>
+                      <TextField
+                        fullWidth
+                        label={t('problems.detail.yourOutput')}
+                        multiline
+                        minRows={4}
+                        value={output}
+                        InputProps={{ readOnly: true }}
+                      />
+                      <TextField
+                        fullWidth
+                        label={t('problems.detail.answer')}
+                        multiline
+                        minRows={4}
+                        value={answer}
+                        InputProps={{ readOnly: true }}
+                      />
+                    </Stack>
+                  </Stack>
+                ) : (
+                  <Stack direction="column" spacing={1}>
+                    {checkSamplesResult.length === 0 ? (
+                      <Typography color="text.secondary">
+                        {t('problems.detail.noSamplesResult')}
+                      </Typography>
+                    ) : (
+                      checkSamplesResult.map((result, index) => (
+                        <Card key={index} variant="outlined">
+                          <CardContent>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              justifyContent="space-between"
+                            >
+                              <Typography variant="subtitle2">#{index + 1}</Typography>
+                              {result.verdict != null ? (
+                                <AttemptVerdict verdict={result.verdict} />
+                              ) : null}
+                            </Stack>
+                            {result.input ? (
+                              <Box mt={1}>
+                                <Typography variant="caption" color="text.secondary">
+                                  {t('problems.detail.customInput')}
+                                </Typography>
+                                <Typography
+                                  sx={{
+                                    fontFamily: 'monospace',
+                                    whiteSpace: 'pre-wrap',
+                                    p: 1,
+                                    borderRadius: 1,
+                                    bgcolor: 'background.paper',
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                  }}
+                                >
+                                  {result.input}
+                                </Typography>
+                              </Box>
+                            ) : null}
+                            {result.output ? (
+                              <Box mt={1}>
+                                <Typography variant="caption" color="text.secondary">
+                                  {t('problems.detail.yourOutput')}
+                                </Typography>
+                                <Typography
+                                  sx={{
+                                    fontFamily: 'monospace',
+                                    whiteSpace: 'pre-wrap',
+                                    p: 1,
+                                    borderRadius: 1,
+                                    bgcolor: 'background.paper',
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                  }}
+                                >
+                                  {result.output}
+                                </Typography>
+                              </Box>
+                            ) : null}
+                            {result.answer ? (
+                              <Box mt={1}>
+                                <Typography variant="caption" color="text.secondary">
+                                  {t('problems.detail.answer')}
+                                </Typography>
+                                <Typography
+                                  sx={{
+                                    fontFamily: 'monospace',
+                                    whiteSpace: 'pre-wrap',
+                                    p: 1,
+                                    borderRadius: 1,
+                                    bgcolor: 'background.paper',
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                  }}
+                                >
+                                  {result.answer}
+                                </Typography>
+                              </Box>
+                            ) : null}
+                          </CardContent>
+                        </Card>
+                      ))
+                    )}
+                  </Stack>
+                )}
+              </Box>
+            </Box>
+          </Panel>
+        </PanelGroup>
+      </Box>
+
+      <Box
+        component="footer"
+        sx={{
+          flexShrink: 0,
+          px: 3,
+          py: 1.25,
+          borderTop: '1px solid',
+          borderColor: 'divider',
+          bgcolor: 'background.paper',
+        }}
+      >
+        <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} justifyContent="space-between">
+          <Typography variant="caption" color="text.secondary">
+            {t('problems.detail.language')}:{' '}
+            {selectedLanguageInfo?.langFull || selectedLanguageInfo?.lang || '--'}
+          </Typography>
+          {selectedLanguageInfo ? (
+            <Stack direction="row" spacing={1.5} flexWrap="wrap">
+              <Typography variant="caption" color="text.secondary">
+                {t('problems.detail.timeLimit')}:{' '}
+                {selectedLanguageInfo.timeLimit ?? problem?.timeLimit ?? '--'} ms
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                {t('problems.detail.memoryLimit')}:{' '}
+                {selectedLanguageInfo.memoryLimit ?? problem?.memoryLimit ?? '--'} MB
+              </Typography>
+            </Stack>
+          ) : null}
+        </Stack>
+      </Box>
+    </Card>
   );
 };

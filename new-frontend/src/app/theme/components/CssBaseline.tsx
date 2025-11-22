@@ -13,7 +13,7 @@ const CssBaseline: Components<Omit<Theme, 'components'>>['MuiCssBaseline'] = {
     },
     body: {
       scrollbarColor: `${theme.vars.palette.background.elevation4} transparent`,
-      [`h1, h2, h3, h4, h5, h6, p`]: {
+      [`h1, h2, h3, h4, h5, h6`]: {
         margin: 0,
       },
       fontVariantLigatures: 'none',

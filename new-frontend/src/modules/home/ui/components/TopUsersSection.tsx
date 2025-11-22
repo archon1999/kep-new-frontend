@@ -238,12 +238,7 @@ const TopUsersSection = () => {
   };
 
   return (
-    <Paper
-      sx={{
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
+    <Paper>
       <Stack
         direction="column"
         spacing={3}

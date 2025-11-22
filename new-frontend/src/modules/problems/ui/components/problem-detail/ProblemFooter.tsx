@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Avatar, Box, Button, Chip, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Chip, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import UserPopover from 'modules/users/ui/components/UserPopover';
 import { ProblemDetail } from '../../../domain/entities/problem.entity';
@@ -15,19 +15,7 @@ export const ProblemFooter = ({ problem, onFavoriteToggle, onLike, onDislike }: 
   const { t } = useTranslation();
 
   return (
-    <Box
-      sx={{
-        position: 'sticky',
-        bottom: 0,
-        pt: 2,
-        pb: 1.5,
-        bgcolor: (theme) => `${theme.palette.background.default}CC`,
-        backdropFilter: 'blur(6px)',
-        borderTop: '1px solid',
-        borderColor: 'divider',
-        mt: 2,
-      }}
-    >
+    <Box>
       <Stack direction="row" alignItems="center" spacing={1.5} flexWrap="wrap">
         <UserPopover username={problem.authorUsername}>
           <Stack direction="row" spacing={0.75} alignItems="center">
@@ -38,13 +26,19 @@ export const ProblemFooter = ({ problem, onFavoriteToggle, onLike, onDislike }: 
           </Stack>
         </UserPopover>
 
-        <Chip
-          label={problem.userInfo?.isFavorite ? t('problems.detail.favorited') : t('problems.detail.favorite')}
-          color={problem.userInfo?.isFavorite ? 'warning' : 'default'}
-          onClick={onFavoriteToggle}
-          icon={<IconifyIcon icon="mdi:star-outline" />}
-          size="small"
-        />
+        <Tooltip
+          title={
+            problem.userInfo?.isFavorite ? t('problems.detail.favorited') : t('problems.detail.favorite')
+          }
+        >
+          <IconButton
+            size="small"
+            color={problem.userInfo?.isFavorite ? 'warning' : 'default'}
+            onClick={onFavoriteToggle}
+          >
+            <IconifyIcon icon="mdi:star-outline" />
+          </IconButton>
+        </Tooltip>
 
         <Stack direction="row" spacing={1}>
           <Button

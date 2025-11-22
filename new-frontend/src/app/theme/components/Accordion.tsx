@@ -17,7 +17,7 @@ const Accordion: Components<Omit<Theme, 'components'>>['MuiAccordion'] = {
     root: ({ theme }) => ({
       padding: 0,
       outline: 'none',
-      borderRadius: `${theme.spacing(3)} !important`,
+      borderRadius: `${theme.spacing(1)} !important`,
 
       '&:hover': {
         backgroundColor: theme.vars.palette.background.elevation1,
