@@ -82,6 +82,8 @@
       "subtitle": "Last {{days}} days",
       "tooltipSuffix": "users",
       "changeLabel": "Since last period",
+      "onlineNow": "Online now",
+      "noOnlineUsers": "No users online yet.",
       "totals": {
         "new": "New users",
         "active": "Active users"
