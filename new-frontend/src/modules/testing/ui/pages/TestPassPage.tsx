@@ -236,7 +236,7 @@ const TestPassPage = () => {
 
   return (
     <Box sx={responsivePagePaddingSx}>
-      <Stack spacing={3}>
+      <Stack direction="column" spacing={3}>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Typography variant="h5" fontWeight={800}>
             {testPass?.test.title}
@@ -259,7 +259,7 @@ const TestPassPage = () => {
 
         <Card>
           <CardContent>
-            <Stack spacing={2}>
+            <Stack direction="column" spacing={2}>
               <Typography variant="subtitle2" color="text.secondary">
                 {t('tests.questionLabel', { index: currentQuestion.number + 1, total: questions.length })}
               </Typography>
@@ -268,7 +268,7 @@ const TestPassPage = () => {
               </Typography>
 
               {currentQuestion.type === QuestionType.SingleChoice && (
-                <Stack spacing={1}>
+                <Stack direction="column" spacing={1}>
                   {currentQuestion.options?.map((option, index) => (
                     <Button
                       key={option.option ?? index}
@@ -285,7 +285,7 @@ const TestPassPage = () => {
               )}
 
               {currentQuestion.type === QuestionType.MultipleChoice && (
-                <Stack spacing={1}>
+                <Stack direction="column" spacing={1}>
                   {currentQuestion.options?.map((option, index) => (
                     <Button
                       key={option.option ?? index}
@@ -313,7 +313,7 @@ const TestPassPage = () => {
               )}
 
               {currentQuestion.type === QuestionType.Conformity && (
-                <Stack spacing={2}>
+                <Stack direction="column" spacing={2}>
                   {currentQuestion.options?.map((option, index) => (
                     <Stack key={option.optionMain ?? index} direction="row" spacing={2} alignItems="center">
                       <Typography sx={{ minWidth: 200 }}>{option.optionMain}</Typography>
@@ -340,7 +340,7 @@ const TestPassPage = () => {
               )}
 
               {currentQuestion.type === QuestionType.Ordering && (
-                <Stack spacing={1}>
+                <Stack direction="column" spacing={1}>
                   {(currentAnswer?.order ?? []).map((item, index) => (
                     <Stack
                       key={`${item}-${index}`}
@@ -362,7 +362,7 @@ const TestPassPage = () => {
               )}
 
               {currentQuestion.type === QuestionType.Classification && (
-                <Stack spacing={2}>
+                <Stack direction="column" spacing={2}>
                   {(currentQuestion.options ?? []).map((option, index) => (
                     <Stack key={`${option.optionSecondary}-${index}`} direction="row" spacing={2} alignItems="center">
                       <Chip label={option.optionSecondary} />

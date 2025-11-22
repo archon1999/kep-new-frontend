@@ -16,11 +16,10 @@ import {
 } from '@mui/material';
 import { getResourceById, resources } from 'app/routes/resources';
 import { useSnackbar } from 'notistack';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
 import KepcoinSpendConfirm from 'shared/components/common/KepcoinSpendConfirm';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { startTest } from '../../application/mutations.ts';
 import { useTestDetail, useTestResults } from '../../application/queries.ts';
-
 
 const TestDetailPage = () => {
   const { t } = useTranslation();
@@ -46,7 +45,14 @@ const TestDetailPage = () => {
       { label: t('tests.difficulty'), value: test?.difficultyTitle || '—' },
       { label: t('tests.passes'), value: test?.passesCount ?? 0 },
     ],
-    [t, test?.questionsCount, test?.questions?.length, test?.duration, test?.difficultyTitle, test?.passesCount],
+    [
+      t,
+      test?.questionsCount,
+      test?.questions?.length,
+      test?.duration,
+      test?.difficultyTitle,
+      test?.passesCount,
+    ],
   );
 
   const handleStart = async () => {
@@ -63,7 +69,7 @@ const TestDetailPage = () => {
       }
 
       enqueueSnackbar(t('tests.startError'), { variant: 'error' });
-    } catch (error) {
+    } catch {
       enqueueSnackbar(t('tests.startError'), { variant: 'error' });
     } finally {
       setIsStarting(false);
@@ -78,7 +84,11 @@ const TestDetailPage = () => {
       fullWidth
       disabled={enableStart && isStarting}
     >
-      {enableStart && isStarting ? <CircularProgress size={20} color="inherit" /> : t('tests.start')}
+      {enableStart && isStarting ? (
+        <CircularProgress size={20} color="inherit" />
+      ) : (
+        t('tests.start')
+      )}
     </Button>
   );
 
@@ -107,7 +117,11 @@ const TestDetailPage = () => {
             <Card sx={{ height: '100%' }}>
               <CardContent>
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
-                  <Avatar src={test.chapter.icon} variant="rounded" sx={{ width: 48, height: 48 }} />
+                  <Avatar
+                    src={test.chapter.icon}
+                    variant="rounded"
+                    sx={{width: 48, height: 48 }}
+                  />
                   <Stack direction="column" spacing={0.5}>
                     <Typography variant="subtitle2" color="text.secondary">
                       {test.chapter.title}
@@ -121,7 +135,7 @@ const TestDetailPage = () => {
                 <Grid container spacing={2}>
                   {metrics.map((metric) => (
                     <Grid key={metric.label} size={{ xs: 6, sm: 3 }}>
-                      <Stack spacing={0.5} alignItems="center" textAlign="center">
+                      <Stack direction="column" spacing={0.5} alignItems="center" textAlign="center">
                         <Typography variant="h6" fontWeight={800}>
                           {metric.value}
                         </Typography>
@@ -173,7 +187,8 @@ const TestDetailPage = () => {
                       {t('tests.bestResult')}
                     </Typography>
                     <Typography variant="h5" color="primary">
-                      {test.userBestResult ?? 0}/{test.questionsCount ?? test.questions?.length ?? 0}
+                      {test.userBestResult ?? 0}/
+                      {test.questionsCount ?? test.questions?.length ?? 0}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       {t('tests.lastPass')}: {test.lastPassed || t('tests.notPassed')}
@@ -185,59 +200,75 @@ const TestDetailPage = () => {
           </Grid>
         </Grid>
 
-        <Card>
-          <CardContent>
-            <Stack direction="column" spacing={2}>
-              <Typography variant="h6" fontWeight={800}>
-                {t('tests.recentResults')}
-              </Typography>
-              {isResultsLoading ? (
-                <CircularProgress size={24} />
-              ) : (
+        <Grid spacing={2} container size={12}>
+          <Grid size={{ xs: 12, lg: 6 }}>
+            <Card>
+              <CardContent>
                 <Stack direction="column" spacing={2}>
+                  <Typography variant="h6" fontWeight={800}>
+                    {t('tests.recentResults')}
+                  </Typography>
+                  {isResultsLoading ? (
+                    <CircularProgress size={24} />
+                  ) : (
+                    <Stack direction="column" spacing={2}>
+                      <Stack direction="column" spacing={1}>
+                        <Typography variant="subtitle2" color="text.secondary">
+                          {t('tests.bestAttempts')}
+                        </Typography>
+                        <Stack direction="column" spacing={1}>
+                          {results?.bestResults?.map((result) => (
+                            <Stack
+                              key={`${result.username}-${result.finished}`}
+                              direction="row"
+                              justifyContent="space-between"
+                            >
+                              <Typography variant="body2">{result.username}</Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                {result.result}/{test.questionsCount ?? test.questions?.length ?? 0}
+                              </Typography>
+                            </Stack>
+                          )) || null}
+                        </Stack>
+                      </Stack>
+                    </Stack>
+                  )}
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid size={{ xs: 12, lg: 6 }}>
+            <Card>
+              <CardContent>
+                <Stack direction="column" spacing={2}>
+                  <Typography variant="h6" fontWeight={800}>
+                    {t('tests.lastAttempts')}
+                  </Typography>
                   <Stack direction="column" spacing={1}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      {t('tests.bestAttempts')}
-                    </Typography>
-                    <Stack direction="column" spacing={1}>
-                      {results?.bestResults?.map((result) => (
-                        <Stack key={`${result.username}-${result.finished}`} direction="row" justifyContent="space-between">
+                    {results?.lastResults?.map((result) => (
+                      <Stack
+                        key={`${result.username}-${result.finished}`}
+                        direction="row"
+                        justifyContent="space-between"
+                      >
+                        <Stack direction="column" spacing={0.25}>
                           <Typography variant="body2">{result.username}</Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {result.result}/{test.questionsCount ?? test.questions?.length ?? 0}
+                          <Typography variant="caption" color="text.secondary">
+                            {result.finished}
                           </Typography>
                         </Stack>
-                      )) || null}
-                    </Stack>
-                  </Stack>
-
-                  <Divider />
-
-                  <Stack direction="column" spacing={1}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      {t('tests.lastAttempts')}
-                    </Typography>
-                    <Stack direction="column" spacing={1}>
-                      {results?.lastResults?.map((result) => (
-                        <Stack key={`${result.username}-${result.finished}`} direction="row" justifyContent="space-between">
-                          <Stack direction="column" spacing={0.25}>
-                            <Typography variant="body2">{result.username}</Typography>
-                            <Typography variant="caption" color="text.secondary">
-                              {result.finished}
-                            </Typography>
-                          </Stack>
-                          <Typography variant="body2" color="text.secondary">
-                            {result.result}/{test.questionsCount ?? test.questions?.length ?? 0}
-                          </Typography>
-                        </Stack>
-                      )) || null}
-                    </Stack>
+                        <Typography variant="body2" color="text.secondary">
+                          {result.result}/{test.questionsCount ?? test.questions?.length ?? 0}
+                        </Typography>
+                      </Stack>
+                    )) || null}
                   </Stack>
                 </Stack>
-              )}
-            </Stack>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
       </Stack>
     </Box>
   );
