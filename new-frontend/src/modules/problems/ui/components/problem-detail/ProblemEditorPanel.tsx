@@ -56,7 +56,7 @@ interface ProblemEditorPanelProps {
   isRunning: boolean;
   isSubmitting: boolean;
   isCheckingSamples: boolean;
-  checkSamplesResult: Array<{ verdict?: VerdictKey; input?: string; output?: string; answer?: string }>;
+  checkSamplesResult: Array<{ verdict?: VerdictKey; verdictTitle?: string; input?: string; output?: string; answer?: string }>;
   editorTab: 'console' | 'samples';
   onEditorTabChange: (value: 'console' | 'samples') => void;
   currentUser: any;
@@ -326,7 +326,10 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
                             >
                               <Typography variant="subtitle2">#{index + 1}</Typography>
                               {result.verdict != null ? (
-                                <AttemptVerdict verdict={result.verdict} />
+                                <AttemptVerdict
+                                  verdict={result.verdict}
+                                  title={result.verdictTitle ?? t('problems.detail.samplesResult')}
+                                />
                               ) : null}
                             </Stack>
                             {result.input ? (

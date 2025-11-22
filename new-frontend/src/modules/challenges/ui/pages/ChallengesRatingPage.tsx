@@ -6,7 +6,7 @@ import {
   GridPaginationModel,
   GridSortModel,
   GridValidRowModel,
-  GridValueGetterParams,
+  GridValueGetter,
 } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { useChallengesRating } from '../../application/queries.ts';
@@ -81,12 +81,12 @@ const ChallengesRatingPage = () => {
       flex: 1.1,
       minWidth: 180,
       sortable: false,
-      valueGetter: (params: GridValueGetterParams<RatingRow>) =>
+      valueGetter: ((params) =>
         t('challenges.record', {
           wins: params?.row?.wins ?? 0,
           draws: params?.row?.draws ?? 0,
           losses: params?.row?.losses ?? 0,
-        }),
+        })) as GridValueGetter<RatingRow, string>,
     },
   ];
 
