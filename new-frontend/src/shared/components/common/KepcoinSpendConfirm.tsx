@@ -94,7 +94,7 @@ const KepcoinSpendConfirm = ({
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
         <DialogTitle>{t('kepcoinSpend.confirmTitle')}</DialogTitle>
         <DialogContent>
-          <Stack spacing={2}>
+          <Stack direction="column" spacing={2}>
             <DialogContentText>{t('kepcoinSpend.confirmDescription')}</DialogContentText>
 
             <Stack direction="row" alignItems="center" justifyContent="space-between">
