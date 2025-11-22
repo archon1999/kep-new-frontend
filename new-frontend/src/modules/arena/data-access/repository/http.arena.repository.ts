@@ -25,17 +25,34 @@ const mapArenaPlayer = (data: any): ArenaPlayer => ({
   results: data?.results ?? [],
 });
 
-const mapArenaChallenge = (data: any): ArenaChallenge => ({
-  ...data,
-  playerFirst: {
-    ...(data?.playerFirst ?? {}),
-    results: data?.playerFirst?.results ?? [],
-  },
-  playerSecond: {
-    ...(data?.playerSecond ?? {}),
-    results: data?.playerSecond?.results ?? [],
-  },
-});
+const mapArenaChallenge = (data: any): ArenaChallenge => {
+  const playerFirst = data?.playerFirst ?? data?.player_first ?? {};
+  const playerSecond = data?.playerSecond ?? data?.player_second ?? {};
+
+  return {
+    ...data,
+    finished: data?.finished ?? data?.finished_at ?? null,
+    questionsCount: data?.questionsCount ?? data?.questions_count ?? 0,
+    timeSeconds: data?.timeSeconds ?? data?.time_seconds ?? 0,
+    rated: data?.rated ?? data?.is_rated ?? false,
+    playerFirst: {
+      ...playerFirst,
+      username: playerFirst?.username ?? playerFirst?.user_name ?? '',
+      rankTitle: playerFirst?.rankTitle ?? playerFirst?.rank_title ?? playerFirst?.title ?? '',
+      rating: playerFirst?.rating ?? 0,
+      result: playerFirst?.result ?? 0,
+      results: playerFirst?.results ?? [],
+    },
+    playerSecond: {
+      ...playerSecond,
+      username: playerSecond?.username ?? playerSecond?.user_name ?? '',
+      rankTitle: playerSecond?.rankTitle ?? playerSecond?.rank_title ?? playerSecond?.title ?? '',
+      rating: playerSecond?.rating ?? 0,
+      result: playerSecond?.result ?? 0,
+      results: playerSecond?.results ?? [],
+    },
+  };
+};
 
 export class HttpArenaRepository implements ArenaRepository {
   async listArenas(filters?: ArenaListFilters): Promise<PageResult<Arena>> {

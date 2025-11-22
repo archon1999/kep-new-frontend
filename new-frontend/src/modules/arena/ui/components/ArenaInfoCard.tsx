@@ -69,11 +69,8 @@ const ArenaInfoCard = ({ arena, onRegister, onNextChallenge, isLoadingAction }: 
         <Stack direction="column" spacing={2}>
           <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
             <Stack direction="column" spacing={0.5}>
-              <Typography variant="overline" color="text.secondary">
-                {t('arena.about')}
-              </Typography>
               <Typography variant="h5" fontWeight={800} color="text.primary">
-                {arena.title}
+                {t('arena.about')}
               </Typography>
               <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
                 <Chip

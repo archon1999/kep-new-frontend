@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
 import { useTranslation } from 'react-i18next';
 import { ArenaPlayer } from '../../domain/entities/arena-player.entity.ts';
 import { PageResult } from '../../domain/ports/arena.repository.ts';
@@ -30,13 +31,6 @@ interface ArenaPlayersTableProps {
   currentUsername?: string;
   status?: ArenaStatus;
 }
-
-const renderResultColor = (result: number) => {
-  if (result === 3) return 'warning.main';
-  if (result === 2) return 'success.main';
-  if (result === 1) return 'text.secondary';
-  return 'error.main';
-};
 
 const ArenaPlayersTable = ({
   data,
@@ -108,21 +102,52 @@ const ArenaPlayersTable = ({
                         <Avatar>{player.username[0]?.toUpperCase()}</Avatar>
                         <Stack direction="column" spacing={0.25}>
                           <Typography fontWeight={700}>{player.username}</Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {player.rankTitle} · {player.rating}
-                          </Typography>
+                          <Stack direction="row" spacing={0.75} alignItems="center">
+                            <ChallengesRatingChip title={player.rankTitle} size="small" />
+                            <Typography variant="caption" color="text.secondary">
+                              {player.rating}
+                            </Typography>
+                          </Stack>
                         </Stack>
                       </Stack>
                     </TableCell>
                     <TableCell align="right">
                       <Stack direction="row" spacing={0.5} justifyContent="flex-end" flexWrap="wrap">
                         {player.results.map((result, idx) => (
-                          <IconifyIcon
+                          <Box
                             key={`${player.username}-result-${idx}`}
-                            icon="mdi:circle"
-                            fontSize={12}
-                            color={renderResultColor(result)}
-                          />
+                            sx={{
+                              minWidth: 28,
+                              height: 24,
+                              borderRadius: 1,
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: 12,
+                              fontWeight: 700,
+                              color:
+                                result === 3
+                                  ? 'warning.darker'
+                                  : result === 2
+                                    ? 'success.darker'
+                                    : result === 1
+                                      ? 'text.secondary'
+                                      : 'error.dark',
+                              bgcolor:
+                                result === 3
+                                  ? 'warning.lighter'
+                                  : result === 2
+                                    ? 'success.lighter'
+                                    : result === 1
+                                      ? 'background.neutral'
+                                      : 'error.lighter',
+                              border: '1px solid',
+                              borderColor:
+                                result === 1 ? 'divider' : result === 3 ? 'warning.light' : result === 2 ? 'success.light' : 'error.light',
+                            }}
+                          >
+                            {result}
+                          </Box>
                         ))}
                       </Stack>
                     </TableCell>
@@ -130,7 +155,7 @@ const ArenaPlayersTable = ({
                       <Chip
                         color="warning"
                         size="small"
-                        variant="outlined"
+                        variant="filled"
                         label={player.points}
                         icon={
                           player.streak && status === ArenaStatus.Already ? (

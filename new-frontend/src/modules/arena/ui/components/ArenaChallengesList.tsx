@@ -1,6 +1,7 @@
-import { Card, CardContent, Chip, Grid, Skeleton, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
+import ChallengeCard from 'modules/challenges/ui/components/ChallengeCard.tsx';
+import { Challenge, ChallengePlayer, ChallengeQuestionTimeType, ChallengeStatus } from 'modules/challenges/domain';
 import { ArenaChallenge } from '../../domain/entities/arena-challenge.entity.ts';
 import { PageResult } from '../../domain/ports/arena.repository.ts';
 
@@ -9,10 +10,35 @@ interface ArenaChallengesListProps {
   loading?: boolean;
 }
 
+const mapArenaChallengeToChallenge = (challenge: ArenaChallenge): Challenge => {
+  const mapPlayer = (player?: ArenaChallenge['playerFirst']): ChallengePlayer => ({
+    username: player?.username ?? '-',
+    result: player?.result ?? 0,
+    results: player?.results ?? [],
+    rating: player?.rating ?? 0,
+    newRating: player?.rating ?? 0,
+    rankTitle: player?.rankTitle ?? '',
+    newRankTitle: player?.rankTitle ?? '',
+    delta: 0,
+  });
+
+  return {
+    id: challenge.id,
+    playerFirst: mapPlayer(challenge.playerFirst),
+    playerSecond: mapPlayer(challenge.playerSecond),
+    finished: challenge.finished,
+    questionsCount: challenge.questionsCount,
+    timeSeconds: challenge.timeSeconds,
+    rated: Boolean(challenge.rated),
+    questionTimeType: ChallengeQuestionTimeType.TimeToAll,
+    status: challenge.finished ? ChallengeStatus.Finished : ChallengeStatus.Already,
+  };
+};
+
 const ArenaChallengesList = ({ data, loading }: ArenaChallengesListProps) => {
   const { t } = useTranslation();
 
-  const challenges = data?.data ?? [];
+  const challenges = data?.data?.map(mapArenaChallengeToChallenge) ?? [];
 
   return (
     <Stack direction="column" spacing={2}>
@@ -23,50 +49,12 @@ const ArenaChallengesList = ({ data, loading }: ArenaChallengesListProps) => {
         {loading
           ? Array.from({ length: 4 }).map((_, idx) => (
               <Grid key={idx} size={{ xs: 12, md: 6 }}>
-                <Skeleton variant="rounded" height={120} />
+                <Skeleton variant="rounded" height={160} />
               </Grid>
             ))
           : challenges.map((challenge) => (
               <Grid key={challenge.id} size={{ xs: 12, md: 6 }}>
-                <Card sx={{ outline: 'none', borderRadius: 3 }} background={1}>
-                  <CardContent>
-                    {[challenge.playerFirst, challenge.playerSecond].map((player, index) => (
-                      <Stack
-                        key={`${challenge.id}-${player.username}-${index}`}
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="space-between"
-                        sx={{ py: 0.5 }}
-                      >
-                        <Stack direction="row" spacing={1.5} alignItems="center">
-                          <IconifyIcon icon="mdi:account-circle" fontSize={28} color="warning.main" />
-                          <Stack direction="column" spacing={0.25}>
-                            <Typography fontWeight={700}>{player.username}</Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              {player.rankTitle} · {player.rating}
-                            </Typography>
-                          </Stack>
-                        </Stack>
-                        <Chip
-                          color={
-                            index === 0
-                              ? player.result > challenge.playerSecond.result
-                                ? 'success'
-                                : player.result < challenge.playerSecond.result
-                                  ? 'error'
-                                  : 'default'
-                              : player.result > challenge.playerFirst.result
-                                ? 'success'
-                                : player.result < challenge.playerFirst.result
-                                  ? 'error'
-                                  : 'default'
-                          }
-                          label={player.result}
-                        />
-                      </Stack>
-                    ))}
-                  </CardContent>
-                </Card>
+                <ChallengeCard challenge={challenge} />
               </Grid>
             ))}
       </Grid>

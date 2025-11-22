@@ -4,6 +4,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { useTranslation } from 'react-i18next';
 import { Challenge, ChallengeStatus } from '../../domain';
 import ChallengeUserChip from './ChallengeUserChip.tsx';
+import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
 
 dayjs.extend(relativeTime);
 
@@ -37,7 +38,12 @@ const ChallengeCard = ({ challenge }: ChallengeCardProps) => {
               </Typography>
               <Typography variant="h6">{formatResult(challenge, t)}</Typography>
             </Stack>
-            <Chip label={challenge.rated ? t('challenges.rated') : t('challenges.unrated')} variant="soft" color="primary" />
+            <Chip
+              label={challenge.rated ? t('challenges.rated') : t('challenges.unrated')}
+              variant="soft"
+              color="primary"
+              icon={<IconifyIcon icon="mdi:swords" fontSize={18} />}
+            />
           </Stack>
 
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} divider={<Divider flexItem orientation="vertical" />}>

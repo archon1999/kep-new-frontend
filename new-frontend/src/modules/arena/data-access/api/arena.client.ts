@@ -34,7 +34,7 @@ export const arenaApiClient = {
   },
   listChallenges: async (arenaId: number | string, filters?: ArenaChallengesFilters) => {
     const response = await instance.get(`/api/arena/${arenaId}/last-challenges/`, { params: filters });
-    return response.data;
+    return response;
   },
   playerStatistics: async (arenaId: number | string, username: string) => {
     const response = await instance.get(`/api/arena/${arenaId}/arena-player-statistics/`, { params: { username } });
