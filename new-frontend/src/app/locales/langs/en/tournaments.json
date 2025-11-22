@@ -8,7 +8,9 @@
     "players": "{{count}} players",
     "type": "Type: {{type}}",
     "bracketTitle": "Knockout bracket",
-    "bracketSubtitle": "16-player elimination bracket with live duel results.",
+    "bracketSubtitle": "{{count}}-player elimination bracket with live duel results.",
+    "awaitingOpponent": "Awaiting opponent",
+    "awaitingWinner": "Winner of previous duel",
     "round": {
       "final": "Final",
       "semifinal": "Semifinals",
