@@ -1,8 +1,10 @@
 {
   "homePage": {
     "greeting": {
-      "defaultName": "Kapitan",
+      "defaultName": "Mehmon",
       "goodMorning": "Xush kelibsiz, {{name}}!",
+      "loginPrompt": "Kiring va sayohatingizni davom ettiring.",
+      "loginCta": "Kirish",
       "subtitle": "Kecha bo'lgan yangiliklar.",
       "ordersCount": "Bugun sizda {{count}} ta buyurtma bor.",
       "stats": {
