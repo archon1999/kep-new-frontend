@@ -11,6 +11,7 @@ import {
   CircularProgress,
   Divider,
   Grid,
+  Skeleton,
   Stack,
   Typography,
 } from '@mui/material';
@@ -108,16 +109,113 @@ const TestDetailPage = () => {
       disabled={enableStart && isStarting}
       sx={{ py: 1.25, fontWeight: 700 }}
     >
-      {enableStart && isStarting ? <CircularProgress size={20} color="inherit" /> : t('tests.start')}
+      {enableStart && isStarting ? (
+        <CircularProgress size={20} color="inherit" />
+      ) : (
+        t('tests.start')
+      )}
     </Button>
   );
 
+  const renderSkeleton = () => (
+    <Box sx={{ ...responsivePagePaddingSx }}>
+      <Stack direction="column" spacing={3}>
+        <Card
+          sx={{
+            position: 'relative',
+            overflow: 'hidden',
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(79,70,229,0.9), rgba(14,165,233,0.9))',
+            color: 'common.white',
+            boxShadow: '0 18px 40px rgba(0,0,0,0.15)',
+          }}
+        >
+          <Box
+            sx={{
+              position: 'relative',
+              p: { xs: 3, md: 4 },
+            }}
+          >
+            <Grid container size={12} alignItems="center">
+              <Grid size={{ xs: 12, md: 8 }}>
+                <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+                  <Skeleton variant="circular" width={56} height={56} sx={{ borderRadius: 2 }} />
+                  <Stack direction="column" spacing={0.75} sx={{ flex: 1 }}>
+                    <Skeleton variant="text" width="30%" height={20} />
+                    <Skeleton variant="text" width="70%" height={28} />
+                  </Stack>
+                </Stack>
+                <Skeleton variant="text" width="90%" height={20} />
+                <Skeleton variant="text" width="80%" height={20} />
+                <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+                  {[1, 2, 3].map((chip) => (
+                    <Skeleton key={chip} variant="rounded" width={72} height={28} />
+                  ))}
+                </Stack>
+              </Grid>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <Card sx={{ p: 2.5, boxShadow: 6 }}>
+                  <Stack direction="column" spacing={1.5}>
+                    <Skeleton variant="rounded" height={48} />
+                    <Divider />
+                    <Skeleton variant="text" width="40%" />
+                    <Skeleton variant="text" width="60%" height={32} />
+                    <Skeleton variant="text" width="70%" />
+                  </Stack>
+                </Card>
+              </Grid>
+            </Grid>
+          </Box>
+        </Card>
+
+        <Grid container spacing={2}>
+          {[1, 2, 3, 4].map((item) => (
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={item}>
+              <Card
+                sx={{ height: '100%', borderRadius: 2, boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}
+              >
+                <CardContent>
+                  <Stack direction="row" spacing={1.5} alignItems="center">
+                    <Skeleton variant="rounded" width={44} height={44} />
+                    <Stack spacing={0.5} sx={{ flex: 1 }}>
+                      <Skeleton variant="text" width="60%" />
+                      <Skeleton variant="text" width="40%" />
+                    </Stack>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Grid container spacing={3}>
+          {[1, 2].map((item) => (
+            <Grid size={{ xs: 12, lg: 6 }} key={item}>
+              <Card sx={{ height: '100%', borderRadius: 2 }}>
+                <CardContent>
+                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+                    <Skeleton variant="circular" width={24} height={24} />
+                    <Skeleton variant="text" width="30%" />
+                  </Stack>
+                  {[1, 2, 3].map((row) => (
+                    <Skeleton
+                      key={row}
+                      variant="rounded"
+                      height={52}
+                      sx={{ mb: row === 3 ? 0 : 1, borderRadius: 1 }}
+                    />
+                  ))}
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Stack>
+    </Box>
+  );
+
   if (isLoading || !test) {
-    return (
-      <Box sx={{ ...responsivePagePaddingSx, display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
+    return renderSkeleton();
   }
 
   return (
@@ -137,7 +235,8 @@ const TestDetailPage = () => {
             sx={{
               position: 'absolute',
               inset: 0,
-              background: 'radial-gradient(120% 120% at 80% 0%, rgba(255,255,255,0.16), transparent)',
+              background:
+                'radial-gradient(120% 120% at 80% 0%, rgba(255,255,255,0.16), transparent)',
             }}
           />
           <Box
@@ -186,7 +285,7 @@ const TestDetailPage = () => {
                 ) : null}
               </Grid>
 
-              <Grid  size={{ xs: 12, md: 4 }}>
+              <Grid size={{ xs: 12, md: 4 }}>
                 <Card
                   sx={{
                     p: 2.5,
@@ -231,7 +330,7 @@ const TestDetailPage = () => {
 
         <Grid container spacing={2}>
           {metrics.map((metric) => (
-            <Grid  size={{ xs: 12, sm: 6, md: 3 }} key={metric.key}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={metric.key}>
               <Card
                 sx={{
                   height: '100%',
@@ -269,7 +368,7 @@ const TestDetailPage = () => {
         </Grid>
 
         <Grid container spacing={3}>
-          <Grid  size={{ xs: 12, lg: 6 }}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Card sx={{ height: '100%', borderRadius: 2 }}>
               <CardContent>
                 <Stack direction="column" spacing={2}>
