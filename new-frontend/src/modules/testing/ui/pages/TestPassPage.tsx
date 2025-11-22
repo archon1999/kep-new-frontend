@@ -9,6 +9,11 @@ import {
   CircularProgress,
   Divider,
   Grid,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Stack,
   Typography,
 } from '@mui/material';
@@ -39,13 +44,17 @@ const TestPassPage = () => {
   const { data: testPass, isLoading } = useTestPass(testPassId);
 
   const [questions, setQuestions] = useState<TestPassQuestion[]>([]);
-  const [questionStates, setQuestionStates] = useState<Record<number, QuestionState>>({});
+  const [questionStates, setQuestionStates] = useState<Record<string, QuestionState>>({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [remainingMs, setRemainingMs] = useState(0);
   const [timerReady, setTimerReady] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFinishing, setIsFinishing] = useState(false);
+  const [finishResult, setFinishResult] = useState<number | null>(null);
   const autoFinishRef = useRef(false);
+
+  const getQuestionKey = (question: TestPassQuestion) =>
+    (question.id ?? question.number).toString();
 
   const currentQuestion = useMemo(
     () => questions[currentIndex],
@@ -53,12 +62,13 @@ const TestPassPage = () => {
   );
 
   const ensureState = (question: TestPassQuestion): QuestionState =>
-    questionStates[question.id] ?? buildInitialState(question);
+    questionStates[getQuestionKey(question)] ?? buildInitialState(question);
 
   const updateState = (question: TestPassQuestion, updater: (prev: QuestionState) => QuestionState) => {
+    const key = getQuestionKey(question);
     setQuestionStates((prev) => ({
       ...prev,
-      [question.id]: updater(prev[question.id] ?? buildInitialState(question)),
+      [key]: updater(prev[key] ?? buildInitialState(question)),
     }));
   };
 
@@ -73,13 +83,7 @@ const TestPassPage = () => {
       const response = await finishTest(testPass.id);
 
       if (response.success) {
-        if (!auto) {
-          enqueueSnackbar(t('tests.finishSuccess', { result: response.result }), {
-            variant: 'success',
-          });
-        }
-
-        navigate(getResourceById(resources.Test, testPass.test.id));
+        setFinishResult(response.result ?? null);
       } else if (!auto) {
         enqueueSnackbar(t('tests.finishError'), { variant: 'error' });
       }
@@ -117,7 +121,7 @@ const TestPassPage = () => {
 
       setQuestions((prev) =>
         prev.map((question) =>
-          question.id === currentQuestion.id ? { ...question, answered: true } : question,
+          question.number === currentQuestion.number ? { ...question, answered: true } : question,
         ),
       );
 
@@ -149,8 +153,8 @@ const TestPassPage = () => {
       testingMutations.testingRepository.hydrateQuestion(question) as TestPassQuestion,
     );
 
-    const initialStates = hydrated.reduce<Record<number, QuestionState>>((acc, question) => {
-      acc[question.id] = buildInitialState(question);
+    const initialStates = hydrated.reduce<Record<string, QuestionState>>((acc, question) => {
+      acc[getQuestionKey(question)] = buildInitialState(question);
       return acc;
     }, {});
 
@@ -466,14 +470,14 @@ const TestPassPage = () => {
                     <Typography variant="subtitle1" fontWeight={700} textAlign="center">
                       {t('tests.questions')}
                     </Typography>
-                    <Stack direction="row" flexWrap="wrap" useFlexGap spacing={1}>
-                      {questions.map((question, index) => {
-                        const isCurrent = index === currentIndex;
-                        const isAnswered = question.answered;
+                  <Stack direction="row" flexWrap="wrap" useFlexGap spacing={1}>
+                    {questions.map((question, index) => {
+                      const isCurrent = index === currentIndex;
+                      const isAnswered = question.answered;
 
                         return (
                           <Button
-                            key={question.id}
+                            key={`${getQuestionKey(question)}-nav`}
                             variant={isCurrent ? 'contained' : 'outlined'}
                             color={
                               isCurrent ? 'primary' : isAnswered ? 'success' : 'inherit'
@@ -494,6 +498,38 @@ const TestPassPage = () => {
             </Stack>
           </Grid>
         </Grid>
+
+        <Dialog
+          open={finishResult !== null}
+          onClose={() => {
+            setFinishResult(null);
+            if (testPass) {
+              navigate(getResourceById(resources.Test, testPass.test.id));
+            }
+          }}
+          fullWidth
+          maxWidth="xs"
+        >
+          <DialogTitle>{t('tests.finish')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              {t('tests.finishSuccess', { result: finishResult ?? 0 })}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setFinishResult(null);
+                if (testPass) {
+                  navigate(getResourceById(resources.Test, testPass.test.id));
+                }
+              }}
+            >
+              {t('tests.finish')}
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Stack>
     </Box>
   );

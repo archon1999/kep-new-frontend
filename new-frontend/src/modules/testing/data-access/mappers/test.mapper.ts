@@ -2,13 +2,14 @@ import { Chapter, Question, QuestionOption, QuestionType, Test, TestPass } from 
 import { FinishTestResponse, PageResult, StartTestResponse, TestResultRow } from '../../domain/ports/testing.repository.ts';
 
 const normalizeOption = (option: any): QuestionOption => ({
+  id: option?.id ?? option?.optionId ?? option?.option_id,
   option: option?.option ?? option?.title ?? '',
   optionMain: option?.optionMain ?? option?.option_main ?? option?.option ?? '',
   optionSecondary: option?.optionSecondary ?? option?.option_secondary ?? option?.value ?? '',
   selected: option?.selected ?? false,
 });
 
-const normalizeQuestion = (question: any): Question => ({
+export const mapQuestion = (question: any): Question => ({
   id: question?.id,
   number: question?.number ?? question?.questionNumber ?? 0,
   type: question?.type as QuestionType,
@@ -18,6 +19,7 @@ const normalizeQuestion = (question: any): Question => ({
   options: (question?.options ?? []).map(normalizeOption),
   input: question?.input ?? '',
   answered: question?.answered ?? false,
+  chapter: question?.chapter ? normalizeChapter(question.chapter) : undefined,
 });
 
 const normalizeChapter = (chapter: any): Chapter => ({
@@ -33,7 +35,7 @@ export const mapTest = (payload: any): Test => ({
   description: payload?.description ?? '',
   duration: payload?.duration ?? payload?.duration_text ?? '',
   chapter: normalizeChapter(payload?.chapter ?? {}),
-  questions: (payload?.questions ?? []).map(normalizeQuestion),
+  questions: (payload?.questions ?? []).map(mapQuestion),
   difficultyTitle: payload?.difficultyTitle ?? payload?.difficulty_title ?? '',
   difficulty: payload?.difficulty ?? 0,
   tags: payload?.tags ?? [],
