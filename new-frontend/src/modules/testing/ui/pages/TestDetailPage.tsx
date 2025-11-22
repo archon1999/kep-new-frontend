@@ -63,16 +63,18 @@ const TestDetailPage = () => {
       }
 
       enqueueSnackbar(t('tests.startError'), { variant: 'error' });
-    } catch (error) {
+    } catch {
       enqueueSnackbar(t('tests.startError'), { variant: 'error' });
     } finally {
       setIsStarting(false);
     }
   };
 
-  const renderStartButton = () => (
-    <Button variant="contained" size="large" onClick={handleStart} fullWidth disabled={isStarting}>
-      {isStarting ? <CircularProgress size={20} color="inherit" /> : t('tests.start')}
+  const renderStartButton = (onClick?: () => void) => (
+    <Button variant="contained" size="large" onClick={onClick} fullWidth disabled={isStarting}>
+      {isStarting && onClick
+        ? <CircularProgress size={20} color="inherit" />
+        : t('tests.start')}
     </Button>
   );
 
@@ -148,7 +150,7 @@ const TestDetailPage = () => {
               <CardContent>
                 <Stack direction="column" spacing={2}>
                   {canStart ? (
-                    renderStartButton()
+                    renderStartButton(handleStart)
                   ) : (
                     <KepcoinSpendConfirm
                       value={1}

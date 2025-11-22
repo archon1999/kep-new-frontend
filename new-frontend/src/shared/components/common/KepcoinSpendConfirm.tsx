@@ -1,7 +1,7 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { KeyboardEvent, MouseEvent, ReactNode, useMemo, useState } from 'react';
 import {
+  Box,
   Button,
-  ButtonBase,
   Dialog,
   DialogActions,
   DialogContent,
@@ -62,6 +62,22 @@ const KepcoinSpendConfirm = ({
     }
   };
 
+  const handleTriggerCapture = (event: MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    handleTriggerClick();
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    handleTriggerClick();
+  };
+
   const handleConfirm = async () => {
     try {
       const response = await trigger(requestBody);
@@ -78,18 +94,23 @@ const KepcoinSpendConfirm = ({
 
   return (
     <>
-      <ButtonBase
-        onClick={handleTriggerClick}
-        disabled={disabled}
+      <Box
+        role="button"
+        tabIndex={disabled ? -1 : 0}
+        onClickCapture={handleTriggerCapture}
+        onKeyDown={handleKeyDown}
         sx={{
+          display: 'inline-flex',
           borderRadius: 1,
           width: 'fit-content',
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          pointerEvents: disabled ? 'none' : 'auto',
           px: children ? 0 : 1,
           py: children ? 0 : 0.75,
         }}
       >
         {children ?? <KepcoinValue value={formattedValue} iconSize={16} textVariant="caption" fontWeight={600} />}
-      </ButtonBase>
+      </Box>
 
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
         <DialogTitle>{t('kepcoinSpend.confirmTitle')}</DialogTitle>
