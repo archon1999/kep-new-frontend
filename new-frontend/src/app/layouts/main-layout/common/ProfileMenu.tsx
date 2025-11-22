@@ -47,6 +47,13 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
     () => [user?.firstName, user?.lastName].filter(Boolean).join(' '),
     [user],
   );
+  const profileHref = useMemo(
+    () =>
+      currentUser
+        ? getResourceByUsername(resources.UserProfile, user.username)
+        : authPaths.login,
+    [currentUser, user.username],
+  );
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -162,7 +169,7 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
         </Stack>
         <Divider />
         <Box sx={{ py: 1 }}>
-          <ProfileMenuItem href={getResourceByUsername(resources.UserProfile, user.username)} icon="solar:user-circle-bold" onClick={handleClose}>
+          <ProfileMenuItem href={profileHref} icon="solar:user-circle-bold" onClick={handleClose}>
             Profile
           </ProfileMenuItem>
           <ProfileMenuItem href={resources.Settings} icon="solar:settings-linear" onClick={handleClose}>

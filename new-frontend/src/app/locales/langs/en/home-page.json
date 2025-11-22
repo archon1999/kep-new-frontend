@@ -1,8 +1,10 @@
 {
   "homePage": {
     "greeting": {
-      "defaultName": "Captain",
+      "defaultName": "Guest",
       "goodMorning": "Welcome, {{name}}!",
+      "loginPrompt": "Sign in to continue your journey.",
+      "loginCta": "Login",
       "subtitle": "Updates from yesterday.",
       "ordersCount": "You have {{count}} orders today.",
       "stats": {

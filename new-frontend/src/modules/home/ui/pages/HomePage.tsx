@@ -17,6 +17,7 @@ const HomePage = () => {
   const { t } = useTranslation();
   const username = currentUser?.username;
   const displayName = currentUser?.firstName?.trim() || username || t('homePage.greeting.defaultName');
+  const isAuthenticated = Boolean(currentUser);
   const { data: ratings, isLoading } = useUserRatings(username);
   const { data: activityHistory, isLoading: isActivityLoading } = useUserActivityHistory(username);
 
@@ -31,6 +32,7 @@ const HomePage = () => {
             activityHistory={activityHistory}
             isActivityLoading={isActivityLoading}
             username={username}
+            isAuthenticated={isAuthenticated}
           />
         </Grid>
 
