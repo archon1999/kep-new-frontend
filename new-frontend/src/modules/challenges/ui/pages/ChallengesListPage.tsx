@@ -17,7 +17,7 @@ import {
 import Grid from '@mui/material/Grid';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { useSnackbar } from 'notistack';
+import { toast } from 'sonner';
 import { authPaths } from 'app/routes/route-config';
 import { getResourceById, resources } from 'app/routes/resources';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
@@ -47,7 +47,6 @@ const quickStarts = [
 const ChallengesListPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
   const { currentUser } = useAuth();
 
   const [page, setPage] = useState(1);
@@ -73,7 +72,7 @@ const ChallengesListPage = () => {
 
     await createCall(payload);
     await mutateCalls();
-    enqueueSnackbar(t('challenges.callCreatedToast'), { variant: 'success' });
+    toast.success(t('challenges.callCreatedToast'));
   };
 
   const handleQuickStart = async (payload: { timeSeconds: number; questionsCount: number }) => {

@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert, Box, Button, Link, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { authPaths } from 'app/routes/route-config';
-import { useSnackbar } from 'notistack';
+import { toast } from 'sonner';
 import PasswordTextField from 'shared/components/common/PasswordTextField';
 import * as yup from 'yup';
 
@@ -38,7 +38,6 @@ const schema = yup
 const SetPasswordForm = ({ handleSetPassword }: SetPasswordFormProps) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { enqueueSnackbar } = useSnackbar();
 
   const token = useMemo(() => searchParams.get('token'), [searchParams]);
   const email = useMemo(() => searchParams.get('email'), [searchParams]);
@@ -56,7 +55,7 @@ const SetPasswordForm = ({ handleSetPassword }: SetPasswordFormProps) => {
   const onSubmit = async (data: SetPasswordFormValues) => {
     try {
       const res = await handleSetPassword(data);
-      enqueueSnackbar(res.message, { variant: 'success' });
+      toast.success(res.message);
       navigate(authPaths.login);
     } catch (error: any) {
       setError('root', { type: 'manual', message: error.message });

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, CardContent, CardHeader, Grid, LinearProgress, Stack, TextField } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { useAuth } from 'app/providers/AuthProvider';
 import type { AccountSocialLinks } from '../../domain/entities/account-settings.entity';
 import { useAccountSocial } from '../../application/queries';
@@ -9,7 +9,6 @@ import { useUpdateSocial } from '../../application/mutations';
 
 const SocialLinksForm = () => {
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const { currentUser } = useAuth();
   const username = currentUser?.username;
 
@@ -34,10 +33,10 @@ const SocialLinksForm = () => {
       await trigger({ username, payload: formState });
       await mutate();
       setErrors(undefined);
-      enqueueSnackbar(t('settings.saved'), { variant: 'success' });
+      toast.success(t('settings.saved'));
     } catch (error: any) {
       setErrors(error?.data);
-      enqueueSnackbar(t('settings.error'), { variant: 'error' });
+      toast.error(t('settings.error'));
     }
   };
 

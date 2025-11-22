@@ -10,8 +10,8 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import useSWRMutation from 'swr/mutation';
 import { useAuth } from 'app/providers/AuthProvider';
 import KepcoinValue from './KepcoinValue';
@@ -35,7 +35,6 @@ const KepcoinSpendConfirm = ({
   disabled = false,
 }: KepcoinSpendConfirmProps) => {
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const { currentUser, refreshCurrentUser } = useAuth();
 
   const [open, setOpen] = useState(false);
@@ -49,7 +48,7 @@ const KepcoinSpendConfirm = ({
     if (disabled) return;
 
     if (userBalance < value) {
-      enqueueSnackbar(t('kepcoinSpend.insufficientBalance'), { variant: 'error' });
+      toast.error(t('kepcoinSpend.insufficientBalance'));
       return;
     }
 
@@ -65,14 +64,14 @@ const KepcoinSpendConfirm = ({
   const handleConfirm = async () => {
     try {
       const response = await trigger(requestBody);
-      enqueueSnackbar(t('kepcoinSpend.success'), { variant: 'success' });
+      toast.success(t('kepcoinSpend.success'));
       onSuccess?.(response);
       await refreshCurrentUser();
       setOpen(false);
     } catch (error: any) {
       const fallbackMessage = t('kepcoinSpend.error');
       const message = error?.response?.data?.message ?? error?.message ?? fallbackMessage;
-      enqueueSnackbar(message, { variant: 'error' });
+      toast.error(message);
     }
   };
 

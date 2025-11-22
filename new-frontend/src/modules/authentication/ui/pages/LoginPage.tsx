@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
-import { useSnackbar } from 'notistack';
+import { toast } from 'sonner';
 import { defaultAuthCredentials } from 'app/config.ts';
 import { useAuth } from 'app/providers/AuthProvider';
 import { authPaths, rootPaths } from 'app/routes/route-config';
@@ -10,7 +10,6 @@ import { useLoginUser } from '../../application/mutations';
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const { setCurrentUser, refreshCurrentUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -64,13 +63,13 @@ const LoginPage = () => {
           ? `${t('auth.greeting')}, ${welcomeName}!`
           : t('auth.loginSuccess');
 
-        enqueueSnackbar(welcomeText, { variant: 'success' });
+        toast.success(welcomeText);
 
         navigate(returnUrl, { replace: true });
       }
     } catch (error: any) {
       const errorMessage = error?.data?.message || (error as Error)?.message || t('auth.loginError');
-      enqueueSnackbar(errorMessage, { variant: 'error' });
+      toast.error(errorMessage);
       throw new Error(errorMessage);
     }
   };

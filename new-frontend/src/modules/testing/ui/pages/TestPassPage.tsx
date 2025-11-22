@@ -17,8 +17,8 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { getResourceById, resources } from 'app/routes/resources';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { finishTest, submitAnswer, testingMutations } from '../../application/mutations.ts';
@@ -39,7 +39,6 @@ const TestPassPage = () => {
   const { id: testPassId } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
 
   const { data: testPass, isLoading } = useTestPass(testPassId);
 
@@ -85,11 +84,11 @@ const TestPassPage = () => {
       if (response.success) {
         setFinishResult(response.result ?? null);
       } else if (!auto) {
-        enqueueSnackbar(t('tests.finishError'), { variant: 'error' });
+        toast.error(t('tests.finishError'));
       }
     } catch {
       if (!auto) {
-        enqueueSnackbar(t('tests.finishError'), { variant: 'error' });
+        toast.error(t('tests.finishError'));
       }
     } finally {
       setIsFinishing(false);
@@ -109,7 +108,7 @@ const TestPassPage = () => {
 
     if (answerResult.isEmpty) {
       if (!silent) {
-        enqueueSnackbar(t('tests.fillAnswer'), { variant: 'warning' });
+        toast.warning(t('tests.fillAnswer'));
       }
       return;
     }
@@ -126,7 +125,7 @@ const TestPassPage = () => {
       );
 
       if (!silent) {
-        enqueueSnackbar(t('tests.answerSaved'), { variant: 'success' });
+        toast.success(t('tests.answerSaved'));
       }
 
       if (autoAdvance && questions.length) {

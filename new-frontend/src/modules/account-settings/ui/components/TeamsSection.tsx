@@ -16,7 +16,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useAuth } from 'app/providers/AuthProvider';
-import { useSnackbar } from 'notistack';
+import { toast } from 'sonner';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { useCreateTeam, useJoinTeam, useRefreshTeamCode } from '../../application/mutations';
 import { useAccountTeams } from '../../application/queries';
@@ -24,7 +24,6 @@ import type { AccountTeam } from '../../domain/entities/account-settings.entity'
 
 const TeamsSection = () => {
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const { currentUser } = useAuth();
 
   const { data, isLoading, mutate } = useAccountTeams();
@@ -48,7 +47,7 @@ const TeamsSection = () => {
   const handleCopy = async (code: string) => {
     const link = `${window.location.origin}/team/${code}`;
     await navigator.clipboard.writeText(link);
-    enqueueSnackbar(t('settings.linkCopied'), { variant: 'success' });
+    toast.success(t('settings.linkCopied'));
   };
 
   const handleCreateTeam = async () => {
@@ -67,7 +66,7 @@ const TeamsSection = () => {
 
   const handleRefreshCode = async (code: string) => {
     const updated = await refreshCode(code);
-    enqueueSnackbar(t('settings.saved'), { variant: 'success' });
+    toast.success(t('settings.saved'));
     await mutate();
     return updated;
   };

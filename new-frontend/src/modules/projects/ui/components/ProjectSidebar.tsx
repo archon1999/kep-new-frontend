@@ -1,7 +1,7 @@
 import { ChangeEvent, useMemo, useState } from 'react';
 import { Box, Button, Card, CardActions, CardContent, CardHeader, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useSnackbar } from 'notistack';
+import { toast } from 'sonner';
 import ProjectInfoCard from './ProjectInfoCard.tsx';
 import { Project } from '../../domain/entities/project.entity';
 import { projectsQueries } from '../../application/queries';
@@ -17,7 +17,6 @@ const MAX_FILE_SIZE = 1024 * 1024; // 1 MB
 
 const ProjectSidebar = ({ project, onSubmitted, hackathonId, projectSymbol }: ProjectSidebarProps) => {
   const { t } = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
   const [selectedTechnology, setSelectedTechnology] = useState(project.availableTechnologies[0]?.technology ?? '');
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,7 +29,7 @@ const ProjectSidebar = ({ project, onSubmitted, hackathonId, projectSymbol }: Pr
     if (!uploadedFile) return;
 
     if (uploadedFile.size > MAX_FILE_SIZE) {
-      enqueueSnackbar(t('projects.maxFileSize'), { variant: 'error' });
+      toast.error(t('projects.maxFileSize'));
       return;
     }
 
@@ -51,7 +50,7 @@ const ProjectSidebar = ({ project, onSubmitted, hackathonId, projectSymbol }: Pr
       });
       setFile(null);
       onSubmitted?.();
-      enqueueSnackbar(t('projects.submitSuccess'), { variant: 'success' });
+      toast.success(t('projects.submitSuccess'));
     } finally {
       setIsSubmitting(false);
     }
