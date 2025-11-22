@@ -95,7 +95,9 @@
       },
       "actions": {
         "follow": "Follow",
-        "unfollow": "Unfollow"
+        "unfollow": "Unfollow",
+        "followTooltip": "Follow user",
+        "unfollowTooltip": "Unfollow user"
       }
     }
   }

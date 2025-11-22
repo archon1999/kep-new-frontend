@@ -52,6 +52,8 @@ export const kepIcons = {
   close: 'mdi:close',
   copy: 'mdi:content-copy',
   check: 'mdi:check-circle-outline',
+  star: 'mdi:star',
+  'star-outline': 'mdi:star-outline',
 } as const;
 
 export type KepIconName = keyof typeof kepIcons;
