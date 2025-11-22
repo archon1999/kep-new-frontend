@@ -116,7 +116,7 @@ const buildAnswerPayload = (question: Question, state?: QuestionAnswerState) => 
 };
 
 const TestPassPage = () => {
-  const { testPassId } = useParams();
+  const { id: testPassId } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();

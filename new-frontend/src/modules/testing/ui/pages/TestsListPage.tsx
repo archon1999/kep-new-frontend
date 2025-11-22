@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Box, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useTestsList } from '../../application/queries.ts';
@@ -45,9 +45,18 @@ const TestsListPage = () => {
         </Box>
 
         {isLoading ? (
-          <Stack spacing={2}>
-            {Array.from({ length: 3 }).map((_, idx) => (
-              <Skeleton key={idx} variant="rounded" height={160} />
+          <Stack spacing={4}>
+            {[1, 2].map((section) => (
+              <Stack key={section} spacing={2}>
+                <Skeleton variant="text" width={240} height={32} />
+                <Grid container spacing={2}>
+                  {[1, 2].map((item) => (
+                    <Grid key={`${section}-${item}`} size={{ xs: 12, md: 6 }}>
+                      <Skeleton variant="rounded" height={220} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Stack>
             ))}
           </Stack>
         ) : showEmptyState ? (
