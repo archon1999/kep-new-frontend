@@ -33,6 +33,12 @@
     "submitAnswer": "Submit answer",
     "answered": "Answered",
     "notAnswered": "Not answered",
-    "questions": "Questions"
+    "questions": "Questions",
+    "timeLeft": "Time left",
+    "hour": "Hour",
+    "minute": "Minute",
+    "second": "Second",
+    "finishTest": "Finish test",
+    "dropHere": "Drop items here"
   }
 }

@@ -13,6 +13,8 @@ const normalizeQuestion = (question: any): Question => ({
   number: question?.number ?? question?.questionNumber ?? 0,
   type: question?.type as QuestionType,
   text: question?.text ?? question?.title ?? '',
+  body: question?.body ?? question?.text_html ?? question?.body_html ?? '',
+  audio: question?.audio ?? question?.audio_url ?? '',
   options: (question?.options ?? []).map(normalizeOption),
   input: question?.input ?? '',
   answered: question?.answered ?? false,

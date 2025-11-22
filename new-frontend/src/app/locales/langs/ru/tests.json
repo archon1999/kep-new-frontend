@@ -33,6 +33,12 @@
     "submitAnswer": "Отправить ответ",
     "answered": "Отвечено",
     "notAnswered": "Не отвечено",
-    "questions": "Вопросы"
+    "questions": "Вопросы",
+    "timeLeft": "Оставшееся время",
+    "hour": "Час",
+    "minute": "Минут",
+    "second": "Секунд",
+    "finishTest": "Закончить тест",
+    "dropHere": "Перетащите сюда"
   }
 }

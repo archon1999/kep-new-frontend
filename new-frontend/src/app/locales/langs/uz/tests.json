@@ -33,6 +33,12 @@
     "submitAnswer": "Javobni yuborish",
     "answered": "Javob berildi",
     "notAnswered": "Javob berilmagan",
-    "questions": "Savollar"
+    "questions": "Savollar",
+    "timeLeft": "Qolgan vaqt",
+    "hour": "Soat",
+    "minute": "Daqiqa",
+    "second": "Soniya",
+    "finishTest": "Testni yakunlash",
+    "dropHere": "Bu yerga tashlang"
   }
 }

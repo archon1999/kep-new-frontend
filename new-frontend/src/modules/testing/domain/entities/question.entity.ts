@@ -12,6 +12,8 @@ export interface Question {
   number: number;
   type: QuestionType;
   text: string;
+  body?: string;
+  audio?: string;
   options?: QuestionOption[];
   input?: string;
   answered?: boolean;

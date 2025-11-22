@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import {
   Box,
@@ -7,113 +7,28 @@ import {
   CardContent,
   Chip,
   CircularProgress,
-  IconButton,
-  MenuItem,
-  Select,
+  Divider,
+  Grid,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
+import { getResourceById, resources } from 'app/routes/resources';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { finishTest, submitAnswer, testingMutations } from '../../application/mutations.ts';
 import { useTestPass } from '../../application/queries.ts';
-import { Question, QuestionOption, QuestionType } from '../../domain';
-import { getResourceById, resources } from 'app/routes/resources';
-import { GridArrowDownwardIcon, GridArrowUpwardIcon } from '@mui/x-data-grid';
-
-interface QuestionAnswerState {
-  type: QuestionType;
-  selectedIndex?: number;
-  selectedMulti?: Set<number>;
-  value?: string;
-  matches?: string[];
-  order?: string[];
-  assignment?: Record<string, string[]>;
-}
-
-const buildInitialState = (question: Question): QuestionAnswerState => {
-  switch (question.type) {
-    case QuestionType.SingleChoice:
-      return { type: question.type, selectedIndex: question.options?.findIndex((o) => o.selected) ?? -1 };
-    case QuestionType.MultipleChoice:
-      return {
-        type: question.type,
-        selectedMulti: new Set(
-          question.options?.reduce<number[]>((acc, option, index) => {
-            if (option.selected) acc.push(index);
-            return acc;
-          }, []) ?? [],
-        ),
-      };
-    case QuestionType.TextInput:
-    case QuestionType.CodeInput:
-      return { type: question.type, value: question.input ?? '' };
-    case QuestionType.Conformity: {
-      const matches = question.options?.map((option) => option.optionSecondary ?? '') ?? [];
-      return { type: question.type, matches };
-    }
-    case QuestionType.Ordering: {
-      const order = question.options?.map((option) => option.option ?? option.optionSecondary ?? '') ?? [];
-      return { type: question.type, order };
-    }
-    case QuestionType.Classification: {
-      const keys = new Set<string>();
-      question.options?.forEach((option) => keys.add(option.optionMain ?? ''));
-      const assignment: Record<string, string[]> = {};
-      keys.forEach((key) => {
-        assignment[key] = [];
-      });
-      question.options?.forEach((option) => {
-        const key = option.optionMain ?? '';
-        if (!assignment[key]) assignment[key] = [];
-        assignment[key].push(option.optionSecondary ?? '');
-      });
-      return { type: question.type, assignment };
-    }
-    default:
-      return { type: question.type };
-  }
-};
-
-const buildAnswerPayload = (question: Question, state?: QuestionAnswerState) => {
-  if (!state) return { isEmpty: true, answer: null };
-
-  switch (question.type) {
-    case QuestionType.SingleChoice: {
-      const answer = typeof state.selectedIndex === 'number' ? state.selectedIndex : -1;
-      return { answer, isEmpty: answer === -1 };
-    }
-    case QuestionType.MultipleChoice: {
-      const answer = Array.from(state.selectedMulti ?? []);
-      return { answer, isEmpty: answer.length === 0 };
-    }
-    case QuestionType.TextInput:
-    case QuestionType.CodeInput: {
-      const answer = state.value ?? '';
-      return { answer, isEmpty: !answer };
-    }
-    case QuestionType.Conformity: {
-      const group_one = question.options?.map((option) => option.optionMain ?? '') ?? [];
-      const group_two = state.matches ?? [];
-      return { answer: { group_one, group_two }, isEmpty: !group_one.length || !group_two.length };
-    }
-    case QuestionType.Ordering: {
-      const ordering_list = state.order ?? [];
-      return { answer: { ordering_list }, isEmpty: ordering_list.length === 0 };
-    }
-    case QuestionType.Classification: {
-      const classification_groups = Object.entries(state.assignment ?? {}).map(([key, values]) => ({
-        key,
-        values,
-      }));
-      return { answer: { classification_groups }, isEmpty: classification_groups.length === 0 };
-    }
-    default:
-      return { answer: null, isEmpty: true };
-  }
-};
+import { QuestionType } from '../../domain';
+import { buildAnswerResult } from './test-pass/answers.ts';
+import { buildInitialState, formatRemainingTime } from './test-pass/utils.ts';
+import { QuestionState, TestPassQuestion } from './test-pass/types.ts';
+import SingleChoiceQuestion from './test-pass/components/SingleChoiceQuestion.tsx';
+import MultipleChoiceQuestion from './test-pass/components/MultipleChoiceQuestion.tsx';
+import TextInputQuestion from './test-pass/components/TextInputQuestion.tsx';
+import CodeInputQuestion from './test-pass/components/CodeInputQuestion.tsx';
+import ConformityQuestion from './test-pass/components/ConformityQuestion.tsx';
+import OrderingQuestion from './test-pass/components/OrderingQuestion.tsx';
+import ClassificationQuestion from './test-pass/components/ClassificationQuestion.tsx';
 
 const TestPassPage = () => {
   const { id: testPassId } = useParams();
@@ -123,106 +38,317 @@ const TestPassPage = () => {
 
   const { data: testPass, isLoading } = useTestPass(testPassId);
 
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [answers, setAnswers] = useState<Record<number, QuestionAnswerState>>({});
+  const [questions, setQuestions] = useState<TestPassQuestion[]>([]);
+  const [questionStates, setQuestionStates] = useState<Record<number, QuestionState>>({});
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [remainingMs, setRemainingMs] = useState(0);
+  const [timerReady, setTimerReady] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isFinishing, setIsFinishing] = useState(false);
+  const autoFinishRef = useRef(false);
 
-  useEffect(() => {
-    if (!testPass?.test?.questions?.length) return;
+  const currentQuestion = useMemo(
+    () => questions[currentIndex],
+    [questions, currentIndex],
+  );
 
-    const hydrated = testPass.test.questions.map((question) =>
-      testingMutations.testingRepository.hydrateQuestion(question),
-    );
-    const mappedAnswers: Record<number, QuestionAnswerState> = {};
-    hydrated.forEach((question) => {
-      mappedAnswers[question.id] = buildInitialState(question);
-    });
+  const ensureState = (question: TestPassQuestion): QuestionState =>
+    questionStates[question.id] ?? buildInitialState(question);
 
-    setQuestions(hydrated);
-    setAnswers(mappedAnswers);
-    setCurrentIndex(0);
-  }, [testPass?.test?.questions]);
-
-  const currentQuestion = useMemo(() => questions[currentIndex], [questions, currentIndex]);
-
-  const updateAnswer = (questionId: number, updater: (prev: QuestionAnswerState) => QuestionAnswerState) => {
-    setAnswers((prev) => ({
+  const updateState = (question: TestPassQuestion, updater: (prev: QuestionState) => QuestionState) => {
+    setQuestionStates((prev) => ({
       ...prev,
-      [questionId]: updater(prev[questionId] ?? { type: currentQuestion?.type ?? QuestionType.SingleChoice }),
+      [question.id]: updater(prev[question.id] ?? buildInitialState(question)),
     }));
   };
 
-  const toggleMulti = (questionId: number, index: number) => {
-    updateAnswer(questionId, (prev) => {
-      const next = new Set(prev.selectedMulti ?? []);
-      if (next.has(index)) next.delete(index);
-      else next.add(index);
-      return { ...prev, selectedMulti: next };
-    });
-  };
-
-  const moveOrderingItem = (questionId: number, index: number, direction: -1 | 1) => {
-    updateAnswer(questionId, (prev) => {
-      const order = [...(prev.order ?? [])];
-      const newIndex = index + direction;
-      if (newIndex < 0 || newIndex >= order.length) return prev;
-      const [item] = order.splice(index, 1);
-      order.splice(newIndex, 0, item);
-      return { ...prev, order };
-    });
-  };
-
-  const updateClassification = (questionId: number, value: string, key: string) => {
-    updateAnswer(questionId, (prev) => {
-      const assignment: Record<string, string[]> = Object.entries(prev.assignment ?? {}).reduce(
-        (acc, [groupKey, values]) => ({
-          ...acc,
-          [groupKey]: values.filter((v) => v !== value),
-        }),
-        {},
-      );
-
-      if (!assignment[key]) assignment[key] = [];
-      assignment[key] = [...assignment[key], value];
-
-      return { ...prev, assignment };
-    });
-  };
-
-  const handleSubmitAnswer = async () => {
-    if (!currentQuestion || !testPass) return;
-
-    const answerPayload = buildAnswerPayload(currentQuestion, answers[currentQuestion.id]);
-
-    if (answerPayload.isEmpty) {
-      enqueueSnackbar(t('tests.fillAnswer'), { variant: 'warning' });
+  const handleFinish = async (auto = false) => {
+    if (!testPass) {
       return;
     }
 
-    await submitAnswer(testPass.id, currentQuestion.number, answerPayload.answer);
+    setIsFinishing(true);
 
-    setQuestions((prev) =>
-      prev.map((question) =>
-        question.id === currentQuestion.id ? { ...question, answered: true } : question,
-      ),
-    );
+    try {
+      const response = await finishTest(testPass.id);
 
-    setCurrentIndex((prev) => (prev + 1) % questions.length);
-    enqueueSnackbar(t('tests.answerSaved'), { variant: 'success' });
-  };
+      if (response.success) {
+        if (!auto) {
+          enqueueSnackbar(t('tests.finishSuccess', { result: response.result }), {
+            variant: 'success',
+          });
+        }
 
-  const handleFinish = async () => {
-    if (!testPass) return;
-
-    const response = await finishTest(testPass.id);
-
-    if (response.success) {
-      enqueueSnackbar(t('tests.finishSuccess', { result: response.result }), { variant: 'success' });
-      navigate(getResourceById(resources.Test, testPass.test.id));
-    } else {
-      enqueueSnackbar(t('tests.finishError'), { variant: 'error' });
+        navigate(getResourceById(resources.Test, testPass.test.id));
+      } else if (!auto) {
+        enqueueSnackbar(t('tests.finishError'), { variant: 'error' });
+      }
+    } catch {
+      if (!auto) {
+        enqueueSnackbar(t('tests.finishError'), { variant: 'error' });
+      }
+    } finally {
+      setIsFinishing(false);
     }
   };
+
+  const handleSubmitAnswer = async (options?: { autoAdvance?: boolean; silent?: boolean }) => {
+    const autoAdvance = options?.autoAdvance ?? true;
+    const silent = options?.silent ?? false;
+
+    if (!testPass || !currentQuestion) {
+      return;
+    }
+
+    const currentState = ensureState(currentQuestion);
+    const answerResult = buildAnswerResult(currentQuestion, currentState);
+
+    if (answerResult.isEmpty) {
+      if (!silent) {
+        enqueueSnackbar(t('tests.fillAnswer'), { variant: 'warning' });
+      }
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await submitAnswer(testPass.id, currentQuestion.number, answerResult.answer);
+
+      setQuestions((prev) =>
+        prev.map((question) =>
+          question.id === currentQuestion.id ? { ...question, answered: true } : question,
+        ),
+      );
+
+      if (!silent) {
+        enqueueSnackbar(t('tests.answerSaved'), { variant: 'success' });
+      }
+
+      if (autoAdvance && questions.length) {
+        const nextQuestionNumber = (currentQuestion.number % questions.length) + 1;
+        const nextIndex = questions.findIndex((question) => question.number === nextQuestionNumber);
+        setCurrentIndex(nextIndex === -1 ? (currentIndex + 1) % questions.length : nextIndex);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleQuestionSelect = async (index: number) => {
+    await handleSubmitAnswer({ autoAdvance: false, silent: true });
+    setCurrentIndex(index);
+  };
+
+  useEffect(() => {
+    if (!testPass?.test?.questions?.length) {
+      return;
+    }
+
+    const hydrated = testPass.test.questions.map((question) =>
+      testingMutations.testingRepository.hydrateQuestion(question) as TestPassQuestion,
+    );
+
+    const initialStates = hydrated.reduce<Record<number, QuestionState>>((acc, question) => {
+      acc[question.id] = buildInitialState(question);
+      return acc;
+    }, {});
+
+    setQuestions(hydrated);
+    setQuestionStates(initialStates);
+    setCurrentIndex(0);
+    setTimerReady(false);
+    autoFinishRef.current = false;
+  }, [testPass?.test?.questions]);
+
+  useEffect(() => {
+    if (!testPass) {
+      return;
+    }
+
+    setTimerReady(false);
+
+    const durationParts = (testPass.test.duration ?? '0:0:0')
+      .split(':')
+      .map((value) => Number(value) || 0);
+    const [hours, minutes, seconds] = [
+      durationParts[0] ?? 0,
+      durationParts[1] ?? 0,
+      durationParts[2] ?? 0,
+    ];
+
+    const totalMs = (hours * 3600 + minutes * 60 + seconds) * 1000;
+    if (totalMs <= 0) {
+      setRemainingMs(0);
+      setTimerReady(true);
+      return;
+    }
+
+    const startedAt = new Date(testPass.started).valueOf();
+    const elapsed = Number.isNaN(startedAt) ? 0 : Date.now() - startedAt;
+
+    setRemainingMs(Math.max(totalMs - elapsed, 0));
+    setTimerReady(true);
+  }, [testPass?.started, testPass?.test.duration]);
+
+  useEffect(() => {
+    if (!timerReady) {
+      return;
+    }
+
+    if (remainingMs <= 0) {
+      return;
+    }
+
+    const timer = setInterval(
+      () => setRemainingMs((prev) => Math.max(prev - 1000, 0)),
+      1000,
+    );
+
+    return () => clearInterval(timer);
+  }, [timerReady, remainingMs]);
+
+  useEffect(() => {
+    if (!timerReady || !testPass) {
+      return;
+    }
+
+    if (remainingMs <= 0 && !isFinishing && !autoFinishRef.current) {
+      autoFinishRef.current = true;
+      handleFinish(true);
+    }
+  }, [timerReady, remainingMs, testPass, isFinishing]);
+
+  const renderQuestion = () => {
+    if (!currentQuestion) {
+      return null;
+    }
+
+    const state = ensureState(currentQuestion);
+
+    switch (currentQuestion.type) {
+      case QuestionType.SingleChoice: {
+        const selected =
+          state.type === QuestionType.SingleChoice ? state.selectedOption : -1;
+        return (
+          <SingleChoiceQuestion
+            question={currentQuestion}
+            selectedOption={selected}
+            onChange={(value) =>
+              updateState(currentQuestion, () => ({
+                type: QuestionType.SingleChoice,
+                selectedOption: value,
+              }))
+            }
+          />
+        );
+      }
+      case QuestionType.MultipleChoice: {
+        const selectedOptions =
+          state.type === QuestionType.MultipleChoice ? state.selectedOptions : [];
+        return (
+          <MultipleChoiceQuestion
+            question={currentQuestion}
+            selectedOptions={selectedOptions}
+            onToggle={(index) =>
+              updateState(currentQuestion, () => {
+                const next = new Set(selectedOptions);
+                if (next.has(index)) {
+                  next.delete(index);
+                } else {
+                  next.add(index);
+                }
+                const ordered = Array.from(next).sort((a, b) => a - b);
+                return { type: QuestionType.MultipleChoice, selectedOptions: ordered };
+              })
+            }
+          />
+        );
+      }
+      case QuestionType.TextInput: {
+        const value = state.type === QuestionType.TextInput ? state.value : '';
+        return (
+          <TextInputQuestion
+            question={currentQuestion}
+            value={value}
+            onChange={(input) =>
+              updateState(currentQuestion, () => ({
+                type: QuestionType.TextInput,
+                value: input,
+              }))
+            }
+          />
+        );
+      }
+      case QuestionType.CodeInput: {
+        const value = state.type === QuestionType.CodeInput ? state.value : '';
+        return (
+          <CodeInputQuestion
+            question={currentQuestion}
+            value={value}
+            onChange={(input) =>
+              updateState(currentQuestion, () => ({
+                type: QuestionType.CodeInput,
+                value: input,
+              }))
+            }
+          />
+        );
+      }
+      case QuestionType.Conformity: {
+        const groupOne = state.type === QuestionType.Conformity ? state.groupOne : [];
+        const groupTwo = state.type === QuestionType.Conformity ? state.groupTwo : [];
+        return (
+          <ConformityQuestion
+            question={currentQuestion}
+            groupOne={groupOne}
+            groupTwo={groupTwo}
+            onChange={(payload) =>
+              updateState(currentQuestion, () => ({
+                type: QuestionType.Conformity,
+                groupOne: payload.groupOne ?? groupOne,
+                groupTwo: payload.groupTwo ?? groupTwo,
+              }))
+            }
+          />
+        );
+      }
+      case QuestionType.Ordering: {
+        const ordering = state.type === QuestionType.Ordering ? state.ordering : [];
+        return (
+          <OrderingQuestion
+            question={currentQuestion}
+            ordering={ordering}
+            onChange={(items) =>
+              updateState(currentQuestion, () => ({
+                type: QuestionType.Ordering,
+                ordering: items,
+              }))
+            }
+          />
+        );
+      }
+      case QuestionType.Classification: {
+        const groups = state.type === QuestionType.Classification ? state.groups : [];
+        return (
+          <ClassificationQuestion
+            question={currentQuestion}
+            groups={groups}
+            onChange={(nextGroups) =>
+              updateState(currentQuestion, () => ({
+                type: QuestionType.Classification,
+                groups: nextGroups,
+              }))
+            }
+          />
+        );
+      }
+      default:
+        return null;
+    }
+  };
+
+  const timeLeft = formatRemainingTime(remainingMs);
 
   if (isLoading || !currentQuestion) {
     return (
@@ -232,181 +358,142 @@ const TestPassPage = () => {
     );
   }
 
-  const currentAnswer = answers[currentQuestion.id];
-
   return (
     <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Typography variant="h5" fontWeight={800}>
+          <Typography variant="h4" fontWeight={800}>
             {testPass?.test.title}
           </Typography>
-          <Stack direction="row" spacing={1}>
-            <Button variant="outlined" onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}>
-              {t('tests.previous')}
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => setCurrentIndex((prev) => Math.min(questions.length - 1, prev + 1))}
-            >
-              {t('tests.next')}
-            </Button>
-            <Button variant="contained" color="success" onClick={handleFinish}>
-              {t('tests.finish')}
-            </Button>
-          </Stack>
+          <Chip
+            color={remainingMs > 0 ? 'primary' : 'error'}
+            label={`${timeLeft.hours}:${timeLeft.minutes}:${timeLeft.seconds}`}
+          />
         </Stack>
 
-        <Card>
-          <CardContent>
-            <Stack direction="column" spacing={2}>
-              <Typography variant="subtitle2" color="text.secondary">
-                {t('tests.questionLabel', { index: currentQuestion.number + 1, total: questions.length })}
-              </Typography>
-              <Typography variant="h6" fontWeight={800}>
-                {currentQuestion.text}
-              </Typography>
+        <Grid container spacing={3}>
+          <Grid size={{ xs: 12, lg: 9 }}>
+            <Card>
+              <CardContent>{renderQuestion()}</CardContent>
 
-              {currentQuestion.type === QuestionType.SingleChoice && (
-                <Stack direction="column" spacing={1}>
-                  {currentQuestion.options?.map((option, index) => (
-                    <Button
-                      key={option.option ?? index}
-                      variant={currentAnswer?.selectedIndex === index ? 'contained' : 'outlined'}
-                      onClick={() =>
-                        updateAnswer(currentQuestion.id, (prev) => ({ ...prev, selectedIndex: index }))
-                      }
-                      sx={{ justifyContent: 'flex-start' }}
-                    >
-                      {option.option ?? option.optionSecondary ?? ''}
-                    </Button>
-                  ))}
-                </Stack>
-              )}
+              <Divider />
 
-              {currentQuestion.type === QuestionType.MultipleChoice && (
-                <Stack direction="column" spacing={1}>
-                  {currentQuestion.options?.map((option, index) => (
-                    <Button
-                      key={option.option ?? index}
-                      variant={currentAnswer?.selectedMulti?.has(index) ? 'contained' : 'outlined'}
-                      onClick={() => toggleMulti(currentQuestion.id, index)}
-                      sx={{ justifyContent: 'flex-start' }}
-                    >
-                      {option.option ?? option.optionSecondary ?? ''}
-                    </Button>
-                  ))}
-                </Stack>
-              )}
-
-              {(currentQuestion.type === QuestionType.TextInput ||
-                currentQuestion.type === QuestionType.CodeInput) && (
-                <TextField
-                  multiline
-                  minRows={4}
-                  value={currentAnswer?.value ?? ''}
-                  onChange={(event) =>
-                    updateAnswer(currentQuestion.id, (prev) => ({ ...prev, value: event.target.value }))
-                  }
-                  placeholder={t('tests.answerPlaceholder')}
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={2}
+                alignItems={{ xs: 'flex-start', sm: 'center' }}
+                justifyContent="space-between"
+                sx={{ p: 2 }}
+              >
+                <Chip
+                  color={currentQuestion.answered ? 'success' : 'warning'}
+                  label={currentQuestion.answered ? t('tests.answered') : t('tests.notAnswered')}
                 />
-              )}
-
-              {currentQuestion.type === QuestionType.Conformity && (
-                <Stack direction="column" spacing={2}>
-                  {currentQuestion.options?.map((option, index) => (
-                    <Stack key={option.optionMain ?? index} direction="row" spacing={2} alignItems="center">
-                      <Typography sx={{ minWidth: 200 }}>{option.optionMain}</Typography>
-                      <Select
-                        value={currentAnswer?.matches?.[index] ?? ''}
-                        onChange={(event) =>
-                          updateAnswer(currentQuestion.id, (prev) => {
-                            const matches = [...(prev.matches ?? [])];
-                            matches[index] = event.target.value as string;
-                            return { ...prev, matches };
-                          })
-                        }
-                        sx={{ minWidth: 200 }}
-                      >
-                        {(currentQuestion.options ?? []).map((secondary: QuestionOption, secIndex) => (
-                          <MenuItem key={`${secondary.optionSecondary}-${secIndex}`} value={secondary.optionSecondary}>
-                            {secondary.optionSecondary}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </Stack>
-                  ))}
-                </Stack>
-              )}
-
-              {currentQuestion.type === QuestionType.Ordering && (
-                <Stack direction="column" spacing={1}>
-                  {(currentAnswer?.order ?? []).map((item, index) => (
-                    <Stack
-                      key={`${item}-${index}`}
-                      direction="row"
-                      alignItems="center"
-                      spacing={1}
-                      sx={{ bgcolor: 'background.neutral', px: 1.5, py: 1, borderRadius: 1 }}
-                    >
-                      <Typography sx={{ flex: 1 }}>{item}</Typography>
-                      <IconButton onClick={() => moveOrderingItem(currentQuestion.id, index, -1)} size="small">
-                        <GridArrowUpwardIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton onClick={() => moveOrderingItem(currentQuestion.id, index, 1)} size="small">
-                        <GridArrowDownwardIcon fontSize="small" />
-                      </IconButton>
-                    </Stack>
-                  ))}
-                </Stack>
-              )}
-
-              {currentQuestion.type === QuestionType.Classification && (
-                <Stack direction="column" spacing={2}>
-                  {(currentQuestion.options ?? []).map((option, index) => (
-                    <Stack key={`${option.optionSecondary}-${index}`} direction="row" spacing={2} alignItems="center">
-                      <Chip label={option.optionSecondary} />
-                      <Select
-                        value={Object.entries(currentAnswer?.assignment ?? {}).find(([_, values]) =>
-                          values.includes(option.optionSecondary ?? ''),
-                        )?.[0] ?? ''}
-                        displayEmpty
-                        onChange={(event) =>
-                          updateClassification(
-                            currentQuestion.id,
-                            option.optionSecondary ?? '',
-                            event.target.value as string,
-                          )
-                        }
-                        sx={{ minWidth: 200 }}
-                      >
-                        <MenuItem value="" disabled>
-                          {t('tests.chooseGroup')}
-                        </MenuItem>
-                        {Object.keys(currentAnswer?.assignment ?? {}).map((groupKey) => (
-                          <MenuItem key={groupKey} value={groupKey}>
-                            {groupKey}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </Stack>
-                  ))}
-                </Stack>
-              )}
-
-              <Stack direction="row" spacing={2}>
-                <Button variant="contained" onClick={handleSubmitAnswer}>
-                  {t('tests.submitAnswer')}
+                <Button
+                  variant="contained"
+                  onClick={() => handleSubmitAnswer()}
+                  disabled={isSubmitting || isFinishing}
+                  sx={{ minWidth: 180 }}
+                >
+                  {isSubmitting ? (
+                    <CircularProgress size={18} color="inherit" />
+                  ) : (
+                    t('tests.submitAnswer')
+                  )}
                 </Button>
-                {currentQuestion.answered ? (
-                  <Chip color="success" label={t('tests.answered')} />
-                ) : (
-                  <Chip color="warning" label={t('tests.notAnswered')} />
-                )}
               </Stack>
+            </Card>
+          </Grid>
+
+          <Grid size={{ xs: 12, lg: 3 }}>
+            <Stack direction="column" spacing={2}>
+              <Card>
+                <CardContent>
+                  <Stack direction="column" spacing={2}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      {t('tests.timeLeft')}
+                    </Typography>
+                    <Stack direction="row" spacing={1.5} justifyContent="space-between">
+                      {[timeLeft.hours, timeLeft.minutes, timeLeft.seconds].map((value, index) => (
+                        <Stack
+                          key={`${value}-${index}`}
+                          direction="column"
+                          spacing={0.5}
+                          alignItems="center"
+                          sx={{
+                            px: 1.5,
+                            py: 1,
+                            borderRadius: 1,
+                            border: '1px solid',
+                            borderColor: 'divider',
+                            bgcolor: 'background.paper',
+                            minWidth: 72,
+                          }}
+                        >
+                          <Typography variant="h5" fontWeight={800}>
+                            {value}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            {index === 0
+                              ? t('tests.hour')
+                              : index === 1
+                                ? t('tests.minute')
+                                : t('tests.second')}
+                          </Typography>
+                        </Stack>
+                      ))}
+                    </Stack>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      onClick={() => handleFinish()}
+                      disabled={isFinishing}
+                    >
+                      {isFinishing ? (
+                        <CircularProgress size={18} color="inherit" />
+                      ) : (
+                        t('tests.finishTest')
+                      )}
+                    </Button>
+                  </Stack>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent>
+                  <Stack direction="column" spacing={1.5}>
+                    <Typography variant="subtitle1" fontWeight={700} textAlign="center">
+                      {t('tests.questions')}
+                    </Typography>
+                    <Stack direction="row" flexWrap="wrap" useFlexGap spacing={1}>
+                      {questions.map((question, index) => {
+                        const isCurrent = index === currentIndex;
+                        const isAnswered = question.answered;
+
+                        return (
+                          <Button
+                            key={question.id}
+                            variant={isCurrent ? 'contained' : 'outlined'}
+                            color={
+                              isCurrent ? 'primary' : isAnswered ? 'success' : 'inherit'
+                            }
+                            size="small"
+                            onClick={() => handleQuestionSelect(index)}
+                            disabled={isSubmitting || isFinishing}
+                            sx={{ minWidth: 44, height: 36 }}
+                          >
+                            {question.number}
+                          </Button>
+                        );
+                      })}
+                    </Stack>
+                  </Stack>
+                </CardContent>
+              </Card>
             </Stack>
-          </CardContent>
-        </Card>
+          </Grid>
+        </Grid>
       </Stack>
     </Box>
   );
