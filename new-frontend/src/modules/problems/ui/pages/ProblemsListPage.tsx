@@ -227,7 +227,7 @@ const ProblemsListPage = () => {
         </Stack>
 
         <Grid container spacing={3}>
-          <Grid xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Stack direction="column" spacing={3}>
               <FilterCard
                 languages={languages ?? []}
@@ -251,7 +251,7 @@ const ProblemsListPage = () => {
             </Stack>
           </Grid>
 
-          <Grid xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Stack direction="column" spacing={3}>
               {currentUser && (
                 <SummaryCard
@@ -335,7 +335,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
           />
 
           <Grid container spacing={2}>
-            <Grid xs={12} sm={6} md={4}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.orderBy')}</InputLabel>
                 <Select
@@ -352,7 +352,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid xs={12} sm={6} md={4}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.language')}</InputLabel>
                 <Select
@@ -377,7 +377,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid xs={12} sm={6} md={4}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <Stack direction="row" alignItems="center" spacing={1} sx={{ height: '100%' }}>
                 <FormControlLabel
                   control={
@@ -391,7 +391,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </Stack>
             </Grid>
 
-            <Grid xs={12} sm={6} md={4}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.category')}</InputLabel>
                 <Select
@@ -416,7 +416,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid xs={12} sm={6} md={4}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.tags')}</InputLabel>
                 <Select
@@ -447,7 +447,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid xs={12} sm={6} md={4}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.difficultyLabel')}</InputLabel>
                 <Select
@@ -467,7 +467,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid xs={12} sm={6} md={4}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.status')}</InputLabel>
                 <Select
