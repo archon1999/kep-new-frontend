@@ -82,6 +82,8 @@
       "subtitle": "Oxirgi {{days}} kun",
       "tooltipSuffix": "foydalanuvchi",
       "changeLabel": "Oldingi davrga nisbatan",
+      "onlineNow": "Hozir onlayn",
+      "noOnlineUsers": "Hozircha hech kim onlayn emas.",
       "totals": {
         "new": "Yangi foydalanuvchilar",
         "active": "Faol foydalanuvchilar"

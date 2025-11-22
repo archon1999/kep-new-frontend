@@ -1,10 +1,13 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
 import Chip, { type ChipProps } from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import dayjs from 'dayjs';
@@ -16,7 +19,9 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import ReactEchart from 'shared/components/base/ReactEchart';
 import { getColor } from 'shared/lib/echart-utils';
 import { getPastDates } from 'shared/lib/utils';
-import { useUserActivityStatistics } from '../../application/queries';
+import UserPopover from 'modules/users/ui/components/UserPopover';
+import type { HomeOnlineUsers } from '../../domain/entities/home.entity';
+import { useOnlineUsers, useUserActivityStatistics } from '../../application/queries';
 
 echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
@@ -56,6 +61,7 @@ const UserActivitySection = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { data, isLoading } = useUserActivityStatistics();
+  const { data: onlineUsersData, isLoading: isOnlineLoading } = useOnlineUsers(8);
   const showSkeleton = isLoading || !data;
 
   const newUsersStat = data?.newUsers;
@@ -171,16 +177,75 @@ const UserActivitySection = () => {
   const newUsersTrend = getTrendStyles(newUsersStat?.percentage ?? 0);
   const activeUsersTrend = getTrendStyles(activeUsersStat?.percentage ?? 0);
 
+  const onlineUsers = useMemo(() => {
+    if (Array.isArray((onlineUsersData as HomeOnlineUsers)?.data)) {
+      return (onlineUsersData as HomeOnlineUsers).data;
+    }
+
+    if (Array.isArray(onlineUsersData as unknown as unknown[])) {
+      return onlineUsersData as unknown as HomeOnlineUsers['data'];
+    }
+
+    return [];
+  }, [onlineUsersData]);
+
+  const getDisplayName = (user: HomeOnlineUsers['data'][number]) => {
+    const firstName = user.firstName?.trim() ?? '';
+    const lastName = user.lastName?.trim() ?? '';
+    const fullName = `${firstName} ${lastName}`.trim();
+
+    return fullName || user.username;
+  };
+
   return (
     <Stack direction="column">
       <Paper sx={{ p: 4 }}>
-        <Stack direction="column" spacing={0.5}>
-          <Typography variant="h5" sx={{ fontWeight: 600 }}>
-            {t('homePage.userActivity.title')}
-          </Typography>
-          <Typography variant="subtitle2" color="text.secondary">
-            {t('homePage.userActivity.subtitle', { days: periodLength })}
-          </Typography>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
+          <Stack direction="column" spacing={0.5}>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+              {t('homePage.userActivity.title')}
+            </Typography>
+            <Typography variant="subtitle2" color="text.secondary">
+              {t('homePage.userActivity.subtitle', { days: periodLength })}
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" alignItems="center" spacing={1.5}>
+            <Typography variant="body2" color="text.secondary">
+              {t('homePage.userActivity.onlineNow')}
+            </Typography>
+
+            {isOnlineLoading ? (
+              <Stack direction="row" spacing={0.75}>
+                <Skeleton variant="circular" width={36} height={36} />
+                <Skeleton variant="circular" width={36} height={36} />
+                <Skeleton variant="circular" width={36} height={36} />
+              </Stack>
+            ) : onlineUsers.length ? (
+              <AvatarGroup max={6} sx={{ '& .MuiAvatar-root': { width: 36, height: 36 } }}>
+                {onlineUsers.map((user) => {
+                  const displayName = getDisplayName(user);
+
+                  return (
+                    <UserPopover
+                      key={user.username}
+                      username={user.username}
+                      fullName={displayName}
+                      avatar={user.avatar}
+                    >
+                      <Tooltip title={displayName} arrow>
+                        <Avatar alt={displayName} src={user.avatar} />
+                      </Tooltip>
+                    </UserPopover>
+                  );
+                })}
+              </AvatarGroup>
+            ) : (
+              <Typography variant="body2" color="text.secondary">
+                {t('homePage.userActivity.noOnlineUsers')}
+              </Typography>
+            )}
+          </Stack>
         </Stack>
       </Paper>
 
