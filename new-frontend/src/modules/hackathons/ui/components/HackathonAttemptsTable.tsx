@@ -93,7 +93,7 @@ const HackathonAttemptsTable = ({ attempts, isLoading }: HackathonAttemptsTableP
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
+            <TableCell>{t('projects.id')}</TableCell>
             <TableCell>{t('projects.user')}</TableCell>
             <TableCell>{t('projects.project')}</TableCell>
             <TableCell>{t('projects.technology')}</TableCell>

@@ -20,16 +20,16 @@
     "problemsAttempts": "Попытки",
     "login": "Войти",
     "notFound": "Страница не найдена",
-    "challenges": "Баттлы",
-    "challenge": "Баттл",
-    "challengesRating": "Рейтинг баттлов",
-    "challengesStats": "Статистика баттлов",
+    "challenges": "Вызовы",
+    "challenge": "Вызов",
+    "challengesRating": "Рейтинг вызовов",
+    "challengesStats": "Статистика вызовов",
     "accountSettings": "Настройки аккаунта",
     "contests": "Контесты",
     "contestsRating": "Рейтинг контестов",
     "tournaments": "Турниры",
     "tournament": "Турнир",
     "userProfile": "Профиль пользователя",
-    "contestsStats": "?????????? ?????????"
+    "contestsStats": "Статистика контестов"
   }
 }
