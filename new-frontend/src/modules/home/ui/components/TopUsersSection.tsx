@@ -238,13 +238,15 @@ const TopUsersSection = () => {
   };
 
   return (
-    <Paper>
+    <Paper sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Stack
         direction="column"
         spacing={3}
         sx={{
           ...responsivePagePaddingSx,
           position: 'relative',
+          height: 1,
+          flexGrow: 1,
         }}
       >
         <Stack
@@ -273,37 +275,41 @@ const TopUsersSection = () => {
           ))}
         </Tabs>
 
-        {showSkeleton && (
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, minmax(0, 1fr))' },
-              gap: 2,
-            }}
-          >
-            {Array.from({ length: 3 }).map((_, index) => (
-              <Skeleton key={index} variant="rounded" height={150} />
-            ))}
-          </Box>
-        )}
+        <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {showSkeleton && (
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, minmax(0, 1fr))' },
+                gap: 2,
+                flexGrow: 1,
+              }}
+            >
+              {Array.from({ length: 3 }).map((_, index) => (
+                <Skeleton key={index} variant="rounded" height={150} />
+              ))}
+            </Box>
+          )}
 
-        {!showSkeleton && users.length > 0 && (
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: 'repeat(1, minmax(0, 1fr))', lg: 'repeat(3, minmax(0, 1fr))' },
-              gap: 2,
-            }}
-          >
-            {users.map((user, index) => renderUserCard(user, index))}
-          </Box>
-        )}
+          {!showSkeleton && users.length > 0 && (
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: 'repeat(1, minmax(0, 1fr))', lg: 'repeat(3, minmax(0, 1fr))' },
+                gap: 2,
+                flexGrow: 1,
+              }}
+            >
+              {users.map((user, index) => renderUserCard(user, index))}
+            </Box>
+          )}
 
-        {!showSkeleton && users.length === 0 && (
-          <Typography variant="body2" color="text.secondary">
-            {emptyLabel}
-          </Typography>
-        )}
+          {!showSkeleton && users.length === 0 && (
+            <Typography variant="body2" color="text.secondary" sx={{ flexGrow: 1 }}>
+              {emptyLabel}
+            </Typography>
+          )}
+        </Box>
         <Button
           variant="text"
           color="primary"
