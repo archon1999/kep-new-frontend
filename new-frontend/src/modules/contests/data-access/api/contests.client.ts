@@ -4,6 +4,7 @@ import {
   ApiContestsListParams,
   ApiContestsRatingList200,
   ApiContestsRatingListParams,
+  ContestsRatingDetail,
   ContestsCategory,
 } from 'shared/api/orval/generated/endpoints/index.schemas';
 
@@ -13,7 +14,7 @@ export const contestsApiClient = {
   rating: (params?: ApiContestsRatingListParams) =>
     apiClient.apiContestsRatingList(params) as Promise<ApiContestsRatingList200>,
   ratingChanges: (username: string) =>
-    apiClient.apiContestsRatingRatingChanges(username) as Promise<any[]>,
+    apiClient.apiContestsRatingRatingChanges(username) as Promise<ContestsRatingDetail[]>,
   userStatistics: (username: string) =>
     apiClient.apiContestsRatingStatistics(username) as Promise<any>,
 };

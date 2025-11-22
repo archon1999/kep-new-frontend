@@ -98,11 +98,12 @@ const ContestCard = ({ contest }: ContestCardProps) => {
               </Typography>
 
               <Typography
-                dangerouslySetInnerHTML={{ __html: contest.description }}
+                component="div"
+                dangerouslySetInnerHTML={{ __html: contest.description ?? '' }}
                 variant="body2"
                 color="text.secondary"
                 sx={{ maxWidth: 720 }}
-              ></Typography>
+              />
             </Stack>
 
             <Chip
