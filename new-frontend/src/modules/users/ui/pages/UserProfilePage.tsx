@@ -1,12 +1,20 @@
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Outlet, Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router';
+import {
+  Outlet,
+  Link as RouterLink,
+  useLocation,
+  useNavigate,
+  useNavigation,
+  useParams,
+} from 'react-router';
 import {
   Avatar,
   Badge,
   Box,
   Card,
   CardContent,
+  CircularProgress,
   Grid,
   Skeleton,
   Stack,
@@ -38,6 +46,7 @@ const UserProfilePage = () => {
   const { username = '' } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const navigation = useNavigation();
 
   const { data: userDetails } = useUserDetails(username);
   const { data: userRatings, isLoading: isRatingsLoading } = useUserRatings(username);
@@ -79,6 +88,9 @@ const UserProfilePage = () => {
   const coverPhoto = userDetails?.coverPhoto;
   const avatar = userDetails?.avatar;
   const isOnline = userDetails?.isOnline;
+
+  const isTabLoading =
+    navigation.state === 'loading' && navigation.location?.pathname.startsWith(`/users/${username}`);
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: TabKey) => {
     const next = tabs.find((tab) => tab.value === newValue);
@@ -199,13 +211,30 @@ const UserProfilePage = () => {
         </Grid>
 
         <Grid size={{ xs: 12, md: 9 }}>
-          <Card>
+          <Card sx={{ position: 'relative' }}>
+            {isTabLoading ? (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  bgcolor: 'background.paper',
+                  opacity: 0.8,
+                  zIndex: 1,
+                }}
+              >
+                <CircularProgress size={28} />
+              </Box>
+            ) : null}
             <CardContent>
               <Tabs
                 value={currentTab}
                 onChange={handleTabChange}
                 variant="scrollable"
                 allowScrollButtonsMobile
+                aria-busy={isTabLoading}
               >
                 {tabs.map((tab) => (
                   <Tab
@@ -214,13 +243,26 @@ const UserProfilePage = () => {
                     label={tab.label}
                     component={RouterLink}
                     to={tab.to}
+                    disabled={isTabLoading}
                   />
                 ))}
               </Tabs>
             </CardContent>
-            <CardContent>
-              <Outlet />
-            </CardContent>
+            <Suspense
+              fallback={
+                <CardContent>
+                  <Stack spacing={2}>
+                    <Skeleton variant="rectangular" height={160} />
+                    <Skeleton variant="rounded" height={32} />
+                    <Skeleton variant="rounded" height={24} />
+                  </Stack>
+                </CardContent>
+              }
+            >
+              <CardContent sx={{ opacity: isTabLoading ? 0.4 : 1 }}>
+                <Outlet />
+              </CardContent>
+            </Suspense>
           </Card>
         </Grid>
       </Grid>
