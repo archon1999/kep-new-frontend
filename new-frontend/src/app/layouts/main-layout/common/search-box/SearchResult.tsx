@@ -211,6 +211,7 @@ const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
                 <List sx={{ pt: 0, pb: 1 }}>
                   {users.map((user: UsersListItem) => {
                     const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ');
+                    const usernameLabel = `@${user.username}`;
 
                     return (
                       <ListItem key={user.username} disablePadding>
@@ -218,19 +219,23 @@ const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
                           component={NavLink}
                           to={getResourceByUsername(resources.UserProfile, user.username)}
                           onClick={handleClose}
-                          sx={{ px: 3 }}
+                          sx={{ px: 3, py: 1, columnGap: 1.5 }}
                         >
-                          <ListItemIcon>
-                            <Avatar src={user.avatar} alt={user.username} sx={{ width: 32, height: 32 }}>
-                              {user.username.charAt(0).toUpperCase()}
-                            </Avatar>
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={`@${user.username}`}
-                            secondary={fullName}
-                            primaryTypographyProps={{ variant: 'subtitle2', color: 'text.primary' }}
-                            secondaryTypographyProps={{ variant: 'caption', color: 'text.secondary' }}
-                          />
+                          <Avatar src={user.avatar} alt={user.username} sx={{ width: 32, height: 32 }}>
+                            {user.username.charAt(0).toUpperCase()}
+                          </Avatar>
+                          <Box sx={{ minWidth: 0 }}>
+                            <Typography
+                              variant="subtitle2"
+                              color="text.primary"
+                              sx={{ lineHeight: 1.4, mb: 0.25 }}
+                            >
+                              {fullName || usernameLabel}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1.4 }}>
+                              {usernameLabel}
+                            </Typography>
+                          </Box>
                         </ListItemButton>
                       </ListItem>
                     );
@@ -258,7 +263,7 @@ const SearchResult = ({ handleClose }: { handleClose: () => void }) => {
                           <IconifyIcon icon="material-symbols:code-rounded" />
                         </ListItemIcon>
                         <ListItemText
-                          primary={`#${problem.id} ${problem.title}`}
+                          primary={`${problem.id}. ${problem.title}`}
                           primaryTypographyProps={{ variant: 'subtitle2', color: 'text.primary' }}
                         />
                       </ListItemButton>
