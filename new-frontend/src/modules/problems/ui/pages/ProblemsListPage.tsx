@@ -17,6 +17,7 @@ import {
   ListItemText,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Skeleton,
   Stack,
   Switch,
@@ -226,7 +227,7 @@ const ProblemsListPage = () => {
         </Stack>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
+          <Grid xs={12} md={8}>
             <Stack direction="column" spacing={3}>
               <FilterCard
                 languages={languages ?? []}
@@ -250,7 +251,7 @@ const ProblemsListPage = () => {
             </Stack>
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid xs={12} md={4}>
             <Stack direction="column" spacing={3}>
               {currentUser && (
                 <SummaryCard
@@ -334,7 +335,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
           />
 
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid xs={12} sm={6} md={4}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.orderBy')}</InputLabel>
                 <Select
@@ -351,7 +352,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid xs={12} sm={6} md={4}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.language')}</InputLabel>
                 <Select
@@ -376,7 +377,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid xs={12} sm={6} md={4}>
               <Stack direction="row" alignItems="center" spacing={1} sx={{ height: '100%' }}>
                 <FormControlLabel
                   control={
@@ -390,7 +391,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </Stack>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid xs={12} sm={6} md={4}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.category')}</InputLabel>
                 <Select
@@ -415,7 +416,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid xs={12} sm={6} md={4}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.tags')}</InputLabel>
                 <Select
@@ -446,7 +447,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid xs={12} sm={6} md={4}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.difficultyLabel')}</InputLabel>
                 <Select
@@ -466,15 +467,16 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid xs={12} sm={6} md={4}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.status')}</InputLabel>
                 <Select
                   label={t('problems.status')}
                   value={filter.status ?? ''}
-                  onChange={(event) =>
-                    onChange('status', event.target.value === '' ? undefined : Number(event.target.value))
-                  }
+                  onChange={(event: SelectChangeEvent<string>) => {
+                    const value = event.target.value;
+                    onChange('status', value === '' ? undefined : Number(value));
+                  }}
                 >
                   <MenuItem value="">{t('problems.allStatuses')}</MenuItem>
                   {statusOptions.map((option) => (

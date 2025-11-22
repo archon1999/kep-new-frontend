@@ -21,13 +21,13 @@ const UserProfileAboutTab = () => {
   const technologies = data?.technologies ?? [];
   const educations = data?.educations ?? [];
   const workExperiences = data?.workExperiences ?? [];
-  const bio = data?.profileInfo?.bio;
+  const bio = data?.profileInfo?.bio || '';
 
   const skillEntries = useMemo(
     () =>
       Object.entries(skills)
         .filter(([, value]) => value !== undefined && value !== null)
-        .map(([label, value]) => ({ label, value: Number(value) })),
+        .map(([label, value]) => ({ label, value: Number(value ?? 0) })),
     [skills],
   );
 

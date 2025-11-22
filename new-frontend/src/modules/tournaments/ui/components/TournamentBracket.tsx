@@ -169,7 +169,6 @@ const TournamentBracket = ({ tournament }: TournamentBracketProps) => {
             isPlayer: undefined,
             playerFirst: tournament.players[i],
             playerSecond: tournament.players[i + 1],
-            preset: undefined,
           },
         });
       }

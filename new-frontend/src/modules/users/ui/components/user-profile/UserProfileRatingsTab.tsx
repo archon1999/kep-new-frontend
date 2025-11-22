@@ -17,7 +17,7 @@ const UserProfileRatingsTab = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={4}>
+      <Grid xs={12} md={4}>
         <Card variant="outlined">
           <CardContent>
             <Stack direction="column" spacing={1.5}>
@@ -59,7 +59,7 @@ const UserProfileRatingsTab = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} md={4}>
+      <Grid xs={12} md={4}>
         <Card variant="outlined">
           <CardContent>
             <Stack direction="column" spacing={1.5}>
@@ -103,7 +103,7 @@ const UserProfileRatingsTab = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} md={4}>
+      <Grid xs={12} md={4}>
         <Card variant="outlined">
           <CardContent>
             <Stack direction="column" spacing={1.5}>

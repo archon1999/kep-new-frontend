@@ -107,7 +107,7 @@ const ProblemsRatingPage = () => {
         : row.user.username;
 
     return (
-      <Grid item xs={12} sm={6} lg={4} key={`${row.user.username}-${row.rowIndex}`}>
+      <Grid xs={12} sm={6} lg={4} key={`${row.user.username}-${row.rowIndex}`}>
         <Card variant="outlined" sx={{ height: '100%' }}>
           <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, height: '100%' }}>
             <Stack direction="row" alignItems="center" spacing={1} justifyContent="space-between">
@@ -219,7 +219,7 @@ const ProblemsRatingPage = () => {
         {isLoading ? (
           <Grid container spacing={2}>
             {Array.from({ length: pageSize }).map((_, idx) => (
-              <Grid item xs={12} sm={6} lg={4} key={idx}>
+              <Grid xs={12} sm={6} lg={4} key={idx}>
                 <Skeleton variant="rounded" height={180} />
               </Grid>
             ))}
@@ -290,7 +290,7 @@ const PeriodRatings = () => {
               const isLoading = hook.isLoading;
 
               return (
-                <Grid item xs={12} md={4} key={period}>
+                <Grid xs={12} md={4} key={period}>
                   <Card variant="outlined" sx={{ borderColor: `var(--mui-palette-${color}-main)` }}>
                     <CardContent>
                       <Stack
