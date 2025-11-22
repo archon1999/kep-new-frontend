@@ -39,7 +39,10 @@ export const useProblemsPeriodRating = (period: 'today' | 'week' | 'month') =>
   useSWR(['problems-period-rating', period], () => problemsRepository.listPeriodRating(period));
 
 export const useAttemptsList = (params: AttemptsListParams) =>
-  useSWR(['problems-attempts', params], () => problemsRepository.listAttempts(params));
+  useSWR(['problems-attempts', params], () => problemsRepository.listAttempts(params), {
+    keepPreviousData: true,
+    revalidateOnFocus: false,
+  });
 
 export const useAttemptVerdicts = () => useSWR(['attempts-verdicts'], () => problemsRepository.listVerdicts());
 
