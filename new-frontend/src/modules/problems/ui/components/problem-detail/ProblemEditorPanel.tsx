@@ -15,6 +15,7 @@ import {
   Tabs,
   TextField,
   Typography,
+  CircularProgress,
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { resources } from 'app/routes/resources';
@@ -97,6 +98,7 @@ export const ProblemEditorPanel = ({
   const selectedLanguageInfo = problem?.availableLanguages?.find(
     (lang) => lang.lang === selectedLang,
   );
+  const hasCode = Boolean(code?.trim());
 
   useEffect(() => {
     if (!monaco) return;
@@ -113,22 +115,39 @@ export const ProblemEditorPanel = ({
     const scrollbarColor = alpha(theme.palette.text.primary, 0.16);
     const scrollbarHoverColor = alpha(theme.palette.text.primary, 0.24);
     const scrollbarActiveColor = alpha(theme.palette.primary.main, 0.35);
+    const scrollbarBackground = alpha(theme.palette.background.paper, 0.4);
 
     monaco.editor.defineTheme('kep-light', {
       base: 'vs',
       inherit: true,
-      rules: [
-      ],
+      rules: [],
       colors: {
+        'editor.background': lightBackground,
+        'editorLineNumber.foreground': lineNumberColor,
+        'editor.selectionBackground': selectionColor,
+        'editor.selectionHighlightBackground': selectionHighlightColor,
+        'editorGutter.background': gutterBackground,
+        'scrollbarSlider.background': scrollbarColor,
+        'scrollbarSlider.hoverBackground': scrollbarHoverColor,
+        'scrollbarSlider.activeBackground': scrollbarActiveColor,
+        'editorOverviewRuler.background': scrollbarBackground,
       },
     });
 
     monaco.editor.defineTheme('kep-dark', {
       base: 'vs-dark',
       inherit: true,
-      rules: [
-      ],
+      rules: [],
       colors: {
+        'editor.background': darkBackground,
+        'editorLineNumber.foreground': lineNumberColor,
+        'editor.selectionBackground': selectionColor,
+        'editor.selectionHighlightBackground': selectionHighlightColor,
+        'editorGutter.background': gutterBackground,
+        'scrollbarSlider.background': scrollbarColor,
+        'scrollbarSlider.hoverBackground': scrollbarHoverColor,
+        'scrollbarSlider.activeBackground': scrollbarActiveColor,
+        'editorOverviewRuler.background': scrollbarBackground,
       },
     });
 
@@ -458,23 +477,68 @@ export const ProblemEditorPanel = ({
           bgcolor: 'background.paper',
         }}
       >
-        <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} justifyContent="space-between">
-          <Typography variant="caption" color="text.secondary">
-            {t('problems.detail.language')}:{' '}
-            {selectedLanguageInfo?.langFull || selectedLanguageInfo?.lang || '--'}
-          </Typography>
-          {selectedLanguageInfo ? (
-            <Stack direction="row" spacing={1.5} flexWrap="wrap">
-              <Typography variant="caption" color="text.secondary">
-                {t('problems.detail.timeLimit')}:{' '}
-                {selectedLanguageInfo.timeLimit ?? problem?.timeLimit ?? '--'} ms
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {t('problems.detail.memoryLimit')}:{' '}
-                {selectedLanguageInfo.memoryLimit ?? problem?.memoryLimit ?? '--'} MB
-              </Typography>
-            </Stack>
-          ) : null}
+        <Stack direction={{ xs: 'column', md: 'row' }} spacing={1.25} justifyContent="space-between">
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={1}
+            alignItems={{ xs: 'stretch', sm: 'center' }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onRun}
+              disabled={!currentUser || isRunning || !hasCode}
+              startIcon={isRunning ? <CircularProgress size={18} color="inherit" /> : undefined}
+            >
+              {isRunning ? t('problems.detail.running') : t('problems.detail.run')}
+            </Button>
+            {canUseCheckSamples ? (
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={onCheckSamples}
+                disabled={!currentUser || isCheckingSamples || !hasCode}
+                startIcon={
+                  isCheckingSamples ? <CircularProgress size={18} color="inherit" /> : undefined
+                }
+              >
+                {t('problems.detail.checkSamples')}
+              </Button>
+            ) : null}
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={onSubmit}
+              disabled={!currentUser || isSubmitting || !hasCode}
+              startIcon={isSubmitting ? <CircularProgress size={18} color="inherit" /> : undefined}
+            >
+              {t('problems.detail.submit')}
+            </Button>
+          </Stack>
+
+          <Stack direction="column" spacing={0.5} alignItems={{ xs: 'flex-start', md: 'flex-end' }}>
+            <Typography variant="caption" color="text.secondary">
+              {t('problems.detail.language')}:{' '}
+              {selectedLanguageInfo?.langFull || selectedLanguageInfo?.lang || '--'}
+            </Typography>
+            {selectedLanguageInfo ? (
+              <Stack
+                direction="row"
+                spacing={1.5}
+                flexWrap="wrap"
+                justifyContent={{ xs: 'flex-start', md: 'flex-end' }}
+              >
+                <Typography variant="caption" color="text.secondary">
+                  {t('problems.detail.timeLimit')}:{' '}
+                  {selectedLanguageInfo.timeLimit ?? problem?.timeLimit ?? '--'} ms
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {t('problems.detail.memoryLimit')}:{' '}
+                  {selectedLanguageInfo.memoryLimit ?? problem?.memoryLimit ?? '--'} MB
+                </Typography>
+              </Stack>
+            ) : null}
+          </Stack>
         </Stack>
       </Box>
     </Card>

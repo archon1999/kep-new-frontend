@@ -92,8 +92,8 @@ const BirthdaysSection = () => {
             {birthdays.map((user) => {
               const displayName = getDisplayName(user);
               const birthdayDate = formatBirthdayDate(user.birthday ?? user.date);
-              const profilePath = getResourceByUsername(resources.UserProfile, user.username);
               const countryCode = user.country?.toUpperCase?.();
+              const profilePath = getResourceByUsername(resources.UserProfile, user.username);
 
               return (
                 <Card key={user.username}>
@@ -106,14 +106,15 @@ const BirthdaysSection = () => {
                     >
                       <Stack direction="row" spacing={2} alignItems="center" sx={{ cursor: 'pointer' }}>
                         <Avatar src={user.avatar} alt={displayName} sx={{ width: 48, height: 48 }} />
-
-                      <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
-                        <Link
-                          underline="hover"
-                          color="text.primary"
-                          sx={{ fontWeight: 600 }}
-                        >
-                          {displayName}
+                        <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
+                          <Link
+                            underline="hover"
+                            color="text.primary"
+                            sx={{ fontWeight: 600 }}
+                            component={RouterLink}
+                            to={profilePath}
+                          >
+                            {displayName}
                           </Link>
                           <Typography variant="body2" color="text.secondary">
                             {birthdayDate}
