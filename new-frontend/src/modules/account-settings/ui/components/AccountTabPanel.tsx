@@ -25,7 +25,6 @@ const AccountTabPanel = ({
         {onOpenTabs ? (
           <IconButton onClick={onOpenTabs} sx={{ display: { md: 'none' }, mr: -1 }}>
             <IconifyIcon
-              flipOnRTL
               icon="material-symbols:chevron-left-rounded"
               sx={{ fontSize: 20, color: 'neutral.main' }}
             />
