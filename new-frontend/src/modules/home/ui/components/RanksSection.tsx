@@ -84,7 +84,7 @@ const RanksSection = ({ ratings, isLoading }: RanksSectionProps) => {
       <Stack spacing={2} direction="column">
         {cards.map(({ label, infoKey, icon, value, rank, percentile }) => {
           if (isLoading) {
-            return <Skeleton key={label} variant="rounded" height={184} />;
+            return <Skeleton key={label} variant="rounded" height={144} />;
           }
 
           return (
