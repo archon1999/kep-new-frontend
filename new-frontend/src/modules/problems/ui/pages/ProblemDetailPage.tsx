@@ -25,6 +25,7 @@ import ProblemDescriptionSkeleton from '../components/problem-detail/ProblemDesc
 import { ProblemEditorPanel } from '../components/problem-detail/ProblemEditorPanel';
 import ProblemEditorSkeleton from '../components/problem-detail/ProblemEditorSkeleton';
 import { ProblemHeader } from '../components/problem-detail/ProblemHeader';
+import { VerdictKey } from 'shared/components/problems/AttemptVerdict';
 
 const STORAGE_LANG_KEY = 'problem-submit-lang';
 
@@ -100,7 +101,7 @@ const ProblemDetailPage = () => {
   const [isCheckingSamples, setIsCheckingSamples] = useState(false);
   const [isAnswering, setIsAnswering] = useState(false);
   const [checkSamplesResult, setCheckSamplesResult] = useState<
-    Array<{ verdict: number; input?: string; output?: string; answer?: string }>
+    Array<{ verdict?: VerdictKey; verdictTitle?: string; input?: string; output?: string; answer?: string }>
   >([]);
   const [editorTab, setEditorTab] = useState<'console' | 'samples'>('console');
   const [myAttemptsOnly, setMyAttemptsOnly] = useState(true);
