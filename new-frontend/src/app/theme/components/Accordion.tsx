@@ -17,7 +17,7 @@ const Accordion: Components<Omit<Theme, 'components'>>['MuiAccordion'] = {
     root: ({ theme }) => ({
       padding: 0,
       outline: 'none',
-      borderRadius: '1.5rem !important',
+      borderRadius: `${theme.spacing(3)} !important`,
 
       '&:hover': {
         backgroundColor: theme.vars.palette.background.elevation1,
@@ -49,7 +49,7 @@ export const AccordionSummary: Components<Omit<Theme, 'components'>>['MuiAccordi
     root: ({ theme }) => ({
       gap: theme.spacing(1),
       flexDirection: 'row-reverse',
-      padding: theme.spacing(3),
+      padding: theme.spacing(1),
 
       [`& .${accordionSummaryClasses.content}`]: {
         margin: 0,
@@ -82,7 +82,7 @@ export const AccordionDetails: Components<Omit<Theme, 'components'>>['MuiAccordi
   defaultProps: {},
   styleOverrides: {
     root: ({ theme }) => ({
-      padding: theme.spacing(0, 3, 3, 7),
+      padding: theme.spacing(1, 2),
       color: theme.vars.palette.text.secondary,
 
       [`& .${typographyClasses.root}`]: {
