@@ -15,7 +15,7 @@ const HackathonAttemptsPage = () => {
   const [page, setPage] = useState(1);
 
   const { data: hackathon } = useHackathon(id);
-  const { data, isLoading } = useProjectAttempts(undefined, { page, hackathonId });
+  const { data, isLoading, mutate } = useProjectAttempts(undefined, { page, hackathonId });
 
   return (
     <Box sx={responsivePagePaddingSx}>
@@ -31,7 +31,7 @@ const HackathonAttemptsPage = () => {
           </Typography>
         </Stack>
 
-        <HackathonAttemptsTable attempts={data?.data} isLoading={isLoading} />
+        <HackathonAttemptsTable attempts={data?.data} isLoading={isLoading} onRerun={() => mutate()} />
 
         <Box display="flex" justifyContent="flex-end">
           <Pagination

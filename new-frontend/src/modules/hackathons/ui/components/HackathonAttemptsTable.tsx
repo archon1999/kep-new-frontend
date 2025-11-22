@@ -17,14 +17,17 @@ import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { ProjectAttempt, ProjectAttemptLog } from 'modules/projects/domain/entities/project.entity';
 import { projectsQueries } from 'modules/projects/application/queries';
+import { useAuth } from 'app/providers/AuthProvider';
 
 interface HackathonAttemptsTableProps {
   attempts: ProjectAttempt[] | undefined;
   isLoading?: boolean;
+  onRerun?: () => void;
 }
 
-const HackathonAttemptsTable = ({ attempts, isLoading }: HackathonAttemptsTableProps) => {
+const HackathonAttemptsTable = ({ attempts, isLoading, onRerun }: HackathonAttemptsTableProps) => {
   const { t } = useTranslation();
+  const { currentUser } = useAuth();
   const [log, setLog] = useState<ProjectAttemptLog | null>(null);
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [isFetchingLog, setIsFetchingLog] = useState(false);
@@ -43,6 +46,11 @@ const HackathonAttemptsTable = ({ attempts, isLoading }: HackathonAttemptsTableP
     } finally {
       setIsFetchingLog(false);
     }
+  };
+
+  const handleRerun = async (attemptId: number) => {
+    await projectsQueries.attemptsRepository.rerun(attemptId);
+    onRerun?.();
   };
 
   const renderLogDialog = () => (
@@ -154,9 +162,22 @@ const HackathonAttemptsTable = ({ attempts, isLoading }: HackathonAttemptsTableP
                 </Stack>
               </TableCell>
               <TableCell align="right">
-                <Button size="small" variant="outlined" onClick={() => handleOpenLog(attempt.id)}>
-                  {t('projects.log')}
-                </Button>
+                <Stack direction="row" spacing={1} justifyContent="flex-end">
+                  <Button size="small" variant="outlined" onClick={() => handleOpenLog(attempt.id)}>
+                    {t('projects.log')}
+                  </Button>
+                  {currentUser?.isSuperuser && (
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="primary"
+                      startIcon={<IconifyIcon icon="mdi:refresh" />}
+                      onClick={() => handleRerun(attempt.id)}
+                    >
+                      {t('projects.rerun')}
+                    </Button>
+                  )}
+                </Stack>
               </TableCell>
             </TableRow>
           ))}

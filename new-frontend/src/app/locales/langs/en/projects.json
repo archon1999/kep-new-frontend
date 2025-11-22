@@ -26,6 +26,7 @@
     "verdict": "Verdict",
     "timeMemory": "Time/Memory",
     "log": "Log",
+    "rerun": "Rerun",
     "noAttempts": "No attempts yet",
     "attemptLog": "Attempt log",
     "loadingLog": "Loading log...",

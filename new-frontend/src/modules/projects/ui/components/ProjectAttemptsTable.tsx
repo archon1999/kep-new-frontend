@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  IconButton,
   Stack,
   Table,
   TableBody,
@@ -218,9 +217,15 @@ const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: Project
                       </Button>
                     )}
                     {currentUser?.isSuperuser && (
-                      <IconButton size="small" color="primary" onClick={() => handleRerun(attempt.id)}>
-                        <IconifyIcon icon="mdi:refresh" />
-                      </IconButton>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<IconifyIcon icon="mdi:refresh" />}
+                        onClick={() => handleRerun(attempt.id)}
+                      >
+                        {t('projects.rerun')}
+                      </Button>
                     )}
                   </Stack>
                 </TableCell>
