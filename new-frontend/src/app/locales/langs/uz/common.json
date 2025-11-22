@@ -16,5 +16,8 @@
       "completed": "Bajarildi",
       "empty": "Hozircha kunlik vazifalar yo'q"
     }
+  },
+  "notifications": {
+    "systemInfoTitle": "Ma'lumot"
   }
 }

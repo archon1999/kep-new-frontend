@@ -16,5 +16,8 @@
       "completed": "Completed",
       "empty": "No daily tasks for now"
     }
+  },
+  "notifications": {
+    "systemInfoTitle": "Information"
   }
 }
