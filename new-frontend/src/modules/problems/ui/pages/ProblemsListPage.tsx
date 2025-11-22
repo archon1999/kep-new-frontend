@@ -9,6 +9,7 @@ import {
   Divider,
   FormControl,
   FormControlLabel,
+  Grid,
   InputLabel,
   LinearProgress,
   List,
@@ -28,7 +29,6 @@ import {
   alpha,
   useTheme,
 } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
@@ -382,7 +382,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                   control={
                     <Switch
                       checked={Boolean(filter.favorites)}
-                      onChange={(event) => onChange('favorites', event.target.checked)}
+                      onChange={(_, checked) => onChange('favorites', checked)}
                     />
                   }
                   label={t('problems.favoritesOnly')}

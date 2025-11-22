@@ -14,7 +14,7 @@ export const contestsApiClient = {
   rating: (params?: ApiContestsRatingListParams) =>
     apiClient.apiContestsRatingList(params) as Promise<ApiContestsRatingList200>,
   ratingChanges: (username: string) =>
-    apiClient.apiContestsRatingRatingChanges(username) as Promise<ContestsRatingDetail[]>,
+    apiClient.apiContestsRatingRatingChanges(username) as Promise<ContestsRatingDetail>,
   userStatistics: (username: string) =>
     apiClient.apiContestsRatingStatistics(username) as Promise<any>,
 };
