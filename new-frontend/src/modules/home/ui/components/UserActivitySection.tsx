@@ -15,13 +15,13 @@ import { LineChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
+import UserPopover from 'modules/users/ui/components/UserPopover';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import ReactEchart from 'shared/components/base/ReactEchart';
 import { getColor } from 'shared/lib/echart-utils';
 import { getPastDates } from 'shared/lib/utils';
-import UserPopover from 'modules/users/ui/components/UserPopover';
-import type { HomeOnlineUsers } from '../../domain/entities/home.entity';
 import { useOnlineUsers, useUserActivityStatistics } from '../../application/queries';
+import type { HomeOnlineUsers } from '../../domain/entities/home.entity';
 
 echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
@@ -210,7 +210,7 @@ const UserActivitySection = () => {
             </Typography>
           </Stack>
 
-          <Stack direction="row" alignItems="center" spacing={1.5}>
+          <Stack direction="column" alignItems="flex-end" spacing={1}>
             <Typography variant="body2" color="text.secondary">
               {t('homePage.userActivity.onlineNow')}
             </Typography>
@@ -222,7 +222,7 @@ const UserActivitySection = () => {
                 <Skeleton variant="circular" width={36} height={36} />
               </Stack>
             ) : onlineUsers.length ? (
-              <AvatarGroup max={6} sx={{ '& .MuiAvatar-root': { width: 36, height: 36 } }}>
+              <AvatarGroup max={40} sx={{ '& .MuiAvatar-root': { width: 36, height: 36 } }}>
                 {onlineUsers.map((user) => {
                   const displayName = getDisplayName(user);
 
@@ -232,6 +232,7 @@ const UserActivitySection = () => {
                       username={user.username}
                       fullName={displayName}
                       avatar={user.avatar}
+                      sx={{ marginLeft: -1.5 }}
                     >
                       <Tooltip title={displayName} arrow>
                         <Avatar alt={displayName} src={user.avatar} />
@@ -264,7 +265,11 @@ const UserActivitySection = () => {
                     {t('homePage.userActivity.series.newUsers')}
                   </Typography>
                   <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                    {showSkeleton ? <Skeleton width={120} /> : numberFormatter.format(newUsersStat?.total ?? 0)}
+                    {showSkeleton ? (
+                      <Skeleton width={120} />
+                    ) : (
+                      numberFormatter.format(newUsersStat?.total ?? 0)
+                    )}
                   </Typography>
                 </Stack>
 
@@ -315,7 +320,11 @@ const UserActivitySection = () => {
                     {t('homePage.userActivity.series.activeUsers')}
                   </Typography>
                   <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                    {showSkeleton ? <Skeleton width={120} /> : numberFormatter.format(activeUsersStat?.total ?? 0)}
+                    {showSkeleton ? (
+                      <Skeleton width={120} />
+                    ) : (
+                      numberFormatter.format(activeUsersStat?.total ?? 0)
+                    )}
                   </Typography>
                 </Stack>
 

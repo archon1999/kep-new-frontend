@@ -31,6 +31,7 @@ interface UserPopoverProps {
   fullName?: string;
   avatar?: string;
   streak?: number | null;
+  sx?: object;
 }
 
 const ratingConfig = [
@@ -47,6 +48,7 @@ const UserPopover = ({
   fullName,
   avatar,
   streak,
+  sx = {},
 }: UserPopoverProps) => {
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -94,7 +96,7 @@ const UserPopover = ({
       <Box
         component="span"
         onClick={handleOpen}
-        sx={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', minWidth: 0 }}
+        sx={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', minWidth: 0, ...sx }}
       >
         {children}
       </Box>
