@@ -1,7 +1,6 @@
 import { Theme } from '@mui/material';
 import { Components } from '@mui/material/styles';
 import keyFrames from 'app/theme/styles/keyFrames';
-import monacoEditor from 'app/theme/styles/monacoEditor';
 import popper from 'app/theme/styles/popper';
 import simplebar from 'app/theme/styles/simplebar';
 import vibrantNav from 'app/theme/styles/vibrantNav';
@@ -24,7 +23,6 @@ const CssBaseline: Components<Omit<Theme, 'components'>>['MuiCssBaseline'] = {
     },
     ...simplebar(theme),
     ...keyFrames(),
-    ...monacoEditor(theme),
     ...popper(theme),
     ...vibrantNav(theme),
   }),
