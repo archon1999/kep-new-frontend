@@ -236,7 +236,7 @@ const getActivityTexts = (
   }
 };
 
-const HomeActivityHistory = ({ username: _username, history, isLoading, maxHeight=354.5, }: HomeActivityHistoryProps) => {
+const HomeActivityHistory = ({ username: _username, history, isLoading, maxHeight=350, }: HomeActivityHistoryProps) => {
   const { t } = useTranslation();
   const activities = history?.data ?? [];
   const showEmpty = !isLoading && activities.length === 0;

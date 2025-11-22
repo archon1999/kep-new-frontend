@@ -109,8 +109,6 @@ const BirthdaysSection = () => {
 
                       <Stack direction="column" spacing={0.5} sx={{ flex: 1 }}>
                         <Link
-                          component={RouterLink}
-                          to={profilePath}
                           underline="hover"
                           color="text.primary"
                           sx={{ fontWeight: 600 }}

@@ -50,6 +50,8 @@ export const kepIcons = {
   info: 'mdi:information-outline',
   share: 'mdi:share-outline',
   close: 'mdi:close',
+  copy: 'mdi:content-copy',
+  check: 'mdi:check-circle-outline',
 } as const;
 
 export type KepIconName = keyof typeof kepIcons;

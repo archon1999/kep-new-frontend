@@ -10,7 +10,6 @@ import {
   CardHeader,
   Chip,
   Divider,
-  IconButton,
   LinearProgress,
   Stack,
   Tab,
@@ -20,6 +19,7 @@ import {
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { useProblemSolution } from 'modules/problems/application/queries.ts';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import ClipboardButton from 'shared/components/common/ClipboardButton';
 import { ProblemDetail } from '../../../domain/entities/problem.entity';
 import ProblemsAttemptsTable from '../ProblemsAttemptsTable';
 import { HackAttemptsCard } from './HackAttemptsCard';
@@ -91,8 +91,6 @@ export const ProblemDescription = ({
   );
 
   useEffect(() => {
-    let isMounted = true;
-
     const ensureMathJax = () => {
       if (mathJaxLoader) {
         return mathJaxLoader;
@@ -124,17 +122,21 @@ export const ProblemDescription = ({
 
     ensureMathJax()
       ?.then((mathJax) => {
-        if (!isMounted || !contentRef.current || !mathJax) return;
         if (mathJax.typesetPromise) {
-          setTimeout(() => mathJax.typesetPromise([contentRef.current]));
+          setTimeout(() => mathJax.typesetPromise([contentRef.current]), 50);
         }
       })
       .catch(() => undefined);
 
-    return () => {
-      isMounted = false;
-    };
-  }, [problem.body, problem.inputData, problem.outputData, problem.comment, solution?.solution]);
+    return () => {};
+  }, [
+    activeTab,
+    problem.body,
+    problem.inputData,
+    problem.outputData,
+    problem.comment,
+    solution?.solution,
+  ]);
 
   return (
     <Card
@@ -159,24 +161,28 @@ export const ProblemDescription = ({
             indicatorColor="primary"
           >
             <Tab
+              sx={{ fontWeight: 500 }}
               value="description"
               label={t('problems.detail.problemTab')}
               icon={<IconifyIcon icon="mdi:book-open-page-variant" />}
               iconPosition="start"
             />
             <Tab
+              sx={{ fontWeight: 500 }}
               value="attempts"
               label={t('problems.detail.attemptsTab')}
               icon={<IconifyIcon icon="mdi:history" />}
               iconPosition="start"
             />
             <Tab
+              sx={{ fontWeight: 500 }}
               value="stats"
               label={t('problems.detail.stats')}
               icon={<IconifyIcon icon="mdi:chart-bar" />}
               iconPosition="start"
             />
             <Tab
+              sx={{ fontWeight: 500 }}
               value="hacks"
               label={t('problems.detail.hacksTab')}
               icon={<IconifyIcon icon="mdi:sword-cross" />}
@@ -270,12 +276,7 @@ export const ProblemDescription = ({
                                 <Typography fontWeight={700}>
                                   {t('problems.detail.input')}
                                 </Typography>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => navigator.clipboard.writeText(test.input ?? '')}
-                                >
-                                  <IconifyIcon icon="mdi:content-copy" width={16} height={16} />
-                                </IconButton>
+                                <ClipboardButton text={test.input ?? ''} />
                               </Stack>
                               <Box
                                 sx={{
@@ -302,12 +303,7 @@ export const ProblemDescription = ({
                                 <Typography fontWeight={700}>
                                   {t('problems.detail.expectedOutput')}
                                 </Typography>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => navigator.clipboard.writeText(test.output ?? '')}
-                                >
-                                  <IconifyIcon icon="mdi:content-copy" width={16} height={16} />
-                                </IconButton>
+                                <ClipboardButton text={test.output ?? ''} />
                               </Stack>
                               <Box
                                 sx={{

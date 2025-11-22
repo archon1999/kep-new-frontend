@@ -16,6 +16,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
 import { resources } from 'app/routes/resources';
 import AttemptVerdict from 'shared/components/problems/AttemptVerdict';
 import {
@@ -92,15 +93,47 @@ export const ProblemEditorPanel = ({
 }: ProblemEditorPanelProps) => {
   const { t } = useTranslation();
   const monaco = useMonaco();
+  const theme = useTheme();
   const selectedLanguageInfo = problem?.availableLanguages?.find(
     (lang) => lang.lang === selectedLang,
   );
 
   useEffect(() => {
-    if (monaco) {
-      monaco.editor.setTheme(editorTheme);
-    }
-  }, [monaco, editorTheme]);
+    if (!monaco) return;
+
+    const lightBackground = theme.palette.background.paper;
+    const darkBackground = theme.palette.background.default;
+    const lineNumberColor = alpha(theme.palette.text.secondary, 0.7);
+    const selectionColor = alpha(theme.palette.primary.main, 0.18);
+    const selectionHighlightColor = alpha(theme.palette.primary.main, 0.1);
+    const gutterBackground = alpha(
+      theme.palette.background.default,
+      theme.palette.mode === 'dark' ? 0.42 : 0.6,
+    );
+    const scrollbarColor = alpha(theme.palette.text.primary, 0.16);
+    const scrollbarHoverColor = alpha(theme.palette.text.primary, 0.24);
+    const scrollbarActiveColor = alpha(theme.palette.primary.main, 0.35);
+
+    monaco.editor.defineTheme('kep-light', {
+      base: 'vs',
+      inherit: true,
+      rules: [
+      ],
+      colors: {
+      },
+    });
+
+    monaco.editor.defineTheme('kep-dark', {
+      base: 'vs-dark',
+      inherit: true,
+      rules: [
+      ],
+      colors: {
+      },
+    });
+
+    monaco.editor.setTheme(editorTheme);
+  }, [editorTheme, monaco, theme]);
 
   if (!currentUser) {
     return (
@@ -160,7 +193,10 @@ export const ProblemEditorPanel = ({
             label={t('problems.detail.language')}
             value={selectedLang}
             onChange={(event) => onLangChange(event.target.value)}
-            sx={{ minWidth: 180}}
+            sx={{
+              minWidth: 180,
+              '& .MuiOutlinedInput-root': { borderRadius: 2 },
+            }}
           >
             {problem?.availableLanguages?.map((lang) => (
               <MenuItem key={lang.lang} value={lang.lang}>
@@ -177,7 +213,10 @@ export const ProblemEditorPanel = ({
               label={t('problems.detail.sample')}
               value={selectedSampleIndex}
               onChange={(event) => onSampleChange(Number(event.target.value))}
-              sx={{ minWidth: 140 }}
+              sx={{
+                minWidth: 140,
+                '& .MuiOutlinedInput-root': { borderRadius: 2 },
+              }}
             >
               {sampleTests.map((_, index) => (
                 <MenuItem key={index} value={index}>
@@ -199,6 +238,21 @@ export const ProblemEditorPanel = ({
                 borderColor: 'divider',
                 borderRadius: 2,
                 overflow: 'hidden',
+                position: 'relative',
+                background: (theme) =>
+                  theme.palette.mode === 'dark'
+                    ? `linear-gradient(140deg, ${alpha(theme.palette.primary.light, 0.26)}, ${alpha(
+                        theme.palette.background.default,
+                        0.24,
+                      )})`
+                    : `linear-gradient(140deg, ${alpha(theme.palette.primary.light, 0.07)}, ${alpha(
+                        theme.palette.background.paper,
+                        0.06,
+                      )})`,
+                boxShadow: (theme) => theme.shadows[2],
+                '& .monaco-editor, & .monaco-editor-background, & .margin': {
+                  backgroundColor: 'transparent !important',
+                },
               }}
             >
               <Editor
@@ -209,6 +263,22 @@ export const ProblemEditorPanel = ({
                 options={{
                   minimap: { enabled: false },
                   fontSize: 14,
+                  fontLigatures: true,
+                  smoothScrolling: true,
+                  roundedSelection: true,
+                  scrollBeyondLastLine: false,
+                  lineHeight: 22,
+                  padding: { top: 12, bottom: 12 },
+                  automaticLayout: true,
+                  renderLineHighlight: 'all',
+                  scrollbar: {
+                    verticalScrollbarSize: 12,
+                    horizontalScrollbarSize: 12,
+                  },
+                  guides: {
+                    indentation: true,
+                    highlightActiveIndentation: true,
+                  },
                 }}
                 theme={editorTheme}
                 loading={<LinearProgress />}
@@ -220,19 +290,45 @@ export const ProblemEditorPanel = ({
           <VerticalHandle />
 
           <Panel defaultSize={55} minSize={25}>
-            <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Box
+              sx={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                border: '1px solid',
+                borderColor: 'divider',
+                borderRadius: 2,
+                bgcolor: (theme) => alpha(theme.palette.background.paper, 0.1),
+                boxShadow: (theme) => theme.shadows[1],
+              }}
+            >
               <Tabs
                 value={editorTab}
                 onChange={(_, value) => onEditorTabChange(value)}
                 variant="fullWidth"
                 textColor="primary"
                 indicatorColor="primary"
+                sx={{
+                  px: 1,
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                  '& .MuiTab-root': {
+                    minHeight: 0,
+                    fontWeight: 600,
+                  },
+                }}
               >
                 <Tab value="console" label={t('problems.detail.console')} />
                 <Tab value="samples" label={t('problems.detail.samplesResult')} />
               </Tabs>
 
-              <Box sx={{ p: 1, flex: 1, overflow: 'auto', mt: 1 }}>
+              <Box
+                sx={{
+                  p: 1.25,
+                  flex: 1,
+                  overflow: 'auto',
+                }}
+              >
                 {editorTab === 'console' ? (
                   <Stack direction="column" spacing={1.5}>
                     <TextField

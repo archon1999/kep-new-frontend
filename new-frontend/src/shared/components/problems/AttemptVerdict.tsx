@@ -42,7 +42,7 @@ const verdictColorMap: Record<VerdictKey, ChipProps['color']> = {
   5: 'warning', // PE
   6: 'error', // ML
   7: 'secondary', // Rejected
-  8: 'info', // CE
+  8: 'error', // CE
   9: 'info', // CEE
   10: 'warning', // IL
   11: 'warning', // SE
@@ -61,8 +61,8 @@ const verdictShortTitle: Record<VerdictKey, string> = {
   0: 'JF',
   1: 'AC',
   2: 'WA',
-  3: 'RE',
-  4: 'TL',
+  3: 'TL',
+  4: 'RE',
   5: 'PE',
   6: 'ML',
   7: 'RJ',
@@ -100,8 +100,8 @@ const AttemptVerdict = ({ verdict, title, testCaseNumber, balls, ...rest }: Atte
 
   return (
     <Chip
-      size="small"
-      variant="soft"
+      size="medium"
+      variant="outlined"
       color={color}
       label={label}
       title={title}

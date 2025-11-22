@@ -2,24 +2,29 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Box, Card, LinearProgress, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Box, Card, LinearProgress } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
-import { useSettingsContext } from 'app/providers/SettingsProvider';
 import { getResourceById, resources } from 'app/routes/resources';
 import { useSnackbar } from 'notistack';
+import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
 import { getItemFromStore, setItemToStore } from 'shared/lib/utils';
 import { wsService } from 'shared/services/websocket';
-import { problemsQueries, useAttemptsList, useHackAttempts, useProblemDetail } from '../../application/queries';
+import { toast } from 'sonner';
+import {
+  problemsQueries,
+  useAttemptsList,
+  useHackAttempts,
+  useProblemDetail,
+} from '../../application/queries';
 import { ProblemSampleTest } from '../../domain/entities/problem.entity';
 import { AttemptsListParams, HackAttemptsListParams } from '../../domain/ports/problems.repository';
-import { ProblemHeader } from '../components/problem-detail/ProblemHeader';
 import { PanelHandle } from '../components/problem-detail/PanelHandles';
 import { ProblemDescription } from '../components/problem-detail/ProblemDescription';
+import ProblemDescriptionSkeleton from '../components/problem-detail/ProblemDescriptionSkeleton';
 import { ProblemEditorPanel } from '../components/problem-detail/ProblemEditorPanel';
-import { useThemeMode } from "shared/hooks/useThemeMode.tsx";
-
+import ProblemEditorSkeleton from '../components/problem-detail/ProblemEditorSkeleton';
+import { ProblemHeader } from '../components/problem-detail/ProblemHeader';
 
 const STORAGE_LANG_KEY = 'problem-submit-lang';
 
@@ -68,14 +73,12 @@ const ProblemDetailPage = () => {
   const { currentUser } = useAuth();
   const themeMode = useThemeMode();
   const permissions = useProblemPermissions(currentUser?.permissions);
-  const [editorTheme, setEditorTheme] = useState<'vs' | 'vs-dark'>(
-    themeMode.mode === 'dark' ? 'vs-dark' : 'vs',
+  const [editorTheme, setEditorTheme] = useState<'kep-light' | 'kep-dark'>(
+    themeMode.mode === 'dark' ? 'kep-dark' : 'kep-light',
   );
 
-
   useEffect(() => {
-
-    setEditorTheme(themeMode.mode === 'dark' ? 'vs-dark' : 'vs');
+    setEditorTheme(themeMode.mode === 'dark' ? 'kep-dark' : 'kep-light');
   }, [themeMode.mode]);
 
   const params = useParams<{ id: string }>();
@@ -265,7 +268,7 @@ const ProblemDetailPage = () => {
         sourceCode: code,
         lang: selectedLang,
       });
-      enqueueSnackbar(t('problems.detail.submitSuccess'), { variant: 'success' });
+      toast.success(t('problems.detail.submitSuccess'));
       setActiveTab('attempts');
       setSearchParams((prev) => {
         const next = new URLSearchParams(prev);
@@ -276,7 +279,7 @@ const ProblemDetailPage = () => {
     } catch (error: any) {
       const message =
         error?.response?.data?.message ?? error?.message ?? t('problems.detail.error');
-      enqueueSnackbar(message, { variant: 'error' });
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }
@@ -352,6 +355,7 @@ const ProblemDetailPage = () => {
   };
 
   const selectedDifficultyColor = difficultyColorMap[problem?.difficulty ?? 0] || 'primary';
+  const showLoadingState = isProblemLoading || !problem;
 
   return (
     <Box
@@ -393,6 +397,7 @@ const ProblemDetailPage = () => {
           position: 'relative',
           minHeight: 0,
         }}
+        aria-busy={showLoadingState}
       >
         {isProblemLoading ? (
           <LinearProgress sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 2 }} />
@@ -425,44 +430,48 @@ const ProblemDetailPage = () => {
                 onDislike={() => handleLikeDislike('dislike')}
               />
             ) : (
-              <Typography color="text.secondary">{t('problems.detail.noProblem')}</Typography>
+              <ProblemDescriptionSkeleton />
             )}
           </Panel>
 
           <PanelHandle />
 
           <Panel defaultSize={50} minSize={35}>
-            <ProblemEditorPanel
-              problem={problem}
-              code={code}
-              onCodeChange={(value) => {
-                if (!problem?.id || !selectedLang) return;
-                setCode(value);
-                const codeKey = `problem-${problem.id}-code-${selectedLang}`;
-                setItemToStore(codeKey, JSON.stringify(value ?? ''));
-              }}
-              selectedLang={selectedLang}
-              onLangChange={setSelectedLang}
-              sampleTests={sampleTests}
-              selectedSampleIndex={selectedSampleIndex}
-              onSampleChange={setSelectedSampleIndex}
-              input={input}
-              onInputChange={setInput}
-              output={output}
-              answer={answer}
-              onRun={handleRun}
-              onSubmit={handleSubmit}
-              onCheckSamples={handleCheckSamples}
-              isRunning={isRunning}
-              isSubmitting={isSubmitting}
-              isCheckingSamples={isCheckingSamples}
-              checkSamplesResult={checkSamplesResult}
-              editorTab={editorTab}
-              onEditorTabChange={setEditorTab}
-              currentUser={currentUser}
-              canUseCheckSamples={permissions.canUseCheckSamples || currentUser?.isSuperuser}
-              editorTheme={editorTheme}
-            />
+            {problem ? (
+              <ProblemEditorPanel
+                problem={problem}
+                code={code}
+                onCodeChange={(value) => {
+                  if (!problem?.id || !selectedLang) return;
+                  setCode(value);
+                  const codeKey = `problem-${problem.id}-code-${selectedLang}`;
+                  setItemToStore(codeKey, JSON.stringify(value ?? ''));
+                }}
+                selectedLang={selectedLang}
+                onLangChange={setSelectedLang}
+                sampleTests={sampleTests}
+                selectedSampleIndex={selectedSampleIndex}
+                onSampleChange={setSelectedSampleIndex}
+                input={input}
+                onInputChange={setInput}
+                output={output}
+                answer={answer}
+                onRun={handleRun}
+                onSubmit={handleSubmit}
+                onCheckSamples={handleCheckSamples}
+                isRunning={isRunning}
+                isSubmitting={isSubmitting}
+                isCheckingSamples={isCheckingSamples}
+                checkSamplesResult={checkSamplesResult}
+                editorTab={editorTab}
+                onEditorTabChange={setEditorTab}
+                currentUser={currentUser}
+                canUseCheckSamples={permissions.canUseCheckSamples || currentUser?.isSuperuser}
+                editorTheme={editorTheme}
+              />
+            ) : (
+              <ProblemEditorSkeleton />
+            )}
           </Panel>
         </PanelGroup>
       </Card>

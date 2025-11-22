@@ -131,6 +131,8 @@
       "author": "Автор",
       "input": "Ввод",
       "expectedOutput": "Ожидаемый вывод",
+      "copy": "Копировать",
+      "copied": "Скопировано",
       "sampleTests": "Примеры",
       "inputData": "Входные данные",
       "outputData": "Выходные данные",

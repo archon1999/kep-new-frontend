@@ -131,6 +131,8 @@
       "author": "Author",
       "input": "Input",
       "expectedOutput": "Expected output",
+      "copy": "Copy",
+      "copied": "Copied",
       "sampleTests": "Sample tests",
       "inputData": "Input data",
       "outputData": "Output data",

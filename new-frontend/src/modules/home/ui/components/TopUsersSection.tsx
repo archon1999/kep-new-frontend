@@ -238,13 +238,14 @@ const TopUsersSection = () => {
   };
 
   return (
-    <Paper>
+    <Paper sx={{ height: '100%', width: 1 }}>
       <Stack
         direction="column"
         spacing={3}
         sx={{
           ...responsivePagePaddingSx,
           position: 'relative',
+          height: 1,
         }}
       >
         <Stack

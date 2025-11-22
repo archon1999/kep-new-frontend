@@ -131,6 +131,8 @@
       "author": "Muallif",
       "input": "Kirish",
       "expectedOutput": "Kutilgan chiqish",
+      "copy": "Nusxa olish",
+      "copied": "Nusxalandi",
       "sampleTests": "Namuna testlar",
       "inputData": "Kirish ma'lumotlari",
       "outputData": "Chiqish ma'lumotlari",

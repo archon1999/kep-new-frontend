@@ -1,22 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import {
-  IconButton,
-  Tooltip,
-  Typography,
-  alpha,
-  useTheme,
-} from '@mui/material';
-import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
+import { IconButton, Tooltip, Typography, alpha, useTheme, Chip } from '@mui/material';
+import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
+import { useAuth } from 'app/providers/AuthProvider';
+import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import AttemptLanguage from 'shared/components/problems/AttemptLanguage';
 import AttemptVerdict, { VerdictKey } from 'shared/components/problems/AttemptVerdict';
-import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
-import { useAuth } from 'app/providers/AuthProvider';
 import { wsService } from 'shared/services/websocket';
-import { AttemptListItem } from '../../domain/entities/problem.entity';
 import { problemsQueries } from '../../application/queries';
+import { AttemptListItem } from '../../domain/entities/problem.entity';
 
 interface ProblemsAttemptsTableProps {
   attempts: AttemptListItem[];
@@ -69,9 +63,12 @@ const ProblemsAttemptsTable = ({
     wsService.send('lang-change', i18n.language);
   }, [attempts, i18n.language]);
 
-  useEffect(() => () => {
-    trackedIdsRef.current.forEach((id) => wsService.send('attempt-delete', id));
-  }, []);
+  useEffect(
+    () => () => {
+      trackedIdsRef.current.forEach((id) => wsService.send('attempt-delete', id));
+    },
+    [],
+  );
 
   useEffect(() => {
     const unsubscribe = wsService.on<AttemptUpdatePayload>('attempt-update', (payload) => {
@@ -117,6 +114,7 @@ const ProblemsAttemptsTable = ({
         minWidth: 90,
         flex: 0.4,
         sortable: false,
+        headerAlign: 'center',
         renderCell: ({ row }) => (
           <Typography variant="body2" fontWeight={700}>
             {row.id}
@@ -129,16 +127,12 @@ const ProblemsAttemptsTable = ({
         minWidth: 180,
         flex: 0.8,
         sortable: false,
-        renderCell: ({ row }) => (
-          <Typography variant="body2" color="text.secondary">
-            {formatDateTime(row.created)}
-          </Typography>
-        ),
+        renderCell: ({ row }) => <Chip label={formatDateTime(row.created)}></Chip>,
       },
       {
         field: 'lang',
         headerName: t('problems.attempts.columns.lang'),
-        minWidth: 120,
+        minWidth: 80,
         flex: 0.5,
         sortable: false,
         renderCell: ({ row }) => <AttemptLanguage lang={row.lang} langFull={row.langFull} />,
@@ -146,7 +140,7 @@ const ProblemsAttemptsTable = ({
       {
         field: 'user',
         headerName: t('problems.attempts.columns.user'),
-        minWidth: 180,
+        minWidth: 100,
         flex: 1,
         sortable: false,
         renderCell: ({ row }) => (
@@ -180,23 +174,23 @@ const ProblemsAttemptsTable = ({
       {
         field: 'verdictTitle',
         headerName: t('problems.attempts.columns.verdict'),
-        minWidth: 140,
+        minWidth: 100,
         flex: 0.6,
         sortable: false,
         renderCell: ({ row }) => (
           <AttemptVerdict
             verdict={row.verdict as VerdictKey | undefined}
             title={row.verdictTitle || t('problems.attempts.unknownVerdict')}
+            testCaseNumber={row.testCaseNumber}
           />
         ),
       },
       {
         field: 'time',
         headerName: t('problems.attempts.columns.time'),
-        minWidth: 120,
+        minWidth: 80,
         flex: 0.5,
         sortable: false,
-        align: 'right',
         renderCell: ({ row }) => (
           <Typography variant="body2" fontWeight={600}>
             {row.time ?? '—'} {t('problems.attempts.ms')}
@@ -206,10 +200,9 @@ const ProblemsAttemptsTable = ({
       {
         field: 'memory',
         headerName: t('problems.attempts.columns.memory'),
-        minWidth: 120,
+        minWidth: 80,
         flex: 0.5,
         sortable: false,
-        align: 'right',
         renderCell: ({ row }) => (
           <Typography variant="body2" fontWeight={600}>
             {row.memory ?? '—'} {t('problems.attempts.kb')}
@@ -219,10 +212,9 @@ const ProblemsAttemptsTable = ({
       {
         field: 'sourceCodeSize',
         headerName: t('problems.attempts.columns.size'),
-        minWidth: 110,
+        minWidth: 80,
         flex: 0.4,
         sortable: false,
-        align: 'right',
         renderCell: ({ row }) => (
           <Typography variant="body2" fontWeight={600}>
             {row.sourceCodeSize ?? '—'} B
@@ -235,9 +227,8 @@ const ProblemsAttemptsTable = ({
       baseColumns.push({
         field: 'actions',
         headerName: '',
-        minWidth: 80,
+        width: 40,
         sortable: false,
-        align: 'right',
         renderCell: ({ row }) => (
           <Tooltip title={t('problems.attempts.rerun')}>
             <IconButton size="small" color="primary" onClick={() => handleRerun(row.id)}>
@@ -267,7 +258,9 @@ const ProblemsAttemptsTable = ({
       onPaginationModelChange={onPaginationChange}
       sortingMode="server"
       disableColumnFilter
-      sx={{ '& .MuiDataGrid-row--hovered': { backgroundColor: alpha(theme.palette.primary.main, 0.04) } }}
+      sx={{
+        '& .MuiDataGrid-row--hovered': { backgroundColor: alpha(theme.palette.primary.main, 0.04) },
+      }}
       getRowId={(row) => row.id}
     />
   );
