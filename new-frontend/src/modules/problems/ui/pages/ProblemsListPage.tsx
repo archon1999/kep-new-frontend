@@ -586,7 +586,7 @@ const FilterCard = ({ languages, categories, filter, onChange }: FilterCardProps
             onChange={(event) =>
               onChange(
                 'tags',
-                (event.target.value as Array<string | number>).map((item) => Number(item)),
+                (event.target.value as any).map((item: any) => Number(item)),
               )}
             SelectProps={{
               multiple: true,

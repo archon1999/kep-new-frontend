@@ -86,7 +86,7 @@ const ProblemsAttemptsTable = ({
 
   useEffect(() => {
     const unsubscribe = wsService.on<AttemptUpdatePayload>('attempt-update', (payload) => {
-      let updatedAttempt: AttemptListItem | null = null;
+      let updatedAttempt: AttemptListItem | any = null;
 
       setRows((prev) => {
         const index = prev.findIndex((attempt) => attempt.id === payload.id);
