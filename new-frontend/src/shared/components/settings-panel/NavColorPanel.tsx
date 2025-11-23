@@ -60,6 +60,7 @@ const NavColorPanel = () => {
 
   return (
     <Stack
+      direction="row"
       sx={{
         gap: 2,
       }}
