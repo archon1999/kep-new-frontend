@@ -16,12 +16,13 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 import { LineChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
+import { difficultyColorByKey, difficultyOptions } from 'modules/problems/config/difficulty';
 import { useUserRatings } from '../../../application/queries';
 import { useUserProblemsRating } from 'modules/problems/application/queries';
 import {
@@ -63,15 +64,17 @@ const UserProfileRatingsTab = () => {
   const difficultyEntries = useMemo(() => {
     const difficulties = problemsRating?.difficulties;
     if (!difficulties) return [];
-    return [
-      { key: 'beginner', value: difficulties.beginner, total: difficulties.allBeginner },
-      { key: 'basic', value: difficulties.basic, total: difficulties.allBasic },
-      { key: 'normal', value: difficulties.normal, total: difficulties.allNormal },
-      { key: 'medium', value: difficulties.medium, total: difficulties.allMedium },
-      { key: 'advanced', value: difficulties.advanced, total: difficulties.allAdvanced },
-      { key: 'hard', value: difficulties.hard, total: difficulties.allHard },
-      { key: 'extremal', value: difficulties.extremal, total: difficulties.allExtremal },
-    ].filter((entry) => (entry.value ?? 0) > 0 || (entry.total ?? 0) > 0);
+    return difficultyOptions
+      .map((option) => {
+        const totalKey = `all${option.key.charAt(0).toUpperCase()}${option.key.slice(1)}` as keyof typeof difficulties;
+        return {
+          key: option.key,
+          value: difficulties[option.key],
+          total: difficulties[totalKey],
+          color: difficultyColorByKey[option.key],
+        };
+      })
+      .filter((entry) => (entry.value ?? 0) > 0 || (entry.total ?? 0) > 0);
   }, [problemsRating?.difficulties]);
 
   const contestRatingOption = useMemo(() => {
@@ -271,9 +274,9 @@ const UserProfileRatingsTab = () => {
                                 sx={{
                                   height: 8,
                                   borderRadius: 999,
-                                  bgcolor: 'background.neutral',
+                                  bgcolor: alpha(theme.vars.palette[entry.color].main, 0.12),
                                   '& .MuiLinearProgress-bar': {
-                                    backgroundColor: theme.vars.palette.primary.main,
+                                    backgroundColor: theme.vars.palette[entry.color].main,
                                   },
                                 }}
                               />

@@ -38,6 +38,12 @@ import CustomTablePaginationAction from 'shared/components/pagination/CustomTabl
 import { useAuth } from 'app/providers/AuthProvider.tsx';
 import { getResourceById, resources } from 'app/routes/resources.ts';
 import {
+  difficultyOptions,
+  difficultyColorByKey,
+  getDifficultyColor,
+  getDifficultyLabelKey,
+} from '../../config/difficulty';
+import {
   useLastContestProblems,
   useMostViewedProblems,
   useProblemCategories,
@@ -70,16 +76,6 @@ const statusOptions = [
   { label: 'problems.statusUnsolved', value: 2, icon: 'mdi:close', color: 'error.main' },
 ];
 
-const difficulties = [
-  { value: 1, label: 'problems.difficulty.beginner' },
-  { value: 2, label: 'problems.difficulty.basic' },
-  { value: 3, label: 'problems.difficulty.normal' },
-  { value: 4, label: 'problems.difficulty.medium' },
-  { value: 5, label: 'problems.difficulty.advanced' },
-  { value: 6, label: 'problems.difficulty.hard' },
-  { value: 7, label: 'problems.difficulty.extremal' },
-];
-
 const initialFilter: ProblemsListParams = {
   ordering: '-id',
   page: 1,
@@ -106,11 +102,6 @@ const ProblemsListPage = () => {
   const problems = problemsPage?.data ?? [];
   const total = problemsPage?.total ?? 0;
 
-  const difficultyMap = useMemo(
-    () => new Map(difficulties.map((item) => [item.value, item.label])),
-    [],
-  );
-
   const handleFilterChange = <K extends keyof ProblemsListParams>(key: K, value: ProblemsListParams[K]) => {
     setFilter((prev) => ({ ...prev, [key]: value, page: 1 }));
   };
@@ -132,18 +123,24 @@ const ProblemsListPage = () => {
     });
   };
 
-  const renderDifficultyBadge = (problem: ProblemListItem) => (
-    <Chip
-      size="small"
-      label={problem.difficultyTitle || t(difficultyMap.get(problem.difficulty) || '')}
-      color="default"
-      sx={{
-        bgcolor: theme.palette.grey[100],
-        fontWeight: 600,
-        textTransform: 'capitalize',
-      }}
-    />
-  );
+  const renderDifficultyBadge = (problem: ProblemListItem) => {
+    const color = getDifficultyColor(problem.difficulty);
+    const labelKey = getDifficultyLabelKey(problem.difficulty);
+
+    return (
+      <Chip
+        size="small"
+        label={problem.difficultyTitle || (labelKey ? t(labelKey) : '')}
+        color={color}
+        variant="outlined"
+        sx={{
+          fontWeight: 600,
+          textTransform: 'capitalize',
+          bgcolor: alpha(theme.palette[color].main, 0.08),
+        }}
+      />
+    );
+  };
 
   const renderProblemBadges = (problem: ProblemListItem) => (
     <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
@@ -458,7 +455,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                   }
                 >
                   <MenuItem value="">{t('problems.allDifficulties')}</MenuItem>
-                  {difficulties.map((item) => (
+                  {difficultyOptions.map((item) => (
                     <MenuItem key={item.value} value={item.value}>
                       {t(item.label)}
                     </MenuItem>
@@ -739,16 +736,18 @@ interface DifficultiesCardProps {
 
 const DifficultiesCard = ({ difficulties, isLoading }: DifficultiesCardProps) => {
   const { t } = useTranslation();
+  const theme = useTheme();
 
-  const entries = [
-    { key: 'beginner', totalKey: 'allBeginner', label: t('problems.difficulty.beginner') },
-    { key: 'basic', totalKey: 'allBasic', label: t('problems.difficulty.basic') },
-    { key: 'normal', totalKey: 'allNormal', label: t('problems.difficulty.normal') },
-    { key: 'medium', totalKey: 'allMedium', label: t('problems.difficulty.medium') },
-    { key: 'advanced', totalKey: 'allAdvanced', label: t('problems.difficulty.advanced') },
-    { key: 'hard', totalKey: 'allHard', label: t('problems.difficulty.hard') },
-    { key: 'extremal', totalKey: 'allExtremal', label: t('problems.difficulty.extremal') },
-  ];
+  const entries = useMemo(
+    () =>
+      difficultyOptions.map((option) => ({
+        key: option.key,
+        totalKey: `all${option.key.charAt(0).toUpperCase()}${option.key.slice(1)}`,
+        label: t(option.label),
+        color: difficultyColorByKey[option.key],
+      })),
+    [t],
+  );
 
   return (
     <Card variant="outlined">
@@ -792,7 +791,16 @@ const DifficultiesCard = ({ difficulties, isLoading }: DifficultiesCardProps) =>
                       {solved} / {total}
                     </Typography>
                   </Stack>
-                  <LinearProgress variant="determinate" value={percent} />
+                  <LinearProgress
+                    variant="determinate"
+                    value={percent}
+                    sx={{
+                      bgcolor: alpha(theme.palette[entry.color].main, 0.1),
+                      '& .MuiLinearProgress-bar': {
+                        backgroundColor: theme.palette[entry.color].main,
+                      },
+                    }}
+                  />
                 </Stack>
               );
             })}
