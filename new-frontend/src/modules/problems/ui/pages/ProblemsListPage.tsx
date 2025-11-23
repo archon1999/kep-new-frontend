@@ -1,4 +1,6 @@
 import { MouseEvent, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Badge,
   Box,
@@ -33,19 +35,11 @@ import {
   alpha,
   useTheme,
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
-import CustomTablePaginationAction from 'shared/components/pagination/CustomTablePaginationAction.tsx';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
 import { getResourceById, resources } from 'app/routes/resources.ts';
-import {
-  difficultyOptions,
-  difficultyColorByKey,
-  getDifficultyColor,
-  getDifficultyLabelKey,
-} from '../../config/difficulty';
+import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
+import CustomTablePaginationAction from 'shared/components/pagination/CustomTablePaginationAction.tsx';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import {
   useLastContestProblems,
   useMostViewedProblems,
@@ -55,6 +49,12 @@ import {
   useUserProblemsAttempts,
   useUserProblemsRating,
 } from '../../application/queries.ts';
+import {
+  difficultyColorByKey,
+  difficultyOptions,
+  getDifficultyColor,
+  getDifficultyLabelKey,
+} from '../../config/difficulty';
 import {
   DifficultyBreakdown,
   ProblemAttemptSummary,
@@ -80,7 +80,7 @@ const statusOptions = [
 ];
 
 const initialFilter: ProblemsListParams = {
-  ordering: '-id',
+  ordering: 'id',
   page: 1,
   pageSize: 20,
   tags: [],
@@ -92,21 +92,29 @@ const ProblemsListPage = () => {
   const { currentUser } = useAuth();
 
   const [filter, setFilter] = useState<ProblemsListParams>(initialFilter);
-  const [activeTab, setActiveTab] = useState('attempts');
+  const [activeTab, setActiveTab] = useState('lastContest');
 
   const { data: problemsPage, isLoading: isProblemsLoading } = useProblemsList(filter);
   const { data: languages } = useProblemLanguages();
   const { data: categories } = useProblemCategories();
   const { data: mostViewed, isLoading: isMostViewedLoading } = useMostViewedProblems();
   const { data: lastContest, isLoading: isLastContestLoading } = useLastContestProblems();
-  const { data: attempts, isLoading: isAttemptsLoading } = useUserProblemsAttempts(currentUser?.username ?? undefined, 10);
-  const { data: rating, isLoading: isRatingLoading } = useUserProblemsRating(currentUser?.username ?? undefined);
+  const { data: attempts, isLoading: isAttemptsLoading } = useUserProblemsAttempts(
+    currentUser?.username ?? undefined,
+    10,
+  );
+  const { data: rating, isLoading: isRatingLoading } = useUserProblemsRating(
+    currentUser?.username ?? undefined,
+  );
   const isSummaryLoading = isRatingLoading || rating === undefined;
 
   const problems = problemsPage?.data ?? [];
   const total = problemsPage?.total ?? 0;
 
-  const handleFilterChange = <K extends keyof ProblemsListParams>(key: K, value: ProblemsListParams[K]) => {
+  const handleFilterChange = <K extends keyof ProblemsListParams>(
+    key: K,
+    value: ProblemsListParams[K],
+  ) => {
     setFilter((prev) => ({ ...prev, [key]: value, page: 1 }));
   };
 
@@ -137,11 +145,6 @@ const ProblemsListPage = () => {
         label={problem.difficultyTitle || (labelKey ? t(labelKey) : '')}
         color={color}
         variant="outlined"
-        sx={{
-          fontWeight: 600,
-          textTransform: 'capitalize',
-          bgcolor: alpha(theme.palette[color].main, 0.08),
-        }}
       />
     );
   };
@@ -152,7 +155,12 @@ const ProblemsListPage = () => {
         <Chip size="small" color="success" label={t('problems.solution')} variant="outlined" />
       )}
       {!problem.hasChecker && (
-        <Chip size="small" color="warning" label={t('problems.checkerMissing')} variant="outlined" />
+        <Chip
+          size="small"
+          color="warning"
+          label={t('problems.checkerMissing')}
+          variant="outlined"
+        />
       )}
       {problem.hidden && (
         <Chip size="small" color="info" label={t('problems.hidden')} variant="outlined" />
@@ -204,7 +212,12 @@ const ProblemsListPage = () => {
               </Typography>
             </Stack>
 
-            <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}>
+            <Stack
+              direction="row"
+              spacing={1}
+              flexWrap="wrap"
+              justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+            >
               <Button
                 component={RouterLink}
                 to={resources.ProblemsRating}
@@ -255,7 +268,10 @@ const ProblemsListPage = () => {
           <Grid size={{ xs: 12, md: 4 }}>
             <Stack direction="column" spacing={3}>
               {currentUser && (
-                <DifficultiesCard difficulties={rating?.difficulties} isLoading={isSummaryLoading} />
+                <DifficultiesCard
+                  difficulties={rating?.difficulties}
+                  isLoading={isSummaryLoading}
+                />
               )}
 
               <TabsCard
@@ -310,76 +326,73 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
 
   const handleFiltersClose = () => setFiltersAnchor(null);
 
-  const activeFilters = useMemo(
-    () => {
-      const items: Array<{ key: string; label: string; onRemove: () => void }> = [];
+  const activeFilters = useMemo(() => {
+    const items: Array<{ key: string; label: string; onRemove: () => void }> = [];
 
-      if (filter.lang) {
-        const langTitle =
-          languages.find((item) => item.lang === filter.lang)?.langFull ?? filter.lang.toUpperCase();
+    if (filter.lang) {
+      const langTitle =
+        languages.find((item) => item.lang === filter.lang)?.langFull ?? filter.lang.toUpperCase();
+      items.push({
+        key: 'lang',
+        label: `${t('problems.language')}: ${langTitle}`,
+        onRemove: () => onChange('lang', undefined),
+      });
+    }
+
+    if (filter.favorites) {
+      items.push({
+        key: 'favorites',
+        label: t('problems.favoritesOnly'),
+        onRemove: () => onChange('favorites', undefined),
+      });
+    }
+
+    if (filter.category) {
+      const categoryTitle =
+        categories.find((category) => String(category.id) === String(filter.category))?.title ??
+        String(filter.category);
+      items.push({
+        key: 'category',
+        label: `${t('problems.category')}: ${categoryTitle}`,
+        onRemove: () => onChange('category', undefined),
+      });
+    }
+
+    if (filter.tags && filter.tags.length) {
+      filter.tags.forEach((tagId) => {
+        const tagName = tags.find((tag) => tag.id === tagId)?.name ?? tagId;
         items.push({
-          key: 'lang',
-          label: `${t('problems.language')}: ${langTitle}`,
-          onRemove: () => onChange('lang', undefined),
+          key: `tag-${tagId}`,
+          label: `${t('problems.tags')}: ${tagName}`,
+          onRemove: () =>
+            onChange(
+              'tags',
+              (filter.tags ?? []).filter((id) => id !== tagId),
+            ),
         });
-      }
+      });
+    }
 
-      if (filter.favorites) {
-        items.push({
-          key: 'favorites',
-          label: t('problems.favoritesOnly'),
-          onRemove: () => onChange('favorites', undefined),
-        });
-      }
+    if (filter.difficulty) {
+      const diffLabel = difficultyOptions.find((item) => item.value === filter.difficulty)?.label;
+      items.push({
+        key: 'difficulty',
+        label: `${t('problems.difficultyLabel')}: ${diffLabel ? t(diffLabel) : filter.difficulty}`,
+        onRemove: () => onChange('difficulty', undefined),
+      });
+    }
 
-      if (filter.category) {
-        const categoryTitle =
-          categories.find((category) => String(category.id) === String(filter.category))?.title ??
-          String(filter.category);
-        items.push({
-          key: 'category',
-          label: `${t('problems.category')}: ${categoryTitle}`,
-          onRemove: () => onChange('category', undefined),
-        });
-      }
+    if (filter.status != null) {
+      const statusLabel = statusOptions.find((option) => option.value === filter.status)?.label;
+      items.push({
+        key: 'status',
+        label: `${t('problems.status')}: ${statusLabel ? t(statusLabel) : filter.status}`,
+        onRemove: () => onChange('status', undefined),
+      });
+    }
 
-      if (filter.tags && filter.tags.length) {
-        filter.tags.forEach((tagId) => {
-          const tagName = tags.find((tag) => tag.id === tagId)?.name ?? tagId;
-          items.push({
-            key: `tag-${tagId}`,
-            label: `${t('problems.tags')}: ${tagName}`,
-            onRemove: () =>
-              onChange(
-                'tags',
-                (filter.tags ?? []).filter((id) => id !== tagId),
-              ),
-          });
-        });
-      }
-
-      if (filter.difficulty) {
-        const diffLabel = difficultyOptions.find((item) => item.value === filter.difficulty)?.label;
-        items.push({
-          key: 'difficulty',
-          label: `${t('problems.difficultyLabel')}: ${diffLabel ? t(diffLabel) : filter.difficulty}`,
-          onRemove: () => onChange('difficulty', undefined),
-        });
-      }
-
-      if (filter.status != null) {
-        const statusLabel = statusOptions.find((option) => option.value === filter.status)?.label;
-        items.push({
-          key: 'status',
-          label: `${t('problems.status')}: ${statusLabel ? t(statusLabel) : filter.status}`,
-          onRemove: () => onChange('status', undefined),
-        });
-      }
-
-      return items;
-    },
-    [categories, filter, languages, onChange, t, tags],
-  );
+    return items;
+  }, [categories, filter, languages, onChange, t, tags]);
 
   const handleClearFilters = () => {
     onChange('lang', undefined);
@@ -428,7 +441,12 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               }}
             />
 
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ sm: 'center' }} flex={1}>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={1.5}
+              alignItems={{ sm: 'center' }}
+              flex={1}
+            >
               <FormControl fullWidth size="small" sx={{ minWidth: { sm: 220 } }}>
                 <InputLabel>{t('problems.orderBy')}</InputLabel>
                 <Select
@@ -522,7 +540,10 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                   label={t('problems.language')}
                   value={filter.lang ?? ''}
                   onChange={(event) =>
-                    onChange('lang', event.target.value === '' ? undefined : (event.target.value as string))
+                    onChange(
+                      'lang',
+                      event.target.value === '' ? undefined : (event.target.value as string),
+                    )
                   }
                 >
                   <MenuItem value="">{t('problems.allLanguages')}</MenuItem>
@@ -572,7 +593,10 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                   label={t('problems.category')}
                   value={filter.category ?? ''}
                   onChange={(event) =>
-                    onChange('category', event.target.value === '' ? undefined : String(event.target.value))
+                    onChange(
+                      'category',
+                      event.target.value === '' ? undefined : String(event.target.value),
+                    )
                   }
                 >
                   <MenuItem value="">{t('problems.allCategories')}</MenuItem>
@@ -580,7 +604,11 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                     <MenuItem key={category.id} value={category.id}>
                       <Stack direction="row" spacing={1} alignItems="center" width="100%">
                         <Typography variant="body2">{category.title}</Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ marginLeft: 'auto' }}>
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          sx={{ marginLeft: 'auto' }}
+                        >
                           {category.problemsCount ?? 0}
                         </Typography>
                       </Stack>
@@ -628,7 +656,10 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                   label={t('problems.difficultyLabel')}
                   value={filter.difficulty ?? ''}
                   onChange={(event) =>
-                    onChange('difficulty', event.target.value === '' ? undefined : String(event.target.value))
+                    onChange(
+                      'difficulty',
+                      event.target.value === '' ? undefined : String(event.target.value),
+                    )
                   }
                 >
                   <MenuItem value="">{t('problems.allDifficulties')}</MenuItem>
@@ -656,7 +687,12 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                   {statusOptions.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       <Stack direction="row" spacing={1} alignItems="center">
-                        <IconifyIcon icon={option.icon} width={18} height={18} color={option.color as string} />
+                        <IconifyIcon
+                          icon={option.icon}
+                          width={18}
+                          height={18}
+                          color={option.color as string}
+                        />
                         <Typography variant="body2">{t(option.label)}</Typography>
                       </Stack>
                     </MenuItem>
@@ -692,9 +728,6 @@ const ProblemsList = ({
   onPageChange,
   onRowsPerPageChange,
   renderDifficultyBadge,
-  renderProblemBadges,
-  renderTags,
-  getRowBackground,
 }: ProblemsListProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -703,7 +736,12 @@ const ProblemsList = ({
     if (problem.userInfo?.hasSolved) {
       return (
         <Tooltip title={t('problems.statusSolved')}>
-          <IconifyIcon icon="mdi:check-circle" width={26} height={26} color={theme.palette.success.main} />
+          <IconifyIcon
+            icon="mdi:check-circle"
+            width={20}
+            height={20}
+            color={theme.palette.success.main}
+          />
         </Tooltip>
       );
     }
@@ -711,15 +749,18 @@ const ProblemsList = ({
     if (problem.userInfo?.hasAttempted) {
       return (
         <Tooltip title={t('problems.statusUnsolved')}>
-          <IconifyIcon icon="mdi:close-circle" width={26} height={26} color={theme.palette.error.main} />
+          <IconifyIcon
+            icon="mdi:close-circle"
+            width={20}
+            height={20}
+            color={theme.palette.error.main}
+          />
         </Tooltip>
       );
     }
 
     return (
-      <Tooltip title={t('problems.statusUnknown')}>
-        <IconifyIcon icon="mdi:minus-circle-outline" width={26} height={26} color={theme.palette.warning.main} />
-      </Tooltip>
+      <IconifyIcon icon="mdi:minus-circle-outline" width={20} height={20} color="transparent" />
     );
   };
 
@@ -728,11 +769,16 @@ const ProblemsList = ({
     const notSolved = problem.notSolved ?? Math.max((problem.attemptsCount ?? 0) - solved, 0);
 
     return (
-      <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" useFlexGap>
+      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
         <Stack direction="row" spacing={0.75} alignItems="center">
-          <IconifyIcon icon="mdi:user-check" width={18} height={18} color={theme.palette.success.main} />
+          <IconifyIcon
+            icon="mdi:user-check"
+            width={18}
+            height={18}
+            color={theme.palette.success.main}
+          />
           <Typography variant="body2" fontWeight={700}>
-            {t('problems.solvedCount', { count: solved })}
+            {solved}
           </Typography>
         </Stack>
 
@@ -743,13 +789,18 @@ const ProblemsList = ({
         />
 
         <Stack direction="row" spacing={0.75} alignItems="center">
-          <IconifyIcon icon="mdi:user-minus" width={18} height={18} color={theme.palette.error.main} />
+          <IconifyIcon
+            icon="mdi:user-minus"
+            width={18}
+            height={18}
+            color={theme.palette.error.main}
+          />
           <Typography
             variant="body2"
             fontWeight={700}
             color={notSolved > 0 ? 'error.main' : 'text.secondary'}
           >
-            {t('problems.unsolvedCount', { count: notSolved })}
+            {notSolved}
           </Typography>
         </Stack>
       </Stack>
@@ -757,136 +808,82 @@ const ProblemsList = ({
   };
 
   return (
-    <Card variant="outlined">
-      <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
-        {isLoading ? (
-          <Stack direction="column" spacing={1.5}>
-            {Array.from({ length: 5 }).map((_, idx) => (
-              <Skeleton key={idx} variant="rounded" height={114} />
-            ))}
-          </Stack>
-        ) : problems.length === 0 ? (
-          <Box sx={{ textAlign: 'center', py: 6 }}>
-            <Typography variant="subtitle1" fontWeight={700}>
-              {t('problems.emptyTitle')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-              {t('problems.emptySubtitle')}
-            </Typography>
-          </Box>
-        ) : (
-          <Stack direction="column" spacing={1.25}>
-            {problems.map((problem) => {
-              const rowBackground = getRowBackground(problem);
-              const hasBadges = problem.hasSolution || problem.hidden || !problem.hasChecker;
+    <>
+      {isLoading ? (
+        <Stack direction="column" spacing={1.5}>
+          {Array.from({ length: 5 }).map((_, idx) => (
+            <Skeleton key={idx} variant="rounded" height={114} />
+          ))}
+        </Stack>
+      ) : problems.length === 0 ? (
+        <Box sx={{ textAlign: 'center', py: 6 }}>
+          <Typography variant="subtitle1" fontWeight={700}>
+            {t('problems.emptyTitle')}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            {t('problems.emptySubtitle')}
+          </Typography>
+        </Box>
+      ) : (
+        <Stack direction="column" spacing={1.25}>
+          {problems.map((problem) => {
+            return (
+              <Card
+                key={problem.id}
+                component={RouterLink}
+                to={getResourceById(resources.Problem, problem.id)}
+                sx={{
+                  display: 'block',
+                  textDecoration: 'none',
+                  p: 2,
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: theme.shadows[4],
+                    borderColor: alpha(theme.palette.primary.main, 0.25),
+                  },
+                }}
+              >
+                <Stack alignItems="center" justifyContent="space-between" spacing={1.5}>
+                  <Stack
+                    direction="row"
+                    spacing={1.5}
+                    alignItems="flex-start"
+                    justifyContent="space-between"
+                  >
+                    <Stack direction="row" spacing={1.25} alignItems="center" flex={1}>
+                      {renderStatusIcon(problem)}
 
-              return (
-                <Box
-                  key={problem.id}
-                  component={RouterLink}
-                  to={getResourceById(resources.Problem, problem.id)}
-                  sx={{
-                    display: 'block',
-                    textDecoration: 'none',
-                    borderRadius: 2,
-                    border: '1px solid',
-                    borderColor: rowBackground ? 'transparent' : 'divider',
-                    p: { xs: 2, sm: 2.5 },
-                    background: rowBackground ?? 'var(--mui-palette-background-paper)',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
-                    '&:hover': {
-                      transform: 'translateY(-2px)',
-                      boxShadow: theme.shadows[4],
-                      borderColor: alpha(theme.palette.primary.main, 0.25),
-                    },
-                  }}
-                >
-                  <Stack spacing={1.5}>
-                    <Stack direction="row" spacing={1.5} alignItems="flex-start" justifyContent="space-between">
-                      <Stack direction="row" spacing={1.25} alignItems="center" flex={1}>
-                        <Box
-                          sx={{
-                            width: 44,
-                            height: 44,
-                            borderRadius: 1.5,
-                            backgroundColor: alpha(theme.palette.primary.main, 0.08),
-                            display: 'grid',
-                            placeItems: 'center',
-                            border: '1px solid',
-                            borderColor: alpha(theme.palette.primary.main, 0.16),
-                          }}
-                        >
-                          {renderStatusIcon(problem)}
-                        </Box>
-
-                        <Stack spacing={0.25} minWidth={0}>
-                          <Typography variant="caption" color="text.secondary">
-                            #{problem.id}
-                          </Typography>
-                          <Typography
-                            variant="subtitle1"
-                            fontWeight={800}
-                            color="text.primary"
-                            sx={{
-                              maxWidth: { xs: '100%', sm: '34vw' },
-                              display: '-webkit-box',
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: 'vertical',
-                              overflow: 'hidden',
-                            }}
-                          >
-                            {problem.title}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-
-                      {renderDifficultyBadge(problem)}
-                    </Stack>
-
-                    {hasBadges ? renderProblemBadges(problem) : null}
-
-                    {problem.tags.length ? renderTags(problem) : null}
-
-                    <Stack
-                      direction={{ xs: 'column', sm: 'row' }}
-                      spacing={1}
-                      alignItems={{ sm: 'center' }}
-                      justifyContent="space-between"
-                    >
-                      {renderSolvedBadges(problem)}
-
-                      <Stack direction="row" spacing={1.5} alignItems="center" color="text.secondary">
-                        <Stack direction="row" spacing={0.5} alignItems="center">
-                          <IconifyIcon icon="mdi:thumb-up-outline" width={18} height={18} />
-                          <Typography variant="caption">{problem.likesCount}</Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={0.5} alignItems="center">
-                          <IconifyIcon icon="mdi:thumb-down-outline" width={18} height={18} />
-                          <Typography variant="caption">{problem.dislikesCount}</Typography>
-                        </Stack>
+                      <Stack direction="column" spacing={0.25} minWidth={0}>
+                        <Typography variant="subtitle1" fontWeight={600} color="text.primary">
+                          {problem.id}. {problem.title}
+                        </Typography>
+                        {renderSolvedBadges(problem)}
                       </Stack>
                     </Stack>
                   </Stack>
-                </Box>
-              );
-            })}
-          </Stack>
-        )}
 
-        {problems.length > 0 && (
-          <TablePagination
-            component="div"
-            count={total}
-            page={(filter.page ?? 1) - 1}
-            onPageChange={onPageChange}
-            rowsPerPage={filter.pageSize ?? 20}
-            rowsPerPageOptions={[10, 20, 50]}
-            onRowsPerPageChange={onRowsPerPageChange}
-            ActionsComponent={CustomTablePaginationAction}
-          />
-        )}
-      </CardContent>
-    </Card>
+                  {renderDifficultyBadge(problem)}
+                </Stack>
+              </Card>
+            );
+          })}
+        </Stack>
+      )}
+
+      {problems.length > 0 && (
+        <TablePagination
+          component="div"
+          count={total}
+          page={(filter.page ?? 1) - 1}
+          onPageChange={onPageChange}
+          rowsPerPage={filter.pageSize ?? 20}
+          rowsPerPageOptions={[10, 20, 50]}
+          onRowsPerPageChange={onRowsPerPageChange}
+          ActionsComponent={CustomTablePaginationAction}
+        />
+      )}
+    </>
   );
 };
 
@@ -944,7 +941,12 @@ const DifficultiesCard = ({ difficulties, isLoading }: DifficultiesCardProps) =>
 
               return (
                 <Stack key={entry.key} direction="column" spacing={0.5}>
-                  <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
                     <Typography variant="body2" fontWeight={600}>
                       {entry.label}
                     </Typography>
@@ -980,7 +982,13 @@ interface TabContentProps {
   mostViewed: { isLoading: boolean; items: ProblemListItem[] };
 }
 
-const TabsCard = ({ activeTab, onTabChange, attempts, lastContest, mostViewed }: TabContentProps) => {
+const TabsCard = ({
+  activeTab,
+  onTabChange,
+  attempts,
+  lastContest,
+  mostViewed,
+}: TabContentProps) => {
   const { t } = useTranslation();
 
   const renderAttempts = () => {
@@ -1036,7 +1044,9 @@ const TabsCard = ({ activeTab, onTabChange, attempts, lastContest, mostViewed }:
               component={RouterLink}
               to={getResourceById(resources.Problem, problem.id)}
             >
-              <ListItemText primary={`${problem.symbol ? `${problem.symbol}. ` : ''}${problem.title}`} />
+              <ListItemText
+                primary={`${problem.symbol ? `${problem.symbol}. ` : ''}${problem.title}`}
+              />
             </ListItemButton>
           ))}
         </List>
@@ -1092,14 +1102,14 @@ const TabsCard = ({ activeTab, onTabChange, attempts, lastContest, mostViewed }:
         textColor="primary"
         indicatorColor="primary"
       >
-        <Tab value="attempts" label={t('problems.lastAttempts')} />
         <Tab value="lastContest" label={t('problems.lastContestProblems')} />
+        <Tab value="attempts" label={t('problems.lastAttempts')} />
         <Tab value="mostViewed" label={t('problems.mostViewed')} />
       </Tabs>
       <Divider />
       <CardContent>
-        {activeTab === 'attempts' && renderAttempts()}
         {activeTab === 'lastContest' && renderLastContest()}
+        {activeTab === 'attempts' && renderAttempts()}
         {activeTab === 'mostViewed' && renderMostViewed()}
       </CardContent>
     </Card>
