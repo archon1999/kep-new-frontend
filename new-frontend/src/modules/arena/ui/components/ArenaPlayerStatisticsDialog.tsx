@@ -21,7 +21,7 @@ const ArenaPlayerStatisticsDialog = ({ open, onClose, statistics, loading, usern
       <DialogTitle>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <UserPopover username={statistics?.username || username || ''}>
-            <Stack spacing={0.25}>
+            <Stack direction="row" spacing={0.25}>
               <Typography variant="overline" color="text.secondary">
                 {t('arena.playerStatistics')}
               </Typography>

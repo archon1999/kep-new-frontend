@@ -176,7 +176,7 @@ const TestDetailPage = () => {
                 <CardContent>
                   <Stack direction="row" spacing={1.5} alignItems="center">
                     <Skeleton variant="rounded" width={44} height={44} />
-                    <Stack spacing={0.5} sx={{ flex: 1 }}>
+                    <Stack direction="row" spacing={0.5} sx={{ flex: 1 }}>
                       <Skeleton variant="text" width="60%" />
                       <Skeleton variant="text" width="40%" />
                     </Stack>

@@ -223,7 +223,7 @@ const ShopProductCard = ({ product }: ShopProductCardProps) => {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack spacing={1}>
+        <Stack direction="row" spacing={1}>
           <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600 }}>
             {t('shop.colorLabel')}
           </Typography>
@@ -247,7 +247,7 @@ const ShopProductCard = ({ product }: ShopProductCardProps) => {
         </Stack>
 
         {primaryColor?.sizes?.length ? (
-          <Stack spacing={1}>
+          <Stack direction="row" spacing={1}>
             <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600 }}>
               {t('shop.sizeLabel')}
             </Typography>
@@ -298,7 +298,7 @@ export const ShopProductCardSkeleton = () => (
   >
     <Skeleton variant="rectangular" height={300} animation="wave" />
     <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexGrow: 1 }}>
-      <Stack spacing={1}>
+      <Stack direction="row" spacing={1}>
         <Skeleton width="70%" height={24} />
         <Skeleton width="100%" height={18} />
         <Skeleton width="85%" height={18} />
@@ -306,7 +306,7 @@ export const ShopProductCardSkeleton = () => (
 
       <Divider sx={{ borderStyle: 'dashed' }} />
 
-      <Stack spacing={1}>
+      <Stack direction="row" spacing={1}>
         <Skeleton width={60} height={16} />
         <Stack direction="row" spacing={1}>
           <Skeleton variant="circular" width={28} height={28} />
@@ -315,7 +315,7 @@ export const ShopProductCardSkeleton = () => (
         </Stack>
       </Stack>
 
-      <Stack spacing={1}>
+      <Stack direction="row" spacing={1}>
         <Skeleton width={40} height={16} />
         <Stack direction="row" spacing={1}>
           <Skeleton variant="rounded" width={52} height={32} />

@@ -67,7 +67,7 @@ const ChallengesRatingPage = () => {
       sortable: true,
       renderCell: ({ row }) => (
         <UserPopover username={row.username}>
-          <Stack spacing={0.25}>
+          <Stack direction="row" spacing={0.25}>
             <Typography variant="subtitle1" fontWeight={700} color="text.primary">
               {row.username}
             </Typography>
@@ -104,7 +104,7 @@ const ChallengesRatingPage = () => {
       minWidth: 120,
       sortable: true,
       renderCell: ({ value, row }) => (
-        <Stack spacing={0.25}>
+        <Stack direction="row" spacing={0.25}>
           <Typography variant="subtitle1" fontWeight={800} color="text.primary">
             {value ?? '—'}
           </Typography>
@@ -150,7 +150,7 @@ const ChallengesRatingPage = () => {
       minWidth: 140,
       sortable: true,
       renderCell: ({ value }) => (
-        <Stack spacing={0.25}>
+        <Stack direction="row" spacing={0.25}>
           <Typography variant="subtitle1" fontWeight={800} color="text.primary">
             {value ?? 0}
           </Typography>

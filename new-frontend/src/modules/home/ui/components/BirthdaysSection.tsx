@@ -77,7 +77,7 @@ const BirthdaysSection = () => {
             {SKELETON_ITEMS.map((_, index) => (
               <Stack key={index} direction="row" spacing={2} alignItems="center">
                 <Skeleton variant="circular" width={48} height={48} />
-                <Stack spacing={0.5} sx={{ flex: 1 }}>
+                <Stack direction="row" spacing={0.5} sx={{ flex: 1 }}>
                   <Skeleton variant="text" width="45%" />
                   <Skeleton variant="text" width="30%" />
                 </Stack>

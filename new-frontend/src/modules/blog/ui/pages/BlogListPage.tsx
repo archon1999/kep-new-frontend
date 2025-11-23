@@ -56,7 +56,7 @@ const BlogListPage = () => {
           flexWrap="wrap"
           rowGap={1.5}
         >
-          <Stack spacing={0.5}>
+          <Stack direction="row" spacing={0.5}>
             <Typography variant="h4" fontWeight={800}>
               {t('blog.title')}
             </Typography>
@@ -79,7 +79,7 @@ const BlogListPage = () => {
                   ))}
             </Grid>
 
-            <Stack alignItems="center" sx={{ mt: 3 }}>
+            <Stack direction="row" alignItems="center" sx={{ mt: 3 }}>
               {total > PAGE_SIZE ? (
                 <Pagination
                   color="primary"

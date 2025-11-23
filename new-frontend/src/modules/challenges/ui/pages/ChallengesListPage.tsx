@@ -408,7 +408,7 @@ const ChallengesListPage = () => {
                       </Stack>
                     </>
                   ) : (
-                    <Stack spacing={1}>
+                    <Stack direction="row" spacing={1}>
                       <Typography variant="body2" color="text.secondary">
                         {currentUser ? t('challenges.noRating') : t('challenges.authRequired')}
                       </Typography>

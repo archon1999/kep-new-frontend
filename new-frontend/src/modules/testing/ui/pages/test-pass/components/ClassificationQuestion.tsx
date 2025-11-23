@@ -54,7 +54,7 @@ const ClassificationQuestion = ({ question, groups, onChange }: ClassificationQu
             <Typography variant="subtitle2" fontWeight={700}>
               {group.key || `Group ${groupIndex + 1}`}
             </Typography>
-            <Stack spacing={1}>
+            <Stack direction="row" spacing={1}>
               {group.values.map((value, valueIndex) => (
                 <Paper
                   key={`${value}-${valueIndex}`}

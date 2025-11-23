@@ -75,7 +75,7 @@ export const ProblemHeader = ({
       <Stack direction="row" spacing={1.5} alignItems="center" sx={{ minWidth: 0, flex: 1 }}>
         <Logo showName={false} />
         <Divider orientation="vertical" flexItem />
-        <Stack>
+        <Stack direction="row">
           <Button
             component={RouterLink}
             to={resources.Problems}

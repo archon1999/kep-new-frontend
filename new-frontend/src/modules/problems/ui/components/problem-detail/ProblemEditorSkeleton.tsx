@@ -29,9 +29,9 @@ const ProblemEditorSkeleton = () => {
       </Box>
 
       <Box sx={{ flex: 1, minHeight: 0, overflow: 'hidden', px: 3, py: 2 }}>
-        <Stack spacing={2} sx={{ height: '100%' }}>
+        <Stack direction="row" spacing={2} sx={{ height: '100%' }}>
           <Skeleton variant="rounded" height="48%" />
-          <Stack spacing={1} sx={{ flex: 1 }}>
+          <Stack direction="row" spacing={1} sx={{ flex: 1 }}>
             <Skeleton variant="rounded" height={36} width={220} />
             <Skeleton variant="rounded" height="100%" />
           </Stack>

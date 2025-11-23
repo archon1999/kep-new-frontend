@@ -34,25 +34,25 @@ const ProblemDescriptionSkeleton = () => {
             </Stack>
           </Stack>
 
-          <Stack spacing={1}>
+          <Stack direction="row" spacing={1}>
             <Skeleton variant="text" width="95%" />
             <Skeleton variant="text" width="90%" />
             <Skeleton variant="text" width="70%" />
           </Stack>
 
-          <Stack spacing={1}>
+          <Stack direction="row" spacing={1}>
             <Skeleton variant="text" width={180} height={28} />
             <Skeleton variant="rounded" height={96} />
           </Stack>
 
-          <Stack spacing={1}>
+          <Stack direction="row" spacing={1}>
             <Skeleton variant="text" width={200} height={28} />
             <Skeleton variant="rounded" height={96} />
           </Stack>
 
-          <Stack spacing={2}>
+          <Stack direction="row" spacing={2}>
             <Skeleton variant="text" width={160} height={26} />
-            <Stack spacing={1.25}>
+            <Stack direction="row" spacing={1.25}>
               <Skeleton variant="rounded" height={108} />
               <Skeleton variant="rounded" height={108} />
             </Stack>

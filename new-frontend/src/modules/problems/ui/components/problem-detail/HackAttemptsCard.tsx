@@ -33,7 +33,7 @@ export const HackAttemptsCard = ({ attempts, total, pagination, onPaginationChan
               <Card key={attempt.id} variant="outlined">
                 <CardContent>
                   <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
-                    <Stack spacing={0.25}>
+                    <Stack direction="row" spacing={0.25}>
                       <Typography variant="body2" color="text.secondary">
                         #{attempt.id} {attempt.hackType}
                       </Typography>

@@ -28,7 +28,7 @@ const StreakWidget = ({
 
   const renderStat = (label: string, content: ReactNode, tooltip?: string, action?: ReactNode) => {
     const node = (
-      <Stack spacing={0.75} minWidth={160}>
+      <Stack direction="row" spacing={0.75} minWidth={160}>
         <Typography variant="caption" color="text.secondary" textTransform="uppercase">
           {label}
         </Typography>
@@ -81,7 +81,7 @@ const StreakWidget = ({
             <Skeleton variant="text" width={240} height={48} />
           ) : (
             <Typography variant="h3" fontWeight={700}>
-              <Stack spacing={1}>
+              <Stack direction="row" spacing={1}>
                 You have <KepcoinValue iconSize={32} textVariant="h3" value={balance}></KepcoinValue>
               </Stack>
             </Typography>

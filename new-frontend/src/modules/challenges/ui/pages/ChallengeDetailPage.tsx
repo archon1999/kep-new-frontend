@@ -198,7 +198,7 @@ const ChallengeDetailPage = () => {
           </Grid>
 
           <Grid size={{ xs: 12, md: 3 }}>
-            <Stack spacing={2}>
+            <Stack direction="row" spacing={2}>
               <ChallengeCountdown
                 secondsLeft={secondsLeft}
                 totalSeconds={challenge.timeSeconds}

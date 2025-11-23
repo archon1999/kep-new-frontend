@@ -191,7 +191,7 @@ const UsersDataGrid = ({
         const user = row as UsersListItem;
 
         return (
-          <Stack spacing={0.5} alignItems="center" width="100%">
+          <Stack direction="row" spacing={0.5} alignItems="center" width="100%">
             <Streak
               streak={user.streak}
               maxStreak={user.maxStreak}
