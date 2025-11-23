@@ -60,7 +60,8 @@
       "username": "Username",
       "rank": "Rank",
       "rating": "Rating",
-      "record": "Record"
+      "record": "Record",
+      "matches": "Matches"
     },
     "record": "{{wins}}W {{draws}}D {{losses}}L",
     "statisticsTitle": "My challenge statistics",

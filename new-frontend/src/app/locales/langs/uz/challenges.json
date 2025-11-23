@@ -60,7 +60,8 @@
       "username": "Foydalanuvchi",
       "rank": "Daraja",
       "rating": "Reyting",
-      "record": "Natija"
+      "record": "Natija",
+      "matches": "O'yinlar"
     },
     "record": "{{wins}}G {{draws}}D {{losses}}M",
     "statisticsTitle": "Bellashuv statistikasi",
