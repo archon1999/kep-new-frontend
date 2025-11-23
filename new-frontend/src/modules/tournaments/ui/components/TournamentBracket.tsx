@@ -72,7 +72,11 @@ const getAdvancingPlayer = (match?: BracketMatch) => {
 };
 
 const normalizeStageMap = (stages?: TournamentStageInfo[]) => {
-  const sortedStages = [...(stages ?? [])].sort((a, b) => a.number - b.number);
+  const sortedStages = [...(stages ?? [])].sort((a, b) => {
+    const duelDiff = (b.duels?.length ?? 0) - (a.duels?.length ?? 0);
+    if (duelDiff !== 0) return duelDiff;
+    return a.number - b.number;
+  });
   return sortedStages.reduce((acc, stage, idx) => {
     acc.set(idx, stage);
     return acc;
