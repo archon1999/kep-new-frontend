@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
-import { Chip, IconButton, Tooltip, Typography, alpha, useTheme } from '@mui/material';
+import { Chip, IconButton, Paper, Tooltip, Typography, alpha, useTheme } from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { getResourceById, resources } from 'app/routes/resources';
@@ -46,6 +46,7 @@ const ProblemsAttemptsTable = ({
   const theme = useTheme();
   const { currentUser } = useAuth();
   const [rows, setRows] = useState<AttemptListItem[]>(attempts ?? []);
+  const [lastUpdatedAttempt, setLastUpdatedAttempt] = useState<AttemptListItem | null>(null);
   const trackedIdsRef = useRef<number[]>([]);
 
   useEffect(() => {
@@ -89,6 +90,10 @@ const ProblemsAttemptsTable = ({
           balls: payload.balls ?? undefined,
         };
 
+        if (currentUser?.username && updatedAttempt.user.username === currentUser.username) {
+          setLastUpdatedAttempt(updatedAttempt);
+        }
+
         const nextAttempts = [...prev];
         nextAttempts[index] = updatedAttempt;
         return nextAttempts;
@@ -96,7 +101,7 @@ const ProblemsAttemptsTable = ({
     });
 
     return unsubscribe;
-  }, []);
+  }, [currentUser?.username]);
 
   const formatDateTime = (value?: string) => {
     if (!value) return '—';
@@ -250,27 +255,51 @@ const ProblemsAttemptsTable = ({
   }, [currentUser?.isSuperuser, showProblemColumn, t]);
 
   return (
-    <DataGrid
-      autoHeight
-      disableColumnMenu
-      disableColumnSelector
-      disableRowSelectionOnClick
-      rows={rows}
-      columns={columns}
-      loading={isLoading}
-      rowCount={total}
-      pageSizeOptions={[10, 20, 50]}
-      paginationMode="server"
-      paginationModel={paginationModel}
-      onPaginationModelChange={onPaginationChange}
-      sortingMode="server"
-      disableColumnFilter
-      sx={{
-        mb: 2,
-        '& .MuiDataGrid-row--hovered': { backgroundColor: alpha(theme.palette.primary.main, 0.04) },
-      }}
-      getRowId={(row) => row.id}
-    />
+    <>
+      <DataGrid
+        autoHeight
+        disableColumnMenu
+        disableColumnSelector
+        disableRowSelectionOnClick
+        rows={rows}
+        columns={columns}
+        loading={isLoading}
+        rowCount={total}
+        pageSizeOptions={[10, 20, 50]}
+        paginationMode="server"
+        paginationModel={paginationModel}
+        onPaginationModelChange={onPaginationChange}
+        sortingMode="server"
+        disableColumnFilter
+        sx={{
+          mb: 2,
+          '& .MuiDataGrid-row--hovered': { backgroundColor: alpha(theme.palette.primary.main, 0.04) },
+        }}
+        getRowId={(row) => row.id}
+      />
+
+      {lastUpdatedAttempt && (
+        <Paper
+          elevation={8}
+          sx={{
+            position: 'fixed',
+            right: 24,
+            bottom: 24,
+            zIndex: (muiTheme) => muiTheme.zIndex.tooltip,
+            p: 1.5,
+            borderRadius: 2,
+          }}
+        >
+          <AttemptVerdict
+            verdict={lastUpdatedAttempt.verdict as VerdictKey | undefined}
+            title={lastUpdatedAttempt.verdictTitle || t('problems.attempts.unknownVerdict')}
+            testCaseNumber={lastUpdatedAttempt.testCaseNumber}
+            balls={lastUpdatedAttempt.balls}
+            sx={{ fontWeight: 800 }}
+          />
+        </Paper>
+      )}
+    </>
   );
 };
 
