@@ -11,6 +11,7 @@ import { alpha } from '@mui/material/styles';
 import { getItemFromStore, setItemToStore } from 'shared/lib/utils';
 import { wsService } from 'shared/services/websocket';
 import { toast } from 'sonner';
+import { getDifficultyColor } from 'modules/problems/config/difficulty';
 import {
   problemsQueries,
   useAttemptsList,
@@ -28,19 +29,6 @@ import { ProblemHeader } from '../components/problem-detail/ProblemHeader';
 import { VerdictKey } from 'shared/components/problems/AttemptVerdict';
 
 const STORAGE_LANG_KEY = 'problem-submit-lang';
-
-const difficultyColorMap: Record<
-  number,
-  'success' | 'info' | 'primary' | 'warning' | 'error' | 'secondary'
-> = {
-  1: 'success',
-  2: 'info',
-  3: 'primary',
-  4: 'primary',
-  5: 'warning',
-  6: 'error',
-  7: 'secondary',
-};
 
 const useProblemPermissions = (permissionsRaw: any) => {
   return useMemo(() => {
@@ -371,7 +359,7 @@ const ProblemDetailPage = () => {
     mutateProblem();
   };
 
-  const selectedDifficultyColor = difficultyColorMap[problem?.difficulty ?? 0] || 'primary';
+  const selectedDifficultyColor = getDifficultyColor(problem?.difficulty);
   const canUseCheckSamples = Boolean(permissions.canUseCheckSamples || currentUser?.isSuperuser);
   const showInitialSkeleton = !hasLoadedOnce && (isProblemLoading || !problem);
   const isRevalidating = Boolean(problem) && hasLoadedOnce && (isProblemValidating || isProblemLoading);

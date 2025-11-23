@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { useProblemSolution } from 'modules/problems/application/queries.ts';
+import { DifficultyColor } from 'modules/problems/config/difficulty';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import ClipboardButton from 'shared/components/common/ClipboardButton';
 import { ProblemDetail } from '../../../domain/entities/problem.entity';
@@ -37,7 +38,7 @@ interface HackPagination {
 
 interface ProblemDescriptionProps {
   problem: ProblemDetail;
-  selectedDifficultyColor: string;
+  selectedDifficultyColor: DifficultyColor;
   activeTab: TabValue;
   onTabChange: (value: TabValue) => void;
   currentUser: any;

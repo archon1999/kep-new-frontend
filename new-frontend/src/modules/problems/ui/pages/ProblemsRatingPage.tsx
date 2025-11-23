@@ -19,23 +19,18 @@ import Grid from '@mui/material/Grid';
 import { useTranslation } from 'react-i18next';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import { difficultyColorByKey, difficultyOptions } from '../../config/difficulty';
 import { useProblemsPeriodRating, useProblemsRating } from '../../application/queries';
 import { ProblemsRatingRow } from '../../domain/entities/problem.entity';
 import { getResourceByUsername, resources } from 'app/routes/resources';
 import CustomTablePaginationAction from 'shared/components/pagination/CustomTablePaginationAction';
 
-const difficultyOrdering = [
-  { key: 'beginner', label: 'problems.difficulty.beginner', color: 'success' },
-  { key: 'basic', label: 'problems.difficulty.basic', color: 'info' },
-  { key: 'normal', label: 'problems.difficulty.normal', color: 'primary' },
-  { key: 'medium', label: 'problems.difficulty.medium', color: 'primary' },
-  { key: 'advanced', label: 'problems.difficulty.advanced', color: 'warning' },
-  { key: 'hard', label: 'problems.difficulty.hard', color: 'error' },
-  { key: 'extremal', label: 'problems.difficulty.extremal', color: 'secondary' },
-] as const;
-
 const orderingOptions = [
-  ...difficultyOrdering,
+  ...difficultyOptions.map((option) => ({
+    key: option.key,
+    label: option.label,
+    color: difficultyColorByKey[option.key],
+  })),
   { key: 'solved', label: 'problems.rating.ordering.solved', color: 'info' },
   { key: 'rating', label: 'problems.rating.ordering.rating', color: 'primary' },
 ] as const;
@@ -53,6 +48,16 @@ const ProblemsRatingPage = () => {
   const orderingState = useMemo(
     () => ({ key: ordering.replace('-', ''), isDesc: ordering.startsWith('-') }),
     [ordering],
+  );
+
+  const difficultyOrdering = useMemo(
+    () =>
+      difficultyOptions.map((option) => ({
+        key: option.key,
+        label: option.label,
+        color: difficultyColorByKey[option.key],
+      })),
+    [],
   );
 
   const rows = ratingPage?.data ?? [];
