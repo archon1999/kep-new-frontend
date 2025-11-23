@@ -758,7 +758,7 @@ const ProblemsList = ({
       {isLoading ? (
         <Stack direction="column" spacing={1.5}>
           {Array.from({ length: 5 }).map((_, idx) => (
-            <Skeleton key={idx} variant="rounded" height={114} />
+            <Skeleton key={idx} variant="rounded" height={90} />
           ))}
         </Stack>
       ) : problems.length === 0 ? (
