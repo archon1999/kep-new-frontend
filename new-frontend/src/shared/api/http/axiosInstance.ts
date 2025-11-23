@@ -13,7 +13,7 @@ const djangoLanguageMap: Record<string, 'en' | 'ru' | 'uz'> = {
 };
 
 const getBasicAuthHeader = () => {
-  if (!basicAuthLogin || !basicAuthPassword || 1) return null;
+  if (!basicAuthLogin || !basicAuthPassword) return null;
 
   const encodedCredentials = btoa(`${basicAuthLogin}:${basicAuthPassword}`);
 

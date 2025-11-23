@@ -10,7 +10,6 @@ import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { ApiContestsRegistrantsListOrdering } from 'shared/api/orval/generated/endpoints/index.schemas';
 import { useContest, useContestRegistrants } from '../../application/queries';
 import { ContestRegistrant } from '../../domain/entities/contest-registrant.entity';
-import { ContestStatus } from '../../domain/entities/contest-status';
 import ContestCountdownCard from '../components/ContestCountdownCard';
 import ContestPageHeader from '../components/ContestPageHeader';
 

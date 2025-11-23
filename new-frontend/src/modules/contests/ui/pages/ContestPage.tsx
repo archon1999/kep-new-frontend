@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import { Box, Button, Card, CardContent, Chip, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
-import { getResourceById, getResourceByParams, resources } from 'app/routes/resources';
+import { getResourceByParams, resources } from 'app/routes/resources';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
-import KepIcon from 'shared/components/base/KepIcon';
 import ContestCountdownCard from '../components/ContestCountdownCard';
 import { contestsQueries, useContest, useContestProblems } from '../../application/queries';
 import ContestCard from '../components/ContestCard';
@@ -28,35 +27,6 @@ const ContestPage = () => {
         }
       : undefined,
   );
-
-  const actionButtons = useMemo(() => {
-    if (!contest || contest.statusCode === ContestStatus.NotStarted) {
-      return null;
-    }
-
-    return (
-      <Stack direction="row" spacing={1}>
-        <Button
-          component={RouterLink}
-          to={getResourceById(resources.ContestProblems, contest.id)}
-          variant="outlined"
-          color="primary"
-          startIcon={<KepIcon name="problem" fontSize={18} />}
-        >
-          {t('contests.tabs.problems')}
-        </Button>
-        <Button
-          component={RouterLink}
-          to={getResourceById(resources.ContestStandings, contest.id)}
-          variant="contained"
-          color="primary"
-          startIcon={<KepIcon name="ranking" fontSize={18} />}
-        >
-          {t('contests.tabs.standings')}
-        </Button>
-      </Stack>
-    );
-  }, [contest, t]);
 
   const showProblemsPreview = contest ? contest.statusCode !== ContestStatus.NotStarted : true;
   const canRegister = contest ? contest.statusCode !== ContestStatus.Finished : false;

@@ -205,7 +205,6 @@ const ContestProblemPage = () => {
   const {
     data: contestProblem,
     isLoading: isProblemLoading,
-    mutate: mutateContestProblem,
   } = useContestProblem(contestId, problemSymbol);
   const { data: contestant, mutate: mutateContestant } = useContestContestant(contestId);
 
