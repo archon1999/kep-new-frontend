@@ -68,9 +68,23 @@
         "rating": "Rating"
       },
       "total": "{{count}} users",
+      "columns": {
+        "place": "Place",
+        "user": "User",
+        "rating": "Rating",
+        "solved": "Solved",
+        "beginner": "Beginner",
+        "basic": "Basic",
+        "normal": "Normal",
+        "medium": "Medium",
+        "advanced": "Advanced",
+        "hard": "Hard",
+        "extremal": "Extremal"
+      },
       "score": "Rating {{value}}",
       "solved": "{{value}} solved",
       "empty": "Rating is empty.",
+      "emptyValue": "—",
       "periodTitle": "Top solvers",
       "period": {
         "today": "Today",

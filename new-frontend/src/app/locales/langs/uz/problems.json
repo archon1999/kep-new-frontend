@@ -97,9 +97,23 @@
         "rating": "Reyting"
       },
       "total": "{{count}} foydalanuvchi",
+      "columns": {
+        "place": "O‘rin",
+        "user": "Foydalanuvchi",
+        "rating": "Reyting",
+        "solved": "Yechilgan",
+        "beginner": "Boshlang‘ich",
+        "basic": "Oddiy",
+        "normal": "Normal",
+        "medium": "O‘rta",
+        "advanced": "Murakkab",
+        "hard": "Qiyin",
+        "extremal": "Ekstremal"
+      },
       "score": "Reyting {{value}}",
       "solved": "{{value}} yechildi",
       "empty": "Reyting bo‘sh.",
+      "emptyValue": "—",
       "periodTitle": "Eng yaxshi yechuvchilar",
       "period": {
         "today": "Bugun",

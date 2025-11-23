@@ -97,9 +97,23 @@
         "rating": "Рейтинг"
       },
       "total": "{{count}} пользователей",
+      "columns": {
+        "place": "Место",
+        "user": "Пользователь",
+        "rating": "Рейтинг",
+        "solved": "Решено",
+        "beginner": "Новичок",
+        "basic": "Базовый",
+        "normal": "Нормальный",
+        "medium": "Средний",
+        "advanced": "Продвинутый",
+        "hard": "Сложный",
+        "extremal": "Экстремальный"
+      },
       "score": "Рейтинг {{value}}",
       "solved": "{{value}} решено",
       "empty": "Рейтинг пуст.",
+      "emptyValue": "—",
       "periodTitle": "Лучшие решатели",
       "period": {
         "today": "Сегодня",
