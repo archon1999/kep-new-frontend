@@ -1,6 +1,7 @@
 {
   "problems": {
     "title": "Masalalar",
+    "title2": "Masalalar to'plami",
     "subtitle": "Dasturlash masalalarini ishlang, mashq qiling va yutuqlaringizni kuzating.",
     "filterTitle": "Filtr",
     "filters": "Filtrlar",
@@ -8,12 +9,12 @@
     "clearFilters": "Filtrlarni tozalash",
     "searchPlaceholder": "Masala raqami yoki nomi bo‘yicha qidirish",
     "orderBy": "Saralash",
-    "orderNewest": "Avval yangilar",
-    "orderOldest": "Avval eskilar",
-    "orderEasiest": "Avval osonlar",
-    "orderHardest": "Avval qiyinlar",
-    "orderMostSolved": "Avval ko‘p yechilganlar",
-    "orderLeastSolved": "Avval kam yechilganlar",
+    "orderNewest": "Yangilar",
+    "orderOldest": "Eskilar",
+    "orderEasiest": "Osonlar",
+    "orderHardest": "Qiyinlar",
+    "orderMostSolved": "Ko'p yechilgan",
+    "orderLeastSolved": "Kam yechilgan",
     "language": "Til",
     "allLanguages": "Barcha tillar",
     "favoritesOnly": "Sevimlilar",
@@ -186,6 +187,7 @@
       "defender": "Himoyachi",
       "tagsTopics": "Teglar va mavzular",
       "codeTab": "Kod"
-    }
+    },
+    "resultsCount": "Masalalar: {{count}}"
   }
 }

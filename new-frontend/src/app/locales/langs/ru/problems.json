@@ -1,6 +1,7 @@
 {
   "problems": {
     "title": "Задачи",
+    "title2": "Набор задач",
     "subtitle": "Решайте задачи по программированию, тренируйтесь и отслеживайте прогресс.",
     "filterTitle": "Фильтр",
     "filters": "Фильтры",
@@ -8,12 +9,12 @@
     "clearFilters": "Сбросить фильтры",
     "searchPlaceholder": "Поиск задач",
     "orderBy": "Сортировка",
-    "orderNewest": "Сначала новые",
-    "orderOldest": "Сначала старые",
-    "orderEasiest": "Сначала легкие",
-    "orderHardest": "Сначала сложные",
-    "orderMostSolved": "Сначала больше решенных",
-    "orderLeastSolved": "Сначала меньше решенных",
+    "orderNewest": "Новые",
+    "orderOldest": "Старые",
+    "orderEasiest": "Легкие",
+    "orderHardest": "Сложные",
+    "orderMostSolved": "Чаще решаемые",
+    "orderLeastSolved": "Реже решаемые",
     "language": "Язык",
     "allLanguages": "Все языки",
     "favoritesOnly": "Только избранные",
@@ -186,6 +187,7 @@
       "defender": "Защитник",
       "tagsTopics": "Теги и темы",
       "codeTab": "Код"
-    }
+    },
+    "resultsCount": "Задач: {{count}}"
   }
 }

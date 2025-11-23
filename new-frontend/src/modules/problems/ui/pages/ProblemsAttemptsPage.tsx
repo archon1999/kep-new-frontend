@@ -5,13 +5,16 @@ import {
   Autocomplete,
   Avatar,
   Box,
+  Button,
+  Card,
   Chip,
-  FormControlLabel,
   FormControl,
+  FormControlLabel,
   IconButton,
   InputLabel,
   Menu,
   MenuItem,
+  Paper,
   Select,
   Stack,
   Switch,
@@ -23,19 +26,15 @@ import { useAuth } from 'app/providers/AuthProvider';
 import { resources } from 'app/routes/resources';
 import { usersApiClient } from 'modules/users/data-access/api/users.client';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import FilterButton from 'shared/components/common/FilterButton';
 import PageHeader from 'shared/components/sections/common/PageHeader';
 import StyledTextField from 'shared/components/styled/StyledTextField';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
-import FilterButton from 'shared/components/common/FilterButton';
 import useSWR from 'swr';
-import {
-  problemsQueries,
-  useAttemptVerdicts,
-  useAttemptsList,
-  useProblemLanguages,
-} from '../../application/queries';
+import { problemsQueries, useAttemptVerdicts, useAttemptsList, useProblemLanguages } from '../../application/queries';
 import { AttemptsListParams } from '../../domain/ports/problems.repository';
 import ProblemsAttemptsTable from '../components/ProblemsAttemptsTable.tsx';
+
 
 interface AttemptsFilterState {
   username: string;
@@ -176,25 +175,41 @@ const ProblemsAttemptsPage = () => {
         ]}
         actionComponent={
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
-            <FormControlLabel
-              control={
-                <Switch
-                  size="small"
-                  checked={isOnlyMyAttempts}
-                  onChange={(_, checked) => {
-                    if (!currentUser?.username) return;
-                    handleFilterChange('username', checked ? currentUser.username : '');
-                  }}
-                  color="primary"
+            <Card background={2} sx={{ borderRadius: 2 }}>
+              <Stack
+                spacing={2}
+                direction="row"
+                sx={{
+                  px: 1.5,
+                  pr: 0,
+                  py: 1,
+                }}
+              >
+                <Typography variant="body2" fontWeight={600}>
+                  {t('problems.attempts.onlyMy')}
+                </Typography>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      size="small"
+                      checked={isOnlyMyAttempts}
+                      onChange={(_, checked) => {
+                        if (!currentUser?.username) return;
+                        handleFilterChange('username', checked ? currentUser.username : '');
+                      }}
+                      color="primary"
+                    />
+                  }
+                  label=""
+                  disabled={!currentUser?.username}
                 />
-              }
-              label={t('problems.attempts.onlyMy')}
-              disabled={!currentUser?.username}
-            />
+              </Stack>
+            </Card>
+
             <Tooltip title={t('problems.attempts.refresh')}>
-              <IconButton color="primary" onClick={() => mutate()}>
+              <Button variant="soft" color="neutral" onClick={() => mutate()}>
                 <IconifyIcon icon="mdi:reload" width={18} height={18} />
-              </IconButton>
+              </Button>
             </Tooltip>
             <FilterButton
               id="attempts-filters-button"
@@ -204,11 +219,11 @@ const ProblemsAttemptsPage = () => {
               aria-controls={filtersOpen ? 'attempts-filters-menu' : undefined}
               label={t('problems.filterTitle')}
             />
-            {(filter.username || filter.problemId || filter.verdict || filter.lang) && (
+            {((filter.username && filter.username !== currentUser?.username) || filter.problemId || filter.verdict || filter.lang) && (
               <Tooltip title={t('problems.attempts.clear')}>
-                <IconButton color="error" onClick={handleReset}>
+                <Button variant="outlined" color="error" size="small" onClick={handleReset}>
                   <IconifyIcon icon="mdi:close" width={18} height={18} />
-                </IconButton>
+                </Button>
               </Tooltip>
             )}
           </Stack>

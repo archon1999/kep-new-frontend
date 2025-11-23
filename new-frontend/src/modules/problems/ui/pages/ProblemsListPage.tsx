@@ -1,22 +1,70 @@
-import { MouseEvent, useMemo, useState } from 'react';
+import { MouseEvent, SyntheticEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
-import { Badge, Box, Button, Card, CardContent, CardHeader, Chip, Divider, FormControl, FormControlLabel, Grid, InputAdornment, InputLabel, LinearProgress, List, ListItemButton, ListItemText, MenuItem, Popover, Select, SelectChangeEvent, Skeleton, Stack, Switch, Tab, TablePagination, Tabs, TextField, Tooltip, Typography, alpha, useTheme } from '@mui/material';
+import { TabContext, TabList } from '@mui/lab';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Chip,
+  Divider,
+  FormControlLabel,
+  Grid,
+  InputAdornment,
+  LinearProgress,
+  List,
+  ListItemButton,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Skeleton,
+  Stack,
+  Switch,
+  Tab,
+  TablePagination,
+  Tabs,
+  Tooltip,
+  Typography,
+  alpha,
+  useTheme,
+} from '@mui/material';
+import SearchTextField from 'app/layouts/main-layout/common/search-box/SearchTextField.tsx';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
 import { getResourceById, resources } from 'app/routes/resources.ts';
 import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
 import FilterButton from 'shared/components/common/FilterButton.tsx';
 import CustomTablePaginationAction from 'shared/components/pagination/CustomTablePaginationAction.tsx';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
-import { useLastContestProblems, useMostViewedProblems, useProblemCategories, useProblemLanguages, useProblemsList, useUserProblemsAttempts, useUserProblemsRating } from '../../application/queries.ts';
-import { difficultyColorByKey, difficultyOptions, getDifficultyColor, getDifficultyLabelKey } from '../../config/difficulty';
-import { DifficultyBreakdown, ProblemAttemptSummary, ProblemCategory, ProblemLanguageOption, ProblemListItem } from '../../domain/entities/problem.entity.ts';
+import PageHeader from 'shared/components/sections/common/PageHeader.tsx';
+import StyledTextField from 'shared/components/styled/StyledTextField.tsx';
+import {
+  useLastContestProblems,
+  useMostViewedProblems,
+  useProblemCategories,
+  useProblemLanguages,
+  useProblemsList,
+  useUserProblemsAttempts,
+  useUserProblemsRating,
+} from '../../application/queries.ts';
+import {
+  difficultyColorByKey,
+  difficultyOptions,
+  getDifficultyColor,
+  getDifficultyLabelKey,
+} from '../../config/difficulty';
+import {
+  DifficultyBreakdown,
+  ProblemAttemptSummary,
+  ProblemCategory,
+  ProblemLanguageOption,
+  ProblemListItem,
+} from '../../domain/entities/problem.entity.ts';
 import { ProblemsListParams } from '../../domain/ports/problems.repository.ts';
 
-
 const orderingOptions = [
-  { label: 'problems.orderNewest', value: '-id' },
   { label: 'problems.orderOldest', value: 'id' },
+  { label: 'problems.orderNewest', value: '-id' },
   { label: 'problems.orderEasiest', value: 'difficulty,-solved' },
   { label: 'problems.orderHardest', value: '-difficulty,solved' },
   { label: 'problems.orderMostSolved', value: '-solved' },
@@ -144,62 +192,50 @@ const ProblemsListPage = () => {
   };
 
   return (
-    <Box sx={responsivePagePaddingSx}>
-      <Stack direction="column" spacing={4}>
-        <Stack direction="column" spacing={2}>
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            alignItems={{ xs: 'flex-start', sm: 'center' }}
-            justifyContent="space-between"
-            spacing={1.5}
-          >
-            <Stack direction="column" spacing={1}>
-              <Typography variant="h4" fontWeight={800}>
-                {t('problems.title')}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {t('problems.subtitle')}
-              </Typography>
-            </Stack>
-
-            <Stack
-              direction="row"
-              spacing={1}
-              flexWrap="wrap"
-              justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+    <Stack direction="column" spacing={4} height={1}>
+      <PageHeader
+        title={t('problems.title2')}
+        breadcrumb={[
+          { label: t('home'), url: '/' },
+          { label: t('problems.title'), active: true },
+        ]}
+        actionComponent={
+          <Stack direction="row" flexWrap="wrap" justifyContent="flex-end">
+            <Button
+              component={RouterLink}
+              to={resources.ProblemsRating}
+              variant="text"
+              color="primary"
+              startIcon={<IconifyIcon icon="mdi:chart-line" />}
             >
-              <Button
-                component={RouterLink}
-                to={resources.ProblemsRating}
-                variant="outlined"
-                color="primary"
-                startIcon={<IconifyIcon icon="mdi:chart-line" />}
-              >
-                {t('problems.ratingButton')}
-              </Button>
-              <Button
-                component={RouterLink}
-                to={resources.Attempts}
-                variant="outlined"
-                color="secondary"
-                startIcon={<IconifyIcon icon="mdi:target" />}
-              >
-                {t('problems.attemptsButton')}
-              </Button>
-            </Stack>
+              {t('problems.ratingButton')}
+            </Button>
+            <Button
+              component={RouterLink}
+              to={resources.Attempts}
+              variant="text"
+              color="primary"
+              startIcon={<IconifyIcon icon="mdi:target" />}
+            >
+              {t('problems.attemptsButton')}
+            </Button>
           </Stack>
-        </Stack>
+        }
+      />
 
+      <Box sx={{ flex: 1, px: { xs: 3, md: 5 }, pb: { xs: 5, md: 6 } }}>
         <Grid container spacing={3}>
+          <Grid size={12}>
+            <FilterCard
+              languages={languages ?? []}
+              categories={categories ?? []}
+              filter={filter}
+              total={total}
+              onChange={handleFilterChange}
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 8 }}>
             <Stack direction="column" spacing={3}>
-              <FilterCard
-                languages={languages ?? []}
-                categories={categories ?? []}
-                filter={filter}
-                total={total}
-                onChange={handleFilterChange}
-              />
               <ProblemsList
                 problems={problems}
                 isLoading={isProblemsLoading}
@@ -243,8 +279,8 @@ const ProblemsListPage = () => {
             </Stack>
           </Grid>
         </Grid>
-      </Stack>
-    </Box>
+      </Box>
+    </Stack>
   );
 };
 
@@ -269,12 +305,17 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
   );
 
   const filtersOpen = Boolean(filtersAnchor);
+  const orderingValue = filter.ordering ?? 'id';
 
-  const handleFiltersOpen = (event: MouseEvent<HTMLElement>) => {
+  const handleFiltersToggle = (event: MouseEvent<HTMLElement>) => {
     setFiltersAnchor((current) => (current ? null : event.currentTarget));
   };
 
   const handleFiltersClose = () => setFiltersAnchor(null);
+
+  const handleOrderingChange = (_: SyntheticEvent, value: string) => {
+    onChange('ordering', value as string);
+  };
 
   const activeFilters = useMemo(() => {
     const items: Array<{ key: string; label: string; onRemove: () => void }> = [];
@@ -354,115 +395,92 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
   };
 
   return (
-    <Card variant="outlined">
-      <CardHeader
-        title={
-          <Stack direction="row" spacing={1} alignItems="center">
-            <IconifyIcon icon="mdi:filter" width={20} height={20} />
-            <Typography variant="subtitle1" fontWeight={700}>
-              {t('problems.filterTitle')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              ({total})
-            </Typography>
-          </Stack>
-        }
-      />
-      <CardContent>
-        <Stack direction="column" spacing={2.5}>
+    <>
+      <Stack direction="column" spacing={2}>
+        <TabContext value={orderingValue}>
           <Stack
-            direction={{ xs: 'column', md: 'row' }}
-            spacing={1.5}
-            alignItems={{ md: 'center' }}
+            direction={{ xs: 'column', lg: 'row' }}
+            alignItems={{ lg: 'center' }}
             justifyContent="space-between"
           >
-            <TextField
-              label={t('problems.searchPlaceholder')}
-              value={filter.search ?? ''}
-              onChange={(event) => onChange('search', event.target.value)}
-              size="small"
-              fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IconifyIcon icon="mdi:magnify" width={18} height={18} />
-                  </InputAdornment>
-                ),
-              }}
-            />
+            <Stack spacing={0.75} sx={{ minWidth: 0 }}>
+              <TabList
+                onChange={handleOrderingChange}
+                aria-label="problems ordering"
+                allowScrollButtonsMobile
+              >
+                {orderingOptions.map((option) => (
+                  <Tab key={option.value} label={t(option.label)} value={option.value} />
+                ))}
+              </TabList>
+            </Stack>
 
             <Stack
               direction={{ xs: 'column', sm: 'row' }}
-              spacing={1.5}
+              spacing={1.25}
               alignItems={{ sm: 'center' }}
-              flex={1}
             >
-              <FormControl fullWidth size="small" sx={{ minWidth: { sm: 220 } }}>
-                <InputLabel>{t('problems.orderBy')}</InputLabel>
-                <Select
-                  label={t('problems.orderBy')}
-                  value={filter.ordering ?? ''}
-                  onChange={(event) => onChange('ordering', event.target.value as string)}
-                >
-                  {orderingOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {t(option.label)}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
               <FilterButton
-                onClick={handleFiltersOpen}
+                id="problems-filters-button"
+                onClick={handleFiltersToggle}
                 label={t('problems.filters')}
                 badgeContent={activeFilters.length}
                 aria-haspopup="true"
                 aria-expanded={filtersOpen ? 'true' : undefined}
-                sx={{ minWidth: { xs: '100%', sm: 180 }, height: 40 }}
+                aria-controls={filtersOpen ? 'problems-filters-menu' : undefined}
+              />
+              <SearchTextField
+                sx={{minWidth: 100}}
+                value={filter.search ?? ''}
+                placeholder={t('problems.searchPlaceholder')}
+                onChange={(event) => onChange('search', event.target.value)}
               />
             </Stack>
           </Stack>
+        </TabContext>
 
-          {activeFilters.length > 0 && (
-            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap alignItems="center">
-              <Typography variant="body2" color="text.secondary">
-                {t('problems.appliedFilters', { count: activeFilters.length })}
-              </Typography>
-              {activeFilters.map((item) => (
-                <Chip
-                  key={item.key}
-                  size="small"
-                  label={item.label}
-                  onDelete={item.onRemove}
-                  color="primary"
-                  variant="outlined"
-                />
-              ))}
-              <Button variant="text" size="small" color="secondary" onClick={handleClearFilters}>
-                {t('problems.clearFilters')}
-              </Button>
-            </Stack>
-          )}
-        </Stack>
+        {activeFilters.length > 0 && (
+          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap alignItems="center">
+            <Typography variant="body2" color="text.secondary">
+              {t('problems.appliedFilters', { count: activeFilters.length })}
+            </Typography>
+            {activeFilters.map((item) => (
+              <Chip
+                key={item.key}
+                size="small"
+                label={item.label}
+                onDelete={item.onRemove}
+                color="primary"
+                variant="outlined"
+              />
+            ))}
+            <Button variant="text" size="small" color="secondary" onClick={handleClearFilters}>
+              {t('problems.clearFilters')}
+            </Button>
+          </Stack>
+        )}
+      </Stack>
 
-        <Popover
-          open={filtersOpen}
-          anchorEl={filtersAnchor}
-          onClose={handleFiltersClose}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-          PaperProps={{
-            sx: {
-              width: { xs: 'calc(100% - 32px)', sm: 560 },
-              maxWidth: 640,
-              p: 2.5,
-            },
-          }}
-        >
-          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
+      <Menu
+        id="problems-filters-menu"
+        anchorEl={filtersAnchor}
+        open={filtersOpen}
+        onClose={handleFiltersClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        MenuListProps={{ disablePadding: true }}
+        PaperProps={{
+          sx: {
+            p: 2.5,
+            width: { xs: 320, sm: 420 },
+          },
+        }}
+      >
+        <Stack direction="column" spacing={2.5}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Stack direction="row" spacing={1} alignItems="center">
               <IconifyIcon icon="mdi:tune-variant" width={20} height={20} />
-              <Typography variant="subtitle1" fontWeight={700}>
+              <Typography variant="subtitle2" fontWeight={700}>
                 {t('problems.filters')}
               </Typography>
             </Stack>
@@ -471,178 +489,167 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
             </Button>
           </Stack>
 
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth size="small">
-                <InputLabel>{t('problems.language')}</InputLabel>
-                <Select
-                  label={t('problems.language')}
-                  value={filter.lang ?? ''}
-                  onChange={(event) =>
-                    onChange(
-                      'lang',
-                      event.target.value === '' ? undefined : (event.target.value as string),
-                    )
-                  }
-                >
-                  <MenuItem value="">{t('problems.allLanguages')}</MenuItem>
-                  {languages.map((item) => (
-                    <MenuItem key={item.lang} value={item.lang}>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <Typography variant="body2">{item.langFull}</Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {item.lang.toUpperCase()}
-                        </Typography>
-                      </Stack>
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={1}
-                sx={{
-                  height: '100%',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  borderRadius: 1.5,
-                  px: 1.5,
-                }}
-              >
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={Boolean(filter.favorites)}
-                      onChange={(_, checked) => onChange('favorites', checked)}
-                    />
-                  }
-                  label={t('problems.favoritesOnly')}
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{
+              px: 1.5,
+              py: 1,
+              borderRadius: 2,
+              border: '1px solid',
+              borderColor: 'divider',
+            }}
+          >
+            <Typography variant="body2" fontWeight={600}>
+              {t('problems.favoritesOnly')}
+            </Typography>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={Boolean(filter.favorites)}
+                  onChange={(_, checked) => onChange('favorites', checked)}
+                  size="small"
                 />
-              </Stack>
-            </Grid>
+              }
+              label=""
+              sx={{ m: 0 }}
+            />
+          </Stack>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth size="small">
-                <InputLabel>{t('problems.category')}</InputLabel>
-                <Select
-                  label={t('problems.category')}
-                  value={filter.category ?? ''}
-                  onChange={(event) =>
-                    onChange(
-                      'category',
-                      event.target.value === '' ? undefined : String(event.target.value),
-                    )
-                  }
-                >
-                  <MenuItem value="">{t('problems.allCategories')}</MenuItem>
-                  {categories.map((category) => (
-                    <MenuItem key={category.id} value={category.id}>
-                      <Stack direction="row" spacing={1} alignItems="center" width="100%">
-                        <Typography variant="body2">{category.title}</Typography>
-                        <Typography
-                          variant="caption"
-                          color="text.secondary"
-                          sx={{ marginLeft: 'auto' }}
-                        >
-                          {category.problemsCount ?? 0}
-                        </Typography>
-                      </Stack>
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+          <StyledTextField
+            select
+            fullWidth
+            size="small"
+            label={t('problems.language')}
+            value={filter.lang ?? ''}
+            onChange={(event) =>
+              onChange(
+                'lang',
+                event.target.value === '' ? undefined : (event.target.value as string),
+              )
+            }
+          >
+            <MenuItem value="">{t('problems.allLanguages')}</MenuItem>
+            {languages.map((item) => (
+              <MenuItem key={item.lang} value={item.lang}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography variant="body2">{item.langFull}</Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {item.lang.toUpperCase()}
+                  </Typography>
+                </Stack>
+              </MenuItem>
+            ))}
+          </StyledTextField>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth size="small">
-                <InputLabel>{t('problems.tags')}</InputLabel>
-                <Select
-                  multiple
-                  label={t('problems.tags')}
-                  value={filter.tags ?? []}
-                  onChange={(event) => onChange('tags', event.target.value as number[])}
-                  renderValue={(selected) => (
-                    <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                      {(selected as number[]).map((id) => {
-                        const tag = tags.find((item) => item.id === id);
-                        return <Chip key={id} size="small" label={tag?.name ?? id} />;
-                      })}
-                    </Stack>
-                  )}
-                >
-                  {tags.map((tag) => (
-                    <MenuItem key={tag.id} value={tag.id}>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <Typography variant="body2">{tag.name}</Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {tag.category}
-                        </Typography>
-                      </Stack>
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+          <StyledTextField
+            select
+            fullWidth
+            size="small"
+            label={t('problems.category')}
+            value={filter.category ?? ''}
+            onChange={(event) =>
+              onChange(
+                'category',
+                event.target.value === '' ? undefined : String(event.target.value),
+              )
+            }
+          >
+            <MenuItem value="">{t('problems.allCategories')}</MenuItem>
+            {categories.map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                <Stack direction="row" spacing={1} alignItems="center" width="100%">
+                  <Typography variant="body2">{category.title}</Typography>
+                  <Typography variant="caption" color="text.secondary" sx={{ marginLeft: 'auto' }}>
+                    {category.problemsCount ?? 0}
+                  </Typography>
+                </Stack>
+              </MenuItem>
+            ))}
+          </StyledTextField>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth size="small">
-                <InputLabel>{t('problems.difficultyLabel')}</InputLabel>
-                <Select
-                  label={t('problems.difficultyLabel')}
-                  value={filter.difficulty ?? ''}
-                  onChange={(event) =>
-                    onChange(
-                      'difficulty',
-                      event.target.value === '' ? undefined : String(event.target.value),
-                    )
-                  }
-                >
-                  <MenuItem value="">{t('problems.allDifficulties')}</MenuItem>
-                  {difficultyOptions.map((item) => (
-                    <MenuItem key={item.value} value={item.value}>
-                      {t(item.label)}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+          <StyledTextField
+            select
+            fullWidth
+            size="small"
+            label={t('problems.tags')}
+            value={filter.tags ?? []}
+            onChange={(event) => onChange('tags', event.target.value as number[])}
+            SelectProps={{
+              multiple: true,
+              renderValue: (selected) => (
+                <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                  {(selected as number[]).map((id) => {
+                    const tag = tags.find((item) => item.id === id);
+                    return <Chip key={id} size="small" label={tag?.name ?? id} />;
+                  })}
+                </Stack>
+              ),
+            }}
+          >
+            {tags.map((tag) => (
+              <MenuItem key={tag.id} value={tag.id}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography variant="body2">{tag.name}</Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {tag.category}
+                  </Typography>
+                </Stack>
+              </MenuItem>
+            ))}
+          </StyledTextField>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <FormControl fullWidth size="small">
-                <InputLabel>{t('problems.status')}</InputLabel>
-                <Select
-                  label={t('problems.status')}
-                  value={filter.status != null ? String(filter.status) : ''}
-                  onChange={(event: SelectChangeEvent<string>) => {
-                    const value = event.target.value;
-                    onChange('status', value === '' ? undefined : Number(value));
-                  }}
-                >
-                  <MenuItem value="">{t('problems.allStatuses')}</MenuItem>
-                  {statusOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <IconifyIcon
-                          icon={option.icon}
-                          width={18}
-                          height={18}
-                          color={option.color as string}
-                        />
-                        <Typography variant="body2">{t(option.label)}</Typography>
-                      </Stack>
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
-        </Popover>
-      </CardContent>
-    </Card>
+          <StyledTextField
+            select
+            fullWidth
+            size="small"
+            label={t('problems.difficultyLabel')}
+            value={filter.difficulty ?? ''}
+            onChange={(event) =>
+              onChange(
+                'difficulty',
+                event.target.value === '' ? undefined : String(event.target.value),
+              )
+            }
+          >
+            <MenuItem value="">{t('problems.allDifficulties')}</MenuItem>
+            {difficultyOptions.map((item) => (
+              <MenuItem key={item.value} value={item.value}>
+                {t(item.label)}
+              </MenuItem>
+            ))}
+          </StyledTextField>
+
+          <StyledTextField
+            select
+            fullWidth
+            size="small"
+            label={t('problems.status')}
+            value={filter.status != null ? String(filter.status) : ''}
+            onChange={(event) => {
+              const value = event.target.value;
+              onChange('status', value === '' ? undefined : Number(value));
+            }}
+          >
+            <MenuItem value="">{t('problems.allStatuses')}</MenuItem>
+            {statusOptions.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <IconifyIcon
+                    icon={option.icon}
+                    width={18}
+                    height={18}
+                    color={option.color as string}
+                  />
+                  <Typography variant="body2">{t(option.label)}</Typography>
+                </Stack>
+              </MenuItem>
+            ))}
+          </StyledTextField>
+        </Stack>
+      </Menu>
+    </>
   );
 };
 
@@ -660,14 +667,14 @@ interface ProblemsListProps {
 }
 
 const ProblemsList = ({
-                        problems,
-                        isLoading,
-                        filter,
-                        total,
-                        onPageChange,
-                        onRowsPerPageChange,
-                        renderDifficultyBadge,
-                      }: ProblemsListProps) => {
+  problems,
+  isLoading,
+  filter,
+  total,
+  onPageChange,
+  onRowsPerPageChange,
+  renderDifficultyBadge,
+}: ProblemsListProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -922,12 +929,12 @@ interface TabContentProps {
 }
 
 const TabsCard = ({
-                    activeTab,
-                    onTabChange,
-                    attempts,
-                    lastContest,
-                    mostViewed,
-                  }: TabContentProps) => {
+  activeTab,
+  onTabChange,
+  attempts,
+  lastContest,
+  mostViewed,
+}: TabContentProps) => {
   const { t } = useTranslation();
 
   const renderAttempts = () => {
