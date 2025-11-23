@@ -7,6 +7,7 @@ import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { getResourceById, resources } from 'app/routes/resources';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { ApiContestsRegistrantsListOrdering } from 'shared/api/orval/generated/endpoints/index.schemas';
 import { useContest, useContestRegistrants } from '../../application/queries';
 import { ContestRegistrant } from '../../domain/entities/contest-registrant.entity';
 import { ContestStatus } from '../../domain/entities/contest-status';
@@ -33,7 +34,9 @@ const ContestRegistrantsPage = () => {
     page: 0,
     pageSize: 20,
   });
-  const [ordering, setOrdering] = useState<string>('-contests_rating');
+  const [ordering, setOrdering] = useState<ApiContestsRegistrantsListOrdering>(
+    ApiContestsRegistrantsListOrdering['-contests_rating'],
+  );
 
   const { data: registrantsPage, isLoading } = useContestRegistrants(contestId, {
     page: paginationModel.page + 1,
@@ -106,27 +109,35 @@ const ContestRegistrantsPage = () => {
 
   const handleSortChange = (model: GridSortModel) => {
     if (!model.length) {
-      setOrdering('-contests_rating');
+      setOrdering(ApiContestsRegistrantsListOrdering['-contests_rating']);
       return;
     }
 
     const { field, sort } = model[0];
     if (field === 'rating') {
-      setOrdering(sort === 'asc' ? 'contests_rating' : '-contests_rating');
+      setOrdering(
+        sort === 'asc'
+          ? ApiContestsRegistrantsListOrdering.contests_rating
+          : ApiContestsRegistrantsListOrdering['-contests_rating'],
+      );
       return;
     }
     if (field === 'username') {
-      setOrdering(sort === 'asc' ? 'username' : '-username');
+      setOrdering(
+        sort === 'asc'
+          ? ApiContestsRegistrantsListOrdering.username
+          : ApiContestsRegistrantsListOrdering['-username'],
+      );
       return;
     }
-    setOrdering('-contests_rating');
+    setOrdering(ApiContestsRegistrantsListOrdering['-contests_rating']);
   };
 
   return (
     <Stack spacing={3} sx={responsivePagePaddingSx}>
       <ContestPageHeader
         title={contest?.title ?? t('contests.registrants.title')}
-        contest={contest as any}
+        contest={contest}
         contestId={contestId}
       />
 

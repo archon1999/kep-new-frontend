@@ -713,7 +713,7 @@ const ContestProblemPage = () => {
                         getProblemLink={(attempt) =>
                           getResourceByParams(resources.ContestProblem, {
                             id: contest?.id ?? contestId ?? '',
-                            symbol: attempt.contestProblemSymbol ?? problemSymbol,
+                            symbol: attempt.contestProblemSymbol ?? problemSymbol ?? '',
                           })
                         }
                       />

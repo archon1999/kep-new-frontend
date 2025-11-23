@@ -44,6 +44,7 @@ export const kepIcons = {
   login: 'mdi:login',
   birthday: 'mdi:cake-variant-outline',
   search: 'mdi:magnify',
+  filter: 'mdi:filter-variant',
   like: 'mdi:heart-outline',
   comment: 'mdi:comment-outline',
   email: 'mdi:email-outline',
@@ -60,7 +61,9 @@ export const kepIcons = {
   unrated: 'mdi:shield-off-outline',
   virtual: 'mdi:laptop',
   solved: 'mdi:user-check',
-  unsolved: 'mdi:user-minus'
+  unsolved: 'mdi:user-minus',
+  timer: 'mdi:timer-outline',
+  ranking: 'mdi:podium-gold',
 } as const;
 
 export type KepIconName = keyof typeof kepIcons;

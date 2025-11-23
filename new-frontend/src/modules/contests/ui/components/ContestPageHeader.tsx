@@ -1,9 +1,8 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import ContestTabs from './ContestTabs';
 import { ContestDetail } from '../../domain/entities/contest-detail.entity';
 import { ContestStatus } from '../../domain/entities/contest-status';
-import Logo from 'shared/components/common/Logo.tsx';
 import Image from 'shared/components/base/Image.tsx';
 
 interface ContestPageHeaderProps {

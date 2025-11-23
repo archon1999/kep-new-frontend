@@ -99,7 +99,7 @@ const ContestPage = () => {
     <Stack spacing={3} sx={responsivePagePaddingSx}>
       <ContestPageHeader
         title={contest?.title ?? t('contests.tabs.overview')}
-        contest={contest as any}
+        contest={contest}
         contestId={contestId}
         tabsRightContent={registrationCta}
       />
