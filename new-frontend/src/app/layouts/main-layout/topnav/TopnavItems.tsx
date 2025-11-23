@@ -19,7 +19,7 @@ const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
 
   const isMenuActive = useMemo(() => {
     const checkLink = (item: MenuItem): boolean => {
-      if (pathname === item.path || (item.selectionPrefix && pathname!.includes(item.selectionPrefix))) {
+      if (pathname === item.path || (item.selectionPrefix && pathname!.startsWith(item.selectionPrefix))) {
         return true;
       }
       return item.items ? item.items.some(checkLink) : false;

@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
 import { useDuelDetail, useDuelResults } from '../../application/queries.ts';
@@ -38,6 +39,15 @@ const DuelDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data: duel, isLoading } = useDuelDetail(id);
   const { data: results } = useDuelResults(id);
+  useDocumentTitle(
+    duel?.playerFirst?.username ? 'pageTitles.duel' : undefined,
+    duel
+      ? {
+          playerFirstUsername: duel.playerFirst.username,
+          playerSecondUsername: duel.playerSecond?.username ?? '',
+        }
+      : undefined,
+  );
 
   const problems = useMemo(() => {
     if (!duel?.problems?.length) return [];

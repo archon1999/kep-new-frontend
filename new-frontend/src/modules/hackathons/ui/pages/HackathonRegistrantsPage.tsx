@@ -1,6 +1,7 @@
 import { Avatar, Box, Card, CardContent, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { useHackathon, useHackathonRegistrants } from '../../application/queries';
 import HackathonTabs from '../components/HackathonTabs';
 import HackathonCountdownCard from '../components/HackathonCountdownCard';
@@ -12,6 +13,14 @@ const HackathonRegistrantsPage = () => {
 
   const { data: hackathon } = useHackathon(id);
   const { data: registrants, isLoading } = useHackathonRegistrants(id);
+  useDocumentTitle(
+    hackathon?.title ? 'pageTitles.hackathonRegistrants' : undefined,
+    hackathon?.title
+      ? {
+          hackathonTitle: hackathon.title,
+        }
+      : undefined,
+  );
 
   return (
     <Box sx={responsivePagePaddingSx}>

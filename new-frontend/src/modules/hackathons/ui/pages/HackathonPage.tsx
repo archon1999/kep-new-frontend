@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Box, Button, Card, CardContent, Chip, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { hackathonsQueries, useHackathon } from '../../application/queries';
@@ -14,6 +15,14 @@ const HackathonPage = () => {
   const { id } = useParams();
 
   const { data: hackathon, isLoading, mutate } = useHackathon(id);
+  useDocumentTitle(
+    hackathon?.title ? 'pageTitles.hackathon' : undefined,
+    hackathon?.title
+      ? {
+          hackathonTitle: hackathon.title,
+        }
+      : undefined,
+  );
 
   const statusLabel = useMemo(() => {
     if (!hackathon) return '';

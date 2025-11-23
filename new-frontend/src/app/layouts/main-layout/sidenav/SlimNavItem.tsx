@@ -71,7 +71,7 @@ const SlimNavItem = ({ item, level }: SlimNavItemProps) => {
       aria-expanded={openPopperMenu}
       selected={
         pathname === item.path ||
-        (item.selectionPrefix && pathname!.includes(item.selectionPrefix)) ||
+        (item.selectionPrefix && pathname!.startsWith(item.selectionPrefix)) ||
         isNestedItemOpen(item.items)
       }
       sx={[

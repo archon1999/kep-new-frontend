@@ -31,10 +31,10 @@ const ContestCard = ({ contest }: ContestCardProps) => {
   );
 
   const statusLabel = isFinished
-    ? t('contests.status.finished', { date: finishDate ? finishDate.format('DD MMM, HH:mm') : '—' })
+    ? t('contests.statusShort.finished')
     : isUpcoming
-      ? t('contests.status.starts', { date: startDate ? startDate.format('DD MMM, HH:mm') : '—' })
-      : t('contests.status.live', { date: finishDate ? finishDate.format('DD MMM, HH:mm') : '—' });
+      ? t('contests.statusShort.notStarted')
+      : t('contests.statusShort.live');
 
   const statusColor: 'success' | 'warning' | 'default' = isFinished
     ? 'default'
@@ -183,7 +183,7 @@ const ContestCard = ({ contest }: ContestCardProps) => {
               <Stack direction="row" spacing={1} alignItems="center">
                 <KepIcon name="rating" fontSize={18} />
                 <Typography variant="body2" color="text.primary" fontWeight={700}>
-                  {t('contests.registrants', { count: contest.registrantsCount })}
+                  {t('contests.registrantsLabel', { count: contest.registrantsCount })}
                 </Typography>
               </Stack>
 

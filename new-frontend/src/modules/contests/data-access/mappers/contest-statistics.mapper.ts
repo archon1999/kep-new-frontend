@@ -18,6 +18,16 @@ import {
   ContestUserStatisticsUnsolvedProblem,
   ContestUserStatisticsVerdict,
 } from '../../domain/entities/contest-user-statistics.entity';
+import {
+  ContestStatistics,
+  ContestStatisticsBadgeEntry,
+  ContestStatisticsContestant,
+  ContestStatisticsFirstSolve,
+  ContestStatisticsSummary,
+  ContestStatisticsTimelineEntry,
+  ContestStatisticsVerdicts,
+} from '../../domain/entities/contest-statistics.entity';
+import { ContestantTeamMember } from '../../domain/entities/contestant.entity';
 
 const toNumber = (value: any): number => {
   const parsed = Number(value);
@@ -203,4 +213,98 @@ export const mapContestRatingChange = (payload: any): ContestRatingChange => ({
 export const contestStatisticsMappers = {
   mapContestUserStatistics,
   mapContestRatingChange,
+};
+
+const mapStatisticsContestant = (payload: any): ContestStatisticsContestant => ({
+  username: payload?.username ?? payload?.user?.username ?? '',
+  fullName: payload?.userFullName ?? payload?.fullName ?? payload?.user?.fullName ?? null,
+  ratingTitle: payload?.ratingTitle ?? payload?.rating_title ?? payload?.user?.ratingTitle,
+  teamName: payload?.team?.name ?? payload?.teamName ?? undefined,
+  teamMembers: (payload?.team?.members ?? payload?.teamMembers ?? []).map(
+    (member: any): ContestantTeamMember => ({
+      username: member?.username ?? member?.user ?? '',
+      rating: member?.rating !== undefined ? toNumber(member.rating) : undefined,
+      ratingTitle: member?.ratingTitle ?? member?.rating_title ?? undefined,
+      newRating: member?.newRating !== undefined ? toNumber(member.newRating) : undefined,
+      newRatingTitle: member?.newRatingTitle ?? member?.new_rating_title ?? undefined,
+    }),
+  ),
+  avatar: payload?.avatar ?? payload?.user?.avatar,
+});
+
+const mapStatisticsSummary = (payload: any): ContestStatisticsSummary => ({
+  total: toNumber(payload?.total ?? payload?.count),
+  byProblem: payload?.byProblem ?? payload?.by_problem ?? payload?.problems ?? {},
+});
+
+const mapStatisticsVerdicts = (payload: any): ContestStatisticsVerdicts => ({
+  accepted: toNumber(payload?.accepted),
+  wrongAnswer: toNumber(payload?.wrongAnswer ?? payload?.wrong_answer),
+  timeLimitExceeded: toNumber(payload?.timeLimitExceeded ?? payload?.time_limit_exceeded),
+  other: toNumber(payload?.other),
+});
+
+const mapStatisticsTimelineEntry = (payload: any): ContestStatisticsTimelineEntry => ({
+  range: payload?.range ?? payload?.label ?? '',
+  attempts: toNumber(payload?.attempts ?? payload?.count),
+});
+
+const mapStatisticsFirstSolve = (payload: any): ContestStatisticsFirstSolve => ({
+  contestant: mapStatisticsContestant(payload?.contestant ?? payload?.user ?? payload),
+  contestTimeSeconds: toNumber(
+    payload?.contestTimeSeconds ?? payload?.contest_time_seconds ?? payload?.time_seconds,
+  ),
+  time: payload?.time ?? payload?.contestTime ?? payload?.contest_time ?? '',
+  timestamp: payload?.timestamp ?? payload?.created ?? payload?.created_at ?? '',
+});
+
+const mapStatisticsBadge = (payload: any): ContestStatisticsBadgeEntry => ({
+  contestant: payload?.contestant ? mapStatisticsContestant(payload.contestant) : null,
+  problem: payload?.problem ?? payload?.problemSymbol ?? payload?.problem_symbol ?? undefined,
+  time: payload?.time ?? payload?.contestTime ?? payload?.contest_time ?? undefined,
+  attempts: payload?.attempts !== undefined ? toNumber(payload?.attempts) : undefined,
+  solvedProblems:
+    payload?.solvedProblems !== undefined ? toNumber(payload?.solvedProblems) : undefined,
+  wrongAttempts:
+    payload?.wrongAttempts !== undefined ? toNumber(payload?.wrongAttempts) : undefined,
+});
+
+const mapStatisticsBadges = (payload: any) => ({
+  sniper: payload?.sniper ? mapStatisticsBadge(payload.sniper) : undefined,
+  grinder: payload?.grinder ? mapStatisticsBadge(payload.grinder) : undefined,
+  optimizer: payload?.optimizer ? mapStatisticsBadge(payload.optimizer) : undefined,
+  neverGiveUp: payload?.neverGiveUp ? mapStatisticsBadge(payload.neverGiveUp) : undefined,
+});
+
+export const mapContestStatistics = (payload: any): ContestStatistics => ({
+  general: {
+    participants: toNumber(
+      payload?.general?.participants ??
+        payload?.participants ??
+        payload?.general?.participantsCount ??
+        payload?.general?.participants_count,
+    ),
+    attempts: mapStatisticsSummary(payload?.general?.attempts ?? payload?.attempts ?? {}),
+    accepted: mapStatisticsSummary(payload?.general?.accepted ?? payload?.accepted ?? {}),
+    acceptanceRate: toNumber(
+      payload?.general?.acceptanceRate ??
+        payload?.general?.acceptance_rate ??
+        payload?.acceptanceRate ??
+        payload?.acceptance_rate,
+    ),
+  },
+  timeline: (payload?.timeline ?? []).map(mapStatisticsTimelineEntry),
+  verdicts: mapStatisticsVerdicts(payload?.verdicts ?? {}),
+  firstSolves: Object.entries(payload?.firstSolves ?? payload?.first_solves ?? {}).reduce<
+    Record<string, ContestStatisticsFirstSolve>
+  >((acc, [key, value]) => {
+    acc[key] = mapStatisticsFirstSolve(value);
+    return acc;
+  }, {}),
+  badges: mapStatisticsBadges(payload?.badges ?? {}),
+  facts: Array.isArray(payload?.facts) ? payload.facts : [],
+});
+
+export const contestDetailsStatisticsMappers = {
+  mapContestStatistics,
 };

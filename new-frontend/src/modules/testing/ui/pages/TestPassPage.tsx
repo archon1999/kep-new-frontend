@@ -20,6 +20,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { getResourceById, resources } from 'app/routes/resources';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { finishTest, submitAnswer, testingMutations } from '../../application/mutations.ts';
 import { useTestPass } from '../../application/queries.ts';
@@ -41,6 +42,14 @@ const TestPassPage = () => {
   const navigate = useNavigate();
 
   const { data: testPass, isLoading } = useTestPass(testPassId);
+  useDocumentTitle(
+    testPass?.test ? 'pageTitles.testPass' : undefined,
+    testPass?.test
+      ? {
+          testTitle: testPass.test.title ?? '',
+        }
+      : undefined,
+  );
 
   const [questions, setQuestions] = useState<TestPassQuestion[]>([]);
   const [questionStates, setQuestionStates] = useState<Record<string, QuestionState>>({});

@@ -1,6 +1,7 @@
 import { Box, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import ProjectCard from 'modules/projects/ui/components/ProjectCard';
 import { useHackathon, useHackathonProjects } from '../../application/queries';
 import HackathonTabs from '../components/HackathonTabs';
@@ -11,6 +12,14 @@ const HackathonProjectsPage = () => {
   const { t } = useTranslation();
   const { data: hackathon } = useHackathon(id);
   const { data: projects, isLoading } = useHackathonProjects(id);
+  useDocumentTitle(
+    hackathon?.title ? 'pageTitles.hackathonProjects' : undefined,
+    hackathon?.title
+      ? {
+          hackathonTitle: hackathon.title,
+        }
+      : undefined,
+  );
 
   return (
     <Box sx={responsivePagePaddingSx}>

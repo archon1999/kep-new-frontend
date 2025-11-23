@@ -1,5 +1,6 @@
 import { Box, Grid, Skeleton, Stack } from '@mui/material';
 import { useParams } from 'react-router';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import PageLoader from 'shared/components/loading/PageLoader';
 import TournamentBracket from '../components/TournamentBracket';
@@ -10,6 +11,14 @@ const TournamentPage = () => {
   const { id } = useParams();
 
   const { data: tournament, isLoading } = useTournament(id);
+  useDocumentTitle(
+    tournament?.title ? 'pageTitles.tournament' : undefined,
+    tournament?.title
+      ? {
+          tournamentTitle: tournament.title,
+        }
+      : undefined,
+  );
 
   if (isLoading && !tournament) {
     return <PageLoader />;

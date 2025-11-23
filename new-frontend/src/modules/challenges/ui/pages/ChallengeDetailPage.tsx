@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { resources } from 'app/routes/resources';
 import ChallengeQuestionCard, { ChallengeQuestionCardHandle } from '../components/ChallengeQuestionCard.tsx';
 import ChallengeResultsCard from '../components/ChallengeResultsCard.tsx';
@@ -36,6 +37,17 @@ const ChallengeDetailPage = () => {
   const { data: challenge, isLoading, mutate } = useChallengeDetail(id);
   const { trigger: startChallenge, isMutating: starting } = useStartChallenge();
   const { trigger: submitAnswer, isMutating: submitting } = useSubmitChallengeAnswer();
+  useDocumentTitle(
+    challenge?.playerFirst?.username && challenge?.playerSecond?.username
+      ? 'pageTitles.challenge'
+      : undefined,
+    challenge
+      ? {
+          playerFirstUsername: challenge.playerFirst.username,
+          playerSecondUsername: challenge.playerSecond.username,
+        }
+      : undefined,
+  );
 
   const questionCardRef = useRef<ChallengeQuestionCardHandle>(null);
   const timerStartedRef = useRef(false);

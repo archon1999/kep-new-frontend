@@ -15,10 +15,10 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import UserPopover from 'modules/users/ui/components/UserPopover';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import ContestantView from '../components/ContestantView';
 import { useContestsRating } from '../../application/queries';
 
 const orderingOptions = [
@@ -130,15 +130,7 @@ const ContestsRatingPage = () => {
                   <TableRow key={row.username} hover>
                     <TableCell width={72}>{row.rowIndex}</TableCell>
                     <TableCell>
-                      <UserPopover username={row.username}>
-                        <Typography
-                          variant="body1"
-                          fontWeight={700}
-                          sx={{ textDecoration: 'none', color: 'text.primary' }}
-                        >
-                          {row.username}
-                        </Typography>
-                      </UserPopover>
+                      <ContestantView contestant={row} imgSize={28} />
                     </TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={1.25} alignItems="center">

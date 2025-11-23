@@ -48,7 +48,7 @@ const NavProvider = ({ children }: PropsWithChildren) => {
     const checkLink = (children: MenuItem) => {
       if (
         `${children.path}` === pathname ||
-        (children.selectionPrefix && pathname!.includes(children.selectionPrefix))
+        (children.selectionPrefix && pathname!.startsWith(children.selectionPrefix))
       ) {
         return true;
       }

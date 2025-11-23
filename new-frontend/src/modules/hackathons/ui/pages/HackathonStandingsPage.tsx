@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Box, Card, CardContent, Grid, Skeleton, Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { useHackathon, useHackathonProjects, useHackathonStandings } from '../../application/queries';
 import HackathonTabs from '../components/HackathonTabs';
 import HackathonCountdownCard from '../components/HackathonCountdownCard';
@@ -15,6 +16,14 @@ const HackathonStandingsPage = () => {
   const { data: hackathon } = useHackathon(id);
   const { data: standings, isLoading } = useHackathonStandings(id);
   const { data: projects } = useHackathonProjects(id);
+  useDocumentTitle(
+    hackathon?.title ? 'pageTitles.hackathonStandings' : undefined,
+    hackathon?.title
+      ? {
+          hackathonTitle: hackathon.title,
+        }
+      : undefined,
+  );
 
   const rankedStandings = useMemo(() => {
     if (!standings) return [];

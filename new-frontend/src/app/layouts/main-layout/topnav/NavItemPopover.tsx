@@ -103,7 +103,7 @@ const NavitemPopover = ({ anchorEl, open, handleClose, items, level }: NavItemPo
                 }}
                 selected={
                   pathname === item.path ||
-                  (item.selectionPrefix && pathname!.includes(item.selectionPrefix)) ||
+                  (item.selectionPrefix && pathname!.startsWith(item.selectionPrefix)) ||
                   isNestedItemOpen(item.items)
                 }
               >

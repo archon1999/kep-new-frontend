@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { resources } from 'app/routes/resources';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import KepIcon from 'shared/components/base/KepIcon';
 import PageLoader from 'shared/components/loading/PageLoader';
 import { useAuth } from 'app/providers/AuthProvider';
@@ -42,6 +43,14 @@ const BlogPostPage = () => {
   const { trigger: likeComment } = useBlogCommentLike(blogId);
   const { trigger: deleteComment } = useBlogCommentDelete(blogId);
   const { trigger: createComment, isMutating: creatingComment } = useBlogCommentCreate(blogId);
+  useDocumentTitle(
+    post?.title ? 'pageTitles.blogPost' : undefined,
+    post?.title
+      ? {
+          postTitle: post.title,
+        }
+      : undefined,
+  );
 
   const handleLikePost = async () => {
     const likes = await likePost();

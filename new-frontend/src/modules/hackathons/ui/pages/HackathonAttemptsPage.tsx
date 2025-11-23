@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Box, Pagination, Skeleton, Stack, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { useHackathon } from '../../application/queries';
 import HackathonTabs from '../components/HackathonTabs';
 import { useProjectAttempts } from 'modules/projects/application/queries';
@@ -16,6 +17,14 @@ const HackathonAttemptsPage = () => {
 
   const { data: hackathon } = useHackathon(id);
   const { data, isLoading, mutate } = useProjectAttempts(undefined, { page, hackathonId });
+  useDocumentTitle(
+    hackathon?.title ? 'pageTitles.hackathonAttempts' : undefined,
+    hackathon?.title
+      ? {
+          hackathonTitle: hackathon.title,
+        }
+      : undefined,
+  );
 
   return (
     <Box sx={responsivePagePaddingSx}>

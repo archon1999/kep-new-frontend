@@ -23,6 +23,7 @@ import {
   Typography,
 } from '@mui/material';
 import { getResourceByUsername, resources } from 'app/routes/resources';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import KepIcon from 'shared/components/base/KepIcon';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useUserDetails, useUserRatings } from '../../application/queries';
@@ -50,6 +51,14 @@ const UserProfilePage = () => {
 
   const { data: userDetails } = useUserDetails(username);
   const { data: userRatings, isLoading: isRatingsLoading } = useUserRatings(username);
+  useDocumentTitle(
+    userDetails?.username || username ? 'pageTitles.userProfile' : undefined,
+    userDetails?.username || username
+      ? {
+          username: userDetails?.username ?? username ?? '',
+        }
+      : undefined,
+  );
 
   const currentTab = getCurrentTab(location.pathname);
 

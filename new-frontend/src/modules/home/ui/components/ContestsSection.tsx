@@ -140,7 +140,7 @@ const HomeContestCard = ({ contest }: HomeContestCardProps) => {
             <Stack direction="row" spacing={1} alignItems="center">
               <IconifyIcon icon="mdi:account-group" fontSize={18} />
               <Typography variant="body2" color="text.secondary">
-                {t('contests.registrants', { count: contest.registrantsCount })}
+                {t('contests.registrantsLabel', { count: contest.registrantsCount })}
               </Typography>
             </Stack>
           </Stack>
@@ -152,10 +152,10 @@ const HomeContestCard = ({ contest }: HomeContestCardProps) => {
 
 const ContestsSection = () => {
   const { t } = useTranslation();
-  const params = useMemo(() => ({ page: 1, page_size: 2 }), []);
+  const params = useMemo(() => ({ page: 1, page_size: 1 }), []);
   const { data, isLoading } = useContestsList(params);
 
-  const latestContest = data?.data?.[1];
+  const latestContest = data?.data?.[0];
 
   return (
     <Paper>

@@ -10,7 +10,17 @@ import {
   ContestRatingChange,
   ContestUserStatistics,
 } from '../domain/entities/contest-user-statistics.entity';
-import { PageResult } from '../domain/ports/contests.repository';
+import {
+  ContestRegistrantsParams,
+  ContestStandingsParams,
+  PageResult,
+} from '../domain/ports/contests.repository';
+import { ContestDetail } from '../domain/entities/contest-detail.entity';
+import { ContestProblemEntity } from '../domain/entities/contest-problem.entity';
+import { ContestantEntity, ContestFilter } from '../domain/entities/contestant.entity';
+import { ContestRegistrant } from '../domain/entities/contest-registrant.entity';
+import { ContestQuestion } from '../domain/entities/contest-question.entity';
+import { ContestStatistics } from '../domain/entities/contest-statistics.entity';
 
 const contestsRepository = new HttpContestsRepository();
 
@@ -53,6 +63,79 @@ export const useContestTopContestants = (contestId?: number | string, enabled = 
   useSWR<ContestTopContestant[]>(
     contestId && enabled ? ['contest-top3', contestId] : null,
     () => contestsRepository.top3Contestants(contestId!),
+  );
+
+export const useContest = (contestId?: number | string) =>
+  useSWR<ContestDetail>(
+    contestId ? ['contest', contestId] : null,
+    () => contestsRepository.getById(contestId!),
+  );
+
+export const useContestProblems = (contestId?: number | string) =>
+  useSWR<ContestProblemEntity[]>(
+    contestId ? ['contest-problems', contestId] : null,
+    () => contestsRepository.getProblems(contestId!),
+  );
+
+export const useContestProblem = (contestId?: number | string, symbol?: string) =>
+  useSWR<ContestProblemEntity>(
+    contestId && symbol ? ['contest-problem', contestId, symbol] : null,
+    () => contestsRepository.getProblem(contestId!, symbol!),
+  );
+
+export const useContestContestant = (contestId?: number | string) =>
+  useSWR<ContestantEntity | null>(
+    contestId ? ['contest-contestant', contestId] : null,
+    () => contestsRepository.getContestant(contestId!),
+  );
+
+export const useContestFilters = (contestId?: number | string) =>
+  useSWR<ContestFilter[]>(contestId ? ['contest-filters', contestId] : null, () =>
+    contestsRepository.filters(contestId!),
+  );
+
+export const useContestStandings = (
+  contestId?: number | string,
+  params?: ContestStandingsParams,
+  refreshInterval?: number,
+) =>
+  useSWR<PageResult<ContestantEntity>>(
+    contestId
+      ? [
+          'contest-standings',
+          contestId,
+          params?.page,
+          params?.pageSize,
+          params?.filter,
+          params?.following,
+        ]
+      : null,
+    () => contestsRepository.standings(contestId!, params),
+    refreshInterval ? { refreshInterval } : undefined,
+  );
+
+export const useContestRegistrants = (
+  contestId?: number | string,
+  params?: ContestRegistrantsParams,
+) =>
+  useSWR<PageResult<ContestRegistrant>>(
+    contestId ? ['contest-registrants', contestId, params?.page, params?.pageSize, params?.ordering] : null,
+    () => contestsRepository.registrants(contestId!, params),
+  );
+
+export const useContestQuestions = (contestId?: number | string) =>
+  useSWR<ContestQuestion[]>(contestId ? ['contest-questions', contestId] : null, () =>
+    contestsRepository.questions(contestId!),
+  );
+
+export const useContestStatistics = (contestId?: number | string) =>
+  useSWR<ContestStatistics>(contestId ? ['contest-statistics', contestId] : null, () =>
+    contestsRepository.statistics(contestId!),
+  );
+
+export const useContestContestants = (contestId?: number | string) =>
+  useSWR<ContestantEntity[]>(contestId ? ['contest-contestants', contestId] : null, () =>
+    contestsRepository.contestants(contestId!),
   );
 
 export const contestsQueries = {

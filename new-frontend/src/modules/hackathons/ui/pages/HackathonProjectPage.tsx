@@ -1,5 +1,6 @@
 import { Box, Grid, Skeleton, Stack } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import ProjectDescription from 'modules/projects/ui/components/ProjectDescription';
 import ProjectSidebar from 'modules/projects/ui/components/ProjectSidebar';
 import ProjectAttempts from 'modules/projects/ui/components/ProjectAttempts';
@@ -17,6 +18,14 @@ const HackathonProjectPage = () => {
   const { data: hackathonProject, isLoading, mutate } = useHackathonProject(id, symbol);
 
   const project = hackathonProject?.project;
+  useDocumentTitle(
+    project?.title ? 'pageTitles.hackathonProject' : undefined,
+    project?.title
+      ? {
+          projectTitle: project.title,
+        }
+      : undefined,
+  );
 
   return (
     <Box sx={responsivePagePaddingSx}>

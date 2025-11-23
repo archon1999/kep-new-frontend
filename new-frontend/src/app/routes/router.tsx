@@ -37,6 +37,21 @@ const ContestsRatingPage = lazy(() => import('modules/contests/ui/pages/Contests
 const ContestsUserStatisticsPage = lazy(
   () => import('modules/contests/ui/pages/ContestsUserStatisticsPage'),
 );
+const ContestPage = lazy(() => import('modules/contests/ui/pages/ContestPage'));
+const ContestProblemsPage = lazy(() => import('modules/contests/ui/pages/ContestProblemsPage'));
+const ContestProblemPage = lazy(() => import('modules/contests/ui/pages/ContestProblemPage'));
+const ContestAttemptsPage = lazy(() => import('modules/contests/ui/pages/ContestAttemptsPage'));
+const ContestStatisticsPage = lazy(
+  () => import('modules/contests/ui/pages/ContestStatisticsPage'),
+);
+const ContestStandingsPage = lazy(() => import('modules/contests/ui/pages/ContestStandingsPage'));
+const ContestRegistrantsPage = lazy(
+  () => import('modules/contests/ui/pages/ContestRegistrantsPage'),
+);
+const ContestRatingChangesPage = lazy(
+  () => import('modules/contests/ui/pages/ContestRatingChangesPage'),
+);
+const ContestQuestionsPage = lazy(() => import('modules/contests/ui/pages/ContestQuestionsPage'));
 const TournamentsListPage = lazy(() => import('modules/tournaments/ui/pages/TournamentsListPage'));
 const TournamentPage = lazy(() => import('modules/tournaments/ui/pages/TournamentPage'));
 const HackathonsListPage = lazy(() => import('modules/hackathons/ui/pages/HackathonsListPage'));
@@ -98,7 +113,10 @@ export const routes: RouteObject[] = [
           {
             path: resources.UserProfile,
             element: <UserProfilePage />,
-            handle: { titleKey: 'pageTitles.userProfile' },
+            handle: {
+              titleKey: 'pageTitles.userProfile',
+              fallbackTitleKey: 'pageTitles.users',
+            },
             children: [
               {
                 index: true,
@@ -151,7 +169,10 @@ export const routes: RouteObject[] = [
           {
             path: resources.Project,
             element: <ProjectDetailPage />,
-            handle: { titleKey: 'pageTitles.project' },
+            handle: {
+              titleKey: 'pageTitles.project',
+              fallbackTitleKey: 'pageTitles.projects',
+            },
           },
           {
             path: resources.Tests,
@@ -161,12 +182,12 @@ export const routes: RouteObject[] = [
           {
             path: resources.Test,
             element: <TestDetailPage />,
-            handle: { titleKey: 'pageTitles.test' },
+            handle: { titleKey: 'pageTitles.test', fallbackTitleKey: 'pageTitles.tests' },
           },
           {
             path: resources.TestPass,
             element: <TestPassPage />,
-            handle: { titleKey: 'pageTitles.testPass' },
+            handle: { titleKey: 'pageTitles.testPass', fallbackTitleKey: 'pageTitles.tests' },
           },
           {
             path: resources.Challenges,
@@ -176,7 +197,7 @@ export const routes: RouteObject[] = [
           {
             path: resources.Challenge,
             element: <ChallengeDetailPage />,
-            handle: { titleKey: 'pageTitles.challenge' },
+            handle: { titleKey: 'pageTitles.challenge', fallbackTitleKey: 'pageTitles.challenges' },
           },
           {
             path: resources.ChallengesRating,
@@ -196,7 +217,7 @@ export const routes: RouteObject[] = [
           {
             path: resources.Duel,
             element: <DuelDetailPage />,
-            handle: { titleKey: 'pageTitles.duel' },
+            handle: { titleKey: 'pageTitles.duel', fallbackTitleKey: 'pageTitles.duels' },
           },
           {
             path: resources.DuelsRating,
@@ -211,7 +232,7 @@ export const routes: RouteObject[] = [
           {
             path: resources.ArenaTournament,
             element: <ArenaDetailPage />,
-            handle: { titleKey: 'pageTitles.arenaTournament' },
+            handle: { titleKey: 'pageTitles.arenaTournament', fallbackTitleKey: 'pageTitles.arena' },
           },
           {
             path: resources.Contests,
@@ -229,6 +250,46 @@ export const routes: RouteObject[] = [
             handle: { titleKey: 'pageTitles.contestsStats' },
           },
           {
+            path: resources.Contest,
+            element: <ContestPage />,
+            handle: { titleKey: 'pageTitles.contest', fallbackTitleKey: 'pageTitles.contests' },
+          },
+          {
+            path: resources.ContestProblems,
+            element: <ContestProblemsPage />,
+            handle: { titleKey: 'pageTitles.contestProblems', fallbackTitleKey: 'pageTitles.contests' },
+          },
+          {
+            path: resources.ContestAttempts,
+            element: <ContestAttemptsPage />,
+            handle: { titleKey: 'pageTitles.contestAttempts', fallbackTitleKey: 'pageTitles.contests' },
+          },
+          {
+            path: resources.ContestStatistics,
+            element: <ContestStatisticsPage />,
+            handle: { titleKey: 'pageTitles.contestStatistics', fallbackTitleKey: 'pageTitles.contests' },
+          },
+          {
+            path: resources.ContestStandings,
+            element: <ContestStandingsPage />,
+            handle: { titleKey: 'pageTitles.contestStandings', fallbackTitleKey: 'pageTitles.contests' },
+          },
+          {
+            path: resources.ContestRegistrants,
+            element: <ContestRegistrantsPage />,
+            handle: { titleKey: 'pageTitles.contestRegistrants', fallbackTitleKey: 'pageTitles.contests' },
+          },
+          {
+            path: resources.ContestRatingChanges,
+            element: <ContestRatingChangesPage />,
+            handle: { titleKey: 'pageTitles.contestRatingChanges', fallbackTitleKey: 'pageTitles.contests' },
+          },
+          {
+            path: resources.ContestQuestions,
+            element: <ContestQuestionsPage />,
+            handle: { titleKey: 'pageTitles.contestQuestions', fallbackTitleKey: 'pageTitles.contests' },
+          },
+          {
             path: resources.Tournaments,
             element: <TournamentsListPage />,
             handle: { titleKey: 'pageTitles.tournaments' },
@@ -236,7 +297,7 @@ export const routes: RouteObject[] = [
           {
             path: resources.Tournament,
             element: <TournamentPage />,
-            handle: { titleKey: 'pageTitles.tournament' },
+            handle: { titleKey: 'pageTitles.tournament', fallbackTitleKey: 'pageTitles.tournaments' },
           },
           {
             path: resources.Shop,
@@ -261,32 +322,35 @@ export const routes: RouteObject[] = [
           {
             path: resources.Hackathon,
             element: <HackathonPage />,
-            handle: { titleKey: 'pageTitles.hackathons' },
+            handle: { titleKey: 'pageTitles.hackathon', fallbackTitleKey: 'pageTitles.hackathons' },
           },
           {
             path: resources.HackathonProjects,
             element: <HackathonProjectsPage />,
-            handle: { titleKey: 'pageTitles.hackathons' },
+            handle: { titleKey: 'pageTitles.hackathonProjects', fallbackTitleKey: 'pageTitles.hackathons' },
           },
           {
             path: resources.HackathonProject,
             element: <HackathonProjectPage />,
-            handle: { titleKey: 'pageTitles.hackathons' },
+            handle: { titleKey: 'pageTitles.hackathonProject', fallbackTitleKey: 'pageTitles.hackathons' },
           },
           {
             path: resources.HackathonAttempts,
             element: <HackathonAttemptsPage />,
-            handle: { titleKey: 'pageTitles.hackathons' },
+            handle: { titleKey: 'pageTitles.hackathonAttempts', fallbackTitleKey: 'pageTitles.hackathons' },
           },
           {
             path: resources.HackathonRegistrants,
             element: <HackathonRegistrantsPage />,
-            handle: { titleKey: 'pageTitles.hackathons' },
+            handle: {
+              titleKey: 'pageTitles.hackathonRegistrants',
+              fallbackTitleKey: 'pageTitles.hackathons',
+            },
           },
           {
             path: resources.HackathonStandings,
             element: <HackathonStandingsPage />,
-            handle: { titleKey: 'pageTitles.hackathons' },
+            handle: { titleKey: 'pageTitles.hackathonStandings', fallbackTitleKey: 'pageTitles.hackathons' },
           },
           {
             path: resources.Blog,
@@ -296,7 +360,7 @@ export const routes: RouteObject[] = [
           {
             path: resources.BlogPost,
             element: <BlogPostPage />,
-            handle: { titleKey: 'pageTitles.blogPost' },
+            handle: { titleKey: 'pageTitles.blogPost', fallbackTitleKey: 'pageTitles.blog' },
           },
           {
             path: resources.Settings,
@@ -313,7 +377,16 @@ export const routes: RouteObject[] = [
             <ProblemDetailPage />
           </Suspense>
         ),
-        handle: { titleKey: 'pageTitles.problem' },
+        handle: { titleKey: 'pageTitles.problem', fallbackTitleKey: 'pageTitles.problems' },
+      },
+      {
+        path: resources.ContestProblem,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ContestProblemPage />
+          </Suspense>
+        ),
+        handle: { titleKey: 'pageTitles.contestProblem', fallbackTitleKey: 'pageTitles.contests' },
       },
 
       {

@@ -121,7 +121,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
           aria-expanded={openPopperMenu}
           selected={
             pathname === item.path ||
-            (item.selectionPrefix && pathname!.includes(item.selectionPrefix)) ||
+            (item.selectionPrefix && pathname!.startsWith(item.selectionPrefix)) ||
             (sidenavCollapsed && sidenavType === 'default' && isNestedItemOpen(item.items)) ||
             (openItems[level] !== item.pathName && isNestedItemOpen(item.items))
           }

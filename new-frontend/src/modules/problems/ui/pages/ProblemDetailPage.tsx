@@ -4,6 +4,7 @@ import { Panel, PanelGroup } from 'react-resizable-panels';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Box, Card, CircularProgress, LinearProgress } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { useAuth } from 'app/providers/AuthProvider';
 import { getResourceById, resources } from 'app/routes/resources';
 import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
@@ -103,6 +104,16 @@ const ProblemDetailPage = () => {
     isValidating: isProblemValidating,
     mutate: mutateProblem,
   } = useProblemDetail(Number.isNaN(problemId) ? undefined : problemId);
+
+  useDocumentTitle(
+    problem ? 'pageTitles.problem' : undefined,
+    problem
+      ? {
+          problemId: problem.id,
+          problemTitle: problem.title ?? '',
+        }
+      : undefined,
+  );
 
   useEffect(() => {
     if (problem?.id) {

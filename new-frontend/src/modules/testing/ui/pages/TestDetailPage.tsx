@@ -15,6 +15,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { getResourceById, resources } from 'app/routes/resources';
 import { toast } from 'sonner';
 import KepIcon from 'shared/components/base/KepIcon';
@@ -39,6 +40,15 @@ const TestDetailPage = () => {
   const { data: results, isLoading: isResultsLoading } = useTestResults(id);
   const [canStart, setCanStart] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
+
+  useDocumentTitle(
+    test ? 'pageTitles.test' : undefined,
+    test
+      ? {
+          testTitle: test.title ?? '',
+        }
+      : undefined,
+  );
 
   useEffect(() => {
     if (test?.canStart !== undefined) {

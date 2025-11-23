@@ -56,6 +56,11 @@ export const kepIcons = {
   check: 'mdi:check-circle-outline',
   star: 'mdi:star',
   'star-outline': 'mdi:star-outline',
+  official: 'mdi:check-decagram-outline',
+  unrated: 'mdi:shield-off-outline',
+  virtual: 'mdi:laptop',
+  solved: 'mdi:user-check',
+  unsolved: 'mdi:user-minus'
 } as const;
 
 export type KepIconName = keyof typeof kepIcons;

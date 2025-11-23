@@ -22,6 +22,7 @@ interface ProblemsAttemptsTableProps {
   isLoading?: boolean;
   onRerun?: () => void;
   showProblemColumn?: boolean;
+  getProblemLink?: (attempt: AttemptListItem) => string;
 }
 
 interface AttemptUpdatePayload {
@@ -42,6 +43,7 @@ const ProblemsAttemptsTable = ({
   isLoading,
   onRerun,
   showProblemColumn = true,
+  getProblemLink,
 }: ProblemsAttemptsTableProps) => {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
@@ -223,7 +225,10 @@ const ProblemsAttemptsTable = ({
         renderCell: ({ row }) => (
           <Typography
             component={RouterLink}
-            to={getResourceById(resources.Problem, row.problemId)}
+        to={
+          getProblemLink?.(row) ??
+          getResourceById(resources.Problem, row.problemId)
+        }
             sx={{ textDecoration: 'none', color: 'text.primary', fontWeight: 500 }}
           >
             {row.contestProblemSymbol
@@ -307,7 +312,15 @@ const ProblemsAttemptsTable = ({
       });
     }
     return baseColumns;
-  }, [currentUser?.isSuperuser, showProblemColumn, t, formatDateTime, handleOpenDetail, handleRerun]);
+  }, [
+    currentUser?.isSuperuser,
+    showProblemColumn,
+    t,
+    formatDateTime,
+    handleOpenDetail,
+    handleRerun,
+    getProblemLink,
+  ]);
 
   return (
     <>

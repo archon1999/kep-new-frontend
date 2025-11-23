@@ -3,6 +3,7 @@ import { Box, Button, Card, Chip, Grid, Skeleton, Stack, Typography } from '@mui
 import { useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useSWRConfig } from 'swr';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { arenaQueries, useArenaChallenges, useArenaDetails, useArenaPlayerStatistics, useArenaPlayers, useArenaStatistics, useArenaTopPlayers } from '../../application/queries.ts';
 import { ArenaStatus } from '../../domain/entities/arena.entity.ts';
 import { ArenaPlayer } from '../../domain/entities/arena-player.entity.ts';
@@ -34,6 +35,14 @@ const ArenaDetailPage = () => {
   const { data: challenges, isLoading: isChallengesLoading } = useArenaChallenges(id, { page: 1, pageSize: 6 });
   const { data: topPlayers } = useArenaTopPlayers(id);
   const { data: statistics } = useArenaStatistics(id);
+  useDocumentTitle(
+    arena?.title ? 'pageTitles.arenaTournament' : undefined,
+    arena?.title
+      ? {
+          arenaTitle: arena.title,
+        }
+      : undefined,
+  );
 
   const handleSelectPlayer = (player: ArenaPlayer) => {
     setSelectedUsername(player.username);

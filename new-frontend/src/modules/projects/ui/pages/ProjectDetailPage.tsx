@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { Box, Card, CardContent, CardHeader, CircularProgress, Grid, Tab, Tabs } from '@mui/material';
+import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useProjectDetails } from '../../application/queries';
 import ProjectAttempts from '../components/ProjectAttempts.tsx';
@@ -14,6 +15,15 @@ const ProjectDetailPage = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(0);
   const { data: project, isLoading, mutate } = useProjectDetails(slug);
+
+  useDocumentTitle(
+    project ? 'pageTitles.project' : undefined,
+    project
+      ? {
+          projectTitle: project.title ?? '',
+        }
+      : undefined,
+  );
 
   const tabs = useMemo(
     () => [

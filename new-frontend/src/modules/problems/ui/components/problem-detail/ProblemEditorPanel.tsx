@@ -290,7 +290,7 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
                   roundedSelection: true,
                   scrollBeyondLastLine: false,
                   lineHeight: 22,
-                  padding: { top: 12, bottom: 12 },
+                  padding: { top: 0, bottom: 0 },
                   automaticLayout: true,
                   renderLineHighlight: 'all',
                   scrollbar: {
