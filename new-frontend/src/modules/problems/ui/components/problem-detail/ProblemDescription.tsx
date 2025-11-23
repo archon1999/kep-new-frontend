@@ -10,18 +10,17 @@ import {
   CardHeader,
   Chip,
   Divider,
-  FormControlLabel,
   LinearProgress,
   Stack,
   Tab,
   Tabs,
-  Switch,
   Typography,
 } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { useProblemSolution } from 'modules/problems/application/queries.ts';
 import { DifficultyColor } from 'modules/problems/config/difficulty';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import OnlyMeSwitch from 'shared/components/common/OnlyMeSwitch';
 import { ProblemDetail } from '../../../domain/entities/problem.entity';
 import ProblemsAttemptsTable from '../ProblemsAttemptsTable';
 import { ProblemBody } from './ProblemBody';
@@ -254,12 +253,14 @@ export const ProblemDescription = ({
         {activeTab === 'attempts' ? (
           <>
             {currentUser ? (
-              <Stack direction="row" alignItems="center" spacing={1} mb={2}>
-                <FormControlLabel
-                  control={<Switch checked={myAttemptsOnly} onChange={onToggleMyAttempts} />}
+              <Box mb={2}>
+                <OnlyMeSwitch
                   label={t('problems.detail.onlyMyAttempts')}
+                  checked={myAttemptsOnly}
+                  onChange={() => onToggleMyAttempts()}
+                  switchSize="medium"
                 />
-              </Stack>
+              </Box>
             ) : null}
             <ProblemsAttemptsTable
               attempts={attempts}

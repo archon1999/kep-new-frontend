@@ -6,10 +6,8 @@ import {
   Avatar,
   Box,
   Button,
-  Card,
   Chip,
   FormControl,
-  FormControlLabel,
   IconButton,
   InputLabel,
   Menu,
@@ -17,7 +15,6 @@ import {
   Paper,
   Select,
   Stack,
-  Switch,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -26,6 +23,7 @@ import { useAuth } from 'app/providers/AuthProvider';
 import { resources } from 'app/routes/resources';
 import { usersApiClient } from 'modules/users/data-access/api/users.client';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import OnlyMeSwitch from 'shared/components/common/OnlyMeSwitch';
 import FilterButton from 'shared/components/common/FilterButton';
 import PageHeader from 'shared/components/sections/common/PageHeader';
 import StyledTextField from 'shared/components/styled/StyledTextField';
@@ -175,36 +173,15 @@ const ProblemsAttemptsPage = () => {
         ]}
         actionComponent={
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
-            <Card background={2} sx={{ borderRadius: 2 }}>
-              <Stack
-                spacing={2}
-                direction="row"
-                sx={{
-                  px: 1.5,
-                  pr: 0,
-                  py: 1,
-                }}
-              >
-                <Typography variant="body2" fontWeight={600}>
-                  {t('problems.attempts.onlyMy')}
-                </Typography>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      size="small"
-                      checked={isOnlyMyAttempts}
-                      onChange={(_, checked) => {
-                        if (!currentUser?.username) return;
-                        handleFilterChange('username', checked ? currentUser.username : '');
-                      }}
-                      color="primary"
-                    />
-                  }
-                  label=""
-                  disabled={!currentUser?.username}
-                />
-              </Stack>
-            </Card>
+            <OnlyMeSwitch
+              label={t('problems.attempts.onlyMy')}
+              checked={isOnlyMyAttempts}
+              onChange={(_, checked) => {
+                if (!currentUser?.username) return;
+                handleFilterChange('username', checked ? currentUser.username : '');
+              }}
+              disabled={!currentUser?.username}
+            />
 
             <Tooltip title={t('problems.attempts.refresh')}>
               <Button variant="soft" color="neutral" onClick={() => mutate()}>
