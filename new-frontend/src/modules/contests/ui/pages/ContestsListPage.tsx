@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import KepIcon from 'shared/components/base/KepIcon';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import Logo from 'shared/components/common/Logo';
+import FilterButton from 'shared/components/common/FilterButton';
 import useDebouncedValue from 'shared/hooks/useDebouncedValue';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { cssVarRgba } from 'shared/lib/utils';
@@ -179,18 +180,14 @@ const ContestsListPage = () => {
                     </Button>
                   ) : null}
 
-                  <Button
-                    variant="soft"
-                    color="neutral"
+                  <FilterButton
                     onClick={handleFiltersToggle}
-                    startIcon={<IconifyIcon icon="mdi:filter-variant" sx={{ fontSize: 20 }} />}
                     aria-haspopup="true"
                     aria-expanded={filtersOpen ? 'true' : undefined}
                     aria-controls={filtersOpen ? 'contests-filters-menu' : undefined}
+                    label={t('contests.filters.toggle')}
                     sx={{ alignSelf: { xs: 'stretch', sm: 'flex-start' } }}
-                  >
-                    {t('contests.filters.toggle')}
-                  </Button>
+                  />
                 </Stack>
               </Stack>
             </Stack>

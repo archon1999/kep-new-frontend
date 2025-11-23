@@ -1,68 +1,18 @@
 import { MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
-import {
-  Badge,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Chip,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  InputAdornment,
-  InputLabel,
-  LinearProgress,
-  List,
-  ListItemButton,
-  ListItemText,
-  MenuItem,
-  Popover,
-  Select,
-  SelectChangeEvent,
-  Skeleton,
-  Stack,
-  Switch,
-  Tab,
-  TablePagination,
-  Tabs,
-  TextField,
-  Tooltip,
-  Typography,
-  alpha,
-  useTheme,
-} from '@mui/material';
+import { Badge, Box, Button, Card, CardContent, CardHeader, Chip, Divider, FormControl, FormControlLabel, Grid, InputAdornment, InputLabel, LinearProgress, List, ListItemButton, ListItemText, MenuItem, Popover, Select, SelectChangeEvent, Skeleton, Stack, Switch, Tab, TablePagination, Tabs, TextField, Tooltip, Typography, alpha, useTheme } from '@mui/material';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
 import { getResourceById, resources } from 'app/routes/resources.ts';
 import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
+import FilterButton from 'shared/components/common/FilterButton.tsx';
 import CustomTablePaginationAction from 'shared/components/pagination/CustomTablePaginationAction.tsx';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
-import {
-  useLastContestProblems,
-  useMostViewedProblems,
-  useProblemCategories,
-  useProblemLanguages,
-  useProblemsList,
-  useUserProblemsAttempts,
-  useUserProblemsRating,
-} from '../../application/queries.ts';
-import {
-  difficultyColorByKey,
-  difficultyOptions,
-  getDifficultyColor,
-  getDifficultyLabelKey,
-} from '../../config/difficulty';
-import {
-  DifficultyBreakdown,
-  ProblemAttemptSummary,
-  ProblemCategory,
-  ProblemLanguageOption,
-  ProblemListItem,
-} from '../../domain/entities/problem.entity.ts';
+import { useLastContestProblems, useMostViewedProblems, useProblemCategories, useProblemLanguages, useProblemsList, useUserProblemsAttempts, useUserProblemsRating } from '../../application/queries.ts';
+import { difficultyColorByKey, difficultyOptions, getDifficultyColor, getDifficultyLabelKey } from '../../config/difficulty';
+import { DifficultyBreakdown, ProblemAttemptSummary, ProblemCategory, ProblemLanguageOption, ProblemListItem } from '../../domain/entities/problem.entity.ts';
 import { ProblemsListParams } from '../../domain/ports/problems.repository.ts';
+
 
 const orderingOptions = [
   { label: 'problems.orderNewest', value: '-id' },
@@ -462,25 +412,14 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                 </Select>
               </FormControl>
 
-              <Button
-                variant={filtersOpen || activeFilters.length ? 'contained' : 'outlined'}
-                color="primary"
-                startIcon={<IconifyIcon icon="mdi:tune" />}
-                endIcon={<IconifyIcon icon="mdi:chevron-down" />}
+              <FilterButton
                 onClick={handleFiltersOpen}
+                label={t('problems.filters')}
+                badgeContent={activeFilters.length}
+                aria-haspopup="true"
+                aria-expanded={filtersOpen ? 'true' : undefined}
                 sx={{ minWidth: { xs: '100%', sm: 180 }, height: 40 }}
-              >
-                <Badge
-                  color="secondary"
-                  badgeContent={activeFilters.length}
-                  invisible={!activeFilters.length}
-                  overlap="circular"
-                >
-                  <Typography variant="button" sx={{ textTransform: 'none' }}>
-                    {t('problems.filters')}
-                  </Typography>
-                </Badge>
-              </Button>
+              />
             </Stack>
           </Stack>
 
@@ -721,14 +660,14 @@ interface ProblemsListProps {
 }
 
 const ProblemsList = ({
-  problems,
-  isLoading,
-  filter,
-  total,
-  onPageChange,
-  onRowsPerPageChange,
-  renderDifficultyBadge,
-}: ProblemsListProps) => {
+                        problems,
+                        isLoading,
+                        filter,
+                        total,
+                        onPageChange,
+                        onRowsPerPageChange,
+                        renderDifficultyBadge,
+                      }: ProblemsListProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -983,12 +922,12 @@ interface TabContentProps {
 }
 
 const TabsCard = ({
-  activeTab,
-  onTabChange,
-  attempts,
-  lastContest,
-  mostViewed,
-}: TabContentProps) => {
+                    activeTab,
+                    onTabChange,
+                    attempts,
+                    lastContest,
+                    mostViewed,
+                  }: TabContentProps) => {
   const { t } = useTranslation();
 
   const renderAttempts = () => {

@@ -5,7 +5,6 @@ import {
   Autocomplete,
   Avatar,
   Box,
-  Button,
   Chip,
   FormControlLabel,
   FormControl,
@@ -27,6 +26,7 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import PageHeader from 'shared/components/sections/common/PageHeader';
 import StyledTextField from 'shared/components/styled/StyledTextField';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import FilterButton from 'shared/components/common/FilterButton';
 import useSWR from 'swr';
 import {
   problemsQueries,
@@ -196,18 +196,14 @@ const ProblemsAttemptsPage = () => {
                 <IconifyIcon icon="mdi:reload" width={18} height={18} />
               </IconButton>
             </Tooltip>
-            <Button
+            <FilterButton
               id="attempts-filters-button"
-              variant="outlined"
-              color="secondary"
               onClick={(event) => setFiltersAnchorEl(event.currentTarget)}
-              startIcon={<IconifyIcon icon="mdi:filter-variant" width={18} height={18} />}
               aria-haspopup="true"
               aria-expanded={filtersOpen ? 'true' : undefined}
               aria-controls={filtersOpen ? 'attempts-filters-menu' : undefined}
-            >
-              {t('problems.filterTitle')}
-            </Button>
+              label={t('problems.filterTitle')}
+            />
             {(filter.username || filter.problemId || filter.verdict || filter.lang) && (
               <Tooltip title={t('problems.attempts.clear')}>
                 <IconButton color="error" onClick={handleReset}>

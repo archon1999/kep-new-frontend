@@ -44,7 +44,7 @@ const SWRConfiguration = ({ children }: PropsWithChildren) => {
         revalidateOnFocus: false,
         revalidateOnReconnect: false,
         shouldRetryOnError: false,
-        provider: () => createTTLCache(1000 * 60)
+        provider: () => createTTLCache(1000 * 1660)
       }}
     >
       {children}

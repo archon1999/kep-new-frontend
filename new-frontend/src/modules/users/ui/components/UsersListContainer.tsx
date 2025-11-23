@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent, SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { TabContext, TabList } from '@mui/lab';
-import { Box, Button, InputAdornment, Menu, MenuItem, Stack, Tab, Typography } from '@mui/material';
+import { Box, InputAdornment, Menu, MenuItem, Stack, Tab, Typography } from '@mui/material';
 import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { useUsersCountries, useUsersList } from 'modules/users/application/queries';
@@ -8,6 +8,7 @@ import StyledTextField from 'shared/components/styled/StyledTextField';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import UsersDataGrid from './UsersDataGrid';
 import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
+import FilterButton from 'shared/components/common/FilterButton';
 
 const tabOrderingMap = {
   all: '-id',
@@ -201,25 +202,14 @@ const UsersListContainer = () => {
           </TabList>
         </Box>
         <Stack sx={{ gap: 1 }} direction={{ xs: 'column', sm: 'row' }}>
-          <Button
+          <FilterButton
             id="users-filters-button"
-            variant="soft"
-            color="neutral"
             onClick={handleFiltersToggle}
             aria-haspopup="true"
             aria-expanded={filtersOpen ? 'true' : undefined}
             aria-controls={filtersOpen ? 'users-filters-menu' : undefined}
-            sx={{ flexShrink: 0 }}
-          >
-            <IconifyIcon
-              icon="mdi:filter-variant"
-              sx={{
-                fontSize: 20,
-                marginRight: { xs: 0, md: '4px' },
-              }}
-            />
-            <Box component="span">{t('users.filters.toggle')}</Box>
-          </Button>
+            label={t('users.filters.toggle')}
+          />
           <StyledTextField
             id="search-box"
             type="search"
