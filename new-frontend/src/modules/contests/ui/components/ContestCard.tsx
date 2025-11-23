@@ -5,6 +5,8 @@ import { getResourceById, resources } from 'app/routes/resources';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import KepIcon from 'shared/components/base/KepIcon';
+import ContestTopContestants from './ContestTopContestants';
+import { useContestTopContestants } from '../../application/queries';
 import { ContestListItem } from '../../domain/entities/contest.entity';
 
 dayjs.extend(duration);
@@ -22,6 +24,11 @@ const ContestCard = ({ contest }: ContestCardProps) => {
 
   const isFinished = finishDate ? now.isAfter(finishDate) : false;
   const isUpcoming = startDate ? now.isBefore(startDate) : false;
+
+  const { data: topContestants, isLoading: isTopContestantsLoading } = useContestTopContestants(
+    contest.id,
+    isFinished,
+  );
 
   const statusLabel = isFinished
     ? t('contests.status.finished', { date: finishDate ? finishDate.format('DD MMM, HH:mm') : '—' })
@@ -96,14 +103,6 @@ const ContestCard = ({ contest }: ContestCardProps) => {
               <Typography variant="h6" fontWeight={800} sx={{ wordBreak: 'break-word' }}>
                 {contest.title}
               </Typography>
-
-              <Typography
-                component="div"
-                dangerouslySetInnerHTML={{ __html: contest.description ?? '' }}
-                variant="body2"
-                color="text.secondary"
-                sx={{ maxWidth: 720 }}
-              />
             </Stack>
 
             <Chip
@@ -112,6 +111,35 @@ const ContestCard = ({ contest }: ContestCardProps) => {
               variant="filled"
               sx={{ fontWeight: 700 }}
             />
+          </Stack>
+
+          <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems="stretch">
+            {isFinished ? (
+              <ContestTopContestants
+                contestants={topContestants}
+                isLoading={isTopContestantsLoading}
+              />
+            ) : null}
+
+            <Box
+              sx={{
+                flex: 1,
+                borderRadius: 2,
+                bgcolor: 'background.neutral',
+                p: 2,
+                minWidth: 0,
+              }}
+            >
+              <Typography
+                component="div"
+                dangerouslySetInnerHTML={{ __html: contest.description ?? '' }}
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  '& p': { m: 0 },
+                }}
+              />
+            </Box>
           </Stack>
 
           <Stack direction="column" spacing={1.5}>

@@ -6,7 +6,13 @@ import { ContestCategoryEntity, ContestListItem } from '../../domain/entities/co
 import { ContestRatingRow } from '../../domain/entities/contest-rating.entity';
 import { ContestsRepository, PageResult } from '../../domain/ports/contests.repository';
 import { contestsApiClient } from '../api/contests.client';
-import { mapCategory, mapContest, mapContestRating, mapPageResult } from '../mappers/contest.mapper';
+import {
+  mapCategory,
+  mapContest,
+  mapContestRating,
+  mapContestTopContestant,
+  mapPageResult,
+} from '../mappers/contest.mapper';
 import {
   mapContestRatingChange,
   mapContestUserStatistics,
@@ -37,5 +43,11 @@ export class HttpContestsRepository implements ContestsRepository {
   async ratingChanges(username: string) {
     const result = await contestsApiClient.ratingChanges(username);
     return Array.isArray(result) ? result.map(mapContestRatingChange) : [];
+  }
+
+  async top3Contestants(contestId: number | string) {
+    const result = await contestsApiClient.top3Contestants(contestId);
+    const contestants = Array.isArray(result) ? result : (result as any)?.contestants ?? [];
+    return contestants.map(mapContestTopContestant);
   }
 }

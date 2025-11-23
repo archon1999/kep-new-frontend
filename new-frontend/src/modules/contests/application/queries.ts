@@ -4,7 +4,7 @@ import {
   ApiContestsRatingListParams,
 } from 'shared/api/orval/generated/endpoints/index.schemas';
 import { HttpContestsRepository } from '../data-access/repository/http.contests.repository';
-import { ContestCategoryEntity, ContestListItem } from '../domain/entities/contest.entity';
+import { ContestCategoryEntity, ContestListItem, ContestTopContestant } from '../domain/entities/contest.entity';
 import { ContestRatingRow } from '../domain/entities/contest-rating.entity';
 import {
   ContestRatingChange,
@@ -47,6 +47,12 @@ export const useContestRatingChanges = (username?: string) =>
   useSWR<ContestRatingChange[]>(
     username ? ['contest-rating-changes', username] : null,
     () => contestsRepository.ratingChanges(username!),
+  );
+
+export const useContestTopContestants = (contestId?: number | string, enabled = true) =>
+  useSWR<ContestTopContestant[]>(
+    contestId && enabled ? ['contest-top3', contestId] : null,
+    () => contestsRepository.top3Contestants(contestId!),
   );
 
 export const contestsQueries = {

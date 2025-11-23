@@ -22,6 +22,11 @@
       "live": "Live · ends {{date}}",
       "finished": "Finished {{date}}"
     },
+    "topContestants": {
+      "title": "Top 3 contestants",
+      "loading": "Loading results...",
+      "empty": "Top finishers will appear once the contest is completed."
+    },
     "startsLabel": "Starts {{date}}",
     "startsUnknown": "Start time to be announced",
     "endsLabel": "Ends {{date}}",

@@ -31,3 +31,17 @@ export interface ContestCategoryEntity {
   icon?: string;
   contestsCount?: number;
 }
+
+export interface ContestTopContestantTeamMember {
+  username: string;
+  ratingTitle?: string;
+}
+
+export interface ContestTopContestant {
+  username: string;
+  fullName?: string;
+  ratingTitle?: string;
+  country?: string;
+  teamName?: string;
+  teamMembers?: ContestTopContestantTeamMember[];
+}

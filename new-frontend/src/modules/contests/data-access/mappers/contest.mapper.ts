@@ -1,5 +1,11 @@
 import { Contest, ContestAuthor, ContestsCategory } from 'shared/api/orval/generated/endpoints/index.schemas';
-import { ContestAuthorEntity, ContestCategoryEntity, ContestListItem } from '../../domain/entities/contest.entity';
+import {
+  ContestAuthorEntity,
+  ContestCategoryEntity,
+  ContestListItem,
+  ContestTopContestant,
+  ContestTopContestantTeamMember,
+} from '../../domain/entities/contest.entity';
 import { ContestRatingRow } from '../../domain/entities/contest-rating.entity';
 import { PageResult } from '../../domain/ports/contests.repository';
 
@@ -25,6 +31,20 @@ export const mapContest = (payload: Contest): ContestListItem => ({
   problemsCount: payload?.problemsCount ?? 0,
   participationType: payload?.participationType ?? 1,
   authors: (payload?.authors ?? []).map(mapAuthor),
+});
+
+const mapContestTopContestantTeamMember = (payload: any): ContestTopContestantTeamMember => ({
+  username: payload?.username ?? '',
+  ratingTitle: payload?.ratingTitle ?? payload?.rating_title ?? undefined,
+});
+
+export const mapContestTopContestant = (payload: any): ContestTopContestant => ({
+  username: payload?.username ?? payload?.user?.username ?? '',
+  fullName: payload?.userFullName ?? payload?.user?.userFullName ?? undefined,
+  ratingTitle: payload?.ratingTitle ?? payload?.user?.ratingTitle ?? undefined,
+  country: payload?.country ?? payload?.user?.country ?? undefined,
+  teamName: payload?.team?.name ?? undefined,
+  teamMembers: (payload?.team?.members ?? []).map(mapContestTopContestantTeamMember),
 });
 
 export const mapCategory = (payload: ContestsCategory): ContestCategoryEntity => ({
