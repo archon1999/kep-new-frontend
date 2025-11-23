@@ -29,6 +29,7 @@
       "title": "Urinishlar",
       "subtitle": "Masalalar bo‘yicha barcha yuborilgan javoblar.",
       "myAttempts": "Mening urinishlarim",
+      "onlyMy": "Faqat meniki",
       "refresh": "Yangilash",
       "rerun": "Qayta tekshirish",
       "clear": "Filtrlarni tozalash",
