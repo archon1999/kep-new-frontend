@@ -31,6 +31,9 @@
     "contestsStats": "Kontestlar statistikasi",
     "tournaments": "Turnirlar",
     "tournament": "Turnir",
-    "userProfile": "Foydalanuvchi profili"
+    "userProfile": "Foydalanuvchi profili",
+    "duels": "Duellar",
+    "duel": "Duel",
+    "duelsRating": "Duellar reytingi"
   }
 }

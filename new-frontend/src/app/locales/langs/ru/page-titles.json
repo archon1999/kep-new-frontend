@@ -31,6 +31,9 @@
     "tournaments": "Турниры",
     "tournament": "Турнир",
     "userProfile": "Профиль пользователя",
-    "contestsStats": "Статистика контестов"
+    "contestsStats": "Статистика контестов",
+    "duels": "Дуэли",
+    "duel": "Дуэль",
+    "duelsRating": "Рейтинг дуэлей"
   }
 }

@@ -9,6 +9,7 @@ import problems from './problems.json';
 import auth from './auth.json';
 import blog from './blog.json';
 import menu from './menu.json';
+import duels from './duels.json';
 import pageTitles from './page-titles.json';
 import projects from './projects.json';
 import search from './search.json';
@@ -40,6 +41,7 @@ export const uzTranslation = {
   ...problems,
   ...tournaments,
   ...contests,
+  ...duels,
 };
 
 export default uzTranslation;

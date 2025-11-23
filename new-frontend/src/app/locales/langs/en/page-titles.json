@@ -31,6 +31,9 @@
     "contestsStats": "Contest statistics",
     "tournaments": "Tournaments",
     "tournament": "Tournament",
-    "userProfile": "User profile"
+    "userProfile": "User profile",
+    "duels": "Duels",
+    "duel": "Duel",
+    "duelsRating": "Duels rating"
   }
 }
