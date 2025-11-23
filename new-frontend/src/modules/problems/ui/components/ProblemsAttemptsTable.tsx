@@ -132,7 +132,7 @@ const ProblemsAttemptsTable = ({
       {
         field: 'created',
         headerName: t('problems.attempts.columns.submitted'),
-        minWidth: 180,
+        minWidth: 150,
         flex: 0.8,
         sortable: false,
         renderCell: ({ row }) => <Chip label={formatDateTime(row.created)}></Chip>,
