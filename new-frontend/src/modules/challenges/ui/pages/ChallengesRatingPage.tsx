@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -12,6 +12,7 @@ import { useChallengesRating } from '../../application/queries.ts';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
 import DataGridPaginationAction from 'shared/components/pagination/DataGridPaginationAction.tsx';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
 
 const ChallengesRatingPage = () => {
   const { t } = useTranslation();
@@ -43,6 +44,7 @@ const ChallengesRatingPage = () => {
     draws?: number;
     losses?: number;
     record?: string;
+    all?: number;
   };
 
   const columns: GridColDef<RatingRow>[] = [
@@ -50,7 +52,12 @@ const ChallengesRatingPage = () => {
       field: 'rowIndex',
       headerName: t('challenges.table.place'),
       width: 90,
-      sortable: true,
+      headerAlign: 'center',
+      align: 'center',
+      sortable: false,
+      renderCell: ({ value }) => (
+        <Typography variant="subtitle1" fontWeight={800}>#{value}</Typography>
+      ),
     },
     {
       field: 'username',
@@ -58,6 +65,22 @@ const ChallengesRatingPage = () => {
       flex: 1.4,
       minWidth: 180,
       sortable: true,
+      renderCell: ({ row }) => (
+        <UserPopover username={row.username}>
+          <Stack spacing={0.25}>
+            <Typography variant="subtitle1" fontWeight={700} color="text.primary">
+              {row.username}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              {t('challenges.record', {
+                wins: row?.wins ?? 0,
+                draws: row?.draws ?? 0,
+                losses: row?.losses ?? 0,
+              })}
+            </Typography>
+          </Stack>
+        </UserPopover>
+      ),
     },
     {
       field: 'rankTitle',
@@ -65,7 +88,14 @@ const ChallengesRatingPage = () => {
       flex: 0.8,
       minWidth: 140,
       sortable: false,
-      renderCell: ({ value }) => <ChallengesRatingChip title={value as string} size="small" />,
+      renderCell: ({ value }) => (
+        <Stack direction="row" alignItems="center" spacing={1.5}>
+          <ChallengesRatingChip title={value as string} size="small" />
+          <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'capitalize' }}>
+            {value as string}
+          </Typography>
+        </Stack>
+      ),
     },
     {
       field: 'rating',
@@ -73,6 +103,16 @@ const ChallengesRatingPage = () => {
       flex: 0.6,
       minWidth: 120,
       sortable: true,
+      renderCell: ({ value, row }) => (
+        <Stack spacing={0.25}>
+          <Typography variant="subtitle1" fontWeight={800} color="text.primary">
+            {value ?? '—'}
+          </Typography>
+          <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'capitalize' }}>
+            {row.rankTitle}
+          </Typography>
+        </Stack>
+      ),
     },
     {
       field: 'record',
@@ -80,12 +120,45 @@ const ChallengesRatingPage = () => {
       flex: 1.1,
       minWidth: 180,
       sortable: false,
-      valueGetter: ((params: any) =>
-        t('challenges.record', {
-          wins: params?.row?.wins ?? 0,
-          draws: params?.row?.draws ?? 0,
-          losses: params?.row?.losses ?? 0,
-        })),
+      renderCell: ({ row }) => (
+        <Stack direction="row" spacing={1.25} alignItems="center" flexWrap="wrap" rowGap={1}>
+          <Chip
+            size="small"
+            color="success"
+            label={`${row?.wins ?? 0} ${t('common.wins')}`}
+            variant="soft"
+          />
+          <Chip
+            size="small"
+            color="warning"
+            label={`${row?.draws ?? 0} ${t('common.draws')}`}
+            variant="soft"
+          />
+          <Chip
+            size="small"
+            color="error"
+            label={`${row?.losses ?? 0} ${t('common.losses')}`}
+            variant="soft"
+          />
+        </Stack>
+      ),
+    },
+    {
+      field: 'all',
+      headerName: t('challenges.table.matches'),
+      flex: 0.7,
+      minWidth: 140,
+      sortable: true,
+      renderCell: ({ value }) => (
+        <Stack spacing={0.25}>
+          <Typography variant="subtitle1" fontWeight={800} color="text.primary">
+            {value ?? 0}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            {t('challenges.table.matches')}
+          </Typography>
+        </Stack>
+      ),
     },
   ];
 
@@ -109,12 +182,16 @@ const ChallengesRatingPage = () => {
           <Typography variant="body2" color="text.secondary">
             {t('challenges.ratingSubtitle')}
           </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {t('challenges.totalPlayers', { count: ratingPage?.total ?? 0 })}
+          </Typography>
         </Stack>
 
         <Card variant="outlined">
           <CardContent>
             <DataGrid
               autoHeight
+              rowHeight={80}
               disableRowSelectionOnClick
               columns={columns}
               rows={rows}
@@ -127,8 +204,18 @@ const ChallengesRatingPage = () => {
               onSortModelChange={(model) => setSortModel(model.length ? model : [{ field: 'rating', sort: 'desc' }])}
               loading={isLoading}
               pageSizeOptions={[12, 24, 48]}
+              disableColumnFilter
+              disableColumnSelector
+              disableColumnMenu
               slots={{
                 pagination: DataGridPaginationAction,
+              }}
+              sx={{
+                border: 'none',
+                '& .MuiDataGrid-columnHeaders': { backgroundColor: 'background.default' },
+                '& .MuiDataGrid-columnHeaderTitle': { fontWeight: 700 },
+                '& .MuiDataGrid-cell': { py: 2 },
+                '& .MuiDataGrid-row:hover': { backgroundColor: 'action.hover' },
               }}
             />
           </CardContent>
