@@ -96,6 +96,13 @@
         "solved": "Решено",
         "rating": "Рейтинг"
       },
+      "columns": {
+        "rank": "Место",
+        "user": "Пользователь",
+        "rating": "Рейтинг",
+        "solved": "Решено"
+      },
+      "emptyValue": "—",
       "total": "{{count}} пользователей",
       "score": "Рейтинг {{value}}",
       "solved": "{{value}} решено",
