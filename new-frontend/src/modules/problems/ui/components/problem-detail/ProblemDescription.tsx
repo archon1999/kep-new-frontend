@@ -22,7 +22,7 @@ import { useProblemSolution } from 'modules/problems/application/queries.ts';
 import { DifficultyColor } from 'modules/problems/config/difficulty';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import OnlyMeSwitch from 'shared/components/common/OnlyMeSwitch';
-import { ProblemDetail } from '../../../domain/entities/problem.entity';
+import { ProblemAvailableLanguage, ProblemDetail } from '../../../domain/entities/problem.entity';
 import ProblemsAttemptsTable from '../ProblemsAttemptsTable';
 import { ProblemBody } from './ProblemBody';
 import { HackAttemptsCard } from './HackAttemptsCard';
@@ -57,6 +57,7 @@ interface ProblemDescriptionProps {
   onFavoriteToggle: () => void;
   onLike: () => void;
   onDislike: () => void;
+  selectedLanguage: ProblemAvailableLanguage | null;
 }
 
 export const ProblemDescription = ({
@@ -80,6 +81,7 @@ export const ProblemDescription = ({
   onFavoriteToggle,
   onLike,
   onDislike,
+  selectedLanguage,
 }: ProblemDescriptionProps) => {
   const { t } = useTranslation();
   const { currentUser } = useAuth();
@@ -162,7 +164,7 @@ export const ProblemDescription = ({
                 />
                 <Chip
                   label={`${t('problems.detail.timeLimit')}: ${
-                    problem.timeLimit ?? problem.availableLanguages?.[0]?.timeLimit ?? 0
+                    selectedLanguage?.timeLimit ?? problem.timeLimit ?? problem.availableLanguages?.[0]?.timeLimit ?? 0
                   } ms`}
                   color="default"
                   variant="filled"
@@ -170,7 +172,10 @@ export const ProblemDescription = ({
                 />
                 <Chip
                   label={`${t('problems.detail.memoryLimit')}: ${
-                    problem.memoryLimit ?? problem.availableLanguages?.[0]?.memoryLimit ?? 0
+                    selectedLanguage?.memoryLimit ??
+                    problem.memoryLimit ??
+                    problem.availableLanguages?.[0]?.memoryLimit ??
+                    0
                   } MB`}
                   color="default"
                   variant="filled"
