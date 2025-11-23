@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -23,7 +23,6 @@ import { useAttemptVerdicts, useAttemptsList } from 'modules/problems/applicatio
 import ContestCountdownCard from '../components/ContestCountdownCard';
 import { useContest, useContestProblems } from '../../application/queries';
 import { ContestProblemEntity } from '../../domain/entities/contest-problem.entity';
-import { ContestStatus } from '../../domain/entities/contest-status';
 import ContestPageHeader from '../components/ContestPageHeader';
 
 interface AttemptsFilterState {

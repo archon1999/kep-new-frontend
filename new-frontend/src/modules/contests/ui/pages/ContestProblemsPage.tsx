@@ -1,14 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import { Card, CardContent, Chip, Grid, Stack, Typography, Box } from '@mui/material';
+import { Box, Chip, Grid, Stack, Typography } from '@mui/material';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
-import { getResourceById, getResourceByParams, resources } from 'app/routes/resources';
+import { getResourceByParams, resources } from 'app/routes/resources';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import KepIcon from 'shared/components/base/KepIcon';
 import ContestCountdownCard from '../components/ContestCountdownCard';
 import { useContest, useContestProblems } from '../../application/queries';
-import { ContestProblemEntity } from '../../domain/entities/contest-problem.entity';
-import { ContestStatus } from '../../domain/entities/contest-status';
 import { contestHasBalls } from '../../utils/contestType';
 import ContestPageHeader from '../components/ContestPageHeader';
 

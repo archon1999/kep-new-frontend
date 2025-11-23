@@ -367,10 +367,10 @@ const ContestStatisticsPage = () => {
           <Grid size={{ xs: 12, sm: 6, md: 3 }} key={card.key}>
             <Card
               variant="outlined"
-              sx={(cardTheme) => ({
+              sx={{
                 borderRadius: 3,
                 height: '100%',
-              })}
+              }}
             >
               <CardContent>
                 <Stack direction="row" spacing={1.5} alignItems="center" justifyContent="space-between">

@@ -9,7 +9,6 @@ import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useContest, useContestRegistrants } from '../../application/queries';
 import { ContestRegistrant } from '../../domain/entities/contest-registrant.entity';
-import { ContestStatus } from '../../domain/entities/contest-status';
 import ContestCountdownCard from '../components/ContestCountdownCard';
 import ContestPageHeader from '../components/ContestPageHeader';
 

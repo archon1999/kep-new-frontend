@@ -1,19 +1,17 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   Box,
   Button,
   Card,
   CardContent,
   Grid,
-  MenuItem,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
-import { getResourceById, resources } from 'app/routes/resources';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { contestsQueries, useContest, useContestProblems, useContestQuestions } from '../../application/queries';
 import { ContestQuestion } from '../../domain/entities/contest-question.entity';
