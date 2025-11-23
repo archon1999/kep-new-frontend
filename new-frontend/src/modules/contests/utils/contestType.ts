@@ -3,8 +3,8 @@ import { ContestType } from 'shared/api/orval/generated/endpoints/index.schemas'
 export const contestHasPenalties = (type?: ContestType) =>
   type === ContestType.ACM20M || type === ContestType.ACM10M || type === ContestType.ACM2H;
 
-export const contestHasBalls = (type?: ContestType) =>
-  [
+export const contestHasBalls = (type?: ContestType) => {
+  const ballTypes: ContestType[] = [
     ContestType.Ball525,
     ContestType.Ball550,
     ContestType.LessCode,
@@ -14,7 +14,10 @@ export const contestHasBalls = (type?: ContestType) =>
     ContestType.Exam,
     ContestType.Ball,
     ContestType.DC,
-  ].includes(type as ContestType);
+  ];
+
+  return type ? ballTypes.includes(type) : false;
+};
 
 export const isAcmStyle = (type?: ContestType) =>
   type === ContestType.ACM2H ||

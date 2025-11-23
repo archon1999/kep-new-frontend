@@ -1,6 +1,7 @@
 import {
   ApiContestsListParams,
   ApiContestsRatingListParams,
+  ApiContestsRegistrantsListOrdering,
 } from 'shared/api/orval/generated/endpoints/index.schemas';
 import { ContestCategoryEntity, ContestListItem } from '../entities/contest.entity';
 import { ContestDetail } from '../entities/contest-detail.entity';
@@ -70,5 +71,5 @@ export interface ContestStandingsParams {
 export interface ContestRegistrantsParams {
   page?: number;
   pageSize?: number;
-  ordering?: string;
+  ordering?: ApiContestsRegistrantsListOrdering;
 }

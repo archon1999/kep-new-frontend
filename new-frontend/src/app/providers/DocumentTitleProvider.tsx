@@ -48,13 +48,13 @@ const getTitleHandleFromMatches = (matches: ReturnType<typeof useMatches>) => {
 const getTitleParams = (
   handle: DocumentTitleHandle | undefined,
   match: ReturnType<typeof useMatches>[number] | undefined,
-) => {
+): Record<string, string | number | undefined> | undefined => {
   if (!handle?.titleParams) {
     return undefined;
   }
 
-  if (typeof handle.titleParams === 'function' && match) {
-    return handle.titleParams(match);
+  if (typeof handle.titleParams === 'function') {
+    return match ? handle.titleParams(match) : undefined;
   }
 
   return handle.titleParams;

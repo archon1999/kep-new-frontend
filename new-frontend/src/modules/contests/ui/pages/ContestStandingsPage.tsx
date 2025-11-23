@@ -226,20 +226,25 @@ const ContestStandingsPage = () => {
         align: 'center',
         headerAlign: 'center',
         sortable: false,
-        renderCell: ({ row }) => (
-          <Chip
-            label={`${row.delta > 0 ? '+' : ''}${row.delta ?? 0}`}
-            color={
-              row.delta && row.delta > 0
-                ? 'success'
-                : row.delta && row.delta < 0
-                  ? 'error'
-                  : 'default'
-            }
-            size="small"
-            variant="outlined"
-          />
-        ),
+        renderCell: ({ row }) => {
+          const deltaValue = row.delta ?? 0;
+          const deltaLabel = `${deltaValue > 0 ? '+' : ''}${deltaValue}`;
+
+          return (
+            <Chip
+              label={deltaLabel}
+              color={
+                row.delta && row.delta > 0
+                  ? 'success'
+                  : row.delta && row.delta < 0
+                    ? 'error'
+                    : 'default'
+              }
+              size="small"
+              variant="outlined"
+            />
+          );
+        },
       });
 
       base.push({
