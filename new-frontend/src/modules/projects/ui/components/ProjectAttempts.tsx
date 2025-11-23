@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Box, FormControlLabel, Pagination, Stack, Switch, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { Box, Pagination, Stack } from '@mui/material';
 import { useAuth } from 'app/providers/AuthProvider';
+import OnlyMeSwitch from 'shared/components/common/OnlyMeSwitch.tsx';
+import { wsService } from 'shared/services/websocket';
 import { useProjectAttempts } from '../../application/queries';
 import { Project } from '../../domain/entities/project.entity';
 import ProjectAttemptsTable from './ProjectAttemptsTable.tsx';
-import { wsService } from 'shared/services/websocket';
 
 interface ProjectAttemptsProps {
   project: Project;
@@ -72,16 +73,19 @@ const ProjectAttempts = ({ project, hackathonId }: ProjectAttemptsProps) => {
   return (
     <Stack direction="column" spacing={2}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography variant="h6" fontWeight={800}>
-          {t('projects.attempts')}
-        </Typography>
-        <FormControlLabel
-          control={<Switch checked={showMine} onChange={handleToggleMine} disabled={!currentUser} />}
+        <OnlyMeSwitch
           label={t('projects.myAttempts')}
+          checked={showMine}
+          onChange={handleToggleMine}
         />
       </Stack>
 
-      <ProjectAttemptsTable project={project} attempts={data?.data} isLoading={isLoading} onRerun={() => mutate()} />
+      <ProjectAttemptsTable
+        project={project}
+        attempts={data?.data}
+        isLoading={isLoading}
+        onRerun={() => mutate()}
+      />
 
       <Box display="flex" justifyContent="flex-end">
         <Pagination

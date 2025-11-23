@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, Chip, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { Card, CardContent, CardHeader, Chip, Stack, Typography } from '@mui/material';
 import KepcoinValue from 'shared/components/common/KepcoinValue';
 import { Project } from '../../domain/entities/project.entity';
 
@@ -11,13 +11,7 @@ const ProjectInfoCard = ({ project }: ProjectInfoCardProps) => {
   const { t } = useTranslation();
 
   return (
-    <Card
-      elevation={0}
-      sx={{
-        borderRadius: 3,
-        border: (theme) => `1px solid ${theme.palette.divider}`,
-      }}
-    >
+    <Card>
       <CardHeader
         title={
           <Typography variant="subtitle1" fontWeight={800}>
@@ -49,7 +43,12 @@ const ProjectInfoCard = ({ project }: ProjectInfoCardProps) => {
             </Typography>
             <Stack direction="row" spacing={1} flexWrap="wrap" rowGap={0.75}>
               {project.availableTechnologies.map((technology) => (
-                <Chip key={technology.technology} label={technology.technology} size="small" variant="outlined" />
+                <Chip
+                  key={technology.technology}
+                  label={technology.technology}
+                  size="small"
+                  variant="outlined"
+                />
               ))}
             </Stack>
           </Stack>

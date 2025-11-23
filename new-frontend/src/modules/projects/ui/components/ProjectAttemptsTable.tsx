@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -14,11 +15,10 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import IconifyIcon from 'shared/components/base/IconifyIcon';
-import { Project, ProjectAttempt, ProjectAttemptLog } from '../../domain/entities/project.entity';
-import { projectsQueries } from '../../application/queries';
 import { useAuth } from 'app/providers/AuthProvider';
+import IconifyIcon from 'shared/components/base/IconifyIcon';
+import { projectsQueries } from '../../application/queries';
+import { Project, ProjectAttempt, ProjectAttemptLog } from '../../domain/entities/project.entity';
 
 interface ProjectAttemptsTableProps {
   project: Project;
@@ -27,7 +27,12 @@ interface ProjectAttemptsTableProps {
   onRerun?: () => void;
 }
 
-const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: ProjectAttemptsTableProps) => {
+const ProjectAttemptsTable = ({
+  project,
+  attempts,
+  isLoading,
+  onRerun,
+}: ProjectAttemptsTableProps) => {
   const { t } = useTranslation();
   const { currentUser } = useAuth();
   const [log, setLog] = useState<ProjectAttemptLog | null>(null);
@@ -112,24 +117,53 @@ const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: Project
         ) : log ? (
           <Stack direction="row" spacing={2}>
             {log.log ? (
-              <Box component="pre" sx={{ p: 2, bgcolor: 'background.neutral', borderRadius: 2, overflow: 'auto' }}>
-                <Typography component="div" variant="body2" dangerouslySetInnerHTML={{ __html: log.log }} />
+              <Box
+                component="pre"
+                sx={{ p: 2, bgcolor: 'background.neutral', borderRadius: 2, overflow: 'auto' }}
+              >
+                <Typography
+                  component="div"
+                  variant="body2"
+                  dangerouslySetInnerHTML={{ __html: log.log }}
+                />
               </Box>
             ) : null}
 
             {log.tasks?.map((task) => (
-              <Box key={`${task.taskNumber}-${task.taskTitle}`} sx={{ borderRadius: 2, border: (theme) => `1px solid ${theme.palette.divider}` }}>
+              <Box
+                key={`${task.taskNumber}-${task.taskTitle}`}
+                sx={{ borderRadius: 2, border: (theme) => `1px solid ${theme.palette.divider}` }}
+              >
                 <Stack direction="row" alignItems="center" spacing={1.5} sx={{ p: 2 }}>
-                  {task.done === true && <IconifyIcon icon="material-symbols:check-circle-outline" color="success.main" />}
-                  {task.done === false && <IconifyIcon icon="material-symbols:cancel-outline" color="error.main" />}
+                  {task.done === true && (
+                    <IconifyIcon
+                      icon="material-symbols:check-circle-outline"
+                      color="success.main"
+                    />
+                  )}
+                  {task.done === false && (
+                    <IconifyIcon icon="material-symbols:cancel-outline" color="error.main" />
+                  )}
                   <Typography fontWeight={700}>
                     {task.taskNumber}. {task.taskTitle}
                   </Typography>
                 </Stack>
                 <Divider />
                 {task.log ? (
-                  <Box component="pre" sx={{ p: 2, bgcolor: 'background.neutral', borderRadius: '0 0 12px 12px', overflow: 'auto' }}>
-                    <Typography component="div" variant="body2" dangerouslySetInnerHTML={{ __html: task.log }} />
+                  <Box
+                    component="pre"
+                    sx={{
+                      p: 2,
+                      bgcolor: 'background.neutral',
+                      borderRadius: '0 0 12px 12px',
+                      overflow: 'auto',
+                    }}
+                  >
+                    <Typography
+                      component="div"
+                      variant="body2"
+                      dangerouslySetInnerHTML={{ __html: task.log }}
+                    />
                   </Box>
                 ) : null}
               </Box>
@@ -212,7 +246,11 @@ const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: Project
                 <TableCell align="right">
                   <Stack direction="row" spacing={1} justifyContent="flex-end">
                     {(isOwner || currentUser?.isSuperuser) && (
-                      <Button size="small" variant="outlined" onClick={() => handleOpenLog(attempt.id)}>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => handleOpenLog(attempt.id)}
+                      >
                         {t('projects.log')}
                       </Button>
                     )}

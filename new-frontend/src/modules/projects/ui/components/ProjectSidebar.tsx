@@ -1,10 +1,21 @@
 import { ChangeEvent, useMemo, useState } from 'react';
-import { Box, Button, Card, CardActions, CardContent, CardHeader, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  MenuItem,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { toast } from 'sonner';
-import ProjectInfoCard from './ProjectInfoCard.tsx';
-import { Project } from '../../domain/entities/project.entity';
 import { projectsQueries } from '../../application/queries';
+import { Project } from '../../domain/entities/project.entity';
+import ProjectInfoCard from './ProjectInfoCard.tsx';
 
 interface ProjectSidebarProps {
   project: Project;
@@ -15,13 +26,23 @@ interface ProjectSidebarProps {
 
 const MAX_FILE_SIZE = 1024 * 1024; // 1 MB
 
-const ProjectSidebar = ({ project, onSubmitted, hackathonId, projectSymbol }: ProjectSidebarProps) => {
+const ProjectSidebar = ({
+  project,
+  onSubmitted,
+  hackathonId,
+  projectSymbol,
+}: ProjectSidebarProps) => {
   const { t } = useTranslation();
-  const [selectedTechnology, setSelectedTechnology] = useState(project.availableTechnologies[0]?.technology ?? '');
+  const [selectedTechnology, setSelectedTechnology] = useState(
+    project.availableTechnologies[0]?.technology ?? '',
+  );
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const technologyOptions = useMemo(() => project.availableTechnologies.map((tech) => tech.technology), [project.availableTechnologies]);
+  const technologyOptions = useMemo(
+    () => project.availableTechnologies.map((tech) => tech.technology),
+    [project.availableTechnologies],
+  );
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0];
@@ -60,8 +81,14 @@ const ProjectSidebar = ({ project, onSubmitted, hackathonId, projectSymbol }: Pr
     <Stack direction="column" spacing={3}>
       <ProjectInfoCard project={project} />
 
-      <Card elevation={0} sx={{ borderRadius: 3, border: (theme) => `1px solid ${theme.palette.divider}` }}>
-        <CardHeader title={<Typography variant="subtitle1" fontWeight={800}>{t('projects.submit')}</Typography>} />
+      <Card>
+        <CardHeader
+          title={
+            <Typography variant="subtitle1" fontWeight={800}>
+              {t('projects.submit')}
+            </Typography>
+          }
+        />
         <CardContent>
           <Stack direction="column" spacing={2}>
             <TextField
@@ -82,15 +109,20 @@ const ProjectSidebar = ({ project, onSubmitted, hackathonId, projectSymbol }: Pr
               <Typography variant="body2" fontWeight={700} sx={{ mb: 0.5 }}>
                 {t('projects.file')}
               </Typography>
-              <Button variant="outlined" component="label" fullWidth>
+              <Button variant="soft" component="label" fullWidth>
                 {file?.name ?? t('projects.maxFileSize')}
                 <input type="file" hidden accept=".txt" onChange={handleFileChange} />
               </Button>
             </Box>
           </Stack>
         </CardContent>
-        <CardActions sx={{ px: 3, pb: 3, pt: 0 }}>
-          <Button fullWidth variant="contained" onClick={handleSubmit} disabled={!file || isSubmitting}>
+        <CardActions sx={{ px: 2, pb: 3, pt: 0 }}>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={handleSubmit}
+            disabled={!file || isSubmitting}
+          >
             {t('projects.submit')}
           </Button>
         </CardActions>
