@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Button, Divider, IconButton, Stack, Tooltip } from '@mui/material';
 import AppbarActionItems from 'app/layouts/main-layout/common/AppbarActionItems';
+import { useAuth } from 'app/providers/AuthProvider';
 import KepcoinSpendConfirm from 'shared/components/common/KepcoinSpendConfirm';
 import Logo from 'shared/components/common/Logo';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
@@ -15,7 +16,6 @@ interface ProblemHeaderProps {
   canNavigate: boolean;
   problemId?: number;
   problem?: ProblemDetail | null;
-  currentUser: any;
   hasCode: boolean;
   isRunning: boolean;
   isCheckingSamples: boolean;
@@ -38,7 +38,6 @@ export const ProblemHeader = ({
   canNavigate,
   problemId,
   problem,
-  currentUser,
   hasCode,
   isRunning,
   isCheckingSamples,
@@ -54,6 +53,7 @@ export const ProblemHeader = ({
   inputValue,
 }: ProblemHeaderProps) => {
   const { t } = useTranslation();
+  const { currentUser } = useAuth();
 
   return (
     <Box

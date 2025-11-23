@@ -18,11 +18,11 @@ import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
 import { toast } from 'sonner';
 import 'swiper/css';
 import { SwiperSlide } from 'swiper/react';
+import { useAuth } from 'app/providers/AuthProvider';
 import type { ProblemDetail } from '../../../domain/entities/problem.entity';
 
 interface CustomProblemBodyProps {
   problem: ProblemDetail;
-  currentUser?: any;
 }
 
 const randomInt = (lower: number, upper: number) =>
@@ -607,7 +607,8 @@ const Problem1634Body: FC<CustomProblemBodyProps> = () => {
   );
 };
 
-const Problem1635Body: FC<CustomProblemBodyProps> = ({ currentUser }) => {
+const Problem1635Body: FC<CustomProblemBodyProps> = () => {
+  const { currentUser } = useAuth();
   const words = ['har', 'bir', 'odamda', 'bitta', 'bo`lak', 'bo`larklar', 'sonini', 'toping'];
 
   const index = useMemo(() => {
@@ -1127,9 +1128,9 @@ const CUSTOM_COMPONENTS: Record<number, FC<CustomProblemBodyProps>> = {
   1966: Problem1966Body,
 };
 
-export const CustomProblemBody = ({ problem, currentUser }: CustomProblemBodyProps) => {
+export const CustomProblemBody = ({ problem }: CustomProblemBodyProps) => {
   const Component = CUSTOM_COMPONENTS[problem.id];
   if (!Component) return null;
 
-  return <Component problem={problem} currentUser={currentUser} />;
+  return <Component problem={problem} />;
 };
