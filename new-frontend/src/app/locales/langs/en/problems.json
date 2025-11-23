@@ -95,6 +95,7 @@
       "title": "Attempts",
       "subtitle": "All submissions across problems.",
       "myAttempts": "My attempts",
+      "onlyMy": "Only my",
       "refresh": "Refresh",
       "rerun": "Re-run",
       "clear": "Clear filters",

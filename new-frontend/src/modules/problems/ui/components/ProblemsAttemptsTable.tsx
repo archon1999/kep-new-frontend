@@ -266,6 +266,7 @@ const ProblemsAttemptsTable = ({
       sortingMode="server"
       disableColumnFilter
       sx={{
+        mb: 2,
         '& .MuiDataGrid-row--hovered': { backgroundColor: alpha(theme.palette.primary.main, 0.04) },
       }}
       getRowId={(row) => row.id}

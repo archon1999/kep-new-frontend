@@ -7,12 +7,16 @@ import {
   Box,
   Button,
   Chip,
+  FormControlLabel,
   FormControl,
+  IconButton,
   InputLabel,
   Menu,
   MenuItem,
   Select,
   Stack,
+  Switch,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
@@ -97,15 +101,10 @@ const ProblemsAttemptsPage = () => {
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
 
-  const handleMyAttempts = () => {
-    if (currentUser?.username) {
-      handleFilterChange('username', currentUser.username);
-    }
-  };
-
   const handlePaginationChange = (model: GridPaginationModel) => setPaginationModel(model);
 
   const filtersOpen = Boolean(filtersAnchorEl);
+  const isOnlyMyAttempts = Boolean(currentUser?.username && filter.username === currentUser.username);
 
   const problemSuggestionsFetcher = async ([, search]: [string, string]) => {
     const term = (search ?? '').trim();
@@ -177,22 +176,26 @@ const ProblemsAttemptsPage = () => {
         ]}
         actionComponent={
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleMyAttempts}
-              startIcon={<IconifyIcon icon="mdi:account-circle-outline" width={18} height={18} />}
-            >
-              {t('problems.attempts.myAttempts')}
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => mutate()}
-              startIcon={<IconifyIcon icon="mdi:reload" width={18} height={18} />}
-            >
-              {t('problems.attempts.refresh')}
-            </Button>
+            <FormControlLabel
+              control={
+                <Switch
+                  size="small"
+                  checked={isOnlyMyAttempts}
+                  onChange={(_, checked) => {
+                    if (!currentUser?.username) return;
+                    handleFilterChange('username', checked ? currentUser.username : '');
+                  }}
+                  color="primary"
+                />
+              }
+              label={t('problems.attempts.onlyMy')}
+              disabled={!currentUser?.username}
+            />
+            <Tooltip title={t('problems.attempts.refresh')}>
+              <IconButton color="primary" onClick={() => mutate()}>
+                <IconifyIcon icon="mdi:reload" width={18} height={18} />
+              </IconButton>
+            </Tooltip>
             <Button
               id="attempts-filters-button"
               variant="outlined"
@@ -205,14 +208,13 @@ const ProblemsAttemptsPage = () => {
             >
               {t('problems.filterTitle')}
             </Button>
-            <Button
-              variant="text"
-              color="error"
-              onClick={handleReset}
-              startIcon={<IconifyIcon icon="mdi:close" width={18} height={18} />}
-            >
-              {t('problems.attempts.clear')}
-            </Button>
+            {(filter.username || filter.problemId || filter.verdict || filter.lang) && (
+              <Tooltip title={t('problems.attempts.clear')}>
+                <IconButton color="error" onClick={handleReset}>
+                  <IconifyIcon icon="mdi:close" width={18} height={18} />
+                </IconButton>
+              </Tooltip>
+            )}
           </Stack>
         }
       />
