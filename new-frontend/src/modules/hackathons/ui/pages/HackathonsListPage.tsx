@@ -22,7 +22,7 @@ const HackathonsListPage = () => {
             overflow: 'hidden',
             borderRadius: 3,
             bgcolor: 'background.paper',
-            background: `linear-gradient(135deg, ${cssVarRgba(theme.vars.palette.success.lightChannel, 0.08)}, ${cssVarRgba(theme.vars.palette.success.mainChannel, 0.06)})`,
+            background: `linear-gradient(135deg, ${cssVarRgba(theme.vars.palette.secondary.lightChannel, 0.08)}, ${cssVarRgba(theme.vars.palette.secondary.mainChannel, 0.06)})`,
           })}
         >
           <CardContent sx={{ p: { xs: 3, md: 4 } }}>
