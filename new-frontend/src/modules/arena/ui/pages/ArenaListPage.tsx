@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Pagination, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, Pagination, Skeleton, Stack, Typography } from '@mui/material';
 import { useArenasList } from '../../application/queries.ts';
 import ArenaListCard from '../components/ArenaListCard.tsx';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { cssVarRgba } from 'shared/lib/utils';
+import Logo from 'shared/components/common/Logo';
 
 const ArenaListPage = () => {
   const { t } = useTranslation();
@@ -29,14 +31,38 @@ const ArenaListPage = () => {
   return (
     <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
-        <Stack direction="column" spacing={1}>
-          <Typography variant="h4" fontWeight={800}>
-            {t('arena.title')}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {subtitle}
-          </Typography>
-        </Stack>
+        <Card
+          sx={(theme) => ({
+            position: 'relative',
+            overflow: 'hidden',
+            borderRadius: 3,
+            bgcolor: 'background.paper',
+            background: `linear-gradient(135deg, ${cssVarRgba(theme.vars.palette.warning.lightChannel, 0.08)}, ${cssVarRgba(theme.vars.palette.warning.mainChannel, 0.06)})`,
+          })}
+        >
+          <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+            <Stack direction="column" spacing={1.25}>
+              <Typography variant="h4" fontWeight={800}>
+                {t('arena.title')}
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 720 }}>
+                {subtitle}
+              </Typography>
+            </Stack>
+          </CardContent>
+
+          <Box
+            sx={{
+              position: 'absolute',
+              right: { xs: -24, md: 24 },
+              bottom: { xs: -24, md: 8 },
+              opacity: 0.08,
+              pointerEvents: 'none',
+            }}
+          >
+            <Logo sx={{ width: { xs: 200, md: 280 }, height: { xs: 200, md: 280 } }} />
+          </Box>
+        </Card>
 
         {isLoading
           ? Array.from({ length: 6 }).map((_) => <Skeleton variant="rounded" height={200} />)

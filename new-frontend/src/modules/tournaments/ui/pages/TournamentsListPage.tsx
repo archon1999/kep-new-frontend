@@ -1,8 +1,10 @@
-import { Box, Chip, Grid, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTournamentsList } from '../../application/queries';
 import TournamentCard from '../components/TournamentCard';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { cssVarRgba } from 'shared/lib/utils';
+import Logo from 'shared/components/common/Logo';
 
 const TournamentsListPage = () => {
   const { t } = useTranslation();
@@ -14,20 +16,38 @@ const TournamentsListPage = () => {
   return (
     <Box sx={responsivePagePaddingSx}>
       <Stack direction="column" spacing={3}>
-        <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" rowGap={1}>
-          <Box>
-            <Typography variant="h4" fontWeight={800} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              {t('menu.tournaments')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {t('tournaments.subtitle')}
-            </Typography>
-          </Box>
+        <Card
+          sx={(theme) => ({
+            position: 'relative',
+            overflow: 'hidden',
+            borderRadius: 3,
+            bgcolor: 'background.paper',
+            background: `linear-gradient(135deg, ${cssVarRgba(theme.vars.palette.secondary.lightChannel, 0.08)}, ${cssVarRgba(theme.vars.palette.secondary.mainChannel, 0.06)})`,
+          })}
+        >
+          <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+            <Stack direction="column" spacing={1.25}>
+              <Typography variant="h4" fontWeight={800} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                {t('menu.tournaments')}
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 720 }}>
+                {t('tournaments.subtitle')}
+              </Typography>
+            </Stack>
+          </CardContent>
 
-          {pageResult ? (
-            <Chip label={t('tournaments.countLabel', { count: pageResult.total ?? tournaments.length })} />
-          ) : null}
-        </Stack>
+          <Box
+            sx={{
+              position: 'absolute',
+              right: { xs: -24, md: 24 },
+              bottom: { xs: -24, md: 8 },
+              opacity: 0.08,
+              pointerEvents: 'none',
+            }}
+          >
+            <Logo sx={{ width: { xs: 200, md: 280 }, height: { xs: 200, md: 280 } }} />
+          </Box>
+        </Card>
 
         {showEmptyState ? (
           <Box
