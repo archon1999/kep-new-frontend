@@ -1,6 +1,5 @@
 import { MouseEvent, useMemo, useState } from 'react';
 import {
-  Badge,
   Box,
   Button,
   Card,
@@ -40,6 +39,7 @@ import { responsivePagePaddingSx } from 'shared/lib/styles';
 import CustomTablePaginationAction from 'shared/components/pagination/CustomTablePaginationAction.tsx';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
 import { getResourceById, resources } from 'app/routes/resources.ts';
+import FilterButton from 'shared/components/common/FilterButton';
 import {
   difficultyOptions,
   difficultyColorByKey,
@@ -444,25 +444,14 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                 </Select>
               </FormControl>
 
-              <Button
-                variant={filtersOpen || activeFilters.length ? 'contained' : 'outlined'}
-                color="primary"
-                startIcon={<IconifyIcon icon="mdi:tune" />}
-                endIcon={<IconifyIcon icon="mdi:chevron-down" />}
+              <FilterButton
                 onClick={handleFiltersOpen}
+                label={t('problems.filters')}
+                badgeContent={activeFilters.length}
+                aria-haspopup="true"
+                aria-expanded={filtersOpen ? 'true' : undefined}
                 sx={{ minWidth: { xs: '100%', sm: 180 }, height: 40 }}
-              >
-                <Badge
-                  color="secondary"
-                  badgeContent={activeFilters.length}
-                  invisible={!activeFilters.length}
-                  overlap="circular"
-                >
-                  <Typography variant="button" sx={{ textTransform: 'none' }}>
-                    {t('problems.filters')}
-                  </Typography>
-                </Badge>
-              </Button>
+              />
             </Stack>
           </Stack>
 
