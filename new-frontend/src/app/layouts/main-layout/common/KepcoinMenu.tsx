@@ -109,7 +109,7 @@ const KepcoinMenu = ({ type = 'default' }: KepcoinMenuProps) => {
           },
         }}
       >
-        <Stack spacing={2} sx={{ p: 2 }}>
+        <Stack direction="row" spacing={2} sx={{ p: 2 }}>
           <KepcoinValue value={formattedBalance} iconSize={30} textVariant="h6" fontWeight={700} />
 
           <Button

@@ -42,6 +42,7 @@ const DefaultAuthLayout = ({ children }: PropsWithChildren) => {
           }}
         >
           <Stack
+            direction="row"
             sx={{
               justifyContent: { xs: 'center', md: 'flex-start' },
               mb: { xs: 5, md: 0 },
@@ -51,6 +52,7 @@ const DefaultAuthLayout = ({ children }: PropsWithChildren) => {
           </Stack>
 
           <Stack
+            direction="row"
             sx={{
               justifyContent: 'center',
               alignItems: 'center',

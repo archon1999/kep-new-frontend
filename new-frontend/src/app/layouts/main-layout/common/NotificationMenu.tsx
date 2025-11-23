@@ -505,7 +505,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
         <Box sx={{ pt: 1, flex: 1, overflow: 'hidden' }}>{renderList()}</Box>
 
         {pagesCount > 1 && (
-          <Stack alignItems="center" justifyContent="center" sx={{ py: 1 }}>
+          <Stack direction="row" alignItems="center" justifyContent="center" sx={{ py: 1 }}>
             <Pagination
               count={pagesCount}
               page={pageNumber}
@@ -517,7 +517,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
         <Divider />
 
-        <Stack spacing={1} sx={{ px: 2, py: 1 }}>
+        <Stack direction="row" spacing={1} sx={{ px: 2, py: 1 }}>
           <Button fullWidth variant="contained" color="primary" onClick={handleToggleView}>
             {showAll ? 'Show unread only' : 'Show all notifications'}
           </Button>
