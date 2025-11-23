@@ -16,6 +16,7 @@ const ProblemsListPage = lazy(() => import('modules/problems/ui/pages/ProblemsLi
 const ProblemsRatingPage = lazy(() => import('modules/problems/ui/pages/ProblemsRatingPage'));
 const ProblemsAttemptsPage = lazy(() => import('modules/problems/ui/pages/ProblemsAttemptsPage'));
 const ProblemDetailPage = lazy(() => import('modules/problems/ui/pages/ProblemDetailPage'));
+const ProblemsUserStatisticsPage = lazy(() => import('modules/problems/ui/pages/ProblemsUserStatisticsPage'));
 const UsersListPage = lazy(() => import('modules/users/ui/pages/UsersListPage'));
 const ProjectsListPage = lazy(() => import('modules/projects/ui/pages/ProjectsListPage'));
 const ProjectDetailPage = lazy(() => import('modules/projects/ui/pages/ProjectDetailPage'));
@@ -126,6 +127,11 @@ export const routes: RouteObject[] = [
             path: resources.ProblemsRating,
             element: <ProblemsRatingPage />,
             handle: { titleKey: 'pageTitles.problemsRating' },
+          },
+          {
+            path: resources.ProblemsUserStatistics,
+            element: <ProblemsUserStatisticsPage />,
+            handle: { titleKey: 'pageTitles.problemsStats' },
           },
           {
             path: resources.Attempts,

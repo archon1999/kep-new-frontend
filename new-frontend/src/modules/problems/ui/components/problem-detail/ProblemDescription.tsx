@@ -279,7 +279,9 @@ export const ProblemDescription = ({
           </>
         ) : null}
 
-        {activeTab === 'stats' ? <ProblemStatisticsTab problemId={problem.id} /> : null}
+        {activeTab === 'stats' ? (
+          <ProblemStatisticsTab problemId={problem.id} problem={problem} />
+        ) : null}
 
         {activeTab === 'hacks' ? (
           <HackAttemptsCard

@@ -1,6 +1,7 @@
 import { ApiProblemsListParams } from 'shared/api/orval/generated/endpoints/index.schemas';
 import {
   AttemptFilterOption,
+  AttemptDetail,
   AttemptListItem,
   DifficultyBreakdown,
   HackAttempt,
@@ -18,6 +19,7 @@ import {
   ProblemVoteResult,
   ProblemsRatingRow,
   ProblemsRatingSummary,
+  ProblemsUserStatistics,
 } from '../entities/problem.entity.ts';
 
 export interface PageResult<T> {
@@ -53,6 +55,11 @@ export type AttemptsListParams = {
   lang?: string;
   page?: number;
   pageSize?: number;
+};
+
+export type ProblemsStatisticsParams = {
+  year?: number;
+  days?: number;
 };
 
 export type HackAttemptsListParams = {
@@ -100,7 +107,11 @@ export interface ProblemsRepository {
   listRating(params: ProblemsRatingParams): Promise<PageResult<ProblemsRatingRow>>;
   listPeriodRating(period: 'today' | 'week' | 'month'): Promise<PeriodRatingEntry[]>;
   listAttempts(params: AttemptsListParams): Promise<PageResult<AttemptListItem>>;
+  getAttempt(attemptId: number): Promise<AttemptDetail>;
+  purchaseAttempt(attemptId: number): Promise<void>;
+  purchaseAttemptTest(attemptId: number): Promise<void>;
   listVerdicts(): Promise<AttemptFilterOption[]>;
+  getUserStatistics(username: string, params?: ProblemsStatisticsParams): Promise<ProblemsUserStatistics>;
   rerunAttempt(attemptId: number): Promise<void>;
   listHackAttempts(params: HackAttemptsListParams): Promise<PageResult<HackAttempt>>;
   rerunHackAttempt(hackAttemptId: number): Promise<void>;

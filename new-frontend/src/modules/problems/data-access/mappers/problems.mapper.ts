@@ -1,6 +1,7 @@
 import { CategoryTag, ProblemList, ProblemsCategory } from 'shared/api/orval/generated/endpoints/index.schemas';
 import {
   AttemptFilterOption,
+  AttemptDetail,
   AttemptListItem,
   DifficultyBreakdown,
   HackAttempt,
@@ -26,12 +27,15 @@ import {
   ProblemVoteResult,
   ProblemsRatingRow,
   ProblemsRatingSummary,
+  ProblemsUserStatistics,
 } from '../../domain/entities/problem.entity.ts';
 import { PageResult } from '../../domain/ports/problems.repository.ts';
 
 const toNumber = (value: unknown) => (typeof value === 'number' ? value : Number(value) || 0);
 const toNullableNumber = (value: any) =>
   value === null || value === undefined || value === '' ? undefined : toNumber(value);
+const toOptionalBoolean = (value: any) =>
+  value === undefined || value === null ? undefined : Boolean(value);
 const tryParseJson = (value: any) => {
   if (typeof value !== 'string') return value;
 
@@ -256,15 +260,27 @@ export const mapAttempt = (payload: any): AttemptListItem => ({
   memory: toNullableNumber(payload?.memory),
   sourceCodeSize: toNullableNumber(payload?.sourceCodeSize ?? payload?.source_code_size),
   balls: toNullableNumber(payload?.balls),
-  canView: payload?.canView ?? payload?.can_view,
-  canTestView: payload?.canTestView ?? payload?.can_test_view,
+  canView: toOptionalBoolean(payload?.canView ?? payload?.can_view),
+  canTestView: toOptionalBoolean(payload?.canTestView ?? payload?.can_test_view),
   kepcoinValue: toNullableNumber(payload?.kepcoinValue ?? payload?.kepcoin_value),
   testCaseKepcoinValue: toNullableNumber(
     payload?.testCaseKepcoinValue ?? payload?.test_case_kepcoin_value,
   ),
   created: payload?.created,
-  problemHasCheckInput: payload?.problemHasCheckInput ?? payload?.problem_has_check_input,
+  problemHasCheckInput: Boolean(
+    payload?.problemHasCheckInput ?? payload?.problem_has_check_input ?? false,
+  ),
 });
+
+export const mapAttemptDetail = (payload: any): AttemptDetail => {
+  const base = mapAttempt(payload);
+
+  return {
+    ...base,
+    sourceCode: payload?.sourceCode ?? payload?.source_code ?? '',
+    errorMessage: payload?.errorMessage ?? payload?.error_message ?? '',
+  };
+};
 
 export const mapAttemptsPage = (payload: any): PageResult<AttemptListItem> =>
   mapPageResult(payload, (item) => mapAttempt(item));
@@ -397,6 +413,109 @@ export const mapProblemStatistics = (payload: any): ProblemStatistics => ({
     }),
   ),
 });
+
+const mapFactAttempt = (fact: any) => {
+  if (!fact) return null;
+
+  return {
+    problemId: toNumber(fact?.problemId ?? fact?.problem_id),
+    problemTitle: fact?.problemTitle ?? fact?.problem_title ?? '',
+    datetime: fact?.datetime ?? fact?.date,
+    verdict: fact?.verdict !== undefined ? toNumber(fact?.verdict) : undefined,
+    verdictTitle: fact?.verdictTitle ?? fact?.verdict_title,
+    attemptsCount:
+      fact?.attemptsCount !== undefined
+        ? toNumber(fact?.attemptsCount ?? fact?.attempts_count)
+        : undefined,
+  };
+};
+
+const mapTimeEntry = (item: any) => ({
+  label: item?.day ?? item?.month ?? item?.period ?? item?.label ?? '',
+  solved: toNumber(item?.solved ?? item?.value),
+});
+
+export const mapProblemsUserStatistics = (payload: any): ProblemsUserStatistics => {
+  const general = payload?.general ?? payload ?? {};
+  const meta = payload?.meta ?? {};
+  const lastDays = payload?.lastDays ?? payload?.last_days ?? {};
+  const attemptsRaw = payload?.numberOfAttempts ?? payload?.number_of_attempts ?? {};
+  const heatmapRange = meta?.heatmapRange ?? meta?.heatmap_range;
+  const metaLastDays = meta?.lastDays ?? meta?.last_days;
+
+  return {
+    general: {
+      solved: toNumber(general?.solved ?? payload?.solved),
+      rating: toNumber(general?.rating ?? payload?.rating),
+      rank: general?.rank ?? payload?.rank ?? '-',
+      usersCount: toNumber(
+        general?.usersCount ?? general?.users_count ?? payload?.usersCount ?? payload?.users_count,
+      ),
+    },
+    byDifficulty: mapDifficultyBreakdown(payload?.byDifficulty ?? payload?.difficulty ?? payload),
+    byTopic: (payload?.byTopic ?? payload?.topics ?? []).map((item: any) => ({
+      id: toNumber(item?.id),
+      topic: item?.topic ?? item?.name ?? '',
+      code: item?.code,
+      solved: toNumber(item?.solved ?? item?.value),
+    })),
+    facts: {
+      firstAttempt: mapFactAttempt(payload?.facts?.firstAttempt),
+      lastAttempt: mapFactAttempt(payload?.facts?.lastAttempt),
+      firstAccepted: mapFactAttempt(payload?.facts?.firstAccepted),
+      lastAccepted: mapFactAttempt(payload?.facts?.lastAccepted),
+      mostAttemptedProblem: mapFactAttempt(payload?.facts?.mostAttemptedProblem),
+      mostAttemptedForSolveProblem: mapFactAttempt(payload?.facts?.mostAttemptedForSolveProblem),
+      solvedWithSingleAttempt: toNumber(payload?.facts?.solvedWithSingleAttempt),
+      solvedWithSingleAttemptPercentage: toNumber(
+        payload?.facts?.solvedWithSingleAttemptPercentage,
+      ),
+    },
+    byLang: (payload?.byLang ?? payload?.langs ?? []).map((item: any) => ({
+      lang: item?.lang ?? '',
+      langFull: item?.langFull ?? item?.lang ?? '',
+      solved: toNumber(item?.solved ?? item?.value),
+    })),
+    byTag: (payload?.byTag ?? payload?.tags ?? []).map((item: any) => ({
+      name: item?.name ?? '',
+      value: toNumber(item?.value),
+    })),
+    byWeekday: (payload?.byWeekday ?? []).map(mapTimeEntry),
+    byMonth: (payload?.byMonth ?? []).map(mapTimeEntry),
+    byPeriod: (payload?.byPeriod ?? []).map(mapTimeEntry),
+    lastDays: {
+      series: Array.isArray(lastDays?.series)
+        ? lastDays.series.map((value: any) => toNumber(value))
+        : [],
+      solved: toNumber(lastDays?.solved),
+    },
+    heatmap: (payload?.heatmap ?? []).map((item: any) => ({
+      date: item?.date ?? item?.day ?? '',
+      solved: toNumber(item?.solved ?? item?.value),
+    })),
+    numberOfAttempts: {
+      chartSeries: (attemptsRaw?.chartSeries ?? attemptsRaw?.chart_series ?? []).map(
+        (item: any) => ({
+          attemptsCount: toNumber(item?.attemptsCount ?? item?.attempts ?? item?.x),
+          value: toNumber(item?.value ?? item?.y),
+        }),
+      ),
+    },
+    meta: {
+      lastDays:
+        metaLastDays === undefined || metaLastDays === null ? undefined : toNumber(metaLastDays),
+      allowedLastDays: (meta?.allowedLastDays ?? meta?.allowed_last_days ?? [])
+        .map((item: any) => toNumber(item))
+        .filter((item: number) => item > 0),
+      heatmapRange: heatmapRange
+        ? {
+            from: heatmapRange.from ?? heatmapRange?.from_date,
+            to: heatmapRange.to ?? heatmapRange?.to_date,
+          }
+        : undefined,
+    },
+  };
+};
 
 export const mapHackAttempt = (payload: any): HackAttempt => ({
   id: toNumber(payload?.id),

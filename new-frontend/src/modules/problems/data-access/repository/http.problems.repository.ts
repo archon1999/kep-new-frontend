@@ -1,5 +1,6 @@
 import { ApiAttemptsListParams, ApiProblemsListParams, ApiProblemsRatingListParams } from 'shared/api/orval/generated/endpoints/index.schemas';
 import {
+  mapAttemptDetail,
   mapAttempts,
   mapCategories,
   mapContestPreview,
@@ -11,6 +12,7 @@ import {
   mapProblemSolution,
   mapProblemStatistics,
   mapProblemTag,
+  mapProblemsUserStatistics,
   mapProblemVoteResult,
   mapProblemsRatingPage,
   mapProblemsPage,
@@ -20,6 +22,7 @@ import {
 } from '../mappers/problems.mapper.ts';
 import { problemsApiClient } from '../api/problems.client.ts';
 import {
+  AttemptDetail,
   AttemptListItem,
   HackAttempt,
   PeriodRatingEntry,
@@ -32,6 +35,7 @@ import {
   ProblemVoteResult,
   ProblemsRatingRow,
   ProblemsRatingSummary,
+  ProblemsUserStatistics,
 } from '../../domain/entities/problem.entity.ts';
 import {
   AttemptsListParams,
@@ -40,6 +44,7 @@ import {
   ProblemsListParams,
   ProblemsRatingParams,
   ProblemsRepository,
+  ProblemsStatisticsParams,
 } from '../../domain/ports/problems.repository.ts';
 
 const mapFilterToApiParams = (params: ProblemsListParams): ApiProblemsListParams => {
@@ -219,6 +224,14 @@ export class HttpProblemsRepository implements ProblemsRepository {
     return mapRatingSummary(response, difficulties);
   }
 
+  async getUserStatistics(
+    username: string,
+    params?: ProblemsStatisticsParams,
+  ): Promise<ProblemsUserStatistics> {
+    const response = await problemsApiClient.getUserStatistics(username, params);
+    return mapProblemsUserStatistics(response);
+  }
+
   async listRating(params: ProblemsRatingParams): Promise<PageResult<ProblemsRatingRow>> {
     const response = await problemsApiClient.listRating(mapRatingFilter(params));
     return mapProblemsRatingPage(response);
@@ -232,6 +245,19 @@ export class HttpProblemsRepository implements ProblemsRepository {
   async listAttempts(params: AttemptsListParams): Promise<PageResult<AttemptListItem>> {
     const response = await problemsApiClient.listAttempts(mapAttemptsFilter(params));
     return mapAttemptsPage(response);
+  }
+
+  async getAttempt(attemptId: number): Promise<AttemptDetail> {
+    const response = await problemsApiClient.getAttempt(attemptId);
+    return mapAttemptDetail(response);
+  }
+
+  async purchaseAttempt(attemptId: number): Promise<void> {
+    await problemsApiClient.purchaseAttempt(attemptId);
+  }
+
+  async purchaseAttemptTest(attemptId: number): Promise<void> {
+    await problemsApiClient.purchaseAttemptTest(attemptId);
   }
 
   async listVerdicts() {

@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
-import { Chip, IconButton, Paper, Tooltip, Typography, alpha, useTheme } from '@mui/material';
+import { Button, Chip, IconButton, Paper, Tooltip, Typography, alpha, useTheme } from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { getResourceById, resources } from 'app/routes/resources';
@@ -10,6 +10,7 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import AttemptLanguage from 'shared/components/problems/AttemptLanguage';
 import AttemptVerdict, { VerdictKey } from 'shared/components/problems/AttemptVerdict';
 import { wsService } from 'shared/services/websocket';
+import AttemptDetailDialog from './AttemptDetailDialog.tsx';
 import { problemsQueries } from '../../application/queries';
 import { AttemptListItem } from '../../domain/entities/problem.entity';
 
@@ -47,11 +48,20 @@ const ProblemsAttemptsTable = ({
   const { currentUser } = useAuth();
   const [rows, setRows] = useState<AttemptListItem[]>(attempts ?? []);
   const [lastUpdatedAttempt, setLastUpdatedAttempt] = useState<AttemptListItem | null>(null);
+  const [selectedAttempt, setSelectedAttempt] = useState<AttemptListItem | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
   const trackedIdsRef = useRef<number[]>([]);
 
   useEffect(() => {
     setRows(attempts ?? []);
-  }, [attempts]);
+
+    if (selectedAttempt) {
+      const freshAttempt = (attempts ?? []).find((item) => item.id === selectedAttempt.id);
+      if (freshAttempt) {
+        setSelectedAttempt((prev) => (prev ? { ...prev, ...freshAttempt } : prev));
+      }
+    }
+  }, [attempts, selectedAttempt?.id]);
 
   useEffect(() => {
     const newIds = (attempts ?? []).map((attempt) => attempt.id);
@@ -76,11 +86,13 @@ const ProblemsAttemptsTable = ({
 
   useEffect(() => {
     const unsubscribe = wsService.on<AttemptUpdatePayload>('attempt-update', (payload) => {
+      let updatedAttempt: AttemptListItem | null = null;
+
       setRows((prev) => {
         const index = prev.findIndex((attempt) => attempt.id === payload.id);
         if (index === -1) return prev;
 
-        const updatedAttempt: AttemptListItem = {
+        const nextAttempt: AttemptListItem = {
           ...prev[index],
           verdict: payload.verdict,
           verdictTitle: payload.verdictTitle,
@@ -90,29 +102,59 @@ const ProblemsAttemptsTable = ({
           balls: payload.balls ?? undefined,
         };
 
+        updatedAttempt = nextAttempt;
+
+        const nextAttempts = [...prev];
+        nextAttempts[index] = nextAttempt;
+        return nextAttempts;
+      });
+
+      if (updatedAttempt) {
         if (currentUser?.username && updatedAttempt.user.username === currentUser.username) {
           setLastUpdatedAttempt(updatedAttempt);
         }
 
-        const nextAttempts = [...prev];
-        nextAttempts[index] = updatedAttempt;
-        return nextAttempts;
-      });
+        setSelectedAttempt((prev) =>
+          prev && prev.id === updatedAttempt?.id ? { ...prev, ...updatedAttempt } : prev,
+        );
+      }
     });
 
     return unsubscribe;
   }, [currentUser?.username]);
 
-  const formatDateTime = (value?: string) => {
-    if (!value) return '—';
+  const handleOpenDetail = useCallback((attempt: AttemptListItem) => {
+    setSelectedAttempt(attempt);
+    setIsDetailOpen(true);
+  }, []);
+
+  const handleCloseDetail = useCallback(() => {
+    setIsDetailOpen(false);
+    setSelectedAttempt(null);
+  }, []);
+
+  const handleAttemptUpdated = useCallback(
+    (attemptId: number, changes: Partial<AttemptListItem>) => {
+      setRows((prev) => prev.map((item) => (item.id === attemptId ? { ...item, ...changes } : item)));
+      setSelectedAttempt((prev) => (prev && prev.id === attemptId ? { ...prev, ...changes } : prev));
+      onRerun?.();
+    },
+    [onRerun],
+  );
+
+  const formatDateTime = useCallback((value?: string) => {
+    if (!value) return '--';
     const date = new Date(value);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-  };
+  }, []);
 
-  const handleRerun = async (attemptId: number) => {
-    await problemsQueries.problemsRepository.rerunAttempt(attemptId);
-    onRerun?.();
-  };
+  const handleRerun = useCallback(
+    async (attemptId: number) => {
+      await problemsQueries.problemsRepository.rerunAttempt(attemptId);
+      onRerun?.();
+    },
+    [onRerun],
+  );
 
   const columns: GridColDef<AttemptListItem>[] = useMemo(() => {
     const baseColumns: GridColDef<AttemptListItem>[] = [
@@ -124,9 +166,22 @@ const ProblemsAttemptsTable = ({
         sortable: false,
         headerAlign: 'center',
         renderCell: ({ row }) => (
-          <Typography variant="body2" fontWeight={700}>
-            {row.id}
-          </Typography>
+          <Button
+            color="primary"
+            size="small"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleOpenDetail(row);
+            }}
+            sx={{
+              fontWeight: 700,
+              textTransform: 'none',
+              minWidth: 0,
+              p: 0,
+            }}
+          >
+            #{row.id}
+          </Button>
         ),
       },
       {
@@ -252,7 +307,7 @@ const ProblemsAttemptsTable = ({
       });
     }
     return baseColumns;
-  }, [currentUser?.isSuperuser, showProblemColumn, t]);
+  }, [currentUser?.isSuperuser, showProblemColumn, t, formatDateTime, handleOpenDetail, handleRerun]);
 
   return (
     <>
@@ -299,6 +354,13 @@ const ProblemsAttemptsTable = ({
           />
         </Paper>
       )}
+
+      <AttemptDetailDialog
+        open={isDetailOpen}
+        attempt={selectedAttempt}
+        onClose={handleCloseDetail}
+        onAttemptUpdated={handleAttemptUpdated}
+      />
     </>
   );
 };

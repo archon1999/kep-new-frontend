@@ -55,11 +55,31 @@
         "verdict": "Natija",
         "time": "Vaqt",
         "memory": "Xotira",
-        "size": "Hajm"
-      },
-      "ms": "ms",
-      "kb": "Kb"
+      "size": "Hajm"
     },
+    "ms": "ms",
+    "kb": "Kb",
+    "modal": {
+      "title": "Urinish #{{id}}",
+      "subtitle": "{{user}} yuborgan",
+      "unknownUser": "Noma'lum foydalanuvchi",
+      "verdict": "Verdikt",
+      "time": "Vaqt",
+      "memory": "Xotira",
+      "size": "Hajm",
+      "submitted": "Yuborilgan vaqti",
+      "purchaseAttempt": "Urinishni ko‘rish",
+      "lockedDescription": "Bu urinish kodini ochish uchun Kepcoin to‘lang.",
+      "loadError": "Urinish tafsilotlarini yuklab bo‘lmadi.",
+      "codePlaceholder": "Kod urinish ochilgach ko‘rsatiladi.",
+      "errorTitle": "Xato xabari",
+      "failedTestTitle": "Muvaffaqiyatsiz test #{{number}}",
+      "failedTestDescription": "Ushbu urinishdagi o‘tmagan testni ko‘ring.",
+      "viewTest": "Testni ko‘rish",
+      "purchaseTest": "Testni sotib olish",
+      "testUnavailable": "Test faqat o‘zingizning urinishlaringiz uchun mavjud."
+    }
+  },
     "emptyTitle": "Masalalar topilmadi",
     "emptySubtitle": "Filtr yoki qidiruv parametrlarini o‘zgartirib ko‘ring.",
     "solution": "Yechim",
@@ -186,8 +206,80 @@
       "hacker": "Hujumchi",
       "defender": "Himoyachi",
       "tagsTopics": "Teglar va mavzular",
-      "codeTab": "Kod"
+      "codeTab": "Kod",
+      "statisticsTitle": "Masala statistikasi",
+      "attemptStatistics": "Verdiktlar taqsimoti",
+      "languageStatistics": "Dasturlash tillari",
+      "numberAttemptsSolve": "Ishlash uchun urinishlar soni",
+      "topAttempts": "Eng yaxshi urinishlar",
+      "time": "Vaqt",
+      "memory": "Xotira",
+      "codeSize": "Kod hajmi",
+      "user": "Foydalanuvchi",
+      "result": "Natija",
+      "noTopAttempts": "Hali ma'lumot yo'q.",
+      "usersSolved": "Yechganlar",
+      "usersUnsolved": "Yechmaganlar",
+      "solved": "Yechildi"
     },
-    "resultsCount": "Masalalar: {{count}}"
+    "resultsCount": "Masalalar: {{count}}",
+    "statisticsPage": {
+      "title": "Masalalar statistikasi",
+      "subtitle": "Masalalarni yechishdagi faolligingiz va kuchli tomonlaringiz.",
+      "viewAttempts": "Urinishlarim",
+      "authRequired": "Statistikani ko'rish uchun tizimga kiring.",
+      "noData": "Ma'lumot yo'q.",
+      "emptyValue": "-",
+      "attemptsCount": "{{count}} urinish",
+      "solved": "Yechildi",
+      "cards": {
+        "solved": "Yechilgan",
+        "problems": "Masalalar",
+        "rating": "Reyting",
+        "rank": "O'rin",
+        "usersCount": "{{count}} foydalanuvchi",
+        "singleAttempt": "Bitta urinishda ishlangan"
+      },
+      "profile": {
+        "languages": "Tillar",
+        "tags": "Teglar",
+        "topics": "Mavzular"
+      },
+      "activity": {
+        "title": "Faollik",
+        "seriesLabel": "Yechildi"
+      },
+      "difficulty": {
+        "title": "Qiyinchilik",
+        "overview": "{{solved}} / {{total}}"
+      },
+      "heatmap": {
+        "title": "Issiqlik xaritasi"
+      },
+      "time": {
+        "title": "Vaqt bo'yicha"
+      },
+      "attempts": {
+        "title": "Yechish uchun urinishlar"
+      },
+      "facts": {
+        "title": "Faktlar",
+        "firstAttempt": "Birinchi urinish",
+        "firstAccepted": "Birinchi yechilgan",
+        "lastAttempt": "Oxirgi urinish",
+        "lastAccepted": "Oxirgi yechilgan",
+        "mostAttempted": "Eng ko'p urinish bo'lgan masala",
+        "mostAttemptedForSolve": "Yechish uchun eng ko'p urinish"
+      },
+      "weekday": {
+        "sundayShort": "Yak",
+        "mondayShort": "Du",
+        "tuesdayShort": "Se",
+        "wednesdayShort": "Chor",
+        "thursdayShort": "Pay",
+        "fridayShort": "Ju",
+        "saturdayShort": "Sha"
+      }
+    }
   }
 }

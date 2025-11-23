@@ -199,6 +199,11 @@ export interface AttemptListItem {
   problemHasCheckInput?: boolean;
 }
 
+export interface AttemptDetail extends AttemptListItem {
+  sourceCode?: string;
+  errorMessage?: string;
+}
+
 export interface AttemptFilterOption {
   label: string;
   value: number;
@@ -310,4 +315,89 @@ export interface ProblemVoteResult {
   dislikesCount: number;
   voteType?: number | null;
   isFavorite?: boolean;
+}
+
+export interface ProblemsStatisticsGeneralInfo {
+  solved: number;
+  rating: number;
+  rank: number | string;
+  usersCount: number;
+}
+
+export interface ProblemsStatisticsLangStat {
+  lang: string;
+  langFull: string;
+  solved: number;
+}
+
+export interface ProblemsStatisticsTagStat {
+  name: string;
+  value: number;
+}
+
+export interface ProblemsStatisticsTopicStat {
+  id: number;
+  topic: string;
+  code?: string;
+  solved: number;
+}
+
+export interface ProblemsStatisticsFactAttempt {
+  problemId?: number;
+  problemTitle?: string;
+  datetime?: string;
+  verdict?: number;
+  verdictTitle?: string;
+  attemptsCount?: number;
+}
+
+export interface ProblemsStatisticsFacts {
+  firstAttempt?: ProblemsStatisticsFactAttempt | null;
+  lastAttempt?: ProblemsStatisticsFactAttempt | null;
+  firstAccepted?: ProblemsStatisticsFactAttempt | null;
+  lastAccepted?: ProblemsStatisticsFactAttempt | null;
+  mostAttemptedProblem?: ProblemsStatisticsFactAttempt | null;
+  mostAttemptedForSolveProblem?: ProblemsStatisticsFactAttempt | null;
+  solvedWithSingleAttempt?: number;
+  solvedWithSingleAttemptPercentage?: number;
+}
+
+export interface ProblemsStatisticsTimeEntry {
+  label: string;
+  solved: number;
+}
+
+export interface ProblemsStatisticsHeatmapEntry {
+  date: string;
+  solved: number;
+}
+
+export interface ProblemsStatisticsAttemptsChartEntry {
+  attemptsCount: number;
+  value: number;
+}
+
+export interface ProblemsStatisticsMeta {
+  lastDays?: number;
+  allowedLastDays: number[];
+  heatmapRange?: {
+    from?: string;
+    to?: string;
+  };
+}
+
+export interface ProblemsUserStatistics {
+  general: ProblemsStatisticsGeneralInfo;
+  byDifficulty: DifficultyBreakdown;
+  byTopic: ProblemsStatisticsTopicStat[];
+  facts: ProblemsStatisticsFacts;
+  byLang: ProblemsStatisticsLangStat[];
+  byTag: ProblemsStatisticsTagStat[];
+  byWeekday: ProblemsStatisticsTimeEntry[];
+  byMonth: ProblemsStatisticsTimeEntry[];
+  byPeriod: ProblemsStatisticsTimeEntry[];
+  lastDays: { series: number[]; solved: number };
+  heatmap: ProblemsStatisticsHeatmapEntry[];
+  numberOfAttempts: { chartSeries: ProblemsStatisticsAttemptsChartEntry[] };
+  meta: ProblemsStatisticsMeta;
 }

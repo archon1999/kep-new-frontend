@@ -219,6 +219,17 @@ const ProblemsListPage = () => {
             >
               {t('problems.attemptsButton')}
             </Button>
+            {currentUser ? (
+              <Button
+                component={RouterLink}
+                to={resources.ProblemsUserStatistics}
+                variant="text"
+                color="primary"
+                startIcon={<IconifyIcon icon="mdi:chart-bar" />}
+              >
+                {t('problems.statisticsPage.title')}
+              </Button>
+            ) : null}
           </Stack>
         }
       />

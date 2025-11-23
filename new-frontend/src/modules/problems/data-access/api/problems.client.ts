@@ -20,12 +20,19 @@ export const problemsApiClient = {
   getLastContest: (params?: ApiProblemsLastContestParams) => apiClient.apiProblemsLastContest(params),
   listUserAttempts: (params: ApiAttemptsListParams) => apiClient.apiAttemptsList(params),
   getUserRating: (username: string) => apiClient.apiProblemsRatingRead(username) as Promise<ProblemsRating>,
+  getUserStatistics: (username: string, params?: { year?: number; days?: number }) =>
+    apiClient.apiProblemsRatingProblemsStatistics(username, { params }),
   listRating: (params: ApiProblemsRatingListParams) => apiClient.apiProblemsRatingList(params),
   listPeriodRating: (period: 'today' | 'week' | 'month') => {
     if (period === 'today') return apiClient.apiProblemsRatingToday();
     if (period === 'week') return apiClient.apiProblemsRatingWeek();
     return apiClient.apiProblemsRatingMonth();
   },
+  getAttempt: (id: number | string) => apiClient.apiAttemptsRead(String(id)),
+  purchaseAttempt: (attemptId: number | string) =>
+    apiClient.apiAttemptsPurchase(String(attemptId), {} as AttemptListBody),
+  purchaseAttemptTest: (attemptId: number | string) =>
+    apiClient.apiAttemptsPurchaseTest(String(attemptId), {} as AttemptListBody),
   listAttempts: (params: ApiAttemptsListParams) => apiClient.apiAttemptsList(params),
   listVerdicts: () => apiClient.apiAttemptsVerdicts(),
   rerunAttempt: (attemptId: number) => apiClient.apiAttemptsRerun(attemptId.toString(), {} as AttemptListBody),

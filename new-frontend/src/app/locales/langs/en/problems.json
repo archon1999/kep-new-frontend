@@ -117,13 +117,33 @@
         "user": "User",
         "problem": "Problem",
         "verdict": "Verdict",
-        "time": "Time",
-        "memory": "Memory",
-        "size": "Size"
-      },
-      "ms": "ms",
-      "kb": "KB"
+      "time": "Time",
+      "memory": "Memory",
+      "size": "Size"
     },
+    "ms": "ms",
+    "kb": "KB",
+    "modal": {
+      "title": "Attempt #{{id}}",
+      "subtitle": "Submitted by {{user}}",
+      "unknownUser": "Unknown user",
+      "verdict": "Verdict",
+      "time": "Time",
+      "memory": "Memory",
+      "size": "Size",
+      "submitted": "Submitted",
+      "purchaseAttempt": "Purchase attempt view",
+      "lockedDescription": "Spend Kepcoin to unlock the full code of this attempt.",
+      "loadError": "Could not load attempt details.",
+      "codePlaceholder": "Code will appear once the attempt is unlocked.",
+      "errorTitle": "Error message",
+      "failedTestTitle": "Failed test #{{number}}",
+      "failedTestDescription": "Open the failed test input for this submission.",
+      "viewTest": "View failed test",
+      "purchaseTest": "Purchase failed test",
+      "testUnavailable": "Failed test is available only for your own submissions."
+    }
+  },
     "detail": {
       "selectProblem": "Select problem",
       "running": "Running...",
@@ -181,6 +201,20 @@
       "stats": "Statistics",
       "statsPlaceholder": "Detailed statistics will appear here.",
       "noStatistics": "No statistics.",
+      "statisticsTitle": "Problem statistics",
+      "attemptStatistics": "Verdict distribution",
+      "languageStatistics": "Language breakdown",
+      "numberAttemptsSolve": "Attempts to solve",
+      "topAttempts": "Top attempts",
+      "time": "Time",
+      "memory": "Memory",
+      "codeSize": "Code size",
+      "user": "User",
+      "result": "Result",
+      "noTopAttempts": "No attempts yet.",
+      "usersSolved": "Solved",
+      "usersUnsolved": "Unsolved",
+      "solved": "Solved",
       "onlyMyAttempts": "Only mine",
       "myAttempts": "My attempts",
       "checkInputSaved": "Check input saved",
@@ -189,6 +223,64 @@
       "defender": "Defender",
       "tagsTopics": "Tags & topics",
       "codeTab": "Code"
+    },
+    "statisticsPage": {
+      "title": "Problems statistics",
+      "subtitle": "Your solving trends, speed and strengths across problems.",
+      "viewAttempts": "View attempts",
+      "authRequired": "Sign in to see your problem statistics.",
+      "noData": "No data yet.",
+      "emptyValue": "-",
+      "attemptsCount": "{{count}} attempts",
+      "solved": "Solved",
+      "cards": {
+        "solved": "Solved",
+        "problems": "Problems",
+        "rating": "Rating",
+        "rank": "Rank",
+        "usersCount": "{{count}} users",
+        "singleAttempt": "Solved with single attempt"
+      },
+      "profile": {
+        "languages": "Languages",
+        "tags": "Tags",
+        "topics": "Topics"
+      },
+      "activity": {
+        "title": "Activity",
+        "seriesLabel": "Solved"
+      },
+      "difficulty": {
+        "title": "Difficulty",
+        "overview": "{{solved}} solved out of {{total}}"
+      },
+      "heatmap": {
+        "title": "Heatmap"
+      },
+      "time": {
+        "title": "Time of solving"
+      },
+      "attempts": {
+        "title": "Attempts to solve"
+      },
+      "facts": {
+        "title": "Facts",
+        "firstAttempt": "First attempt",
+        "firstAccepted": "First solved problem",
+        "lastAttempt": "Last attempt",
+        "lastAccepted": "Last solved problem",
+        "mostAttempted": "Most attempted problem",
+        "mostAttemptedForSolve": "Most attempts to solve"
+      },
+      "weekday": {
+        "sundayShort": "Sun",
+        "mondayShort": "Mon",
+        "tuesdayShort": "Tue",
+        "wednesdayShort": "Wed",
+        "thursdayShort": "Thu",
+        "fridayShort": "Fri",
+        "saturdayShort": "Sat"
+      }
     }
   }
 }

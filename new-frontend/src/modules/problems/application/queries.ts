@@ -5,6 +5,7 @@ import {
   HackAttemptsListParams,
   ProblemsListParams,
   ProblemsRatingParams,
+  ProblemsStatisticsParams,
 } from '../domain/ports/problems.repository.ts';
 
 const problemsRepository = new HttpProblemsRepository();
@@ -57,6 +58,13 @@ export const useProblemStatistics = (problemId?: number) =>
   useSWR(
     problemId ? ['problem-statistics', problemId] : null,
     () => problemsRepository.getProblemStatistics(problemId!),
+  );
+
+export const useProblemsUserStatistics = (username?: string, params?: ProblemsStatisticsParams) =>
+  useSWR(
+    username ? ['problems-user-statistics', username, params] : null,
+    () => problemsRepository.getUserStatistics(username!, params),
+    { revalidateOnFocus: false },
   );
 
 export const useProblemSolution = (problemId?: number, enabled = false) =>

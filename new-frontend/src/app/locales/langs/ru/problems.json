@@ -53,13 +53,33 @@
         "user": "Пользователь",
         "problem": "Задача",
         "verdict": "Вердикт",
-        "time": "Время",
-        "memory": "Память",
-        "size": "Размер"
-      },
-      "ms": "мс",
-      "kb": "КБ"
+      "time": "Время",
+      "memory": "Память",
+      "size": "Размер"
     },
+    "ms": "мс",
+    "kb": "КБ",
+    "modal": {
+      "title": "Попытка №{{id}}",
+      "subtitle": "Отправил {{user}}",
+      "unknownUser": "Неизвестный пользователь",
+      "verdict": "Вердикт",
+      "time": "Время",
+      "memory": "Память",
+      "size": "Размер",
+      "submitted": "Отправлено",
+      "purchaseAttempt": "Купить просмотр попытки",
+      "lockedDescription": "Потратьте Kepcoin, чтобы открыть код этой попытки.",
+      "loadError": "Не удалось загрузить детали попытки.",
+      "codePlaceholder": "Код появится после открытия попытки.",
+      "errorTitle": "Сообщение об ошибке",
+      "failedTestTitle": "Проваленный тест #{{number}}",
+      "failedTestDescription": "Открыть входные данные не прошедшего теста.",
+      "viewTest": "Посмотреть тест",
+      "purchaseTest": "Купить просмотр теста",
+      "testUnavailable": "Проваленный тест доступен только для ваших попыток."
+    }
+  },
     "emptyTitle": "Задачи не найдены",
     "emptySubtitle": "Попробуйте изменить фильтры или параметры поиска.",
     "solution": "Решение",
@@ -186,8 +206,80 @@
       "hacker": "Хакер",
       "defender": "Защитник",
       "tagsTopics": "Теги и темы",
-      "codeTab": "Код"
+      "codeTab": "Код",
+      "statisticsTitle": "Статистика задачи",
+      "attemptStatistics": "Распределение вердиктов",
+      "languageStatistics": "Языки решений",
+      "numberAttemptsSolve": "Попытки до решения",
+      "topAttempts": "Лучшие попытки",
+      "time": "Время",
+      "memory": "Память",
+      "codeSize": "Размер кода",
+      "user": "Пользователь",
+      "result": "Результат",
+      "noTopAttempts": "Попыток пока нет.",
+      "usersSolved": "Решили",
+      "usersUnsolved": "Не решили",
+      "solved": "Решено"
     },
-    "resultsCount": "Задач: {{count}}"
+    "resultsCount": "Задач: {{count}}",
+    "statisticsPage": {
+      "title": "Статистика задач",
+      "subtitle": "Ваши тренды и сильные стороны в решении задач.",
+      "viewAttempts": "Мои попытки",
+      "authRequired": "Войдите, чтобы увидеть статистику.",
+      "noData": "Нет данных.",
+      "emptyValue": "-",
+      "attemptsCount": "{{count}} попыток",
+      "solved": "Решено",
+      "cards": {
+        "solved": "Решено",
+        "problems": "Задачи",
+        "rating": "Рейтинг",
+        "rank": "Место",
+        "usersCount": "{{count}} пользователей",
+        "singleAttempt": "Решено с первой попытки"
+      },
+      "profile": {
+        "languages": "Языки",
+        "tags": "Теги",
+        "topics": "Темы"
+      },
+      "activity": {
+        "title": "Активность",
+        "seriesLabel": "Решено"
+      },
+      "difficulty": {
+        "title": "Сложность",
+        "overview": "{{solved}} решено из {{total}}"
+      },
+      "heatmap": {
+        "title": "Карта активности"
+      },
+      "time": {
+        "title": "Время решения"
+      },
+      "attempts": {
+        "title": "Попытки до решения"
+      },
+      "facts": {
+        "title": "Факты",
+        "firstAttempt": "Первая попытка",
+        "firstAccepted": "Первая решённая",
+        "lastAttempt": "Последняя попытка",
+        "lastAccepted": "Последняя решённая",
+        "mostAttempted": "Больше всего попыток",
+        "mostAttemptedForSolve": "Больше всего попыток до решения"
+      },
+      "weekday": {
+        "sundayShort": "Вс",
+        "mondayShort": "Пн",
+        "tuesdayShort": "Вт",
+        "wednesdayShort": "Ср",
+        "thursdayShort": "Чт",
+        "fridayShort": "Пт",
+        "saturdayShort": "Сб"
+      }
+    }
   }
 }

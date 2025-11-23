@@ -1,28 +1,31 @@
-import { Chip, ChipProps } from '@mui/material';
 import { useMemo } from 'react';
+import { Chip, ChipProps, Tooltip } from '@mui/material';
 
-export type VerdictKey =
-  | -2
-  | -1
-  | 0
-  | 1
-  | 2
-  | 3
-  | 4
-  | 5
-  | 6
-  | 7
-  | 8
-  | 9
-  | 10
-  | 11
-  | 12
-  | 13
-  | 14
-  | 15
-  | 16
-  | 17
-  | 18;
+export enum Verdicts {
+  InQueue = -2,
+  Running,
+  JudgementFailed,
+  Accepted,
+  WrongAnswer,
+  TimeLimitExceeded,
+  RuntimeError,
+  OutputFormatError,
+  MemoryLimitExceeded,
+  Rejected,
+  CompilationError,
+  CommandExecutingError,
+  IdlenessLimitExceeded,
+  SyntaxError,
+  CheckerNotFound,
+  OnlyPython,
+  ObjectNotFound,
+  FakeAccepted,
+  PartialSolution,
+  NotAvailableLanguage,
+  Hacked,
+}
+
+export type VerdictKey = Verdicts;
 
 interface AttemptVerdictProps extends Omit<ChipProps, 'label' | 'color'> {
   verdict?: VerdictKey;
@@ -32,64 +35,82 @@ interface AttemptVerdictProps extends Omit<ChipProps, 'label' | 'color'> {
 }
 
 const verdictColorMap: Record<VerdictKey, ChipProps['color']> = {
-  [-2]: 'warning', // In queue
-  [-1]: 'secondary', // Running
-  0: 'default', // Judgement failed
-  1: 'success', // AC
-  2: 'error', // WA
-  3: 'error', // RE
-  4: 'error', // TL
-  5: 'warning', // PE
-  6: 'error', // ML
-  7: 'secondary', // Rejected
-  8: 'error', // CE
-  9: 'info', // CEE
-  10: 'warning', // IL
-  11: 'warning', // SE
-  12: 'default', // Checker not found
-  13: 'default', // Only Python
-  14: 'default', // Object not found
-  15: 'warning', // Partial solution
-  16: 'warning', // Not available language
-  17: 'success', // Fake accepted
-  18: 'error', // Hacked
+  [Verdicts.InQueue]: 'warning',
+  [Verdicts.Running]: 'secondary',
+  [Verdicts.JudgementFailed]: 'default',
+  [Verdicts.Accepted]: 'success',
+  [Verdicts.WrongAnswer]: 'error',
+  [Verdicts.TimeLimitExceeded]: 'error',
+  [Verdicts.RuntimeError]: 'error',
+  [Verdicts.OutputFormatError]: 'warning',
+  [Verdicts.MemoryLimitExceeded]: 'error',
+  [Verdicts.Rejected]: 'error',
+  [Verdicts.CompilationError]: 'error',
+  [Verdicts.CommandExecutingError]: 'error',
+  [Verdicts.IdlenessLimitExceeded]: 'error',
+  [Verdicts.SyntaxError]: 'error',
+  [Verdicts.CheckerNotFound]: 'default',
+  [Verdicts.OnlyPython]: 'default',
+  [Verdicts.ObjectNotFound]: 'default',
+  [Verdicts.PartialSolution]: 'warning',
+  [Verdicts.NotAvailableLanguage]: 'default',
+  [Verdicts.FakeAccepted]: 'success',
+  [Verdicts.Hacked]: 'error',
 };
 
 const verdictShortTitle: Record<VerdictKey, string> = {
-  [-2]: 'InQ',
-  [-1]: 'Run',
-  0: 'JF',
-  1: 'AC',
-  2: 'WA',
-  3: 'TL',
-  4: 'RE',
-  5: 'PE',
-  6: 'ML',
-  7: 'RJ',
-  8: 'CE',
-  9: 'CEE',
-  10: 'IL',
-  11: 'SE',
-  12: '',
-  13: '',
-  14: '',
-  15: '',
-  16: '',
-  17: 'AC',
-  18: '',
+  [Verdicts.InQueue]: 'InQ',
+  [Verdicts.Running]: 'Run',
+  [Verdicts.JudgementFailed]: 'JF',
+  [Verdicts.Accepted]: 'AC',
+  [Verdicts.WrongAnswer]: 'WA',
+  [Verdicts.TimeLimitExceeded]: 'TL',
+  [Verdicts.RuntimeError]: 'RE',
+  [Verdicts.OutputFormatError]: 'PE',
+  [Verdicts.MemoryLimitExceeded]: 'ML',
+  [Verdicts.Rejected]: 'RJ',
+  [Verdicts.CompilationError]: 'CE',
+  [Verdicts.CommandExecutingError]: 'CEE',
+  [Verdicts.IdlenessLimitExceeded]: 'IL',
+  [Verdicts.SyntaxError]: 'SE',
+  [Verdicts.CheckerNotFound]: '',
+  [Verdicts.OnlyPython]: '',
+  [Verdicts.ObjectNotFound]: '',
+  [Verdicts.PartialSolution]: '',
+  [Verdicts.NotAvailableLanguage]: '',
+  [Verdicts.FakeAccepted]: 'AC',
+  [Verdicts.Hacked]: '',
 };
 
-const hideTestCaseFor: VerdictKey[] = [1, -2, -1, 0, 7, 12, 13, 15, 17, 18];
+const hideTestCaseFor: VerdictKey[] = [
+  Verdicts.Accepted,
+  Verdicts.InQueue,
+  Verdicts.Running,
+  Verdicts.JudgementFailed,
+  Verdicts.Rejected,
+  Verdicts.CheckerNotFound,
+  Verdicts.OnlyPython,
+  Verdicts.PartialSolution,
+  Verdicts.FakeAccepted,
+  Verdicts.Hacked,
+];
 
-const AttemptVerdict = ({ verdict, title, testCaseNumber, balls, ...rest }: AttemptVerdictProps) => {
-  const color = verdict !== undefined && verdictColorMap[verdict] ? verdictColorMap[verdict] : 'default';
+const AttemptVerdict = ({
+  verdict,
+  title,
+  testCaseNumber,
+  balls,
+  ...rest
+}: AttemptVerdictProps) => {
+  const color =
+    verdict !== undefined && verdictColorMap[verdict] ? verdictColorMap[verdict] : 'default';
   const shortTitleRaw = verdict !== undefined ? verdictShortTitle[verdict as VerdictKey] : '';
   const shortTitle = shortTitleRaw || title;
   const showTestCase =
     typeof testCaseNumber === 'number' &&
     testCaseNumber > 0 &&
     !(hideTestCaseFor as number[]).includes((verdict ?? 0) as number);
-  const showBall = verdict === 15 && balls !== undefined && balls !== null;
+  const showBall = verdict === Verdicts.PartialSolution && balls !== undefined && balls !== null;
 
   const label = useMemo(() => {
     const parts = [shortTitle];
@@ -99,15 +120,16 @@ const AttemptVerdict = ({ verdict, title, testCaseNumber, balls, ...rest }: Atte
   }, [shortTitle, showTestCase, testCaseNumber, showBall, balls]);
 
   return (
-    <Chip
-      size="medium"
-      variant="outlined"
-      color={color}
-      label={label}
-      title={title}
-      sx={{ fontWeight: 700 }}
-      {...rest}
-    />
+    <Tooltip title={title}>
+      <Chip
+        size="medium"
+        variant="outlined"
+        color={color}
+        label={label}
+        sx={{ fontWeight: 700 }}
+        {...rest}
+      />
+    </Tooltip>
   );
 };
 
