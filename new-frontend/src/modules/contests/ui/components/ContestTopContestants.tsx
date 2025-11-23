@@ -21,7 +21,7 @@ const ContestTopContestants = ({ contestants = [], isLoading }: ContestTopContes
   );
 
   const renderSkeleton = () => (
-    <Stack spacing={1.5}>
+    <Stack direction="column" spacing={1.5}>
       {Array.from({ length: 3 }).map((_, index) => (
         <Stack key={index} direction="row" spacing={1.5} alignItems="center">
           <Skeleton variant="circular" width={40} height={40} />
@@ -35,7 +35,7 @@ const ContestTopContestants = ({ contestants = [], isLoading }: ContestTopContes
   );
 
   const renderTeam = (contestant: ContestTopContestant) => (
-    <Stack spacing={0.5} minWidth={0}>
+    <Stack direction="column" spacing={0.5} minWidth={0}>
       <Typography variant="subtitle2" fontWeight={700} noWrap>
         {contestant.teamName}
       </Typography>
@@ -68,7 +68,7 @@ const ContestTopContestants = ({ contestants = [], isLoading }: ContestTopContes
     }
 
     return (
-      <Stack spacing={1.25}>
+      <Stack direction="column" spacing={1.25}>
         {visibleContestants.map((contestant, index) => (
           <Stack
             key={`${contestant.username}-${contestant.teamName ?? 'solo'}-${index}`}
@@ -106,7 +106,7 @@ const ContestTopContestants = ({ contestants = [], isLoading }: ContestTopContes
         flexShrink: 0,
       }}
     >
-      <Stack spacing={1.5}>
+      <Stack direction="column" spacing={1.5}>
         <Typography variant="subtitle2" fontWeight={800} textTransform="uppercase">
           {t('contests.topContestants.title')}
         </Typography>

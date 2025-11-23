@@ -102,7 +102,7 @@ const ProblemsRatingPage = () => {
   );
 
   return (
-    <Stack spacing={4} sx={{ ...responsivePagePaddingSx, pb: 5 }}>
+    <Stack direction="column" spacing={4} sx={{ ...responsivePagePaddingSx, pb: 5 }}>
       <PageHeader
         title={t('problems.rating.title')}
         breadcrumb={[
@@ -205,83 +205,79 @@ const PeriodRatings = () => {
   ];
 
   return (
-    <Card variant="outlined">
-      <CardContent>
-        <Stack spacing={2}>
-          <Typography variant="h6" fontWeight={800}>
-            {t('problems.rating.periodTitle')}
-          </Typography>
+    <Stack direction="column" spacing={2}>
+      <Typography variant="h6" fontWeight={800}>
+        {t('problems.rating.periodTitle')}
+      </Typography>
 
-          <Grid container spacing={2}>
-            {periodData.map(({ period, color, icon, hook }) => {
-              const items = hook.data ?? [];
-              const isLoading = hook.isLoading;
+      <Grid container spacing={2}>
+        {periodData.map(({ period, color, icon, hook }) => {
+          const items = hook.data ?? [];
+          const isLoading = hook.isLoading;
 
-              return (
-                <Grid size={{ xs: 12, md: 4 }} key={period}>
-                  <Card variant="outlined" sx={{ borderColor: `var(--mui-palette-${color}-main)` }}>
-                    <CardContent>
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="space-between"
-                        spacing={1}
-                        mb={1.5}
-                      >
-                        <Stack direction="row" spacing={1} alignItems="center">
-                          <IconifyIcon icon={icon} width={20} height={20} color={`var(--mui-palette-${color}-main)`} />
-                          <Typography variant="subtitle1" fontWeight={700}>
-                            {t(`problems.rating.period.${period}`)}
+          return (
+            <Grid size={{ xs: 12, md: 4 }} key={period}>
+              <Card variant="outlined" sx={{ borderColor: `var(--mui-palette-${color}-main)` }}>
+                <CardContent>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    spacing={1}
+                    mb={1.5}
+                  >
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <IconifyIcon icon={icon} width={20} height={20} color={`var(--mui-palette-${color}-main)`} />
+                      <Typography variant="subtitle1" fontWeight={700}>
+                        {t(`problems.rating.period.${period}`)}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+
+                  {isLoading ? (
+                    <Skeleton variant="rounded" height={120} />
+                  ) : items.length ? (
+                    <Stack direction="column" spacing={1}>
+                      {items.map((item, index) => (
+                        <Stack
+                          key={`${period}-${item.username}-${index}`}
+                          direction="row"
+                          alignItems="center"
+                          justifyContent="space-between"
+                          sx={{
+                            p: 1,
+                            borderRadius: 1,
+                            backgroundColor: `var(--mui-palette-${color}-main)`,
+                            color: theme.palette.getContrastText(theme.palette[color].main),
+                          }}
+                        >
+                          <Typography variant="body2" fontWeight={700}>
+                            #{index + 1} {item.username}
                           </Typography>
+                          <Chip
+                            size="small"
+                            label={t('problems.rating.periodSolved', { value: item.solved })}
+                            sx={{
+                              backgroundColor: theme.palette.getContrastText(theme.palette[color].main),
+                              color: theme.palette[color].main,
+                              fontWeight: 700,
+                            }}
+                          />
                         </Stack>
-                      </Stack>
-
-                      {isLoading ? (
-                        <Skeleton variant="rounded" height={120} />
-                      ) : items.length ? (
-                        <Stack spacing={1}>
-                          {items.map((item, index) => (
-                            <Stack
-                              key={`${period}-${item.username}-${index}`}
-                              direction="row"
-                              alignItems="center"
-                              justifyContent="space-between"
-                              sx={{
-                                p: 1,
-                                borderRadius: 1,
-                                backgroundColor: `var(--mui-palette-${color}-main)`,
-                                color: theme.palette.getContrastText(theme.palette[color].main),
-                              }}
-                            >
-                              <Typography variant="body2" fontWeight={700}>
-                                #{index + 1} {item.username}
-                              </Typography>
-                              <Chip
-                                size="small"
-                                label={t('problems.rating.periodSolved', { value: item.solved })}
-                                sx={{
-                                  backgroundColor: theme.palette.getContrastText(theme.palette[color].main),
-                                  color: theme.palette[color].main,
-                                  fontWeight: 700,
-                                }}
-                              />
-                            </Stack>
-                          ))}
-                        </Stack>
-                      ) : (
-                        <Typography variant="body2" color="text.secondary">
-                          {t('problems.rating.periodEmpty')}
-                        </Typography>
-                      )}
-                    </CardContent>
-                  </Card>
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Stack>
-      </CardContent>
-    </Card>
+                      ))}
+                    </Stack>
+                  ) : (
+                    <Typography variant="body2" color="text.secondary">
+                      {t('problems.rating.periodEmpty')}
+                    </Typography>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
+          );
+        })}
+      </Grid>
+    </Stack>
   );
 };
 

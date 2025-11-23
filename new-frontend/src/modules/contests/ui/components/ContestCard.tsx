@@ -114,13 +114,6 @@ const ContestCard = ({ contest }: ContestCardProps) => {
           </Stack>
 
           <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems="stretch">
-            {isFinished ? (
-              <ContestTopContestants
-                contestants={topContestants}
-                isLoading={isTopContestantsLoading}
-              />
-            ) : null}
-
             <Box
               sx={{
                 flex: 1,
@@ -140,6 +133,13 @@ const ContestCard = ({ contest }: ContestCardProps) => {
                 }}
               />
             </Box>
+
+            {isFinished ? (
+              <ContestTopContestants
+                contestants={topContestants}
+                isLoading={isTopContestantsLoading}
+              />
+            ) : null}
           </Stack>
 
           <Stack direction="column" spacing={1.5}>
