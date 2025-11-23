@@ -6,24 +6,34 @@ import {
   Card,
   CardContent,
   Chip,
-  Divider,
   LinearProgress,
   Skeleton,
   Stack,
-  TablePagination,
   Typography,
-  alpha,
   useTheme,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import PageHeader from 'shared/components/sections/common/PageHeader';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import { difficultyColorByKey, difficultyOptions } from '../../config/difficulty';
 import { useProblemsPeriodRating, useProblemsRating } from '../../application/queries';
-import { ProblemsRatingRow } from '../../domain/entities/problem.entity';
-import { getResourceByUsername, resources } from 'app/routes/resources';
-import CustomTablePaginationAction from 'shared/components/pagination/CustomTablePaginationAction';
+import ProblemsRatingDataGrid from '../components/ProblemsRatingDataGrid';
+import { resources } from 'app/routes/resources';
+
+const sortFieldMap: Record<string, string> = {
+  rating: 'rating',
+  solved: 'solved',
+  beginner: 'beginner',
+  basic: 'basic',
+  normal: 'normal',
+  medium: 'medium',
+  advanced: 'advanced',
+  hard: 'hard',
+  extremal: 'extremal',
+};
 
 const orderingOptions = [
   ...difficultyOptions.map((option) => ({
@@ -37,228 +47,140 @@ const orderingOptions = [
 
 const ProblemsRatingPage = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
 
-  const [ordering, setOrdering] = useState('-rating');
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(12);
+  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({ page: 0, pageSize: 10 });
+  const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'rating', sort: 'desc' }]);
 
-  const { data: ratingPage, isLoading } = useProblemsRating({ ordering, page, pageSize });
+  const ordering = useMemo(() => {
+    const currentSort = sortModel[0];
 
-  const orderingState = useMemo(
-    () => ({ key: ordering.replace('-', ''), isDesc: ordering.startsWith('-') }),
-    [ordering],
-  );
+    if (!currentSort) return '-rating';
 
-  const difficultyOrdering = useMemo(
-    () =>
-      difficultyOptions.map((option) => ({
-        key: option.key,
-        label: option.label,
-        color: difficultyColorByKey[option.key],
-      })),
-    [],
-  );
+    const orderingField = sortFieldMap[currentSort.field] ?? currentSort.field;
+    const orderingPrefix = currentSort.sort === 'desc' ? '-' : '';
+
+    return `${orderingPrefix}${orderingField}`;
+  }, [sortModel]);
+
+  const { data: ratingPage, isLoading, isValidating } = useProblemsRating({
+    ordering,
+    page: paginationModel.page + 1,
+    pageSize: paginationModel.pageSize,
+  });
 
   const rows = ratingPage?.data ?? [];
+  const rowCount = ratingPage?.total ?? 0;
+  const activeSort = sortModel[0];
 
-  const handleOrderingChange = (key: string) => {
-    setPage(1);
-    setOrdering((prev) => {
-      const currentKey = prev.replace('-', '');
-      const isDesc = prev.startsWith('-');
+  const handlePaginationModelChange = (model: GridPaginationModel) => setPaginationModel(model);
+  const handleSortModelChange = (model: GridSortModel) => setSortModel(model.slice(0, 1));
 
-      if (currentKey === key) {
-        return isDesc ? key : `-${key}`;
+  const handleOrderingShortcut = (key: string) => {
+    setSortModel((prev) => {
+      const current = prev[0];
+
+      if (current?.field === key) {
+        return [{ field: key, sort: current.sort === 'desc' ? 'asc' : 'desc' }];
       }
 
-      return `-${key}`;
+      return [{ field: key, sort: 'desc' }];
     });
   };
 
-  const handlePageChange = (_: unknown, newPage: number) => {
-    setPage(newPage + 1);
-  };
-
-  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPageSize(Number(event.target.value));
-    setPage(1);
-  };
-
-  const renderOrderingButton = (option: (typeof orderingOptions)[number]) => {
-    const isActive = orderingState.key === option.key;
-    const icon =
-      isActive && (orderingState.isDesc ? <IconifyIcon icon="mdi:arrow-down" width={18} height={18} /> : <IconifyIcon icon="mdi:arrow-up" width={18} height={18} />);
-
-    return (
-      <Button
-        key={option.key}
-        variant={isActive ? 'contained' : 'outlined'}
-        color={isActive ? option.color : 'inherit'}
-        size="small"
-        onClick={() => handleOrderingChange(option.key)}
-        endIcon={icon}
-        sx={{ textTransform: 'none' }}
-      >
-        {t(option.label)}
-      </Button>
-    );
-  };
-
-  const renderCard = (row: ProblemsRatingRow) => {
-    const displayName =
-      row.user.firstName || row.user.lastName
-        ? `${row.user.firstName ?? ''} ${row.user.lastName ?? ''}`.trim()
-        : row.user.username;
-
-    return (
-      <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={`${row.user.username}-${row.rowIndex}`}>
-        <Card variant="outlined" sx={{ height: '100%' }}>
-          <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, height: '100%' }}>
-            <Stack direction="row" alignItems="center" spacing={1} justifyContent="space-between">
-              <Chip
-                label={`#${row.rowIndex}`}
-                color="primary"
-                sx={{ fontWeight: 700, minWidth: 64, justifyContent: 'center' }}
-              />
-              <Stack spacing={0.5} alignItems="flex-end">
-                <Chip
-                  label={t('problems.rating.score', { value: row.rating ?? 0 })}
-                  color="secondary"
-                  size="small"
-                  sx={{ fontWeight: 700 }}
-                />
-                <Chip
-                  label={t('problems.rating.solved', { value: row.solved ?? 0 })}
-                  color="success"
-                  size="small"
-                  sx={{ fontWeight: 700 }}
-                />
-              </Stack>
-            </Stack>
-
-            <Typography
-              component={RouterLink}
-              to={getResourceByUsername(resources.UserProfile, row.user.username)}
-              variant="subtitle1"
-              fontWeight={700}
-              sx={{ textDecoration: 'none', color: 'text.primary' }}
-            >
-              {displayName}
-            </Typography>
-
-            {row.user.ratingTitle ? (
-              <Typography variant="caption" color="text.secondary">
-                {row.user.ratingTitle}
-              </Typography>
-            ) : null}
-
-            <Divider />
-
-            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-              {difficultyOrdering.map((item) => {
-                const value = (row as any)[item.key] ?? 0;
-                const color = theme.palette[item.color]?.main ?? theme.palette.primary.main;
-                return (
-                  <Chip
-                    key={item.key}
-                    size="small"
-                    label={`${t(item.label)}: ${value}`}
-                    sx={{
-                      borderRadius: 1,
-                      backgroundColor: alpha(color, 0.12),
-                      color,
-                      fontWeight: 600,
-                    }}
-                  />
-                );
-              })}
-            </Stack>
-          </CardContent>
-        </Card>
-      </Grid>
-    );
-  };
+  const labels = useMemo(
+    () => ({
+      rank: t('problems.rating.columns.rank'),
+      user: t('problems.rating.columns.user'),
+      rating: t('problems.rating.columns.rating'),
+      solved: t('problems.rating.columns.solved'),
+      difficulties: Object.fromEntries(
+        difficultyOptions.map((option) => [option.key, t(option.label)]),
+      ) as Record<(typeof difficultyOptions)[number]['key'], string>,
+      emptyValue: t('problems.rating.emptyValue'),
+    }),
+    [t],
+  );
 
   return (
-    <Box sx={responsivePagePaddingSx}>
-      <Stack spacing={3} direction="column">
-        <Stack spacing={1}>
-          <Typography variant="h4" fontWeight={800}>
-            {t('problems.rating.title')}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {t('problems.rating.subtitle')}
-          </Typography>
+    <Stack spacing={4} sx={{ ...responsivePagePaddingSx, pb: 5 }}>
+      <PageHeader
+        title={t('problems.rating.title')}
+        breadcrumb={[
+          { label: t('home'), url: '/' },
+          { label: t('problems.rating.title'), active: true },
+        ]}
+        actionComponent={
           <Button
-            variant="text"
+            variant="outlined"
             color="primary"
             component={RouterLink}
             to={resources.Problems}
-            startIcon={<IconifyIcon icon="mdi:arrow-left" />}
-            sx={{ alignSelf: 'flex-start' }}
+            startIcon={<IconifyIcon icon="mdi:arrow-left" width={18} height={18} />}
           >
             {t('problems.rating.backToProblems')}
           </Button>
-        </Stack>
+        }
+      />
 
-        <Card variant="outlined">
-          <CardContent>
-            <Stack
-              direction={{ xs: 'column', sm: 'row' }}
-              spacing={1.5}
-              justifyContent="space-between"
-              alignItems={{ sm: 'center' }}
-            >
-              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                {orderingOptions.map(renderOrderingButton)}
-              </Stack>
+      <Card variant="outlined">
+        <CardContent>
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            spacing={2}
+            justifyContent="space-between"
+            alignItems={{ md: 'center' }}
+          >
+            <Stack spacing={0.5}>
+              <Typography variant="h6" fontWeight={800}>
+                {t('problems.rating.subtitle')}
+              </Typography>
               <Typography variant="body2" color="text.secondary">
-                {t('problems.rating.total', { count: ratingPage?.total ?? 0 })}
+                {t('problems.rating.total', { count: rowCount })}
               </Typography>
             </Stack>
-          </CardContent>
-          {isLoading ? <LinearProgress /> : null}
-        </Card>
 
-        {isLoading ? (
-          <Grid container spacing={2}>
-            {Array.from({ length: pageSize }).map((_, idx) => (
-              <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={idx}>
-                <Skeleton variant="rounded" height={180} />
-              </Grid>
-            ))}
-          </Grid>
-        ) : rows.length ? (
-          <Grid container spacing={2}>
-            {rows.map(renderCard)}
-          </Grid>
-        ) : (
-          <Card variant="outlined">
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {t('problems.rating.empty')}
-              </Typography>
-            </CardContent>
-          </Card>
-        )}
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              {orderingOptions.map((option) => {
+                const isActive = activeSort?.field === option.key;
+                const isDesc = activeSort?.sort !== 'asc';
+                const icon = isActive ? (
+                  <IconifyIcon icon={isDesc ? 'mdi:arrow-down' : 'mdi:arrow-up'} width={18} height={18} />
+                ) : undefined;
 
-        <Box display="flex" justifyContent="flex-end">
-          <TablePagination
-            component="div"
-            count={ratingPage?.total ?? 0}
-            page={page - 1}
-            onPageChange={handlePageChange}
-            rowsPerPage={pageSize}
-            rowsPerPageOptions={[6, 9, 12, 24]}
-            onRowsPerPageChange={handleRowsPerPageChange}
-            ActionsComponent={CustomTablePaginationAction}
+                return (
+                  <Button
+                    key={option.key}
+                    variant={isActive ? 'contained' : 'outlined'}
+                    color={option.color as any}
+                    size="small"
+                    onClick={() => handleOrderingShortcut(option.key)}
+                    endIcon={icon}
+                    sx={{ textTransform: 'none' }}
+                  >
+                    {t(option.label)}
+                  </Button>
+                );
+              })}
+            </Stack>
+          </Stack>
+        </CardContent>
+        {isLoading || isValidating ? <LinearProgress /> : null}
+        <Box sx={{ px: { xs: 1, md: 2 }, pb: 2 }}>
+          <ProblemsRatingDataGrid
+            rows={rows}
+            rowCount={rowCount}
+            loading={isLoading || isValidating}
+            paginationModel={paginationModel}
+            onPaginationModelChange={handlePaginationModelChange}
+            sortModel={sortModel}
+            onSortModelChange={handleSortModelChange}
+            labels={labels}
           />
         </Box>
+      </Card>
 
-        <PeriodRatings />
-      </Stack>
-    </Box>
+      <PeriodRatings />
+    </Stack>
   );
 };
 
@@ -270,6 +192,7 @@ const periodConfigs = [
 
 const PeriodRatings = () => {
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const today = useProblemsPeriodRating('today');
   const week = useProblemsPeriodRating('week');
@@ -295,7 +218,7 @@ const PeriodRatings = () => {
               const isLoading = hook.isLoading;
 
               return (
-                <Grid size={{ xs: 12, md: 4 }}key={period}>
+                <Grid size={{ xs: 12, md: 4 }} key={period}>
                   <Card variant="outlined" sx={{ borderColor: `var(--mui-palette-${color}-main)` }}>
                     <CardContent>
                       <Stack
@@ -327,7 +250,7 @@ const PeriodRatings = () => {
                                 p: 1,
                                 borderRadius: 1,
                                 backgroundColor: `var(--mui-palette-${color}-main)`,
-                                color: '#fff',
+                                color: theme.palette.getContrastText(theme.palette[color].main),
                               }}
                             >
                               <Typography variant="body2" fontWeight={700}>
@@ -336,7 +259,11 @@ const PeriodRatings = () => {
                               <Chip
                                 size="small"
                                 label={t('problems.rating.periodSolved', { value: item.solved })}
-                                sx={{ backgroundColor: '#fff', color: 'inherit', fontWeight: 700 }}
+                                sx={{
+                                  backgroundColor: theme.palette.getContrastText(theme.palette[color].main),
+                                  color: theme.palette[color].main,
+                                  fontWeight: 700,
+                                }}
                               />
                             </Stack>
                           ))}

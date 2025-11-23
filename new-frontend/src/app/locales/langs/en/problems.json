@@ -67,6 +67,13 @@
         "solved": "Solved",
         "rating": "Rating"
       },
+      "columns": {
+        "rank": "Rank",
+        "user": "User",
+        "rating": "Rating",
+        "solved": "Solved"
+      },
+      "emptyValue": "—",
       "total": "{{count}} users",
       "score": "Rating {{value}}",
       "solved": "{{value}} solved",

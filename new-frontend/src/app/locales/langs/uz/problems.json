@@ -96,6 +96,13 @@
         "solved": "Yechilgan",
         "rating": "Reyting"
       },
+      "columns": {
+        "rank": "O‘rin",
+        "user": "Foydalanuvchi",
+        "rating": "Reyting",
+        "solved": "Yechilgan"
+      },
+      "emptyValue": "—",
       "total": "{{count}} foydalanuvchi",
       "score": "Reyting {{value}}",
       "solved": "{{value}} yechildi",
