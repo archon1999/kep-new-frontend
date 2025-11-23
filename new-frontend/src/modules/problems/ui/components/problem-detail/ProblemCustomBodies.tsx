@@ -729,8 +729,8 @@ const Problem1843Body: FC<CustomProblemBodyProps> = () => {
       setMagicNumber(randomInt(1, 9));
     }, 100);
 
-    const logIfMagic = (id: number) => {
-      if (id === intervalId) {
+    const logIfMagic = (id: unknown) => {
+      if (typeof id === 'number' && id === intervalId) {
         console.log('Answer: 1131');
       }
     };

@@ -110,7 +110,7 @@ const ProblemsAttemptsTable = ({
       });
 
       if (updatedAttempt) {
-        if (currentUser?.username && updatedAttempt.user.username === currentUser.username) {
+        if (currentUser?.username && updatedAttempt.user?.username === currentUser.username) {
           setLastUpdatedAttempt(updatedAttempt);
         }
 

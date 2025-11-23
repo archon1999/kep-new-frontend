@@ -169,7 +169,6 @@ const AttemptDetailDialog = ({
   }
 
   const verdictValue = baseAttempt?.verdict as VerdictKey | undefined;
-  const createdAt = baseAttempt?.created ? new Date(baseAttempt.created).toLocaleString() : '--';
   const problemUrl =
     baseAttempt?.problemId && baseAttempt.problemId > 0
       ? getResourceById(resources.Problem, baseAttempt.problemId)

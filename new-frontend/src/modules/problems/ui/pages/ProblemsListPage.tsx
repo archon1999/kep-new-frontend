@@ -12,7 +12,6 @@ import {
   Divider,
   FormControlLabel,
   Grid,
-  InputAdornment,
   LinearProgress,
   List,
   ListItemButton,
@@ -241,7 +240,6 @@ const ProblemsListPage = () => {
               languages={languages ?? []}
               categories={categories ?? []}
               filter={filter}
-              total={total}
               onChange={handleFilterChange}
             />
           </Grid>
@@ -299,11 +297,10 @@ interface FilterCardProps {
   languages: ProblemLanguageOption[];
   categories: ProblemCategory[];
   filter: ProblemsListParams;
-  total: number;
   onChange: <K extends keyof ProblemsListParams>(key: K, value: ProblemsListParams[K]) => void;
 }
 
-const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCardProps) => {
+const FilterCard = ({ languages, categories, filter, onChange }: FilterCardProps) => {
   const { t } = useTranslation();
   const [filtersAnchor, setFiltersAnchor] = useState<HTMLElement | null>(null);
 
@@ -376,7 +373,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
     }
 
     if (filter.difficulty) {
-      const diffLabel = difficultyOptions.find((item) => item.value === filter.difficulty)?.label;
+      const diffLabel = difficultyOptions.find((item) => item.value === Number(filter.difficulty))?.label;
       items.push({
         key: 'difficulty',
         label: `${t('problems.difficultyLabel')}: ${diffLabel ? t(diffLabel) : filter.difficulty}`,
@@ -586,7 +583,11 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
             size="small"
             label={t('problems.tags')}
             value={filter.tags ?? []}
-            onChange={(event) => onChange('tags', event.target.value as number[])}
+            onChange={(event) =>
+              onChange(
+                'tags',
+                (event.target.value as Array<string | number>).map((item) => Number(item)),
+              )}
             SelectProps={{
               multiple: true,
               renderValue: (selected) => (

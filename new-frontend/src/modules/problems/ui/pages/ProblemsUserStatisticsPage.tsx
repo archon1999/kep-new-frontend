@@ -447,7 +447,7 @@ const ProblemsUserStatisticsPage = () => {
                         {(statistics.byLang ?? []).map((lang) => (
                           <Stack key={lang.lang} direction="row" spacing={1} justifyContent="space-between" alignItems="center">
                             <Stack direction="row" spacing={1} alignItems="center">
-                              <KepIcon name="code" fontSize={18} />
+                              <KepIcon name="lang" fontSize={18} />
                               <Typography variant="body2">{lang.langFull}</Typography>
                             </Stack>
                             <Chip label={lang.solved} size="small" color="primary" variant="outlined" />
@@ -491,7 +491,7 @@ const ProblemsUserStatisticsPage = () => {
                             justifyContent="space-between"
                           >
                             <Stack direction="row" spacing={1} alignItems="center">
-                              <KepIcon name="tag" fontSize={18} />
+                              <KepIcon name="tags" fontSize={18} />
                               <Typography variant="body2">{topic.topic}</Typography>
                             </Stack>
                             <Chip label={topic.solved} size="small" color="success" variant="outlined" />
