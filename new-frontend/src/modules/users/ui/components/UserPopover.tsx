@@ -181,10 +181,24 @@ const UserPopover = ({
 
               <Grid container spacing={1.5}>
                 {ratingStats.length === 0 && isRatingsLoading && (
-                  <Grid size={3}>
-                    <Skeleton variant="text" width="80%" />
-                    <Skeleton variant="text" width="60%" />
-                  </Grid>
+                  <>
+                    <Grid size={3}>
+                      <Skeleton variant="text" width="80%" />
+                      <Skeleton variant="text" width="60%" />
+                    </Grid>
+                    <Grid size={3}>
+                      <Skeleton variant="text" width="80%" />
+                      <Skeleton variant="text" width="60%" />
+                    </Grid>
+                    <Grid size={3}>
+                      <Skeleton variant="text" width="80%" />
+                      <Skeleton variant="text" width="60%" />
+                    </Grid>
+                    <Grid size={3}>
+                      <Skeleton variant="text" width="80%" />
+                      <Skeleton variant="text" width="60%" />
+                    </Grid>
+                  </>
                 )}
 
                 {ratingStats.map(({ key, label, stat }) => (

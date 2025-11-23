@@ -237,6 +237,7 @@ const UsersDataGrid = ({
   return (
     <DataGrid
       autoHeight
+      sortingOrder={['desc', 'asc', null]}
       rowHeight={72}
       rows={rows}
       rowCount={rowCount}

@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
+import { MouseEvent, useMemo, useState } from 'react';
 import {
+  Badge,
   Box,
   Button,
   Card,
@@ -10,12 +11,14 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  InputAdornment,
   InputLabel,
   LinearProgress,
   List,
   ListItemButton,
   ListItemText,
   MenuItem,
+  Popover,
   Select,
   SelectChangeEvent,
   Skeleton,
@@ -91,13 +94,14 @@ const ProblemsListPage = () => {
   const [filter, setFilter] = useState<ProblemsListParams>(initialFilter);
   const [activeTab, setActiveTab] = useState('attempts');
 
-  const { data: problemsPage, isLoading } = useProblemsList(filter);
+  const { data: problemsPage, isLoading: isProblemsLoading } = useProblemsList(filter);
   const { data: languages } = useProblemLanguages();
   const { data: categories } = useProblemCategories();
   const { data: mostViewed, isLoading: isMostViewedLoading } = useMostViewedProblems();
   const { data: lastContest, isLoading: isLastContestLoading } = useLastContestProblems();
   const { data: attempts, isLoading: isAttemptsLoading } = useUserProblemsAttempts(currentUser?.username ?? undefined, 10);
-  const { data: rating } = useUserProblemsRating(currentUser?.username ?? undefined);
+  const { data: rating, isLoading: isRatingLoading } = useUserProblemsRating(currentUser?.username ?? undefined);
+  const isSummaryLoading = isRatingLoading || rating === undefined;
 
   const problems = problemsPage?.data ?? [];
   const total = problemsPage?.total ?? 0;
@@ -235,7 +239,7 @@ const ProblemsListPage = () => {
               />
               <ProblemsList
                 problems={problems}
-                isLoading={isLoading}
+                isLoading={isProblemsLoading}
                 filter={filter}
                 total={total}
                 onPageChange={handlePageChange}
@@ -251,16 +255,7 @@ const ProblemsListPage = () => {
           <Grid size={{ xs: 12, md: 4 }}>
             <Stack direction="column" spacing={3}>
               {currentUser && (
-                <SummaryCard
-                  solved={rating?.solved ?? 0}
-                  rating={rating?.rating ?? 0}
-                  rank={rating?.rank ?? 0}
-                  usersCount={rating?.usersCount ?? 0}
-                />
-              )}
-
-              {currentUser && (
-                <DifficultiesCard difficulties={rating?.difficulties} isLoading={!rating} />
+                <DifficultiesCard difficulties={rating?.difficulties} isLoading={isSummaryLoading} />
               )}
 
               <TabsCard
@@ -297,6 +292,7 @@ interface FilterCardProps {
 
 const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCardProps) => {
   const { t } = useTranslation();
+  const [filtersAnchor, setFiltersAnchor] = useState<HTMLElement | null>(null);
 
   const tags = useMemo(
     () =>
@@ -305,6 +301,94 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
       ),
     [categories],
   );
+
+  const filtersOpen = Boolean(filtersAnchor);
+
+  const handleFiltersOpen = (event: MouseEvent<HTMLElement>) => {
+    setFiltersAnchor((current) => (current ? null : event.currentTarget));
+  };
+
+  const handleFiltersClose = () => setFiltersAnchor(null);
+
+  const activeFilters = useMemo(
+    () => {
+      const items: Array<{ key: string; label: string; onRemove: () => void }> = [];
+
+      if (filter.lang) {
+        const langTitle =
+          languages.find((item) => item.lang === filter.lang)?.langFull ?? filter.lang.toUpperCase();
+        items.push({
+          key: 'lang',
+          label: `${t('problems.language')}: ${langTitle}`,
+          onRemove: () => onChange('lang', undefined),
+        });
+      }
+
+      if (filter.favorites) {
+        items.push({
+          key: 'favorites',
+          label: t('problems.favoritesOnly'),
+          onRemove: () => onChange('favorites', undefined),
+        });
+      }
+
+      if (filter.category) {
+        const categoryTitle =
+          categories.find((category) => String(category.id) === String(filter.category))?.title ??
+          String(filter.category);
+        items.push({
+          key: 'category',
+          label: `${t('problems.category')}: ${categoryTitle}`,
+          onRemove: () => onChange('category', undefined),
+        });
+      }
+
+      if (filter.tags && filter.tags.length) {
+        filter.tags.forEach((tagId) => {
+          const tagName = tags.find((tag) => tag.id === tagId)?.name ?? tagId;
+          items.push({
+            key: `tag-${tagId}`,
+            label: `${t('problems.tags')}: ${tagName}`,
+            onRemove: () =>
+              onChange(
+                'tags',
+                (filter.tags ?? []).filter((id) => id !== tagId),
+              ),
+          });
+        });
+      }
+
+      if (filter.difficulty) {
+        const diffLabel = difficultyOptions.find((item) => item.value === filter.difficulty)?.label;
+        items.push({
+          key: 'difficulty',
+          label: `${t('problems.difficultyLabel')}: ${diffLabel ? t(diffLabel) : filter.difficulty}`,
+          onRemove: () => onChange('difficulty', undefined),
+        });
+      }
+
+      if (filter.status != null) {
+        const statusLabel = statusOptions.find((option) => option.value === filter.status)?.label;
+        items.push({
+          key: 'status',
+          label: `${t('problems.status')}: ${statusLabel ? t(statusLabel) : filter.status}`,
+          onRemove: () => onChange('status', undefined),
+        });
+      }
+
+      return items;
+    },
+    [categories, filter, languages, onChange, t, tags],
+  );
+
+  const handleClearFilters = () => {
+    onChange('lang', undefined);
+    onChange('favorites', undefined);
+    onChange('category', undefined);
+    onChange('tags', []);
+    onChange('difficulty', undefined);
+    onChange('status', undefined);
+  };
 
   return (
     <Card variant="outlined">
@@ -322,18 +406,30 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
         }
       />
       <CardContent>
-        <Stack direction="column" spacing={2}>
-          <TextField
-            label={t('problems.searchPlaceholder')}
-            value={filter.search ?? ''}
-            onChange={(event) => onChange('search', event.target.value)}
-            size="small"
-            fullWidth
-          />
+        <Stack direction="column" spacing={2.5}>
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            spacing={1.5}
+            alignItems={{ md: 'center' }}
+            justifyContent="space-between"
+          >
+            <TextField
+              label={t('problems.searchPlaceholder')}
+              value={filter.search ?? ''}
+              onChange={(event) => onChange('search', event.target.value)}
+              size="small"
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconifyIcon icon="mdi:magnify" width={18} height={18} />
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-              <FormControl fullWidth size="small">
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ sm: 'center' }} flex={1}>
+              <FormControl fullWidth size="small" sx={{ minWidth: { sm: 220 } }}>
                 <InputLabel>{t('problems.orderBy')}</InputLabel>
                 <Select
                   label={t('problems.orderBy')}
@@ -347,9 +443,79 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
                   ))}
                 </Select>
               </FormControl>
-            </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+              <Button
+                variant={filtersOpen || activeFilters.length ? 'contained' : 'outlined'}
+                color="primary"
+                startIcon={<IconifyIcon icon="mdi:tune" />}
+                endIcon={<IconifyIcon icon="mdi:chevron-down" />}
+                onClick={handleFiltersOpen}
+                sx={{ minWidth: { xs: '100%', sm: 180 }, height: 40 }}
+              >
+                <Badge
+                  color="secondary"
+                  badgeContent={activeFilters.length}
+                  invisible={!activeFilters.length}
+                  overlap="circular"
+                >
+                  <Typography variant="button" sx={{ textTransform: 'none' }}>
+                    {t('problems.filters')}
+                  </Typography>
+                </Badge>
+              </Button>
+            </Stack>
+          </Stack>
+
+          {activeFilters.length > 0 && (
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap alignItems="center">
+              <Typography variant="body2" color="text.secondary">
+                {t('problems.appliedFilters', { count: activeFilters.length })}
+              </Typography>
+              {activeFilters.map((item) => (
+                <Chip
+                  key={item.key}
+                  size="small"
+                  label={item.label}
+                  onDelete={item.onRemove}
+                  color="primary"
+                  variant="outlined"
+                />
+              ))}
+              <Button variant="text" size="small" color="secondary" onClick={handleClearFilters}>
+                {t('problems.clearFilters')}
+              </Button>
+            </Stack>
+          )}
+        </Stack>
+
+        <Popover
+          open={filtersOpen}
+          anchorEl={filtersAnchor}
+          onClose={handleFiltersClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          PaperProps={{
+            sx: {
+              width: { xs: 'calc(100% - 32px)', sm: 560 },
+              maxWidth: 640,
+              p: 2.5,
+            },
+          }}
+        >
+          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <IconifyIcon icon="mdi:tune-variant" width={20} height={20} />
+              <Typography variant="subtitle1" fontWeight={700}>
+                {t('problems.filters')}
+              </Typography>
+            </Stack>
+            <Button size="small" variant="text" color="secondary" onClick={handleClearFilters}>
+              {t('problems.clearFilters')}
+            </Button>
+          </Stack>
+
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.language')}</InputLabel>
                 <Select
@@ -374,8 +540,19 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-              <Stack direction="row" alignItems="center" spacing={1} sx={{ height: '100%' }}>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                spacing={1}
+                sx={{
+                  height: '100%',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  borderRadius: 1.5,
+                  px: 1.5,
+                }}
+              >
                 <FormControlLabel
                   control={
                     <Switch
@@ -388,7 +565,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </Stack>
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.category')}</InputLabel>
                 <Select
@@ -413,7 +590,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.tags')}</InputLabel>
                 <Select
@@ -444,7 +621,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.difficultyLabel')}</InputLabel>
                 <Select
@@ -464,7 +641,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>{t('problems.status')}</InputLabel>
                 <Select
@@ -488,7 +665,7 @@ const FilterCard = ({ languages, categories, filter, total, onChange }: FilterCa
               </FormControl>
             </Grid>
           </Grid>
-        </Stack>
+        </Popover>
       </CardContent>
     </Card>
   );
@@ -551,24 +728,41 @@ const ProblemsList = ({
     const notSolved = problem.notSolved ?? Math.max((problem.attemptsCount ?? 0) - solved, 0);
 
     return (
-      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
-        <Chip size="small" color="success" label={t('problems.solvedCount', { count: solved })} />
-        <Chip
-          size="small"
-          color={notSolved > 0 ? 'error' : 'default'}
-          label={t('problems.unsolvedCount', { count: notSolved })}
+      <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" useFlexGap>
+        <Stack direction="row" spacing={0.75} alignItems="center">
+          <IconifyIcon icon="mdi:user-check" width={18} height={18} color={theme.palette.success.main} />
+          <Typography variant="body2" fontWeight={700}>
+            {t('problems.solvedCount', { count: solved })}
+          </Typography>
+        </Stack>
+
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{ borderColor: alpha(theme.palette.text.primary, 0.08), minHeight: 24 }}
         />
+
+        <Stack direction="row" spacing={0.75} alignItems="center">
+          <IconifyIcon icon="mdi:user-minus" width={18} height={18} color={theme.palette.error.main} />
+          <Typography
+            variant="body2"
+            fontWeight={700}
+            color={notSolved > 0 ? 'error.main' : 'text.secondary'}
+          >
+            {t('problems.unsolvedCount', { count: notSolved })}
+          </Typography>
+        </Stack>
       </Stack>
     );
   };
 
   return (
     <Card variant="outlined">
-      <CardContent>
+      <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
         {isLoading ? (
           <Stack direction="column" spacing={1.5}>
             {Array.from({ length: 5 }).map((_, idx) => (
-              <Skeleton key={idx} variant="rounded" height={96} />
+              <Skeleton key={idx} variant="rounded" height={114} />
             ))}
           </Stack>
         ) : problems.length === 0 ? (
@@ -581,61 +775,83 @@ const ProblemsList = ({
             </Typography>
           </Box>
         ) : (
-          <Stack direction="column" spacing={1.5}>
-            {problems.map((problem) => (
-              <Box
-                key={problem.id}
-                component={RouterLink}
-                to={getResourceById(resources.Problem, problem.id)}
-                sx={{
-                  textDecoration: 'none',
-                  borderRadius: 2,
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  p: 2,
-                  backgroundColor: getRowBackground(problem),
-                  transition: 'background-color 0.2s ease, transform 0.2s ease',
-                  '&:hover': {
-                    backgroundColor: alpha(theme.palette.primary.main, 0.04),
-                    transform: 'translateY(-2px)',
-                  },
-                }}
-              >
-                <Stack
-                  direction={{ xs: 'column', sm: 'row' }}
-                  spacing={1.5}
-                  alignItems={{ sm: 'flex-start' }}
-                  justifyContent="space-between"
-                >
-                  <Stack spacing={1} alignItems="center" flexShrink={0} width={48}>
-                    {renderStatusIcon(problem)}
-                    <Typography variant="caption" color="text.secondary">
-                      #{problem.id}
-                    </Typography>
-                  </Stack>
+          <Stack direction="column" spacing={1.25}>
+            {problems.map((problem) => {
+              const rowBackground = getRowBackground(problem);
+              const hasBadges = problem.hasSolution || problem.hidden || !problem.hasChecker;
 
-                  <Stack spacing={1} flex={1}>
-                    <Stack
-                      direction={{ xs: 'column', sm: 'row' }}
-                      spacing={1}
-                      justifyContent="space-between"
-                      alignItems={{ sm: 'center' }}
-                    >
-                      <Typography variant="subtitle1" fontWeight={700}>
-                        {problem.title}
-                      </Typography>
+              return (
+                <Box
+                  key={problem.id}
+                  component={RouterLink}
+                  to={getResourceById(resources.Problem, problem.id)}
+                  sx={{
+                    display: 'block',
+                    textDecoration: 'none',
+                    borderRadius: 2,
+                    border: '1px solid',
+                    borderColor: rowBackground ? 'transparent' : 'divider',
+                    p: { xs: 2, sm: 2.5 },
+                    background: rowBackground ?? 'var(--mui-palette-background-paper)',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: theme.shadows[4],
+                      borderColor: alpha(theme.palette.primary.main, 0.25),
+                    },
+                  }}
+                >
+                  <Stack spacing={1.5}>
+                    <Stack direction="row" spacing={1.5} alignItems="flex-start" justifyContent="space-between">
+                      <Stack direction="row" spacing={1.25} alignItems="center" flex={1}>
+                        <Box
+                          sx={{
+                            width: 44,
+                            height: 44,
+                            borderRadius: 1.5,
+                            backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                            display: 'grid',
+                            placeItems: 'center',
+                            border: '1px solid',
+                            borderColor: alpha(theme.palette.primary.main, 0.16),
+                          }}
+                        >
+                          {renderStatusIcon(problem)}
+                        </Box>
+
+                        <Stack spacing={0.25} minWidth={0}>
+                          <Typography variant="caption" color="text.secondary">
+                            #{problem.id}
+                          </Typography>
+                          <Typography
+                            variant="subtitle1"
+                            fontWeight={800}
+                            color="text.primary"
+                            sx={{
+                              maxWidth: { xs: '100%', sm: '34vw' },
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden',
+                            }}
+                          >
+                            {problem.title}
+                          </Typography>
+                        </Stack>
+                      </Stack>
+
                       {renderDifficultyBadge(problem)}
                     </Stack>
 
-                    {renderProblemBadges(problem)}
+                    {hasBadges ? renderProblemBadges(problem) : null}
 
                     {problem.tags.length ? renderTags(problem) : null}
 
                     <Stack
                       direction={{ xs: 'column', sm: 'row' }}
                       spacing={1}
-                      justifyContent="space-between"
                       alignItems={{ sm: 'center' }}
+                      justifyContent="space-between"
                     >
                       {renderSolvedBadges(problem)}
 
@@ -651,9 +867,9 @@ const ProblemsList = ({
                       </Stack>
                     </Stack>
                   </Stack>
-                </Stack>
-              </Box>
-            ))}
+                </Box>
+              );
+            })}
           </Stack>
         )}
 
@@ -669,61 +885,6 @@ const ProblemsList = ({
             ActionsComponent={CustomTablePaginationAction}
           />
         )}
-      </CardContent>
-    </Card>
-  );
-};
-
-interface SummaryCardProps {
-  solved: number;
-  rating: number;
-  rank: number;
-  usersCount: number;
-}
-
-const SummaryCard = ({ solved, rating, rank, usersCount }: SummaryCardProps) => {
-  const { t } = useTranslation();
-
-  return (
-    <Card variant="outlined">
-      <CardContent>
-        <Stack direction="row" spacing={2} justifyContent="space-between">
-          <Stack direction="column" spacing={0.5} alignItems="flex-start">
-            <Stack direction="row" spacing={0.5} alignItems="center">
-              <IconifyIcon icon="mdi:check-decagram" width={18} height={18} color="var(--mui-palette-success-main)" />
-              <Typography variant="subtitle2" fontWeight={700}>
-                {t('problems.summarySolved', { value: solved })}
-              </Typography>
-            </Stack>
-            <Typography variant="caption" color="text.secondary">
-              {t('problems.summarySolvedLabel')}
-            </Typography>
-          </Stack>
-
-          <Stack direction="column" spacing={0.5} alignItems="flex-start">
-            <Stack direction="row" spacing={0.5} alignItems="center">
-              <IconifyIcon icon="mdi:star" width={18} height={18} color="var(--mui-palette-warning-main)" />
-              <Typography variant="subtitle2" fontWeight={700}>
-                {t('problems.summaryRating', { value: rating })}
-              </Typography>
-            </Stack>
-            <Typography variant="caption" color="text.secondary">
-              {t('problems.summaryRatingLabel')}
-            </Typography>
-          </Stack>
-
-          <Stack direction="column" spacing={0.5} alignItems="flex-start">
-            <Stack direction="row" spacing={0.5} alignItems="center">
-              <IconifyIcon icon="mdi:trophy-variant" width={18} height={18} color="var(--mui-palette-info-main)" />
-              <Typography variant="subtitle2" fontWeight={700}>
-                {t('problems.summaryRank', { rank, total: usersCount })}
-              </Typography>
-            </Stack>
-            <Typography variant="caption" color="text.secondary">
-              {t('problems.summaryRankLabel')}
-            </Typography>
-          </Stack>
-        </Stack>
       </CardContent>
     </Card>
   );
@@ -764,7 +925,7 @@ const DifficultiesCard = ({ difficulties, isLoading }: DifficultiesCardProps) =>
       <CardContent>
         {isLoading || !difficulties ? (
           <Stack direction="column" spacing={1}>
-            {Array.from({ length: 4 }).map((_, idx) => (
+            {Array.from({ length: 7 }).map((_, idx) => (
               <Skeleton key={idx} variant="rectangular" height={20} />
             ))}
           </Stack>

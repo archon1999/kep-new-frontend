@@ -1,15 +1,13 @@
 import { useMemo, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
-  Button,
   Card,
   CardContent,
-  Chip,
   LinearProgress,
   Skeleton,
   Stack,
   Typography,
+  alpha,
   useTheme,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -17,11 +15,11 @@ import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import PageHeader from 'shared/components/sections/common/PageHeader';
-import IconifyIcon from 'shared/components/base/IconifyIcon';
-import { difficultyColorByKey, difficultyOptions } from '../../config/difficulty';
+import { difficultyOptions } from '../../config/difficulty';
 import { useProblemsPeriodRating, useProblemsRating } from '../../application/queries';
 import ProblemsRatingDataGrid from '../components/ProblemsRatingDataGrid';
 import { resources } from 'app/routes/resources';
+import IconifyIcon from 'shared/components/base/IconifyIcon';
 
 const sortFieldMap: Record<string, string> = {
   rating: 'rating',
@@ -34,16 +32,6 @@ const sortFieldMap: Record<string, string> = {
   hard: 'hard',
   extremal: 'extremal',
 };
-
-const orderingOptions = [
-  ...difficultyOptions.map((option) => ({
-    key: option.key,
-    label: option.label,
-    color: difficultyColorByKey[option.key],
-  })),
-  { key: 'solved', label: 'problems.rating.ordering.solved', color: 'info' },
-  { key: 'rating', label: 'problems.rating.ordering.rating', color: 'primary' },
-] as const;
 
 const ProblemsRatingPage = () => {
   const { t } = useTranslation();
@@ -70,22 +58,9 @@ const ProblemsRatingPage = () => {
 
   const rows = ratingPage?.data ?? [];
   const rowCount = ratingPage?.total ?? 0;
-  const activeSort = sortModel[0];
 
   const handlePaginationModelChange = (model: GridPaginationModel) => setPaginationModel(model);
   const handleSortModelChange = (model: GridSortModel) => setSortModel(model.slice(0, 1));
-
-  const handleOrderingShortcut = (key: string) => {
-    setSortModel((prev) => {
-      const current = prev[0];
-
-      if (current?.field === key) {
-        return [{ field: key, sort: current.sort === 'desc' ? 'asc' : 'desc' }];
-      }
-
-      return [{ field: key, sort: 'desc' }];
-    });
-  };
 
   const labels = useMemo(
     () => ({
@@ -102,84 +77,30 @@ const ProblemsRatingPage = () => {
   );
 
   return (
-    <Stack direction="column" spacing={4} sx={{ ...responsivePagePaddingSx, pb: 5 }}>
+    <Stack direction="column">
       <PageHeader
         title={t('problems.rating.title')}
         breadcrumb={[
-          { label: t('home'), url: '/' },
-          { label: t('problems.rating.title'), active: true },
+          { label: t('problems.title'), url: resources.Problems },
+          { label: t('problems.rating.ordering.rating'), active: true },
         ]}
-        actionComponent={
-          <Button
-            variant="outlined"
-            color="primary"
-            component={RouterLink}
-            to={resources.Problems}
-            startIcon={<IconifyIcon icon="mdi:arrow-left" width={18} height={18} />}
-          >
-            {t('problems.rating.backToProblems')}
-          </Button>
-        }
       />
 
-      <Card variant="outlined">
-        <CardContent>
-          <Stack
-            direction={{ xs: 'column', md: 'row' }}
-            spacing={2}
-            justifyContent="space-between"
-            alignItems={{ md: 'center' }}
-          >
-            <Stack spacing={0.5}>
-              <Typography variant="h6" fontWeight={800}>
-                {t('problems.rating.subtitle')}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {t('problems.rating.total', { count: rowCount })}
-              </Typography>
-            </Stack>
+      {isLoading || isValidating ? <LinearProgress /> : null}
+      <Stack direction="column" spacing={2} sx={responsivePagePaddingSx}>
+        <ProblemsRatingDataGrid
+          rows={rows}
+          rowCount={rowCount}
+          loading={isLoading || isValidating}
+          paginationModel={paginationModel}
+          onPaginationModelChange={handlePaginationModelChange}
+          sortModel={sortModel}
+          onSortModelChange={handleSortModelChange}
+          labels={labels}
+        />
 
-            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-              {orderingOptions.map((option) => {
-                const isActive = activeSort?.field === option.key;
-                const isDesc = activeSort?.sort !== 'asc';
-                const icon = isActive ? (
-                  <IconifyIcon icon={isDesc ? 'mdi:arrow-down' : 'mdi:arrow-up'} width={18} height={18} />
-                ) : undefined;
-
-                return (
-                  <Button
-                    key={option.key}
-                    variant={isActive ? 'contained' : 'outlined'}
-                    color={option.color as any}
-                    size="small"
-                    onClick={() => handleOrderingShortcut(option.key)}
-                    endIcon={icon}
-                    sx={{ textTransform: 'none' }}
-                  >
-                    {t(option.label)}
-                  </Button>
-                );
-              })}
-            </Stack>
-          </Stack>
-        </CardContent>
-        {isLoading || isValidating ? <LinearProgress /> : null}
-        <Box sx={{ px: { xs: 1, md: 2 }, pb: 2 }}>
-          <ProblemsRatingDataGrid
-            rows={rows}
-            rowCount={rowCount}
-            loading={isLoading || isValidating}
-            paginationModel={paginationModel}
-            onPaginationModelChange={handlePaginationModelChange}
-            sortModel={sortModel}
-            onSortModelChange={handleSortModelChange}
-            labels={labels}
-          />
-        </Box>
-      </Card>
-
-      <PeriodRatings />
+        <PeriodRatings />
+      </Stack>
     </Stack>
   );
 };
@@ -216,26 +137,48 @@ const PeriodRatings = () => {
           const isLoading = hook.isLoading;
 
           return (
-            <Grid size={{ xs: 12, md: 4 }} key={period}>
-              <Card variant="outlined" sx={{ borderColor: `var(--mui-palette-${color}-main)` }}>
-                <CardContent>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    spacing={1}
-                    mb={1.5}
-                  >
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <IconifyIcon icon={icon} width={20} height={20} color={`var(--mui-palette-${color}-main)`} />
-                      <Typography variant="subtitle1" fontWeight={700}>
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <Card
+                variant="outlined"
+                sx={{
+                  borderColor: `var(--mui-palette-${color}-main)`,
+                  background: `linear-gradient(135deg, ${alpha(theme.palette[color].main, 0.12)}, ${alpha(
+                    theme.palette[color].main,
+                    0.03,
+                  )})`,
+                  width: '100%',
+                }}
+              >
+                <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+                    <Stack direction="row" spacing={1.25} alignItems="center">
+                      <Box
+                        sx={{
+                          width: 38,
+                          height: 38,
+                          borderRadius: '50%',
+                          backgroundColor: alpha(theme.palette[color].main, 0.15),
+                          display: 'grid',
+                          placeItems: 'center',
+                        }}
+                      >
+                        <IconifyIcon icon={icon} width={20} height={20} color={`var(--mui-palette-${color}-main)`} />
+                      </Box>
+                      <Typography variant="subtitle1" fontWeight={800}>
                         {t(`problems.rating.period.${period}`)}
                       </Typography>
                     </Stack>
+                    <Typography variant="caption" fontWeight={700} color={`var(--mui-palette-${color}-main)`}>
+                      {t('problems.rating.title')}
+                    </Typography>
                   </Stack>
 
                   {isLoading ? (
-                    <Skeleton variant="rounded" height={120} />
+                    <Stack direction="column" spacing={1}>
+                      {[0, 1, 2].map((skeleton) => (
+                        <Skeleton key={skeleton} variant="rounded" height={52} />
+                      ))}
+                    </Stack>
                   ) : items.length ? (
                     <Stack direction="column" spacing={1}>
                       {items.map((item, index) => (
@@ -247,22 +190,16 @@ const PeriodRatings = () => {
                           sx={{
                             p: 1,
                             borderRadius: 1,
-                            backgroundColor: `var(--mui-palette-${color}-main)`,
-                            color: theme.palette.getContrastText(theme.palette[color].main),
+                            backgroundColor: alpha(theme.palette.background.paper, 0.6),
+                            border: `1px solid ${alpha(theme.palette[color].main, 0.2)}`,
                           }}
                         >
-                          <Typography variant="body2" fontWeight={700}>
+                          <Typography variant="body2" fontWeight={700} color="text.primary">
                             #{index + 1} {item.username}
                           </Typography>
-                          <Chip
-                            size="small"
-                            label={t('problems.rating.periodSolved', { value: item.solved })}
-                            sx={{
-                              backgroundColor: theme.palette.getContrastText(theme.palette[color].main),
-                              color: theme.palette[color].main,
-                              fontWeight: 700,
-                            }}
-                          />
+                          <Typography variant="body2" fontWeight={700} color={`var(--mui-palette-${color}-main)`}>
+                            {t('problems.rating.periodSolved', { value: item.solved })}
+                          </Typography>
                         </Stack>
                       ))}
                     </Stack>

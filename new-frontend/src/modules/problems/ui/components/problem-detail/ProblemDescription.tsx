@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Accordion,
@@ -22,9 +22,9 @@ import { GridPaginationModel } from '@mui/x-data-grid';
 import { useProblemSolution } from 'modules/problems/application/queries.ts';
 import { DifficultyColor } from 'modules/problems/config/difficulty';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import ClipboardButton from 'shared/components/common/ClipboardButton';
 import { ProblemDetail } from '../../../domain/entities/problem.entity';
 import ProblemsAttemptsTable from '../ProblemsAttemptsTable';
+import { ProblemBody } from './ProblemBody';
 import { HackAttemptsCard } from './HackAttemptsCard';
 import { ProblemFooter } from './ProblemFooter';
 import { ProblemStatisticsTab } from './ProblemStatisticsTab';
@@ -60,8 +60,6 @@ interface ProblemDescriptionProps {
   onDislike: () => void;
 }
 
-let mathJaxLoader: Promise<any> | null = null;
-
 export const ProblemDescription = ({
   problem,
   selectedDifficultyColor,
@@ -86,81 +84,11 @@ export const ProblemDescription = ({
   onDislike,
 }: ProblemDescriptionProps) => {
   const { t } = useTranslation();
-  const contentRef = useRef<HTMLDivElement | null>(null);
   const [solutionExpanded, setSolutionExpanded] = useState(false);
   const { data: solution, isLoading: isSolutionLoading } = useProblemSolution(
     problem.id,
     solutionExpanded,
   );
-
-  useEffect(() => {
-    const ensureMathJax = () => {
-      if (mathJaxLoader) {
-        return mathJaxLoader;
-      }
-
-      mathJaxLoader = new Promise((resolve) => {
-        if ((window as any).MathJax) {
-          resolve((window as any).MathJax);
-          return;
-        }
-
-        const existingScript = document.getElementById('mathjax-script');
-
-        if (existingScript) {
-          existingScript.addEventListener('load', () => resolve((window as any).MathJax));
-          return;
-        }
-
-        (window as any).MathJax = {
-          tex: {
-            inlineMath: [
-              ['$', '$'],
-              ['\\(', '\\)'],
-            ],
-            displayMath: [
-              ['$$', '$$'],
-              ['\\[', '\\]'],
-            ],
-          },
-          options: {
-            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-          },
-          startup: {
-            typeset: false,
-          },
-        };
-
-        const script = document.createElement('script');
-        script.id = 'mathjax-script';
-        script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-        script.async = true;
-        script.onload = () => resolve((window as any).MathJax);
-        document.head.appendChild(script);
-      });
-
-      return mathJaxLoader;
-    };
-
-    ensureMathJax()
-      ?.then((mathJax) => {
-        if (mathJax?.startup?.promise && mathJax.typesetPromise) {
-          mathJax.startup.promise.then(() => {
-            setTimeout(() => mathJax.typesetPromise([contentRef.current]), 50);
-          });
-        }
-      })
-      .catch(() => undefined);
-
-    return () => {};
-  }, [
-    activeTab,
-    problem.body,
-    problem.inputData,
-    problem.outputData,
-    problem.comment,
-    solution?.solution,
-  ]);
 
   return (
     <Card
@@ -219,7 +147,7 @@ export const ProblemDescription = ({
 
       <Divider />
 
-      <CardContent ref={contentRef} sx={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
+      <CardContent sx={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
         {activeTab === 'description' ? (
           <Stack direction="column" spacing={2}>
             <Stack direction="column" spacing={1} flexWrap="wrap">
@@ -252,118 +180,7 @@ export const ProblemDescription = ({
               </Stack>
             </Stack>
 
-            <Box className="problem-body">
-              <Typography
-                variant="body1"
-                color="text.primary"
-                dangerouslySetInnerHTML={{ __html: problem.body ?? '' }}
-              />
-
-              {problem.inputData ? (
-                <>
-                  <Stack direction="column" mt={2}>
-                    <Typography variant="h6">{t('problems.detail.inputData')}</Typography>
-                    <Typography
-                      variant="body1"
-                      dangerouslySetInnerHTML={{ __html: problem.inputData }}
-                    />
-                  </Stack>
-                </>
-              ) : null}
-
-              {problem.outputData ? (
-                <Stack direction="column" mt={2}>
-                  <Typography variant="h6">{t('problems.detail.outputData')}</Typography>
-                  <Typography
-                    variant="body1"
-                    dangerouslySetInnerHTML={{ __html: problem.outputData }}
-                  />
-                </Stack>
-              ) : null}
-
-              {problem.sampleTests?.length ? (
-                <Stack direction="column" mt={2}>
-                  <Typography variant="h6" mb={2}>
-                    {t('problems.detail.sampleTests')}
-                  </Typography>
-                  <Stack direction="column" spacing={2}>
-                    {problem.sampleTests.map((test, index) => (
-                      <Card key={`${test.input}-${index}`} variant="outlined">
-                        <CardContent>
-                          <Stack direction="column" spacing={2}>
-                            <Box>
-                              <Stack
-                                direction="row"
-                                alignItems="center"
-                                justifyContent="space-between"
-                              >
-                                <Typography fontWeight={700}>
-                                  {t('problems.detail.input')}
-                                </Typography>
-                                <ClipboardButton text={test.input ?? ''} />
-                              </Stack>
-                              <Box
-                                sx={{
-                                  mt: 1,
-                                  p: 1.5,
-                                  borderRadius: 1,
-                                  bgcolor: 'background.paper',
-                                  border: '1px solid',
-                                  borderColor: 'divider',
-                                  fontFamily: 'monospace',
-                                  whiteSpace: 'pre-wrap',
-                                }}
-                              >
-                                {test.input}
-                              </Box>
-                            </Box>
-
-                            <Box>
-                              <Stack
-                                direction="row"
-                                alignItems="center"
-                                justifyContent="space-between"
-                              >
-                                <Typography fontWeight={700}>
-                                  {t('problems.detail.expectedOutput')}
-                                </Typography>
-                                <ClipboardButton text={test.output ?? ''} />
-                              </Stack>
-                              <Box
-                                sx={{
-                                  mt: 1,
-                                  p: 1.5,
-                                  borderRadius: 1,
-                                  bgcolor: 'background.paper',
-                                  border: '1px solid',
-                                  borderColor: 'divider',
-                                  fontFamily: 'monospace',
-                                  whiteSpace: 'pre-wrap',
-                                }}
-                              >
-                                {test.output}
-                              </Box>
-                            </Box>
-                          </Stack>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </Stack>
-                </Stack>
-              ) : null}
-
-              {problem.comment ? (
-                <Box mt={3}>
-                  <Typography variant="h6" mb={1}>
-                    {t('problems.detail.comment')}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    dangerouslySetInnerHTML={{ __html: problem.comment }}
-                  />
-                </Box>
-              ) : null}
-            </Box>
+            <ProblemBody problem={problem} currentUser={currentUser} />
 
             {problem.tags?.length || problem.topics?.length ? (
               <Accordion>
