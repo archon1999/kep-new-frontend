@@ -66,7 +66,7 @@ const HackathonPage = () => {
                       ) : null}
                     </Box>
 
-                    <Stack spacing={1} flex={1} minWidth={0}>
+                    <Stack direction="row" spacing={1} flex={1} minWidth={0}>
                       <Typography variant="h4" fontWeight={800} noWrap>
                         {hackathon?.title}
                       </Typography>

@@ -96,7 +96,7 @@ const ArenaDetailPage = () => {
           >
             <Stack direction="row" alignItems="center" spacing={1.5}>
               <IconifyIcon icon="mdi:sword-cross" color="warning.main" fontSize={32} />
-              <Stack spacing={0.5}>
+              <Stack direction="row" spacing={0.5}>
                 <Typography variant="h4" fontWeight={800}>
                   {headerTitle}
                 </Typography>

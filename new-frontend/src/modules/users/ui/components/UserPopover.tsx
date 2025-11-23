@@ -207,7 +207,7 @@ const UserPopover = ({
                       <Typography variant="caption" color="text.secondary">
                         {label}
                       </Typography>
-                      <Stack spacing={0.5}>
+                      <Stack direction="row" spacing={0.5}>
                         {stat?.title && (
                           <>
                             {key === 'contestsRating' ? (

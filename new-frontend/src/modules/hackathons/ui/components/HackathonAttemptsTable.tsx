@@ -63,7 +63,7 @@ const HackathonAttemptsTable = ({ attempts, isLoading, onRerun }: HackathonAttem
         {isFetchingLog ? (
           <Typography variant="body2">{t('projects.loadingLog')}</Typography>
         ) : log ? (
-          <Stack spacing={2}>
+          <Stack direction="row" spacing={2}>
             {log.log ? (
               <Box component="pre" sx={{ p: 2, bgcolor: 'background.neutral', borderRadius: 2, overflow: 'auto' }}>
                 <Typography component="div" variant="body2" dangerouslySetInnerHTML={{ __html: log.log }} />
@@ -152,7 +152,7 @@ const HackathonAttemptsTable = ({ attempts, isLoading, onRerun }: HackathonAttem
                 </Stack>
               </TableCell>
               <TableCell>
-                <Stack spacing={0.25}>
+                <Stack direction="row" spacing={0.25}>
                   <Typography variant="body2" fontWeight={600}>
                     {attempt.created ? new Date(attempt.created).toLocaleDateString() : '—'}
                   </Typography>

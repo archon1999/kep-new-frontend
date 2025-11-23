@@ -215,7 +215,7 @@ const Section = ({
         {title}
       </Typography>
       {disable && (
-        <Stack sx={{ alignItems: 'center', gap: 0.5, mb: 2, color: 'info.main' }}>
+        <Stack direction="row" sx={{ alignItems: 'center', gap: 0.5, mb: 2, color: 'info.main' }}>
           <IconifyIcon icon="material-symbols:info-outline" sx={{ fontSize: 16 }} />
           <Typography variant="subtitle2">Not available in this layout.</Typography>
         </Stack>

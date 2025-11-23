@@ -251,7 +251,7 @@ const UserProfilePage = () => {
             <Suspense
               fallback={
                 <CardContent>
-                  <Stack spacing={2}>
+                  <Stack direction="row" spacing={2}>
                     <Skeleton variant="rectangular" height={160} />
                     <Skeleton variant="rounded" height={32} />
                     <Skeleton variant="rounded" height={24} />

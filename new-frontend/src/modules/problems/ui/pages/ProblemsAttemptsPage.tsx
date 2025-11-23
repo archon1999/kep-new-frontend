@@ -272,7 +272,7 @@ const ProblemsAttemptsPage = () => {
                     alt={option.username}
                     sx={{ width: 28, height: 28 }}
                   />
-                  <Stack spacing={0.25}>
+                  <Stack direction="row" spacing={0.25}>
                     <Typography variant="body2" fontWeight={700}>
                       {option.username}
                     </Typography>

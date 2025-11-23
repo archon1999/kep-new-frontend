@@ -278,7 +278,7 @@ const UserActivitySection = () => {
                     {t('homePage.userActivity.changeLabel')}
                   </Typography>
 
-                  <Stack justifyContent="flex-end">
+                  <Stack direction="row" justifyContent="flex-end">
                     {showSkeleton ? (
                       <Skeleton width={140} height={36} />
                     ) : (
@@ -333,7 +333,7 @@ const UserActivitySection = () => {
                     {t('homePage.userActivity.changeLabel')}
                   </Typography>
 
-                  <Stack justifyContent="flex-end">
+                <Stack direction="row" justifyContent="flex-end">
                     {showSkeleton ? (
                       <Skeleton width={140} height={36} />
                     ) : (

@@ -143,7 +143,7 @@ const ContestsRatingPage = () => {
                     <TableCell>
                       <Stack direction="row" spacing={1.25} alignItems="center">
                         <ContestsRatingChip title={row.ratingTitle} imgSize={28} />
-                        <Stack spacing={0.25}>
+                        <Stack direction="row" spacing={0.25}>
                           <Typography variant="subtitle2" fontWeight={700}>
                             {row.rating ?? '—'}
                           </Typography>
@@ -163,7 +163,7 @@ const ContestsRatingPage = () => {
                           title={row.maxRatingTitle ?? row.ratingTitle}
                           imgSize={24}
                         />
-                        <Stack spacing={0.25}>
+                        <Stack direction="row" spacing={0.25}>
                           <Typography variant="subtitle2" fontWeight={700}>
                             {row.maxRating ?? '—'}
                           </Typography>

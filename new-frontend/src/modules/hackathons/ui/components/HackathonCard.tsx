@@ -73,7 +73,7 @@ const HackathonCard = ({ hackathon }: HackathonCardProps) => {
             >
               {!hackathon.logo ? hackathon.title?.charAt(0) ?? 'H' : null}
             </Avatar>
-            <Stack spacing={0.5} flex={1} minWidth={0}>
+            <Stack direction="row" spacing={0.5} flex={1} minWidth={0}>
               <Typography variant="h6" fontWeight={800} noWrap>
                 {hackathon.title}
               </Typography>
