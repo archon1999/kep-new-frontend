@@ -74,11 +74,12 @@ const DuelsListSection = ({
 
         {!loading &&
           duels.map((duel) => {
-            const confirmAvailable =
-              !!currentUsername &&
-              duel.isConfirmed === false &&
-              duel.playerSecond?.username &&
-              duel.playerSecond.username === currentUsername;
+            const confirmAvailable = Boolean(
+              currentUsername &&
+                duel.isConfirmed === false &&
+                duel.playerSecond?.username &&
+                duel.playerSecond.username === currentUsername,
+            );
 
             return (
               <DuelsListCard

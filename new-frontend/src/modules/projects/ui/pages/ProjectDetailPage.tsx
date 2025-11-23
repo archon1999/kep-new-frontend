@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { Box, Card, CardContent, CardHeader, CircularProgress, Grid, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, CircularProgress, Grid, Tab, Tabs } from '@mui/material';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useProjectDetails } from '../../application/queries';
 import ProjectAttempts from '../components/ProjectAttempts.tsx';

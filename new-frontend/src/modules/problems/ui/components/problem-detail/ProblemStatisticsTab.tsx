@@ -146,7 +146,9 @@ export const ProblemStatisticsTab = ({ problemId, problem }: ProblemStatisticsTa
     const data = stats.attemptStatistics.map((item) => ({
       name: item.verdictTitle || String(item.verdict),
       value: item.value,
-      itemStyle: { color: paletteMap[item.color] ?? paletteMap.primary },
+      itemStyle: {
+        color: paletteMap[(item.color as keyof ReturnType<typeof usePaletteMap>) ?? 'primary'] ?? paletteMap.primary,
+      },
     }));
 
     return {

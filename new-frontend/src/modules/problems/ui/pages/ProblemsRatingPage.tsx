@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { Palette } from '@mui/material/styles';
 import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
@@ -105,10 +106,12 @@ const ProblemsRatingPage = () => {
   );
 };
 
-const periodConfigs = [
-  { period: 'today' as const, color: 'success', icon: 'mdi:calendar-today' },
-  { period: 'week' as const, color: 'info', icon: 'mdi:calendar-week' },
-  { period: 'month' as const, color: 'primary', icon: 'mdi:calendar-month' },
+type PeriodColor = keyof Pick<Palette, 'success' | 'info' | 'primary'>;
+
+const periodConfigs: Array<{ period: 'today' | 'week' | 'month'; color: PeriodColor; icon: string }> = [
+  { period: 'today', color: 'success', icon: 'mdi:calendar-today' },
+  { period: 'week', color: 'info', icon: 'mdi:calendar-week' },
+  { period: 'month', color: 'primary', icon: 'mdi:calendar-month' },
 ];
 
 const PeriodRatings = () => {

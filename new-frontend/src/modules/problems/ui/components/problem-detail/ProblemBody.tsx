@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Box, Card, CardContent, Divider, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from 'app/providers/AuthProvider';
 import ClipboardButton from 'shared/components/common/ClipboardButton';
 import type { ProblemDetail } from '../../../domain/entities/problem.entity';
 import { CustomProblemBody } from './ProblemCustomBodies';
@@ -14,7 +13,6 @@ let mathJaxLoader: Promise<any> | null = null;
 
 export const ProblemBody = ({ problem }: ProblemBodyProps) => {
   const { t } = useTranslation();
-  const { currentUser } = useAuth();
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

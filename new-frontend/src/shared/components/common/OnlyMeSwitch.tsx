@@ -7,7 +7,7 @@ type OnlyMeSwitchProps = {
   disabled?: boolean;
   switchSize?: SwitchProps['size'];
   switchColor?: SwitchProps['color'];
-} & Omit<CardProps, 'children'>;
+} & Omit<CardProps, 'children' | 'onChange'>;
 
 const OnlyMeSwitch = ({
   label,

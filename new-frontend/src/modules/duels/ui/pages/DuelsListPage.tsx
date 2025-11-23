@@ -83,7 +83,7 @@ const DuelsListPage = () => {
       await toggleReady(value);
       await mutateReadyStatus();
       await mutateReadyPlayers();
-    } catch (error) {
+    } catch {
       toast.error(t('duels.error'));
     }
   };
@@ -103,7 +103,7 @@ const DuelsListPage = () => {
       if (duelId) {
         navigate(getResourceById(resources.Duel, duelId));
       }
-    } catch (error) {
+    } catch {
       toast.error(t('duels.error'));
     }
   };
@@ -114,7 +114,7 @@ const DuelsListPage = () => {
       await confirmDuel(duelId);
       await Promise.all([mutateMyDuels(), mutateAllDuels()]);
       toast.success(t('duels.confirmedToast'));
-    } catch (error) {
+    } catch {
       toast.error(t('duels.error'));
     } finally {
       setConfirmLoadingId(null);
@@ -146,7 +146,7 @@ const DuelsListPage = () => {
           <Button
             variant="outlined"
             color="primary"
-            startIcon={<KepIcon name="ranking" fontSize={20} />}
+            startIcon={<KepIcon name="rating" fontSize={20} />}
             onClick={() => navigate(resources.DuelsRating)}
           >
             {t('duels.ratingTitle')}

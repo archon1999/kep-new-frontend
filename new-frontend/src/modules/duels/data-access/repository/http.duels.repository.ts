@@ -51,7 +51,11 @@ export class HttpDuelsRepository implements DuelsRepository {
     pageSize?: number,
   ): Promise<PageResult<AttemptListItem>> {
     const response = await duelsApiClient.getProblemAttempts(duelId, duelProblem, pageSize);
-    return mapAttemptsPage(response);
+    const page = mapAttemptsPage(response);
+    return {
+      ...page,
+      count: page.total,
+    } satisfies PageResult<AttemptListItem>;
   }
 
   async getReadyStatus(): Promise<DuelReadyStatus> {
