@@ -61,6 +61,7 @@ const Topnav = () => {
           <Logo showName={upSm} />
         </Box>
         <Stack
+          direction="row"
           sx={{
             alignItems: 'center',
             flex: 1,

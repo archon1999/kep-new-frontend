@@ -137,6 +137,7 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
         }}
       >
         <Stack
+          direction="row"
           sx={{
             alignItems: 'center',
             gap: 2,

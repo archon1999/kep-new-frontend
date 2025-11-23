@@ -17,6 +17,7 @@ const AppbarActionItems = ({ type = 'default', sx, searchComponent }: AppbarActi
   return (
     <Stack
       className="action-items"
+      direction="row"
       spacing={1}
       sx={{
         alignItems: 'center',

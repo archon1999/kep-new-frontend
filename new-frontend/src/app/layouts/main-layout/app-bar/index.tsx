@@ -56,6 +56,7 @@ const AppBar = () => {
         </Box>
 
         <Stack
+          direction="row"
           sx={{
             alignItems: 'center',
             flex: 1,

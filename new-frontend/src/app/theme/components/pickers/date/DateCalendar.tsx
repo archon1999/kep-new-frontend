@@ -43,7 +43,7 @@ const DateCalendar: Components<Omit<Theme, 'components'>>['MuiDateCalendar'] = {
         };
 
         return (
-          <Stack sx={{ justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Button shape="square" color="neutral" onClick={selectPreviousMonth}>
               <IconifyIcon icon="material-symbols:chevron-left-rounded" sx={{ fontSize: 20 }} />
             </Button>

@@ -105,7 +105,7 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
               <Skeleton variant="circular" width={44} height={44} />
 
               <Stack direction="column" spacing={1} flex={1} minWidth={0}>
-                <Stack spacing={0.75}>
+                <Stack direction="row" spacing={0.75}>
                   <Skeleton variant="text" width="80%" />
                   <Skeleton variant="text" width={80} />
                 </Stack>
@@ -120,7 +120,7 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
 
     if (!dailyTasks.length) {
       return (
-        <Stack alignItems="center" justifyContent="center" spacing={1.25} sx={{ py: 4 }}>
+        <Stack direction="row" alignItems="center" justifyContent="center" spacing={1.25} sx={{ py: 4 }}>
           <Avatar sx={{ bgcolor: 'background.level1', color: 'text.secondary', width: 48, height: 48 }}>
             <IconifyIcon icon="material-symbols:checklist-rounded" />
           </Avatar>
@@ -150,7 +150,7 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
             </Avatar>
 
             <Stack direction="column" spacing={1}>
-              <Stack spacing={0.75} flex={1} minWidth={0}>
+              <Stack direction="row" spacing={0.75} flex={1} minWidth={0}>
                 <Typography variant="subtitle2" noWrap title={task.description}>
                   {task.description}
                 </Typography>
@@ -247,7 +247,7 @@ const DailyTasksMenu = ({ type = 'default' }: DailyTasksMenuProps) => {
 
         <Divider />
 
-        <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
+        <Stack direction="row" spacing={1} sx={{ px: 2, py: 1.5 }}>
           <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
             <Typography variant="body2" color="text.secondary">
               {t('common.dailyTasks.completed')}

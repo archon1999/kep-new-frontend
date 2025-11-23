@@ -40,6 +40,7 @@ const TopnavItems = ({ type = 'default' }: TopnavItemsProps) => {
         gap: '2px',
       }}
       className="nav-items"
+      direction="row"
     >
       {sitemap.map((menu) => {
         const buttonLinkProps =

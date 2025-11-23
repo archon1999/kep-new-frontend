@@ -65,6 +65,7 @@ const TopnavSlim = ({ sx }: TopnavSlimProps) => {
         </Box>
 
         <Stack
+          direction="row"
           sx={{
             alignItems: 'center',
             flex: 1,
