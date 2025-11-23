@@ -17,4 +17,6 @@ export const contestsApiClient = {
     apiClient.apiContestsRatingRatingChanges(username) as Promise<ContestsRatingDetail>,
   userStatistics: (username: string) =>
     apiClient.apiContestsRatingStatistics(username) as Promise<any>,
+  top3Contestants: (contestId: number | string) =>
+    apiClient.apiContestsTop3Contestants(String(contestId)) as Promise<any>,
 };

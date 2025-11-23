@@ -8,6 +8,7 @@ import {
   ContestRatingChange,
   ContestUserStatistics,
 } from '../entities/contest-user-statistics.entity';
+import { ContestTopContestant } from '../entities/contest.entity';
 
 export interface PageResult<T> {
   page: number;
@@ -24,4 +25,5 @@ export interface ContestsRepository {
   rating: (params?: ApiContestsRatingListParams) => Promise<PageResult<ContestRatingRow>>;
   userStatistics: (username: string) => Promise<ContestUserStatistics | null>;
   ratingChanges: (username: string) => Promise<ContestRatingChange[]>;
+  top3Contestants: (contestId: number | string) => Promise<ContestTopContestant[]>;
 }

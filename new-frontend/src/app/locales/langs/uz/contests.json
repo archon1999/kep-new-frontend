@@ -22,6 +22,11 @@
       "live": "Jonli · yakunlanadi {{date}}",
       "finished": "Yakunlangan {{date}}"
     },
+    "topContestants": {
+      "title": "Top-3 ishtirokchilar",
+      "loading": "Natijalar yuklanmoqda...",
+      "empty": "Gʻoliblar kontest tugagach koʻrsatiladi."
+    },
     "startsLabel": "Boshlanishi {{date}}",
     "startsUnknown": "Boshlanish vaqti tez orada eʼlon qilinadi",
     "endsLabel": "Tugashi {{date}}",
