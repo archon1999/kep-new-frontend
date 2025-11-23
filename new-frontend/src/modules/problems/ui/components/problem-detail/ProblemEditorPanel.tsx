@@ -17,6 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
+import { useAuth } from 'app/providers/AuthProvider';
 import { resources } from 'app/routes/resources';
 import AttemptVerdict, { VerdictKey } from 'shared/components/problems/AttemptVerdict';
 import KepIcon from 'shared/components/base/KepIcon';
@@ -68,7 +69,6 @@ interface ProblemEditorPanelProps {
   }>;
   editorTab: 'console' | 'samples';
   onEditorTabChange: (value: 'console' | 'samples') => void;
-  currentUser: any;
   canUseCheckSamples: boolean;
   editorTheme: string;
 }
@@ -94,9 +94,9 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
     checkSamplesResult,
     editorTab,
     onEditorTabChange,
-    currentUser,
     editorTheme,
   } = props;
+  const { currentUser } = useAuth();
   const { t } = useTranslation();
   const selectedLanguageInfo = problem?.availableLanguages?.find(
     (lang) => lang.lang === selectedLang,

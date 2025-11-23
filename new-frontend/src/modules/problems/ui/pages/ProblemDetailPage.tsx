@@ -472,7 +472,6 @@ const ProblemDetailPage = () => {
         canNavigate={Boolean(problem?.id)}
         problemId={problemId}
         problem={problem}
-        currentUser={currentUser}
         hasCode={Boolean(code)}
         isRunning={isRunning}
         isCheckingSamples={isCheckingSamples}
@@ -532,7 +531,6 @@ const ProblemDetailPage = () => {
                 selectedDifficultyColor={selectedDifficultyColor}
                 activeTab={activeTab}
                 onTabChange={handleTabChange}
-                currentUser={currentUser}
                 myAttemptsOnly={myAttemptsOnly}
                 onToggleMyAttempts={() => setMyAttemptsOnly((prev) => !prev)}
                 attempts={attemptsPage?.data ?? []}
@@ -588,7 +586,6 @@ const ProblemDetailPage = () => {
                 checkSamplesResult={checkSamplesResult}
                 editorTab={editorTab}
                 onEditorTabChange={setEditorTab}
-                currentUser={currentUser}
                 canUseCheckSamples={canUseCheckSamples}
                 editorTheme={editorTheme}
               />

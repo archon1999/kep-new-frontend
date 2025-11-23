@@ -17,6 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
+import { useAuth } from 'app/providers/AuthProvider';
 import { useProblemSolution } from 'modules/problems/application/queries.ts';
 import { DifficultyColor } from 'modules/problems/config/difficulty';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
@@ -40,7 +41,6 @@ interface ProblemDescriptionProps {
   selectedDifficultyColor: DifficultyColor;
   activeTab: TabValue;
   onTabChange: (value: TabValue) => void;
-  currentUser: any;
   myAttemptsOnly: boolean;
   onToggleMyAttempts: () => void;
   attempts: any[];
@@ -64,7 +64,6 @@ export const ProblemDescription = ({
   selectedDifficultyColor,
   activeTab,
   onTabChange,
-  currentUser,
   myAttemptsOnly,
   onToggleMyAttempts,
   attempts,
@@ -83,6 +82,7 @@ export const ProblemDescription = ({
   onDislike,
 }: ProblemDescriptionProps) => {
   const { t } = useTranslation();
+  const { currentUser } = useAuth();
   const [solutionExpanded, setSolutionExpanded] = useState(false);
   const { data: solution, isLoading: isSolutionLoading } = useProblemSolution(
     problem.id,
@@ -179,7 +179,7 @@ export const ProblemDescription = ({
               </Stack>
             </Stack>
 
-            <ProblemBody problem={problem} currentUser={currentUser} />
+            <ProblemBody problem={problem} />
 
             {problem.tags?.length || problem.topics?.length ? (
               <Accordion>
