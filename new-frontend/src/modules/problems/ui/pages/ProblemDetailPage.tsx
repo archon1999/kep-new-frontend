@@ -20,6 +20,7 @@ import {
 } from '../../application/queries';
 import { ProblemSampleTest } from '../../domain/entities/problem.entity';
 import { AttemptsListParams, HackAttemptsListParams } from '../../domain/ports/problems.repository';
+import { useProblemLanguage } from '../../hooks/useProblemLanguage';
 import { PanelHandle } from '../components/problem-detail/PanelHandles';
 import { ProblemDescription } from '../components/problem-detail/ProblemDescription';
 import ProblemDescriptionSkeleton from '../components/problem-detail/ProblemDescriptionSkeleton';
@@ -27,8 +28,6 @@ import { ProblemEditorPanel } from '../components/problem-detail/ProblemEditorPa
 import ProblemEditorSkeleton from '../components/problem-detail/ProblemEditorSkeleton';
 import { ProblemHeader } from '../components/problem-detail/ProblemHeader';
 import { VerdictKey } from 'shared/components/problems/AttemptVerdict';
-
-const STORAGE_LANG_KEY = 'problem-submit-lang';
 
 const useProblemPermissions = (permissionsRaw: any) => {
   return useMemo(() => {
@@ -78,7 +77,6 @@ const ProblemDetailPage = () => {
   const [activeTab, setActiveTab] = useState<'description' | 'attempts' | 'hacks' | 'stats'>(
     (searchParams.get('tab') as 'attempts' | 'hacks' | 'stats') || 'description',
   );
-  const [selectedLang, setSelectedLang] = useState('');
   const [code, setCode] = useState('');
   const [input, setInput] = useState('');
   const [answer, setAnswer] = useState('');
@@ -146,10 +144,10 @@ const ProblemDetailPage = () => {
     isLoading: isAttemptsLoading,
   } = useAttemptsList(attemptsParams);
 
-  const selectedLanguage = useMemo(
-    () => problem?.availableLanguages?.find((lang) => lang.lang === selectedLang) ?? null,
-    [problem?.availableLanguages, selectedLang],
-  );
+  const { selectedLang, setSelectedLang, selectedLanguage } = useProblemLanguage({
+    availableLanguages: problem?.availableLanguages,
+    defaultLang: problem?.availableLanguages?.[0]?.lang,
+  });
 
   const sampleTests: ProblemSampleTest[] = problem?.sampleTests ?? [];
 
@@ -163,24 +161,12 @@ const ProblemDetailPage = () => {
   }, [problem?.id]);
 
   useEffect(() => {
-    if (problem?.id) {
-      const storedLang =
-        (getItemFromStore(STORAGE_LANG_KEY, problem.availableLanguages?.[0]?.lang) as string) || '';
-      const available = problem.availableLanguages?.find((lang) => lang.lang === storedLang);
-      const fallback = problem.availableLanguages?.[0];
-      const langToUse = available?.lang ?? fallback?.lang ?? '';
-      setSelectedLang(langToUse);
-    }
-  }, [problem?.id, problem?.availableLanguages]);
-
-  useEffect(() => {
     if (!problem?.id || !selectedLang) return;
 
     const codeKey = `problem-${problem.id}-code-${selectedLang}`;
     const storedCode = (getItemFromStore(codeKey, '') as string) || '';
     const template = selectedLanguage?.codeTemplate || '';
     setCode(storedCode || template);
-    setItemToStore(STORAGE_LANG_KEY, JSON.stringify(selectedLang));
   }, [problem?.id, selectedLang, selectedLanguage?.codeTemplate]);
 
   useEffect(() => {
@@ -549,6 +535,7 @@ const ProblemDetailPage = () => {
                 onFavoriteToggle={handleFavoriteToggle}
                 onLike={() => handleLikeDislike('like')}
                 onDislike={() => handleLikeDislike('dislike')}
+                selectedLanguage={selectedLanguage}
               />
             ) : (
               <ProblemDescriptionSkeleton />
