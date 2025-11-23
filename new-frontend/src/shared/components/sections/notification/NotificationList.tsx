@@ -96,7 +96,7 @@ const NotificationList = ({
                   width: 1,
                 }}
               >
-                <Stack alignItems="center" spacing={1}>
+                <Stack direction="row" alignItems="center" spacing={1}>
                   <Box sx={{ width: 8, height: 1 }}>
                     {!notification.readAt && (
                       <Box

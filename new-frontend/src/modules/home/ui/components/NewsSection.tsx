@@ -77,7 +77,7 @@ export const SwiperNavigation = () => {
   const swiper = useSwiper();
 
   return (
-    <Stack gap={1} sx={{ position: 'absolute', top: 0, right: 0, zIndex: 10 }}>
+    <Stack direction="row" gap={1} sx={{ position: 'absolute', top: 0, right: 0, zIndex: 10 }}>
       <CustomNavButton onClick={() => swiper.slidePrev()}>
         <IconifyIcon icon="material-symbols:keyboard-arrow-left" fontSize={24} />
       </CustomNavButton>
@@ -193,6 +193,7 @@ const NewsSection = () => {
               }}
             >
               <Stack
+                direction="row"
                 sx={{
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -291,7 +292,7 @@ const NewsSection = () => {
             </Swiper>
           </CardWrapper>
         ) : (
-          <Stack spacing={2} alignItems="center" justifyContent="center" sx={{ flex: 1 }}>
+          <Stack direction="row" spacing={2} alignItems="center" justifyContent="center" sx={{ flex: 1 }}>
             <Typography variant="body2" color="text.secondary" textAlign="center">
               {t('homePage.news.empty')}
             </Typography>

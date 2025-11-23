@@ -108,7 +108,7 @@ const CalendarPage = () => {
   return (
     <Box sx={{ ...responsivePagePaddingSx, pt: { xs: 2, md: 4 } }}>
       <Stack direction="column" spacing={2}>
-        <Stack>
+        <Stack direction="row">
           <Typography variant="h4" fontWeight={800}>
             {t('calendar.title')}
           </Typography>
@@ -128,7 +128,7 @@ const CalendarPage = () => {
             {error ? (
               <Alert severity="error">{t('calendar.loadError')}</Alert>
             ) : isLoading ? (
-              <Stack alignItems="center" justifyContent="center" sx={{ height: 420 }} spacing={1.5}>
+              <Stack direction="row" alignItems="center" justifyContent="center" sx={{ height: 420 }} spacing={1.5}>
                 <CircularProgress color="primary" />
                 <Typography variant="body2" color="text.secondary">
                   {t('calendar.loading')}
@@ -136,6 +136,7 @@ const CalendarPage = () => {
               </Stack>
             ) : calendarEvents.length === 0 ? (
               <Stack
+                direction="row"
                 alignItems="center"
                 justifyContent="center"
                 sx={{ height: 420, textAlign: 'center', px: { xs: 2, sm: 6 } }}

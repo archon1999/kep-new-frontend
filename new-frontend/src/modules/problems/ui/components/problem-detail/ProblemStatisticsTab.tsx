@@ -16,8 +16,8 @@ export const ProblemStatisticsTab = ({ problemId }: { problemId: number }) => {
         {isLoading ? (
           <Typography color="text.secondary">{t('common.loading')}</Typography>
         ) : stats ? (
-          <Stack spacing={2}>
-            <Stack spacing={1}>
+          <Stack direction="row" spacing={2}>
+            <Stack direction="row" spacing={1}>
               <Typography variant="subtitle2">{t('problems.detail.attemptStatistics')}</Typography>
               {(stats.attemptStatistics ?? []).map((item) => (
                 <Stack key={item.verdict} direction="row" justifyContent="space-between" alignItems="center">
@@ -27,7 +27,7 @@ export const ProblemStatisticsTab = ({ problemId }: { problemId: number }) => {
               ))}
             </Stack>
 
-            <Stack spacing={1}>
+            <Stack direction="row" spacing={1}>
               <Typography variant="subtitle2">{t('problems.detail.languageStatistics')}</Typography>
               {(stats.languageStatistics ?? []).map((item) => (
                 <Stack key={item.lang} direction="row" justifyContent="space-between" alignItems="center">

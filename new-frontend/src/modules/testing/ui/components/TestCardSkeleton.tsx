@@ -18,7 +18,7 @@ const TestCardSkeleton = () => (
 
         <Skeleton variant="text" width="70%" height={32} />
 
-        <Stack spacing={0.5}>
+        <Stack direction="row" spacing={0.5}>
           <Skeleton variant="text" width="100%" />
           <Skeleton variant="text" width="85%" />
         </Stack>

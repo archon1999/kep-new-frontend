@@ -110,7 +110,7 @@ const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: Project
         {isFetchingLog ? (
           <Typography variant="body2">{t('projects.loadingLog')}</Typography>
         ) : log ? (
-          <Stack spacing={2}>
+          <Stack direction="row" spacing={2}>
             {log.log ? (
               <Box component="pre" sx={{ p: 2, bgcolor: 'background.neutral', borderRadius: 2, overflow: 'auto' }}>
                 <Typography component="div" variant="body2" dangerouslySetInnerHTML={{ __html: log.log }} />
@@ -166,7 +166,7 @@ const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: Project
               <TableRow key={attempt.id} selected={isOwner}>
                 <TableCell>{attempt.id}</TableCell>
                 <TableCell>
-                  <Stack spacing={0.25}>
+                  <Stack direction="row" spacing={0.25}>
                     <Typography variant="body2" fontWeight={600}>
                       {attempt.created ? new Date(attempt.created).toLocaleDateString() : '—'}
                     </Typography>
@@ -198,7 +198,7 @@ const ProjectAttemptsTable = ({ project, attempts, isLoading, onRerun }: Project
                 </TableCell>
                 <TableCell>{renderVerdict(attempt)}</TableCell>
                 <TableCell>
-                  <Stack spacing={0.5} color="text.secondary">
+                  <Stack direction="row" spacing={0.5} color="text.secondary">
                     <Stack direction="row" spacing={1} alignItems="center">
                       <IconifyIcon icon="mdi:clock-outline" />
                       <Typography variant="body2">{attempt.time ?? 0} ms</Typography>

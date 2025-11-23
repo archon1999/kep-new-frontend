@@ -76,7 +76,7 @@ const HackathonStandingsPage = () => {
                                     sx={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }}
                                   />
                                 ) : null}
-                                <Stack spacing={0.25}>
+                                <Stack direction="row" spacing={0.25}>
                                   <Typography fontWeight={700}>{participant.username}</Typography>
                                   <Typography variant="body2" color="text.secondary">
                                     {participant.userFullName}
@@ -94,7 +94,7 @@ const HackathonStandingsPage = () => {
                               return (
                                 <TableCell key={project.symbol} align="center">
                                   {result ? (
-                                    <Stack spacing={0.25} alignItems="center">
+                                    <Stack direction="row" spacing={0.25} alignItems="center">
                                       <Typography variant="body2" fontWeight={700} color="primary">
                                         {result.points}
                                       </Typography>

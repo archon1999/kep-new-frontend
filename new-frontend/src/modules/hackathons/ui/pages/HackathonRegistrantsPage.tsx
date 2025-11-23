@@ -39,7 +39,7 @@ const HackathonRegistrantsPage = () => {
                         {index + 1}
                       </Typography>
                       <Avatar src={registrant.userAvatar} sx={{ width: 40, height: 40 }} />
-                      <Stack spacing={0.25}>
+                      <Stack direction="row" spacing={0.25}>
                         <Typography fontWeight={700}>{registrant.username}</Typography>
                         <Typography variant="body2" color="text.secondary">
                           {registrant.userFullName}

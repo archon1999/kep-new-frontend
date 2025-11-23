@@ -187,7 +187,7 @@ const KepcoinActivityWidget = ({
                   {index < arr.length - 1 && <TimelineConnector />}
                 </TimelineSeparator>
                 <TimelineContent>
-                  <Stack spacing={1}>
+                  <Stack direction="row" spacing={1}>
                     <Skeleton variant="text" width="50%" />
                     <Skeleton variant="text" width="70%" />
                     <Skeleton variant="text" width="40%" />
@@ -208,7 +208,7 @@ const KepcoinActivityWidget = ({
             {t('kepcoinPage.history.error')}
           </Alert>
         ) : historyItems.length === 0 ? (
-          <Stack spacing={1}>
+          <Stack direction="row" spacing={1}>
             <Typography variant="subtitle1" fontWeight={600}>
               {t('kepcoinPage.history.emptyTitle')}
             </Typography>
@@ -231,7 +231,7 @@ const KepcoinActivityWidget = ({
                     {index < historyItems.length - 1 && <TimelineConnector />}
                   </TimelineSeparator>
                   <TimelineContent>
-                    <Stack spacing={0.75}>
+                    <Stack direction="row" spacing={0.75}>
                       <Stack
                         direction="row"
                         justifyContent="space-between"

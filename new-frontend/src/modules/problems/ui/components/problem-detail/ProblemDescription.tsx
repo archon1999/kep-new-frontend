@@ -215,7 +215,7 @@ export const ProblemDescription = ({
                   {isSolutionLoading ? (
                     <LinearProgress />
                   ) : solution ? (
-                    <Stack spacing={2}>
+                    <Stack direction="row" spacing={2}>
                       <Typography dangerouslySetInnerHTML={{ __html: solution.solution }} />
                       {solution.codes.map((code) => (
                         <Card key={code.lang} variant="outlined">

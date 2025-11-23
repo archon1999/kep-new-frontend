@@ -25,7 +25,7 @@ const ContestTopContestants = ({ contestants = [], isLoading }: ContestTopContes
       {Array.from({ length: 3 }).map((_, index) => (
         <Stack key={index} direction="row" spacing={1.5} alignItems="center">
           <Skeleton variant="circular" width={40} height={40} />
-          <Stack spacing={0.5} flex={1}>
+          <Stack direction="row" spacing={0.5} flex={1}>
             <Skeleton variant="text" width="70%" />
             <Skeleton variant="text" width="50%" />
           </Stack>

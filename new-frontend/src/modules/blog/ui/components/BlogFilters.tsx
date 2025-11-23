@@ -107,11 +107,11 @@ const BlogFilters = ({ filters, authors, onChange }: BlogFiltersProps) => {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack spacing={1}>
+        <Stack direction="row" spacing={1}>
           <Typography variant="subtitle2" fontWeight={700} color="text.secondary">
             {t('blog.topics.title')}
           </Typography>
-          <Stack spacing={1.25}>
+          <Stack direction="row" spacing={1.25}>
             {topics.map((topic) => {
               const active = selectedTopic === topic.key;
 
