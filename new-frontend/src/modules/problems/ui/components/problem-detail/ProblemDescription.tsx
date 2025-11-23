@@ -111,6 +111,25 @@ export const ProblemDescription = ({
           return;
         }
 
+        (window as any).MathJax = {
+          tex: {
+            inlineMath: [
+              ['$', '$'],
+              ['\\(', '\\)'],
+            ],
+            displayMath: [
+              ['$$', '$$'],
+              ['\\[', '\\]'],
+            ],
+          },
+          options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          },
+          startup: {
+            typeset: false,
+          },
+        };
+
         const script = document.createElement('script');
         script.id = 'mathjax-script';
         script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
@@ -124,8 +143,10 @@ export const ProblemDescription = ({
 
     ensureMathJax()
       ?.then((mathJax) => {
-        if (mathJax.typesetPromise) {
-          setTimeout(() => mathJax.typesetPromise([contentRef.current]), 50);
+        if (mathJax?.startup?.promise && mathJax.typesetPromise) {
+          mathJax.startup.promise.then(() => {
+            setTimeout(() => mathJax.typesetPromise([contentRef.current]), 50);
+          });
         }
       })
       .catch(() => undefined);
