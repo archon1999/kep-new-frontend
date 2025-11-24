@@ -141,7 +141,6 @@ const ContestStandingsPage = () => {
       direction={{ xs: 'column', sm: 'row' }}
       spacing={1.5}
       alignItems={{ xs: 'flex-start', sm: 'center' }}
-      sx={{ ml: { md: 'auto' }, p: 1, borderRadius: 2, bgcolor: 'background.paper', boxShadow: 1 }}
     >
       <Stack direction="row" spacing={1} alignItems="center">
         <Switch
@@ -158,10 +157,8 @@ const ContestStandingsPage = () => {
       </Stack>
 
       <FormControl size="small" sx={{ minWidth: 200 }}>
-        <InputLabel id="contest-standings-filter-select">
-          {t('contests.standings.allFilters')}
-        </InputLabel>
         <Select
+          variant="standard"
           labelId="contest-standings-filter-select"
           label={t('contests.standings.allFilters')}
           value={selectedFilter}
@@ -171,10 +168,6 @@ const ContestStandingsPage = () => {
             setPaginationModel((prev) => ({ ...prev, page: 0 }));
           }}
           displayEmpty
-          MenuProps={{
-            disablePortal: false,
-            PaperProps: { sx: { maxHeight: 320 } },
-          }}
           renderValue={(value) =>
             value
               ? (contestFilters.find((f) => String(f.id) === String(value))?.name ??
@@ -377,7 +370,7 @@ const ContestStandingsPage = () => {
                     justifyContent="center"
                     alignItems="center"
                     bgcolor="success.lighter"
-                    sx={{ borderRadius: 2, p: 0.5 }}
+                    sx={{ borderRadius: 2, py: 0.5, px: 0.75 }}
                   >
                     <Typography variant="subtitle2" color={result.color}>{result.label}</Typography>
                     {result.helper ? (
