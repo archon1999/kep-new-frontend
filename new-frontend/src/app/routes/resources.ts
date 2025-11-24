@@ -57,10 +57,10 @@ export const resources = {
   Courses: '/courses',
   Course: '/courses/:id',
   CourseFirstLesson: '/courses/:id/lesson/1',
-  BlogPost: '/blog/post/:id',
 
   Blog: '/blog',
   Lugavar: '/lugavar',
+  BlogPost: '/blog/:id',
 
   Users: '/users',
   UserProfile: '/users/:username',
@@ -102,7 +102,8 @@ export function getResourceByParams(
   resource: ResourceValue,
   params: Record<string, string | number>,
 ) {
-  return Object.entries(params).reduce((result, [key, value]) => (
-    result.replace(`:${key}`, value.toString())
-  ), resource);
+  return Object.entries(params).reduce(
+    (result, [key, value]) => result.replace(`:${key}`, value.toString()),
+    resource,
+  );
 }
