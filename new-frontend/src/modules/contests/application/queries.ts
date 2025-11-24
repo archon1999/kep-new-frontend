@@ -1,4 +1,4 @@
-import useSWR from 'swr';
+import useSWR, { SWRConfiguration } from 'swr';
 import {
   ApiContestsListParams,
   ApiContestsRatingListParams,
@@ -83,10 +83,11 @@ export const useContestProblem = (contestId?: number | string, symbol?: string) 
     () => contestsRepository.getProblem(contestId!, symbol!),
   );
 
-export const useContestContestant = (contestId?: number | string) =>
+export const useContestContestant = (contestId?: number | string, options?: SWRConfiguration) =>
   useSWR<ContestantEntity | null>(
     contestId ? ['contest-contestant', contestId] : null,
     () => contestsRepository.getContestant(contestId!),
+    options,
   );
 
 export const useContestFilters = (contestId?: number | string) =>

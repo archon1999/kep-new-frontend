@@ -16,6 +16,7 @@ import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { useAuth } from 'app/providers/AuthProvider';
 import OnlyMeSwitch from 'shared/components/common/OnlyMeSwitch';
 import { getResourceByParams, resources } from 'app/routes/resources';
+import { gridPaginationToPageParams } from 'shared/lib/pagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import ProblemsAttemptsTable from 'modules/problems/ui/components/ProblemsAttemptsTable.tsx';
 import { AttemptsListParams } from 'modules/problems/domain/ports/problems.repository';
@@ -59,6 +60,10 @@ const ContestAttemptsPage = () => {
     page: 0,
     pageSize: 20,
   });
+  const paginationParams = useMemo(
+    () => gridPaginationToPageParams(paginationModel),
+    [paginationModel],
+  );
 
   const requestParams = useMemo<AttemptsListParams>(() => {
     const verdictNumber = filter.verdict ? Number(filter.verdict) : NaN;
@@ -68,10 +73,10 @@ const ContestAttemptsPage = () => {
       verdict: Number.isNaN(verdictNumber) ? undefined : verdictNumber,
       username: filter.userOnly && currentUser?.username ? currentUser.username : undefined,
       ordering: '-id',
-      page: paginationModel.page + 1,
-      pageSize: paginationModel.pageSize,
+      page: paginationParams.page,
+      pageSize: paginationParams.pageSize,
     };
-  }, [contestId, currentUser?.username, filter.contestProblem, filter.userOnly, filter.verdict, paginationModel.page, paginationModel.pageSize]);
+  }, [contestId, currentUser?.username, filter.contestProblem, filter.userOnly, filter.verdict, paginationParams.page, paginationParams.pageSize]);
 
   const { data: attemptsPage, isLoading, mutate } = useAttemptsList(requestParams);
 

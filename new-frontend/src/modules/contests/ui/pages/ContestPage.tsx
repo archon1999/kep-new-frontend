@@ -55,8 +55,8 @@ const ContestPage = () => {
     const isRegistered = Boolean(contest.userInfo?.isRegistered);
     return (
       <Button
-        variant={isRegistered ? 'outlined' : 'contained'}
-        color={isRegistered ? 'inherit' : 'primary'}
+        variant="contained"
+        color={isRegistered ? 'error' : 'primary'}
         onClick={handleRegistrationToggle}
         disabled={isRegistrationLoading}
       >

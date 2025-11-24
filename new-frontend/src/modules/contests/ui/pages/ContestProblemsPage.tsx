@@ -35,7 +35,7 @@ const ContestProblemsPage = () => {
       />
 
       <Grid container spacing={3}>
-        <Grid size={{ xs: 12, md: 9 }}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Stack spacing={1.25}>
             {problems.map((problem) => (
               <Box
@@ -100,7 +100,7 @@ const ContestProblemsPage = () => {
             )}
           </Stack>
         </Grid>
-        <Grid size={{ xs: 12, md: 3 }}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <ContestCountdownCard contest={contest} />
         </Grid>
       </Grid>

@@ -1,15 +1,16 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { Card, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { paginateRows } from 'shared/lib/pagination';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useContest, useContestContestants } from '../../application/queries';
 import { ContestantEntity } from '../../domain/entities/contestant.entity';
-import ContestantView from '../components/ContestantView';
 import ContestPageHeader from '../components/ContestPageHeader';
+import ContestantView from '../components/ContestantView';
 
 const ContestRatingChangesPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,14 +19,7 @@ const ContestRatingChangesPage = () => {
 
   const { data: contest } = useContest(contestId);
   const { data: contestants = [], isLoading } = useContestContestants(contestId);
-  useDocumentTitle(
-    contest?.title ? 'pageTitles.contestRatingChanges' : undefined,
-    contest?.title
-      ? {
-          contestTitle: contest.title,
-        }
-      : undefined,
-  );
+  useDocumentTitle(contest?.title, { contestTitle: contest?.title });
 
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: 0,
@@ -65,8 +59,10 @@ const ContestRatingChangesPage = () => {
         headerName: t('contests.standings.points'),
         minWidth: 120,
         flex: 0.6,
+        align: 'center',
+        headerAlign: 'center',
         renderCell: ({ row }) => (
-          <Typography variant="body2" fontWeight={700}>
+          <Typography color="primary" variant="body2" fontWeight={700}>
             {row.points ?? '—'}
           </Typography>
         ),
@@ -76,12 +72,18 @@ const ContestRatingChangesPage = () => {
         headerName: t('contests.ratingChanges.columns.delta'),
         minWidth: 120,
         flex: 0.6,
+        align: 'center',
+        headerAlign: 'center',
         renderCell: ({ row }) => (
           <Typography
             variant="body2"
             fontWeight={700}
             color={
-              row.delta && row.delta > 0 ? 'success.main' : row.delta && row.delta < 0 ? 'error.main' : 'text.primary'
+              row.delta && row.delta > 0
+                ? 'success.main'
+                : row.delta && row.delta < 0
+                  ? 'error.main'
+                  : 'text.primary'
             }
           >
             {row.delta ? `${row.delta > 0 ? '+' : ''}${row.delta}` : '—'}
@@ -125,10 +127,10 @@ const ContestRatingChangesPage = () => {
     [t],
   );
 
-  const paginatedRows = useMemo(() => {
-    const start = paginationModel.page * paginationModel.pageSize;
-    return contestants.slice(start, start + paginationModel.pageSize);
-  }, [contestants, paginationModel.page, paginationModel.pageSize]);
+  const paginatedRows = useMemo(
+    () => paginateRows(contestants, paginationModel),
+    [contestants, paginationModel],
+  );
 
   return (
     <Stack spacing={3} sx={responsivePagePaddingSx}>
@@ -138,29 +140,21 @@ const ContestRatingChangesPage = () => {
         contestId={contestId}
       />
 
-      <Grid container spacing={3}>
-        <Grid size={{ xs: 12 }}>
-          <Card variant="outlined" sx={{ borderRadius: 3 }}>
-            <CardContent>
-              <DataGrid
-                autoHeight
-                disableColumnMenu
-                disableColumnFilter
-                disableRowSelectionOnClick
-                rows={paginatedRows}
-                columns={columns}
-                loading={isLoading}
-                rowCount={contestants.length}
-                paginationMode="client"
-                paginationModel={paginationModel}
-                onPaginationModelChange={setPaginationModel}
-                pageSizeOptions={[20, 50, 100]}
-                getRowId={(row) => row.username}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+      <DataGrid
+        autoHeight
+        disableColumnMenu
+        disableColumnFilter
+        disableRowSelectionOnClick
+        rows={paginatedRows}
+        columns={columns}
+        loading={isLoading}
+        rowCount={contestants.length}
+        paginationMode="server"
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+        pageSizeOptions={[20, 50, 100]}
+        getRowId={(row) => row.username}
+      />
     </Stack>
   );
 };

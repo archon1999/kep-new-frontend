@@ -149,6 +149,21 @@
     "unrated": "Reytingsiz",
     "schedule": "Jadval",
     "countdown": "Qoldi: {{time}}",
+    "timeLabels": {
+      "day": "Kun",
+      "hour": "Soat",
+      "minute": "Daqiqa",
+      "second": "Soniya"
+    },
+    "countdownCard": {
+      "starts": "Kontest boshlanishiga",
+      "ends": "Kontest yakunlanishiga",
+      "finished": "Kontest yakunlandi",
+      "finishedAt": "Yakun vaqti: {{date}}",
+      "started": "Kontest boshlandi",
+      "startedBody": "Kontest boshlandi. Ishtirokni boshlash uchun masalalarga o‘ting.",
+      "finishedBody": "Kontest yakunlandi. Natijalarni ko‘rib chiqing."
+    },
     "problemsPreview": "Masalalar",
     "solvedShort": "{{solved}} ta yechildi",
     "noProblems": "Masalalar tez orada qo'shiladi.",
@@ -242,6 +257,6 @@
       "next": "Keyingi"
     },
     "authors": "Mualliflar",
-    "registrantsLabel": "{{count}} ro'yxatdan o'tgan"
+    "registrantsLabel": "{{count}} ta ro'yxatdan o'tgan"
   }
 }

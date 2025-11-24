@@ -1,13 +1,25 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { Box, Chip, Grid, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Chip,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Switch,
+  Typography,
+} from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { ContestType } from 'shared/api/orval/generated/endpoints/index.schemas';
 import KepIcon from 'shared/components/base/KepIcon';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
+import { gridPaginationToPageParams } from 'shared/lib/pagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import {
   useContest,
@@ -20,6 +32,7 @@ import { ContestStatus } from '../../domain/entities/contest-status';
 import { ContestantEntity } from '../../domain/entities/contestant.entity';
 import { contestHasBalls, contestHasPenalties, isAcmStyle } from '../../utils/contestType';
 import ContestPageHeader from '../components/ContestPageHeader';
+import ContestStandingsCountdown from '../components/ContestStandingsCountdown';
 import ContestantView from '../components/ContestantView';
 
 const formatProblemResult = (contestType: ContestType | undefined, info: any) => {
@@ -109,11 +122,13 @@ const ContestStandingsPage = () => {
 
   const refreshInterval = contest?.statusCode === ContestStatus.Already ? 30000 : undefined;
 
+  const { page, pageSize } = gridPaginationToPageParams(paginationModel);
+
   const { data: standings, isLoading } = useContestStandings(
     contestId,
     {
-      page: paginationModel.page + 1,
-      pageSize: paginationModel.pageSize,
+      page,
+      pageSize,
       filter: selectedFilter || null,
       following: followingOnly,
     },
@@ -123,38 +138,61 @@ const ContestStandingsPage = () => {
   const contestants = standings?.data ?? [];
   const total = standings?.total ?? 0;
   const tabsRightContent = (
-    <Stack direction="row" spacing={1} alignItems="center" sx={{ ml: { md: 'auto' } }}>
-      <Chip
-        icon={<KepIcon name="filter" fontSize={16} />}
-        label={t('contests.standings.followingOnly')}
-        color={followingOnly ? 'primary' : 'default'}
-        variant={followingOnly ? 'filled' : 'outlined'}
-        onClick={() => {
-          setFollowingOnly((prev) => !prev);
-          setPaginationModel((prev) => ({ ...prev, page: 0 }));
-        }}
-      />
-      <Chip
-        icon={<KepIcon name="filter" fontSize={16} />}
-        label={
-          selectedFilter
-            ? contestFilters.find((f) => String(f.id) === String(selectedFilter))?.name
-            : t('contests.standings.allFilters')
-        }
-        onClick={() => {
-          if (!contestFilters.length) return;
-          const currentIndex = contestFilters.findIndex(
-            (f) => String(f.id) === String(selectedFilter),
-          );
-          const next =
-            currentIndex === -1
-              ? contestFilters[0]
-              : contestFilters[(currentIndex + 1) % contestFilters.length];
-          setSelectedFilter(next ? String(next.id) : '');
-          setPaginationModel((prev) => ({ ...prev, page: 0 }));
-        }}
-        variant="outlined"
-      />
+    <Stack
+      direction={{ xs: 'column', sm: 'row' }}
+      spacing={1.5}
+      alignItems={{ xs: 'flex-start', sm: 'center' }}
+      sx={{ ml: { md: 'auto' }, p: 1, borderRadius: 2, bgcolor: 'background.paper', boxShadow: 1 }}
+    >
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Switch
+          size="small"
+          checked={followingOnly}
+          onChange={(_, checked) => {
+            setFollowingOnly(checked);
+            setPaginationModel((prev) => ({ ...prev, page: 0 }));
+          }}
+        />
+        <Typography variant="body2" fontWeight={600}>
+          {t('contests.standings.followingOnly')}
+        </Typography>
+      </Stack>
+
+      <FormControl size="small" sx={{ minWidth: 200 }}>
+        <InputLabel id="contest-standings-filter-select">
+          {t('contests.standings.allFilters')}
+        </InputLabel>
+        <Select
+          labelId="contest-standings-filter-select"
+          label={t('contests.standings.allFilters')}
+          value={selectedFilter}
+          disabled={!contestFilters.length}
+          onChange={(event) => {
+            setSelectedFilter(event.target.value);
+            setPaginationModel((prev) => ({ ...prev, page: 0 }));
+          }}
+          displayEmpty
+          MenuProps={{
+            disablePortal: false,
+            PaperProps: { sx: { maxHeight: 320 } },
+          }}
+          renderValue={(value) =>
+            value
+              ? contestFilters.find((f) => String(f.id) === String(value))?.name ??
+                t('contests.standings.allFilters')
+              : t('contests.standings.allFilters')
+          }
+        >
+          <MenuItem value="">
+            <Typography variant="body2">{t('contests.standings.allFilters')}</Typography>
+          </MenuItem>
+          {contestFilters.map((filter) => (
+            <MenuItem key={filter.id} value={String(filter.id)}>
+              {filter.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </Stack>
   );
 
@@ -360,6 +398,8 @@ const ContestStandingsPage = () => {
         tabsRightContent={tabsRightContent}
         showLogoOverlay
       />
+
+      {contest ? <ContestStandingsCountdown contest={contest} /> : null}
 
       <Grid container spacing={3}>
         <Grid size={{ xs: 12 }}>

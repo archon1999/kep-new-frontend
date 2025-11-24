@@ -1,18 +1,18 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import { Card, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { getResourceById, resources } from 'app/routes/resources';
-import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { ApiContestsRegistrantsListOrdering } from 'shared/api/orval/generated/endpoints/index.schemas';
+import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
+import { gridPaginationToPageParams } from 'shared/lib/pagination';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useContest, useContestRegistrants } from '../../application/queries';
 import { ContestRegistrant } from '../../domain/entities/contest-registrant.entity';
 import ContestCountdownCard from '../components/ContestCountdownCard';
 import ContestPageHeader from '../components/ContestPageHeader';
-
 
 const ContestRegistrantsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,14 +20,7 @@ const ContestRegistrantsPage = () => {
   const { t } = useTranslation();
 
   const { data: contest } = useContest(contestId);
-  useDocumentTitle(
-    contest?.title ? 'pageTitles.contestRegistrants' : undefined,
-    contest?.title
-      ? {
-          contestTitle: contest.title,
-        }
-      : undefined,
-  );
+  useDocumentTitle(contest?.title, { contestTitle: contest?.title });
 
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: 0,
@@ -36,10 +29,14 @@ const ContestRegistrantsPage = () => {
   const [ordering, setOrdering] = useState<ApiContestsRegistrantsListOrdering>(
     ApiContestsRegistrantsListOrdering['-contests_rating'],
   );
+  const paginationParams = useMemo(
+    () => gridPaginationToPageParams(paginationModel),
+    [paginationModel],
+  );
 
   const { data: registrantsPage, isLoading } = useContestRegistrants(contestId, {
-    page: paginationModel.page + 1,
-    pageSize: paginationModel.pageSize,
+    page: paginationParams.page,
+    pageSize: paginationParams.pageSize,
     ordering,
   });
 
@@ -141,30 +138,26 @@ const ContestRegistrantsPage = () => {
       />
 
       <Grid container spacing={3}>
-        <Grid size={{ xs: 12, md: 9 }}>
-          <Card variant="outlined" sx={{ borderRadius: 3 }}>
-            <CardContent>
-              <DataGrid
-                autoHeight
-                disableColumnMenu
-                disableColumnFilter
-                disableRowSelectionOnClick
-                rows={registrants}
-                columns={columns}
-                loading={isLoading}
-                rowCount={total}
-                paginationMode="server"
-                sortingMode="server"
-                onSortModelChange={handleSortChange}
-                paginationModel={paginationModel}
-                onPaginationModelChange={setPaginationModel}
-                pageSizeOptions={[20, 50, 100]}
-                getRowId={(row) => row.username}
-              />
-            </CardContent>
-          </Card>
+        <Grid size={{ xs: 12, md: 8 }}>
+          <DataGrid
+            autoHeight
+            disableColumnMenu
+            disableColumnFilter
+            disableRowSelectionOnClick
+            rows={registrants}
+            columns={columns}
+            loading={isLoading}
+            rowCount={total}
+            paginationMode="server"
+            sortingMode="server"
+            onSortModelChange={handleSortChange}
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
+            pageSizeOptions={[20, 50, 100]}
+            getRowId={(row) => row.username}
+          />
         </Grid>
-        <Grid size={{ xs: 12, md: 3 }}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <ContestCountdownCard contest={contest} />
         </Grid>
       </Grid>

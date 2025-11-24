@@ -55,18 +55,18 @@ const ContestTabs = ({ contestId, status, isRated }: ContestTabsProps) => {
         visible: status !== ContestStatus.NotStarted,
       },
       {
-        key: 'statistics',
-        label: t('contests.tabs.statistics'),
-        icon: 'statistics',
-        to: getResourceById(resources.ContestStatistics, contestId),
-        visible: status !== ContestStatus.NotStarted,
-      },
-      {
         key: 'rating-changes',
         label: t('contests.tabs.ratingChanges'),
         icon: 'rating-changes',
         to: getResourceById(resources.ContestRatingChanges, contestId),
         visible: status === ContestStatus.Finished && isRated,
+      },
+      {
+        key: 'statistics',
+        label: t('contests.tabs.statistics'),
+        icon: 'statistics',
+        to: getResourceById(resources.ContestStatistics, contestId),
+        visible: status !== ContestStatus.NotStarted,
       },
       {
         key: 'questions',

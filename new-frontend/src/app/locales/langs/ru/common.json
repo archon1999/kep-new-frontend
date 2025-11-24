@@ -15,7 +15,8 @@
       "tasksCount": "{{count}} задач",
       "completed": "Выполнено",
       "empty": "Ежедневных задач нет"
-    }
+    },
+    "close": "Закрыть"
   },
   "notifications": {
     "systemInfoTitle": "Информация",

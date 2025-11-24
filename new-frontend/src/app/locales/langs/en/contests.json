@@ -133,6 +133,21 @@
     "unrated": "Unrated",
     "schedule": "Schedule",
     "countdown": "Time left: {{time}}",
+    "timeLabels": {
+      "day": "Day",
+      "hour": "Hour",
+      "minute": "Minute",
+      "second": "Second"
+    },
+    "countdownCard": {
+      "starts": "Contest starts in",
+      "ends": "Contest ends in",
+      "finished": "Contest finished",
+      "finishedAt": "Finished at {{date}}",
+      "started": "Contest started",
+      "startedBody": "The contest has started. Jump to problems to compete.",
+      "finishedBody": "The contest has finished. See the standings for final results."
+    },
     "problemsPreview": "Problems",
     "solvedShort": "{{solved}} solved",
     "noProblems": "Problems will appear here soon.",

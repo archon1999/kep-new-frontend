@@ -112,11 +112,11 @@ const ContestQuestionsPage = () => {
                             </Typography>
                           </Stack>
                           <Typography variant="caption" color="text.secondary">
-                            {new Date(item.created).toLocaleString()}
+                            {item.created ?? ''}
                           </Typography>
                         </Stack>
 
-                        <Typography variant="body2" sx={{ mt: 1 }}>
+                        <Typography variant="body2" sx={{ mt: 1, whiteSpace: 'pre-wrap' }}>
                           {item.question}
                         </Typography>
 
@@ -132,7 +132,12 @@ const ContestQuestionsPage = () => {
                             <Typography variant="subtitle2" fontWeight={700}>
                               {t('contests.questions.answer')}
                             </Typography>
-                            <Typography variant="body2">{item.answer}</Typography>
+                            <Typography
+                              variant="body2"
+                              component="div"
+                              sx={{ mt: 0.5 }}
+                              dangerouslySetInnerHTML={{ __html: item.answer }}
+                            />
                           </Box>
                         ) : null}
                       </Box>

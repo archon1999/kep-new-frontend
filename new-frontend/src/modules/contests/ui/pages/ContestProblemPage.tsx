@@ -2,7 +2,21 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import { Link as RouterLink, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Box, Button, Card, CardContent, Chip, CircularProgress, Divider, LinearProgress, Stack, Tab, Tabs, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  Divider,
+  LinearProgress,
+  Stack,
+  Tab,
+  Tabs,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import AppbarActionItems from 'app/layouts/main-layout/common/AppbarActionItems';
@@ -28,13 +42,21 @@ import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
 import { getItemFromStore, setItemToStore } from 'shared/lib/utils';
 import { wsService } from 'shared/services/websocket';
 import { toast } from 'sonner';
-import { useContest, useContestContestant, useContestProblem, useContestProblems } from '../../application/queries';
+import {
+  useContest,
+  useContestContestant,
+  useContestProblem,
+  useContestProblems,
+} from '../../application/queries';
 import { contestsQueries } from '../../application/queries.ts';
-import { ContestProblemEntity, ContestProblemInfo } from '../../domain/entities/contest-problem.entity';
+import {
+  ContestProblemEntity,
+  ContestProblemInfo,
+} from '../../domain/entities/contest-problem.entity';
 import { ContestStatus } from '../../domain/entities/contest-status';
 import { ContestantEntity } from '../../domain/entities/contestant.entity';
 import { sortContestProblems } from '../../utils/sortContestProblems';
-
+import ContestantView from '../components/ContestantView';
 
 const useProblemPermissions = (permissionsRaw: any) => {
   return useMemo(() => {
@@ -88,56 +110,93 @@ const ContestantResultsFooter = ({
     return { label: '-', color: 'default' as const };
   };
 
+  const delta = contestant.delta ?? 0;
+  const deltaColor = delta > 0 ? 'success' : delta < 0 ? 'error' : 'default';
+  const deltaLabel = delta ? `${delta > 0 ? '+' : ''}${delta}` : '0';
+
   return (
     <Box
       sx={{
         borderTop: '1px solid',
         borderColor: 'divider',
-        bgcolor: 'background.neutral',
-        px: 2,
-        py: 1.5,
+        bgcolor: (theme) =>
+          alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.5 : 0.85),
+        px: 2.5,
+        py: 2,
       }}
     >
-      <Stack direction="row" spacing={1.5} alignItems="center" flexWrap="wrap" useFlexGap>
-        <Typography variant="subtitle2" color="text.secondary">
-          {t('contests.problem.footerTitle')}
-        </Typography>
-        <Chip
-          label={contestant.username}
-          variant="outlined"
-          size="small"
-          sx={{ fontWeight: 700 }}
-        />
-        <Chip
-          label={`${t('contests.standings.points')}: ${contestant.points ?? 0}`}
-          color="primary"
-          size="small"
-          variant="outlined"
-        />
-        {contestHasBalls(contestType as any) ? (
+      <Stack spacing={1.25}>
+        <Stack direction="row" spacing={1.5} alignItems="center" flexWrap="wrap" useFlexGap>
+          <Typography fontWeight={600}>#{contestant.rank}</Typography>
+          <ContestantView
+            contestant={contestant}
+            imgSize={28}
+            isVirtual={contestant.isVirtual}
+            isUnrated={contestant.isUnrated}
+            isOfficial={contestant.isOfficial}
+          />
+          <Typography color="primary" fontWeight={600}>
+            {contestant.points}
+          </Typography>
+          {contestHasBalls(contestType as any) ? (
+            <Typography>
+              {`${t('contests.standings.penalties')}: ${contestant.penalties ?? 0}`}
+            </Typography>
+          ) : null}
           <Chip
-            label={`${t('contests.standings.penalties')}: ${contestant.penalties ?? 0}`}
+            label={`${t('contests.ratingChanges.columns.delta')}: ${deltaLabel}`}
+            color={deltaColor === 'default' ? 'default' : deltaColor}
             size="small"
             variant="outlined"
           />
-        ) : null}
-      </Stack>
+        </Stack>
 
-      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap mt={1}>
-        {contestProblems.map((problem) => {
-          const info =
-            contestant.problemsInfo?.find((item) => item.problemSymbol === problem.symbol) ?? null;
-          const result = formatResult(info);
-          return (
-            <Chip
-              key={problem.symbol}
-              label={`${problem.symbol}: ${result.label}`}
-              color={result.color}
-              size="small"
-              variant="outlined"
-            />
-          );
-        })}
+        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+          {contestProblems.map((problem) => {
+            const info =
+              contestant.problemsInfo?.find((item) => item.problemSymbol === problem.symbol) ??
+              null;
+            const result = formatResult(info);
+            return (
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                key={problem.symbol}
+                sx={(theme) => ({
+                  borderRadius: 1.5,
+                  px: 1.25,
+                  py: 0.75,
+                  border: '1px solid',
+                  borderColor:
+                    result.color === 'default'
+                      ? theme.palette.divider
+                      : alpha(theme.palette[result.color].main, 0.6),
+                  backgroundColor:
+                    result.color === 'default'
+                      ? theme.palette.background.paper
+                      : alpha(
+                          theme.palette[result.color].main,
+                          theme.palette.mode === 'dark' ? 0.12 : 0.1,
+                        ),
+                  minWidth: 54,
+                })}
+              >
+                <Typography variant="caption" fontWeight={700} color="text.secondary">
+                  {problem.symbol}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  fontWeight={700}
+                  color={result.color === 'default' ? 'text.primary' : `${result.color}.main`}
+                  sx={{ lineHeight: 1.2 }}
+                >
+                  {result.label}
+                </Typography>
+              </Stack>
+            );
+          })}
+        </Stack>
       </Stack>
     </Box>
   );
@@ -202,11 +261,13 @@ const ContestProblemPage = () => {
   const { data: contest, isLoading: isContestLoading } = useContest(contestId);
   const { data: contestProblems = [], mutate: mutateContestProblems } =
     useContestProblems(contestId);
-  const {
-    data: contestProblem,
-    isLoading: isProblemLoading,
-  } = useContestProblem(contestId, problemSymbol);
-  const { data: contestant, mutate: mutateContestant } = useContestContestant(contestId);
+  const { data: contestProblem, isLoading: isProblemLoading } = useContestProblem(
+    contestId,
+    problemSymbol,
+  );
+  const { data: contestant, mutate: mutateContestant } = useContestContestant(contestId, {
+    refreshInterval: 30000,
+  });
 
   const problem = contestProblem?.problem;
   const sampleTests: ProblemSampleTest[] = problem?.sampleTests ?? [];
@@ -382,9 +443,7 @@ const ContestProblemPage = () => {
         next.set('tab', 'attempts');
         return next;
       });
-      mutateAttempts();
-      mutateContestProblems();
-      mutateContestant();
+      await Promise.all([mutateAttempts(), mutateContestProblems(), mutateContestant()]);
     } catch (error: any) {
       const message =
         error?.response?.data?.message ?? error?.message ?? t('problems.detail.error');

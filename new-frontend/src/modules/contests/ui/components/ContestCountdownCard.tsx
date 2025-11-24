@@ -1,8 +1,23 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  Typography,
+} from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import { Link as RouterLink } from 'react-router-dom';
+import { getResourceByParams, resources } from 'app/routes/resources';
 import KepIcon from 'shared/components/base/KepIcon';
 import { ContestDetail } from '../../domain/entities/contest-detail.entity';
 import { ContestStatus } from '../../domain/entities/contest-status';
@@ -13,110 +28,273 @@ interface ContestCountdownCardProps {
   contest?: ContestDetail | null;
 }
 
+type CountdownPhase = ContestStatus.NotStarted | ContestStatus.Already | ContestStatus.Finished;
+
+const CountdownTile = ({ value, label }: { value: string; label: string }) => (
+  <Stack
+    spacing={0.5}
+    alignItems="center"
+    sx={(theme) => ({
+      px: 2,
+      py: 1.5,
+      minWidth: 72,
+      borderRadius: 2,
+      background: theme.palette.background.paper,
+      boxShadow: `0 10px 40px ${theme.palette.common.black}0a`,
+      color: theme.palette.text.primary,
+    })}
+  >
+    <Typography variant="h4" fontWeight={800}>
+      {value}
+    </Typography>
+    <Typography variant="caption" sx={{ textTransform: 'uppercase', letterSpacing: 0.4 }}>
+      {label}
+    </Typography>
+  </Stack>
+);
+
 const ContestCountdownCard = ({ contest }: ContestCountdownCardProps) => {
   const { t } = useTranslation();
   const [now, setNow] = useState(dayjs());
+  const [phase, setPhase] = useState<CountdownPhase | null>(contest?.statusCode ?? null);
+  const [activeModal, setActiveModal] = useState<'start' | 'finish' | null>(null);
+  const prevPhaseRef = useRef<CountdownPhase | null>(null);
+  const initializedRef = useRef(false);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(dayjs()), 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
+    return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    setPhase(contest?.statusCode ?? null);
+  }, [contest?.id, contest?.statusCode, contest?.startTime, contest?.finishTime]);
 
   const startDate = contest?.startTime ? dayjs(contest.startTime) : null;
   const finishDate = contest?.finishTime ? dayjs(contest.finishTime) : null;
 
-  const { statusLabel, statusColor, countdownLabel } = useMemo(() => {
-    const formatCountdown = (targetDate: dayjs.Dayjs | null) => {
-      if (!targetDate) return '';
+  const safePhase = phase ?? ContestStatus.NotStarted;
 
-      const diffMs = Math.max(targetDate.diff(now), 0);
-      const diff = dayjs.duration(diffMs);
-      const hours = Math.floor(diff.asHours());
-      const minutes = diff.minutes();
-      const seconds = diff.seconds();
+  const targetDate = useMemo(() => {
+    if (safePhase === ContestStatus.Already) return finishDate;
+    if (safePhase === ContestStatus.NotStarted) return startDate;
+    return null;
+  }, [finishDate, safePhase, startDate]);
 
-      return [hours, minutes, seconds].map((value) => String(value).padStart(2, '0')).join(':');
-    };
+  const diffMs = targetDate ? Math.max(targetDate.diff(now), 0) : 0;
+  const time = dayjs.duration(diffMs);
+  const totalHours = Math.floor(time.asHours());
+  const minutes = time.minutes();
+  const seconds = time.seconds();
 
+  useEffect(() => {
+    if (!targetDate || phase === null) return;
+
+    if (diffMs <= 0) {
+      if (safePhase === ContestStatus.NotStarted) {
+        setPhase(ContestStatus.Already);
+      } else if (safePhase === ContestStatus.Already) {
+        setPhase(ContestStatus.Finished);
+      }
+    }
+  }, [diffMs, phase, safePhase, targetDate]);
+
+  useEffect(() => {
+    if (phase === null) return;
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+      prevPhaseRef.current = phase;
+      return;
+    }
+
+    if (prevPhaseRef.current === ContestStatus.NotStarted && phase === ContestStatus.Already) {
+      setActiveModal('start');
+    } else if (prevPhaseRef.current === ContestStatus.Already && phase === ContestStatus.Finished) {
+      setActiveModal('finish');
+    }
+
+    prevPhaseRef.current = phase;
+  }, [phase]);
+
+  const statusChip = useMemo(() => {
     if (!contest) {
       return {
-        statusLabel: t('contests.status.starts', { date: '--' }),
-        statusColor: 'warning' as const,
-        countdownLabel: '',
+        label: t('contests.countdownCard.starts'),
+        color: 'warning' as const,
       };
     }
 
-    if (contest.statusCode === ContestStatus.Finished) {
+    if (safePhase === ContestStatus.Finished) {
       return {
-        statusLabel: finishDate
-          ? t('contests.status.finished', { date: finishDate.format('DD MMM, HH:mm') })
-          : t('contests.status.finished', { date: '--' }),
-        statusColor: 'default' as const,
-        countdownLabel: '',
+        label: t('contests.countdownCard.finished'),
+        color: 'default' as const,
       };
     }
 
-    if (contest.statusCode === ContestStatus.NotStarted && startDate) {
+    if (safePhase === ContestStatus.NotStarted) {
       return {
-        statusLabel: t('contests.status.starts', { date: startDate.format('DD MMM, HH:mm') }),
-        statusColor: 'warning' as const,
-        countdownLabel: t('contests.countdown', { time: formatCountdown(startDate) }),
-      };
-    }
-
-    if (contest.statusCode === ContestStatus.Already && finishDate) {
-      return {
-        statusLabel: t('contests.status.live', { date: finishDate.format('DD MMM, HH:mm') }),
-        statusColor: 'success' as const,
-        countdownLabel: t('contests.countdown', { time: formatCountdown(finishDate) }),
+        label: t('contests.countdownCard.starts'),
+        color: 'warning' as const,
       };
     }
 
     return {
-      statusLabel: t('contests.status.live', { date: finishDate?.format('DD MMM, HH:mm') ?? '--' }),
-      statusColor: 'success' as const,
-      countdownLabel: '',
+      label: t('contests.countdownCard.ends'),
+      color: 'success' as const,
     };
-  }, [contest, finishDate, now, startDate, t]);
+  }, [contest, safePhase, t]);
+
+  const tiles = [
+    { value: String(totalHours).padStart(2, '0'), label: t('contests.timeLabels.hour') },
+    { value: String(minutes).padStart(2, '0'), label: t('contests.timeLabels.minute') },
+    { value: String(seconds).padStart(2, '0'), label: t('contests.timeLabels.second') },
+  ];
+
+  const helperLabel = useMemo(() => {
+    if (safePhase === ContestStatus.NotStarted && startDate) {
+      return t('contests.startsLabel', { date: startDate.format('DD MMM, HH:mm') });
+    }
+    if (finishDate) {
+      return t('contests.countdownCard.finishedAt', { date: finishDate.format('DD MMM, HH:mm') });
+    }
+    return null;
+  }, [finishDate, safePhase, startDate, t]);
+
+  useEffect(() => {
+    initializedRef.current = false;
+    prevPhaseRef.current = null;
+    setActiveModal(null);
+  }, [contest?.id]);
+
+  const problemsLink =
+    contest?.id != null
+      ? getResourceByParams(resources.ContestProblems, { id: contest.id })
+      : resources.Contests;
+  const standingsLink =
+    contest?.id != null
+      ? getResourceByParams(resources.ContestStandings, { id: contest.id })
+      : resources.Contests;
 
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        position: 'relative',
-        borderRadius: 3,
-        background: (theme) =>
-          `linear-gradient(135deg, ${theme.palette.primary.light}22, ${theme.palette.secondary.light}18)`,
-      }}
-    >
-      <Box
-        sx={{
-          position: 'absolute',
-          inset: 0,
-          opacity: 0,
-        }}
-      />
-      <CardContent sx={{ position: 'relative', zIndex: 1 }}>
-        <Stack spacing={1.5} alignItems="flex-start">
-          <Chip
-            icon={<KepIcon name="timer" fontSize={16} />}
-            label={statusLabel}
-            color={statusColor}
-            variant="outlined"
-            sx={{ fontWeight: 700 }}
+    <>
+      <Card
+        variant="outlined"
+        sx={(theme) => ({
+          position: 'relative',
+          overflow: 'hidden',
+          borderRadius: 3,
+          color: theme.palette.text.primary,
+          background: `linear-gradient(150deg, ${alpha(theme.palette.primary.main, 0.08)}, ${alpha(theme.palette.secondary.main, 0.08)})`,
+          borderColor: alpha(theme.palette.primary.main, 0.16),
+        })}
+      >
+        {contest?.logo ? (
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              // backgroundImage: `url(${contest.logo})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              opacity: 0.08,
+              filter: 'blur(1px)',
+            }}
           />
+        ) : null}
+        <Box
+          sx={(theme) => ({
+            position: 'absolute',
+            inset: 0,
+            background:
+              theme.palette.mode === 'dark'
+                ? 'linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.7) 100%)'
+                : 'linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.35) 100%)',
+          })}
+        />
+        <CardContent sx={{ position: 'relative', zIndex: 1 }}>
+          <Stack spacing={2}>
+            <Stack direction="column" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
+              <Chip
+                icon={<KepIcon name="timer" fontSize={16} />}
+                label={statusChip.label}
+                color={statusChip.color}
+                variant="filled"
+                sx={{
+                  color: statusChip.color === 'default' ? 'text.primary' : '#fff',
+                  backgroundColor: statusChip.color === 'default' ? 'background.paper' : undefined,
+                  fontWeight: 700,
+                }}
+              />
+            </Stack>
 
-          {countdownLabel ? (
-            <Typography variant="h6" fontWeight={800}>
-              {countdownLabel}
-            </Typography>
+            <Stack
+              direction="row"
+              spacing={1.5}
+              alignItems="center"
+              justifyContent="center"
+              flexWrap="wrap"
+              useFlexGap
+            >
+              {tiles.map((item) => (
+                <CountdownTile key={item.label} value={item.value} label={item.label} />
+              ))}
+            </Stack>
+
+            {helperLabel ? (
+              <Typography align="center" variant="caption" fontWeight={500}>
+                {helperLabel}
+              </Typography>
+            ) : null}
+          </Stack>
+        </CardContent>
+      </Card>
+
+      <Dialog
+        open={Boolean(activeModal && contest)}
+        onClose={() => setActiveModal(null)}
+        aria-labelledby="contest-countdown-dialog-title"
+      >
+        <DialogTitle id="contest-countdown-dialog-title">
+          {activeModal === 'start'
+            ? t('contests.countdownCard.started')
+            : t('contests.countdownCard.finished')}
+        </DialogTitle>
+        <DialogContent dividers>
+          <Typography variant="body1">
+            {activeModal === 'start'
+              ? t('contests.countdownCard.startedBody')
+              : t('contests.countdownCard.finishedBody')}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          {activeModal === 'start' ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setActiveModal(null)}
+              component={RouterLink}
+              to={problemsLink}
+            >
+              {t('contests.tabs.problems')}
+            </Button>
           ) : null}
-        </Stack>
-      </CardContent>
-    </Card>
+          {activeModal === 'finish' ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setActiveModal(null)}
+              component={RouterLink}
+              to={standingsLink}
+            >
+              {t('contests.tabs.standings')}
+            </Button>
+          ) : null}
+          <Button variant="text" onClick={() => setActiveModal(null)}>
+            {t('common.close', 'Close')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 
