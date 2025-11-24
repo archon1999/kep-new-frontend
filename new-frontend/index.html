@@ -18,4 +18,28 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
+
+  <script>
+      window.MathJax = {
+          tex: {
+              inlineMath: [["\\(", "\\)"]],
+              displayMath: [["\\[", "\\]"], ["$$","$$"]],
+              processEscapes: true,
+              tags: "ams"
+          },
+          svg: {
+              scale: 1,
+              minScale: 0.5,
+              mtextInheritFont: true,
+              merrorInheritFont: true,
+              fontCache: "local"
+          }
+      };
+  </script>
+
+  <script
+    id="mathjax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+  ></script>
 </html>

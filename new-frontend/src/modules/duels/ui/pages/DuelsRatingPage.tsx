@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Box, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -7,10 +8,9 @@ import {
   GridSortModel,
   GridValidRowModel,
 } from '@mui/x-data-grid';
-import { useTranslation } from 'react-i18next';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
-import DataGridPaginationAction from 'shared/components/pagination/DataGridPaginationAction.tsx';
 import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
+import DataGridPaginationAction from 'shared/components/pagination/DataGridPaginationAction.tsx';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useDuelsRating } from '../../application/queries.ts';
 
 const DuelsRatingPage = () => {
@@ -20,9 +20,7 @@ const DuelsRatingPage = () => {
     page: 0,
     pageSize: 12,
   });
-  const [sortModel, setSortModel] = useState<GridSortModel>([
-    { field: 'wins', sort: 'desc' },
-  ]);
+  const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'wins', sort: 'desc' }]);
 
   const ordering = useMemo(() => {
     if (!sortModel.length) return '-wins';
@@ -68,7 +66,9 @@ const DuelsRatingPage = () => {
       align: 'center',
       sortable: false,
       renderCell: ({ value }) => (
-        <Typography variant="subtitle1" fontWeight={800}>#{value}</Typography>
+        <Typography variant="subtitle1" fontWeight={800}>
+          #{value}
+        </Typography>
       ),
     },
     {
@@ -141,30 +141,26 @@ const DuelsRatingPage = () => {
           </Typography>
         </Stack>
 
-        <Card>
-          <CardContent>
-            <DataGrid
-              autoHeight
-              disableRowSelectionOnClick
-              loading={isLoading}
-              rows={rows}
-              columns={columns}
-              paginationMode="client"
-              paginationModel={paginationModel}
-              onPaginationModelChange={setPaginationModel}
-              rowCount={ratingPage?.total ?? rows.length}
-              sortingMode="client"
-              sortModel={sortModel}
-              onSortModelChange={setSortModel}
-              disableColumnMenu
-              pageSizeOptions={[10, 12, 20]}
-              getRowHeight={() => 72}
-              slots={{
-                pagination: DataGridPaginationAction,
-              }}
-            />
-          </CardContent>
-        </Card>
+        <DataGrid
+          autoHeight
+          disableRowSelectionOnClick
+          loading={isLoading}
+          rows={rows}
+          columns={columns}
+          paginationMode="client"
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
+          rowCount={ratingPage?.total ?? rows.length}
+          sortingMode="client"
+          sortModel={sortModel}
+          onSortModelChange={setSortModel}
+          disableColumnMenu
+          pageSizeOptions={[10, 12, 20]}
+          getRowHeight={() => 72}
+          slots={{
+            pagination: DataGridPaginationAction,
+          }}
+        />
       </Stack>
     </Box>
   );

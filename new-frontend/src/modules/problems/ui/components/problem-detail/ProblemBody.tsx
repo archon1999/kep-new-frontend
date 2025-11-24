@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { Box, Card, CardContent, Divider, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { Box, Card, CardContent, Divider, Stack, Typography } from '@mui/material';
+import MathJaxView from 'shared/components/base/MathJaxView.tsx';
 import ClipboardButton from 'shared/components/common/ClipboardButton';
 import type { ProblemDetail } from '../../../domain/entities/problem.entity';
 import { CustomProblemBody } from './ProblemCustomBodies';
@@ -8,8 +9,6 @@ import { CustomProblemBody } from './ProblemCustomBodies';
 interface ProblemBodyProps {
   problem: ProblemDetail;
 }
-
-let mathJaxLoader: Promise<any> | null = null;
 
 export const ProblemBody = ({ problem }: ProblemBodyProps) => {
   const { t } = useTranslation();
@@ -27,63 +26,6 @@ export const ProblemBody = ({ problem }: ProblemBodyProps) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [problem.id]);
-
-  useEffect(() => {
-    const ensureMathJax = () => {
-      if (mathJaxLoader) return mathJaxLoader;
-
-      mathJaxLoader = new Promise((resolve) => {
-        if ((window as any).MathJax) {
-          resolve((window as any).MathJax);
-          return;
-        }
-
-        const existingScript = document.getElementById('mathjax-script');
-        if (existingScript) {
-          existingScript.addEventListener('load', () => resolve((window as any).MathJax));
-          return;
-        }
-
-        (window as any).MathJax = {
-          tex: {
-            inlineMath: [
-              ['$', '$'],
-              ['\\(', '\\)'],
-            ],
-            displayMath: [
-              ['$$', '$$'],
-              ['\\[', '\\]'],
-            ],
-          },
-          options: {
-            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-          },
-          startup: {
-            typeset: false,
-          },
-        };
-
-        const script = document.createElement('script');
-        script.id = 'mathjax-script';
-        script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-        script.async = true;
-        script.onload = () => resolve((window as any).MathJax);
-        document.head.appendChild(script);
-      });
-
-      return mathJaxLoader;
-    };
-
-    ensureMathJax()
-      ?.then((mathJax) => {
-        if (mathJax?.startup?.promise && mathJax.typesetPromise) {
-          mathJax.startup.promise.then(() => {
-            setTimeout(() => mathJax.typesetPromise([contentRef.current]), 50);
-          });
-        }
-      })
-      .catch(() => undefined);
-  }, [problem.body, problem.inputData, problem.outputData, problem.comment, problem.sampleTests]);
 
   const shouldRenderBody = problem.id !== 1637;
   const hasExtraSections = useMemo(
@@ -124,13 +66,7 @@ export const ProblemBody = ({ problem }: ProblemBodyProps) => {
           },
         }}
       >
-        {shouldRenderBody ? (
-          <Typography
-            variant="body1"
-            color="text.primary"
-            dangerouslySetInnerHTML={{ __html: problem.body ?? '' }}
-          />
-        ) : null}
+        {shouldRenderBody ? <MathJaxView rawHtml={problem.body} /> : null}
 
         <CustomProblemBody problem={problem} />
 
@@ -139,14 +75,14 @@ export const ProblemBody = ({ problem }: ProblemBodyProps) => {
         {problem.inputData ? (
           <Stack direction="column" mt={2}>
             <Typography variant="h6">{t('problems.detail.inputData')}</Typography>
-            <Typography variant="body1" dangerouslySetInnerHTML={{ __html: problem.inputData }} />
+            <MathJaxView rawHtml={problem.inputData}/>
           </Stack>
         ) : null}
 
         {problem.outputData ? (
           <Stack direction="column" mt={2}>
             <Typography variant="h6">{t('problems.detail.outputData')}</Typography>
-            <Typography variant="body1" dangerouslySetInnerHTML={{ __html: problem.outputData }} />
+            <MathJaxView rawHtml={problem.outputData}/>
           </Stack>
         ) : null}
 
@@ -181,7 +117,9 @@ export const ProblemBody = ({ problem }: ProblemBodyProps) => {
 
                       <Box>
                         <Stack direction="row" alignItems="center" justifyContent="space-between">
-                          <Typography fontWeight={700}>{t('problems.detail.expectedOutput')}</Typography>
+                          <Typography fontWeight={700}>
+                            {t('problems.detail.expectedOutput')}
+                          </Typography>
                           <ClipboardButton text={test.output ?? ''} />
                         </Stack>
                         <Box
@@ -212,7 +150,7 @@ export const ProblemBody = ({ problem }: ProblemBodyProps) => {
             <Typography variant="h6" mb={1}>
               {t('problems.detail.comment')}
             </Typography>
-            <Typography variant="body1" dangerouslySetInnerHTML={{ __html: problem.comment }} />
+            <MathJaxView rawHtml={problem.comment}/>
           </Box>
         ) : null}
       </Box>
