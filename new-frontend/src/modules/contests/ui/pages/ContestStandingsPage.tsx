@@ -17,7 +17,6 @@ import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { ContestType } from 'shared/api/orval/generated/endpoints/index.schemas';
-import KepIcon from 'shared/components/base/KepIcon';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import { gridPaginationToPageParams } from 'shared/lib/pagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
@@ -178,8 +177,8 @@ const ContestStandingsPage = () => {
           }}
           renderValue={(value) =>
             value
-              ? contestFilters.find((f) => String(f.id) === String(value))?.name ??
-                t('contests.standings.allFilters')
+              ? (contestFilters.find((f) => String(f.id) === String(value))?.name ??
+                t('contests.standings.allFilters'))
               : t('contests.standings.allFilters')
           }
         >
@@ -372,12 +371,34 @@ const ContestStandingsPage = () => {
           return (
             info && (
               <Stack spacing={0.25} alignItems="center" width="100%">
-                <Typography color={result.color}>{result.label}</Typography>
-                {result.helper ? (
-                  <Typography variant="caption" fontWeight={500}>
-                    {result.helper}
-                  </Typography>
-                ) : null}
+                {result.isBest && (
+                  <Stack
+                    spacing={0.25}
+                    justifyContent="center"
+                    alignItems="center"
+                    bgcolor="success.lighter"
+                    sx={{ borderRadius: 2, p: 0.5 }}
+                  >
+                    <Typography variant="subtitle2" color={result.color}>{result.label}</Typography>
+                    {result.helper ? (
+                      <Typography variant="overline" fontWeight={500}>
+                        {result.helper}
+                      </Typography>
+                    ) : null}
+                  </Stack>
+                )}
+                {!result.isBest && (
+                  <>
+                    <Typography variant="subtitle2" color={result.color}>
+                      {result.label}
+                    </Typography>
+                    {result.helper ? (
+                      <Typography variant="overline" fontWeight={500}>
+                        {result.helper}
+                      </Typography>
+                    ) : null}
+                  </>
+                )}
               </Stack>
             )
           );
