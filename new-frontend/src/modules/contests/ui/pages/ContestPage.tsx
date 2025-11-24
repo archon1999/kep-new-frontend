@@ -16,7 +16,7 @@ const ContestPage = () => {
   const contestId = id ? Number(id) : undefined;
   const { t } = useTranslation();
 
-  const { data: contest, mutate: mutateContest } = useContest(contestId);
+  const { data: contest, mutate: mutateContest, isLoading: isContestLoading } = useContest(contestId);
   const { data: contestProblems, isLoading: problemsLoading } = useContestProblems(contestId);
   const [isRegistrationLoading, setIsRegistrationLoading] = useState(false);
   useDocumentTitle(
@@ -30,6 +30,7 @@ const ContestPage = () => {
 
   const showProblemsPreview = contest ? contest.statusCode !== ContestStatus.NotStarted : true;
   const canRegister = contest ? contest.statusCode !== ContestStatus.Finished : false;
+  const isPreviewLoading = isContestLoading || problemsLoading;
 
   const handleRegistrationToggle = useCallback(async () => {
     if (!contestId || !contest) return;
@@ -71,7 +72,8 @@ const ContestPage = () => {
         title={contest?.title ?? t('contests.tabs.overview')}
         contest={contest}
         contestId={contestId}
-        tabsRightContent={registrationCta}
+        tabsRightContent={registrationCta ?? (isContestLoading ? <Box /> : null)}
+        isLoading={isContestLoading}
       />
 
       <Grid container spacing={3}>
@@ -92,7 +94,7 @@ const ContestPage = () => {
         </Grid>
 
         <Grid size={{ xs: 12, md: 4 }}>
-          <ContestCountdownCard contest={contest} />
+          <ContestCountdownCard contest={contest} isLoading={isContestLoading} />
 
           {showProblemsPreview ? (
             <Box mt={3}>
@@ -138,9 +140,27 @@ const ContestPage = () => {
                           </Stack>
                         ))}
                       </Stack>
+                    ) : isPreviewLoading ? (
+                      <Stack spacing={1.25}>
+                        {Array.from({ length: 3 }).map((_, index) => (
+                          <Stack
+                            key={index}
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            spacing={1}
+                          >
+                            <Stack direction="column" spacing={0.5} minWidth={0} flex={1}>
+                              <Skeleton variant="rounded" width={72} height={24} />
+                              <Skeleton variant="text" width="80%" />
+                            </Stack>
+                            <Skeleton variant="rounded" width={90} height={28} />
+                          </Stack>
+                        ))}
+                      </Stack>
                     ) : (
                       <Typography variant="body2" color="text.secondary">
-                        {problemsLoading ? t('contests.loading') : t('contests.noProblems')}
+                        {t('contests.noProblems')}
                       </Typography>
                     )}
                   </Stack>

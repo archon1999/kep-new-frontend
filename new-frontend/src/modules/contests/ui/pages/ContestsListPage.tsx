@@ -354,7 +354,7 @@ const ContestsListPage = () => {
               {isLoading
                 ? Array.from({ length: DEFAULT_PAGE_SIZE }).map((_, idx) => (
                     <Grid size={{ xs: 12 }} key={idx}>
-                      <Skeleton variant="rounded" height={260} />
+                      <Skeleton variant="rounded" height={400} />
                     </Grid>
                   ))
                 : contests.map((contest) => (

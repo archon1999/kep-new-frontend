@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   Grid,
+  Skeleton,
   Stack,
   TextField,
   Typography,
@@ -24,7 +25,7 @@ const ContestQuestionsPage = () => {
   const contestId = id ? Number(id) : undefined;
   const { t } = useTranslation();
 
-  const { data: contest } = useContest(contestId);
+  const { data: contest, isLoading: isContestLoading } = useContest(contestId);
   const { data: contestProblems = [] } = useContestProblems(contestId);
   useDocumentTitle(
     contest?.title ? 'pageTitles.contestQuestions' : undefined,
@@ -36,7 +37,7 @@ const ContestQuestionsPage = () => {
   );
   const {
     data: questions = [],
-    isLoading,
+    isLoading: isQuestionsLoading,
     mutate,
   } = useContestQuestions(contestId);
 
@@ -70,6 +71,7 @@ const ContestQuestionsPage = () => {
         title={contest?.title ?? t('contests.questions.title')}
         contest={contest as any}
         contestId={contestId}
+        isLoading={isContestLoading}
       />
 
       <Grid container spacing={3}>
@@ -81,10 +83,28 @@ const ContestQuestionsPage = () => {
                   {t('contests.questions.title')}
                 </Typography>
 
-                {isLoading ? (
-                  <Typography variant="body2" color="text.secondary">
-                    {t('contests.loading')}
-                  </Typography>
+                {isQuestionsLoading ? (
+                  <Stack spacing={1.25}>
+                    {Array.from({ length: 3 }).map((_, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          p: 2,
+                          borderRadius: 2,
+                          border: '1px solid',
+                          borderColor: 'divider',
+                          bgcolor: 'background.paper',
+                        }}
+                      >
+                        <Stack direction="row" spacing={1} justifyContent="space-between">
+                          <Skeleton variant="text" width="40%" />
+                          <Skeleton variant="text" width="20%" />
+                        </Stack>
+                        <Skeleton variant="text" width="80%" sx={{ mt: 1 }} />
+                        <Skeleton variant="text" width="65%" />
+                      </Box>
+                    ))}
+                  </Stack>
                 ) : questions.length === 0 ? (
                   <Typography variant="body2" color="text.secondary">
                     {t('contests.questions.empty')}
@@ -189,7 +209,7 @@ const ContestQuestionsPage = () => {
         </Grid>
 
         <Grid size={{ xs: 12, md: 4 }}>
-          <ContestCountdownCard contest={contest} />
+          <ContestCountdownCard contest={contest} isLoading={isContestLoading} />
         </Grid>
       </Grid>
     </Stack>

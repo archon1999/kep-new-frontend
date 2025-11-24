@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   Chip,
+  Skeleton,
   Dialog,
   DialogActions,
   DialogContent,
@@ -26,6 +27,7 @@ dayjs.extend(duration);
 
 interface ContestCountdownCardProps {
   contest?: ContestDetail | null;
+  isLoading?: boolean;
 }
 
 type CountdownPhase = ContestStatus.NotStarted | ContestStatus.Already | ContestStatus.Finished;
@@ -53,8 +55,9 @@ const CountdownTile = ({ value, label }: { value: string; label: string }) => (
   </Stack>
 );
 
-const ContestCountdownCard = ({ contest }: ContestCountdownCardProps) => {
+const ContestCountdownCard = ({ contest, isLoading = false }: ContestCountdownCardProps) => {
   const { t } = useTranslation();
+  const [isLoadedOnce, setIsLoadedOnce] = useState(Boolean(contest));
   const [now, setNow] = useState(dayjs());
   const [phase, setPhase] = useState<CountdownPhase | null>(contest?.statusCode ?? null);
   const [activeModal, setActiveModal] = useState<'start' | 'finish' | null>(null);
@@ -68,6 +71,9 @@ const ContestCountdownCard = ({ contest }: ContestCountdownCardProps) => {
 
   useEffect(() => {
     setPhase(contest?.statusCode ?? null);
+    if (contest && !isLoadedOnce) {
+      setIsLoadedOnce(true);
+    }
   }, [contest?.id, contest?.statusCode, contest?.startTime, contest?.finishTime]);
 
   const startDate = contest?.startTime ? dayjs(contest.startTime) : null;
@@ -175,6 +181,8 @@ const ContestCountdownCard = ({ contest }: ContestCountdownCardProps) => {
       ? getResourceByParams(resources.ContestStandings, { id: contest.id })
       : resources.Contests;
 
+  const showSkeleton = isLoading || (!contest && !isLoadedOnce);
+
   return (
     <>
       <Card
@@ -212,40 +220,59 @@ const ContestCountdownCard = ({ contest }: ContestCountdownCardProps) => {
           })}
         />
         <CardContent sx={{ position: 'relative', zIndex: 1 }}>
-          <Stack spacing={2}>
-            <Stack direction="column" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
-              <Chip
-                icon={<KepIcon name="timer" fontSize={16} />}
-                label={statusChip.label}
-                color={statusChip.color}
-                variant="filled"
-                sx={{
-                  color: statusChip.color === 'default' ? 'text.primary' : '#fff',
-                  backgroundColor: statusChip.color === 'default' ? 'background.paper' : undefined,
-                  fontWeight: 700,
-                }}
-              />
+          {showSkeleton ? (
+            <Stack spacing={2}>
+              <Skeleton variant="rounded" width={140} height={36} sx={{ mx: 'auto' }} />
+              <Stack
+                direction="row"
+                spacing={1.25}
+                alignItems="center"
+                justifyContent="center"
+                flexWrap="wrap"
+                useFlexGap
+              >
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <Skeleton key={index} variant="rounded" width={96} height={82} />
+                ))}
+              </Stack>
+              <Skeleton variant="text" width="70%" sx={{ mx: 'auto' }} />
             </Stack>
+          ) : (
+            <Stack spacing={2}>
+              <Stack direction="column" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
+                <Chip
+                  icon={<KepIcon name="timer" fontSize={16} />}
+                  label={statusChip.label}
+                  color={statusChip.color}
+                  variant="filled"
+                  sx={{
+                    color: statusChip.color === 'default' ? 'text.primary' : '#fff',
+                    backgroundColor: statusChip.color === 'default' ? 'background.paper' : undefined,
+                    fontWeight: 700,
+                  }}
+                />
+              </Stack>
 
-            <Stack
-              direction="row"
-              spacing={1.5}
-              alignItems="center"
-              justifyContent="center"
-              flexWrap="wrap"
-              useFlexGap
-            >
-              {tiles.map((item) => (
-                <CountdownTile key={item.label} value={item.value} label={item.label} />
-              ))}
+              <Stack
+                direction="row"
+                spacing={1.5}
+                alignItems="center"
+                justifyContent="center"
+                flexWrap="wrap"
+                useFlexGap
+              >
+                {tiles.map((item) => (
+                  <CountdownTile key={item.label} value={item.value} label={item.label} />
+                ))}
+              </Stack>
+
+              {helperLabel ? (
+                <Typography align="center" variant="caption" fontWeight={500}>
+                  {helperLabel}
+                </Typography>
+              ) : null}
             </Stack>
-
-            {helperLabel ? (
-              <Typography align="center" variant="caption" fontWeight={500}>
-                {helperLabel}
-              </Typography>
-            ) : null}
-          </Stack>
+          )}
         </CardContent>
       </Card>
 

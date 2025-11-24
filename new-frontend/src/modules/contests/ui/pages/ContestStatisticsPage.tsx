@@ -30,7 +30,7 @@ const ContestStatisticsPage = () => {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
 
-  const { data: contest } = useContest(contestId);
+  const { data: contest, isLoading: isContestLoading } = useContest(contestId);
   const { data: statistics, isLoading } = useContestStatistics(contestId);
   useDocumentTitle(
     contest?.title ? 'pageTitles.contestStatistics' : undefined,
@@ -360,6 +360,7 @@ const ContestStatisticsPage = () => {
         contestId={contestId}
         isRated={contest?.isRated}
         showLogoOverlay
+        isLoading={isContestLoading}
       />
 
       <Grid container spacing={3}>

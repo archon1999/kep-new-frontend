@@ -38,7 +38,7 @@ const ContestAttemptsPage = () => {
   const { currentUser } = useAuth();
   const { t } = useTranslation();
 
-  const { data: contest } = useContest(contestId);
+  const { data: contest, isLoading: isContestLoading } = useContest(contestId);
   const { data: contestProblems = [] } = useContestProblems(contestId);
   const { data: verdictOptions = [] } = useAttemptVerdicts();
   useDocumentTitle(
@@ -105,6 +105,7 @@ const ContestAttemptsPage = () => {
         title={contest?.title ?? t('contests.tabs.attempts')}
         contest={contest as any}
         contestId={contestId}
+        isLoading={isContestLoading}
       />
 
       <Grid container spacing={3}>
@@ -127,7 +128,7 @@ const ContestAttemptsPage = () => {
         </Grid>
         <Grid size={{ xs: 12, md: 3 }}>
           <Stack spacing={2}>
-            <ContestCountdownCard contest={contest} />
+            <ContestCountdownCard contest={contest} isLoading={isContestLoading} />
 
             <Card variant="outlined" sx={{ borderRadius: 3 }}>
               <CardContent>
@@ -138,7 +139,7 @@ const ContestAttemptsPage = () => {
 
                   <TextField
                     select
-                    label={t('contests.filter.problem')}
+                    variant="standard"
                     value={filter.contestProblem}
                     onChange={(event) => handleFilterChange('contestProblem', event.target.value)}
                     SelectProps={{ native: true }}
@@ -154,7 +155,7 @@ const ContestAttemptsPage = () => {
 
                   <TextField
                     select
-                    label={t('contests.filter.verdict')}
+                    variant="standard"
                     value={filter.verdict}
                     onChange={(event) => handleFilterChange('verdict', event.target.value)}
                     SelectProps={{ native: true }}
@@ -177,9 +178,6 @@ const ContestAttemptsPage = () => {
                   ) : null}
 
                   <Box display="flex" gap={1}>
-                    <Button variant="contained" fullWidth onClick={() => mutate()}>
-                      {t('contests.filter.apply')}
-                    </Button>
                     <Button variant="outlined" fullWidth color="secondary" onClick={handleReset}>
                       {t('contests.filter.reset')}
                     </Button>

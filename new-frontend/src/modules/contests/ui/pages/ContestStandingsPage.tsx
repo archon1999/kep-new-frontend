@@ -1,23 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import {
-  Box,
-  Chip,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  Switch,
-  Typography,
-} from '@mui/material';
+import { Box, Chip, FormControl, MenuItem, Select, Stack, Switch, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { ContestType } from 'shared/api/orval/generated/endpoints/index.schemas';
-import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import { gridPaginationToPageParams } from 'shared/lib/pagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import {
@@ -33,6 +21,7 @@ import { contestHasBalls, contestHasPenalties, isAcmStyle } from '../../utils/co
 import ContestPageHeader from '../components/ContestPageHeader';
 import ContestStandingsCountdown from '../components/ContestStandingsCountdown';
 import ContestantView from '../components/ContestantView';
+import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip.tsx';
 
 const formatProblemResult = (contestType: ContestType | undefined, info: any) => {
   if (!info) {
@@ -100,7 +89,7 @@ const ContestStandingsPage = () => {
   const { t } = useTranslation();
   const { currentUser } = useAuth();
 
-  const { data: contest } = useContest(contestId);
+  const { data: contest, isLoading: isContestLoading } = useContest(contestId);
   const { data: contestProblems = [] } = useContestProblems(contestId);
   const { data: contestFilters = [] } = useContestFilters(contestId);
   useDocumentTitle(
@@ -372,7 +361,9 @@ const ContestStandingsPage = () => {
                     bgcolor="success.lighter"
                     sx={{ borderRadius: 2, py: 0.5, px: 0.75 }}
                   >
-                    <Typography variant="subtitle2" color={result.color}>{result.label}</Typography>
+                    <Typography variant="subtitle2" color={result.color}>
+                      {result.label}
+                    </Typography>
                     {result.helper ? (
                       <Typography variant="overline" fontWeight={500}>
                         {result.helper}
@@ -411,33 +402,30 @@ const ContestStandingsPage = () => {
         isRated={contest?.isRated}
         tabsRightContent={tabsRightContent}
         showLogoOverlay
+        isLoading={isContestLoading}
       />
 
       {contest ? <ContestStandingsCountdown contest={contest} /> : null}
 
-      <Grid container spacing={3}>
-        <Grid size={{ xs: 12 }}>
-          <DataGrid
-            autoHeight
-            rowHeight={72}
-            disableColumnMenu
-            disableColumnFilter
-            disableRowSelectionOnClick
-            rows={contestants}
-            columns={columns}
-            loading={isLoading}
-            rowCount={total}
-            paginationMode="server"
-            paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel}
-            pageSizeOptions={[10, 20, 50, 100]}
-            getRowId={(row) => `${row.username}-${row.virtualTime ?? ''}`}
-            getRowClassName={({ row }) =>
-              row.username === currentUser?.username ? 'MuiDataGrid-row--current' : ''
-            }
-          />
-        </Grid>
-      </Grid>
+      <DataGrid
+        autoHeight
+        rowHeight={72}
+        disableColumnMenu
+        disableColumnFilter
+        disableRowSelectionOnClick
+        rows={contestants}
+        columns={columns}
+        loading={isLoading}
+        rowCount={total}
+        paginationMode="server"
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+        pageSizeOptions={[10, 20, 50, 100]}
+        getRowId={(row) => `${row.username}-${row.virtualTime ?? ''}`}
+        getRowClassName={({ row }) =>
+          row.username === currentUser?.username ? 'MuiDataGrid-row--current' : ''
+        }
+      />
     </Stack>
   );
 };

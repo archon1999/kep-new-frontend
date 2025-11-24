@@ -19,7 +19,7 @@ const ContestRegistrantsPage = () => {
   const contestId = id ? Number(id) : undefined;
   const { t } = useTranslation();
 
-  const { data: contest } = useContest(contestId);
+  const { data: contest, isLoading: isContestLoading } = useContest(contestId);
   useDocumentTitle(contest?.title, { contestTitle: contest?.title });
 
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
@@ -135,6 +135,7 @@ const ContestRegistrantsPage = () => {
         title={contest?.title ?? t('contests.registrants.title')}
         contest={contest}
         contestId={contestId}
+        isLoading={isContestLoading}
       />
 
       <Grid container spacing={3}>
@@ -158,7 +159,7 @@ const ContestRegistrantsPage = () => {
           />
         </Grid>
         <Grid size={{ xs: 12, md: 4 }}>
-          <ContestCountdownCard contest={contest} />
+          <ContestCountdownCard contest={contest} isLoading={isContestLoading} />
         </Grid>
       </Grid>
     </Stack>

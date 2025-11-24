@@ -21,13 +21,9 @@ const OnlyMeSwitch = ({
 }: OnlyMeSwitchProps) => (
   <Card
     background={2}
-    sx={[
-      { borderRadius: 2, flexShrink: 0, width: 'fit-content' },
-      ...(Array.isArray(sx) ? sx : [sx].filter(Boolean)),
-    ]}
     {...cardProps}
   >
-    <Stack direction="row" spacing={2} alignItems="center" sx={{ px: 1.5, pr: 0, py: 1 }}>
+    <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="center" sx={{ px: 1.5, pr: 0, py: 1 }}>
       <Typography variant="body2" fontWeight={600}>
         {label}
       </Typography>

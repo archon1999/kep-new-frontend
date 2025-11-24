@@ -17,7 +17,7 @@ const ContestRatingChangesPage = () => {
   const contestId = id ? Number(id) : undefined;
   const { t } = useTranslation();
 
-  const { data: contest } = useContest(contestId);
+  const { data: contest, isLoading: isContestLoading } = useContest(contestId);
   const { data: contestants = [], isLoading } = useContestContestants(contestId);
   useDocumentTitle(contest?.title, { contestTitle: contest?.title });
 
@@ -138,6 +138,7 @@ const ContestRatingChangesPage = () => {
         title={contest?.title ?? t('contests.ratingChanges.title')}
         contest={contest as any}
         contestId={contestId}
+        isLoading={isContestLoading}
       />
 
       <DataGrid
