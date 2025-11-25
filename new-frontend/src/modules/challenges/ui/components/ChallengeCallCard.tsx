@@ -45,7 +45,7 @@ const ChallengeCallCard = ({ challengeCall, onAccepted, onRemoved }: ChallengeCa
   };
 
   return (
-    <Card variant="outlined">
+    <Card background={0} variant="outlined">
       <CardContent>
         <Stack spacing={1.5} direction="column">
           <Stack direction="row" justifyContent="space-between" alignItems="center">

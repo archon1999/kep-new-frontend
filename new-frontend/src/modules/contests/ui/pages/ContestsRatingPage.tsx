@@ -1,215 +1,205 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { LinearProgress, Stack, Typography } from '@mui/material';
 import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  LinearProgress,
-  Pagination,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+  DataGrid,
+  GridColDef,
+  GridPaginationModel,
+  GridSortModel,
+  GridValidRowModel,
+} from '@mui/x-data-grid';
+import { resources } from 'app/routes/resources';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import DataGridPaginationAction from 'shared/components/pagination/DataGridPaginationAction';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
+import PageHeader from 'shared/components/sections/common/PageHeader';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
-import ContestantView from '../components/ContestantView';
 import { useContestsRating } from '../../application/queries';
+import { ContestRatingRow } from '../../domain/entities/contest-rating.entity';
+import ContestantView from '../components/ContestantView';
 
-const orderingOptions = [
-  { key: 'rating', label: 'contests.rating.ordering.rating' },
-  { key: 'max_rating', label: 'contests.rating.ordering.maxRating' },
-  { key: 'contestants_count', label: 'contests.rating.ordering.contests' },
-] as const;
+type RatingRow = GridValidRowModel & ContestRatingRow;
+
+const orderingFieldMap: Record<string, string> = {
+  rating: 'rating',
+  max_rating: 'max_rating',
+  contestants_count: 'contestants_count',
+};
 
 const ContestsRatingPage = () => {
   const { t } = useTranslation();
-  const [ordering, setOrdering] = useState('-rating');
-  const [page, setPage] = useState(1);
-  const pageSize = 12;
+  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
+    page: 0,
+    pageSize: 12,
+  });
+  const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'rating', sort: 'desc' }]);
 
-  const { data: ratingPage, isLoading } = useContestsRating({ page, pageSize, ordering });
+  const ordering = useMemo(() => {
+    const currentSort = sortModel[0];
 
-  const orderingState = useMemo(() => {
-    const key = ordering.replace('-', '');
-    const isDescending = ordering.startsWith('-');
-    return { key, isDescending };
-  }, [ordering]);
+    if (!currentSort) return '-rating';
 
-  const handleOrderingChange = (key: string) => {
-    setPage(1);
-    setOrdering((prev) => {
-      const currentKey = prev.replace('-', '');
-      const isDescending = prev.startsWith('-');
+    const orderingField = orderingFieldMap[currentSort.field] ?? 'rating';
+    const prefix = currentSort.sort === 'asc' ? '' : '-';
 
-      if (currentKey === key) {
-        return isDescending ? key : `-${key}`;
-      }
+    return `${prefix}${orderingField}`;
+  }, [sortModel]);
 
-      return `-${key}`;
-    });
-  };
+  const { data: ratingPage, isLoading } = useContestsRating({
+    page: paginationModel.page + 1,
+    pageSize: paginationModel.pageSize,
+    ordering,
+  });
 
   const rows = ratingPage?.data ?? [];
+  const rowCount = ratingPage?.total ?? 0;
 
-  return (
-    <Box sx={responsivePagePaddingSx}>
-      <Stack spacing={3} direction="column">
-        <Stack
-          direction={{ xs: 'column', sm: 'row' }}
-          spacing={2}
-          justifyContent="space-between"
-          alignItems={{ sm: 'center' }}
-        >
-          <Stack spacing={0.75} direction="column">
-            <Typography variant="h4" fontWeight={800}>
-              {t('contests.rating.title')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {t('contests.rating.subtitle')}
-            </Typography>
-          </Stack>
-
-          <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="flex-end">
-            {orderingOptions.map((option) => {
-              const active = orderingState.key === option.key;
-              const icon = active ? (
-                <IconifyIcon
-                  icon={orderingState.isDescending ? 'mdi:arrow-down' : 'mdi:arrow-up'}
-                  sx={{ fontSize: 18 }}
-                />
-              ) : undefined;
-
-              return (
-                <Button
-                  key={option.key}
-                  variant={active ? 'contained' : 'outlined'}
-                  color={active ? 'primary' : 'neutral'}
-                  size="small"
-                  onClick={() => handleOrderingChange(option.key)}
-                  endIcon={icon}
-                >
-                  {t(option.label)}
-                </Button>
-              );
-            })}
-          </Stack>
-        </Stack>
-
-        <Card variant="outlined">
-          {isLoading ? <LinearProgress /> : null}
-          <CardContent>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-              <Typography variant="subtitle2" color="text.secondary">
-                {t('contests.rating.total', { count: ratingPage?.total ?? 0 })}
+  const columns: GridColDef<RatingRow>[] = useMemo(
+    () => [
+      {
+        field: 'rowIndex',
+        headerName: t('contests.rating.columns.place'),
+        width: 90,
+        headerAlign: 'center',
+        align: 'center',
+        sortable: false,
+        renderCell: ({ value, row }) => (
+          <Typography variant="subtitle1" fontWeight={800}>
+            {value ?? row.rowIndex ?? '¢?"'}
+          </Typography>
+        ),
+      },
+      {
+        field: 'username',
+        headerName: t('contests.rating.columns.user'),
+        flex: 1.3,
+        minWidth: 220,
+        sortable: false,
+        renderCell: ({ row }) => <ContestantView contestant={row} imgSize={28} />,
+      },
+      {
+        field: 'rating',
+        headerName: t('contests.rating.columns.rating'),
+        flex: 1,
+        minWidth: 200,
+        sortable: true,
+        renderCell: ({ row }) => (
+          <Stack direction="row" spacing={1.25} alignItems="center">
+            <ContestsRatingChip title={row.ratingTitle} imgSize={28} />
+            <Stack direction="row" spacing={0.5} alignItems="center" flexWrap="wrap">
+              <Typography variant="subtitle2" fontWeight={800}>
+                {row.rating ?? '¢?"'}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {t('contests.rating.pageInfo', {
-                  page: ratingPage?.page ?? 1,
-                  pages: ratingPage?.pagesCount ?? 1,
-                })}
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                {row.ratingTitle}
               </Typography>
             </Stack>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>{t('contests.rating.columns.place')}</TableCell>
-                  <TableCell>{t('contests.rating.columns.user')}</TableCell>
-                  <TableCell>{t('contests.rating.columns.rating')}</TableCell>
-                  <TableCell>{t('contests.rating.columns.maxRating')}</TableCell>
-                  <TableCell align="right">{t('contests.rating.columns.contests')}</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.username} hover>
-                    <TableCell width={72}>{row.rowIndex}</TableCell>
-                    <TableCell>
-                      <ContestantView contestant={row} imgSize={28} />
-                    </TableCell>
-                    <TableCell>
-                      <Stack direction="row" spacing={1.25} alignItems="center">
-                        <ContestsRatingChip title={row.ratingTitle} imgSize={28} />
-                        <Stack direction="row" spacing={0.25}>
-                          <Typography variant="subtitle2" fontWeight={700}>
-                            {row.rating ?? '—'}
-                          </Typography>
-                          <Typography
-                            variant="caption"
-                            color="text.secondary"
-                            sx={{ textTransform: 'capitalize' }}
-                          >
-                            {row.ratingTitle}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      <Stack direction="row" spacing={1.25} alignItems="center">
-                        <ContestsRatingChip
-                          title={row.maxRatingTitle ?? row.ratingTitle}
-                          imgSize={24}
-                        />
-                        <Stack direction="row" spacing={0.25}>
-                          <Typography variant="subtitle2" fontWeight={700}>
-                            {row.maxRating ?? '—'}
-                          </Typography>
-                          <Typography
-                            variant="caption"
-                            color="text.secondary"
-                            sx={{ textTransform: 'capitalize' }}
-                          >
-                            {row.maxRatingTitle ?? '—'}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </TableCell>
-                    <TableCell align="right">
-                      <Stack
-                        direction="row"
-                        spacing={1}
-                        justifyContent="flex-end"
-                        alignItems="center"
-                      >
-                        <IconifyIcon
-                          icon="mdi:podium"
-                          sx={{ fontSize: 18, color: 'text.secondary' }}
-                        />
-                        <Typography variant="subtitle2" fontWeight={700}>
-                          {row.contestantsCount}
-                        </Typography>
-                      </Stack>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                {!rows.length && !isLoading && (
-                  <TableRow>
-                    <TableCell colSpan={5}>
-                      <Typography variant="body2" color="text.secondary">
-                        {t('contests.rating.empty')}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-            <Box display="flex" justifyContent="flex-end" mt={3}>
-              <Pagination
-                count={ratingPage?.pagesCount ?? 0}
-                page={page}
-                color="primary"
-                onChange={(_, value) => setPage(value)}
-              />
-            </Box>
-          </CardContent>
-        </Card>
+          </Stack>
+        ),
+      },
+      {
+        field: 'max_rating',
+        headerName: t('contests.rating.columns.maxRating'),
+        flex: 1,
+        minWidth: 200,
+        sortable: true,
+        renderCell: ({ row }) => (
+          <Stack direction="row" spacing={1.25} alignItems="center">
+            <ContestsRatingChip title={row.maxRatingTitle ?? row.ratingTitle} imgSize={24} />
+            <Stack direction="row" spacing={0.5} alignItems="center" flexWrap="wrap">
+              <Typography variant="subtitle2" fontWeight={800}>
+                {row.maxRating ?? '¢?"'}
+              </Typography>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                {row.maxRatingTitle ?? '¢?"'}
+              </Typography>
+            </Stack>
+          </Stack>
+        ),
+      },
+      {
+        field: 'contestants_count',
+        headerName: t('contests.rating.columns.contests'),
+        flex: 0.7,
+        minWidth: 160,
+        sortable: true,
+        headerAlign: 'right',
+        align: 'right',
+        renderCell: ({ row }) => (
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            justifyContent="flex-end"
+            width="100%"
+          >
+            <IconifyIcon icon="mdi:podium" sx={{ fontSize: 18, color: 'text.secondary' }} />
+            <Typography variant="subtitle2" fontWeight={700}>
+              {row.contestantsCount}
+            </Typography>
+          </Stack>
+        ),
+      },
+    ],
+    [t],
+  );
+
+  const handleSortModelChange = (model: GridSortModel) => {
+    setSortModel(model.length ? [model[0]] : [{ field: 'rating', sort: 'desc' }]);
+  };
+
+  return (
+    <Stack direction="column" spacing={3}>
+      <PageHeader
+        title={t('contests.rating.title')}
+        breadcrumb={[
+          { label: t('contests.title'), url: resources.Contests },
+          { label: t('contests.rating.ordering.rating'), active: true },
+        ]}
+      />
+
+      <Stack spacing={2} sx={responsivePagePaddingSx}>
+        {isLoading ? <LinearProgress /> : null}
+        <DataGrid
+          autoHeight
+          disableRowSelectionOnClick
+          loading={isLoading}
+          rows={rows}
+          columns={columns}
+          getRowId={(row) => row.username}
+          rowCount={rowCount}
+          paginationMode="server"
+          sortingMode="server"
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
+          sortModel={sortModel}
+          onSortModelChange={handleSortModelChange}
+          pageSizeOptions={[12]}
+          disableColumnFilter
+          disableColumnMenu
+          disableColumnSelector
+          slots={{
+            pagination: DataGridPaginationAction,
+          }}
+          getRowHeight={() => 76}
+          sx={{
+            border: 'none',
+            '& .MuiDataGrid-columnHeaders': { backgroundColor: 'background.default' },
+            '& .MuiDataGrid-columnHeaderTitle': { fontWeight: 700 },
+            '& .MuiDataGrid-cell': { py: 2 },
+            '& .MuiDataGrid-row:hover': { backgroundColor: 'action.hover' },
+          }}
+        />
       </Stack>
-    </Box>
+    </Stack>
   );
 };
 

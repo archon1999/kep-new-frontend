@@ -31,7 +31,7 @@ import {
 } from '../../domain/entities/contest-user-statistics.entity';
 import ReactEchart, { type ReactEchartProps } from 'shared/components/base/ReactEchart';
 import KepIcon from 'shared/components/base/KepIcon';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
+import PageHeader from 'shared/components/sections/common/PageHeader';
 import { getColor } from 'shared/lib/echart-utils';
 import type { KepIconName } from 'shared/config/icons';
 
@@ -724,86 +724,86 @@ const ContestsUserStatisticsPage = () => {
   );
 
   const renderOpponents = (opponents: any[]) => (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} alignItems="stretch">
       {opponents.map((opponent) => (
         <Grid key={opponent.opponent} size={{ xs: 12, md: 4 }}>
-          <Card variant="outlined" sx={{ height: '100%', borderRadius: 3 }}>
-            <CardContent sx={{ height: '100%' }}>
-              <Stack direction="column" spacing={1.5} sx={{ height: '100%' }}>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="flex-start"
-                  spacing={1}
-                >
-                  <Typography variant="subtitle1" fontWeight={800}>
-                    {opponent.opponent}
-                  </Typography>
-                  <Chip
-                    label={t('contests.statistics.sharedContests', {
-                      count: opponent.sharedCount,
-                    })}
-                    size="small"
-                    color="primary"
-                    variant="soft"
-                  />
-                </Stack>
-                <Typography variant="subtitle2" color="text.secondary">
-                  {opponent.type}
+          <Card
+            variant="outlined"
+            sx={{ height: '100%', minHeight: 360, borderRadius: 3, display: 'flex' }}
+          >
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, flex: 1 }}>
+              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+                <Typography variant="subtitle1" fontWeight={800}>
+                  {opponent.opponent}
                 </Typography>
-                <Typography variant="h6" fontWeight={800}>
-                  {opponent.userWins} : {opponent.opponentWins}
-                </Typography>
-                <Divider />
-                <Stack direction="column" spacing={1} sx={{ flex: 1 }}>
-                  {opponent.contests.map((contest: any) => (
-                    <Stack key={contest.contestId} direction="column" spacing={0.5}>
-                      <Button
-                        component={RouterLink}
-                        to={getResourceById(resources.Contest, contest.contestId)}
-                        size="small"
-                        variant="text"
-                        sx={{ px: 0, justifyContent: 'flex-start' }}
+                <Chip
+                  label={t('contests.statistics.sharedContests', {
+                    count: opponent.sharedCount,
+                  })}
+                  size="small"
+                  color="primary"
+                  variant="soft"
+                />
+              </Stack>
+              <Typography variant="subtitle2" color="text.secondary">
+                {opponent.type}
+              </Typography>
+              <Typography variant="h6" fontWeight={800}>
+                {opponent.userWins} : {opponent.opponentWins}
+              </Typography>
+              <Divider />
+              <Stack
+                direction="column"
+                spacing={1}
+                sx={{ flex: 1, minHeight: 0, overflowY: 'auto', pr: 0.5 }}
+              >
+                {opponent.contests.map((contest: any) => (
+                  <Stack key={contest.contestId} direction="column" spacing={0.5}>
+                    <Button
+                      component={RouterLink}
+                      to={getResourceById(resources.Contest, contest.contestId)}
+                      size="small"
+                      variant="text"
+                      sx={{ px: 0, justifyContent: 'flex-start' }}
+                    >
+                      {contest.contestTitle}
+                    </Button>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <Typography
+                        variant="body2"
+                        color={
+                          contest.userRank < contest.opponentRank
+                            ? 'success.main'
+                            : contest.userRank === contest.opponentRank
+                              ? 'text.secondary'
+                              : 'error.main'
+                        }
                       >
-                        {contest.contestTitle}
-                      </Button>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <Typography
-                          variant="body2"
-                          color={
-                            contest.userRank < contest.opponentRank
-                              ? 'success.main'
-                              : contest.userRank === contest.opponentRank
-                                ? 'text.secondary'
-                                : 'error.main'
-                          }
-                        >
-                          #{contest.userRank} ({contest.userPoints})
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          vs
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color={
-                            contest.opponentRank < contest.userRank
-                              ? 'success.main'
-                              : contest.opponentRank === contest.userRank
-                                ? 'text.secondary'
-                                : 'error.main'
-                          }
-                        >
-                          #{contest.opponentRank} ({contest.opponentPoints})
-                        </Typography>
-                      </Stack>
+                        #{contest.userRank} ({contest.userPoints})
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        vs
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color={
+                          contest.opponentRank < contest.userRank
+                            ? 'success.main'
+                            : contest.opponentRank === contest.userRank
+                              ? 'text.secondary'
+                              : 'error.main'
+                        }
+                      >
+                        #{contest.opponentRank} ({contest.opponentPoints})
+                      </Typography>
                     </Stack>
-                  ))}
-                  {!opponent.contests.length ? (
-                    <Typography variant="body2" color="text.secondary">
-                      {t('contests.statistics.noData')}
-                    </Typography>
-                  ) : null}
-                </Stack>
+                  </Stack>
+                ))}
+                {!opponent.contests.length ? (
+                  <Typography variant="body2" color="text.secondary">
+                    {t('contests.statistics.noData')}
+                  </Typography>
+                ) : null}
               </Stack>
             </CardContent>
           </Card>
@@ -812,9 +812,9 @@ const ContestsUserStatisticsPage = () => {
     </Grid>
   );
 
-  if (!username) {
-    return (
-      <Box sx={responsivePagePaddingSx}>
+  const renderContent = () => {
+    if (!username) {
+      return (
         <Card variant="outlined" sx={{ borderRadius: 3 }}>
           <CardContent>
             <Stack direction="column" spacing={2}>
@@ -837,13 +837,11 @@ const ContestsUserStatisticsPage = () => {
             </Stack>
           </CardContent>
         </Card>
-      </Box>
-    );
-  }
+      );
+    }
 
-  if (isLoading) {
-    return (
-      <Box sx={responsivePagePaddingSx}>
+    if (isLoading) {
+      return (
         <Card variant="outlined" sx={{ borderRadius: 3 }}>
           <CardContent>
             <Stack direction="column" spacing={2}>
@@ -852,13 +850,11 @@ const ContestsUserStatisticsPage = () => {
             </Stack>
           </CardContent>
         </Card>
-      </Box>
-    );
-  }
+      );
+    }
 
-  if (!statistics) {
-    return (
-      <Box sx={responsivePagePaddingSx}>
+    if (!statistics) {
+      return (
         <Card variant="outlined" sx={{ borderRadius: 3 }}>
           <CardContent>
             <Typography variant="body1" color="text.secondary">
@@ -866,21 +862,14 @@ const ContestsUserStatisticsPage = () => {
             </Typography>
           </CardContent>
         </Card>
-      </Box>
-    );
-  }
+      );
+    }
 
-  return (
-    <Box sx={responsivePagePaddingSx}>
+    return (
       <Stack direction="column" spacing={3}>
-        <Stack direction="column" spacing={0.5}>
-          <Typography variant="h4" fontWeight={800}>
-            {t('contests.statistics.title')}
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            {t('contests.statistics.subtitle', { username })}
-          </Typography>
-        </Stack>
+        <Typography variant="body1" color="text.secondary">
+          {t('contests.statistics.subtitle', { username })}
+        </Typography>
 
         <Grid container spacing={2}>
           {generalCards.map((card) => (
@@ -1122,7 +1111,22 @@ const ContestsUserStatisticsPage = () => {
           </Card>
         ) : null}
       </Stack>
-    </Box>
+    );
+  };
+
+  return (
+    <Stack direction="column" spacing={4} height={1}>
+      <PageHeader
+        title={t('contests.statistics.title')}
+        breadcrumb={[
+          { label: t('contests.title'), url: resources.Contests },
+          { label: t('contests.tabs.statistics'), active: true },
+        ]}
+      />
+      <Box sx={{ flex: 1, px: { xs: 3, md: 5 }, pb: { xs: 4, md: 6 } }}>
+        {renderContent()}
+      </Box>
+    </Stack>
   );
 };
 

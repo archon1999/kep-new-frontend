@@ -142,6 +142,23 @@
       "periodEmpty": "Hozircha ma’lumot yo‘q.",
       "backToProblems": "Masalalarga qaytish"
     },
+    "ratingHistory": {
+      "title": "Masalalar reytingi tarixi",
+      "subtitle": "Kunlik, haftalik va oylik g‘oliblar.",
+      "period": {
+        "daily": "Kunlik",
+        "weekly": "Haftalik",
+        "monthly": "Oylik"
+      },
+      "bestResult": "Eng yaxshi natija",
+      "columns": {
+        "date": "Sana",
+        "user": "Foydalanuvchi",
+        "solved": "Yechilgan"
+      },
+      "empty": "Reyting tarixi hali yo‘q.",
+      "backToRating": "Reytingga qaytish"
+    },
     "detail": {
       "selectProblem": "Masala tanlang",
       "running": "Ishga tushirilmoqda...",

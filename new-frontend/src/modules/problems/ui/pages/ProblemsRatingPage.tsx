@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import {
   Box,
+  Button,
   Card,
   CardContent,
   LinearProgress,
@@ -21,6 +22,8 @@ import { useProblemsPeriodRating, useProblemsRating } from '../../application/qu
 import ProblemsRatingDataGrid from '../components/ProblemsRatingDataGrid';
 import { resources } from 'app/routes/resources';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import KepIcon from 'shared/components/base/KepIcon';
+import { Link as RouterLink } from 'react-router-dom';
 
 const sortFieldMap: Record<string, string> = {
   rating: 'rating',
@@ -85,6 +88,16 @@ const ProblemsRatingPage = () => {
           { label: t('problems.title'), url: resources.Problems },
           { label: t('problems.rating.ordering.rating'), active: true },
         ]}
+        actionComponent={
+          <Button
+            component={RouterLink}
+            to={resources.ProblemsRatingHistory}
+            variant="outlined"
+            startIcon={<KepIcon name="ranking" fontSize={18} />}
+          >
+            {t('problems.ratingHistory.title')}
+          </Button>
+        }
       />
 
       {isLoading || isValidating ? <LinearProgress /> : null}
@@ -117,6 +130,7 @@ const periodConfigs: Array<{ period: 'today' | 'week' | 'month'; color: PeriodCo
 const PeriodRatings = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
 
   const today = useProblemsPeriodRating('today');
   const week = useProblemsPeriodRating('week');

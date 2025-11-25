@@ -14,6 +14,7 @@ const KepcoinPage = lazy(() => import('modules/kepcoin/ui/pages/KepcoinPage'));
 const ShopPage = lazy(() => import('modules/shop/ui/pages/ShopPage'));
 const ProblemsListPage = lazy(() => import('modules/problems/ui/pages/ProblemsListPage'));
 const ProblemsRatingPage = lazy(() => import('modules/problems/ui/pages/ProblemsRatingPage'));
+const ProblemsRatingHistoryPage = lazy(() => import('modules/problems/ui/pages/ProblemsRatingHistoryPage'));
 const ProblemsAttemptsPage = lazy(() => import('modules/problems/ui/pages/ProblemsAttemptsPage'));
 const ProblemDetailPage = lazy(() => import('modules/problems/ui/pages/ProblemDetailPage'));
 const ProblemsUserStatisticsPage = lazy(() => import('modules/problems/ui/pages/ProblemsUserStatisticsPage'));
@@ -145,6 +146,11 @@ export const routes: RouteObject[] = [
             path: resources.ProblemsRating,
             element: <ProblemsRatingPage />,
             handle: { titleKey: 'pageTitles.problemsRating' },
+          },
+          {
+            path: resources.ProblemsRatingHistory,
+            element: <ProblemsRatingHistoryPage />,
+            handle: { titleKey: 'pageTitles.problemsRatingHistory' },
           },
           {
             path: resources.ProblemsUserStatistics,

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
-  Button,
   Card,
   CardContent,
   Chip,
@@ -11,12 +11,11 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { ShopProduct } from 'modules/shop/domain/entities/product.entity';
-import KepIcon from 'shared/components/base/KepIcon';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
+import KepIcon from 'shared/components/base/KepIcon';
 import KepcoinValue from 'shared/components/common/KepcoinValue';
+import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
 
 interface ShopProductCardProps {
   product: ShopProduct;
@@ -253,29 +252,20 @@ const ShopProductCard = ({ product }: ShopProductCardProps) => {
             </Typography>
             <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
               {primaryColor.sizes.map((size) => (
-                <Button key={`${product.title}-${size.name}`} size="small" variant="outlined">
-                  {size.name}
-                </Button>
+                <Chip label={size.name} color="primary" />
               ))}
             </Stack>
           </Stack>
         ) : null}
 
         <Box sx={{ mt: 'auto' }}>
-          <Chip
-            color="primary"
-            variant="outlined"
-            label={
-              <KepcoinValue
-                label={t('shop.kepcoinValue', { value: product.kepcoin })}
-                iconSize={18}
-                spacing={0.5}
-                textVariant="body2"
-                fontWeight={700}
-                color="inherit"
-              />
-            }
-            sx={{ p: 1.25, fontWeight: 700 }}
+          <KepcoinValue
+            label={t('shop.kepcoinValue', { value: product.kepcoin })}
+            iconSize={18}
+            spacing={0.5}
+            textVariant="body2"
+            fontWeight={700}
+            color="inherit"
           />
         </Box>
       </CardContent>

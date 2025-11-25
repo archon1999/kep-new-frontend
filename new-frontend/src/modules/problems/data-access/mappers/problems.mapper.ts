@@ -25,6 +25,7 @@ import {
   ProblemTopAttempt,
   ProblemUserSummary,
   ProblemVoteResult,
+  ProblemsRatingHistoryEntry,
   ProblemsRatingRow,
   ProblemsRatingSummary,
   ProblemsUserStatistics,
@@ -303,6 +304,20 @@ export const mapPeriodRating = (payload: any): PeriodRatingEntry[] => {
     ratingTitle: item.ratingTitle ?? item.user?.ratingTitle,
   }));
 };
+
+export const mapRatingHistoryEntry = (
+  payload: any,
+): ProblemsRatingHistoryEntry => ({
+  username: payload?.username ?? '',
+  contestsRatingTitle: payload?.contestsRatingTitle,
+  type: toNumber(payload?.type) as ProblemsRatingHistoryEntry['type'],
+  result: payload?.result !== undefined && payload?.result !== null ? toNumber(payload?.result) : undefined,
+  date: payload?.date ?? payload?.created ?? '',
+});
+
+export const mapProblemsRatingHistoryPage = (
+  payload: any,
+): PageResult<ProblemsRatingHistoryEntry> => mapPageResult(payload, mapRatingHistoryEntry);
 
 export const mapAvailableLanguage = (payload: any): ProblemAvailableLanguage => ({
   lang: payload?.lang ?? '',
