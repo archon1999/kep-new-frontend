@@ -80,6 +80,7 @@ const AttemptDetailDialog = ({
   const canViewTest = Boolean(baseAttempt?.canTestView);
   const isOwner =
     Boolean(currentUser?.username) && baseAttempt?.user?.username === currentUser?.username;
+  const isContestAttempt = Boolean(baseAttempt?.contestId);
 
   const shouldShowTestSection =
     (baseAttempt?.verdict ?? 0) !== Verdicts.Accepted && (baseAttempt?.testCaseNumber ?? 0) > 1;
@@ -90,10 +91,11 @@ const AttemptDetailDialog = ({
         attempt &&
           currentUser &&
           !canViewAttempt &&
+          !isContestAttempt &&
           attempt.kepcoinValue !== undefined &&
           attempt.kepcoinValue !== null,
       ),
-    [attempt, canViewAttempt, currentUser],
+    [attempt, canViewAttempt, currentUser, isContestAttempt],
   );
 
   const shouldShowTestPurchase = useMemo(
@@ -104,10 +106,11 @@ const AttemptDetailDialog = ({
           baseAttempt.verdict !== Verdicts.Accepted &&
           (baseAttempt.testCaseNumber ?? 0) > 1 &&
           !canViewTest &&
+          !isContestAttempt &&
           baseAttempt.testCaseKepcoinValue !== undefined &&
           baseAttempt.testCaseKepcoinValue !== null,
       ),
-    [baseAttempt, canViewTest, currentUser?.isSuperuser, isOwner],
+    [baseAttempt, canViewTest, currentUser?.isSuperuser, isContestAttempt, isOwner],
   );
 
   const testViewUrl =
