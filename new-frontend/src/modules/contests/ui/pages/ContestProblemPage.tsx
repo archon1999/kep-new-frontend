@@ -39,7 +39,6 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import Logo from 'shared/components/common/Logo.tsx';
 import { VerdictKey } from 'shared/components/problems/AttemptVerdict';
 import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
-import { getItemFromStore, setItemToStore } from 'shared/lib/utils';
 import { wsService } from 'shared/services/websocket';
 import { toast } from 'sonner';
 import {
@@ -57,6 +56,7 @@ import { ContestStatus } from '../../domain/entities/contest-status';
 import { ContestantEntity } from '../../domain/entities/contestant.entity';
 import { sortContestProblems } from '../../utils/sortContestProblems';
 import ContestantView from '../components/ContestantView';
+import { usePersistedCode } from 'modules/problems/hooks/usePersistedCode';
 
 const useProblemPermissions = (permissionsRaw: any) => {
   return useMemo(() => {
@@ -216,7 +216,6 @@ const ContestProblemPage = () => {
   const [activeTab, setActiveTab] = useState<'description' | 'attempts'>(
     (searchParams.get('tab') as 'attempts') || 'description',
   );
-  const [code, setCode] = useState('');
   const [input, setInput] = useState('');
   const [answer, setAnswer] = useState('');
   const [output, setOutput] = useState('');
@@ -346,6 +345,19 @@ const ContestProblemPage = () => {
     defaultLang: problem?.availableLanguages?.[0]?.lang,
   });
 
+  const contestCodeStorageKey = useMemo(
+    () =>
+      problem?.id && selectedLang
+        ? `contest-${contest?.id ?? contestId ?? 'unknown'}-problem-${problem.id}-code-${selectedLang}`
+        : null,
+    [contest?.id, contestId, problem?.id, selectedLang],
+  );
+
+  const { initialCode, editorKey, codeRef, hasCode, persistCode } = usePersistedCode({
+    storageKey: contestCodeStorageKey,
+    template: selectedLanguage?.codeTemplate || '',
+  });
+
   useEffect(() => {
     setSelectedSampleIndex(0);
     setInput('');
@@ -354,14 +366,6 @@ const ContestProblemPage = () => {
     setCheckSamplesResult([]);
     setEditorTab('console');
   }, [problem?.id]);
-
-  useEffect(() => {
-    if (!problem?.id || !selectedLang) return;
-    const codeKey = `contest-${contest?.id ?? 'unknown'}-problem-${problem.id}-code-${selectedLang}`;
-    const storedCode = (getItemFromStore(codeKey, '') as string) || '';
-    const template = selectedLanguage?.codeTemplate || '';
-    setCode(storedCode || template);
-  }, [contest?.id, problem?.id, selectedLang, selectedLanguage?.codeTemplate]);
 
   useEffect(() => {
     if (!problem) return;
@@ -428,12 +432,12 @@ const ContestProblemPage = () => {
   };
 
   const handleSubmit = async () => {
-    if (!contest?.id || !problemSymbol || !selectedLang || !code || isSubmitting) return;
+    if (!contest?.id || !problemSymbol || !selectedLang || !codeRef.current || isSubmitting) return;
     setIsSubmitting(true);
     try {
       await contestsQueries.contestsRepository.submitSolution(contest.id, {
         contestProblem: problemSymbol,
-        sourceCode: code,
+        sourceCode: codeRef.current,
         lang: selectedLang,
       });
       toast.success(t('problems.detail.submitSuccess'));
@@ -454,11 +458,11 @@ const ContestProblemPage = () => {
   };
 
   const handleRun = async () => {
-    if (!problem?.id || !selectedLang || !code || isRunning) return;
+    if (!problem?.id || !selectedLang || !codeRef.current || isRunning) return;
     setIsRunning(true);
     setOutput('');
     const response = await problemsQueries.problemsRepository.runCustomTest({
-      sourceCode: code,
+      sourceCode: codeRef.current,
       lang: selectedLang,
       inputData: input,
     });
@@ -469,11 +473,11 @@ const ContestProblemPage = () => {
   };
 
   const handleCheckSamples = async () => {
-    if (!problem?.id || !selectedLang || !code || isCheckingSamples) return;
+    if (!problem?.id || !selectedLang || !codeRef.current || isCheckingSamples) return;
     setIsCheckingSamples(true);
     setCheckSamplesResult([]);
     const response = await problemsQueries.problemsRepository.checkSampleTests(problem.id, {
-      sourceCode: code,
+      sourceCode: codeRef.current,
       lang: selectedLang,
     });
     if (response?.id) {
@@ -490,11 +494,11 @@ const ContestProblemPage = () => {
   useEffect(() => {
     actionStatesRef.current = {
       currentUser,
-      hasCode: Boolean(code),
+      hasCode,
       isRunning,
       isSubmitting,
     };
-  }, [currentUser, code, isRunning, isSubmitting]);
+  }, [currentUser, hasCode, isRunning, isSubmitting]);
 
   useEffect(() => {
     actionHandlersRef.current = {
@@ -628,7 +632,7 @@ const ContestProblemPage = () => {
               variant="outlined"
               color="primary"
               onClick={handleRun}
-              disabled={!currentUser || isRunning || !code}
+              disabled={!currentUser || isRunning || !hasCode}
               startIcon={<IconifyIcon icon="mdi:play-circle-outline" width={20} height={20} />}
             >
               {t('problems.detail.run')}
@@ -638,7 +642,7 @@ const ContestProblemPage = () => {
               variant="contained"
               color="primary"
               onClick={handleSubmit}
-              disabled={!currentUser || isSubmitting || !code}
+              disabled={!currentUser || isSubmitting || !hasCode}
               startIcon={<IconifyIcon icon="mdi:send-outline" width={18} height={18} />}
             >
               {t('problems.detail.submit')}
@@ -796,16 +800,19 @@ const ContestProblemPage = () => {
             {problem && !showInitialSkeleton ? (
               <ProblemEditorPanel
                 problem={problem}
-                code={code}
+                initialCode={initialCode}
+                editorKey={editorKey}
                 onCodeChange={(value, langOverride) => {
                   const langToUse = langOverride || selectedLang;
                   if (!problem?.id || !langToUse) return;
 
-                  setCode(value);
-                  const codeKey = `contest-${contest?.id ?? 'unknown'}-problem-${
-                    problem.id
-                  }-code-${langToUse}`;
-                  setItemToStore(codeKey, JSON.stringify(value ?? ''));
+                  const codeKey =
+                    langToUse === selectedLang
+                      ? contestCodeStorageKey
+                      : `contest-${contest?.id ?? contestId ?? 'unknown'}-problem-${problem.id}-code-${langToUse}`;
+
+                  const shouldResetEditor = Boolean(langOverride);
+                  persistCode(value, codeKey, shouldResetEditor);
                 }}
                 selectedLang={selectedLang}
                 onLangChange={setSelectedLang}

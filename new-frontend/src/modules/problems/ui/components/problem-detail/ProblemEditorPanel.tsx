@@ -43,7 +43,8 @@ const getEditorLanguage = (lang: string) =>
 
 interface ProblemEditorPanelProps {
   problem?: ProblemDetail;
-  code: string;
+  initialCode: string;
+  editorKey: string;
   onCodeChange: (value: string, langOverride?: string) => void;
   selectedLang: string;
   onLangChange: (value: string) => void;
@@ -80,7 +81,8 @@ const fileAcceptTypes = Object.values(AttemptLangs)
 export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
   const {
     problem,
-    code,
+    initialCode,
+    editorKey,
     onCodeChange,
     selectedLang,
     onLangChange,
@@ -278,10 +280,13 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
               }}
             >
               <Editor
-                key={editorTheme}
+                key={editorKey}
                 language={getEditorLanguage(selectedLang)}
-                value={code}
-                onChange={(value) => onCodeChange(value ?? '')}
+                defaultValue={initialCode}
+                onChange={(value) => {
+                  if (typeof value !== 'string') return;
+                  onCodeChange(value ?? '');
+                }}
                 options={{
                   minimap: { enabled: false },
                   fontSize: 14,

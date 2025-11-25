@@ -9,7 +9,6 @@ import { useAuth } from 'app/providers/AuthProvider';
 import { getResourceById, resources } from 'app/routes/resources';
 import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
 import { alpha } from '@mui/material/styles';
-import { getItemFromStore, setItemToStore } from 'shared/lib/utils';
 import { wsService } from 'shared/services/websocket';
 import { toast } from 'sonner';
 import { getDifficultyColor } from 'modules/problems/config/difficulty';
@@ -21,6 +20,7 @@ import {
 } from '../../application/queries';
 import { ProblemSampleTest } from '../../domain/entities/problem.entity';
 import { AttemptsListParams, HackAttemptsListParams } from '../../domain/ports/problems.repository';
+import { usePersistedCode } from '../../hooks/usePersistedCode';
 import { useProblemLanguage } from '../../hooks/useProblemLanguage';
 import { PanelHandle } from '../components/problem-detail/PanelHandles';
 import { ProblemDescription } from '../components/problem-detail/ProblemDescription';
@@ -78,7 +78,6 @@ const ProblemDetailPage = () => {
   const [activeTab, setActiveTab] = useState<'description' | 'attempts' | 'hacks' | 'stats'>(
     (searchParams.get('tab') as 'attempts' | 'hacks' | 'stats') || 'description',
   );
-  const [code, setCode] = useState('');
   const [input, setInput] = useState('');
   const [answer, setAnswer] = useState('');
   const [output, setOutput] = useState('');
@@ -160,6 +159,16 @@ const ProblemDetailPage = () => {
     defaultLang: problem?.availableLanguages?.[0]?.lang,
   });
 
+  const problemCodeStorageKey = useMemo(
+    () => (problem?.id && selectedLang ? `problem-${problem.id}-code-${selectedLang}` : null),
+    [problem?.id, selectedLang],
+  );
+
+  const { initialCode, editorKey, codeRef, hasCode, persistCode } = usePersistedCode({
+    storageKey: problemCodeStorageKey,
+    template: selectedLanguage?.codeTemplate || '',
+  });
+
   const sampleTests: ProblemSampleTest[] = problem?.sampleTests ?? [];
 
   useEffect(() => {
@@ -170,15 +179,6 @@ const ProblemDetailPage = () => {
     setCheckSamplesResult([]);
     setEditorTab('console');
   }, [problem?.id]);
-
-  useEffect(() => {
-    if (!problem?.id || !selectedLang) return;
-
-    const codeKey = `problem-${problem.id}-code-${selectedLang}`;
-    const storedCode = (getItemFromStore(codeKey, '') as string) || '';
-    const template = selectedLanguage?.codeTemplate || '';
-    setCode(storedCode || template);
-  }, [problem?.id, selectedLang, selectedLanguage?.codeTemplate]);
 
   useEffect(() => {
     if (!problem) return;
@@ -263,11 +263,11 @@ const ProblemDetailPage = () => {
   };
 
   const handleSubmit = async () => {
-    if (!problem?.id || !selectedLang || !code || isSubmitting) return;
+    if (!problem?.id || !selectedLang || !codeRef.current || isSubmitting) return;
     setIsSubmitting(true);
     try {
       await problemsQueries.problemsRepository.submitSolution(problem.id, {
-        sourceCode: code,
+        sourceCode: codeRef.current,
         lang: selectedLang,
       });
       toast.success(t('problems.detail.submitSuccess'));
@@ -288,11 +288,11 @@ const ProblemDetailPage = () => {
   };
 
   const handleRun = async () => {
-    if (!problem?.id || !selectedLang || !code || isRunning) return;
+    if (!problem?.id || !selectedLang || !codeRef.current || isRunning) return;
     setIsRunning(true);
     setOutput('');
     const response = await problemsQueries.problemsRepository.runCustomTest({
-      sourceCode: code,
+      sourceCode: codeRef.current,
       lang: selectedLang,
       inputData: input,
     });
@@ -303,11 +303,11 @@ const ProblemDetailPage = () => {
   };
 
   const handleCheckSamples = async () => {
-    if (!problem?.id || !selectedLang || !code || isCheckingSamples) return;
+    if (!problem?.id || !selectedLang || !codeRef.current || isCheckingSamples) return;
     setIsCheckingSamples(true);
     setCheckSamplesResult([]);
     const response = await problemsQueries.problemsRepository.checkSampleTests(problem.id, {
-      sourceCode: code,
+      sourceCode: codeRef.current,
       lang: selectedLang,
     });
     if (response?.id) {
@@ -328,7 +328,7 @@ const ProblemDetailPage = () => {
     const response = await problemsQueries.problemsRepository.answerForInput(problem.id, {
       input_data: input,
       lang: selectedLang,
-      sourceCode: code,
+      sourceCode: codeRef.current,
     });
     if (response?.id) {
       wsService.send('answer-for-input-add', response.id);
@@ -364,7 +364,7 @@ const ProblemDetailPage = () => {
 
   const actionStatesRef = useRef({
     currentUser: currentUser,
-    hasCode: Boolean(code),
+    hasCode: hasCode,
     isRunning,
     isCheckingSamples,
     isAnswering,
@@ -383,7 +383,7 @@ const ProblemDetailPage = () => {
   useEffect(() => {
     actionStatesRef.current = {
       currentUser: currentUser,
-      hasCode: Boolean(code),
+      hasCode: hasCode,
       isRunning,
       isCheckingSamples,
       isAnswering,
@@ -393,7 +393,7 @@ const ProblemDetailPage = () => {
     };
   }, [
     currentUser,
-    code,
+    hasCode,
     isRunning,
     isCheckingSamples,
     isAnswering,
@@ -469,7 +469,7 @@ const ProblemDetailPage = () => {
         canNavigate={Boolean(problem?.id)}
         problemId={problemId}
         problem={problem}
-        hasCode={Boolean(code)}
+        hasCode={hasCode}
         isRunning={isRunning}
         isCheckingSamples={isCheckingSamples}
         isAnswering={isAnswering}
@@ -557,14 +557,19 @@ const ProblemDetailPage = () => {
             {problem && !showInitialSkeleton ? (
               <ProblemEditorPanel
                 problem={problem}
-                code={code}
+                initialCode={initialCode}
+                editorKey={editorKey}
                 onCodeChange={(value, langOverride) => {
                   const langToUse = langOverride || selectedLang;
                   if (!problem?.id || !langToUse) return;
 
-                  setCode(value);
-                  const codeKey = `problem-${problem.id}-code-${langToUse}`;
-                  setItemToStore(codeKey, JSON.stringify(value ?? ''));
+                  const codeKey =
+                    langToUse === selectedLang
+                      ? problemCodeStorageKey
+                      : `problem-${problem.id}-code-${langToUse}`;
+
+                  const shouldResetEditor = Boolean(langOverride);
+                  persistCode(value, codeKey, shouldResetEditor);
                 }}
                 selectedLang={selectedLang}
                 onLangChange={setSelectedLang}
