@@ -45,7 +45,6 @@ const DefaultAuthLayout = ({ children }: PropsWithChildren) => {
             direction="row"
             sx={{
               justifyContent: { xs: 'center', md: 'flex-start' },
-              mb: { xs: 5, md: 0 },
             }}
           >
             <Logo />
@@ -69,7 +68,7 @@ const DefaultAuthLayout = ({ children }: PropsWithChildren) => {
           xs: 12,
         }}
         sx={{
-          display: { xs: 'flex', md: 'block' },
+          display: { xs: 'lock', md: 'block' },
           flexDirection: 'column',
           flex: 1,
         }}

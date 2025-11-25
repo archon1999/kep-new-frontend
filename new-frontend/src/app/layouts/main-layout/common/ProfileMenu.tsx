@@ -107,7 +107,7 @@ const ProfileMenu = ({ type = 'default' }: ProfileMenuProps) => {
             },
           ]}
         />
-        {(type !== 'slim' || upSm) && (
+        {(type !== 'slim' && upSm) && (
           <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
             {username}
           </Typography>

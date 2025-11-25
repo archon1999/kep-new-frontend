@@ -1,20 +1,9 @@
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Alert,
-  Box,
-  Button,
-  Checkbox,
-  Divider,
-  FormControlLabel,
-  Link,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
-import Grid from '@mui/material/Grid';
 import { useTranslation } from 'react-i18next';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Alert, Box, Button, Divider, Link, Stack, TextField, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import type { LoginPayload } from 'modules/authentication/domain/entities/auth.entity';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import PasswordTextField from 'shared/components/common/PasswordTextField';
@@ -37,8 +26,6 @@ type SocialProvider = 'google-oauth2' | 'github';
 const LoginForm = ({
   handleLogin,
   signUpLink,
-  forgotPasswordLink,
-  rememberDevice = true,
   defaultCredential,
   getSocialLoginUrl,
 }: LoginFormProps) => {
@@ -96,8 +83,6 @@ const LoginForm = ({
         pb: 10,
         width: '100%',
         maxWidth: {
-          xs: 300,
-          sm: 500,
           md: 720,
           lg: 920,
         },
@@ -121,7 +106,11 @@ const LoginForm = ({
         }}
       >
         <Grid size={12}>
-          <Stack direction="column" spacing={1} sx={{ alignItems: { xs: 'flex-start', sm: 'center' } }}>
+          <Stack
+            direction="column"
+            spacing={1}
+            sx={{ alignItems: { xs: 'flex-start', sm: 'center' } }}
+          >
             <Typography variant="h4">{t('auth.welcomeTitle')}</Typography>
             <Typography variant="body1" color="text.secondary">
               {t('auth.loginSubtitle')}
@@ -202,42 +191,7 @@ const LoginForm = ({
                   {...register('password')}
                 />
               </Grid>
-              <Grid
-                sx={{
-                  mb: 6,
-                }}
-                size={12}
-              >
-                <Stack
-                  spacing={1}
-                  sx={{
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  {rememberDevice && (
-                    <FormControlLabel
-                      control={<Checkbox name="checked" color="primary" size="small" />}
-                      label={
-                        <Typography
-                          variant="subtitle2"
-                          sx={{
-                            color: 'text.secondary',
-                          }}
-                        >
-                          {t('auth.rememberDevice')}
-                        </Typography>
-                      }
-                    />
-                  )}
-
-                  {forgotPasswordLink && (
-                    <Link href={forgotPasswordLink} variant="subtitle2">
-                      {t('auth.forgotPassword')}
-                    </Link>
-                  )}
-                </Stack>
-              </Grid>
+              <Grid size={12}></Grid>
               <Grid size={12}>
                 <Button
                   fullWidth

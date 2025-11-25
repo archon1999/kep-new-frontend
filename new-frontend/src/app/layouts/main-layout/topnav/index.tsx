@@ -43,8 +43,6 @@ const Topnav = () => {
             display: { xs: 'flex' },
             alignItems: 'center',
             gap: 1,
-            pr: 2,
-            mr: 1,
           }}
         >
           <IconButton
@@ -59,7 +57,7 @@ const Topnav = () => {
             <IconifyIcon icon="material-symbols:menu-rounded" sx={{ fontSize: 20 }} />
           </IconButton>
 
-          <Logo showName={upSm} sx={{ display: { xs: 'none', sm: 'flex' } }} />
+          {upSm && <Logo />}
         </Box>
         <Stack
           direction="row"
