@@ -56,12 +56,12 @@ const LoginForm = ({
     {
       provider: 'google-oauth2',
       icon: 'logos:google-icon',
-      label: t('auth.loginWith', { title: 'Google' }),
+      label: t('auth.loginWith', { title: t('auth.providers.google') }),
     },
     {
       provider: 'github',
       icon: 'mdi:github',
-      label: t('auth.loginWith', { title: 'Github' }),
+      label: t('auth.loginWith', { title: t('auth.providers.github') }),
     },
   ];
 
