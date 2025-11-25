@@ -31,6 +31,8 @@ import { resources } from 'app/routes/resources';
 
 echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
+const integerAxisLabelFormatter = (value: number) => Math.round(value).toString();
+
 const UserStatisticsPage = () => {
   const { t } = useTranslation();
   const { currentUser } = useAuth();
@@ -61,7 +63,7 @@ const UserStatisticsPage = () => {
         data: (ratingChanges ?? []).map((item) => item.date?.slice(0, 10)),
         boundaryGap: false,
       },
-      yAxis: { type: 'value' },
+      yAxis: { type: 'value', minInterval: 1, axisLabel: { formatter: integerAxisLabelFormatter } },
       series: [
         {
           type: 'line',

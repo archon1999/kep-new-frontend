@@ -37,6 +37,8 @@ import type { KepIconName } from 'shared/config/icons';
 
 echarts.use([GridComponent, TooltipComponent, LegendComponent, LineChart, BarChart, PieChart, CanvasRenderer]);
 
+const integerAxisLabelFormatter = (value: number) => Math.round(value).toString();
+
 interface StatCardProps {
   icon: KepIconName;
   label: string;
@@ -437,8 +439,9 @@ const ContestsUserStatisticsPage = () => {
       },
       yAxis: {
         type: 'value',
-        axisLabel: { color: axisLabelColor },
+        axisLabel: { color: axisLabelColor, formatter: integerAxisLabelFormatter },
         splitLine: { lineStyle: { color: neutralColor } },
+        minInterval: 1,
       },
       series: [
         {
@@ -460,8 +463,9 @@ const ContestsUserStatisticsPage = () => {
       tooltip: { trigger: 'axis' },
       xAxis: {
         type: 'value',
-        axisLabel: { color: axisLabelColor },
+        axisLabel: { color: axisLabelColor, formatter: integerAxisLabelFormatter },
         splitLine: { lineStyle: { color: neutralColor } },
+        minInterval: 1,
       },
       yAxis: {
         type: 'category',
@@ -585,8 +589,9 @@ const ContestsUserStatisticsPage = () => {
         type: 'value',
         min,
         max,
-        axisLabel: { color: axisLabelColor },
+        axisLabel: { color: axisLabelColor, formatter: integerAxisLabelFormatter },
         splitLine: { lineStyle: { color: neutralColor } },
+        minInterval: 1,
       },
       series: [
         {
