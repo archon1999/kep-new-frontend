@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import { Box, Chip, FormControl, Link, MenuItem, Select, Stack, Switch, Typography } from '@mui/material';
+import { Box, Chip, FormControl, Link, MenuItem, Select, Stack, Switch, Tooltip, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
@@ -324,15 +324,17 @@ const ContestStandingsPage = () => {
                 '&:last-of-type': { borderRight: 'none' },
               }}
             >
-              <Link
-                component={RouterLink}
-                to={problemLink}
-                underline="hover"
-                color="text.primary"
-                sx={{ fontWeight: 700 }}
-              >
-                {problem?.symbol ?? symbol}
-              </Link>
+              <Tooltip title={problem?.problem.title ?? problem?.symbol ?? symbol} arrow>
+                <Link
+                  component={RouterLink}
+                  to={problemLink}
+                  underline="hover"
+                  color="text.primary"
+                  sx={{ fontWeight: 700 }}
+                >
+                  {problem?.symbol ?? symbol}
+                </Link>
+              </Tooltip>
               <Stack direction="row" spacing={0.4} alignItems="center">
                 <Typography variant="caption" color="text.secondary">
                   (
