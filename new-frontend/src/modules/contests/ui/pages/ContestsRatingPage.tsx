@@ -29,8 +29,8 @@ const orderingFieldMap: Record<string, string> = {
 const ContestsRatingPage = () => {
   const { t } = useTranslation();
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 12,
+    page: 1,
+    pageSize: 10,
   });
   const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'rating', sort: 'desc' }]);
 
@@ -46,7 +46,7 @@ const ContestsRatingPage = () => {
   }, [sortModel]);
 
   const { data: ratingPage, isLoading } = useContestsRating({
-    page: paginationModel.page + 1,
+    page: paginationModel.page,
     pageSize: paginationModel.pageSize,
     ordering,
   });

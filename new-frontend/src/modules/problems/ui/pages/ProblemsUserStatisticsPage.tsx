@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Box,
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -15,22 +14,26 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
+import { useAuth } from 'app/providers/AuthProvider';
+import { resources } from 'app/routes/resources';
 import dayjs from 'dayjs';
 import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';
-import { GridComponent, LegendComponent, TooltipComponent, VisualMapComponent } from 'echarts/components';
-import * as echarts from 'echarts/core';
+import {
+  GridComponent,
+  LegendComponent,
+  TooltipComponent,
+  VisualMapComponent,
+} from 'echarts/components';
 import type { EChartsCoreOption } from 'echarts/core';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { Link as RouterLink } from 'react-router-dom';
-import { useAuth } from 'app/providers/AuthProvider';
-import { getResourceByUsername, resources } from 'app/routes/resources';
 import KepIcon from 'shared/components/base/KepIcon';
 import ReactEchart from 'shared/components/base/ReactEchart';
 import AttemptLanguage from 'shared/components/problems/AttemptLanguage';
 import PageHeader from 'shared/components/sections/common/PageHeader';
 import { getColor } from 'shared/lib/echart-utils';
-import { difficultyColorByKey, difficultyOptions } from '../../config/difficulty';
 import { useProblemsUserStatistics } from '../../application/queries';
+import { difficultyColorByKey, difficultyOptions } from '../../config/difficulty';
 import {
   ProblemsStatisticsAttemptsChartEntry,
   ProblemsUserStatistics,
@@ -84,11 +87,23 @@ const FactsCard = ({ statistics }: { statistics: ProblemsUserStatistics | undefi
   const { t } = useTranslation();
 
   const items = [
-    { key: 'firstAttempt', label: t('problems.statisticsPage.facts.firstAttempt'), icon: 'activity' },
-    { key: 'firstAccepted', label: t('problems.statisticsPage.facts.firstAccepted'), icon: 'check-circle' },
+    {
+      key: 'firstAttempt',
+      label: t('problems.statisticsPage.facts.firstAttempt'),
+      icon: 'activity',
+    },
+    {
+      key: 'firstAccepted',
+      label: t('problems.statisticsPage.facts.firstAccepted'),
+      icon: 'check-circle',
+    },
     { key: 'lastAttempt', label: t('problems.statisticsPage.facts.lastAttempt'), icon: 'clock' },
     { key: 'lastAccepted', label: t('problems.statisticsPage.facts.lastAccepted'), icon: 'award' },
-    { key: 'mostAttemptedProblem', label: t('problems.statisticsPage.facts.mostAttempted'), icon: 'alert' },
+    {
+      key: 'mostAttemptedProblem',
+      label: t('problems.statisticsPage.facts.mostAttempted'),
+      icon: 'alert',
+    },
     {
       key: 'mostAttemptedForSolveProblem',
       label: t('problems.statisticsPage.facts.mostAttemptedForSolve'),
@@ -118,7 +133,9 @@ const FactsCard = ({ statistics }: { statistics: ProblemsUserStatistics | undefi
                   <Typography variant="body2">{item.label}</Typography>
                 </Stack>
                 <Stack direction="column" spacing={0.25} alignItems="flex-end">
-                  <Typography variant="subtitle2">{fact.problemTitle ?? t('problems.statisticsPage.emptyValue')}</Typography>
+                  <Typography variant="subtitle2">
+                    {fact.problemTitle ?? t('problems.statisticsPage.emptyValue')}
+                  </Typography>
                   {fact.datetime ? (
                     <Typography variant="caption" color="text.secondary">
                       {dayjs(fact.datetime).format('YYYY-MM-DD HH:mm')}
@@ -158,7 +175,10 @@ const buildYears = (statistics?: ProblemsUserStatistics) => {
 
 const integerAxisLabelFormatter = (value: number) => Math.round(value).toString();
 
-const buildActivityOption = (series: number[], t: (key: string, params?: any) => string): EChartsCoreOption | null => {
+const buildActivityOption = (
+  series: number[],
+  t: (key: string, params?: any) => string,
+): EChartsCoreOption | null => {
   if (!series?.length) return null;
 
   const points = series.map((value, idx) => {
@@ -272,13 +292,20 @@ const buildBarOption = (
   };
 };
 
-const buildAttemptsOption = (data: ProblemsStatisticsAttemptsChartEntry[]): EChartsCoreOption | null => {
+const buildAttemptsOption = (
+  data: ProblemsStatisticsAttemptsChartEntry[],
+): EChartsCoreOption | null => {
   if (!data?.length) return null;
 
   return {
     tooltip: { trigger: 'axis' },
     xAxis: { type: 'category', data: data.map((item) => item.attemptsCount), boundaryGap: false },
-    yAxis: { type: 'value', max: 100, minInterval: 1, axisLabel: { formatter: integerAxisLabelFormatter } },
+    yAxis: {
+      type: 'value',
+      max: 100,
+      minInterval: 1,
+      axisLabel: { formatter: integerAxisLabelFormatter },
+    },
     series: [
       {
         type: 'line',
@@ -313,8 +340,9 @@ const ProblemsUserStatisticsPage = () => {
   const { data: statistics, isLoading } = useProblemsUserStatistics(username, statisticsParams);
 
   const availableYears = useMemo(() => buildYears(statistics), [statistics]);
-  const availableDays =
-    statistics?.meta?.allowedLastDays?.length ? statistics.meta.allowedLastDays : [7, 14, 30];
+  const availableDays = statistics?.meta?.allowedLastDays?.length
+    ? statistics.meta.allowedLastDays
+    : [7, 14, 30];
 
   const activityOption = useMemo(
     () => buildActivityOption(statistics?.lastDays?.series ?? [], t),
@@ -366,9 +394,8 @@ const ProblemsUserStatisticsPage = () => {
         <PageHeader
           title={t('problems.statisticsPage.title')}
           breadcrumb={[
-            { label: t('home'), url: resources.Home },
             { label: t('problems.title'), url: resources.Problems },
-            { label: t('problems.statisticsPage.title'), active: true },
+            { label: t('contests.tabs.statistics'), active: true },
           ]}
         />
         <Box sx={{ px: { xs: 3, md: 5 } }}>
@@ -378,34 +405,17 @@ const ProblemsUserStatisticsPage = () => {
     );
   }
 
-  const headerAction = (
-    <Button
-      variant="contained"
-      color="primary"
-      component={RouterLink}
-      to={getResourceByUsername(resources.AttemptsByUser, username)}
-    >
-      {t('problems.statisticsPage.viewAttempts')}
-    </Button>
-  );
-
   return (
     <Stack spacing={3}>
       <PageHeader
         title={t('problems.statisticsPage.title')}
         breadcrumb={[
-          { label: t('home'), url: resources.Home },
           { label: t('problems.title'), url: resources.Problems },
-          { label: t('problems.statisticsPage.title'), active: true },
+          { label: t('contests.tabs.statistics'), active: true },
         ]}
-        actionComponent={headerAction}
       />
       <Box sx={{ px: { xs: 3, md: 5 }, pb: { xs: 5, md: 6 } }}>
         <Stack spacing={3}>
-          <Typography variant="body2" color="text.secondary">
-            {t('problems.statisticsPage.subtitle')}
-          </Typography>
-
           {isLoading && (
             <Card variant="outlined">
               <CardContent>
@@ -417,282 +427,321 @@ const ProblemsUserStatisticsPage = () => {
           {statistics ? (
             <>
               <Grid container spacing={2}>
-              <Grid size={{ xs: 12, md: 6, lg: 3 }}>
-                <OverviewCard
-                  icon="check-circle"
-                  label={t('problems.statisticsPage.cards.solved')}
-                  value={numberFormatter.format(statistics.general?.solved ?? 0)}
-                  subtitle={t('problems.statisticsPage.cards.problems')}
-                />
+                <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+                  <OverviewCard
+                    icon="check-circle"
+                    label={t('problems.statisticsPage.cards.solved')}
+                    value={numberFormatter.format(statistics.general?.solved ?? 0)}
+                    subtitle={t('problems.statisticsPage.cards.problems')}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+                  <OverviewCard
+                    icon="rating"
+                    label={t('problems.statisticsPage.cards.rating')}
+                    value={numberFormatter.format(statistics.general?.rating ?? 0)}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+                  <OverviewCard
+                    icon="users"
+                    label={t('problems.statisticsPage.cards.rank')}
+                    value={String(statistics.general?.rank ?? '-')}
+                    subtitle={t('problems.statisticsPage.cards.usersCount', {
+                      count: statistics.general?.usersCount ?? 0,
+                    })}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+                  <OverviewCard
+                    icon="award"
+                    label={t('problems.statisticsPage.cards.singleAttempt')}
+                    value={numberFormatter.format(statistics.facts?.solvedWithSingleAttempt ?? 0)}
+                    subtitle={
+                      statistics.facts?.solvedWithSingleAttemptPercentage !== undefined
+                        ? `${statistics.facts?.solvedWithSingleAttemptPercentage}%`
+                        : undefined
+                    }
+                  />
+                </Grid>
               </Grid>
-              <Grid size={{ xs: 12, md: 6, lg: 3 }}>
-                <OverviewCard
-                  icon="rating"
-                  label={t('problems.statisticsPage.cards.rating')}
-                  value={numberFormatter.format(statistics.general?.rating ?? 0)}
-                />
-              </Grid>
-              <Grid size={{ xs: 12, md: 6, lg: 3 }}>
-                <OverviewCard
-                  icon="users"
-                  label={t('problems.statisticsPage.cards.rank')}
-                  value={String(statistics.general?.rank ?? '-')}
-                  subtitle={t('problems.statisticsPage.cards.usersCount', {
-                    count: statistics.general?.usersCount ?? 0,
-                  })}
-                />
-              </Grid>
-              <Grid size={{ xs: 12, md: 6, lg: 3 }}>
-                <OverviewCard
-                  icon="award"
-                  label={t('problems.statisticsPage.cards.singleAttempt')}
-                  value={numberFormatter.format(statistics.facts?.solvedWithSingleAttempt ?? 0)}
-                  subtitle={
-                    statistics.facts?.solvedWithSingleAttemptPercentage !== undefined
-                      ? `${statistics.facts?.solvedWithSingleAttemptPercentage}%`
-                      : undefined
-                  }
-                />
-              </Grid>
-            </Grid>
 
-            <Grid container spacing={3}>
-              <Grid size={{ xs: 12, lg: 4 }}>
-                <Stack spacing={3}>
-                  <Card variant="outlined">
-                    <CardHeader title={t('problems.statisticsPage.profile.languages')} />
-                    <CardContent>
-                    <Stack spacing={1}>
-                      {(statistics.byLang ?? []).map((lang) => (
-                        <Stack key={lang.lang} direction="row" spacing={1} justifyContent="space-between" alignItems="center">
-                          <Stack direction="row" spacing={1} alignItems="center">
-                            <AttemptLanguage lang={lang.lang} langFull={lang.langFull} size={28} />
-                            <Typography variant="body2">{lang.langFull}</Typography>
-                          </Stack>
-                          <Chip label={lang.solved} size="small" color="primary" variant="outlined" />
-                        </Stack>
-                      ))}
-                        {!statistics.byLang?.length ? (
-                          <Typography variant="body2" color="text.secondary">
-                            {t('problems.statisticsPage.noData')}
-                          </Typography>
-                        ) : null}
-                      </Stack>
-                    </CardContent>
-                  </Card>
-
-                  <Card variant="outlined">
-                    <CardHeader title={t('problems.statisticsPage.profile.tags')} />
-                    <CardContent>
-                      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                        {(statistics.byTag ?? []).map((tag) => (
-                          <Chip key={tag.name} label={`${tag.name} (${tag.value})`} size="small" />
-                        ))}
-                        {!statistics.byTag?.length ? (
-                          <Typography variant="body2" color="text.secondary">
-                            {t('problems.statisticsPage.noData')}
-                          </Typography>
-                        ) : null}
-                      </Stack>
-                    </CardContent>
-                  </Card>
-
-                  <Card variant="outlined">
-                    <CardHeader title={t('problems.statisticsPage.profile.topics')} />
-                    <CardContent>
-                      <Stack spacing={1}>
-                        {(statistics.byTopic ?? []).map((topic) => (
-                          <Stack
-                            key={topic.id}
-                            direction="row"
-                            spacing={1}
-                            alignItems="center"
-                            justifyContent="space-between"
-                          >
-                            <Stack direction="row" spacing={1} alignItems="center">
-                              <KepIcon name="tags" fontSize={18} />
-                              <Typography variant="body2">{topic.topic}</Typography>
+              <Grid container spacing={3}>
+                <Grid size={{ xs: 12, lg: 4 }}>
+                  <Stack spacing={3}>
+                    <Card variant="outlined">
+                      <CardHeader title={t('problems.statisticsPage.profile.languages')} />
+                      <CardContent>
+                        <Stack spacing={1}>
+                          {(statistics.byLang ?? []).map((lang) => (
+                            <Stack
+                              key={lang.lang}
+                              direction="row"
+                              spacing={1}
+                              justifyContent="space-between"
+                              alignItems="center"
+                            >
+                              <Stack direction="row" spacing={1} alignItems="center">
+                                <AttemptLanguage
+                                  lang={lang.lang}
+                                  langFull={lang.langFull}
+                                  size={28}
+                                />
+                                <Typography variant="body2">{lang.langFull}</Typography>
+                              </Stack>
+                              <Chip
+                                label={lang.solved}
+                                size="small"
+                                color="primary"
+                                variant="outlined"
+                              />
                             </Stack>
-                            <Chip label={topic.solved} size="small" color="success" variant="outlined" />
-                          </Stack>
-                        ))}
-                        {!statistics.byTopic?.length ? (
+                          ))}
+                          {!statistics.byLang?.length ? (
+                            <Typography variant="body2" color="text.secondary">
+                              {t('problems.statisticsPage.noData')}
+                            </Typography>
+                          ) : null}
+                        </Stack>
+                      </CardContent>
+                    </Card>
+
+                    <Card variant="outlined">
+                      <CardHeader title={t('problems.statisticsPage.profile.tags')} />
+                      <CardContent>
+                        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                          {(statistics.byTag ?? []).map((tag) => (
+                            <Chip
+                              key={tag.name}
+                              label={`${tag.name} (${tag.value})`}
+                              size="small"
+                            />
+                          ))}
+                          {!statistics.byTag?.length ? (
+                            <Typography variant="body2" color="text.secondary">
+                              {t('problems.statisticsPage.noData')}
+                            </Typography>
+                          ) : null}
+                        </Stack>
+                      </CardContent>
+                    </Card>
+
+                    <Card variant="outlined">
+                      <CardHeader title={t('problems.statisticsPage.profile.topics')} />
+                      <CardContent>
+                        <Stack spacing={1}>
+                          {(statistics.byTopic ?? []).map((topic) => (
+                            <Stack
+                              key={topic.id}
+                              direction="row"
+                              spacing={1}
+                              alignItems="center"
+                              justifyContent="space-between"
+                            >
+                              <Stack direction="row" spacing={1} alignItems="center">
+                                <KepIcon name="tags" fontSize={18} />
+                                <Typography variant="body2">{topic.topic}</Typography>
+                              </Stack>
+                              <Chip
+                                label={topic.solved}
+                                size="small"
+                                color="success"
+                                variant="outlined"
+                              />
+                            </Stack>
+                          ))}
+                          {!statistics.byTopic?.length ? (
+                            <Typography variant="body2" color="text.secondary">
+                              {t('problems.statisticsPage.noData')}
+                            </Typography>
+                          ) : null}
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  </Stack>
+                </Grid>
+
+                <Grid size={{ xs: 12, lg: 8 }}>
+                  <Stack spacing={3}>
+                    <Card variant="outlined">
+                      <CardHeader
+                        title={t('problems.statisticsPage.activity.title')}
+                        action={
+                          <ToggleButtonGroup
+                            size="small"
+                            exclusive
+                            value={selectedDays}
+                            onChange={(_, value) => value && setSelectedDays(value)}
+                          >
+                            {availableDays.map((option) => (
+                              <ToggleButton value={option} key={option}>
+                                {option}
+                              </ToggleButton>
+                            ))}
+                          </ToggleButtonGroup>
+                        }
+                      />
+                      <CardContent sx={{ pt: 0 }}>
+                        {activityOption ? (
+                          <ReactEchart
+                            echarts={echarts}
+                            option={activityOption}
+                            style={{ height: 320 }}
+                          />
+                        ) : (
                           <Typography variant="body2" color="text.secondary">
                             {t('problems.statisticsPage.noData')}
                           </Typography>
-                        ) : null}
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </Stack>
-              </Grid>
+                        )}
+                      </CardContent>
+                    </Card>
 
-              <Grid size={{ xs: 12, lg: 8 }}>
-                <Stack spacing={3}>
-                  <Card variant="outlined">
-                    <CardHeader
-                      title={t('problems.statisticsPage.activity.title')}
-                      action={
-                        <ToggleButtonGroup
-                          size="small"
-                          exclusive
-                          value={selectedDays}
-                          onChange={(_, value) => value && setSelectedDays(value)}
-                        >
-                          {availableDays.map((option) => (
-                            <ToggleButton value={option} key={option}>
-                              {option}
-                            </ToggleButton>
-                          ))}
-                        </ToggleButtonGroup>
-                      }
-                    />
-                    <CardContent sx={{ pt: 0 }}>
-                      {activityOption ? (
-                        <ReactEchart echarts={echarts} option={activityOption} style={{ height: 320 }} />
-                      ) : (
-                        <Typography variant="body2" color="text.secondary">
-                          {t('problems.statisticsPage.noData')}
-                        </Typography>
-                      )}
-                    </CardContent>
-                  </Card>
-
-                  <Grid container spacing={3}>
-                    <Grid size={{ xs: 12, lg: 6 }}>
-                      <Card variant="outlined">
-                        <CardHeader title={t('problems.statisticsPage.difficulty.title')} />
-                        <CardContent>
-                          <Stack spacing={1.5}>
-                            <Typography variant="body2" color="text.secondary">
-                              {t('problems.statisticsPage.difficulty.overview', {
-                                solved: statistics.byDifficulty?.totalSolved ?? 0,
-                                total: statistics.byDifficulty?.totalProblems ?? 0,
-                              })}
-                            </Typography>
-                            {difficultyOptions.map((option) => {
-                              const solved = (statistics.byDifficulty as any)?.[option.key] ?? 0;
-                              const total =
-                                (statistics.byDifficulty as any)?.[`all${option.key[0].toUpperCase()}${option.key.slice(1)}`] ??
-                                0;
-                              const percent = total ? Math.round((100 * solved) / total) : 0;
-                              return (
-                                <Stack key={option.key} spacing={0.5}>
-                                  <Stack direction="row" justifyContent="space-between">
-                                    <Typography variant="body2">
-                                      {t(option.label)}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                      {solved} / {total} ({percent}%)
-                                    </Typography>
+                    <Grid container spacing={3}>
+                      <Grid size={{ xs: 12, lg: 6 }}>
+                        <Card variant="outlined">
+                          <CardHeader title={t('problems.statisticsPage.difficulty.title')} />
+                          <CardContent>
+                            <Stack spacing={1.5}>
+                              <Typography variant="body2" color="text.secondary">
+                                {t('problems.statisticsPage.difficulty.overview', {
+                                  solved: statistics.byDifficulty?.totalSolved ?? 0,
+                                  total: statistics.byDifficulty?.totalProblems ?? 0,
+                                })}
+                              </Typography>
+                              {difficultyOptions.map((option) => {
+                                const solved = (statistics.byDifficulty as any)?.[option.key] ?? 0;
+                                const total =
+                                  (statistics.byDifficulty as any)?.[
+                                    `all${option.key[0].toUpperCase()}${option.key.slice(1)}`
+                                  ] ?? 0;
+                                const percent = total ? Math.round((100 * solved) / total) : 0;
+                                return (
+                                  <Stack key={option.key} spacing={0.5}>
+                                    <Stack direction="row" justifyContent="space-between">
+                                      <Typography variant="body2">{t(option.label)}</Typography>
+                                      <Typography variant="body2" color="text.secondary">
+                                        {solved} / {total} ({percent}%)
+                                      </Typography>
+                                    </Stack>
+                                    <LinearProgress
+                                      variant="determinate"
+                                      value={percent}
+                                      color={difficultyColorByKey[option.key]}
+                                      sx={{ height: 8, borderRadius: 1 }}
+                                    />
                                   </Stack>
-                                  <LinearProgress
-                                    variant="determinate"
-                                    value={percent}
-                                    color={difficultyColorByKey[option.key]}
-                                    sx={{ height: 8, borderRadius: 1 }}
-                                  />
-                                </Stack>
-                              );
-                            })}
-                          </Stack>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                    <Grid size={{ xs: 12, lg: 6 }}>
-                      <FactsCard statistics={statistics} />
-                    </Grid>
-                  </Grid>
-
-                  <Card variant="outlined">
-                    <CardHeader
-                      title={t('problems.statisticsPage.heatmap.title')}
-                      action={
-                        <ToggleButtonGroup
-                          size="small"
-                          exclusive
-                          value={selectedYear}
-                          onChange={(_, value) => value && setSelectedYear(value)}
-                        >
-                          {availableYears.map((year) => (
-                            <ToggleButton value={year} key={year}>
-                              {year}
-                            </ToggleButton>
-                          ))}
-                        </ToggleButtonGroup>
-                      }
-                    />
-                    <CardContent sx={{ pt: 0 }}>
-                      {heatmapOption ? (
-                        <ReactEchart
-                          echarts={echarts}
-                          option={heatmapOption}
-                          style={{ height: 320 }}
-                        />
-                      ) : (
-                        <Typography variant="body2" color="text.secondary">
-                          {t('problems.statisticsPage.noData')}
-                        </Typography>
-                      )}
-                    </CardContent>
-                  </Card>
-
-                  <Card variant="outlined">
-                    <CardHeader title={t('problems.statisticsPage.time.title')} />
-                    <CardContent sx={{ pt: 0 }}>
-                      <Grid container spacing={3}>
-                        <Grid size={{ xs: 12, lg: 4 }}>
-                          {weekdayOption ? (
-                            <ReactEchart echarts={echarts} option={weekdayOption} style={{ height: 260 }} />
-                          ) : (
-                            <Typography variant="body2" color="text.secondary">
-                              {t('problems.statisticsPage.noData')}
-                            </Typography>
-                          )}
-                        </Grid>
-                        <Grid size={{ xs: 12, lg: 4 }}>
-                          {monthOption ? (
-                            <ReactEchart echarts={echarts} option={monthOption} style={{ height: 260 }} />
-                          ) : (
-                            <Typography variant="body2" color="text.secondary">
-                              {t('problems.statisticsPage.noData')}
-                            </Typography>
-                          )}
-                        </Grid>
-                        <Grid size={{ xs: 12, lg: 4 }}>
-                          {periodOption ? (
-                            <ReactEchart echarts={echarts} option={periodOption} style={{ height: 260 }} />
-                          ) : (
-                            <Typography variant="body2" color="text.secondary">
-                              {t('problems.statisticsPage.noData')}
-                            </Typography>
-                          )}
-                        </Grid>
+                                );
+                              })}
+                            </Stack>
+                          </CardContent>
+                        </Card>
                       </Grid>
-                    </CardContent>
-                  </Card>
+                      <Grid size={{ xs: 12, lg: 6 }}>
+                        <FactsCard statistics={statistics} />
+                      </Grid>
+                    </Grid>
 
-                  <Card variant="outlined">
-                    <CardHeader title={t('problems.statisticsPage.attempts.title')} />
-                    <CardContent sx={{ pt: 0 }}>
-                      {attemptsChartOption ? (
-                        <ReactEchart
-                          echarts={echarts}
-                          option={attemptsChartOption}
-                          style={{ height: 300 }}
-                        />
-                      ) : (
-                        <Typography variant="body2" color="text.secondary">
-                          {t('problems.statisticsPage.noData')}
-                        </Typography>
-                      )}
-                    </CardContent>
-                  </Card>
-                </Stack>
+                    <Card variant="outlined">
+                      <CardHeader
+                        title={t('problems.statisticsPage.heatmap.title')}
+                        action={
+                          <ToggleButtonGroup
+                            size="small"
+                            exclusive
+                            value={selectedYear}
+                            onChange={(_, value) => value && setSelectedYear(value)}
+                          >
+                            {availableYears.map((year) => (
+                              <ToggleButton value={year} key={year}>
+                                {year}
+                              </ToggleButton>
+                            ))}
+                          </ToggleButtonGroup>
+                        }
+                      />
+                      <CardContent sx={{ pt: 0 }}>
+                        {heatmapOption ? (
+                          <ReactEchart
+                            echarts={echarts}
+                            option={heatmapOption}
+                            style={{ height: 320 }}
+                          />
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            {t('problems.statisticsPage.noData')}
+                          </Typography>
+                        )}
+                      </CardContent>
+                    </Card>
+
+                    <Card variant="outlined">
+                      <CardHeader title={t('problems.statisticsPage.time.title')} />
+                      <CardContent sx={{ pt: 0 }}>
+                        <Grid container spacing={1}>
+                          <Grid size={{ xs: 12, lg: 4 }}>
+                            {weekdayOption ? (
+                              <ReactEchart
+                                echarts={echarts}
+                                option={weekdayOption}
+                                style={{ height: 360 }}
+                              />
+                            ) : (
+                              <Typography variant="body2" color="text.secondary">
+                                {t('problems.statisticsPage.noData')}
+                              </Typography>
+                            )}
+                          </Grid>
+                          <Grid size={{ xs: 12, lg: 4 }}>
+                            {monthOption ? (
+                              <ReactEchart
+                                echarts={echarts}
+                                option={monthOption}
+                                style={{ height: 360 }}
+                              />
+                            ) : (
+                              <Typography variant="body2" color="text.secondary">
+                                {t('problems.statisticsPage.noData')}
+                              </Typography>
+                            )}
+                          </Grid>
+                          <Grid size={{ xs: 12, lg: 4 }}>
+                            {periodOption ? (
+                              <ReactEchart
+                                echarts={echarts}
+                                option={periodOption}
+                                style={{ height: 360 }}
+                              />
+                            ) : (
+                              <Typography variant="body2" color="text.secondary">
+                                {t('problems.statisticsPage.noData')}
+                              </Typography>
+                            )}
+                          </Grid>
+                        </Grid>
+                      </CardContent>
+                    </Card>
+
+                    <Card variant="outlined">
+                      <CardHeader title={t('problems.statisticsPage.attempts.title')} />
+                      <CardContent sx={{ pt: 0 }}>
+                        {attemptsChartOption ? (
+                          <ReactEchart
+                            echarts={echarts}
+                            option={attemptsChartOption}
+                            style={{ height: 300 }}
+                          />
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            {t('problems.statisticsPage.noData')}
+                          </Typography>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </Stack>
+                </Grid>
               </Grid>
-            </Grid>
-          </>
-        ) : null}
+            </>
+          ) : null}
         </Stack>
       </Box>
     </Stack>
