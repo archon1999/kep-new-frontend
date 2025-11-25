@@ -28,6 +28,7 @@ import { contestHasBalls } from 'modules/contests/utils/contestType.ts';
 import { problemsQueries, useAttemptsList } from 'modules/problems/application/queries.ts';
 import { ProblemSampleTest } from 'modules/problems/domain/entities/problem.entity';
 import { AttemptsListParams } from 'modules/problems/domain/ports/problems.repository';
+import { usePersistedCode } from 'modules/problems/hooks/usePersistedCode';
 import { useProblemLanguage } from 'modules/problems/hooks/useProblemLanguage';
 import ProblemsAttemptsTable from 'modules/problems/ui/components/ProblemsAttemptsTable.tsx';
 import { PanelHandle } from 'modules/problems/ui/components/problem-detail/PanelHandles';
@@ -56,7 +57,6 @@ import { ContestStatus } from '../../domain/entities/contest-status';
 import { ContestantEntity } from '../../domain/entities/contestant.entity';
 import { sortContestProblems } from '../../utils/sortContestProblems';
 import ContestantView from '../components/ContestantView';
-import { usePersistedCode } from 'modules/problems/hooks/usePersistedCode';
 
 const useProblemPermissions = (permissionsRaw: any) => {
   return useMemo(() => {
@@ -170,7 +170,10 @@ const ContestantResultsFooter = ({
                       : alpha(theme.palette[result.color].main, 0.6),
                   backgroundColor:
                     result.color === 'default'
-                      ? alpha(theme.palette.common.white, theme.palette.mode === 'dark' ? 0.04 : 0.02)
+                      ? alpha(
+                          theme.palette.common.white,
+                          theme.palette.mode === 'dark' ? 0.04 : 0.02,
+                        )
                       : alpha(
                           theme.palette[result.color].main,
                           theme.palette.mode === 'dark' ? 0.16 : 0.1,
@@ -271,16 +274,11 @@ const ContestProblemPage = () => {
     ? getResourceByParams(resources.Problem, { id: problem.id })
     : undefined;
   const sampleTests: ProblemSampleTest[] = problem?.sampleTests ?? [];
-  useDocumentTitle(
-    contest?.title && problem?.title ? 'pageTitles.contestProblem' : undefined,
-    contest?.title && problem?.title
-      ? {
-          contestTitle: contest.title,
-          problemSymbol: contestProblem?.symbol ?? problemSymbol ?? '',
-          problemTitle: problem.title,
-        }
-      : undefined,
-  );
+  useDocumentTitle(contest?.title && problem?.title, {
+    contestTitle: contest?.title,
+    problemSymbol: contestProblem?.symbol ?? '',
+    problemTitle: problem?.title,
+  });
 
   useEffect(() => {
     if (problem?.id) {
@@ -482,13 +480,7 @@ const ContestProblemPage = () => {
   };
 
   const handleCheckSamples = async () => {
-    if (
-      !problem?.id ||
-      !selectedLang ||
-      !codeRef.current ||
-      isCheckingSamples ||
-      isContestFinished
-    )
+    if (!problem?.id || !selectedLang || !codeRef.current || isCheckingSamples || isContestFinished)
       return;
     setIsCheckingSamples(true);
     setCheckSamplesResult([]);

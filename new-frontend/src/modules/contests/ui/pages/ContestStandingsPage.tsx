@@ -324,7 +324,7 @@ const ContestStandingsPage = () => {
                 '&:last-of-type': { borderRight: 'none' },
               }}
             >
-              <Tooltip title={problem?.problem.title ?? problem?.symbol ?? symbol} arrow>
+              <Tooltip title={problem?.problem.title ?? ''} arrow>
                 <Link
                   component={RouterLink}
                   to={problemLink}
