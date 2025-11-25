@@ -528,9 +528,9 @@ const ProblemsUserStatisticsPage = () => {
                         </ToggleButtonGroup>
                       }
                     />
-                    <CardContent>
+                    <CardContent sx={{ pt: 0 }}>
                       {activityOption ? (
-                        <ReactEchart echarts={echarts} option={activityOption} style={{ height: 280 }} />
+                        <ReactEchart echarts={echarts} option={activityOption} style={{ height: 320 }} />
                       ) : (
                         <Typography variant="body2" color="text.secondary">
                           {t('problems.statisticsPage.noData')}
@@ -603,7 +603,7 @@ const ProblemsUserStatisticsPage = () => {
                         </ToggleButtonGroup>
                       }
                     />
-                    <CardContent>
+                    <CardContent sx={{ pt: 0 }}>
                       {heatmapOption ? (
                         <ReactEchart
                           echarts={echarts}
@@ -620,11 +620,11 @@ const ProblemsUserStatisticsPage = () => {
 
                   <Card variant="outlined">
                     <CardHeader title={t('problems.statisticsPage.time.title')} />
-                    <CardContent>
+                    <CardContent sx={{ pt: 0 }}>
                       <Grid container spacing={3}>
                         <Grid size={{ xs: 12, lg: 4 }}>
                           {weekdayOption ? (
-                            <ReactEchart echarts={echarts} option={weekdayOption} style={{ height: 220 }} />
+                            <ReactEchart echarts={echarts} option={weekdayOption} style={{ height: 260 }} />
                           ) : (
                             <Typography variant="body2" color="text.secondary">
                               {t('problems.statisticsPage.noData')}
@@ -633,7 +633,7 @@ const ProblemsUserStatisticsPage = () => {
                         </Grid>
                         <Grid size={{ xs: 12, lg: 4 }}>
                           {monthOption ? (
-                            <ReactEchart echarts={echarts} option={monthOption} style={{ height: 220 }} />
+                            <ReactEchart echarts={echarts} option={monthOption} style={{ height: 260 }} />
                           ) : (
                             <Typography variant="body2" color="text.secondary">
                               {t('problems.statisticsPage.noData')}
@@ -642,7 +642,7 @@ const ProblemsUserStatisticsPage = () => {
                         </Grid>
                         <Grid size={{ xs: 12, lg: 4 }}>
                           {periodOption ? (
-                            <ReactEchart echarts={echarts} option={periodOption} style={{ height: 220 }} />
+                            <ReactEchart echarts={echarts} option={periodOption} style={{ height: 260 }} />
                           ) : (
                             <Typography variant="body2" color="text.secondary">
                               {t('problems.statisticsPage.noData')}
@@ -655,12 +655,12 @@ const ProblemsUserStatisticsPage = () => {
 
                   <Card variant="outlined">
                     <CardHeader title={t('problems.statisticsPage.attempts.title')} />
-                    <CardContent>
+                    <CardContent sx={{ pt: 0 }}>
                       {attemptsChartOption ? (
                         <ReactEchart
                           echarts={echarts}
                           option={attemptsChartOption}
-                          style={{ height: 260 }}
+                          style={{ height: 300 }}
                         />
                       ) : (
                         <Typography variant="body2" color="text.secondary">
