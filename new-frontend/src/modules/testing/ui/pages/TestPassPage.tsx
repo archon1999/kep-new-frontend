@@ -58,6 +58,7 @@ const TestPassPage = () => {
   const [timerReady, setTimerReady] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFinishing, setIsFinishing] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const [finishResult, setFinishResult] = useState<number | null>(null);
   const autoFinishRef = useRef(false);
 
@@ -81,7 +82,7 @@ const TestPassPage = () => {
   };
 
   const handleFinish = async (auto = false) => {
-    if (!testPass) {
+    if (isFinished || !testPass) {
       return;
     }
 
@@ -91,6 +92,7 @@ const TestPassPage = () => {
       const response = await finishTest(testPass.id);
 
       if (response.success) {
+        setIsFinished(true);
         setFinishResult(response.result ?? null);
       } else if (!auto) {
         toast.error(t('tests.finishError'));
@@ -108,7 +110,7 @@ const TestPassPage = () => {
     const autoAdvance = options?.autoAdvance ?? true;
     const silent = options?.silent ?? false;
 
-    if (!testPass || !currentQuestion) {
+    if (!testPass || !currentQuestion || isFinished) {
       return;
     }
 
@@ -148,6 +150,10 @@ const TestPassPage = () => {
   };
 
   const handleQuestionSelect = async (index: number) => {
+    if (isFinished) {
+      return;
+    }
+
     await handleSubmitAnswer({ autoAdvance: false, silent: true });
     setCurrentIndex(index);
   };
@@ -170,6 +176,8 @@ const TestPassPage = () => {
     setQuestionStates(initialStates);
     setCurrentIndex(0);
     setTimerReady(false);
+    setIsFinished(false);
+    setFinishResult(null);
     autoFinishRef.current = false;
   }, [testPass?.test?.questions]);
 
@@ -221,15 +229,21 @@ const TestPassPage = () => {
   }, [timerReady, remainingMs]);
 
   useEffect(() => {
-    if (!timerReady || !testPass) {
+    if (!timerReady || !testPass || isFinished) {
       return;
     }
 
-    if (remainingMs <= 0 && !isFinishing && !autoFinishRef.current) {
+    if (remainingMs <= 0 && !isFinishing && !autoFinishRef.current && !isFinished) {
       autoFinishRef.current = true;
       handleFinish(true);
     }
-  }, [timerReady, remainingMs, testPass, isFinishing]);
+  }, [timerReady, remainingMs, testPass, isFinishing, isFinished]);
+
+  const handleNavigateToTest = () => {
+    if (testPass) {
+      navigate(getResourceById(resources.Test, testPass.test.id), { replace: true });
+    }
+  };
 
   const renderQuestion = () => {
     if (!currentQuestion) {
@@ -404,7 +418,7 @@ const TestPassPage = () => {
                 <Button
                   variant="contained"
                   onClick={() => handleSubmitAnswer()}
-                  disabled={isSubmitting || isFinishing}
+                  disabled={isSubmitting || isFinishing || isFinished}
                   sx={{ minWidth: 180 }}
                 >
                   {isSubmitting ? (
@@ -460,7 +474,7 @@ const TestPassPage = () => {
                       color="primary"
                       fullWidth
                       onClick={() => handleFinish()}
-                      disabled={isFinishing}
+                      disabled={isFinishing || isFinished}
                     >
                       {isFinishing ? (
                         <CircularProgress size={18} color="inherit" />
@@ -478,10 +492,10 @@ const TestPassPage = () => {
                     <Typography variant="subtitle1" fontWeight={700} textAlign="center">
                       {t('tests.questions')}
                     </Typography>
-                  <Stack direction="row" flexWrap="wrap" useFlexGap spacing={1}>
-                    {questions.map((question, index) => {
-                      const isCurrent = index === currentIndex;
-                      const isAnswered = question.answered;
+                    <Stack direction="row" flexWrap="wrap" useFlexGap spacing={1}>
+                      {questions.map((question, index) => {
+                        const isCurrent = index === currentIndex;
+                        const isAnswered = question.answered;
 
                         return (
                           <Button
@@ -492,7 +506,7 @@ const TestPassPage = () => {
                             }
                             size="small"
                             onClick={() => handleQuestionSelect(index)}
-                            disabled={isSubmitting || isFinishing}
+                            disabled={isSubmitting || isFinishing || isFinished}
                             sx={{ minWidth: 44, height: 36 }}
                           >
                             {question.number}
@@ -511,9 +525,7 @@ const TestPassPage = () => {
           open={finishResult !== null}
           onClose={() => {
             setFinishResult(null);
-            if (testPass) {
-              navigate(getResourceById(resources.Test, testPass.test.id));
-            }
+            handleNavigateToTest();
           }}
           fullWidth
           maxWidth="xs"
@@ -529,9 +541,7 @@ const TestPassPage = () => {
               variant="contained"
               onClick={() => {
                 setFinishResult(null);
-                if (testPass) {
-                  navigate(getResourceById(resources.Test, testPass.test.id));
-                }
+                handleNavigateToTest();
               }}
             >
               {t('tests.finish')}
