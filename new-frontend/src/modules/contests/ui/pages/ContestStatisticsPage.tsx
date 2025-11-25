@@ -20,6 +20,8 @@ import ContestPageHeader from '../components/ContestPageHeader';
 
 echarts.use([GridComponent, TooltipComponent, LegendComponent, LineChart, BarChart, PieChart, CanvasRenderer]);
 
+const integerAxisLabelFormatter = (value: number) => Math.round(value).toString();
+
 type BadgeKey = keyof ContestStatisticsBadges;
 
 const badgeOrder: BadgeKey[] = ['sniper', 'grinder', 'optimizer', 'neverGiveUp'];
@@ -142,7 +144,9 @@ const ContestStatisticsPage = () => {
         min: 0,
         axisLabel: {
           color: axisLabelColor,
+          formatter: integerAxisLabelFormatter,
         },
+        minInterval: 1,
         splitLine: {
           lineStyle: { color: dividerColor },
         },
@@ -187,8 +191,9 @@ const ContestStatisticsPage = () => {
       yAxis: {
         type: 'value',
         min: 0,
-        axisLabel: { color: axisLabelColor },
+        axisLabel: { color: axisLabelColor, formatter: integerAxisLabelFormatter },
         splitLine: { lineStyle: { color: dividerColor } },
+        minInterval: 1,
       },
       series: [
         {

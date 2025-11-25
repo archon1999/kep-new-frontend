@@ -57,6 +57,8 @@ const withPadding = (series: number[]): [number, number] => {
   return [Math.max(0, Math.floor(min - padding)), Math.ceil(max + padding)];
 };
 
+const integerAxisLabelFormatter = (value: number) => Math.round(value).toString();
+
 const UserActivitySection = () => {
   const theme = useTheme();
   const { t } = useTranslation();
@@ -135,7 +137,9 @@ const UserActivitySection = () => {
           max,
           axisLabel: {
             color: axisLabelColor,
+            formatter: integerAxisLabelFormatter,
           },
+          minInterval: 1,
           splitLine: {
             lineStyle: {
               color: splitLineColor,

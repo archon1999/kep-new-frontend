@@ -155,6 +155,8 @@ const buildYears = (statistics?: ProblemsUserStatistics) => {
   return Array.from(years).sort((a, b) => b - a);
 };
 
+const integerAxisLabelFormatter = (value: number) => Math.round(value).toString();
+
 const buildActivityOption = (series: number[], t: (key: string, params?: any) => string): EChartsCoreOption | null => {
   if (!series?.length) return null;
 
@@ -166,7 +168,7 @@ const buildActivityOption = (series: number[], t: (key: string, params?: any) =>
   return {
     tooltip: { trigger: 'axis' },
     xAxis: { type: 'time' },
-    yAxis: { type: 'value' },
+    yAxis: { type: 'value', minInterval: 1, axisLabel: { formatter: integerAxisLabelFormatter } },
     series: [
       {
         type: 'line',
@@ -257,7 +259,7 @@ const buildBarOption = (
 
   return {
     tooltip: { trigger: 'axis' },
-    xAxis: { type: 'value' },
+    xAxis: { type: 'value', minInterval: 1, axisLabel: { formatter: integerAxisLabelFormatter } },
     yAxis: { type: 'category', data: data.map((item) => item.label) },
     series: [
       {
@@ -275,7 +277,7 @@ const buildAttemptsOption = (data: ProblemsStatisticsAttemptsChartEntry[]): ECha
   return {
     tooltip: { trigger: 'axis' },
     xAxis: { type: 'category', data: data.map((item) => item.attemptsCount), boundaryGap: false },
-    yAxis: { type: 'value', max: 100 },
+    yAxis: { type: 'value', max: 100, minInterval: 1, axisLabel: { formatter: integerAxisLabelFormatter } },
     series: [
       {
         type: 'line',

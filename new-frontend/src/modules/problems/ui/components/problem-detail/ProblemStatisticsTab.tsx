@@ -31,6 +31,8 @@ import { ProblemDetail, ProblemTopAttempt } from '../../../domain/entities/probl
 
 echarts.use([GridComponent, TooltipComponent, LegendComponent, PieChart, LineChart, CanvasRenderer]);
 
+const integerAxisLabelFormatter = (value: number) => Math.round(value).toString();
+
 interface ProblemStatisticsTabProps {
   problemId: number;
   problem?: ProblemDetail | null;
@@ -195,7 +197,12 @@ export const ProblemStatisticsTab = ({ problemId, problem }: ProblemStatisticsTa
         data: stats.attemptsForSolveStatistics.map((item) => item.attempts),
         boundaryGap: false,
       },
-      yAxis: { type: 'value', max: 100 },
+      yAxis: {
+        type: 'value',
+        max: 100,
+        minInterval: 1,
+        axisLabel: { formatter: integerAxisLabelFormatter },
+      },
       series: [
         {
           type: 'line',

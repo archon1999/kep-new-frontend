@@ -38,6 +38,8 @@ import { useUserRatings } from '../../../application/queries';
 
 echarts.use([GridComponent, TooltipComponent, LineChart, CanvasRenderer]);
 
+const integerAxisLabelFormatter = (value: number) => Math.round(value).toString();
+
 const withPadding = (values: number[]) => {
   if (!values.length) return [0, 0];
   const min = Math.min(...values);
@@ -116,8 +118,12 @@ const UserProfileRatingsTab = () => {
         type: 'value',
         min,
         max,
-        axisLabel: { color: getColor(theme.vars.palette.text.secondary) },
+        axisLabel: {
+          color: getColor(theme.vars.palette.text.secondary),
+          formatter: integerAxisLabelFormatter,
+        },
         splitLine: { lineStyle: { color: getColor(theme.vars.palette.divider) } },
+        minInterval: 1,
       },
       series: [
         {
@@ -161,8 +167,12 @@ const UserProfileRatingsTab = () => {
         type: 'value',
         min,
         max,
-        axisLabel: { color: getColor(theme.vars.palette.text.secondary) },
+        axisLabel: {
+          color: getColor(theme.vars.palette.text.secondary),
+          formatter: integerAxisLabelFormatter,
+        },
         splitLine: { lineStyle: { color: getColor(theme.vars.palette.divider) } },
+        minInterval: 1,
       },
       series: [
         {
