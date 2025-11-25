@@ -188,7 +188,6 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
             position: 'absolute',
             inset: 0,
             zIndex: 3,
-            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.8),
             backdropFilter: 'blur(2px)',
             display: 'flex',
             alignItems: 'center',

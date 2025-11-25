@@ -115,17 +115,8 @@ const ContestantResultsFooter = ({
   const deltaLabel = delta ? `${delta > 0 ? '+' : ''}${delta}` : '0';
 
   return (
-    <Box
+    <Card
       sx={{
-        borderTop: '1px solid',
-        borderColor: (theme) => alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.6 : 1),
-        bgcolor: (theme) =>
-          alpha(
-            theme.palette.mode === 'dark'
-              ? theme.palette.background.default
-              : theme.palette.background.paper,
-            theme.palette.mode === 'dark' ? 0.92 : 0.9,
-          ),
         px: 2.5,
         py: 2,
       }}
@@ -203,7 +194,7 @@ const ContestantResultsFooter = ({
           })}
         </Stack>
       </Stack>
-    </Box>
+    </Card>
   );
 };
 
