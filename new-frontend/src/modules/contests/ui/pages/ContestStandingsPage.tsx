@@ -15,7 +15,6 @@ import {
   useContestStandings,
 } from '../../application/queries';
 import { ContestProblemEntity } from '../../domain/entities/contest-problem.entity';
-import { ContestStatus } from '../../domain/entities/contest-status';
 import { ContestantEntity } from '../../domain/entities/contestant.entity';
 import { contestHasBalls, contestHasPenalties, isAcmStyle } from '../../utils/contestType';
 import ContestPageHeader from '../components/ContestPageHeader';
@@ -89,8 +88,14 @@ const ContestStandingsPage = () => {
   const { t } = useTranslation();
   const { currentUser } = useAuth();
 
-  const { data: contest, isLoading: isContestLoading } = useContest(contestId);
-  const { data: contestProblems = [] } = useContestProblems(contestId);
+  const refreshInterval = 30000;
+
+  const { data: contest, isLoading: isContestLoading } = useContest(contestId, {
+    refreshInterval,
+  });
+  const { data: contestProblems = [] } = useContestProblems(contestId, {
+    refreshInterval,
+  });
   const { data: contestFilters = [] } = useContestFilters(contestId);
   useDocumentTitle(
     contest?.title ? 'pageTitles.contestStandings' : undefined,
@@ -107,8 +112,6 @@ const ContestStandingsPage = () => {
   });
   const [selectedFilter, setSelectedFilter] = useState<string>('');
   const [followingOnly, setFollowingOnly] = useState(false);
-
-  const refreshInterval = contest?.statusCode === ContestStatus.Already ? 30000 : undefined;
 
   const { page, pageSize } = gridPaginationToPageParams(paginationModel);
 
