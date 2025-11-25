@@ -254,7 +254,9 @@
       "myAttempts": "Mening urinishlarim",
       "footerTitle": "Sizning natijalaringiz",
       "prev": "Oldingi",
-      "next": "Keyingi"
+      "next": "Keyingi",
+      "contestFinished": "Kontest yakunlangan. Upsolve rejimida davom eting.",
+      "upsolve": "Upsolve"
     },
     "authors": "Mualliflar",
     "registrantsLabel": "{{count}} ta ro'yxatdan o'tgan"
