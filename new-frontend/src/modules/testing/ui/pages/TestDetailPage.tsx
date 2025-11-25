@@ -24,6 +24,7 @@ import KepcoinSpendConfirm from 'shared/components/common/KepcoinSpendConfirm';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { startTest } from '../../application/mutations.ts';
 import { useTestDetail, useTestResults } from '../../application/queries.ts';
+import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
 
 type MetricItem = {
   key: string;
@@ -257,11 +258,11 @@ const TestDetailPage = () => {
           >
             <Grid container spacing={3} alignItems="center">
               <Grid size={{ xs: 12, md: 8 }}>
-                <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+                <Stack direction="column" spacing={1} sx={{ mb: 2 }}>
                   <Button
                     component={RouterLink}
                     to={resources.Tests}
-                    startIcon={<KepIcon name="tests" />}
+                    startIcon={<IconifyIcon icon="mdi:arrow-left"/>}
                     sx={{
                       alignSelf: 'flex-start',
                       px: 0,
@@ -276,18 +277,21 @@ const TestDetailPage = () => {
                   >
                     {t('tests.backToList')}
                   </Button>
-                  <Avatar
-                    src={test.chapter.icon}
-                    variant="rounded"
-                    sx={{ width: 56, height: 56, border: '2px solid rgba(255,255,255,0.35)' }}
-                  />
-                  <Stack direction="column" spacing={0.5}>
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.75)' }}>
-                      {test.chapter.title}
-                    </Typography>
-                    <Typography variant="h5" fontWeight={800}>
-                      {test.title}
-                    </Typography>
+
+                  <Stack direction="row" alignItems="center" spacing={2}>
+                    <Avatar
+                      src={test.chapter.icon}
+                      variant="rounded"
+                      sx={{ width: 56, height: 56, border: '2px solid rgba(255,255,255,0.35)' }}
+                    />
+                    <Stack direction="column" spacing={0.5}>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.75)' }}>
+                        {test.chapter.title}
+                      </Typography>
+                      <Typography variant="h5" fontWeight={800}>
+                        {test.title}
+                      </Typography>
+                    </Stack>
                   </Stack>
                 </Stack>
 
