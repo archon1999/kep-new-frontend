@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
-import dayjs from 'dayjs';
-import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   Card,
@@ -14,7 +13,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableRow,
   Typography,
   alpha,
@@ -22,16 +20,19 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { Palette } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
 import { useAuth } from 'app/providers/AuthProvider';
 import { resources } from 'app/routes/resources';
-import PageHeader from 'shared/components/sections/common/PageHeader';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
-import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
+import dayjs from 'dayjs';
 import UserPopover from 'modules/users/ui/components/UserPopover';
 import KepIcon from 'shared/components/base/KepIcon';
+import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
+import PageHeader from 'shared/components/sections/common/PageHeader';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useProblemsRatingHistory } from '../../application/queries';
-import { ProblemsRatingHistoryEntry, ProblemsRatingHistoryType } from '../../domain/entities/problem.entity';
+import {
+  ProblemsRatingHistoryEntry,
+  ProblemsRatingHistoryType,
+} from '../../domain/entities/problem.entity';
 
 type RatingHistoryColor = keyof Pick<Palette, 'success' | 'info' | 'primary'>;
 
@@ -143,26 +144,11 @@ const ProblemsRatingHistoryPage = () => {
           { label: t('problems.rating.title'), url: resources.ProblemsRating },
           { label: t('problems.ratingHistory.title'), active: true },
         ]}
-        actionComponent={
-          <Chip
-            component={RouterLink}
-            to={resources.ProblemsRating}
-            clickable
-            color="primary"
-            variant="outlined"
-            label={t('problems.ratingHistory.backToRating')}
-            icon={<KepIcon name="rating" fontSize={18} />}
-          />
-        }
       />
 
       {isLoading ? <LinearProgress /> : null}
 
-      <Stack direction="column" spacing={2} sx={responsivePagePaddingSx} mt={2}>
-        <Typography variant="subtitle1" color="text.secondary">
-          {t('problems.ratingHistory.subtitle')}
-        </Typography>
-
+      <Stack direction="column" spacing={2} sx={responsivePagePaddingSx}>
         <Grid container spacing={2}>
           {cards.map(({ config, history, best, page }) => (
             <Grid key={config.type} size={{ xs: 12, lg: 4 }}>
@@ -221,7 +207,7 @@ const RatingHistoryCard = ({
     theme.palette[color].main,
     isDark ? 0.15 : 0.08,
   )}, ${alpha(theme.palette.background.paper, isDark ? 0.45 : 0.95)})`;
-  const headerBackground = alpha(theme.palette[color].main, isDark ? 0.14 : 0.08);
+  const headerBackground = alpha(theme.palette[color].main, isDark ? 0.14 : 0.02);
 
   return (
     <Card
@@ -370,7 +356,6 @@ const HistoryTable = ({
   isLoading,
   currentUsername,
   highlightColor,
-  headerBackground,
 }: {
   color: RatingHistoryColor;
   rows: ProblemsRatingHistoryEntry[];
@@ -384,15 +369,6 @@ const HistoryTable = ({
   return (
     <Box sx={{ overflowX: 'auto' }}>
       <Table size="small" sx={{ minWidth: 320 }}>
-        <TableHead>
-          <TableRow sx={{ backgroundColor: headerBackground }}>
-            <TableCell align="center" width={96}>
-              <KepIcon name="timer" fontSize={18} color={`var(--mui-palette-${color}-main)`} />
-            </TableCell>
-            <TableCell>{t('problems.ratingHistory.columns.user')}</TableCell>
-            <TableCell align="right">{t('problems.ratingHistory.columns.solved')}</TableCell>
-          </TableRow>
-        </TableHead>
         <TableBody>
           {isLoading
             ? Array.from({ length: 5 }).map((_, index) => (
@@ -424,23 +400,23 @@ const HistoryTable = ({
             ? rows.map((row) => {
                 const isCurrentUser = currentUsername && row.username === currentUsername;
                 return (
-            <TableRow
-              key={`${row.username}-${row.date}-${row.type}`}
-              sx={{
-                backgroundColor: isCurrentUser ? highlightColor : 'transparent',
-                '&:last-of-type td': { borderBottom: 0 },
+                  <TableRow
+                    key={`${row.username}-${row.date}-${row.type}`}
+                    sx={{
+                      backgroundColor: isCurrentUser ? highlightColor : 'transparent',
+                      '&:last-of-type td': { borderBottom: 0 },
                     }}
                   >
                     <TableCell align="center">
-                    <Chip
-                      size="small"
-                      variant="outlined"
-                      color={color}
-                      label={dayjs(row.date).format('DD/MM/YYYY')}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="row" spacing={1} alignItems="center">
+                      <Chip
+                        size="small"
+                        variant="outlined"
+                        color={color}
+                        label={dayjs(row.date).format('DD/MM/YYYY')}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Stack direction="row" spacing={1} alignItems="center">
                         {row.contestsRatingTitle ? (
                           <ContestsRatingChip title={row.contestsRatingTitle} imgSize={22} />
                         ) : null}

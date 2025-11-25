@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -13,17 +15,15 @@ import {
 import Grid from '@mui/material/Grid';
 import { Palette } from '@mui/material/styles';
 import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
-import { useTranslation } from 'react-i18next';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
-import { cssVarRgba } from 'shared/lib/utils';
-import PageHeader from 'shared/components/sections/common/PageHeader';
-import { difficultyOptions } from '../../config/difficulty';
-import { useProblemsPeriodRating, useProblemsRating } from '../../application/queries';
-import ProblemsRatingDataGrid from '../components/ProblemsRatingDataGrid';
 import { resources } from 'app/routes/resources';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import KepIcon from 'shared/components/base/KepIcon';
-import { Link as RouterLink } from 'react-router-dom';
+import PageHeader from 'shared/components/sections/common/PageHeader';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { cssVarRgba } from 'shared/lib/utils';
+import { useProblemsPeriodRating, useProblemsRating } from '../../application/queries';
+import { difficultyOptions } from '../../config/difficulty';
+import ProblemsRatingDataGrid from '../components/ProblemsRatingDataGrid';
 
 const sortFieldMap: Record<string, string> = {
   rating: 'rating',
@@ -40,7 +40,10 @@ const sortFieldMap: Record<string, string> = {
 const ProblemsRatingPage = () => {
   const { t } = useTranslation();
 
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({ page: 0, pageSize: 10 });
+  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
+    page: 0,
+    pageSize: 10,
+  });
   const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'rating', sort: 'desc' }]);
 
   const ordering = useMemo(() => {
@@ -54,7 +57,11 @@ const ProblemsRatingPage = () => {
     return `${orderingPrefix}${orderingField}`;
   }, [sortModel]);
 
-  const { data: ratingPage, isLoading, isValidating } = useProblemsRating({
+  const {
+    data: ratingPage,
+    isLoading,
+    isValidating,
+  } = useProblemsRating({
     ordering,
     page: paginationModel.page + 1,
     pageSize: paginationModel.pageSize,
@@ -92,7 +99,7 @@ const ProblemsRatingPage = () => {
           <Button
             component={RouterLink}
             to={resources.ProblemsRatingHistory}
-            variant="outlined"
+            variant="text"
             startIcon={<KepIcon name="ranking" fontSize={18} />}
           >
             {t('problems.ratingHistory.title')}
@@ -121,7 +128,11 @@ const ProblemsRatingPage = () => {
 
 type PeriodColor = keyof Pick<Palette, 'success' | 'info' | 'primary'>;
 
-const periodConfigs: Array<{ period: 'today' | 'week' | 'month'; color: PeriodColor; icon: string }> = [
+const periodConfigs: Array<{
+  period: 'today' | 'week' | 'month';
+  color: PeriodColor;
+  icon: string;
+}> = [
   { period: 'today', color: 'success', icon: 'mdi:calendar-today' },
   { period: 'week', color: 'info', icon: 'mdi:calendar-week' },
   { period: 'month', color: 'primary', icon: 'mdi:calendar-month' },
@@ -130,7 +141,6 @@ const periodConfigs: Array<{ period: 'today' | 'week' | 'month'; color: PeriodCo
 const PeriodRatings = () => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const isDark = theme.palette.mode === 'dark';
 
   const today = useProblemsPeriodRating('today');
   const week = useProblemsPeriodRating('week');
@@ -167,7 +177,12 @@ const PeriodRatings = () => {
                 }}
               >
                 <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    spacing={1}
+                  >
                     <Stack direction="row" spacing={1.25} alignItems="center">
                       <Box
                         sx={{
@@ -179,13 +194,22 @@ const PeriodRatings = () => {
                           placeItems: 'center',
                         }}
                       >
-                        <IconifyIcon icon={icon} width={20} height={20} color={`var(--mui-palette-${color}-main)`} />
+                        <IconifyIcon
+                          icon={icon}
+                          width={20}
+                          height={20}
+                          color={`var(--mui-palette-${color}-main)`}
+                        />
                       </Box>
                       <Typography variant="subtitle1" fontWeight={800}>
                         {t(`problems.rating.period.${period}`)}
                       </Typography>
                     </Stack>
-                    <Typography variant="caption" fontWeight={700} color={`var(--mui-palette-${color}-main)`}>
+                    <Typography
+                      variant="caption"
+                      fontWeight={700}
+                      color={`var(--mui-palette-${color}-main)`}
+                    >
                       {t('problems.rating.title')}
                     </Typography>
                   </Stack>
@@ -207,14 +231,21 @@ const PeriodRatings = () => {
                           sx={{
                             p: 1,
                             borderRadius: 1,
-                            backgroundColor: cssVarRgba(theme.vars.palette.background.elevation1Channel, 0.8),
+                            backgroundColor: cssVarRgba(
+                              theme.vars.palette.background.elevation1Channel,
+                              0.8,
+                            ),
                             border: `1px solid ${cssVarRgba(theme.vars.palette[color].mainChannel, 0.18)}`,
                           }}
                         >
                           <Typography variant="body2" fontWeight={700} color="text.primary">
                             #{index + 1} {item.username}
                           </Typography>
-                          <Typography variant="body2" fontWeight={700} color={`var(--mui-palette-${color}-main)`}>
+                          <Typography
+                            variant="body2"
+                            fontWeight={700}
+                            color={`var(--mui-palette-${color}-main)`}
+                          >
                             {t('problems.rating.periodSolved', { value: item.solved })}
                           </Typography>
                         </Stack>

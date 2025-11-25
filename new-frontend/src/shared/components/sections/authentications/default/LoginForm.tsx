@@ -141,6 +141,7 @@ const LoginForm = ({
                 fullWidth
                 variant="outlined"
                 color="inherit"
+                component="a"
                 startIcon={<IconifyIcon icon={icon} fontSize={18} />}
                 href={getSocialLoginUrl?.(provider)}
               >

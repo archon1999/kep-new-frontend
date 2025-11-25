@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
-import dayjs from 'dayjs';
 import {
   Button,
   Card,
@@ -16,25 +15,26 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
+import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
+import dayjs from 'dayjs';
 import { LineChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
-import { difficultyColorByKey, difficultyOptions } from 'modules/problems/config/difficulty';
-import { useUserRatings } from '../../../application/queries';
-import { useUserProblemsRating } from 'modules/problems/application/queries';
 import {
   useChallengeRatingChanges,
   useChallengeUserRating,
 } from 'modules/challenges/application/queries';
 import { useContestRatingChanges } from 'modules/contests/application/queries';
+import { useUserProblemsRating } from 'modules/problems/application/queries';
+import { difficultyColorByKey, difficultyOptions } from 'modules/problems/config/difficulty';
 import KepIcon from 'shared/components/base/KepIcon';
 import ReactEchart from 'shared/components/base/ReactEchart';
-import { getColor } from 'shared/lib/echart-utils';
-import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip';
+import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
+import { getColor } from 'shared/lib/echart-utils';
+import { useUserRatings } from '../../../application/queries';
 
 echarts.use([GridComponent, TooltipComponent, LineChart, CanvasRenderer]);
 
@@ -55,9 +55,12 @@ const UserProfileRatingsTab = () => {
 
   const { data: userRatings, isLoading: isRatingsLoading } = useUserRatings(username);
   const { data: problemsRating, isLoading: isProblemsLoading } = useUserProblemsRating(username);
-  const { data: challengesRating, isLoading: isChallengesLoading } = useChallengeUserRating(username);
-  const { data: contestRatingChanges, isLoading: isContestChangesLoading } = useContestRatingChanges(username);
-  const { data: challengeRatingChanges, isLoading: isChallengeChangesLoading } = useChallengeRatingChanges(username);
+  const { data: challengesRating, isLoading: isChallengesLoading } =
+    useChallengeUserRating(username);
+  const { data: contestRatingChanges, isLoading: isContestChangesLoading } =
+    useContestRatingChanges(username);
+  const { data: challengeRatingChanges, isLoading: isChallengeChangesLoading } =
+    useChallengeRatingChanges(username);
 
   const contestsRating = userRatings?.contestsRating;
 
@@ -66,7 +69,8 @@ const UserProfileRatingsTab = () => {
     if (!difficulties) return [];
     return difficultyOptions
       .map((option) => {
-        const totalKey = `all${option.key.charAt(0).toUpperCase()}${option.key.slice(1)}` as keyof typeof difficulties;
+        const totalKey =
+          `all${option.key.charAt(0).toUpperCase()}${option.key.slice(1)}` as keyof typeof difficulties;
         return {
           key: option.key,
           value: difficulties[option.key],
@@ -100,7 +104,9 @@ const UserProfileRatingsTab = () => {
       xAxis: {
         type: 'category',
         data: sorted.map((item) =>
-          item.contestStartDate ? dayjs(item.contestStartDate).format('DD MMM') : item.contestTitle ?? '',
+          item.contestStartDate
+            ? dayjs(item.contestStartDate).format('DD MMM')
+            : (item.contestTitle ?? ''),
         ),
         axisLabel: { color: getColor(theme.vars.palette.text.secondary) },
         axisTick: { show: false },
@@ -199,7 +205,12 @@ const UserProfileRatingsTab = () => {
           <Card variant="outlined" sx={{ height: '100%', borderRadius: 3 }}>
             <CardContent>
               <Stack direction="column" spacing={2}>
-                <Stack direction="row" spacing={1.5} alignItems="center" justifyContent="space-between">
+                <Stack
+                  direction="row"
+                  spacing={1.5}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
                   <Stack direction="row" spacing={1} alignItems="center">
                     <KepIcon name="problems" fontSize={22} color="primary.main" />
                     <Typography variant="h6" fontWeight={800}>
@@ -257,10 +268,17 @@ const UserProfileRatingsTab = () => {
 
                       <Stack direction="column" spacing={1}>
                         {difficultyEntries.map((entry) => {
-                          const percent = entry.total ? Math.min(100, (entry.value / entry.total) * 100) : 0;
+                          const percent = entry.total
+                            ? Math.min(100, (entry.value / entry.total) * 100)
+                            : 0;
                           return (
                             <Stack key={entry.key} direction="column" spacing={0.5}>
-                              <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
+                              <Stack
+                                direction="row"
+                                spacing={1}
+                                justifyContent="space-between"
+                                alignItems="center"
+                              >
                                 <Typography variant="body2" color="text.secondary">
                                   {t(`problems.difficulty.${entry.key}` as const)}
                                 </Typography>
@@ -274,10 +292,6 @@ const UserProfileRatingsTab = () => {
                                 sx={{
                                   height: 8,
                                   borderRadius: 999,
-                                  bgcolor: alpha(theme.vars.palette[entry.color].main, 0.12),
-                                  '& .MuiLinearProgress-bar': {
-                                    backgroundColor: theme.vars.palette[entry.color].main,
-                                  },
                                 }}
                               />
                             </Stack>
@@ -313,7 +327,12 @@ const UserProfileRatingsTab = () => {
           <Card variant="outlined" sx={{ height: '100%', borderRadius: 3 }}>
             <CardContent>
               <Stack direction="column" spacing={2}>
-                <Stack direction="row" spacing={1.5} alignItems="center" justifyContent="space-between">
+                <Stack
+                  direction="row"
+                  spacing={1.5}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
                   <Stack direction="row" spacing={1} alignItems="center">
                     <KepIcon name="contests" fontSize={22} color="primary.main" />
                     <Typography variant="h6" fontWeight={800}>
@@ -353,7 +372,9 @@ const UserProfileRatingsTab = () => {
                       {contestsRating.percentile !== undefined ? (
                         <Chip
                           size="small"
-                          label={t('users.profile.ratings.percentile', { value: contestsRating.percentile })}
+                          label={t('users.profile.ratings.percentile', {
+                            value: contestsRating.percentile,
+                          })}
                           variant="outlined"
                         />
                       ) : null}
@@ -399,7 +420,12 @@ const UserProfileRatingsTab = () => {
           <Card variant="outlined" sx={{ height: '100%', borderRadius: 3 }}>
             <CardContent>
               <Stack direction="column" spacing={1.5}>
-                <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
                   <Stack direction="row" spacing={1} alignItems="center">
                     <KepIcon name="challenges" fontSize={22} color="warning.main" />
                     <Typography variant="h6" fontWeight={800}>
@@ -433,7 +459,13 @@ const UserProfileRatingsTab = () => {
                       />
                     </Stack>
 
-                    <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      alignItems="center"
+                      flexWrap="wrap"
+                      useFlexGap
+                    >
                       <Tooltip title={t('users.profile.ratings.wins')} arrow>
                         <Chip label={`W ${challengesRating.wins}`} size="small" color="success" />
                       </Tooltip>
@@ -456,7 +488,11 @@ const UserProfileRatingsTab = () => {
                       {isChallengeChangesLoading ? (
                         <Skeleton variant="rectangular" height={160} />
                       ) : challengeRatingOption ? (
-                        <ReactEchart echarts={echarts} option={challengeRatingOption} sx={{ height: 200 }} />
+                        <ReactEchart
+                          echarts={echarts}
+                          option={challengeRatingOption}
+                          sx={{ height: 200 }}
+                        />
                       ) : (
                         <Typography variant="body2" color="text.secondary">
                           {t('users.profile.ratings.noHistory')}

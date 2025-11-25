@@ -98,7 +98,7 @@ const BlogPostPage = () => {
                 {post.author.username}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {post.created ? dayjs(post.created).format('D MMM YYYY, HH:mm') : null}
+                {post.created}
               </Typography>
             </Stack>
 

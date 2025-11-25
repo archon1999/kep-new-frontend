@@ -1,6 +1,7 @@
 import { PropsWithChildren, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, IconButton, Paper, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, IconButton, Link, Paper, Skeleton, Stack, Typography } from '@mui/material';
+import { getResourceById, resources } from 'app/routes/resources.ts';
 import bgGradient from 'assets/images/background/1.webp';
 import type { BlogPost } from 'modules/blog/domain/entities/blog.entity';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
@@ -214,6 +215,7 @@ const NewsSection = () => {
               pagination={{ clickable: true }}
               autoplay={{
                 pauseOnMouseEnter: true,
+                delay: 5000,
               }}
               loop={true}
             >
@@ -222,6 +224,8 @@ const NewsSection = () => {
                 return (
                   <SwiperSlide key={post.id} style={{ height: '100%' }}>
                     <Box
+                      component={Link}
+                      to={getResourceById(resources.BlogPost, post.id)}
                       sx={{
                         height: 1,
                         display: 'grid',
@@ -292,7 +296,13 @@ const NewsSection = () => {
             </Swiper>
           </CardWrapper>
         ) : (
-          <Stack direction="row" spacing={2} alignItems="center" justifyContent="center" sx={{ flex: 1 }}>
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            justifyContent="center"
+            sx={{ flex: 1 }}
+          >
             <Typography variant="body2" color="text.secondary" textAlign="center">
               {t('homePage.news.empty')}
             </Typography>
