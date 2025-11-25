@@ -11,9 +11,10 @@ interface AppbarActionItemsProps {
   type?: 'default' | 'slim';
   sx?: SxProps;
   searchComponent?: ReactElement;
+  showThemeToggler?: boolean;
 }
 
-const AppbarActionItems = ({ type = 'default', sx, searchComponent }: AppbarActionItemsProps) => {
+const AppbarActionItems = ({ type = 'default', sx, searchComponent, showThemeToggler = true }: AppbarActionItemsProps) => {
   return (
     <Stack
       className="action-items"
@@ -27,7 +28,7 @@ const AppbarActionItems = ({ type = 'default', sx, searchComponent }: AppbarActi
     >
       {searchComponent}
       <LanguageMenu type={type} />
-      <ThemeToggler type={type} />
+      {showThemeToggler && <ThemeToggler type={type} />}
       <NotificationMenu type={type} />
       <KepcoinMenu type={type} />
       <DailyTasksMenu type={type} />

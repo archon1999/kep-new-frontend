@@ -18,9 +18,10 @@ const Topnav = () => {
     handleDrawerToggle,
   } = useSettingsContext();
 
-  const { up } = useBreakpoints();
+  const { up, down } = useBreakpoints();
   const upSm = up('sm');
   const upLg = up('lg');
+  const downSm = down('sm');
 
   return (
     <MuiAppBar
@@ -58,7 +59,7 @@ const Topnav = () => {
             <IconifyIcon icon="material-symbols:menu-rounded" sx={{ fontSize: 20 }} />
           </IconButton>
 
-          <Logo showName={upSm} />
+          <Logo showName={upSm} sx={{ display: { xs: 'none', sm: 'flex' } }} />
         </Box>
         <Stack
           direction="row"
@@ -69,10 +70,13 @@ const Topnav = () => {
         >
           {upLg && <TopnavItems />}
           <AppbarActionItems
+            showThemeToggler={!downSm}
             searchComponent={
-              <Box sx={{ pr: 1.5 }}>
-                <SearchBoxButton variant="soft" color="neutral" />
-              </Box>
+              upSm ? (
+                <Box sx={{ pr: 1.5 }}>
+                  <SearchBoxButton variant="soft" color="neutral" />
+                </Box>
+              ) : undefined
             }
           />
         </Stack>
