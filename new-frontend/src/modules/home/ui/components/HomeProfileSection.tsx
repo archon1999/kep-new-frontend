@@ -1,13 +1,13 @@
-import { Button, Divider, Paper, Stack, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
+import { Button, Divider, Paper, Stack, Typography } from '@mui/material';
 import { authPaths } from 'app/routes/route-config';
+import dayjs from 'dayjs';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import type { HomeUserActivityHistory, HomeUserRatings } from '../../domain/entities/home.entity';
-import RanksSection from './RanksSection';
 import HomeActivityHistory from './HomeActivityHistory';
+import RanksSection from './RanksSection';
 
 interface GreetingCardProps {
   displayName: string;
@@ -53,20 +53,21 @@ const HomeProfileSection = ({
             {todayLabel}
           </Typography>
 
-          <Typography variant="h5" display="flex" columnGap={1} flexWrap="wrap">
-            {t('homePage.greeting.goodMorning', { name: displayName })}
-          </Typography>
+          <Typography
+            variant="h5"
+            display="flex"
+            columnGap={1}
+            flexWrap="wrap"
+            dangerouslySetInnerHTML={{
+              __html: t('homePage.greeting.goodMorning', { name: displayName }),
+            }}
+          />
           {!isAuthenticated && (
             <Stack direction="row" spacing={1.5} alignItems="center" flexWrap="wrap">
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {t('homePage.greeting.loginPrompt')}
               </Typography>
-              <Button
-                component={RouterLink}
-                to={authPaths.login}
-                size="small"
-                variant="contained"
-              >
+              <Button component={RouterLink} to={authPaths.login} size="small" variant="contained">
                 {t('homePage.greeting.loginCta')}
               </Button>
             </Stack>

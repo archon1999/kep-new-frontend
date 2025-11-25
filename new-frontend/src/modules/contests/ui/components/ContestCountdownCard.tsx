@@ -215,8 +215,8 @@ const ContestCountdownCard = ({ contest, isLoading = false }: ContestCountdownCa
             inset: 0,
             background:
               theme.palette.mode === 'dark'
-                ? 'linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.7) 100%)'
-                : 'linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.35) 100%)',
+                ? 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.1) 100%)'
+                : 'linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%)',
           })}
         />
         <CardContent sx={{ position: 'relative', zIndex: 1 }}>

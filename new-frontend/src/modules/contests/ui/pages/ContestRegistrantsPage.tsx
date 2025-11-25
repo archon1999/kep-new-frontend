@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Grid, Stack, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
-import { getResourceById, resources } from 'app/routes/resources';
+import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
 import { ApiContestsRegistrantsListOrdering } from 'shared/api/orval/generated/endpoints/index.schemas';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import { gridPaginationToPageParams } from 'shared/lib/pagination';
@@ -63,12 +63,8 @@ const ContestRegistrantsPage = () => {
         flex: 1.2,
         sortable: true,
         renderCell: ({ row }) => (
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Typography
-              component={RouterLink}
-              to={getResourceById(resources.UserProfile, row.username)}
-              sx={{ textDecoration: 'none', color: 'primary.main', fontWeight: 700 }}
-            >
+          <UserPopover username={row.username}>
+            <Typography sx={{ textDecoration: 'none', color: 'primary.main', fontWeight: 700 }}>
               {row.username}
             </Typography>
             {row.team?.name ? (
@@ -76,7 +72,7 @@ const ContestRegistrantsPage = () => {
                 · {row.team.name}
               </Typography>
             ) : null}
-          </Stack>
+          </UserPopover>
         ),
       },
       {
