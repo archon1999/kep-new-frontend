@@ -7,6 +7,7 @@ import {
   GridPaginationModel,
   GridSortModel,
   GridValidRowModel,
+  useGridApiContext,
 } from '@mui/x-data-grid';
 import { resources } from 'app/routes/resources';
 import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
@@ -15,6 +16,7 @@ import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.
 import PageHeader from 'shared/components/sections/common/PageHeader';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useChallengesRating } from '../../application/queries.ts';
+
 
 const ChallengesRatingPage = () => {
   const { t } = useTranslation();
@@ -55,11 +57,13 @@ const ChallengesRatingPage = () => {
       headerAlign: 'center',
       align: 'center',
       sortable: false,
-      renderCell: ({ value }) => (
-        <Typography variant="subtitle1" fontWeight={800}>
-          #{value}
-        </Typography>
-      ),
+      renderCell: (params) => {
+        return (
+          <Typography variant="subtitle1" fontWeight={800}>
+            #{params.api.getRowIndexRelativeToVisibleRows(params.id) + 1}
+          </Typography>
+        );
+      },
     },
     {
       field: 'username',
@@ -72,13 +76,6 @@ const ChallengesRatingPage = () => {
           <Stack direction="row" spacing={0.25}>
             <Typography variant="subtitle1" fontWeight={700} color="text.primary">
               {row.username}
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
-              {t('challenges.record', {
-                wins: row?.wins ?? 0,
-                draws: row?.draws ?? 0,
-                losses: row?.losses ?? 0,
-              })}
             </Typography>
           </Stack>
         </UserPopover>
@@ -124,41 +121,9 @@ const ChallengesRatingPage = () => {
       sortable: false,
       renderCell: ({ row }) => (
         <Stack direction="row" spacing={1.25} alignItems="center" flexWrap="wrap" rowGap={1}>
-          <Chip
-            size="small"
-            color="success"
-            label={`${row?.wins ?? 0} ${t('common.wins')}`}
-            variant="soft"
-          />
-          <Chip
-            size="small"
-            color="warning"
-            label={`${row?.draws ?? 0} ${t('common.draws')}`}
-            variant="soft"
-          />
-          <Chip
-            size="small"
-            color="error"
-            label={`${row?.losses ?? 0} ${t('common.losses')}`}
-            variant="soft"
-          />
-        </Stack>
-      ),
-    },
-    {
-      field: 'all',
-      headerName: t('challenges.table.matches'),
-      flex: 0.7,
-      minWidth: 140,
-      sortable: true,
-      renderCell: ({ value }) => (
-        <Stack direction="row" spacing={0.25}>
-          <Typography variant="subtitle1" fontWeight={800} color="text.primary">
-            {value ?? 0}
-          </Typography>
-          <Typography variant="caption" color="text.secondary">
-            {t('challenges.table.matches')}
-          </Typography>
+          <Typography color="success">{row?.wins}W</Typography>
+          <Typography>{row?.draws}D</Typography>
+          <Typography color="error">{row?.losses}L</Typography>
         </Stack>
       ),
     },
@@ -207,13 +172,6 @@ const ChallengesRatingPage = () => {
           disableColumnMenu
           slots={{
             pagination: DataGridPaginationAction,
-          }}
-          sx={{
-            border: 'none',
-            '& .MuiDataGrid-columnHeaders': { backgroundColor: 'background.default' },
-            '& .MuiDataGrid-columnHeaderTitle': { fontWeight: 700 },
-            '& .MuiDataGrid-cell': { py: 2 },
-            '& .MuiDataGrid-row:hover': { backgroundColor: 'action.hover' },
           }}
         />
       </Box>

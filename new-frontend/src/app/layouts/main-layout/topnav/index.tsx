@@ -43,6 +43,7 @@ const Topnav = () => {
             display: { xs: 'flex' },
             alignItems: 'center',
             gap: 1,
+            pr: { lg: 2 },
           }}
         >
           <IconButton
