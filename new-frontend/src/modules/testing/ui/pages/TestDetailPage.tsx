@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Avatar,
   Box,
@@ -257,6 +258,24 @@ const TestDetailPage = () => {
             <Grid container spacing={3} alignItems="center">
               <Grid size={{ xs: 12, md: 8 }}>
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+                  <Button
+                    component={RouterLink}
+                    to={resources.Tests}
+                    startIcon={<KepIcon name="tests" />}
+                    sx={{
+                      alignSelf: 'flex-start',
+                      px: 0,
+                      color: 'rgba(255,255,255,0.85)',
+                      textTransform: 'none',
+                      fontWeight: 700,
+                      '&:hover': {
+                        backgroundColor: 'transparent',
+                        color: 'common.white',
+                      },
+                    }}
+                  >
+                    {t('tests.backToList')}
+                  </Button>
                   <Avatar
                     src={test.chapter.icon}
                     variant="rounded"

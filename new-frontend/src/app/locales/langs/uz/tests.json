@@ -1,6 +1,7 @@
 {
   "tests": {
     "title": "Testlar",
+    "backToList": "Testlarga qaytish",
     "subtitle": "Tuzilgan testlar orqali bilimni tekshiring.",
     "emptyTitle": "Hozircha testlar yo'q",
     "emptySubtitle": "Yangi testlar paydo bo'lishi bilan bu yerda ko'rasiz.",

@@ -1,6 +1,7 @@
 {
   "tests": {
     "title": "Tests",
+    "backToList": "Back to tests",
     "subtitle": "Practice structured tests and track your progress.",
     "emptyTitle": "No tests available yet",
     "emptySubtitle": "Check back later to see new practice tests.",
