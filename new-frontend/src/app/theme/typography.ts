@@ -1,7 +1,7 @@
 import { TypographyVariantsOptions } from '@mui/material/styles';
 
 const typography: TypographyVariantsOptions = {
-  fontFamily: ['Plus Jakarta Sans', 'sans-serif', 'Spline Sans Mono', 'monospace'].join(','),
+  fontFamily: ['Plus Jakarta Sans', 'Manrope', 'sans-serif', 'Spline Sans Mono', 'monospace'].join(','),
   h1: {
     fontWeight: 700,
     fontSize: '3rem', // 48px
