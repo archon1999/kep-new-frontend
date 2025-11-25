@@ -529,6 +529,7 @@ const ContestProblemPage = () => {
       }
 
       if (
+        event.ctrlKey &&
         event.altKey &&
         (event.key === 'Enter' || event.key === 'NumpadEnter') &&
         state.currentUser &&
@@ -579,6 +580,11 @@ const ContestProblemPage = () => {
                 color="primary"
                 variant="soft"
                 size="medium"
+                sx={{
+                  '& .MuiChip-label': {
+                    fontFamily: 'Roboto Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                  },
+                }}
               />
             ) : null}
 
@@ -638,25 +644,33 @@ const ContestProblemPage = () => {
           sx={{ flex: 1, minWidth: 0 }}
         >
           <Stack direction="row" spacing={1}>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={handleRun}
-              disabled={!currentUser || isRunning || !hasCode || isContestFinished}
-              startIcon={<IconifyIcon icon="mdi:play-circle-outline" width={20} height={20} />}
-            >
-              {t('problems.detail.run')}
-            </Button>
+            <Tooltip title={t('problems.detail.runHotkey')}>
+              <span style={{ display: 'inline-flex' }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleRun}
+                  disabled={!currentUser || isRunning || !hasCode || isContestFinished}
+                  startIcon={<IconifyIcon icon="mdi:play-circle-outline" width={20} height={20} />}
+                >
+                  {t('problems.detail.run')}
+                </Button>
+              </span>
+            </Tooltip>
 
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
-              disabled={!currentUser || isSubmitting || !hasCode || isContestFinished}
-              startIcon={<IconifyIcon icon="mdi:send-outline" width={18} height={18} />}
-            >
-              {t('problems.detail.submit')}
-            </Button>
+            <Tooltip title={t('problems.detail.submitHotkey')}>
+              <span style={{ display: 'inline-flex' }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                  disabled={!currentUser || isSubmitting || !hasCode || isContestFinished}
+                  startIcon={<IconifyIcon icon="mdi:send-outline" width={18} height={18} />}
+                >
+                  {t('problems.detail.submit')}
+                </Button>
+              </span>
+            </Tooltip>
           </Stack>
         </Stack>
 
