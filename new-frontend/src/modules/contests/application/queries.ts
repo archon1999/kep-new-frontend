@@ -65,16 +65,21 @@ export const useContestTopContestants = (contestId?: number | string, enabled = 
     () => contestsRepository.top3Contestants(contestId!),
   );
 
-export const useContest = (contestId?: number | string) =>
+export const useContest = (contestId?: number | string, options?: SWRConfiguration) =>
   useSWR<ContestDetail>(
     contestId ? ['contest', contestId] : null,
     () => contestsRepository.getById(contestId!),
+    options,
   );
 
-export const useContestProblems = (contestId?: number | string) =>
+export const useContestProblems = (
+  contestId?: number | string,
+  options?: SWRConfiguration,
+) =>
   useSWR<ContestProblemEntity[]>(
     contestId ? ['contest-problems', contestId] : null,
     () => contestsRepository.getProblems(contestId!),
+    options,
   );
 
 export const useContestProblem = (contestId?: number | string, symbol?: string) =>
@@ -91,8 +96,9 @@ export const useContestContestant = (contestId?: number | string, options?: SWRC
   );
 
 export const useContestFilters = (contestId?: number | string) =>
-  useSWR<ContestFilter[]>(contestId ? ['contest-filters', contestId] : null, () =>
-    contestsRepository.filters(contestId!),
+  useSWR<ContestFilter[]>(
+    contestId ? ['contest-filters', contestId] : null,
+    () => contestsRepository.filters(contestId!),
   );
 
 export const useContestStandings = (
