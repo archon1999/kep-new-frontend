@@ -1,10 +1,9 @@
 import { SyntheticEvent } from 'react';
 import { TabList } from '@mui/lab';
-import { InputAdornment, Stack, Tab, Typography, styled, tabClasses, useMediaQuery } from '@mui/material';
+import { Stack, Tab, Typography, styled, tabClasses, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import StyledTextField from 'shared/components/styled/StyledTextField';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { AccountSettingsTab } from './accountSettingsTabs';
 
@@ -61,20 +60,6 @@ const SideTabList = ({ tabs, onChange, onTabClick }: SideTabListProps) => {
         />
         {t('pageTitles.accountSettings')}
       </Typography>
-
-      <StyledTextField
-        size="large"
-        placeholder={t('settings.findSettingPlaceholder')}
-        slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <IconifyIcon icon="material-symbols:search-rounded" />
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
 
       <TabList
         orientation="vertical"
