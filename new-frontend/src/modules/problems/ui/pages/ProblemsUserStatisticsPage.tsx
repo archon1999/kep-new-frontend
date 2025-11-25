@@ -26,7 +26,8 @@ import { useAuth } from 'app/providers/AuthProvider';
 import { getResourceByUsername, resources } from 'app/routes/resources';
 import KepIcon from 'shared/components/base/KepIcon';
 import ReactEchart from 'shared/components/base/ReactEchart';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
+import AttemptLanguage from 'shared/components/problems/AttemptLanguage';
+import PageHeader from 'shared/components/sections/common/PageHeader';
 import { getColor } from 'shared/lib/echart-utils';
 import { difficultyColorByKey, difficultyOptions } from '../../config/difficulty';
 import { useProblemsUserStatistics } from '../../application/queries';
@@ -359,45 +360,61 @@ const ProblemsUserStatisticsPage = () => {
 
   if (!username) {
     return (
-      <Box sx={responsivePagePaddingSx}>
-        <Typography variant="body1">{t('problems.statisticsPage.authRequired')}</Typography>
-      </Box>
+      <Stack spacing={3}>
+        <PageHeader
+          title={t('problems.statisticsPage.title')}
+          breadcrumb={[
+            { label: t('home'), url: resources.Home },
+            { label: t('problems.title'), url: resources.Problems },
+            { label: t('problems.statisticsPage.title'), active: true },
+          ]}
+        />
+        <Box sx={{ px: { xs: 3, md: 5 } }}>
+          <Typography variant="body1">{t('problems.statisticsPage.authRequired')}</Typography>
+        </Box>
+      </Stack>
     );
   }
 
+  const headerAction = (
+    <Button
+      variant="contained"
+      color="primary"
+      component={RouterLink}
+      to={getResourceByUsername(resources.AttemptsByUser, username)}
+    >
+      {t('problems.statisticsPage.viewAttempts')}
+    </Button>
+  );
+
   return (
-    <Box sx={responsivePagePaddingSx}>
-      <Stack spacing={3}>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="space-between">
-          <Stack spacing={0.5}>
-            <Typography variant="h4" fontWeight={800}>
-              {t('problems.statisticsPage.title')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {t('problems.statisticsPage.subtitle')}
-            </Typography>
-          </Stack>
-          <Button
-            variant="contained"
-            color="primary"
-            component={RouterLink}
-            to={getResourceByUsername(resources.AttemptsByUser, username)}
-          >
-            {t('problems.statisticsPage.viewAttempts')}
-          </Button>
-        </Stack>
+    <Stack spacing={3}>
+      <PageHeader
+        title={t('problems.statisticsPage.title')}
+        breadcrumb={[
+          { label: t('home'), url: resources.Home },
+          { label: t('problems.title'), url: resources.Problems },
+          { label: t('problems.statisticsPage.title'), active: true },
+        ]}
+        actionComponent={headerAction}
+      />
+      <Box sx={{ px: { xs: 3, md: 5 }, pb: { xs: 5, md: 6 } }}>
+        <Stack spacing={3}>
+          <Typography variant="body2" color="text.secondary">
+            {t('problems.statisticsPage.subtitle')}
+          </Typography>
 
-        {isLoading && (
-          <Card variant="outlined">
-            <CardContent>
-              <LinearProgress />
-            </CardContent>
-          </Card>
-        )}
+          {isLoading && (
+            <Card variant="outlined">
+              <CardContent>
+                <LinearProgress />
+              </CardContent>
+            </Card>
+          )}
 
-        {statistics ? (
-          <>
-            <Grid container spacing={2}>
+          {statistics ? (
+            <>
+              <Grid container spacing={2}>
               <Grid size={{ xs: 12, md: 6, lg: 3 }}>
                 <OverviewCard
                   icon="check-circle"
@@ -443,16 +460,16 @@ const ProblemsUserStatisticsPage = () => {
                   <Card variant="outlined">
                     <CardHeader title={t('problems.statisticsPage.profile.languages')} />
                     <CardContent>
-                      <Stack spacing={1}>
-                        {(statistics.byLang ?? []).map((lang) => (
-                          <Stack key={lang.lang} direction="row" spacing={1} justifyContent="space-between" alignItems="center">
-                            <Stack direction="row" spacing={1} alignItems="center">
-                              <KepIcon name="lang" fontSize={18} />
-                              <Typography variant="body2">{lang.langFull}</Typography>
-                            </Stack>
-                            <Chip label={lang.solved} size="small" color="primary" variant="outlined" />
+                    <Stack spacing={1}>
+                      {(statistics.byLang ?? []).map((lang) => (
+                        <Stack key={lang.lang} direction="row" spacing={1} justifyContent="space-between" alignItems="center">
+                          <Stack direction="row" spacing={1} alignItems="center">
+                            <AttemptLanguage lang={lang.lang} langFull={lang.langFull} size={28} />
+                            <Typography variant="body2">{lang.langFull}</Typography>
                           </Stack>
-                        ))}
+                          <Chip label={lang.solved} size="small" color="primary" variant="outlined" />
+                        </Stack>
+                      ))}
                         {!statistics.byLang?.length ? (
                           <Typography variant="body2" color="text.secondary">
                             {t('problems.statisticsPage.noData')}
@@ -674,8 +691,9 @@ const ProblemsUserStatisticsPage = () => {
             </Grid>
           </>
         ) : null}
-      </Stack>
-    </Box>
+        </Stack>
+      </Box>
+    </Stack>
   );
 };
 
