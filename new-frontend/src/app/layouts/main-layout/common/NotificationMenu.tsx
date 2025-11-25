@@ -38,7 +38,7 @@ import SimpleBar from 'shared/components/base/SimpleBar';
 import OutlinedBadge from 'shared/components/styled/OutlinedBadge';
 import { wsService } from 'shared/services/websocket';
 
-const NOTIFICATIONS_PAGE_SIZE = 4;
+const NOTIFICATIONS_PAGE_SIZE = 5;
 
 interface NotificationContent {
   contestId?: number;

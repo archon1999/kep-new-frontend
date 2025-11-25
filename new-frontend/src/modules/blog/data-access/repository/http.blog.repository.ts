@@ -32,7 +32,7 @@ export class HttpBlogRepository implements BlogRepository {
   async likePost(id: number | string) {
     const response = await blogApiClient.likePost(String(id));
     const parsed = Array.isArray(response) ? response[0] : response;
-    return (parsed as any)?.likesCount ?? 0;
+    return (parsed as any) ?? 0;
   }
 
   async likeComment(id: number | string) {
