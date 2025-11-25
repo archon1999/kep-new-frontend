@@ -12,7 +12,7 @@ const TestCardSkeleton = () => (
     <Stack direction="column" spacing={2} alignItems="flex-start" justifyContent="space-between">
       <Stack direction="column" spacing={1} sx={{ width: 1 }}>
         <Stack direction="row" spacing={1} alignItems="center">
-          <Skeleton variant="rounded" width={40} height={40} />
+          <Skeleton variant="rounded" width={48} height={48} />
           <Skeleton variant="text" width={120} height={24} />
         </Stack>
 

@@ -39,11 +39,22 @@ const TestCard = ({ test }: Props) => {
         <Stack direction="column" spacing={1} sx={{ width: 1 }}>
           <Stack direction="row" spacing={1} alignItems="center">
             <Box
-              component="img"
-              src={test.chapter.icon}
-              alt="chapter"
-              sx={{ width: 40, height: 40, borderRadius: 2, bgcolor: 'background.default' }}
-            />
+              sx={{
+                width: 48,
+                height: 48,
+                borderRadius: 2,
+                bgcolor: 'background.default',
+                overflow: 'hidden',
+                flexShrink: 0,
+              }}
+            >
+              <Box
+                component="img"
+                src={test.chapter.icon}
+                alt="chapter"
+                sx={{ width: 1, height: 1, objectFit: 'cover', display: 'block' }}
+              />
+            </Box>
             <Typography variant="body2" color="text.secondary">
               {test.chapter.title}
             </Typography>
