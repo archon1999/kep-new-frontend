@@ -6,7 +6,11 @@ import {
   Button,
   Card,
   CardContent,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   Skeleton,
   Stack,
   TextField,
@@ -175,21 +179,25 @@ const ContestQuestionsPage = () => {
                   <Typography variant="h6" fontWeight={700}>
                     {t('contests.questions.ask')}
                   </Typography>
-                  <TextField
-                    select
-                    label={t('contests.questions.problem')}
-                    value={selectedProblem}
-                    onChange={(event) => setSelectedProblem(event.target.value)}
-                    SelectProps={{ native: true }}
-                    size="small"
-                  >
-                    <option value="">{t('contests.questions.anyProblem')}</option>
-                    {problemOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </TextField>
+                  <FormControl variant="standard" size="small" fullWidth>
+                    <InputLabel id="contest-question-problem-label">
+                      {t('contests.questions.problem')}
+                    </InputLabel>
+                    <Select
+                      labelId="contest-question-problem-label"
+                      label={t('contests.questions.problem')}
+                      value={selectedProblem}
+                      onChange={(event) => setSelectedProblem(event.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem value="">{t('contests.questions.anyProblem')}</MenuItem>
+                      {problemOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
                   <TextField
                     label={t('contests.questions.question')}

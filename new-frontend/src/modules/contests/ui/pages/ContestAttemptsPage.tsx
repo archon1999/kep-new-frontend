@@ -1,16 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, MenuItem, Select, Stack, Typography } from '@mui/material';
 import { GridPaginationModel } from '@mui/x-data-grid';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { useAuth } from 'app/providers/AuthProvider';
@@ -137,37 +128,37 @@ const ContestAttemptsPage = () => {
                     {t('contests.filter.title')}
                   </Typography>
 
-                  <TextField
-                    select
+                  <Select
                     variant="standard"
                     value={filter.contestProblem}
                     onChange={(event) => handleFilterChange('contestProblem', event.target.value)}
-                    SelectProps={{ native: true }}
                     size="small"
+                    displayEmpty
+                    fullWidth
                   >
-                    <option value="">{t('contests.filter.anyProblem')}</option>
+                    <MenuItem value="">{t('contests.filter.anyProblem')}</MenuItem>
                     {problemsOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
+                      <MenuItem key={option.value} value={option.value}>
                         {option.label}
-                      </option>
+                      </MenuItem>
                     ))}
-                  </TextField>
+                  </Select>
 
-                  <TextField
-                    select
+                  <Select
                     variant="standard"
                     value={filter.verdict}
                     onChange={(event) => handleFilterChange('verdict', event.target.value)}
-                    SelectProps={{ native: true }}
                     size="small"
+                    displayEmpty
+                    fullWidth
                   >
-                    <option value="">{t('contests.filter.anyVerdict')}</option>
+                    <MenuItem value="">{t('contests.filter.anyVerdict')}</MenuItem>
                     {verdictOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
+                      <MenuItem key={option.value} value={option.value}>
                         {option.label}
-                      </option>
+                      </MenuItem>
                     ))}
-                  </TextField>
+                  </Select>
 
                   {currentUser ? (
                     <OnlyMeSwitch
