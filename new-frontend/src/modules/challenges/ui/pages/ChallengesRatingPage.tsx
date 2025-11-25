@@ -1,13 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Chip, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
   GridPaginationModel,
   GridSortModel,
   GridValidRowModel,
-  useGridApiContext,
 } from '@mui/x-data-grid';
 import { resources } from 'app/routes/resources';
 import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
@@ -16,7 +15,6 @@ import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.
 import PageHeader from 'shared/components/sections/common/PageHeader';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useChallengesRating } from '../../application/queries.ts';
-
 
 const ChallengesRatingPage = () => {
   const { t } = useTranslation();

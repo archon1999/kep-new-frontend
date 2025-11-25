@@ -224,7 +224,6 @@ const ContestsListPage = () => {
             <TextField
               value={filters.title}
               onChange={(event) => setFilters((prev) => ({ ...prev, title: event.target.value }))}
-              placeholder={t('contests.searchPlaceholder')}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -317,11 +316,11 @@ const ContestsListPage = () => {
               </Typography>
               <ToggleButtonGroup
                 color="primary"
-                exclusive
                 value={filters.participation}
                 onChange={handleParticipationChange}
                 size="small"
                 fullWidth
+                sx={{ width: 1 }}
               >
                 <ToggleButton value="all">{t('contests.participation.all')}</ToggleButton>
                 <ToggleButton value="joined">{t('contests.participation.joined')}</ToggleButton>
