@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router';
 import {
   Avatar,
@@ -13,14 +14,12 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
-import { resources } from 'app/routes/resources';
+import { useAuth } from 'app/providers/AuthProvider';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
+import { resources } from 'app/routes/resources';
 import KepIcon from 'shared/components/base/KepIcon';
 import PageLoader from 'shared/components/loading/PageLoader';
-import { useAuth } from 'app/providers/AuthProvider';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import {
   useBlogCommentCreate,
   useBlogCommentDelete,
@@ -38,7 +37,11 @@ const BlogPostPage = () => {
   const blogId = useMemo(() => id ?? '', [id]);
 
   const { data: post, isLoading, mutate } = useBlogPost(blogId);
-  const { data: comments, isLoading: commentsLoading, mutate: mutateComments } = useBlogComments(blogId);
+  const {
+    data: comments,
+    isLoading: commentsLoading,
+    mutate: mutateComments,
+  } = useBlogComments(blogId);
   const { trigger: likePost, isMutating: likingPost } = useBlogPostLike(blogId);
   const { trigger: likeComment } = useBlogCommentLike(blogId);
   const { trigger: deleteComment } = useBlogCommentDelete(blogId);
@@ -59,14 +62,29 @@ const BlogPostPage = () => {
 
   const handleLikeComment = async (commentId: number) => {
     const likes = await likeComment(commentId);
-    await mutateComments((prev) => (prev ? prev.map((comment) => (comment.id === commentId ? { ...comment, likes } : comment)) : prev), {
-      revalidate: false,
-    });
+    await mutateComments(
+      (prev) =>
+        prev
+          ? prev.map((comment) =>
+              comment.id === commentId
+                ? {
+                    ...comment,
+                    likes,
+                  }
+                : comment,
+            )
+          : prev,
+      {
+        revalidate: false,
+      },
+    );
   };
 
   const handleDeleteComment = async (commentId: number) => {
     await deleteComment(commentId);
-    await mutateComments((prev) => prev?.filter((comment) => comment.id !== commentId), { revalidate: false });
+    await mutateComments((prev) => prev?.filter((comment) => comment.id !== commentId), {
+      revalidate: false,
+    });
   };
 
   const handleCreateComment = async (body: string) => {
@@ -102,7 +120,12 @@ const BlogPostPage = () => {
               </Typography>
             </Stack>
 
-            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ color: 'text.secondary', ml: 'auto' }}>
+            <Stack
+              direction="row"
+              spacing={1.5}
+              alignItems="center"
+              sx={{ color: 'text.secondary', ml: 'auto' }}
+            >
               <Stack direction="row" spacing={0.5} alignItems="center">
                 <KepIcon name="comment" fontSize={20} />
                 <Typography variant="body2" fontWeight={700}>
@@ -127,7 +150,12 @@ const BlogPostPage = () => {
 
         <Card sx={{ borderRadius: 3 }}>
           {post.image ? (
-            <Box component="img" src={post.image} alt={post.title} sx={{ width: '100%', maxHeight: 440, objectFit: 'cover' }} />
+            <Box
+              component="img"
+              src={post.image}
+              alt={post.title}
+              sx={{ width: '100%', maxHeight: 440, objectFit: 'contain' }}
+            />
           ) : (
             <Skeleton variant="rounded" height={320} sx={{ borderRadius: 0 }} />
           )}
@@ -141,7 +169,13 @@ const BlogPostPage = () => {
             {post.tags.length ? (
               <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                 {post.tags.map((tag) => (
-                  <Chip key={tag} label={tag} color="primary" variant="outlined" sx={{ borderRadius: 2 }} />
+                  <Chip
+                    key={tag}
+                    label={tag}
+                    color="primary"
+                    variant="outlined"
+                    sx={{ borderRadius: 2 }}
+                  />
                 ))}
               </Stack>
             ) : null}
@@ -157,7 +191,12 @@ const BlogPostPage = () => {
               >
                 {t('blog.actions.like')} ({post.likesCount})
               </Button>
-              <Button variant="outlined" startIcon={<KepIcon name="share" fontSize={20} />} component="a" href={window.location.href}>
+              <Button
+                variant="outlined"
+                startIcon={<KepIcon name="share" fontSize={20} />}
+                component="a"
+                href={window.location.href}
+              >
                 {t('blog.actions.share')}
               </Button>
               <Button variant="text" startIcon={<KepIcon name="comment" fontSize={20} />}>

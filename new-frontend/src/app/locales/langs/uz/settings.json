@@ -13,6 +13,8 @@
     "upload": "Yuklash",
     "coverImage": "Qoplama rasmi",
     "coverPlaceholder": "Profilni shaxsiylashtirish uchun qoplama yuklang.",
+    "coverChangeAction": "Xarid qilish",
+    "coverChangeNote": "Orqa fon rasmini yangilash {{value}} Kepcoin talab qiladi.",
     "username": "Foydalanuvchi nomi",
     "email": "Elektron pochta",
     "firstName": "Ism",

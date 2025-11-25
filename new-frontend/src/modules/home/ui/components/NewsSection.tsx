@@ -1,6 +1,6 @@
 import { PropsWithChildren, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, IconButton, Link, Paper, Skeleton, Stack, Typography } from '@mui/material';
+import { Box, IconButton, Paper, Skeleton, Stack, Typography } from '@mui/material';
 import { getResourceById, resources } from 'app/routes/resources.ts';
 import bgGradient from 'assets/images/background/1.webp';
 import type { BlogPost } from 'modules/blog/domain/entities/blog.entity';
@@ -15,6 +15,7 @@ import { A11y, Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { useHomeNews } from '../../application/queries';
 import type { HomeNewsList } from '../../domain/entities/home.entity';
+import { Link } from 'react-router';
 
 type NewsItem = HomeNewsList['data'][number];
 
@@ -227,6 +228,7 @@ const NewsSection = () => {
                       component={Link}
                       to={getResourceById(resources.BlogPost, post.id)}
                       sx={{
+                        textDecoration: 'none',
                         height: 1,
                         display: 'grid',
                         gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',

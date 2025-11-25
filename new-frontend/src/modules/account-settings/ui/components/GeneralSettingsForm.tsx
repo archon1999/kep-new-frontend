@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { useAuth } from 'app/providers/AuthProvider';
 import { toast } from 'sonner';
+import KepcoinSpendConfirm from 'shared/components/common/KepcoinSpendConfirm';
 import { useUpdateGeneralInfo } from '../../application/mutations';
 import { useAccountGeneralInfo } from '../../application/queries';
 import type { AccountGeneralInfo } from '../../domain/entities/account-settings.entity';
@@ -27,6 +28,8 @@ const readFileAsDataUrl = (file: File) =>
     reader.readAsDataURL(file);
   });
 
+const COVER_PHOTO_COST = 5;
+
 const GeneralSettingsForm = () => {
   const { t } = useTranslation();
   const { currentUser, refreshCurrentUser } = useAuth();
@@ -34,6 +37,7 @@ const GeneralSettingsForm = () => {
   const username = currentUser?.username;
   const { data, isLoading, mutate } = useAccountGeneralInfo(username);
   const { trigger, isMutating } = useUpdateGeneralInfo();
+  const [canChangeCoverPhoto, setCanChangeCoverPhoto] = useState(false);
 
   const [formState, setFormState] = useState<AccountGeneralInfo | null>(null);
   const [errors, setErrors] = useState<Record<string, string[]>>();
@@ -141,15 +145,40 @@ const GeneralSettingsForm = () => {
                   <Typography color="text.secondary">{t('settings.coverPlaceholder')}</Typography>
                 )}
               </Box>
-              <Button variant="outlined" component="label" size="small" sx={{ mt: 1 }}>
-                {t('settings.upload')}
-                <input
-                  type="file"
-                  hidden
-                  accept="image/*"
-                  onChange={(event) => handleUpload('coverPhoto', event)}
-                />
-              </Button>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={1}
+                alignItems={{ xs: 'flex-start', sm: 'center' }}
+                sx={{ mt: 1 }}
+              >
+                {canChangeCoverPhoto ? (
+                  <Button variant="outlined" component="label" size="small">
+                    {t('settings.upload')}
+                    <input
+                      type="file"
+                      hidden
+                      accept="image/*"
+                      onChange={(event) => handleUpload('coverPhoto', event)}
+                    />
+                  </Button>
+                ) : (
+                  <KepcoinSpendConfirm
+                    value={COVER_PHOTO_COST}
+                    purchaseUrl="/api/users/purchase-cover-photo-change/"
+                    onSuccess={() => setCanChangeCoverPhoto(true)}
+                    disabled={!currentUser}
+                  >
+                    <Button variant="contained" size="small">
+                      {t('settings.coverChangeAction', { value: COVER_PHOTO_COST })}
+                    </Button>
+                  </KepcoinSpendConfirm>
+                )}
+                {!canChangeCoverPhoto ? (
+                  <Typography variant="caption" color="text.secondary">
+                    {t('settings.coverChangeNote', { value: COVER_PHOTO_COST })}
+                  </Typography>
+                ) : null}
+              </Stack>
               {errors?.coverPhoto?.length ? (
                 <Typography color="error" variant="caption" display="block">
                   {errors.coverPhoto[0]}

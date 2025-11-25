@@ -13,6 +13,8 @@
     "upload": "Загрузить",
     "coverImage": "Изображение обложки",
     "coverPlaceholder": "Загрузите обложку, чтобы персонализировать профиль.",
+    "coverChangeAction": "Купить",
+    "coverChangeNote": "Обновление обложки стоит {{value}} Kepcoin.",
     "username": "Имя пользователя",
     "email": "Электронная почта",
     "firstName": "Имя",
