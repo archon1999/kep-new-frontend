@@ -7,7 +7,6 @@ import {
   Skeleton,
   Stack,
   Typography,
-  alpha,
   useTheme,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -15,6 +14,7 @@ import { Palette } from '@mui/material/styles';
 import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { cssVarRgba } from 'shared/lib/utils';
 import PageHeader from 'shared/components/sections/common/PageHeader';
 import { difficultyOptions } from '../../config/difficulty';
 import { useProblemsPeriodRating, useProblemsRating } from '../../application/queries';
@@ -145,10 +145,10 @@ const PeriodRatings = () => {
                 variant="outlined"
                 sx={{
                   borderColor: `var(--mui-palette-${color}-main)`,
-                  background: `linear-gradient(135deg, ${alpha(theme.palette[color].main, 0.12)}, ${alpha(
-                    theme.palette[color].main,
-                    0.03,
-                  )})`,
+                  background: `linear-gradient(135deg, ${cssVarRgba(
+                    theme.vars.palette[color].mainChannel,
+                    0.12,
+                  )}, ${cssVarRgba(theme.vars.palette[color].mainChannel, 0.05)})`,
                   width: '100%',
                 }}
               >
@@ -160,7 +160,7 @@ const PeriodRatings = () => {
                           width: 38,
                           height: 38,
                           borderRadius: '50%',
-                          backgroundColor: alpha(theme.palette[color].main, 0.15),
+                          backgroundColor: cssVarRgba(theme.vars.palette[color].mainChannel, 0.16),
                           display: 'grid',
                           placeItems: 'center',
                         }}
@@ -193,8 +193,8 @@ const PeriodRatings = () => {
                           sx={{
                             p: 1,
                             borderRadius: 1,
-                            backgroundColor: alpha(theme.palette.background.paper, 0.6),
-                            border: `1px solid ${alpha(theme.palette[color].main, 0.2)}`,
+                            backgroundColor: cssVarRgba(theme.vars.palette.background.elevation1Channel, 0.8),
+                            border: `1px solid ${cssVarRgba(theme.vars.palette[color].mainChannel, 0.18)}`,
                           }}
                         >
                           <Typography variant="body2" fontWeight={700} color="text.primary">
