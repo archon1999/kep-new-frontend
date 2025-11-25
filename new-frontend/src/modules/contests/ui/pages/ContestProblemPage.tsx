@@ -118,9 +118,14 @@ const ContestantResultsFooter = ({
     <Box
       sx={{
         borderTop: '1px solid',
-        borderColor: 'divider',
+        borderColor: (theme) => alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.6 : 1),
         bgcolor: (theme) =>
-          alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.5 : 0.85),
+          alpha(
+            theme.palette.mode === 'dark'
+              ? theme.palette.background.default
+              : theme.palette.background.paper,
+            theme.palette.mode === 'dark' ? 0.92 : 0.9,
+          ),
         px: 2.5,
         py: 2,
       }}
@@ -170,14 +175,14 @@ const ContestantResultsFooter = ({
                   border: '1px solid',
                   borderColor:
                     result.color === 'default'
-                      ? theme.palette.divider
+                      ? alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.6 : 1)
                       : alpha(theme.palette[result.color].main, 0.6),
                   backgroundColor:
                     result.color === 'default'
-                      ? theme.palette.background.paper
+                      ? alpha(theme.palette.common.white, theme.palette.mode === 'dark' ? 0.04 : 0.02)
                       : alpha(
                           theme.palette[result.color].main,
-                          theme.palette.mode === 'dark' ? 0.12 : 0.1,
+                          theme.palette.mode === 'dark' ? 0.16 : 0.1,
                         ),
                   minWidth: 54,
                 })}
