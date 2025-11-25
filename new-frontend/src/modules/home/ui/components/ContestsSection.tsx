@@ -100,15 +100,13 @@ const HomeContestCard = ({ contest }: HomeContestCardProps) => {
               >
                 {contest.categoryTitle}
               </Typography>
-              {contest.isRated ? (
-                <Chip
-                  label={t('contests.rated')}
-                  size="small"
-                  color="secondary"
-                  variant="filled"
-                  sx={{ fontWeight: 700 }}
-                />
-              ) : null}
+              <Chip
+                label={t(contest.isRated ? 'contests.rated' : 'contests.unrated')}
+                size="small"
+                color={contest.isRated ? 'secondary' : 'neutral'}
+                variant={contest.isRated ? 'filled' : 'soft'}
+                sx={{ fontWeight: 700 }}
+              />
             </Stack>
 
             <Chip label={statusLabel} color={statusColor} variant="filled" sx={{ fontWeight: 700 }} />

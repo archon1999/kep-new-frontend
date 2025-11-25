@@ -90,14 +90,12 @@ const ContestCard = ({ contest }: ContestCardProps) => {
                 >
                   {contest.categoryTitle}
                 </Typography>
-                {contest.isRated ? (
-                  <Chip
-                    label={t('contests.rated')}
-                    size="small"
-                    color="secondary"
-                    variant="filled"
-                  />
-                ) : null}
+                <Chip
+                  label={t(contest.isRated ? 'contests.rated' : 'contests.unrated')}
+                  size="small"
+                  color={contest.isRated ? 'secondary' : 'neutral'}
+                  variant={contest.isRated ? 'filled' : 'soft'}
+                />
               </Stack>
 
               <Typography variant="h6" fontWeight={800} sx={{ wordBreak: 'break-word' }}>
