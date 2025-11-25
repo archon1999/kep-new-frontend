@@ -238,7 +238,9 @@
       "myAttempts": "My attempts",
       "footerTitle": "Your contest results",
       "prev": "Prev",
-      "next": "Next"
+      "next": "Next",
+      "contestFinished": "Contest has finished. Continue solving in upsolve mode.",
+      "upsolve": "Upsolve"
     },
     "typeLabels": {
       "ACM2H": "ACM (2 hours)",

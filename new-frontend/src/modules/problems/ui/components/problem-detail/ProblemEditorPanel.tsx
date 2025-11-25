@@ -72,6 +72,8 @@ interface ProblemEditorPanelProps {
   onEditorTabChange: (value: 'console' | 'samples') => void;
   canUseCheckSamples: boolean;
   editorTheme: string;
+  isDisabled?: boolean;
+  upsolveHref?: string;
 }
 
 const fileAcceptTypes = Object.values(AttemptLangs)
@@ -97,6 +99,8 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
     editorTab,
     onEditorTabChange,
     editorTheme,
+    isDisabled = false,
+    upsolveHref,
   } = props;
   const { currentUser } = useAuth();
   const { t } = useTranslation();
@@ -175,8 +179,39 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
+        position: 'relative',
       }}
     >
+      {isDisabled ? (
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 3,
+            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.8),
+            backdropFilter: 'blur(2px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            p: 3,
+          }}
+        >
+          <Stack spacing={1.5} alignItems="center" maxWidth={360}>
+            <Typography variant="subtitle1" fontWeight={700}>
+              {t('contests.problem.contestFinished')}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              component={RouterLink}
+              to={upsolveHref ?? resources.Problems}
+            >
+              {t('contests.problem.upsolve')}
+            </Button>
+          </Stack>
+        </Box>
+      ) : null}
       <Box
         component="header"
         sx={{
@@ -200,6 +235,7 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
             label={t('problems.detail.language')}
             value={selectedLang}
             onChange={(event) => onLangChange(event.target.value)}
+            disabled={isDisabled}
             sx={{
               minWidth: 180,
               '& .MuiOutlinedInput-root': { borderRadius: 2 },
@@ -220,6 +256,7 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
               label={t('problems.detail.sample')}
               value={selectedSampleIndex}
               onChange={(event) => onSampleChange(Number(event.target.value))}
+              disabled={isDisabled}
               sx={{
                 minWidth: 140,
                 '& .MuiOutlinedInput-root': { borderRadius: 2 },
@@ -238,6 +275,7 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
             variant="text"
             size="small"
             startIcon={<KepIcon name="upload" width={18} height={18} />}
+            disabled={isDisabled}
             sx={{ borderRadius: 2 }}
           >
             {t('problems.detail.uploadFile')}
@@ -247,6 +285,7 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
               accept={fileAcceptTypes}
               ref={fileInputRef}
               onChange={handleFileUpload}
+              disabled={isDisabled}
             />
           </Button>
         </Stack>
@@ -284,7 +323,7 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
                 language={getEditorLanguage(selectedLang)}
                 defaultValue={initialCode}
                 onChange={(value) => {
-                  if (typeof value !== 'string') return;
+                  if (isDisabled || typeof value !== 'string') return;
                   onCodeChange(value ?? '');
                 }}
                 options={{
@@ -306,6 +345,7 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
                     indentation: true,
                     highlightActiveIndentation: true,
                   },
+                  readOnly: isDisabled,
                 }}
                 theme={editorTheme}
                 loading={<LinearProgress />}
@@ -331,7 +371,10 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
             >
               <Tabs
                 value={editorTab}
-                onChange={(_, value) => onEditorTabChange(value)}
+                onChange={(_, value) => {
+                  if (isDisabled) return;
+                  onEditorTabChange(value);
+                }}
                 variant="fullWidth"
                 textColor="primary"
                 indicatorColor="primary"
@@ -345,8 +388,12 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
                   },
                 }}
               >
-                <Tab value="console" label={t('problems.detail.console')} />
-                <Tab value="samples" label={t('problems.detail.samplesResult')} />
+                <Tab value="console" label={t('problems.detail.console')} disabled={isDisabled} />
+                <Tab
+                  value="samples"
+                  label={t('problems.detail.samplesResult')}
+                  disabled={isDisabled}
+                />
               </Tabs>
 
               <Box
@@ -364,6 +411,7 @@ export const ProblemEditorPanel = (props: ProblemEditorPanelProps) => {
                       label={t('problems.detail.customInput')}
                       value={input}
                       onChange={(event) => onInputChange(event.target.value)}
+                      disabled={isDisabled}
                     />
                     <Stack direction={{ xs: 'column', md: 'row' }} spacing={1.5}>
                       <TextField
