@@ -45,7 +45,7 @@ instance.interceptors.request.use(
         headers.Authorization = basicAuthHeader;
       }
     } else {
-      delete headers.Authorization;
+      // delete headers.Authorization;
     }
 
     config.headers = headers;
