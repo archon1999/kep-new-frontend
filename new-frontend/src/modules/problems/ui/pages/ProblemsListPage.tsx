@@ -794,6 +794,8 @@ const ProblemsList = ({
                   display: 'block',
                   textDecoration: 'none',
                   p: 2,
+                  border: '1px solid',
+                  borderColor: 'divider',
                   transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                   '&:hover': {
                     transform: 'translateY(-2px)',

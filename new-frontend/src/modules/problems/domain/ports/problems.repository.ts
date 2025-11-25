@@ -19,6 +19,7 @@ import {
   ProblemVoteResult,
   ProblemsRatingRow,
   ProblemsRatingSummary,
+  ProblemsRatingHistoryEntry,
   ProblemsUserStatistics,
 } from '../entities/problem.entity.ts';
 
@@ -39,6 +40,13 @@ export type ProblemsListParams = Omit<ApiProblemsListParams, 'tags' | 'favorites
 
 export type ProblemsRatingParams = {
   ordering?: string;
+  page?: number;
+  pageSize?: number;
+};
+
+export type ProblemsRatingHistoryParams = {
+  ordering?: string;
+  type?: number;
   page?: number;
   pageSize?: number;
 };
@@ -106,6 +114,7 @@ export interface ProblemsRepository {
   getUserRating(username: string): Promise<ProblemsRatingSummary | null>;
   listRating(params: ProblemsRatingParams): Promise<PageResult<ProblemsRatingRow>>;
   listPeriodRating(period: 'today' | 'week' | 'month'): Promise<PeriodRatingEntry[]>;
+  listRatingHistory(params: ProblemsRatingHistoryParams): Promise<PageResult<ProblemsRatingHistoryEntry>>;
   listAttempts(params: AttemptsListParams): Promise<PageResult<AttemptListItem>>;
   getAttempt(attemptId: number): Promise<AttemptDetail>;
   purchaseAttempt(attemptId: number): Promise<void>;

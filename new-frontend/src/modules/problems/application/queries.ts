@@ -4,6 +4,7 @@ import {
   AttemptsListParams,
   HackAttemptsListParams,
   ProblemsListParams,
+  ProblemsRatingHistoryParams,
   ProblemsRatingParams,
   ProblemsStatisticsParams,
 } from '../domain/ports/problems.repository.ts';
@@ -38,6 +39,12 @@ export const useProblemsRating = (params: ProblemsRatingParams) =>
 
 export const useProblemsPeriodRating = (period: 'today' | 'week' | 'month') =>
   useSWR(['problems-period-rating', period], () => problemsRepository.listPeriodRating(period));
+
+export const useProblemsRatingHistory = (params: ProblemsRatingHistoryParams) =>
+  useSWR(['problems-rating-history', params], () => problemsRepository.listRatingHistory(params), {
+    keepPreviousData: true,
+    revalidateOnFocus: false,
+  });
 
 export const useAttemptsList = (params: AttemptsListParams) =>
   useSWR(['problems-attempts', params], () => problemsRepository.listAttempts(params), {

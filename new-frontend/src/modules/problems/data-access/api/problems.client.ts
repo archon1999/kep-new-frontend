@@ -2,6 +2,7 @@ import {
   ApiAttemptsListParams,
   ApiProblemsLastContestParams,
   ApiProblemsListParams,
+  ApiProblemsRatingHistoryListParams,
   ApiProblemsRatingListParams,
   AttemptListBody,
   ProblemsCategory,
@@ -23,6 +24,8 @@ export const problemsApiClient = {
   getUserStatistics: (username: string, params?: { year?: number; days?: number }) =>
     apiClient.apiProblemsRatingProblemsStatistics(username, { params }),
   listRating: (params: ApiProblemsRatingListParams) => apiClient.apiProblemsRatingList(params),
+  listRatingHistory: (params: ApiProblemsRatingHistoryListParams) =>
+    apiClient.apiProblemsRatingHistoryList(params),
   listPeriodRating: (period: 'today' | 'week' | 'month') => {
     if (period === 'today') return apiClient.apiProblemsRatingToday();
     if (period === 'week') return apiClient.apiProblemsRatingWeek();

@@ -153,6 +153,16 @@ export interface PeriodRatingEntry {
   ratingTitle?: string;
 }
 
+export type ProblemsRatingHistoryType = 1 | 2 | 3;
+
+export interface ProblemsRatingHistoryEntry {
+  username: string;
+  contestsRatingTitle?: string;
+  type: ProblemsRatingHistoryType;
+  result?: number;
+  date: string;
+}
+
 export interface ProblemLanguageOption {
   lang: string;
   langFull: string;

@@ -93,6 +93,23 @@
       "periodEmpty": "No data yet.",
       "backToProblems": "Back to problems"
     },
+    "ratingHistory": {
+      "title": "Problems rating history",
+      "subtitle": "Daily, weekly and monthly winners by solved problems.",
+      "period": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly"
+      },
+      "bestResult": "Best result",
+      "columns": {
+        "date": "Date",
+        "user": "User",
+        "solved": "Solved"
+      },
+      "empty": "No rating history yet.",
+      "backToRating": "Back to rating"
+    },
     "attempts": {
       "title": "Attempts",
       "subtitle": "All submissions across problems.",

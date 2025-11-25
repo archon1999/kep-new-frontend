@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Box, Chip, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -7,12 +8,13 @@ import {
   GridSortModel,
   GridValidRowModel,
 } from '@mui/x-data-grid';
-import { useTranslation } from 'react-i18next';
-import { useChallengesRating } from '../../application/queries.ts';
-import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
-import DataGridPaginationAction from 'shared/components/pagination/DataGridPaginationAction.tsx';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { resources } from 'app/routes/resources';
 import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
+import DataGridPaginationAction from 'shared/components/pagination/DataGridPaginationAction.tsx';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
+import PageHeader from 'shared/components/sections/common/PageHeader';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { useChallengesRating } from '../../application/queries.ts';
 
 const ChallengesRatingPage = () => {
   const { t } = useTranslation();
@@ -20,9 +22,7 @@ const ChallengesRatingPage = () => {
     page: 0,
     pageSize: 12,
   });
-  const [sortModel, setSortModel] = useState<GridSortModel>([
-    { field: 'rating', sort: 'desc' },
-  ]);
+  const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'rating', sort: 'desc' }]);
 
   const ordering = useMemo(() => {
     if (!sortModel.length) return '-rating';
@@ -56,7 +56,9 @@ const ChallengesRatingPage = () => {
       align: 'center',
       sortable: false,
       renderCell: ({ value }) => (
-        <Typography variant="subtitle1" fontWeight={800}>#{value}</Typography>
+        <Typography variant="subtitle1" fontWeight={800}>
+          #{value}
+        </Typography>
       ),
     },
     {
@@ -173,55 +175,49 @@ const ChallengesRatingPage = () => {
   }));
 
   return (
-    <Box sx={responsivePagePaddingSx}>
-      <Stack spacing={3} direction="column">
-        <Stack spacing={0.5} direction="column">
-          <Typography variant="h4" fontWeight={800}>
-            {t('challenges.ratingTitle')}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {t('challenges.ratingSubtitle')}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {t('challenges.totalPlayers', { count: ratingPage?.total ?? 0 })}
-          </Typography>
-        </Stack>
+    <Stack direction="column">
+      <PageHeader
+        title={t('challenges.ratingTitle')}
+        breadcrumb={[
+          { label: t('challenges.title'), url: resources.Challenges },
+          { label: t('problems.rating.ordering.rating'), active: true },
+        ]}
+      />
 
-        <Card variant="outlined">
-          <CardContent>
-            <DataGrid
-              autoHeight
-              rowHeight={80}
-              disableRowSelectionOnClick
-              columns={columns}
-              rows={rows}
-              rowCount={ratingPage?.total ?? 0}
-              paginationMode="server"
-              sortingMode="server"
-              paginationModel={paginationModel}
-              onPaginationModelChange={setPaginationModel}
-              sortModel={sortModel}
-              onSortModelChange={(model) => setSortModel(model.length ? model : [{ field: 'rating', sort: 'desc' }])}
-              loading={isLoading}
-              pageSizeOptions={[12, 24, 48]}
-              disableColumnFilter
-              disableColumnSelector
-              disableColumnMenu
-              slots={{
-                pagination: DataGridPaginationAction,
-              }}
-              sx={{
-                border: 'none',
-                '& .MuiDataGrid-columnHeaders': { backgroundColor: 'background.default' },
-                '& .MuiDataGrid-columnHeaderTitle': { fontWeight: 700 },
-                '& .MuiDataGrid-cell': { py: 2 },
-                '& .MuiDataGrid-row:hover': { backgroundColor: 'action.hover' },
-              }}
-            />
-          </CardContent>
-        </Card>
-      </Stack>
-    </Box>
+      <Box sx={responsivePagePaddingSx}>
+        <DataGrid
+          autoHeight
+          rowHeight={80}
+          disableRowSelectionOnClick
+          columns={columns}
+          rows={rows}
+          rowCount={ratingPage?.total ?? 0}
+          paginationMode="server"
+          sortingMode="server"
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
+          sortModel={sortModel}
+          onSortModelChange={(model) =>
+            setSortModel(model.length ? model : [{ field: 'rating', sort: 'desc' }])
+          }
+          loading={isLoading}
+          pageSizeOptions={[12, 24, 48]}
+          disableColumnFilter
+          disableColumnSelector
+          disableColumnMenu
+          slots={{
+            pagination: DataGridPaginationAction,
+          }}
+          sx={{
+            border: 'none',
+            '& .MuiDataGrid-columnHeaders': { backgroundColor: 'background.default' },
+            '& .MuiDataGrid-columnHeaderTitle': { fontWeight: 700 },
+            '& .MuiDataGrid-cell': { py: 2 },
+            '& .MuiDataGrid-row:hover': { backgroundColor: 'action.hover' },
+          }}
+        />
+      </Box>
+    </Stack>
   );
 };
 

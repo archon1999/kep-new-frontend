@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import {
   Box,
+  Button,
   Card,
   CardContent,
   LinearProgress,
@@ -21,6 +22,8 @@ import { useProblemsPeriodRating, useProblemsRating } from '../../application/qu
 import ProblemsRatingDataGrid from '../components/ProblemsRatingDataGrid';
 import { resources } from 'app/routes/resources';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import KepIcon from 'shared/components/base/KepIcon';
+import { Link as RouterLink } from 'react-router-dom';
 
 const sortFieldMap: Record<string, string> = {
   rating: 'rating',
@@ -85,6 +88,16 @@ const ProblemsRatingPage = () => {
           { label: t('problems.title'), url: resources.Problems },
           { label: t('problems.rating.ordering.rating'), active: true },
         ]}
+        actionComponent={
+          <Button
+            component={RouterLink}
+            to={resources.ProblemsRatingHistory}
+            variant="outlined"
+            startIcon={<KepIcon name="ranking" fontSize={18} />}
+          >
+            {t('problems.ratingHistory.title')}
+          </Button>
+        }
       />
 
       {isLoading || isValidating ? <LinearProgress /> : null}
@@ -117,6 +130,7 @@ const periodConfigs: Array<{ period: 'today' | 'week' | 'month'; color: PeriodCo
 const PeriodRatings = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
 
   const today = useProblemsPeriodRating('today');
   const week = useProblemsPeriodRating('week');
@@ -144,11 +158,11 @@ const PeriodRatings = () => {
               <Card
                 variant="outlined"
                 sx={{
-                  borderColor: `var(--mui-palette-${color}-main)`,
-                  background: `linear-gradient(135deg, ${alpha(theme.palette[color].main, 0.12)}, ${alpha(
+                  borderColor: alpha(theme.palette[color].main, isDark ? 0.55 : 1),
+                  background: `linear-gradient(135deg, ${alpha(
                     theme.palette[color].main,
-                    0.03,
-                  )})`,
+                    isDark ? 0.16 : 0.12,
+                  )}, ${alpha(theme.palette.background.paper, isDark ? 0.55 : 0.97)})`,
                   width: '100%',
                 }}
               >
@@ -160,7 +174,7 @@ const PeriodRatings = () => {
                           width: 38,
                           height: 38,
                           borderRadius: '50%',
-                          backgroundColor: alpha(theme.palette[color].main, 0.15),
+                          backgroundColor: alpha(theme.palette[color].main, isDark ? 0.3 : 0.18),
                           display: 'grid',
                           placeItems: 'center',
                         }}
@@ -193,8 +207,8 @@ const PeriodRatings = () => {
                           sx={{
                             p: 1,
                             borderRadius: 1,
-                            backgroundColor: alpha(theme.palette.background.paper, 0.6),
-                            border: `1px solid ${alpha(theme.palette[color].main, 0.2)}`,
+                            backgroundColor: alpha(theme.palette.background.paper, isDark ? 0.45 : 0.6),
+                            border: `1px solid ${alpha(theme.palette[color].main, isDark ? 0.45 : 0.2)}`,
                           }}
                         >
                           <Typography variant="body2" fontWeight={700} color="text.primary">

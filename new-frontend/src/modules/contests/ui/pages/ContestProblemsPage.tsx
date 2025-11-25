@@ -120,7 +120,7 @@ const ContestProblemsPage = () => {
                           {problem.problem.title}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                          {problem.problem.timeLimit} ms ‚ú {problem.problem.memoryLimit} MB
+                          {problem.problem.timeLimit} ms, {problem.problem.memoryLimit} MB
                         </Typography>
                       </Stack>
                     </Stack>

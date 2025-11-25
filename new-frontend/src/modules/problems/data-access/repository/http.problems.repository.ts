@@ -1,4 +1,9 @@
-import { ApiAttemptsListParams, ApiProblemsListParams, ApiProblemsRatingListParams } from 'shared/api/orval/generated/endpoints/index.schemas';
+import {
+  ApiAttemptsListParams,
+  ApiProblemsListParams,
+  ApiProblemsRatingHistoryListParams,
+  ApiProblemsRatingListParams,
+} from 'shared/api/orval/generated/endpoints/index.schemas';
 import {
   mapAttemptDetail,
   mapAttempts,
@@ -14,6 +19,7 @@ import {
   mapProblemTag,
   mapProblemsUserStatistics,
   mapProblemVoteResult,
+  mapProblemsRatingHistoryPage,
   mapProblemsRatingPage,
   mapProblemsPage,
   mapRatingSummary,
@@ -33,6 +39,7 @@ import {
   ProblemTag,
   ProblemTopic,
   ProblemVoteResult,
+  ProblemsRatingHistoryEntry,
   ProblemsRatingRow,
   ProblemsRatingSummary,
   ProblemsUserStatistics,
@@ -42,6 +49,7 @@ import {
   HackAttemptsListParams,
   PageResult,
   ProblemsListParams,
+  ProblemsRatingHistoryParams,
   ProblemsRatingParams,
   ProblemsRepository,
   ProblemsStatisticsParams,
@@ -242,6 +250,13 @@ export class HttpProblemsRepository implements ProblemsRepository {
     return mapPeriodRating(response);
   }
 
+  async listRatingHistory(
+    params: ProblemsRatingHistoryParams,
+  ): Promise<PageResult<ProblemsRatingHistoryEntry>> {
+    const response = await problemsApiClient.listRatingHistory(mapRatingHistoryFilter(params));
+    return mapProblemsRatingHistoryPage(response);
+  }
+
   async listAttempts(params: AttemptsListParams): Promise<PageResult<AttemptListItem>> {
     const response = await problemsApiClient.listAttempts(mapAttemptsFilter(params));
     return mapAttemptsPage(response);
@@ -294,6 +309,15 @@ export class HttpProblemsRepository implements ProblemsRepository {
 
 const mapRatingFilter = (params: ProblemsRatingParams): ApiProblemsRatingListParams => ({
   ordering: params.ordering,
+  page: params.page,
+  pageSize: params.pageSize,
+});
+
+const mapRatingHistoryFilter = (
+  params: ProblemsRatingHistoryParams,
+): ApiProblemsRatingHistoryListParams => ({
+  ordering: params.ordering,
+  type: params.type !== undefined ? String(params.type) : undefined,
   page: params.page,
   pageSize: params.pageSize,
 });
