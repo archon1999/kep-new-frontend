@@ -24,7 +24,8 @@
       "anyCountry": "Any country",
       "ageFrom": "Age from",
       "ageTo": "Age to",
-      "agePlaceholder": "--"
+      "agePlaceholder": "--",
+      "clear": "Clear"
     },
     "columns": {
       "user": "User",

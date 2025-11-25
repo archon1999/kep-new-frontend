@@ -24,7 +24,8 @@
       "anyCountry": "Любая страна",
       "ageFrom": "Возраст от",
       "ageTo": "Возраст до",
-      "agePlaceholder": "--"
+      "agePlaceholder": "--",
+      "clear": "Сбросить"
     },
     "columns": {
       "user": "Пользователь",
