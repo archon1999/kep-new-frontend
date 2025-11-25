@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { Box, Chip, FormControl, MenuItem, Select, Stack, Switch, Typography } from '@mui/material';
+import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Box, Chip, FormControl, Link, MenuItem, Select, Stack, Switch, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { ContestType } from 'shared/api/orval/generated/endpoints/index.schemas';
+import { getResourceByParams, resources } from 'app/routes/resources';
 import { gridPaginationToPageParams } from 'shared/lib/pagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import {
@@ -125,6 +126,10 @@ const ContestStandingsPage = () => {
 
   const contestants = standings?.data ?? [];
   const total = standings?.total ?? 0;
+  const problemMap = useMemo(
+    () => new Map(contestProblems.map((problem) => [problem.symbol, problem])),
+    [contestProblems],
+  );
   const tabsRightContent = (
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
@@ -297,11 +302,10 @@ const ContestStandingsPage = () => {
         sortable: false,
         renderHeader: (params) => {
           const symbol = params.colDef.field.replace('problem-', '');
-          const problemMap = useMemo(
-            () => new Map(contestProblems.map((problem) => [problem.symbol, problem])),
-            [contestProblems],
-          );
           const problem = problemMap.get(symbol);
+          const problemLink = contestId
+            ? getResourceByParams(resources.ContestProblem, { id: contestId, symbol })
+            : '#';
 
           return (
             <Box
@@ -317,9 +321,15 @@ const ContestStandingsPage = () => {
                 '&:last-of-type': { borderRight: 'none' },
               }}
             >
-              <Typography variant="subtitle2" fontWeight={700} color="text.primary">
+              <Link
+                component={RouterLink}
+                to={problemLink}
+                underline="hover"
+                color="text.primary"
+                sx={{ fontWeight: 700 }}
+              >
                 {problem?.symbol ?? symbol}
-              </Typography>
+              </Link>
               <Stack direction="row" spacing={0.4} alignItems="center">
                 <Typography variant="caption" color="text.secondary">
                   (
@@ -391,7 +401,7 @@ const ContestStandingsPage = () => {
     );
 
     return [...base, ...problemColumns];
-  }, [contest?.id, contest?.isRated, contest?.type, contestProblems, t]);
+  }, [contest?.id, contest?.isRated, contest?.type, contestId, contestProblems, problemMap, t]);
 
   return (
     <Stack spacing={3} sx={responsivePagePaddingSx}>
