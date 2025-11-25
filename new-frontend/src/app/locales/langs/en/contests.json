@@ -238,7 +238,10 @@
       "myAttempts": "My attempts",
       "footerTitle": "Your contest results",
       "prev": "Prev",
-      "next": "Next"
+      "next": "Next",
+      "contestFinished": "This contest has finished.",
+      "upsolveDescription": "Keep practicing this problem in the main archive.",
+      "upsolve": "Upsolve"
     },
     "typeLabels": {
       "ACM2H": "ACM (2 hours)",

@@ -256,7 +256,10 @@
       "myAttempts": "Мои попытки",
       "footerTitle": "Ваши результаты",
       "prev": "Предыдущая",
-      "next": "Следующая"
+      "next": "Следующая",
+      "contestFinished": "Этот контест завершён.",
+      "upsolveDescription": "Продолжайте решать эту задачу в общем архиве.",
+      "upsolve": "Апсолв"
     },
     "authors": "Авторы",
     "registrantsLabel": "{{count}} зарегистрировавшихся"

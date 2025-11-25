@@ -254,7 +254,10 @@
       "myAttempts": "Mening urinishlarim",
       "footerTitle": "Sizning natijalaringiz",
       "prev": "Oldingi",
-      "next": "Keyingi"
+      "next": "Keyingi",
+      "contestFinished": "Tanlov yakunlandi.",
+      "upsolveDescription": "Ushbu masalani asosiy arxivda davom ettirib yeching.",
+      "upsolve": "Upsolve"
     },
     "authors": "Mualliflar",
     "registrantsLabel": "{{count}} ta ro'yxatdan o'tgan"

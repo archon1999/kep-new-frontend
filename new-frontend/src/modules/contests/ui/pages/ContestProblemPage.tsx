@@ -247,6 +247,7 @@ const ContestProblemPage = () => {
     hasCode: false,
     isRunning,
     isSubmitting,
+    isContestFinished: false,
   });
   const actionHandlersRef = useRef({
     onRun: () => {},
@@ -264,6 +265,7 @@ const ContestProblemPage = () => {
     contestId,
     problemSymbol,
   );
+  const isContestFinished = contest?.statusCode === ContestStatus.Finished;
   const { data: contestant, mutate: mutateContestant } = useContestContestant(contestId, {
     refreshInterval: 30000,
   });
@@ -432,7 +434,15 @@ const ContestProblemPage = () => {
   };
 
   const handleSubmit = async () => {
-    if (!contest?.id || !problemSymbol || !selectedLang || !codeRef.current || isSubmitting) return;
+    if (
+      !contest?.id ||
+      !problemSymbol ||
+      !selectedLang ||
+      !codeRef.current ||
+      isSubmitting ||
+      isContestFinished
+    )
+      return;
     setIsSubmitting(true);
     try {
       await contestsQueries.contestsRepository.submitSolution(contest.id, {
@@ -458,7 +468,7 @@ const ContestProblemPage = () => {
   };
 
   const handleRun = async () => {
-    if (!problem?.id || !selectedLang || !codeRef.current || isRunning) return;
+    if (!problem?.id || !selectedLang || !codeRef.current || isRunning || isContestFinished) return;
     setIsRunning(true);
     setOutput('');
     const response = await problemsQueries.problemsRepository.runCustomTest({
@@ -473,7 +483,14 @@ const ContestProblemPage = () => {
   };
 
   const handleCheckSamples = async () => {
-    if (!problem?.id || !selectedLang || !codeRef.current || isCheckingSamples) return;
+    if (
+      !problem?.id ||
+      !selectedLang ||
+      !codeRef.current ||
+      isCheckingSamples ||
+      isContestFinished
+    )
+      return;
     setIsCheckingSamples(true);
     setCheckSamplesResult([]);
     const response = await problemsQueries.problemsRepository.checkSampleTests(problem.id, {
@@ -497,8 +514,9 @@ const ContestProblemPage = () => {
       hasCode,
       isRunning,
       isSubmitting,
+      isContestFinished,
     };
-  }, [currentUser, hasCode, isRunning, isSubmitting]);
+  }, [currentUser, hasCode, isContestFinished, isRunning, isSubmitting]);
 
   useEffect(() => {
     actionHandlersRef.current = {
@@ -513,7 +531,12 @@ const ContestProblemPage = () => {
       const handlers = actionHandlersRef.current;
 
       if (event.ctrlKey && event.key === "'") {
-        if (state.currentUser && state.hasCode && !state.isRunning) {
+        if (
+          state.currentUser &&
+          state.hasCode &&
+          !state.isRunning &&
+          !state.isContestFinished
+        ) {
           event.preventDefault();
           handlers.onRun();
         }
@@ -527,7 +550,9 @@ const ContestProblemPage = () => {
         !state.isSubmitting
       ) {
         event.preventDefault();
-        handlers.onSubmit();
+        if (!state.isContestFinished) {
+          handlers.onSubmit();
+        }
       }
     };
 
@@ -632,7 +657,7 @@ const ContestProblemPage = () => {
               variant="outlined"
               color="primary"
               onClick={handleRun}
-              disabled={!currentUser || isRunning || !hasCode}
+              disabled={!currentUser || isRunning || !hasCode || isContestFinished}
               startIcon={<IconifyIcon icon="mdi:play-circle-outline" width={20} height={20} />}
             >
               {t('problems.detail.run')}
@@ -642,7 +667,7 @@ const ContestProblemPage = () => {
               variant="contained"
               color="primary"
               onClick={handleSubmit}
-              disabled={!currentUser || isSubmitting || !hasCode}
+              disabled={!currentUser || isSubmitting || !hasCode || isContestFinished}
               startIcon={<IconifyIcon icon="mdi:send-outline" width={18} height={18} />}
             >
               {t('problems.detail.submit')}
@@ -834,6 +859,8 @@ const ContestProblemPage = () => {
                 onEditorTabChange={setEditorTab}
                 canUseCheckSamples={canUseCheckSamples}
                 editorTheme={editorTheme}
+                disabled={isContestFinished}
+                upsolveLink={problem?.id ? getResourceById(resources.Problem, problem.id) : undefined}
               />
             ) : (
               <ProblemEditorSkeleton />
