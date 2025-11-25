@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent, SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { TabContext, TabList } from '@mui/lab';
-import { Box, InputAdornment, Menu, MenuItem, Stack, Tab, Typography } from '@mui/material';
+import { Box, Button, InputAdornment, Menu, MenuItem, Stack, Tab, Typography } from '@mui/material';
 import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { useUsersCountries, useUsersList } from 'modules/users/application/queries';
@@ -38,6 +38,13 @@ type FiltersState = {
   ageTo: string;
 };
 
+const defaultFilters: FiltersState = {
+  search: '',
+  country: '',
+  ageFrom: '',
+  ageTo: '',
+};
+
 type CountryOption = {
   value: string;
   code: string;
@@ -48,12 +55,7 @@ const UsersListContainer = () => {
   const { t, i18n } = useTranslation();
   const [tabValue, setTabValue] = useState<TabValue>('skills');
   const [filtersAnchorEl, setFiltersAnchorEl] = useState<null | HTMLElement>(null);
-  const [filters, setFilters] = useState<FiltersState>({
-    search: '',
-    country: '',
-    ageFrom: '',
-    ageTo: '',
-  });
+  const [filters, setFilters] = useState<FiltersState>({ ...defaultFilters });
   const [debouncedFilters, setDebouncedFilters] = useState(filters);
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({ page: 0, pageSize: 10 });
   const [sortModel, setSortModel] = useState<GridSortModel>([]);
@@ -143,6 +145,11 @@ const UsersListContainer = () => {
 
   const { data, isLoading, isValidating } = useUsersList(queryParams);
 
+  const hasActiveFilters = useMemo(
+    () => Boolean(filters.search || filters.country || filters.ageFrom || filters.ageTo),
+    [filters],
+  );
+
   const rows = useMemo(() => data?.data ?? [], [data?.data]);
   const rowCount = data?.total ?? 0;
 
@@ -164,6 +171,10 @@ const UsersListContainer = () => {
   };
 
   const handleFiltersClose = () => setFiltersAnchorEl(null);
+
+  const handleClearFilters = () => {
+    setFilters(() => ({ ...defaultFilters }));
+  };
 
   const handlePaginationChange = (model: GridPaginationModel) => setPaginationModel(model);
 
@@ -245,11 +256,19 @@ const UsersListContainer = () => {
         PaperProps={{
           sx: {
             p: 2,
-            width: 300
+            width: 300,
           },
         }}
       >
         <Stack direction="column" spacing={2}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Typography variant="subtitle2" fontWeight={700} color="text.secondary">
+              {t('users.filters.toggle')}
+            </Typography>
+            <Button size="small" color="secondary" onClick={handleClearFilters} disabled={!hasActiveFilters}>
+              {t('users.filters.clear')}
+            </Button>
+          </Stack>
           <StyledTextField
             select
             fullWidth

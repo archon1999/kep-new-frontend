@@ -24,7 +24,8 @@
       "anyCountry": "Istalgan mamlakat",
       "ageFrom": "Yosh dan",
       "ageTo": "Yosh gacha",
-      "agePlaceholder": "--"
+      "agePlaceholder": "--",
+      "clear": "Tozalash"
     },
     "columns": {
       "user": "Foydalanuvchi",
