@@ -19,7 +19,13 @@ const HomePage = () => {
   const displayName = currentUser?.firstName?.trim() || username || t('homePage.greeting.defaultName');
   const isAuthenticated = Boolean(currentUser);
   const { data: ratings, isLoading } = useUserRatings(username);
-  const { data: activityHistory, isLoading: isActivityLoading } = useUserActivityHistory(username);
+  const {
+    data: activityHistory,
+    isLoading: isActivityLoading,
+    isLoadingMore: isActivityLoadingMore,
+    hasMore: hasMoreActivity,
+    loadMore: loadMoreActivity,
+  } = useUserActivityHistory(username);
 
   return (
     <Box>
@@ -31,6 +37,9 @@ const HomePage = () => {
             isLoading={isLoading}
             activityHistory={activityHistory}
             isActivityLoading={isActivityLoading}
+            isActivityHistoryLoadingMore={isActivityLoadingMore}
+            hasMoreActivityHistory={hasMoreActivity}
+            onLoadMoreActivityHistory={loadMoreActivity}
             username={username}
             isAuthenticated={isAuthenticated}
           />

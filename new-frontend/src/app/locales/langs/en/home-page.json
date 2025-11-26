@@ -97,6 +97,7 @@
       "title": "Activity history",
       "empty": "There is no activity to display yet.",
       "viewAll": "View all",
+      "loadMore": "Load more",
       "defaultLabel": "Activity update",
       "types": {
         "problemAttemptSummary": {
