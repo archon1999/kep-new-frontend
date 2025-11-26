@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Avatar,
   Box,
@@ -11,7 +12,6 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
-  IconButton,
   List,
   ListItem,
   ListItemAvatar,
@@ -25,6 +25,7 @@ import {
   paperClasses,
 } from '@mui/material';
 import { useAuth } from 'app/providers/AuthProvider';
+import { getResourceById, getResourceByUsername, resources } from 'app/routes/resources';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { apiClient } from 'shared/api/http/apiClient';
@@ -34,8 +35,11 @@ import {
   NotificationBody,
 } from 'shared/api/orval/generated/endpoints/index.schemas';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
+import KepIcon from 'shared/components/base/KepIcon';
 import SimpleBar from 'shared/components/base/SimpleBar';
+import KepcoinValue from 'shared/components/common/KepcoinValue.tsx';
 import OutlinedBadge from 'shared/components/styled/OutlinedBadge';
+import { KepIconName } from 'shared/config/icons';
 import { wsService } from 'shared/services/websocket';
 
 const NOTIFICATIONS_PAGE_SIZE = 5;
@@ -47,6 +51,7 @@ interface NotificationContent {
   earnType?: number;
   kepcoin?: number;
   challengeId?: number;
+  text?: string;
   arena?: {
     id?: number;
     title?: string;
@@ -62,15 +67,15 @@ interface NotificationContent {
 
 dayjs.extend(relativeTime);
 
-const typeIconMap: Partial<Record<ApiNotificationType, string>> = {
-  [ApiNotificationType.NUMBER_1]: 'material-symbols:notifications',
-  [ApiNotificationType.NUMBER_2]: 'material-symbols:workspace-premium',
-  [ApiNotificationType.NUMBER_3]: 'material-symbols:redeem-outline',
-  [ApiNotificationType.NUMBER_4]: 'material-symbols:call-received',
-  [ApiNotificationType.NUMBER_5]: 'material-symbols:swords-outline',
-  [ApiNotificationType.NUMBER_6]: 'material-symbols:trophy-outline',
-  [ApiNotificationType.NUMBER_7]: 'material-symbols:swords',
-  [ApiNotificationType.NUMBER_8]: 'material-symbols:stars-outline',
+const typeIconMap: Partial<Record<ApiNotificationType, KepIconName>> = {
+  [ApiNotificationType.NUMBER_1]: 'info',
+  [ApiNotificationType.NUMBER_2]: 'rating-changes',
+  [ApiNotificationType.NUMBER_3]: 'rating',
+  [ApiNotificationType.NUMBER_4]: 'challenge',
+  [ApiNotificationType.NUMBER_5]: 'challenge',
+  [ApiNotificationType.NUMBER_6]: 'arena',
+  [ApiNotificationType.NUMBER_7]: 'duel',
+  [ApiNotificationType.NUMBER_8]: 'star',
 };
 
 const parseContent = (content?: string): NotificationContent => {
@@ -87,65 +92,17 @@ const parseContent = (content?: string): NotificationContent => {
   return content as NotificationContent;
 };
 
-const getNotificationMessage = (notification: ApiNotification): string => {
-  const parsedContent = parseContent(notification.content);
-
-  switch (notification.type) {
-    case ApiNotificationType.NUMBER_2: {
-      if (parsedContent.contestTitle) {
-        const delta = parsedContent.delta;
-        const deltaText = typeof delta === 'number' ? ` (${delta > 0 ? '+' : ''}${delta})` : '';
-        return `${parsedContent.contestTitle} | Contest finished${deltaText}`;
-      }
-      break;
-    }
-    case ApiNotificationType.NUMBER_3: {
-      if (parsedContent.kepcoin) {
-        return `Earned ${parsedContent.kepcoin} Kepcoin`;
-      }
-      break;
-    }
-    case ApiNotificationType.NUMBER_4:
-    case ApiNotificationType.NUMBER_5: {
-      if (parsedContent.challengeId) {
-        return `Challenge #${parsedContent.challengeId}`;
-      }
-      break;
-    }
-    case ApiNotificationType.NUMBER_6: {
-      if (parsedContent.arena?.title) {
-        return `${parsedContent.arena.title} | Arena finished`;
-      }
-      break;
-    }
-    case ApiNotificationType.NUMBER_7: {
-      if (parsedContent.duel?.id) {
-        return `Duel #${parsedContent.duel.id} starts soon`;
-      }
-      break;
-    }
-    case ApiNotificationType.NUMBER_8: {
-      if (parsedContent.achievementTitle) {
-        return `New achievement unlocked: ${parsedContent.achievementTitle}`;
-      }
-      break;
-    }
-    default:
-      break;
-  }
-
-  if (notification.message) return notification.message;
-
-  if (typeof notification.content === 'string' && notification.content.trim().length) {
-    return notification.content;
-  }
-
-  return 'Notification';
-};
-
 const getNotificationMeta = (notification: ApiNotification): string =>
   notification.createdNaturaltime ||
   (notification.created ? dayjs(notification.created).fromNow() : 'Just now');
+
+interface NotificationView {
+  title: string;
+  description?: string;
+  action?: { label: string; to: string };
+  chips?: ReactNode[];
+  icon: KepIconName;
+}
 
 interface NotificationMenuProps {
   type?: 'default' | 'slim';
@@ -260,6 +217,157 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
     };
   }, [currentUser?.username, showSystemNotification]);
 
+  const getKepcoinReason = useCallback(
+    (earnType?: number) => {
+      const normalizedEarnType = earnType;
+
+      if (normalizedEarnType === 4) return t('notifications.kepcoinReasonBonusFromAdmin');
+      if (normalizedEarnType === 7) return t('notifications.kepcoinReasonDaily');
+      if (normalizedEarnType === 8) return t('notifications.kepcoinReasonWeekly');
+      if (normalizedEarnType === 9) return t('notifications.kepcoinReasonMonthly');
+      return undefined;
+    },
+    [t],
+  );
+
+  const buildNotificationView = useCallback(
+    (notification: ApiNotification): NotificationView => {
+      const parsedContent = parseContent(notification.content);
+      const chips: ReactNode[] = [];
+      const icon = typeIconMap[notification.type] ?? 'info';
+
+      let title =
+        notification.message ||
+        (typeof parsedContent.text === 'string' && parsedContent.text.trim()) ||
+        t('notifications.systemNotificationFallback');
+      let description: string | undefined;
+      let action: NotificationView['action'];
+
+      switch (notification.type) {
+        case ApiNotificationType.NUMBER_2: {
+          const deltaRaw =
+            typeof parsedContent.delta === 'number'
+              ? parsedContent.delta
+              : Number(parsedContent.delta);
+          const delta = Number.isFinite(deltaRaw) ? (deltaRaw as number) : undefined;
+
+          if (typeof delta === 'number') {
+            chips.push(
+              <Chip
+                key="delta"
+                size="small"
+                label={`${delta > 0 ? '+' : ''}${delta}`}
+                color={delta > 0 ? 'success' : delta < 0 ? 'error' : 'default'}
+                variant={delta === 0 ? 'outlined' : 'filled'}
+              />,
+            );
+          }
+
+          title = parsedContent.contestTitle || t('notifications.contestFinished');
+          description = t('notifications.contestFinished');
+
+          if (parsedContent.contestId) {
+            action = {
+              label: t('notifications.viewContestStandings'),
+              to: getResourceById(resources.ContestStandings, parsedContent.contestId),
+            };
+          }
+          break;
+        }
+        case ApiNotificationType.NUMBER_3: {
+          const amountRaw =
+            typeof parsedContent.kepcoin === 'number'
+              ? parsedContent.kepcoin
+              : Number(parsedContent.kepcoin);
+          const amount = Number.isFinite(amountRaw) ? (amountRaw as number) : undefined;
+          const reason = getKepcoinReason(parsedContent.earnType);
+
+          if (typeof amount === 'number') {
+            chips.push(<KepcoinValue value={amount} />);
+          }
+
+          title =
+            reason ||
+            (typeof amount === 'number'
+              ? t('notifications.earnedKepcoin', { amount })
+              : t('notifications.systemNotificationFallback'));
+          description =
+            typeof amount === 'number' ? t('notifications.earnedKepcoin', { amount }) : reason;
+          break;
+        }
+        case ApiNotificationType.NUMBER_4: {
+          title = t('notifications.challengeCallAccepted');
+          description = t('notifications.challengeCallAccepted');
+
+          if (parsedContent.challengeId) {
+            action = {
+              label: t('notifications.goToChallenge'),
+              to: getResourceById(resources.Challenge, parsedContent.challengeId),
+            };
+          }
+          break;
+        }
+        case ApiNotificationType.NUMBER_5: {
+          title = t('notifications.challengeFinished');
+          description = t('notifications.challengeFinished');
+
+          if (parsedContent.challengeId) {
+            action = {
+              label: t('notifications.goToChallenge'),
+              to: getResourceById(resources.Challenge, parsedContent.challengeId),
+            };
+          }
+          break;
+        }
+        case ApiNotificationType.NUMBER_6: {
+          title = parsedContent.arena?.title || t('notifications.arenaFinished');
+          description = t('notifications.arenaFinished');
+
+          if (parsedContent.arena?.id) {
+            action = {
+              label: t('notifications.viewArenaResults'),
+              to: getResourceById(resources.ArenaTournament, parsedContent.arena.id),
+            };
+          }
+          break;
+        }
+        case ApiNotificationType.NUMBER_7: {
+          title = parsedContent.duel?.title || t('notifications.duelStarts');
+          description = t('notifications.duelStarts');
+
+          if (parsedContent.duel?.id) {
+            action = {
+              label: t('notifications.openDuel'),
+              to: getResourceById(resources.Duel, parsedContent.duel.id),
+            };
+          }
+          break;
+        }
+        case ApiNotificationType.NUMBER_8: {
+          title = parsedContent.achievementTitle || t('notifications.newAchievement');
+
+          if (currentUser?.username) {
+            action = {
+              label: t('notifications.viewAchievements'),
+              to: getResourceByUsername(resources.UserProfileAchievements, currentUser.username),
+            };
+          }
+          break;
+        }
+        default: {
+          if (notification.message) {
+            title = notification.message;
+          } else if (typeof notification.content === 'string' && notification.content.trim()) {
+            title = notification.content;
+          }
+        }
+      }
+
+      return { title, description, action, chips, icon };
+    },
+    [currentUser?.username, getKepcoinReason, t],
+  );
+
   const handleMarkRead = async (notificationId?: number) => {
     if (!notificationId || showAll) return;
 
@@ -280,6 +388,11 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
     } catch {
       // silently ignore errors for UX consistency
     }
+  };
+
+  const handleActionClick = (notificationId?: number) => {
+    handleMarkRead(notificationId);
+    handleClose();
   };
 
   const handleReadAll = async () => {
@@ -319,7 +432,6 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
                 <ListItemText
                   primary={<Skeleton variant="text" width="80%" />}
                   secondary={<Skeleton variant="text" width="60%" />}
-                  sx={{ mr: showAll ? 0 : 5 }}
                 />
               </ListItem>
               <Divider component="div" />
@@ -344,7 +456,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
             <IconifyIcon icon="material-symbols:notifications-off-outline" sx={{ fontSize: 28 }} />
           </Avatar>
           <Typography variant="body2" color="text.secondary">
-            No notifications
+            {t('notifications.empty')}
           </Typography>
         </Stack>
       );
@@ -356,25 +468,12 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
           {notifications.map((notification, index) => {
             const itemKey =
               notification.id || notification.created || `${notification.type}-${index}`;
+            const view = buildNotificationView(notification);
+            const meta = getNotificationMeta(notification);
 
             return (
               <Box key={itemKey} component="li">
-                <ListItem
-                  alignItems="flex-start"
-                  sx={{ py: 1.25, px: 2 }}
-                  secondaryAction={
-                    !showAll && (
-                      <IconButton
-                        size="small"
-                        edge="end"
-                        aria-label="mark as read"
-                        onClick={() => handleMarkRead(notification.id)}
-                      >
-                        <IconifyIcon icon="material-symbols:close-rounded" />
-                      </IconButton>
-                    )
-                  }
-                >
+                <ListItem alignItems="flex-start" sx={{ py: 1.5, px: 2 }}>
                   <ListItemAvatar>
                     <Avatar
                       variant="rounded"
@@ -385,27 +484,61 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
                         height: 44,
                       }}
                     >
-                      <IconifyIcon
-                        icon={
-                          typeIconMap[notification.type] ||
-                          'material-symbols:notifications-outline-rounded'
-                        }
-                        sx={{ fontSize: 22 }}
-                      />
+                      <KepIcon name={view.icon} fontSize={22} color="primary.main" />
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
                     primary={
-                      <Typography variant="subtitle2" color="text.primary">
-                        {getNotificationMessage(notification)}
-                      </Typography>
+                      <Stack spacing={0.75} alignItems="flex-start">
+                        <Typography variant="subtitle2" color="text.primary">
+                          {view.title}
+                        </Typography>
+                        {view.description && (
+                          <Typography variant="body2" color="text.secondary">
+                            {view.description}
+                          </Typography>
+                        )}
+                        {!!view.chips?.length && (
+                          <Stack direction="row" spacing={0.75} flexWrap="wrap">
+                            {view.chips.map((chip, chipIndex) => (
+                              <Box key={`${itemKey}-chip-${chipIndex}`} sx={{ mb: 0.5, mr: 0.5 }}>
+                                {chip}
+                              </Box>
+                            ))}
+                          </Stack>
+                        )}
+                        {(view.action || (!showAll && notification.id)) && (
+                          <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+                            {view.action && (
+                              <Button
+                                component={RouterLink}
+                                to={view.action.to}
+                                size="small"
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => handleActionClick(notification.id)}
+                              >
+                                {view.action.label}
+                              </Button>
+                            )}
+                            {!showAll && notification.id && (
+                              <Button
+                                size="small"
+                                variant="text"
+                                color="primary"
+                                onClick={() => handleMarkRead(notification.id)}
+                                startIcon={<KepIcon name="check" fontSize={16} />}
+                              >
+                                {t('notifications.markAsRead')}
+                              </Button>
+                            )}
+                          </Stack>
+                        )}
+                        <Typography variant="caption" color="text.secondary">
+                          {meta}
+                        </Typography>
+                      </Stack>
                     }
-                    secondary={
-                      <Typography variant="caption" color="text.secondary">
-                        {getNotificationMeta(notification)}
-                      </Typography>
-                    }
-                    sx={{ mr: showAll ? 0 : 5 }}
                   />
                 </ListItem>
                 <Divider component="div" />
@@ -479,15 +612,17 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
           sx={{ px: 2, pt: 2, pb: 1 }}
         >
           <Box>
-            <Typography variant="h6">Notifications</Typography>
+            <Typography variant="h6">{t('notifications.title')}</Typography>
             <Typography variant="caption" color="text.secondary">
-              {showAll ? 'All notifications' : 'Unread notifications'}
+              {showAll ? t('notifications.subtitleAll') : t('notifications.subtitleUnread')}
             </Typography>
           </Box>
           <Chip
             color="primary"
             size="small"
-            label={`${total} ${showAll ? 'total' : 'unread'}`}
+            label={t(showAll ? 'notifications.countTotal' : 'notifications.countUnread', {
+              count: total,
+            })}
             sx={{ borderRadius: 1 }}
           />
         </Stack>
@@ -495,7 +630,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
         {!showAll && total > 0 && (
           <Box sx={{ px: 2, pb: 1 }}>
             <Button size="small" color="primary" variant="text" onClick={handleReadAll}>
-              Mark all as read
+              {t('notifications.markAllAsRead')}
             </Button>
           </Box>
         )}
@@ -519,7 +654,7 @@ const NotificationMenu = ({ type = 'default' }: NotificationMenuProps) => {
 
         <Stack direction="row" spacing={1} sx={{ px: 2, py: 1 }}>
           <Button fullWidth variant="contained" color="primary" onClick={handleToggleView}>
-            {showAll ? 'Show unread only' : 'Show all notifications'}
+            {showAll ? t('notifications.showUnread') : t('notifications.showAll')}
           </Button>
         </Stack>
       </Popover>
