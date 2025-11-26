@@ -17,8 +17,8 @@ import {
   Tabs,
   Typography,
 } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import { useAuth } from 'app/providers/AuthProvider';
+import { useBreakpoints } from 'app/providers/BreakpointsProvider.tsx';
 import { getResourceById, resources } from 'app/routes/resources';
 import UserPopover from 'modules/users/ui/components/UserPopover';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
@@ -26,6 +26,7 @@ import KepcoinSpendConfirm from 'shared/components/common/KepcoinSpendConfirm';
 import KepcoinValue from 'shared/components/common/KepcoinValue';
 import AttemptLanguage from 'shared/components/problems/AttemptLanguage';
 import AttemptVerdict, { VerdictKey } from 'shared/components/problems/AttemptVerdict';
+import { useThemeMode } from 'shared/hooks/useThemeMode.tsx';
 import { toast } from 'sonner';
 import { problemsQueries } from '../../application/queries';
 import {
@@ -72,7 +73,7 @@ const AttemptDetailDialog = ({
   onAttemptUpdated,
 }: AttemptDetailDialogProps) => {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const themeMode = useThemeMode();
   const { currentUser } = useAuth();
   const [detail, setDetail] = useState<AttemptDetail | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -86,6 +87,9 @@ const AttemptDetailDialog = ({
 
   const shouldShowTestSection =
     (baseAttempt?.verdict ?? 0) !== Verdicts.Accepted && (baseAttempt?.testCaseNumber ?? 0) > 1;
+
+  const { up } = useBreakpoints();
+  const upMd = up('md');
 
   const canPurchaseAttempt = useMemo(
     () =>
@@ -188,28 +192,30 @@ const AttemptDetailDialog = ({
               {t('problems.attempts.modal.title', { id: baseAttempt?.id ?? '--' })}
             </Typography>
 
-            <Stack direction="row" spacing={1}>
-              <UserPopover username={baseAttempt?.user?.username ?? ''}>
-                <Typography fontWeight={700} color="primary">
-                  {baseAttempt?.user?.username ?? '--'}
-                </Typography>
-              </UserPopover>
+            {upMd && (
+              <Stack direction="row" spacing={1}>
+                <UserPopover username={baseAttempt?.user?.username ?? ''}>
+                  <Typography fontWeight={700} color="primary">
+                    {baseAttempt?.user?.username ?? '--'}
+                  </Typography>
+                </UserPopover>
 
-              {problemUrl ? (
-                <Typography
-                  component={RouterLink}
-                  to={problemUrl}
-                  color="inherit"
-                  sx={{ textDecoration: 'none', fontWeight: 600 }}
-                >
-                  {baseAttempt?.contestProblemSymbol
-                    ? `${baseAttempt.contestProblemSymbol}. ${baseAttempt?.problemTitle}`
-                    : `${baseAttempt?.problemId}. ${baseAttempt?.problemTitle}`}
-                </Typography>
-              ) : (
-                <Typography fontWeight={600}>{baseAttempt?.problemTitle ?? '--'}</Typography>
-              )}
-            </Stack>
+                {problemUrl ? (
+                  <Typography
+                    component={RouterLink}
+                    to={problemUrl}
+                    color="inherit"
+                    sx={{ textDecoration: 'none', fontWeight: 600 }}
+                  >
+                    {baseAttempt?.contestProblemSymbol
+                      ? `${baseAttempt.contestProblemSymbol}. ${baseAttempt?.problemTitle}`
+                      : `${baseAttempt?.problemId}. ${baseAttempt?.problemTitle}`}
+                  </Typography>
+                ) : (
+                  <Typography fontWeight={600}>{baseAttempt?.problemTitle ?? '--'}</Typography>
+                )}
+              </Stack>
+            )}
           </Stack>
 
           <Stack direction="row" spacing={1} alignItems="center">
@@ -328,14 +334,13 @@ const AttemptDetailDialog = ({
                   value={detail.sourceCode ?? ''}
                   language={mapEditorLanguage(detail.lang)}
                   height="420px"
-                  theme={theme.palette.mode === 'dark' ? 'vs-dark' : 'vs'}
+                  theme={themeMode.mode === 'dark' ? 'vs-dark' : 'vs'}
                   options={{
                     readOnly: true,
                     minimap: { enabled: false },
                     fontSize: 14,
                     scrollBeyondLastLine: false,
                     wordWrap: 'off',
-                    horizontalScrollbarSize: 12,
                     automaticLayout: true,
                     lineNumbers: 'on',
                   }}

@@ -85,7 +85,6 @@ const verdictShortTitle: Record<VerdictKey, string> = {
 const hideTestCaseFor: VerdictKey[] = [
   Verdicts.Accepted,
   Verdicts.InQueue,
-  Verdicts.Running,
   Verdicts.JudgementFailed,
   Verdicts.Rejected,
   Verdicts.CheckerNotFound,
