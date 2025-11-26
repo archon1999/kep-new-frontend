@@ -4,15 +4,14 @@ import { LinearProgress, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
-  GridPaginationModel,
   GridSortModel,
   GridValidRowModel,
 } from '@mui/x-data-grid';
 import { resources } from 'app/routes/resources';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
-import DataGridPaginationAction from 'shared/components/pagination/DataGridPaginationAction';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import PageHeader from 'shared/components/sections/common/PageHeader';
+import useGridPagination from 'shared/hooks/useGridPagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useContestsRating } from '../../application/queries';
 import { ContestRatingRow } from '../../domain/entities/contest-rating.entity';
@@ -28,10 +27,11 @@ const orderingFieldMap: Record<string, string> = {
 
 const ContestsRatingPage = () => {
   const { t } = useTranslation();
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: 1,
-    pageSize: 10,
-  });
+  const {
+    paginationModel,
+    onPaginationModelChange,
+    pageParams: { page, pageSize },
+  } = useGridPagination({ initialPageSize: 10 });
   const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'rating', sort: 'desc' }]);
 
   const ordering = useMemo(() => {
@@ -46,8 +46,8 @@ const ContestsRatingPage = () => {
   }, [sortModel]);
 
   const { data: ratingPage, isLoading } = useContestsRating({
-    page: paginationModel.page,
-    pageSize: paginationModel.pageSize,
+    page,
+    pageSize,
     ordering,
   });
 
@@ -179,16 +179,13 @@ const ContestsRatingPage = () => {
           paginationMode="server"
           sortingMode="server"
           paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
+          onPaginationModelChange={onPaginationModelChange}
           sortModel={sortModel}
           onSortModelChange={handleSortModelChange}
           pageSizeOptions={[12]}
           disableColumnFilter
           disableColumnMenu
           disableColumnSelector
-          slots={{
-            pagination: DataGridPaginationAction,
-          }}
           getRowHeight={() => 76}
           sx={{
             border: 'none',

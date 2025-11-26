@@ -1,10 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Stack, Typography } from '@mui/material';
-import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
-import { paginateRows } from 'shared/lib/pagination';
+import useGridPagination from 'shared/hooks/useGridPagination';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useContest, useContestContestants } from '../../application/queries';
@@ -21,10 +21,11 @@ const ContestRatingChangesPage = () => {
   const { data: contestants = [], isLoading } = useContestContestants(contestId);
   useDocumentTitle(contest?.title, { contestTitle: contest?.title });
 
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 20,
-  });
+  const {
+    paginationModel,
+    onPaginationModelChange,
+    pageParams,
+  } = useGridPagination({ initialPageSize: 20 });
 
   const columns: GridColDef<ContestantEntity>[] = useMemo(
     () => [
@@ -128,8 +129,8 @@ const ContestRatingChangesPage = () => {
   );
 
   const paginatedRows = useMemo(
-    () => paginateRows(contestants, paginationModel),
-    [contestants, paginationModel],
+    () => contestants.slice(pageParams.offset, pageParams.offset + pageParams.pageSize),
+    [contestants, pageParams.offset, pageParams.pageSize],
   );
 
   return (
@@ -150,9 +151,9 @@ const ContestRatingChangesPage = () => {
         columns={columns}
         loading={isLoading}
         rowCount={contestants.length}
-        paginationMode="server"
+        paginationMode="client"
         paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
+        onPaginationModelChange={onPaginationModelChange}
         pageSizeOptions={[20, 50, 100]}
         getRowId={(row) => row.username}
       />

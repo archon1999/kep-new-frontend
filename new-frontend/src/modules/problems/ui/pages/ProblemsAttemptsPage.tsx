@@ -16,7 +16,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { GridPaginationModel } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { resources } from 'app/routes/resources';
 import { usersApiClient } from 'modules/users/data-access/api/users.client';
@@ -25,6 +24,7 @@ import OnlyMeSwitch from 'shared/components/common/OnlyMeSwitch';
 import FilterButton from 'shared/components/common/FilterButton';
 import PageHeader from 'shared/components/sections/common/PageHeader';
 import StyledTextField from 'shared/components/styled/StyledTextField';
+import useGridPagination from 'shared/hooks/useGridPagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import useSWR from 'swr';
 import { problemsQueries, useAttemptVerdicts, useAttemptsList, useProblemLanguages } from '../../application/queries';
@@ -54,10 +54,12 @@ const ProblemsAttemptsPage = () => {
   };
 
   const [filter, setFilter] = useState<AttemptsFilterState>(initialFilter);
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 20,
-  });
+  const {
+    paginationModel,
+    onPaginationModelChange,
+    pageParams,
+    setPaginationModel,
+  } = useGridPagination({ initialPageSize: 20 });
   const [problemInput, setProblemInput] = useState('');
   const [userInput, setUserInput] = useState('');
 
@@ -70,11 +72,11 @@ const ProblemsAttemptsPage = () => {
       problemId: Number.isNaN(problemId) ? undefined : problemId,
       verdict: Number.isNaN(verdict) ? undefined : verdict,
       lang: filter.lang || undefined,
-      page: paginationModel.page + 1,
-      pageSize: paginationModel.pageSize,
+      page: pageParams.page,
+      pageSize: pageParams.pageSize,
       ordering: '-id',
     };
-  }, [filter, paginationModel.page, paginationModel.pageSize]);
+  }, [filter, pageParams.page, pageParams.pageSize]);
 
   const { data: attemptsPage, isLoading, mutate } = useAttemptsList(requestParams);
   const { data: languages } = useProblemLanguages();
@@ -95,8 +97,6 @@ const ProblemsAttemptsPage = () => {
     setFilter({ username: '', problemId: '', verdict: '', lang: '' });
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
-
-  const handlePaginationChange = (model: GridPaginationModel) => setPaginationModel(model);
 
   const filtersOpen = Boolean(filtersAnchorEl);
   const isOnlyMyAttempts = Boolean(currentUser?.username && filter.username === currentUser.username);
@@ -329,7 +329,7 @@ const ProblemsAttemptsPage = () => {
           attempts={attempts}
           total={total}
           paginationModel={paginationModel}
-          onPaginationChange={handlePaginationChange}
+          onPaginationChange={onPaginationModelChange}
           isLoading={isLoading}
           onRerun={() => mutate()}
         />

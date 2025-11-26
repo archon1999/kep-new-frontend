@@ -2,12 +2,12 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Grid, Stack, Typography } from '@mui/material';
-import { DataGrid, GridColDef, GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridSortModel } from '@mui/x-data-grid';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
 import { ApiContestsRegistrantsListOrdering } from 'shared/api/orval/generated/endpoints/index.schemas';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
-import { gridPaginationToPageParams } from 'shared/lib/pagination';
+import useGridPagination from 'shared/hooks/useGridPagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useContest, useContestRegistrants } from '../../application/queries';
 import { ContestRegistrant } from '../../domain/entities/contest-registrant.entity';
@@ -22,21 +22,18 @@ const ContestRegistrantsPage = () => {
   const { data: contest, isLoading: isContestLoading } = useContest(contestId);
   useDocumentTitle(contest?.title, { contestTitle: contest?.title });
 
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 20,
-  });
+  const {
+    paginationModel,
+    onPaginationModelChange,
+    pageParams,
+  } = useGridPagination({ initialPageSize: 20 });
   const [ordering, setOrdering] = useState<ApiContestsRegistrantsListOrdering>(
     ApiContestsRegistrantsListOrdering['-contests_rating'],
   );
-  const paginationParams = useMemo(
-    () => gridPaginationToPageParams(paginationModel),
-    [paginationModel],
-  );
 
   const { data: registrantsPage, isLoading } = useContestRegistrants(contestId, {
-    page: paginationParams.page,
-    pageSize: paginationParams.pageSize,
+    page: pageParams.page,
+    pageSize: pageParams.pageSize,
     ordering,
   });
 
@@ -149,7 +146,7 @@ const ContestRegistrantsPage = () => {
             sortingMode="server"
             onSortModelChange={handleSortChange}
             paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel}
+            onPaginationModelChange={onPaginationModelChange}
             pageSizeOptions={[20, 50, 100]}
             getRowId={(row) => row.username}
           />

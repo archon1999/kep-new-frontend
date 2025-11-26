@@ -4,22 +4,22 @@ import { Box, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
-  GridPaginationModel,
   GridSortModel,
   GridValidRowModel,
 } from '@mui/x-data-grid';
 import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
-import DataGridPaginationAction from 'shared/components/pagination/DataGridPaginationAction.tsx';
+import useGridPagination from 'shared/hooks/useGridPagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useDuelsRating } from '../../application/queries.ts';
 
 const DuelsRatingPage = () => {
   const { t } = useTranslation();
 
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 12,
-  });
+  const {
+    paginationModel,
+    onPaginationModelChange,
+    pageParams: { page, pageSize },
+  } = useGridPagination({ initialPageSize: 10 });
   const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'wins', sort: 'desc' }]);
 
   const ordering = useMemo(() => {
@@ -28,9 +28,6 @@ const DuelsRatingPage = () => {
     const prefix = sort === 'asc' ? '' : '-';
     return `${prefix}${field}`;
   }, [sortModel]);
-
-  const page = paginationModel.page + 1;
-  const pageSize = paginationModel.pageSize;
 
   const { data: ratingPage, isLoading } = useDuelsRating({ page, pageSize, ordering });
 
@@ -147,19 +144,16 @@ const DuelsRatingPage = () => {
           loading={isLoading}
           rows={rows}
           columns={columns}
-          paginationMode="client"
           paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
+          onPaginationModelChange={onPaginationModelChange}
           rowCount={ratingPage?.total ?? rows.length}
-          sortingMode="client"
+          sortingMode="server"
           sortModel={sortModel}
           onSortModelChange={setSortModel}
           disableColumnMenu
           pageSizeOptions={[10, 12, 20]}
           getRowHeight={() => 72}
-          slots={{
-            pagination: DataGridPaginationAction,
-          }}
+          paginationMode="server"
         />
       </Stack>
     </Box>

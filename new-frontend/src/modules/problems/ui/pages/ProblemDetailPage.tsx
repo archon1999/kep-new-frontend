@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Panel, PanelGroup } from 'react-resizable-panels';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Box, Card, CircularProgress, LinearProgress } from '@mui/material';
-import { GridPaginationModel } from '@mui/x-data-grid';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { useAuth } from 'app/providers/AuthProvider';
 import { getResourceById, resources } from 'app/routes/resources';
@@ -12,6 +11,7 @@ import { alpha } from '@mui/material/styles';
 import { wsService } from 'shared/services/websocket';
 import { toast } from 'sonner';
 import { getDifficultyColor } from 'modules/problems/config/difficulty';
+import useGridPagination from 'shared/hooks/useGridPagination';
 import {
   problemsQueries,
   useAttemptsList,
@@ -92,10 +92,11 @@ const ProblemDetailPage = () => {
   const [editorTab, setEditorTab] = useState<'console' | 'samples'>('console');
   const [myAttemptsOnly, setMyAttemptsOnly] = useState(true);
   const [hackPagination, setHackPagination] = useState({ page: 0, pageSize: 10 });
-  const [attemptsPagination, setAttemptsPagination] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 10,
-  });
+  const {
+    paginationModel: attemptsPagination,
+    onPaginationModelChange: onAttemptsPaginationChange,
+    pageParams: attemptsPageParams,
+  } = useGridPagination({ initialPageSize: 10 });
 
   const {
     data: problem,
@@ -135,16 +136,16 @@ const ProblemDetailPage = () => {
     () => ({
       problemId: problemId || undefined,
       username: myAttemptsOnly ? currentUser?.username : undefined,
-      page: attemptsPagination.page + 1,
-      pageSize: attemptsPagination.pageSize,
+      page: attemptsPageParams.page,
+      pageSize: attemptsPageParams.pageSize,
       ordering: '-id',
     }),
     [
       problemId,
       myAttemptsOnly,
       currentUser?.username,
-      attemptsPagination.page,
-      attemptsPagination.pageSize,
+      attemptsPageParams.page,
+      attemptsPageParams.pageSize,
     ],
   );
 
@@ -533,7 +534,7 @@ const ProblemDetailPage = () => {
                 attempts={attemptsPage?.data ?? []}
                 attemptsTotal={attemptsPage?.total ?? 0}
                 attemptsPagination={attemptsPagination}
-                onAttemptsPaginationChange={setAttemptsPagination}
+                onAttemptsPaginationChange={onAttemptsPaginationChange}
                 isAttemptsLoading={isAttemptsLoading}
                 onAttemptsRefresh={() => mutateAttempts()}
                 hackAttempts={hackAttemptsPage?.data ?? []}

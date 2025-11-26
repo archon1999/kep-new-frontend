@@ -14,11 +14,12 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { Palette } from '@mui/material/styles';
-import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
+import { GridSortModel } from '@mui/x-data-grid';
 import { resources } from 'app/routes/resources';
 import IconifyIcon from 'shared/components/base/IconifyIcon';
 import KepIcon from 'shared/components/base/KepIcon';
 import PageHeader from 'shared/components/sections/common/PageHeader';
+import useGridPagination from 'shared/hooks/useGridPagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { cssVarRgba } from 'shared/lib/utils';
 import { useProblemsPeriodRating, useProblemsRating } from '../../application/queries';
@@ -40,10 +41,11 @@ const sortFieldMap: Record<string, string> = {
 const ProblemsRatingPage = () => {
   const { t } = useTranslation();
 
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 10,
-  });
+  const {
+    paginationModel,
+    onPaginationModelChange,
+    pageParams: { page, pageSize },
+  } = useGridPagination();
   const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'rating', sort: 'desc' }]);
 
   const ordering = useMemo(() => {
@@ -63,14 +65,13 @@ const ProblemsRatingPage = () => {
     isValidating,
   } = useProblemsRating({
     ordering,
-    page: paginationModel.page + 1,
-    pageSize: paginationModel.pageSize,
+    page,
+    pageSize,
   });
 
   const rows = ratingPage?.data ?? [];
   const rowCount = ratingPage?.total ?? 0;
 
-  const handlePaginationModelChange = (model: GridPaginationModel) => setPaginationModel(model);
   const handleSortModelChange = (model: GridSortModel) => setSortModel(model.slice(0, 1));
 
   const labels = useMemo(
@@ -114,7 +115,7 @@ const ProblemsRatingPage = () => {
           rowCount={rowCount}
           loading={isLoading || isValidating}
           paginationModel={paginationModel}
-          onPaginationModelChange={handlePaginationModelChange}
+          onPaginationModelChange={onPaginationModelChange}
           sortModel={sortModel}
           onSortModelChange={handleSortModelChange}
           labels={labels}

@@ -1,7 +1,7 @@
 import { ChangeEvent, MouseEvent, SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { TabContext, TabList } from '@mui/lab';
 import { Box, Button, InputAdornment, Menu, MenuItem, Stack, Tab, Typography } from '@mui/material';
-import { GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
+import { GridSortModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { useUsersCountries, useUsersList } from 'modules/users/application/queries';
 import StyledTextField from 'shared/components/styled/StyledTextField';
@@ -9,6 +9,7 @@ import IconifyIcon from 'shared/components/base/IconifyIcon';
 import UsersDataGrid from './UsersDataGrid';
 import CountryFlagIcon from 'shared/components/common/CountryFlagIcon';
 import FilterButton from 'shared/components/common/FilterButton';
+import useGridPagination from 'shared/hooks/useGridPagination';
 
 const tabOrderingMap = {
   all: '-id',
@@ -57,7 +58,12 @@ const UsersListContainer = () => {
   const [filtersAnchorEl, setFiltersAnchorEl] = useState<null | HTMLElement>(null);
   const [filters, setFilters] = useState<FiltersState>({ ...defaultFilters });
   const [debouncedFilters, setDebouncedFilters] = useState(filters);
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({ page: 0, pageSize: 10 });
+  const {
+    paginationModel,
+    onPaginationModelChange,
+    pageParams,
+    setPaginationModel,
+  } = useGridPagination({ initialPageSize: 10 });
   const [sortModel, setSortModel] = useState<GridSortModel>([]);
 
   useEffect(() => {
@@ -132,15 +138,15 @@ const UsersListContainer = () => {
 
   const queryParams = useMemo(
     () => ({
-      page: paginationModel.page + 1,
-      pageSize: paginationModel.pageSize,
+      page: pageParams.page,
+      pageSize: pageParams.pageSize,
       ordering,
       search: debouncedFilters.search || undefined,
       country: debouncedFilters.country || undefined,
       ageFrom: debouncedFilters.ageFrom ? Number(debouncedFilters.ageFrom) : undefined,
       ageTo: debouncedFilters.ageTo ? Number(debouncedFilters.ageTo) : undefined,
     }),
-    [paginationModel.page, paginationModel.pageSize, ordering, debouncedFilters],
+    [pageParams.page, pageParams.pageSize, ordering, debouncedFilters],
   );
 
   const { data, isLoading, isValidating } = useUsersList(queryParams);
@@ -175,8 +181,6 @@ const UsersListContainer = () => {
   const handleClearFilters = () => {
     setFilters(() => ({ ...defaultFilters }));
   };
-
-  const handlePaginationChange = (model: GridPaginationModel) => setPaginationModel(model);
 
   const handleSortModelChange = (model: GridSortModel) => setSortModel(model);
 
@@ -354,7 +358,7 @@ const UsersListContainer = () => {
         rowCount={rowCount}
         loading={isLoading || isValidating}
         paginationModel={paginationModel}
-        onPaginationModelChange={handlePaginationChange}
+        onPaginationModelChange={onPaginationModelChange}
         sortModel={sortModel}
         onSortModelChange={handleSortModelChange}
         columnLabels={columnLabels}

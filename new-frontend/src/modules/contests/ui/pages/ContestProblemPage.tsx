@@ -18,7 +18,6 @@ import {
   Typography,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { GridPaginationModel } from '@mui/x-data-grid';
 import AppbarActionItems from 'app/layouts/main-layout/common/AppbarActionItems';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
@@ -57,6 +56,7 @@ import { ContestStatus } from '../../domain/entities/contest-status';
 import { ContestantEntity } from '../../domain/entities/contestant.entity';
 import { sortContestProblems } from '../../utils/sortContestProblems';
 import ContestantView from '../components/ContestantView';
+import useGridPagination from 'shared/hooks/useGridPagination';
 
 const useProblemPermissions = (permissionsRaw: any) => {
   return useMemo(() => {
@@ -236,10 +236,11 @@ const ContestProblemPage = () => {
   const [editorTheme, setEditorTheme] = useState<'vs' | 'vs-dark'>(
     themeMode.mode === 'dark' ? 'vs-dark' : 'vs',
   );
-  const [attemptsPagination, setAttemptsPagination] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 10,
-  });
+  const {
+    paginationModel: attemptsPagination,
+    onPaginationModelChange: onAttemptsPaginationChange,
+    pageParams: attemptsPageParams,
+  } = useGridPagination({ initialPageSize: 10 });
   const [timeLeft, setTimeLeft] = useState<string>('');
   const actionStatesRef = useRef({
     currentUser,
@@ -320,15 +321,15 @@ const ContestProblemPage = () => {
       contestId,
       contestProblem: problemSymbol,
       username: currentUser?.username,
-      page: attemptsPagination.page + 1,
-      pageSize: attemptsPagination.pageSize,
+      page: attemptsPageParams.page,
+      pageSize: attemptsPageParams.pageSize,
       ordering: '-id',
     }),
     [
-      attemptsPagination.page,
-      attemptsPagination.pageSize,
       contestId,
       currentUser?.username,
+      attemptsPageParams.page,
+      attemptsPageParams.pageSize,
       problemSymbol,
     ],
   );
@@ -792,7 +793,7 @@ const ContestProblemPage = () => {
                         attempts={attemptsPage?.data ?? []}
                         total={attemptsPage?.total ?? 0}
                         paginationModel={attemptsPagination}
-                        onPaginationChange={setAttemptsPagination}
+                        onPaginationChange={onAttemptsPaginationChange}
                         isLoading={isAttemptsLoading}
                         onRerun={() => mutateAttempts()}
                         showProblemColumn={false}

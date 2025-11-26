@@ -2,12 +2,11 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { Box, Button, Card, CardContent, Grid, MenuItem, Select, Stack, Typography } from '@mui/material';
-import { GridPaginationModel } from '@mui/x-data-grid';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { useAuth } from 'app/providers/AuthProvider';
 import OnlyMeSwitch from 'shared/components/common/OnlyMeSwitch';
 import { getResourceByParams, resources } from 'app/routes/resources';
-import { gridPaginationToPageParams } from 'shared/lib/pagination';
+import useGridPagination from 'shared/hooks/useGridPagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import ProblemsAttemptsTable from 'modules/problems/ui/components/ProblemsAttemptsTable.tsx';
 import { AttemptsListParams } from 'modules/problems/domain/ports/problems.repository';
@@ -47,14 +46,12 @@ const ContestAttemptsPage = () => {
     userOnly: false,
   });
 
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 20,
-  });
-  const paginationParams = useMemo(
-    () => gridPaginationToPageParams(paginationModel),
-    [paginationModel],
-  );
+  const {
+    paginationModel,
+    onPaginationModelChange,
+    pageParams: paginationParams,
+    setPaginationModel,
+  } = useGridPagination({ initialPageSize: 20 });
 
   const requestParams = useMemo<AttemptsListParams>(() => {
     const verdictNumber = filter.verdict ? Number(filter.verdict) : NaN;
@@ -105,7 +102,7 @@ const ContestAttemptsPage = () => {
             attempts={attemptsPage?.data ?? []}
             total={attemptsPage?.total ?? 0}
             paginationModel={paginationModel}
-            onPaginationChange={setPaginationModel}
+            onPaginationChange={onPaginationModelChange}
             isLoading={isLoading}
             onRerun={() => mutate()}
             showProblemColumn

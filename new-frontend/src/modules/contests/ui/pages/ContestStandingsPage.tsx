@@ -2,12 +2,12 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import { Box, Chip, FormControl, Link, MenuItem, Select, Stack, Switch, Tooltip, Typography } from '@mui/material';
-import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useAuth } from 'app/providers/AuthProvider';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { ContestType } from 'shared/api/orval/generated/endpoints/index.schemas';
 import { getResourceByParams, resources } from 'app/routes/resources';
-import { gridPaginationToPageParams } from 'shared/lib/pagination';
+import useGridPagination from 'shared/hooks/useGridPagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import {
   useContest,
@@ -107,20 +107,20 @@ const ContestStandingsPage = () => {
       : undefined,
   );
 
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 20,
-  });
+  const {
+    paginationModel,
+    onPaginationModelChange,
+    pageParams,
+    setPaginationModel,
+  } = useGridPagination({ initialPageSize: 20 });
   const [selectedFilter, setSelectedFilter] = useState<string>('');
   const [followingOnly, setFollowingOnly] = useState(false);
-
-  const { page, pageSize } = gridPaginationToPageParams(paginationModel);
 
   const { data: standings, isLoading } = useContestStandings(
     contestId,
     {
-      page,
-      pageSize,
+      page: pageParams.page,
+      pageSize: pageParams.pageSize,
       filter: selectedFilter || null,
       following: followingOnly,
     },
@@ -434,7 +434,7 @@ const ContestStandingsPage = () => {
         rowCount={total}
         paginationMode="server"
         paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
+        onPaginationModelChange={onPaginationModelChange}
         pageSizeOptions={[10, 20, 50, 100]}
         getRowId={(row) => `${row.username}-${row.virtualTime ?? ''}`}
         getRowClassName={({ row }) =>

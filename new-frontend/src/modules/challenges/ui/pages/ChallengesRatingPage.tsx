@@ -4,24 +4,24 @@ import { Box, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
-  GridPaginationModel,
   GridSortModel,
   GridValidRowModel,
 } from '@mui/x-data-grid';
 import { resources } from 'app/routes/resources';
 import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
-import DataGridPaginationAction from 'shared/components/pagination/DataGridPaginationAction.tsx';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
 import PageHeader from 'shared/components/sections/common/PageHeader';
+import useGridPagination from 'shared/hooks/useGridPagination';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
 import { useChallengesRating } from '../../application/queries.ts';
 
 const ChallengesRatingPage = () => {
   const { t } = useTranslation();
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: 0,
-    pageSize: 12,
-  });
+  const {
+    paginationModel,
+    onPaginationModelChange,
+    pageParams: { page, pageSize },
+  } = useGridPagination({ initialPageSize: 12 });
   const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'rating', sort: 'desc' }]);
 
   const ordering = useMemo(() => {
@@ -30,9 +30,6 @@ const ChallengesRatingPage = () => {
     const prefix = sort === 'asc' ? '' : '-';
     return `${prefix}${field}`;
   }, [sortModel]);
-
-  const page = paginationModel.page + 1;
-  const pageSize = paginationModel.pageSize;
 
   const { data: ratingPage, isLoading } = useChallengesRating({ page, pageSize, ordering });
 
@@ -158,7 +155,7 @@ const ChallengesRatingPage = () => {
           paginationMode="server"
           sortingMode="server"
           paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
+          onPaginationModelChange={onPaginationModelChange}
           sortModel={sortModel}
           onSortModelChange={(model) =>
             setSortModel(model.length ? model : [{ field: 'rating', sort: 'desc' }])
@@ -168,9 +165,6 @@ const ChallengesRatingPage = () => {
           disableColumnFilter
           disableColumnSelector
           disableColumnMenu
-          slots={{
-            pagination: DataGridPaginationAction,
-          }}
         />
       </Box>
     </Stack>
