@@ -17,6 +17,7 @@ import {
   Tabs,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useAuth } from 'app/providers/AuthProvider';
 import { getResourceById, resources } from 'app/routes/resources';
 import UserPopover from 'modules/users/ui/components/UserPopover';
@@ -71,6 +72,7 @@ const AttemptDetailDialog = ({
   onAttemptUpdated,
 }: AttemptDetailDialogProps) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const { currentUser } = useAuth();
   const [detail, setDetail] = useState<AttemptDetail | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -326,12 +328,15 @@ const AttemptDetailDialog = ({
                   value={detail.sourceCode ?? ''}
                   language={mapEditorLanguage(detail.lang)}
                   height="420px"
+                  theme={theme.palette.mode === 'dark' ? 'vs-dark' : 'vs'}
                   options={{
                     readOnly: true,
                     minimap: { enabled: false },
                     fontSize: 14,
                     scrollBeyondLastLine: false,
-                    wordWrap: 'on',
+                    wordWrap: 'off',
+                    horizontalScrollbarSize: 12,
+                    automaticLayout: true,
                     lineNumbers: 'on',
                   }}
                 />
