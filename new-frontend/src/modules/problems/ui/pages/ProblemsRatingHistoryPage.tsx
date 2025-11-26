@@ -206,7 +206,7 @@ const RatingHistoryCard = ({
   const cardBackground = `linear-gradient(135deg, ${alpha(
     theme.palette[color].main,
     isDark ? 0.15 : 0.08,
-  )}, ${alpha(theme.palette.background.paper, isDark ? 0.45 : 0.95)})`;
+  )}, ${alpha(theme.palette.background.paper, isDark ? 0.45 : 0.15)})`;
   const headerBackground = alpha(theme.palette[color].main, isDark ? 0.14 : 0.02);
 
   return (
