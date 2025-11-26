@@ -1,5 +1,6 @@
 import { createKeyFactory } from 'shared/api';
-import useSWR, { useSWRInfinite } from 'swr';
+import useSWR from 'swr';
+import useSWRInfinite from 'swr/infinite';
 import { HttpHomeRepository } from '../data-access/repository/http.home.repository';
 import type {
   HomeListParams,
@@ -56,6 +57,8 @@ export const useUserRatings = (username?: string | null) =>
   );
 
 export const useUserActivityHistory = (username?: string | null, pageSize = 4) => {
+  type ActivityHistoryKey = readonly ['home', 'activity-history', string, number, number];
+
   const {
     data,
     isLoading,
@@ -63,7 +66,7 @@ export const useUserActivityHistory = (username?: string | null, pageSize = 4) =
     size,
     setSize,
   } = useSWRInfinite<HomeUserActivityHistory>(
-    (pageIndex, previousPageData) => {
+    (pageIndex: number, previousPageData: HomeUserActivityHistory | null) => {
       if (!username) return null;
 
       if (previousPageData && pageIndex >= previousPageData.pagesCount) {
@@ -72,7 +75,7 @@ export const useUserActivityHistory = (username?: string | null, pageSize = 4) =
 
       return ['home', 'activity-history', username, pageSize, pageIndex + 1] as const;
     },
-    ([, , usernameParam, pageSizeParam, page]) =>
+    ([, , usernameParam, pageSizeParam, page]: ActivityHistoryKey) =>
       repository.getUserActivityHistory(usernameParam, {
         page,
         pageSize: pageSizeParam,
@@ -80,11 +83,11 @@ export const useUserActivityHistory = (username?: string | null, pageSize = 4) =
     { suspense: false },
   );
 
-  const pages = data ?? [];
+  const pages: HomeUserActivityHistory[] = data ?? [];
   const mergedHistory = pages.length
     ? {
         ...pages[pages.length - 1],
-        data: pages.flatMap((page) => page.data),
+        data: pages.flatMap((pageItem: HomeUserActivityHistory) => pageItem.data),
       }
     : null;
 
@@ -94,7 +97,7 @@ export const useUserActivityHistory = (username?: string | null, pageSize = 4) =
 
   const loadMore = () => {
     if (hasMore) {
-      setSize((current) => current + 1);
+      setSize((current: number) => current + 1);
     }
   };
 
