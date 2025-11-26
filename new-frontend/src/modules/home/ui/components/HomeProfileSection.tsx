@@ -17,6 +17,9 @@ interface GreetingCardProps {
   isActivityLoading?: boolean;
   username?: string | null;
   isAuthenticated?: boolean;
+  isActivityHistoryLoadingMore?: boolean;
+  hasMoreActivityHistory?: boolean;
+  onLoadMoreActivityHistory?: () => void;
 }
 
 const HomeProfileSection = ({
@@ -27,6 +30,9 @@ const HomeProfileSection = ({
   isActivityLoading,
   username,
   isAuthenticated = false,
+  isActivityHistoryLoadingMore,
+  hasMoreActivityHistory,
+  onLoadMoreActivityHistory,
 }: GreetingCardProps) => {
   const { t } = useTranslation();
   const todayLabel = useMemo(() => dayjs().format('dddd, MMM DD, YYYY'), []);
@@ -84,6 +90,9 @@ const HomeProfileSection = ({
           username={username}
           history={activityHistory}
           isLoading={isActivityLoading}
+          isLoadingMore={isActivityHistoryLoadingMore}
+          hasMore={hasMoreActivityHistory}
+          onLoadMore={onLoadMoreActivityHistory}
         />
       </Stack>
     </Paper>

@@ -1,5 +1,5 @@
 import { createKeyFactory } from 'shared/api';
-import useSWR from 'swr';
+import useSWR, { useSWRInfinite } from 'swr';
 import { HttpHomeRepository } from '../data-access/repository/http.home.repository';
 import type {
   HomeListParams,
@@ -55,11 +55,57 @@ export const useUserRatings = (username?: string | null) =>
     repository.getUserRatings(username as string),
   );
 
-export const useUserActivityHistory = (username?: string | null, pageSize = 4) =>
-  useHomeSWR<HomeUserActivityHistory | null>(
-    username ? homeKeys.detail(`activity-history-${username}-${pageSize}`) : null,
-    () => repository.getUserActivityHistory(username as string, { pageSize }),
+export const useUserActivityHistory = (username?: string | null, pageSize = 4) => {
+  const {
+    data,
+    isLoading,
+    isValidating,
+    size,
+    setSize,
+  } = useSWRInfinite<HomeUserActivityHistory>(
+    (pageIndex, previousPageData) => {
+      if (!username) return null;
+
+      if (previousPageData && pageIndex >= previousPageData.pagesCount) {
+        return null;
+      }
+
+      return ['home', 'activity-history', username, pageSize, pageIndex + 1] as const;
+    },
+    ([, , usernameParam, pageSizeParam, page]) =>
+      repository.getUserActivityHistory(usernameParam, {
+        page,
+        pageSize: pageSizeParam,
+      }),
+    { suspense: false },
   );
+
+  const pages = data ?? [];
+  const mergedHistory = pages.length
+    ? {
+        ...pages[pages.length - 1],
+        data: pages.flatMap((page) => page.data),
+      }
+    : null;
+
+  const lastPage = pages[pages.length - 1];
+  const hasMore = Boolean(lastPage && lastPage.page < lastPage.pagesCount);
+  const isLoadingMore = isValidating && pages.length < size;
+
+  const loadMore = () => {
+    if (hasMore) {
+      setSize((current) => current + 1);
+    }
+  };
+
+  return {
+    data: mergedHistory,
+    isLoading,
+    isLoadingMore,
+    hasMore,
+    loadMore,
+  };
+};
 
 export const useLandingPageStatistics = () =>
   useHomeSWR<HomeLandingPageStatistics>(homeKeys.detail('landing-page-statistics'), () =>

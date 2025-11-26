@@ -97,6 +97,7 @@
       "title": "Faollik tarixi",
       "empty": "Hozircha faollik haqida maʼlumot yo‘q.",
       "viewAll": "Barchasini ko‘rish",
+      "loadMore": "Yana ko‘rsatish",
       "defaultLabel": "Faollik yangilanishi",
       "types": {
         "problemAttemptSummary": {

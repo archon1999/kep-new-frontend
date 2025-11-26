@@ -97,6 +97,7 @@
       "title": "История активности",
       "empty": "Активность пока отсутствует.",
       "viewAll": "Посмотреть все",
+      "loadMore": "Показать ещё",
       "defaultLabel": "Обновление активности",
       "types": {
         "problemAttemptSummary": {

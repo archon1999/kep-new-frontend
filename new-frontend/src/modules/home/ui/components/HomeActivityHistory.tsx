@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import {
+  LoadingButton,
   Timeline,
   TimelineConnector,
   TimelineContent,
@@ -25,6 +26,9 @@ interface HomeActivityHistoryProps {
   history?: HomeUserActivityHistory | null;
   isLoading?: boolean;
   maxHeight?: number;
+  onLoadMore?: () => void;
+  hasMore?: boolean;
+  isLoadingMore?: boolean;
 }
 
 type ActivityType = HomeUserActivityHistoryItem['activityType'];
@@ -236,7 +240,15 @@ const getActivityTexts = (
   }
 };
 
-const HomeActivityHistory = ({ username: _username, history, isLoading, maxHeight=350, }: HomeActivityHistoryProps) => {
+const HomeActivityHistory = ({
+  username: _username,
+  history,
+  isLoading,
+  maxHeight = 350,
+  onLoadMore,
+  hasMore = false,
+  isLoadingMore = false,
+}: HomeActivityHistoryProps) => {
   const { t } = useTranslation();
   const activities = history?.data ?? [];
   const showEmpty = !isLoading && activities.length === 0;
@@ -385,6 +397,14 @@ const HomeActivityHistory = ({ username: _username, history, isLoading, maxHeigh
           </Timeline>
         )}
       </Box>
+
+      {!isLoading && activities.length > 0 && hasMore ? (
+        <Box display="flex" justifyContent="center">
+          <LoadingButton variant="outlined" size="small" loading={isLoadingMore} onClick={onLoadMore}>
+            {t('homePage.activityHistory.loadMore')}
+          </LoadingButton>
+        </Box>
+      ) : null}
     </Stack>
   );
 };
