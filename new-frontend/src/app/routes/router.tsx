@@ -7,6 +7,7 @@ import MainLayout from 'app/layouts/main-layout';
 import Page404 from 'modules/errors/ui/pages/Page404';
 import PageLoader from 'shared/components/loading/PageLoader';
 import { resources } from './resources';
+import { legacyRedirectRoutes } from './legacy-routes';
 import { authPaths, rootPaths } from './route-config';
 
 const Home = lazy(() => import('modules/home/ui/pages/HomePage'));
@@ -394,6 +395,8 @@ export const routes: RouteObject[] = [
         ),
         handle: { titleKey: 'pageTitles.contestProblem', fallbackTitleKey: 'pageTitles.contests' },
       },
+
+      ...legacyRedirectRoutes,
 
       {
         path: rootPaths.authRoot,
