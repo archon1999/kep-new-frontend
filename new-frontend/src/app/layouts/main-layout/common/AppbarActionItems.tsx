@@ -3,6 +3,7 @@ import { Stack, SxProps } from '@mui/material';
 import LanguageMenu from './LanguageMenu';
 import NotificationMenu from './NotificationMenu';
 import ProfileMenu from './ProfileMenu';
+import HolidayEffectsToggle from './HolidayEffectsToggle';
 import ThemeToggler from './ThemeToggler';
 import KepcoinMenu from './KepcoinMenu';
 import DailyTasksMenu from './DailyTasksMenu';
@@ -28,6 +29,7 @@ const AppbarActionItems = ({ type = 'default', sx, searchComponent, showThemeTog
     >
       {searchComponent}
       <LanguageMenu type={type} />
+      <HolidayEffectsToggle type={type} />
       {showThemeToggler && <ThemeToggler type={type} />}
       <NotificationMenu type={type} />
       <KepcoinMenu type={type} />

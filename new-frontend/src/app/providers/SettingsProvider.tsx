@@ -22,6 +22,15 @@ interface SettingsContextInterFace {
 export const SettingsContext = createContext({} as SettingsContextInterFace);
 
 const SettingsProvider = ({ children }: PropsWithChildren) => {
+  const storedHolidayEffects = getItemFromStore(
+    'showHolidayEffects',
+    initialConfig.showHolidayEffects,
+  );
+  const showHolidayEffects =
+    typeof storedHolidayEffects === 'boolean'
+      ? storedHolidayEffects
+      : storedHolidayEffects === 'true';
+
   const configState: Config = {
     ...initialConfig,
     sidenavCollapsed: getItemFromStore('sidenavCollapsed', initialConfig.sidenavCollapsed),
@@ -30,6 +39,7 @@ const SettingsProvider = ({ children }: PropsWithChildren) => {
     navigationMenuType: getItemFromStore('navigationMenuType', initialConfig.navigationMenuType),
     navColor: getItemFromStore('navColor', initialConfig.navColor),
     locale: getItemFromStore('locale', initialConfig.locale),
+    showHolidayEffects,
   };
   const [config, configDispatch] = useReducer(settingsReducer, configState);
   const { i18n } = useTranslation();

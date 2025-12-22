@@ -16,7 +16,9 @@
       "tasksCount": "{{count}} tasks",
       "completed": "Completed",
       "empty": "No daily tasks for now"
-    }
+    },
+    "enableHolidayEffects": "Enable holiday effects",
+    "disableHolidayEffects": "Disable holiday effects"
   },
   "notifications": {
     "systemInfoTitle": "Information",
