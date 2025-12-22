@@ -15,8 +15,8 @@ const HolidayEffectsToggle = ({ type = 'default' }: HolidayEffectsToggleProps) =
   const { t } = useTranslation();
 
   const label = showHolidayEffects
-    ? t('common.common.disableHolidayEffects')
-    : t('common.common.enableHolidayEffects');
+    ? t('common.disableHolidayEffects')
+    : t('common.enableHolidayEffects');
 
   return (
     <Tooltip title={label}>
