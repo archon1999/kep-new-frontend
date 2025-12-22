@@ -18,6 +18,7 @@ export interface Config {
   openNavbarDrawer: boolean;
   drawerWidth: number;
   locale: SupportedLocales;
+  showHolidayEffects: boolean;
 }
 
 export const initialConfig: Config = {
@@ -30,6 +31,7 @@ export const initialConfig: Config = {
   openNavbarDrawer: false,
   drawerWidth: mainDrawerWidth.full,
   locale: 'en-US',
+  showHolidayEffects: true,
 };
 
 export const defaultAuthCredentials: LoginPayload | null = null;

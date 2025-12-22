@@ -130,6 +130,7 @@ export const settingsReducer = (state: Config, action: ACTIONTYPE) => {
         'topnavType',
         'navColor',
         'locale',
+        'showHolidayEffects',
       ].includes(key)
     ) {
       setItemToStore(key, String(updatedState[key as keyof Config]));

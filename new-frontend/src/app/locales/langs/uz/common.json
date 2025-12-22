@@ -16,7 +16,9 @@
       "tasksCount": "{{count}} ta vazifa",
       "completed": "Bajarilgan",
       "empty": "Hozircha kunlik vazifalar yo'q"
-    }
+    },
+    "enableHolidayEffects": "Yangi yil effektlarini yoqish",
+    "disableHolidayEffects": "Yangi yil effektlarini o‘chirish"
   },
   "notifications": {
     "systemInfoTitle": "Ma'lumot",

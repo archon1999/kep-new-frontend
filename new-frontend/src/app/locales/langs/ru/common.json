@@ -16,7 +16,9 @@
       "completed": "Выполнено",
       "empty": "Ежедневных задач нет"
     },
-    "close": "Закрыть"
+    "close": "Закрыть",
+    "enableHolidayEffects": "Включить новогодние эффекты",
+    "disableHolidayEffects": "Выключить новогодние эффекты"
   },
   "notifications": {
     "systemInfoTitle": "Информация",

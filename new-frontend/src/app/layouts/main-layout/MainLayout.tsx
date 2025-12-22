@@ -9,6 +9,7 @@ import { sidenavVibrantStyle } from 'app/theme/styles/vibrantNav';
 import clsx from 'clsx';
 import VibrantBackground from 'shared/components/common/VibrantBackground';
 import { mainDrawerWidth } from 'shared/lib/constants';
+import NewYearEffects from 'shared/components/seasonal/NewYearEffects';
 import NavProvider from './NavProvider';
 import Footer from './footer';
 import SidenavDrawerContent from './sidenav/SidenavDrawerContent';
@@ -57,6 +58,7 @@ const MainLayout = ({ children }: PropsWithChildren) => {
         sx={{ display: 'flex', zIndex: 1, position: 'relative' }}
       >
         <NavProvider>
+          <NewYearEffects />
           {navigationMenuType === 'sidenav' && (
             <>
               <AppBar />
