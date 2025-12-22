@@ -64,6 +64,9 @@ export const kepIcons = {
   unsolved: 'mdi:user-minus',
   timer: 'mdi:timer-outline',
   ranking: 'mdi:podium-gold',
+  holiday: 'mdi:string-lights',
+  snow: 'mdi:snowflake',
+  sparkle: 'mdi:star-four-points-outline',
 } as const;
 
 export type KepIconName = keyof typeof kepIcons;

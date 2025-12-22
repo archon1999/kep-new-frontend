@@ -6,6 +6,7 @@ import ProfileMenu from './ProfileMenu';
 import ThemeToggler from './ThemeToggler';
 import KepcoinMenu from './KepcoinMenu';
 import DailyTasksMenu from './DailyTasksMenu';
+import FestiveEffectsToggle from './FestiveEffectsToggle';
 
 interface AppbarActionItemsProps {
   type?: 'default' | 'slim';
@@ -28,6 +29,7 @@ const AppbarActionItems = ({ type = 'default', sx, searchComponent, showThemeTog
     >
       {searchComponent}
       <LanguageMenu type={type} />
+      <FestiveEffectsToggle type={type} />
       {showThemeToggler && <ThemeToggler type={type} />}
       <NotificationMenu type={type} />
       <KepcoinMenu type={type} />

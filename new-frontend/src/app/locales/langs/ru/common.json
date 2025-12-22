@@ -9,6 +9,10 @@
     "losses": "Поражения",
     "minutesShort": "мин",
     "searchPlaceholder": "Поиск",
+    "festiveEffects": {
+      "enable": "Включить новогодние эффекты",
+      "disable": "Выключить новогодние эффекты"
+    },
     "dailyTasks": {
       "title": "Ежедневные задачи",
       "subtitle": "Поддерживайте свою серию",

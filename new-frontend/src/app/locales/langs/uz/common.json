@@ -10,6 +10,10 @@
     "close": "Yopish",
     "minutesShort": "daq",
     "searchPlaceholder": "Qidirish",
+    "festiveEffects": {
+      "enable": "Yangi yil effektlarini yoqish",
+      "disable": "Yangi yil effektlarini o‘chirish"
+    },
     "dailyTasks": {
       "title": "Kunlik vazifalar",
       "subtitle": "Seriyani davom ettiring",

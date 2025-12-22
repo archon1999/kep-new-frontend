@@ -10,6 +10,10 @@
     "close": "Close",
     "minutesShort": "min",
     "searchPlaceholder": "Search",
+    "festiveEffects": {
+      "enable": "Turn on holiday effects",
+      "disable": "Turn off holiday effects"
+    },
     "dailyTasks": {
       "title": "Daily tasks",
       "subtitle": "Keep your streak growing",
