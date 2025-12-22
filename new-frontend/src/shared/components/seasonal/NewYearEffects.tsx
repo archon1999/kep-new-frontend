@@ -50,7 +50,7 @@ const NewYearEffects = () => {
   );
 
   const snowflakes = useMemo<Snowflake[]>(() => {
-    return Array.from({ length: SNOWFLAKE_COUNT }, (_, index) => ({
+    return Array.from({ length: SNOWFLAKE_COUNT }, (_) => ({
       left: Math.random() * 100,
       size: Math.random() * 5 + 2,
       duration: Math.random() * 6 + 10,
