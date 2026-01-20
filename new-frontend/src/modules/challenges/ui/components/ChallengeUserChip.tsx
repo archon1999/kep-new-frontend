@@ -1,4 +1,4 @@
-import { Avatar, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
 import { ChallengePlayer } from '../../domain';
 
@@ -8,7 +8,10 @@ interface ChallengeUserChipProps {
   highlight?: boolean;
 }
 
-const ChallengeUserChip = ({ player, align = 'left', highlight = false }: ChallengeUserChipProps) => (
+const ChallengeUserChip = ({
+  player,
+  align = 'left',
+}: ChallengeUserChipProps) => (
   <Stack
     direction="row"
     spacing={1.5}
@@ -18,28 +21,12 @@ const ChallengeUserChip = ({ player, align = 'left', highlight = false }: Challe
       justifyContent: align === 'left' ? 'flex-start' : 'flex-end',
     }}
   >
-    {align === 'left' && (
-      <Avatar sx={{ bgcolor: highlight ? 'primary.main' : 'background.neutral' }}>
-        {player.username?.charAt(0).toUpperCase()}
-      </Avatar>
-    )}
-    <Stack spacing={0.25} direction="column" alignItems={align === 'left' ? 'flex-start' : 'flex-end'}>
-      <Typography variant="subtitle2" fontWeight={700} noWrap>
+    <Stack spacing={1} direction="row" alignItems={align === 'left' ? 'flex-start' : 'flex-end'}>
+      <ChallengesRatingChip title={player.rankTitle} size="small" />
+      <Typography variant="subtitle2" fontWeight={700}>
         {player.username}
       </Typography>
-      <ChallengesRatingChip title={player.rankTitle} size="small" />
-      <Typography
-        variant="caption"
-        color={player.delta > 0 ? 'success.main' : player.delta < 0 ? 'error.main' : 'text.secondary'}
-      >
-        {`${player.rating} -> ${player.newRating} (${player.delta > 0 ? '+' : ''}${player.delta})`}
-      </Typography>
     </Stack>
-    {align === 'right' && (
-      <Avatar sx={{ bgcolor: highlight ? 'primary.main' : 'background.neutral' }}>
-        {player.username?.charAt(0).toUpperCase()}
-      </Avatar>
-    )}
   </Stack>
 );
 

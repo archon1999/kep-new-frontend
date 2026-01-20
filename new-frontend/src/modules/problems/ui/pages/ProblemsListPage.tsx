@@ -37,7 +37,6 @@ import IconifyIcon from 'shared/components/base/IconifyIcon.tsx';
 import FilterButton from 'shared/components/common/FilterButton.tsx';
 import CustomTablePaginationAction from 'shared/components/pagination/CustomTablePaginationAction.tsx';
 import PageHeader from 'shared/components/sections/common/PageHeader.tsx';
-import StyledTextField from 'shared/components/styled/StyledTextField.tsx';
 import {
   useLastContestProblems,
   useMostViewedProblems,

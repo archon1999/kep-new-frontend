@@ -17,9 +17,15 @@ export const useChallengeCalls = () =>
     { refreshInterval: 5000, revalidateOnFocus: false },
   );
 
-export const useChallengesList = (params?: { page?: number; pageSize?: number; ordering?: string }) =>
-  useSWR<PageResult<Challenge>>(['challenges-list', params?.page, params?.pageSize, params?.ordering], () =>
-    challengesRepository.listChallenges(params),
+export const useChallengesList = (params?: {
+  page?: number;
+  pageSize?: number;
+  ordering?: string;
+  username?: string;
+}) =>
+  useSWR<PageResult<Challenge>>(
+    ['challenges-list', params?.page, params?.pageSize, params?.ordering, params?.username],
+    () => challengesRepository.listChallenges(params),
   );
 
 export const useChallengeDetail = (challengeId?: string) =>

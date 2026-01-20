@@ -7,6 +7,7 @@ import { ChallengeCall } from '../../domain';
 import { useAcceptChallengeCall, useDeleteChallengeCall } from '../../application/mutations.ts';
 import { useAuth } from 'app/providers/AuthProvider.tsx';
 import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
+import UserPopover from 'modules/users/ui/components/UserPopover.tsx';
 
 dayjs.extend(relativeTime);
 
@@ -49,35 +50,26 @@ const ChallengeCallCard = ({ challengeCall, onAccepted, onRemoved }: ChallengeCa
       <CardContent>
         <Stack spacing={1.5} direction="column">
           <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Stack spacing={0.5} direction="column">
-              <Typography variant="subtitle1" fontWeight={700}>
-                {challengeCall.username}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {t('challenges.callCreated', { time: dayjs(challengeCall.created).fromNow() })}
-              </Typography>
+            <Stack spacing={1} direction="row">
+              <ChallengesRatingChip title={challengeCall.rankTitle || t('challenges.rankUnknown')} />
+
+              <UserPopover username={challengeCall.username}>
+                <Typography variant="subtitle1" fontWeight={700}>
+                  {challengeCall.username}
+                </Typography>
+              </UserPopover>
             </Stack>
-            <ChallengesRatingChip title={challengeCall.rankTitle || t('challenges.rankUnknown')} />
           </Stack>
 
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} divider={<Divider flexItem orientation="vertical" />}>
+          <Stack direction="row" spacing={1} divider={<Divider flexItem orientation="vertical" />}>
             <Stack spacing={0.5} direction="column">
-              <Typography variant="overline" color="text.secondary">
-                {t('challenges.questions')}
-              </Typography>
               <Typography variant="subtitle2">{challengeCall.questionsCount}</Typography>
             </Stack>
             <Stack spacing={0.5} direction="column">
-              <Typography variant="overline" color="text.secondary">
-                {t('challenges.timeLimit')}
-              </Typography>
               <Typography variant="subtitle2">{formatDuration(challengeCall.timeSeconds, t)}</Typography>
             </Stack>
             {challengeCall.chapters?.length ? (
               <Stack spacing={0.5} direction="column">
-                <Typography variant="overline" color="text.secondary">
-                  {t('challenges.chapters')}
-                </Typography>
                 <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
                   {challengeCall.chapters.map((chapter) => (
                     <Chip key={chapter.id} size="small" label={chapter.title} variant="soft" />
@@ -87,7 +79,11 @@ const ChallengeCallCard = ({ challengeCall, onAccepted, onRemoved }: ChallengeCa
             ) : null}
           </Stack>
 
-          <Stack direction="row" spacing={1} justifyContent="flex-end">
+          <Stack direction="row" spacing={1} justifyContent="space-between">
+            <Typography variant="body2" color="textSecondary">
+              {challengeCall.created}
+            </Typography>
+
             {isOwner ? (
               <Button
                 color="error"

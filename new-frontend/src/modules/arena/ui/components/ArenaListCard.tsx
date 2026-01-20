@@ -31,19 +31,6 @@ const ArenaListCard = ({ arena }: ArenaListCardProps) => {
     return t('arena.status.finished');
   }, [arena.status, t]);
 
-  const timeLabel = useMemo(() => {
-    if (arena.status === ArenaStatus.NotStarted) {
-      const startDate = dayjs(arena.startTime);
-      return startDate.format('DD.MM.YYYY HH:mm');
-    }
-
-    if (arena.status === ArenaStatus.Already) {
-      return t('arena.now');
-    }
-
-    return dayjs(arena.finishTime).format('DD.MM.YYYY HH:mm');
-  }, [arena.finishTime, arena.startTime, arena.status, t]);
-
   return (
     <Card background={1} sx={{ outline: 'none', borderRadius: 3 }}>
       <CardActionArea
@@ -64,6 +51,7 @@ const ArenaListCard = ({ arena }: ArenaListCardProps) => {
               <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
                 <Chip
                   color="warning"
+                  variant="outlined"
                   size="small"
                   label={`${durationMinutes} ${t('arena.minutes')}`}
                 />
@@ -103,11 +91,7 @@ const ArenaListCard = ({ arena }: ArenaListCardProps) => {
                       ? 'default'
                       : 'warning'
                 }
-                variant={arena.status === ArenaStatus.Already ? 'filled' : 'outlined'}
               />
-              <Typography variant="caption" color="text.secondary">
-                {timeLabel}
-              </Typography>
             </Stack>
           </Stack>
 

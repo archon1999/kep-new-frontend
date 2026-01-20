@@ -39,9 +39,10 @@ const getChipStyles = (color: string, theme: Theme) => {
 
 interface ChallengesRatingChipProps extends Omit<ChipProps, 'label' | 'title'> {
   title?: string | null;
+  rating?: number;
 }
 
-const ChallengesRatingChip = ({ title, size = 'small', ...chipProps }: ChallengesRatingChipProps) => {
+const ChallengesRatingChip = ({ title, size = 'small', rating, ...chipProps }: ChallengesRatingChipProps) => {
   const theme = useTheme();
 
   if (!title) {
@@ -53,7 +54,7 @@ const ChallengesRatingChip = ({ title, size = 'small', ...chipProps }: Challenge
 
   return (
     <Chip
-      label={title}
+      label={rating ?? title}
       size={size}
       variant="soft"
       sx={{
