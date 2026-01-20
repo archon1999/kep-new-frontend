@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent, SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import { TabContext, TabList } from '@mui/lab';
-import { Box, Button, InputAdornment, Menu, MenuItem, Stack, Tab, Typography } from '@mui/material';
+import { Box, Button, InputAdornment, Menu, MenuItem, Stack, Tab, TextField, Typography } from '@mui/material';
 import { GridSortModel } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import { useUsersCountries, useUsersList } from 'modules/users/application/queries';
@@ -273,8 +273,9 @@ const UsersListContainer = () => {
               {t('users.filters.clear')}
             </Button>
           </Stack>
-          <StyledTextField
+          <TextField
             select
+            variant="filled"
             fullWidth
             label={t('users.filters.country')}
             value={filters.country}
@@ -323,31 +324,26 @@ const UsersListContainer = () => {
                 </Stack>
               </MenuItem>
             ))}
-          </StyledTextField>
+          </TextField>
 
           <Stack direction="row" spacing={1.5} alignItems="flex-end">
-            <StyledTextField
+            <TextField
               fullWidth
+              variant="filled"
               type="number"
               label={t('users.filters.ageFrom')}
               value={filters.ageFrom}
               onChange={handleFilterChange('ageFrom')}
               placeholder={t('users.filters.agePlaceholder')}
-              disabledSpinButton
-              slotProps={{ inputLabel: { shrink: true } }}
             />
-            <Typography color="text.secondary" sx={{ pb: 1.5 }}>
-              —
-            </Typography>
-            <StyledTextField
+            <TextField
               fullWidth
+              variant="filled"
               type="number"
               label={t('users.filters.ageTo')}
               value={filters.ageTo}
               onChange={handleFilterChange('ageTo')}
               placeholder={t('users.filters.agePlaceholder')}
-              disabledSpinButton
-              slotProps={{ inputLabel: { shrink: true } }}
             />
           </Stack>
         </Stack>

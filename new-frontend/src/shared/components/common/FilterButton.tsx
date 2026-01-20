@@ -21,7 +21,7 @@ const FilterButton = ({ label, badgeContent, sx, ...buttonProps }: FilterButtonP
         <Box component="span">{label}</Box>
       ) : (
         <Badge color="secondary" badgeContent={badgeContent} invisible={badgeInvisible} overlap="circular">
-          <Box component="span">{label}</Box>
+          <Box sx={{ top: -5, right: -14 }} component="span">{label}</Box>
         </Badge>
       )}
     </Button>
