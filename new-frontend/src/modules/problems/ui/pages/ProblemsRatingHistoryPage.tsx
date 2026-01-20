@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Chip,
@@ -23,7 +24,9 @@ import { Palette } from '@mui/material/styles';
 import { useAuth } from 'app/providers/AuthProvider';
 import { resources } from 'app/routes/resources';
 import dayjs from 'dayjs';
+import { Link as RouterLink } from 'react-router-dom';
 import UserPopover from 'modules/users/ui/components/UserPopover';
+import IconifyIcon from 'shared/components/base/IconifyIcon';
 import KepIcon from 'shared/components/base/KepIcon';
 import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
 import PageHeader from 'shared/components/sections/common/PageHeader';
@@ -142,8 +145,18 @@ const ProblemsRatingHistoryPage = () => {
         breadcrumb={[
           { label: t('problems.title'), url: resources.Problems },
           { label: t('problems.rating.title'), url: resources.ProblemsRating },
-          { label: t('problems.ratingHistory.title'), active: true },
+          { label: t('problems.ratingHistory.breadcrumb'), active: true },
         ]}
+        actionComponent={
+          <Button
+            component={RouterLink}
+            to={resources.ProblemsRating}
+            variant="text"
+            startIcon={<IconifyIcon icon="mdi:arrow-left" width={18} height={18} />}
+          >
+            {t('problems.ratingHistory.backToRating')}
+          </Button>
+        }
       />
 
       {isLoading ? <LinearProgress /> : null}

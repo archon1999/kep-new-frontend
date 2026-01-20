@@ -95,6 +95,7 @@
     },
     "ratingHistory": {
       "title": "Problems rating history",
+      "breadcrumb": "History",
       "subtitle": "Daily, weekly and monthly winners by solved problems.",
       "period": {
         "daily": "Daily",

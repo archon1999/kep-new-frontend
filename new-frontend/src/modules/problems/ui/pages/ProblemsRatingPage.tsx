@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
   LinearProgress,
   Skeleton,
   Stack,
@@ -25,6 +26,8 @@ import { cssVarRgba } from 'shared/lib/utils';
 import { useProblemsPeriodRating, useProblemsRating } from '../../application/queries';
 import { difficultyOptions } from '../../config/difficulty';
 import ProblemsRatingDataGrid from '../components/ProblemsRatingDataGrid';
+import ContestsRatingChip from 'shared/components/rating/ContestsRatingChip';
+import UserPopover from 'modules/users/ui/components/UserPopover';
 
 const sortFieldMap: Record<string, string> = {
   rating: 'rating',
@@ -165,7 +168,7 @@ const PeriodRatings = () => {
           const isLoading = hook.isLoading;
 
           return (
-            <Grid size={{ xs: 12, lg: 4 }}>
+            <Grid key={period} size={{ xs: 12, lg: 4 }}>
               <Card
                 variant="outlined"
                 sx={{
@@ -211,7 +214,7 @@ const PeriodRatings = () => {
                       fontWeight={700}
                       color={`var(--mui-palette-${color}-main)`}
                     >
-                      {t('problems.rating.title')}
+                      {t('problems.rating.ordering.solved')}
                     </Typography>
                   </Stack>
 
@@ -239,16 +242,27 @@ const PeriodRatings = () => {
                             border: `1px solid ${cssVarRgba(theme.vars.palette[color].mainChannel, 0.18)}`,
                           }}
                         >
-                          <Typography variant="body2" fontWeight={700} color="text.primary">
-                            #{index + 1} {item.username}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            fontWeight={700}
-                            color={`var(--mui-palette-${color}-main)`}
-                          >
-                            {t('problems.rating.periodSolved', { value: item.solved })}
-                          </Typography>
+                          <Stack direction="row" spacing={1.5} alignItems="center">
+                            <Typography variant="body2" fontWeight={800} color="text.primary">
+                              #{index + 1}
+                            </Typography>
+                            <UserPopover username={item.username}>
+                              <Stack direction="row" spacing={1} alignItems="center">
+                                {item.ratingTitle ? (
+                                  <ContestsRatingChip title={item.ratingTitle} imgSize={24} />
+                                ) : null}
+                                <Typography variant="body2" fontWeight={700} color="text.primary" noWrap>
+                                  {item.username}
+                                </Typography>
+                              </Stack>
+                            </UserPopover>
+                          </Stack>
+                          <Chip
+                            size="small"
+                            color={color}
+                            label={item.solved ?? 0}
+                            sx={{ fontWeight: 700 }}
+                          />
                         </Stack>
                       ))}
                     </Stack>

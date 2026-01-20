@@ -1,4 +1,4 @@
-{
+﻿{
   "problems": {
     "title": "Masalalar",
     "title2": "Masalalar to'plami",
@@ -7,7 +7,7 @@
     "filters": "Filtrlar",
     "appliedFilters": "{{count}} ta filtr tanlandi",
     "clearFilters": "Filtrlarni tozalash",
-    "searchPlaceholder": "Masala raqami yoki nomi bo‘yicha qidirish",
+    "searchPlaceholder": "Masala raqami yoki nomi boвЂyicha qidirish",
     "orderBy": "Saralash",
     "orderNewest": "Yangilar",
     "orderOldest": "Eskilar",
@@ -25,13 +25,13 @@
     "allDifficulties": "Barcha darajalar",
     "status": "Holati",
     "allStatuses": "Barcha holatlar",
-    "statusUnknown": "Nomaʼlum",
+    "statusUnknown": "NomaКјlum",
     "statusSolved": "Yechilgan",
     "statusUnsolved": "Yechilmagan",
     "titleColumn": "Sarlavha",
     "attempts": {
       "title": "Urinishlar",
-      "subtitle": "Masalalar bo‘yicha barcha yuborilgan javoblar.",
+      "subtitle": "Masalalar boвЂyicha barcha yuborilgan javoblar.",
       "myAttempts": "Mening urinishlarim",
       "onlyMy": "Faqat meniki",
       "refresh": "Yangilash",
@@ -44,7 +44,7 @@
       "verdict": "Natija",
       "anyVerdict": "Istalgan natija",
       "empty": "Urinishlar topilmadi.",
-      "unknownVerdict": "Noma’lum natija",
+      "unknownVerdict": "NomaвЂ™lum natija",
       "backToProblems": "Masalalarga qaytish",
       "columns": {
         "id": "ID",
@@ -68,20 +68,20 @@
       "memory": "Xotira",
       "size": "Hajm",
       "submitted": "Yuborilgan vaqti",
-      "purchaseAttempt": "Urinishni ko‘rish",
-      "lockedDescription": "Bu urinish kodini ochish uchun Kepcoin to‘lang.",
-      "loadError": "Urinish tafsilotlarini yuklab bo‘lmadi.",
-      "codePlaceholder": "Kod urinish ochilgach ko‘rsatiladi.",
+      "purchaseAttempt": "Urinishni koвЂrish",
+      "lockedDescription": "Bu urinish kodini ochish uchun Kepcoin toвЂlang.",
+      "loadError": "Urinish tafsilotlarini yuklab boвЂlmadi.",
+      "codePlaceholder": "Kod urinish ochilgach koвЂrsatiladi.",
       "errorTitle": "Xato xabari",
       "failedTestTitle": "Muvaffaqiyatsiz test #{{number}}",
-      "failedTestDescription": "Ushbu urinishdagi o‘tmagan testni ko‘ring.",
-      "viewTest": "Testni ko‘rish",
+      "failedTestDescription": "Ushbu urinishdagi oвЂtmagan testni koвЂring.",
+      "viewTest": "Testni koвЂrish",
       "purchaseTest": "Testni sotib olish",
-      "testUnavailable": "Test faqat o‘zingizning urinishlaringiz uchun mavjud."
+      "testUnavailable": "Test faqat oвЂzingizning urinishlaringiz uchun mavjud."
     }
   },
     "emptyTitle": "Masalalar topilmadi",
-    "emptySubtitle": "Filtr yoki qidiruv parametrlarini o‘zgartirib ko‘ring.",
+    "emptySubtitle": "Filtr yoki qidiruv parametrlarini oвЂzgartirib koвЂring.",
     "solution": "Yechim",
     "checkerMissing": "Tekshiruvchi",
     "hidden": "Yashirin",
@@ -89,26 +89,26 @@
     "summarySolvedLabel": "Jami yechilgan masalalar",
     "summaryRating": "Reyting {{value}}",
     "summaryRatingLabel": "Masalalar reytingingiz",
-    "summaryRank": "O‘rin {{rank}} / {{total}}",
-    "summaryRankLabel": "Reytingdagi o‘rin",
-    "difficultyBreakdown": "Qiyinchilik bo‘yicha taqsimot",
+    "summaryRank": "OвЂrin {{rank}} / {{total}}",
+    "summaryRankLabel": "Reytingdagi oвЂrin",
+    "difficultyBreakdown": "Qiyinchilik boвЂyicha taqsimot",
     "difficultyOverview": "{{total}} ta masalaning {{solved}} tasi yechildi",
     "difficulty": {
       "beginner": "Boshlangich",
-      "basic": "Bazaviy",
-      "normal": "Oddiy",
-      "medium": "Oʻrtacha",
-      "advanced": "Murakkab",
+      "basic": "Asoslar",
+      "normal": "Normal",
+      "medium": "OК»rtacha",
+      "advanced": "Ilg'or",
       "hard": "Qiyin",
       "extremal": "Juda qiyin"
     },
     "lastAttempts": "Ohirgi urinishlar",
-    "lastContestProblems": "Soʻngi kontest masalalari",
-    "mostViewed": "Ko‘p ko‘rilgan",
-    "noAttempts": "Hozircha urinishlar yo‘q.",
-    "noLastContest": "So‘nggi kontest bo‘yicha ma’lumot yo‘q.",
-    "goToContest": "Kontestga oʻtish",
-    "noMostViewed": "Hozircha mashhur masalalar yo‘q.",
+    "lastContestProblems": "SoК»ngi kontest masalalari",
+    "mostViewed": "KoвЂp koвЂrilgan",
+    "noAttempts": "Hozircha urinishlar yoвЂq.",
+    "noLastContest": "SoвЂnggi kontest boвЂyicha maвЂ™lumot yoвЂq.",
+    "goToContest": "Kontestga oК»tish",
+    "noMostViewed": "Hozircha mashhur masalalar yoвЂq.",
     "allLanguagesLabel": "Barcha tillar",
     "ratingButton": "Masalalar reytingi",
     "attemptsButton": "Urinishlar",
@@ -116,22 +116,22 @@
     "unsolvedCount": "{{count}} yechilmagan",
     "rating": {
       "title": "Masalalar reytingi",
-      "subtitle": "Qiyinchiliklar bo‘yicha eng kuchli yechuvchilar.",
+      "subtitle": "Qiyinchiliklar boвЂyicha eng kuchli yechuvchilar.",
       "ordering": {
         "solved": "Yechilgan",
         "rating": "Reyting"
       },
       "columns": {
-        "rank": "O‘rin",
+        "rank": "OвЂrin",
         "user": "Foydalanuvchi",
         "rating": "Reyting",
         "solved": "Yechilgan"
       },
-      "emptyValue": "—",
+      "emptyValue": "вЂ”",
       "total": "{{count}} foydalanuvchi",
       "score": "Reyting {{value}}",
       "solved": "{{value}} yechildi",
-      "empty": "Reyting bo‘sh.",
+      "empty": "Reyting boвЂsh.",
       "periodTitle": "Eng yaxshi yechuvchilar",
       "period": {
         "today": "Bugun",
@@ -139,12 +139,13 @@
         "month": "Ushbu oy"
       },
       "periodSolved": "{{value}} ta",
-      "periodEmpty": "Hozircha ma’lumot yo‘q.",
+      "periodEmpty": "Hozircha maвЂ™lumot yoвЂq.",
       "backToProblems": "Masalalarga qaytish"
     },
     "ratingHistory": {
       "title": "Masalalar reytingi tarixi",
-      "subtitle": "Kunlik, haftalik va oylik g‘oliblar.",
+      "breadcrumb": "Tarix",
+      "subtitle": "Kunlik, haftalik va oylik gвЂoliblar.",
       "period": {
         "daily": "Kunlik",
         "weekly": "Haftalik",
@@ -156,7 +157,7 @@
         "user": "Foydalanuvchi",
         "solved": "Yechilgan"
       },
-      "empty": "Reyting tarixi hali yo‘q.",
+      "empty": "Reyting tarixi hali yoвЂq.",
       "backToRating": "Reytingga qaytish"
     },
     "detail": {
@@ -187,7 +188,7 @@
       "copied": "Nusxalandi",
       "sampleTests": "Namuna testlar",
       "inputData": "Kirish ma'lumotlari",
-      "outputData": "Chiquvchi maʻlumotlar",
+      "outputData": "Chiquvchi maК»lumotlar",
       "comment": "Izoh",
       "checkInput": "Tekshiruv kirishi",
       "save": "Saqlash",
@@ -300,3 +301,4 @@
     }
   }
 }
+

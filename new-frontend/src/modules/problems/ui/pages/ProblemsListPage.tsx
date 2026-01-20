@@ -24,6 +24,7 @@ import {
   Tab,
   TablePagination,
   Tabs,
+  TextField,
   Tooltip,
   Typography,
   alpha,
@@ -373,7 +374,9 @@ const FilterCard = ({ languages, categories, filter, onChange }: FilterCardProps
     }
 
     if (filter.difficulty) {
-      const diffLabel = difficultyOptions.find((item) => item.value === Number(filter.difficulty))?.label;
+      const diffLabel = difficultyOptions.find(
+        (item) => item.value === Number(filter.difficulty),
+      )?.label;
       items.push({
         key: 'difficulty',
         label: `${t('problems.difficultyLabel')}: ${diffLabel ? t(diffLabel) : filter.difficulty}`,
@@ -438,7 +441,7 @@ const FilterCard = ({ languages, categories, filter, onChange }: FilterCardProps
                 aria-controls={filtersOpen ? 'problems-filters-menu' : undefined}
               />
               <SearchTextField
-                sx={{minWidth: 100}}
+                sx={{ minWidth: 100 }}
                 value={filter.search ?? ''}
                 placeholder={t('problems.searchPlaceholder')}
                 onChange={(event) => onChange('search', event.target.value)}
@@ -525,9 +528,10 @@ const FilterCard = ({ languages, categories, filter, onChange }: FilterCardProps
             />
           </Stack>
 
-          <StyledTextField
+          <TextField
             select
             fullWidth
+            variant="filled"
             size="small"
             label={t('problems.language')}
             value={filter.lang ?? ''}
@@ -549,14 +553,15 @@ const FilterCard = ({ languages, categories, filter, onChange }: FilterCardProps
                 </Stack>
               </MenuItem>
             ))}
-          </StyledTextField>
+          </TextField>
 
-          <StyledTextField
+          <TextField
             select
             fullWidth
             size="small"
             label={t('problems.category')}
             value={filter.category ?? ''}
+            variant="filled"
             onChange={(event) =>
               onChange(
                 'category',
@@ -575,19 +580,21 @@ const FilterCard = ({ languages, categories, filter, onChange }: FilterCardProps
                 </Stack>
               </MenuItem>
             ))}
-          </StyledTextField>
+          </TextField>
 
-          <StyledTextField
+          <TextField
             select
             fullWidth
             size="small"
+            variant="filled"
             label={t('problems.tags')}
             value={filter.tags ?? []}
             onChange={(event) =>
               onChange(
                 'tags',
                 (event.target.value as any).map((item: any) => Number(item)),
-              )}
+              )
+            }
             SelectProps={{
               multiple: true,
               renderValue: (selected) => (
@@ -610,14 +617,15 @@ const FilterCard = ({ languages, categories, filter, onChange }: FilterCardProps
                 </Stack>
               </MenuItem>
             ))}
-          </StyledTextField>
+          </TextField>
 
-          <StyledTextField
+          <TextField
             select
             fullWidth
             size="small"
             label={t('problems.difficultyLabel')}
             value={filter.difficulty ?? ''}
+            variant="filled"
             onChange={(event) =>
               onChange(
                 'difficulty',
@@ -631,14 +639,15 @@ const FilterCard = ({ languages, categories, filter, onChange }: FilterCardProps
                 {t(item.label)}
               </MenuItem>
             ))}
-          </StyledTextField>
+          </TextField>
 
-          <StyledTextField
+          <TextField
             select
             fullWidth
             size="small"
             label={t('problems.status')}
             value={filter.status != null ? String(filter.status) : ''}
+            variant="filled"
             onChange={(event) => {
               const value = event.target.value;
               onChange('status', value === '' ? undefined : Number(value));
@@ -658,7 +667,7 @@ const FilterCard = ({ languages, categories, filter, onChange }: FilterCardProps
                 </Stack>
               </MenuItem>
             ))}
-          </StyledTextField>
+          </TextField>
         </Stack>
       </Menu>
     </>
@@ -804,7 +813,12 @@ const ProblemsList = ({
                   },
                 }}
               >
-                <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1.5}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  spacing={1.5}
+                >
                   <Stack
                     direction="row"
                     spacing={1.5}
