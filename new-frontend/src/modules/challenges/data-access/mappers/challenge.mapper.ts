@@ -82,9 +82,10 @@ export const mapChallengeCall = (payload: any): ChallengeCall => ({
 
 export const mapChallengeRating = (payload: any): ChallengeRatingRow => ({
   rowIndex: payload?.rowIndex ?? payload?.row_index ?? payload?.rank ?? 0,
-  username: payload?.username ?? '',
+  username: payload?.username ?? payload?.user?.username ?? '',
+  avatar: payload?.avatar ?? payload?.user?.avatar ?? undefined,
   rating: payload?.rating ?? 0,
-  rankTitle: payload?.rankTitle ?? payload?.rank_title ?? '',
+  rankTitle: payload?.rankTitle ?? payload?.rank_title ?? payload?.user?.rankTitle ?? payload?.user?.rank_title ?? '',
   wins: payload?.wins ?? 0,
   draws: payload?.draws ?? 0,
   losses: payload?.losses ?? 0,

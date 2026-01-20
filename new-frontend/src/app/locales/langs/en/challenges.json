@@ -56,8 +56,8 @@
     "ratingSubtitle": "Track the strongest head-to-head players.",
     "totalPlayers": "{{count}} players",
     "table": {
-      "place": "Place",
-      "username": "Username",
+      "place": "Rank",
+      "username": "User",
       "rank": "Rank",
       "rating": "Rating",
       "record": "Record",

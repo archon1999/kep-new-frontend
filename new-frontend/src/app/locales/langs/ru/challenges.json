@@ -56,7 +56,7 @@
     "ratingSubtitle": "Сильнейшие игроки в дуэлях.",
     "totalPlayers": "{{count}} игроков",
     "table": {
-      "place": "Место",
+      "place": "Ранг",
       "username": "Пользователь",
       "rank": "Ранг",
       "rating": "Рейтинг",

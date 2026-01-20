@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Stack, Typography } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -21,7 +21,7 @@ const ChallengesRatingPage = () => {
     paginationModel,
     onPaginationModelChange,
     pageParams: { page, pageSize },
-  } = useGridPagination({ initialPageSize: 12 });
+  } = useGridPagination({ initialPageSize: 10 });
   const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'rating', sort: 'desc' }]);
 
   const ordering = useMemo(() => {
@@ -35,6 +35,8 @@ const ChallengesRatingPage = () => {
 
   type RatingRow = GridValidRowModel & {
     username: string;
+    avatar?: string;
+    rowIndex: number;
     rating: number;
     rankTitle?: string;
     wins?: number;
@@ -49,16 +51,14 @@ const ChallengesRatingPage = () => {
       field: 'rowIndex',
       headerName: t('challenges.table.place'),
       width: 90,
-      headerAlign: 'center',
-      align: 'center',
+      headerAlign: 'right',
+      align: 'right',
       sortable: false,
-      renderCell: (params) => {
-        return (
-          <Typography variant="subtitle1" fontWeight={800}>
-            #{params.api.getRowIndexRelativeToVisibleRows(params.id) + 1}
-          </Typography>
-        );
-      },
+      renderCell: ({ row }) => (
+        <Typography variant="subtitle2" fontWeight={800} color="primary">
+          #{(row as RatingRow).rowIndex}
+        </Typography>
+      ),
     },
     {
       field: 'username',
@@ -67,9 +67,10 @@ const ChallengesRatingPage = () => {
       minWidth: 180,
       sortable: true,
       renderCell: ({ row }) => (
-        <UserPopover username={row.username}>
-          <Stack direction="row" spacing={0.25}>
-            <Typography variant="subtitle1" fontWeight={700} color="text.primary">
+        <UserPopover username={row.username} avatar={row.avatar}>
+          <Stack direction="row" spacing={1.25} alignItems="center" sx={{ minWidth: 0 }}>
+            <Avatar src={row.avatar} alt={row.username} sx={{ width: 42, height: 42 }} />
+            <Typography variant="subtitle2" fontWeight={600} color="text.primary" noWrap>
               {row.username}
             </Typography>
           </Stack>
@@ -80,16 +81,9 @@ const ChallengesRatingPage = () => {
       field: 'rankTitle',
       headerName: t('challenges.table.rank'),
       flex: 0.8,
-      minWidth: 140,
+      minWidth: 120,
       sortable: false,
-      renderCell: ({ value }) => (
-        <Stack direction="row" alignItems="center" spacing={1.5}>
-          <ChallengesRatingChip title={value as string} size="small" />
-          <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'capitalize' }}>
-            {value as string}
-          </Typography>
-        </Stack>
-      ),
+      renderCell: ({ value }) => <ChallengesRatingChip title={value as string} size="small" />,
     },
     {
       field: 'rating',
@@ -124,9 +118,10 @@ const ChallengesRatingPage = () => {
     },
   ];
 
-  const rows: RatingRow[] = (ratingPage?.data ?? []).map((row) => ({
+  const rows: RatingRow[] = (ratingPage?.data ?? []).map((row, index) => ({
     id: row.username,
     ...row,
+    rowIndex: (page - 1) * pageSize + index + 1,
     record: t('challenges.record', {
       wins: row?.wins ?? 0,
       draws: row?.draws ?? 0,
@@ -161,7 +156,7 @@ const ChallengesRatingPage = () => {
             setSortModel(model.length ? model : [{ field: 'rating', sort: 'desc' }])
           }
           loading={isLoading}
-          pageSizeOptions={[12, 24, 48]}
+          pageSizeOptions={[10, 20, 50]}
           disableColumnFilter
           disableColumnSelector
           disableColumnMenu
