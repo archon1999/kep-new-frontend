@@ -39,7 +39,7 @@ const UserStatisticsPage = () => {
 
   const username = currentUser?.username;
   const [page, setPage] = useState(1);
-  const pageSize = 7;
+  const pageSize = 10;
 
   const { data: userRating } = useChallengeUserRating(username);
   const { data: ratingChanges } = useChallengeRatingChanges(username);
@@ -111,9 +111,6 @@ const UserStatisticsPage = () => {
               <Card variant="outlined">
                 <CardContent>
                   <Stack spacing={1.5} direction="column">
-                    <Typography variant="subtitle2" color="text.secondary">
-                      {t('challenges.currentRank')}
-                    </Typography>
                     {userRating ? (
                       <>
                         <Stack direction="row" spacing={1} alignItems="center">
@@ -122,21 +119,16 @@ const UserStatisticsPage = () => {
                           </Typography>
                           <ChallengesRatingChip title={userRating.rankTitle} size="small" />
                         </Stack>
-                        <Typography
-                          variant="caption"
-                          color={totalRatingChange >= 0 ? 'success.main' : 'error.main'}
-                        >
-                          {t('challenges.delta', { value: totalRatingChange })}
-                        </Typography>
                         <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                          <Chip label={`W ${userRating.wins}`} size="small" color="success" variant="soft" />
-                          <Chip label={`D ${userRating.draws}`} size="small" color="warning" variant="soft" />
-                          <Chip label={`L ${userRating.losses}`} size="small" color="error" variant="soft" />
-                          <Chip
-                            label={`${t('challenges.table.matches')}: ${userRating.all}`}
-                            size="small"
-                            variant="outlined"
-                          />
+                          <Typography color="success">
+                            {`W ${userRating.wins}`}
+                          </Typography>
+                          <Typography color="textSecondary">
+                            {`D ${userRating.draws}`}
+                          </Typography>
+                          <Typography color="error">
+                            {`L ${userRating.losses}`}
+                          </Typography>
                         </Stack>
                       </>
                     ) : (

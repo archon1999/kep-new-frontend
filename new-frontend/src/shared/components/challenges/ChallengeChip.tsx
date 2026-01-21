@@ -1,4 +1,4 @@
-import { Chip, ChipProps } from '@mui/material';
+import { Chip, ChipProps, Typography } from '@mui/material';
 
 type ChallengeChipTone = 'win' | 'draw' | 'loss';
 
@@ -22,11 +22,10 @@ const ChallengeChip = ({ tone, label, sx, ...chipProps }: ChallengeChipProps) =>
     <Chip
       size="small"
       variant="soft"
-      label={label ?? style.label}
+      label={
+        <Typography variant="body2" fontFamily="monospace">{label ?? style.label}</Typography>
+      }
       sx={{
-        fontWeight: 800,
-        letterSpacing: 0.6,
-        textTransform: 'uppercase',
         color: style.color,
         bgcolor: style.background,
         borderColor: style.borderColor,

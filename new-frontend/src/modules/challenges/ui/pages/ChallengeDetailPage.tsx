@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import {
   Box,
@@ -7,23 +8,30 @@ import {
   CardContent,
   Chip,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Stack,
   Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
 import { useDocumentTitle } from 'app/providers/DocumentTitleProvider';
 import { resources } from 'app/routes/resources';
-import ChallengeQuestionCard, { ChallengeQuestionCardHandle } from '../components/ChallengeQuestionCard.tsx';
-import ChallengeResultsCard from '../components/ChallengeResultsCard.tsx';
-import ChallengeCountdown from '../components/ChallengeCountdown.tsx';
-import { useChallengeDetail } from '../../application/queries.ts';
-import { useStartChallenge, useSubmitChallengeAnswer } from '../../application/mutations.ts';
-import { ChallengeQuestionTimeType, ChallengeStatus } from '../../domain';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import KepIcon from 'shared/components/base/KepIcon.tsx';
 import { responsivePagePaddingSx } from 'shared/lib/styles';
+import { toast } from 'sonner';
+import { useStartChallenge, useSubmitChallengeAnswer } from '../../application/mutations.ts';
+import { useChallengeDetail } from '../../application/queries.ts';
+import { ChallengeQuestionTimeType, ChallengeStatus } from '../../domain';
+import ChallengeCountdown from '../components/ChallengeCountdown.tsx';
+import ChallengeQuestionCard, {
+  ChallengeQuestionCardHandle,
+} from '../components/ChallengeQuestionCard.tsx';
+import ChallengeResultsCard from '../components/ChallengeResultsCard.tsx';
+import ChallengeUserChip from '../components/ChallengeUserChip.tsx';
 
 dayjs.extend(relativeTime);
 
@@ -53,20 +61,13 @@ const ChallengeDetailPage = () => {
   const timerStartedRef = useRef(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [startDialogOpen, setStartDialogOpen] = useState(false);
+  const [finishDialogOpen, setFinishDialogOpen] = useState(false);
 
-  const question = useMemo(() => challenge?.nextQuestion?.question, [challenge?.nextQuestion?.question]);
-
-  const statusLabel = useMemo(() => {
-    if (!challenge) return '';
-    switch (challenge.status) {
-      case ChallengeStatus.Finished:
-        return t('challenges.statusFinished');
-      case ChallengeStatus.NotStarted:
-        return t('challenges.statusNotStarted');
-      default:
-        return t('challenges.statusInProgress');
-    }
-  }, [challenge, t]);
+  const question = useMemo(
+    () => challenge?.nextQuestion?.question,
+    [challenge?.nextQuestion?.question],
+  );
 
   useEffect(() => {
     if (!challenge || challenge.status !== ChallengeStatus.Already || !question) {
@@ -83,7 +84,14 @@ const ChallengeDetailPage = () => {
       setTimerRunning(true);
       timerStartedRef.current = true;
     }
-  }, [challenge?.id, challenge?.status, challenge?.nextQuestion?.number, challenge?.questionTimeType, challenge?.timeSeconds, question]);
+  }, [
+    challenge?.id,
+    challenge?.status,
+    challenge?.nextQuestion?.number,
+    challenge?.questionTimeType,
+    challenge?.timeSeconds,
+    question,
+  ]);
 
   useEffect(() => {
     if (!timerRunning || secondsLeft <= 0) return;
@@ -104,6 +112,7 @@ const ChallengeDetailPage = () => {
     if (!challenge) return;
     await startChallenge(challenge.id);
     await mutate();
+    setStartDialogOpen(false);
   };
 
   const handleSubmit = async (payload: { answer: unknown; isFinish?: boolean }) => {
@@ -127,6 +136,13 @@ const ChallengeDetailPage = () => {
     navigate(resources.Challenges);
   };
 
+  const handleFinishClose = () => {
+    setFinishDialogOpen(false);
+    goBack();
+  };
+
+  const handleStayOnPage = () => setFinishDialogOpen(false);
+
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ p: 5 }}>
@@ -144,50 +160,20 @@ const ChallengeDetailPage = () => {
   }
 
   const showQuestion = challenge.status === ChallengeStatus.Already && question;
+  const timerModeLabel =
+    challenge.questionTimeType === ChallengeQuestionTimeType.TimeToOne
+      ? t('challenges.timer.perQuestion')
+      : t('challenges.timer.wholeChallenge');
 
   return (
     <Box sx={responsivePagePaddingSx}>
       <Stack spacing={3} direction="column">
-        <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={1}>
-          <Stack spacing={0.5} direction="column">
-            <Typography variant="h4" fontWeight={800}>
-              {t('challenges.detailTitle')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {t('challenges.detailSubtitle', { time: dayjs(challenge.finished || undefined).fromNow() })}
-            </Typography>
-          </Stack>
-          <Stack direction="row" spacing={1}>
-            <Button variant="text" onClick={goBack}>
-              {t('common.back')}
-            </Button>
-            {challenge.status === ChallengeStatus.NotStarted && (
-              <Button variant="contained" onClick={handleStart} disabled={starting}>
-                {t('challenges.start')}
-              </Button>
-            )}
-          </Stack>
-        </Stack>
-
-        <Card variant="outlined">
-          <CardContent>
-            <Stack spacing={1.5} direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" useFlexGap>
-              <Chip label={statusLabel} color={challenge.status === ChallengeStatus.Finished ? 'success' : 'primary'} variant="soft" />
-              <Stack direction="row" spacing={1}>
-                <Chip label={challenge.rated ? t('challenges.rated') : t('challenges.unrated')} variant="outlined" />
-                <Chip label={t('challenges.questionsCount', { count: challenge.questionsCount })} variant="outlined" />
-                <Chip label={t('challenges.timeLimitShort', { seconds: challenge.timeSeconds })} variant="outlined" />
-              </Stack>
-            </Stack>
-          </CardContent>
-        </Card>
-
         <Grid container spacing={3}>
-          <Grid size={{ xs: 12, md: 4 }}>
+          <Grid size={{ xs: 12, md: 3 }}>
             <ChallengeResultsCard challenge={challenge} />
           </Grid>
 
-          <Grid size={{ xs: 12, md: 5 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             {showQuestion ? (
               <ChallengeQuestionCard
                 ref={questionCardRef}
@@ -197,48 +183,122 @@ const ChallengeDetailPage = () => {
                 isSubmitting={submitting}
               />
             ) : (
-              <Card variant="outlined">
+              <Card variant="outlined" sx={{ height: '100%' }}>
                 <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    {challenge.status === ChallengeStatus.Finished
-                      ? t('challenges.finishedDescription')
-                      : t('challenges.waitingForStart')}
-                  </Typography>
+                  <Stack spacing={2}>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <KepIcon name="challenge-time" fontSize={20} color="primary.main" />
+                      <Typography variant="subtitle1" fontWeight={700}>
+                        {challenge.status === ChallengeStatus.Finished
+                          ? t('challenges.statusFinished')
+                          : t('challenges.statusNotStarted')}
+                      </Typography>
+                    </Stack>
+                    <Typography variant="body2" color="text.secondary">
+                      {challenge.status === ChallengeStatus.Finished
+                        ? t('challenges.finishedDescription')
+                        : t('challenges.waitingForStart')}
+                    </Typography>
+                    {challenge.status === ChallengeStatus.NotStarted ? (
+                      <Button
+                        variant="contained"
+                        onClick={handleStart}
+                        disabled={starting}
+                        sx={{ alignSelf: 'flex-start' }}
+                      >
+                        {t('challenges.start')}
+                      </Button>
+                    ) : null}
+                  </Stack>
                 </CardContent>
               </Card>
             )}
           </Grid>
 
           <Grid size={{ xs: 12, md: 3 }}>
-            <Stack direction="row" spacing={2}>
+            <Stack direction="column" spacing={2} height="100%">
               <ChallengeCountdown
                 secondsLeft={secondsLeft}
                 totalSeconds={challenge.timeSeconds}
-                chapterTitle={question?.chapter?.title}
-                chapterIcon={question?.chapter?.icon}
                 mode={challenge.questionTimeType}
               />
-              <Card variant="outlined">
-                <CardContent>
-                  <Stack spacing={1} direction="column">
-                    <Typography variant="subtitle2" color="text.secondary">
-                      {t('challenges.detailSubtitle', { time: dayjs(challenge.finished || undefined).fromNow() })}
-                    </Typography>
-                    {challenge.status === ChallengeStatus.Finished && (
-                      <Typography variant="body2">{t('challenges.finishedDescription')}</Typography>
-                    )}
-                    {challenge.status === ChallengeStatus.Already && (
-                      <Typography variant="body2" color="text.secondary">
-                        {t('challenges.activeQuestion', { number: challenge.nextQuestion?.number })}
-                      </Typography>
-                    )}
-                  </Stack>
-                </CardContent>
-              </Card>
             </Stack>
           </Grid>
         </Grid>
       </Stack>
+
+      <Dialog
+        open={startDialogOpen}
+        onClose={() => setStartDialogOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <KepIcon name="challenge-time" fontSize={20} color="primary.main" />
+            <Typography variant="h6">{t('challenges.startDialogTitle')}</Typography>
+          </Stack>
+        </DialogTitle>
+        <DialogContent dividers>
+          <Stack spacing={2}>
+            <Typography variant="body2" color="text.secondary">
+              {t('challenges.startDialogSubtitle')}
+            </Typography>
+            <Stack
+              direction="row"
+              spacing={1}
+              justifyContent="space-between"
+              alignItems="center"
+              flexWrap="wrap"
+              useFlexGap
+            >
+              <ChallengeUserChip player={challenge.playerFirst} />
+              <Typography variant="h6" fontWeight={900} color="primary.main">
+                VS
+              </Typography>
+              <ChallengeUserChip player={challenge.playerSecond} align="right" />
+            </Stack>
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              <Chip
+                label={challenge.rated ? t('challenges.rated') : t('challenges.unrated')}
+                variant="outlined"
+              />
+              <Chip label={t('challenges.questionsCount', { count: challenge.questionsCount })} />
+              <Chip label={t('challenges.timeLimitShort', { seconds: challenge.timeSeconds })} />
+              <Chip label={timerModeLabel} />
+            </Stack>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setStartDialogOpen(false)}>{t('common.close')}</Button>
+          <Button variant="contained" onClick={handleStart} disabled={starting}>
+            {t('challenges.start')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={finishDialogOpen} onClose={handleStayOnPage} fullWidth maxWidth="md">
+        <DialogTitle>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <KepIcon name="challenge" fontSize={20} color="success.main" />
+            <Typography variant="h6">{t('challenges.finishDialogTitle')}</Typography>
+          </Stack>
+        </DialogTitle>
+        <DialogContent dividers>
+          <Stack spacing={2}>
+            <Typography variant="body2" color="text.secondary">
+              {t('challenges.finishedDescription')}
+            </Typography>
+            <ChallengeResultsCard challenge={challenge} />
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleStayOnPage}>{t('common.close')}</Button>
+          <Button variant="contained" onClick={handleFinishClose}>
+            {t('challenges.backToList')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

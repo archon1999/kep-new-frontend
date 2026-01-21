@@ -8,10 +8,7 @@ interface ChallengeUserChipProps {
   highlight?: boolean;
 }
 
-const ChallengeUserChip = ({
-  player,
-  align = 'left',
-}: ChallengeUserChipProps) => (
+const ChallengeUserChip = ({ player, align = 'left' }: ChallengeUserChipProps) => (
   <Stack
     direction="row"
     spacing={1.5}
@@ -21,7 +18,12 @@ const ChallengeUserChip = ({
       justifyContent: align === 'left' ? 'flex-start' : 'flex-end',
     }}
   >
-    <Stack spacing={1} direction="row" alignItems={align === 'left' ? 'flex-start' : 'flex-end'}>
+    <Stack
+      spacing={1}
+      direction="row"
+      alignItems={align === 'left' ? 'flex-start' : 'flex-end'}
+      flexDirection={align == 'left' ? 'row' : 'row-reverse'}
+    >
       <ChallengesRatingChip title={player.rankTitle} size="small" />
       <Typography variant="subtitle2" fontWeight={700}>
         {player.username}

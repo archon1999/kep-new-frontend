@@ -40,6 +40,9 @@
     "answerPending": "Pending",
     "detailTitle": "Challenge details",
     "detailSubtitle": "Last update {{time}}",
+    "startDialogTitle": "Ready to start?",
+    "startDialogSubtitle": "Check the matchup and hit start when you're ready.",
+    "finishDialogTitle": "Challenge finished",
     "statusFinished": "Finished",
     "start": "Start challenge",
     "backToList": "Back to list",
@@ -55,6 +58,8 @@
     "notFound": "Challenge not found.",
     "ratingTitle": "Challenge rating",
     "ratingSubtitle": "Track the strongest head-to-head players.",
+    "perQuestionResults": "Per-question results",
+    "newRating": "New rating",
     "totalPlayers": "{{count}} players",
     "table": {
       "place": "Rank",

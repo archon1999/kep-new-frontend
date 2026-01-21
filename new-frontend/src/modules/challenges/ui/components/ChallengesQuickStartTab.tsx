@@ -45,63 +45,51 @@ const ChallengesQuickStartTab = ({
   return (
     <Grid container spacing={3}>
       <Grid size={{ xs: 12, lg: 8 }}>
-        <Card
-          variant="outlined"
-          sx={{
-            height: '100%',
-            borderRadius: 3,
-            background: 'linear-gradient(135deg, rgba(25,118,210,0.08), rgba(0,171,85,0.1))',
-            borderColor: 'primary.lighter',
-          }}
-        >
-          <CardContent sx={{ height: '100%' }}>
-            <Stack spacing={3} direction="column" height="100%">
-              <Stack direction="row" spacing={1} alignItems="center">
-                <KepIcon name="challenge" fontSize={26} color="primary.main" />
-                <Typography variant="h6">{t('challenges.quickStartTitle')}</Typography>
-              </Stack>
-              <Typography variant="body2" color="text.secondary">
-                {t('challenges.quickStartSubtitle')}
-              </Typography>
+        <Stack spacing={3} direction="column" height="100%">
+          <Stack direction="row" spacing={1} alignItems="center">
+            <KepIcon name="challenge" fontSize={26} color="primary.main" />
+            <Typography variant="h6">{t('challenges.quickStartTitle')}</Typography>
+          </Stack>
+          <Typography variant="body2" color="text.secondary">
+            {t('challenges.quickStartSubtitle')}
+          </Typography>
 
-              <Grid container spacing={1.5}>
-                {quickStarts.map((item) => (
-                  <Grid
-                    key={`${item.timeSeconds}-${item.questionsCount}`}
-                    size={{ xs: 12, sm: 6, md: 3 }}
-                  >
-                    <Button
-                      fullWidth
-                      color="primary"
-                      variant="contained"
-                      onClick={() => onQuickStart(item)}
-                      disabled={isCreating || isAccepting}
-                      sx={{
-                        justifyContent: 'flex-start',
-                        borderRadius: 2,
-                        minHeight: 72,
-                        backgroundColor: 'primary.main',
-                      }}
+          <Grid container spacing={1.5}>
+            {quickStarts.map((item) => (
+              <Grid
+                key={`${item.timeSeconds}-${item.questionsCount}`}
+                size={{ xs: 12, md: 6, lg: 3 }}
+              >
+                <Button
+                  fullWidth
+                  color="primary"
+                  variant="contained"
+                  onClick={() => onQuickStart(item)}
+                  disabled={isCreating || isAccepting}
+                  sx={{
+                    justifyContent: 'flex-start',
+                    borderRadius: 2,
+                    minHeight: 72,
+                    backgroundColor: 'primary.main',
+                  }}
+                >
+                  <Stack direction="column" spacing={0.25} alignItems="flex-start">
+                    <Typography variant="subtitle2" fontWeight={800}>
+                      {t('challenges.quickStartButton', item)}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      color="primary.contrastText"
+                      sx={{ opacity: 0.8 }}
                     >
-                      <Stack direction="column" spacing={0.25} alignItems="flex-start">
-                        <Typography variant="subtitle2" fontWeight={800}>
-                          {t('challenges.quickStartButton', item)}
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          color="primary.contrastText"
-                          sx={{ opacity: 0.8 }}
-                        >
-                          {t('challenges.timeLimitShort', { seconds: item.timeSeconds })}
-                        </Typography>
-                      </Stack>
-                    </Button>
-                  </Grid>
-                ))}
+                      {t('challenges.timeLimitShort', { seconds: item.timeSeconds })}
+                    </Typography>
+                  </Stack>
+                </Button>
               </Grid>
-            </Stack>
-          </CardContent>
-        </Card>
+            ))}
+          </Grid>
+        </Stack>
       </Grid>
 
       <Grid size={{ xs: 12, lg: 4 }}>

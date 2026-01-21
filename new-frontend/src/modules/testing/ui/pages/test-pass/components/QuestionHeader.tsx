@@ -7,9 +7,9 @@ interface QuestionHeaderProps {
 
 const QuestionHeader = ({ question }: QuestionHeaderProps) => (
   <Box sx={{ mb: 2 }}>
-    <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 0.5 }}>
-      {question.number}.
-    </Typography>
+    {/*<Typography variant="subtitle2" color="text.secondary" sx={{ mb: 0.5 }}>*/}
+    {/*  {question.number}.*/}
+    {/*</Typography>*/}
     {question.body ? (
       <Typography
         variant="h6"

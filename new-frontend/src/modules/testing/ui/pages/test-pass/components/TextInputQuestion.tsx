@@ -11,7 +11,7 @@ interface TextInputQuestionProps {
 const TextInputQuestion = ({ question, value, onChange }: TextInputQuestionProps) => (
   <Stack direction="column" spacing={2}>
     <QuestionHeader question={question} />
-    <TextField value={value} onChange={(event) => onChange(event.target.value)} fullWidth />
+    <TextField variant="standard" value={value} onChange={(event) => onChange(event.target.value)} fullWidth />
   </Stack>
 );
 

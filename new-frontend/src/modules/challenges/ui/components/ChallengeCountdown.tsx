@@ -1,5 +1,5 @@
-import { Card, CardContent, LinearProgress, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { Card, CardContent, LinearProgress, Stack, Typography } from '@mui/material';
 import { ChallengeQuestionTimeType } from '../../domain';
 
 interface ChallengeCountdownProps {
@@ -13,12 +13,12 @@ interface ChallengeCountdownProps {
 const ChallengeCountdown = ({
   secondsLeft,
   totalSeconds,
-  chapterTitle,
-  chapterIcon,
   mode,
 }: ChallengeCountdownProps) => {
   const { t } = useTranslation();
-  const progress = totalSeconds ? Math.max(0, Math.min(100, (secondsLeft / totalSeconds) * 100)) : 0;
+  const progress = totalSeconds
+    ? Math.max(0, Math.min(100, (secondsLeft / totalSeconds) * 100))
+    : 0;
 
   const minutes = Math.floor(secondsLeft / 60)
     .toString()
@@ -42,14 +42,6 @@ const ChallengeCountdown = ({
                 {minutes}:{seconds}
               </Typography>
             </Stack>
-            {chapterTitle ? (
-              <Stack direction="row" spacing={1} alignItems="center">
-                {chapterIcon ? <img src={chapterIcon} alt={chapterTitle} width={36} /> : null}
-                <Typography variant="body2" color="text.secondary">
-                  {chapterTitle}
-                </Typography>
-              </Stack>
-            ) : null}
           </Stack>
 
           <LinearProgress variant="determinate" value={progress} />

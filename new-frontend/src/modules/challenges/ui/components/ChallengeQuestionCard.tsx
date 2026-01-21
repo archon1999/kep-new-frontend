@@ -239,8 +239,8 @@ const ChallengeQuestionCard = forwardRef<ChallengeQuestionCardHandle, ChallengeQ
       <CardContent>
         <Stack direction="column" spacing={2}>
           <Stack direction="row" alignItems="center" spacing={1} justifyContent="space-between">
-            <Typography variant="overline" color="text.secondary">
-              {t('challenges.questionNumber', { number: question.number })}
+            <Typography variant="body1" fontWeight={500}>
+              #{question.number}
             </Typography>
             {question.chapter ? (
               <Stack direction="row" spacing={1} alignItems="center">
