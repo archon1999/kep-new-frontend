@@ -45,6 +45,7 @@
                        "backToList":  "Ro\u0027yxatga qaytish",
                        "finishedDescription":  "Bellashuv yakunlandi. Natijalar yuqorida.",
                        "waitingForStart":  "Bellashuv ikki o\u0027yinchi tayyor bo\u0027lganda boshlanadi.",
+                       "blurError":  "Bellashuv paytida brauzer fokusini boshqa narsaga o\u0027zgartirishga ruxsat berilmaydi.",
                        "questionNumber":  "Savol #{{number}}",
                        "activeQuestion":  "Faol savol #{{number}}",
                        "yourAnswer":  "Javobingiz",

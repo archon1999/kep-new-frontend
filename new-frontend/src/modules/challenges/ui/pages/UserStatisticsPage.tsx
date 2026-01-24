@@ -1,22 +1,18 @@
 import { useMemo, useState } from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  Pagination,
-  Stack,
-  Typography,
-} from '@mui/material';
-import Grid from '@mui/material/Grid';
 import { useTranslation } from 'react-i18next';
+import { Box, Card, CardContent, Pagination, Stack, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import { useAuth } from 'app/providers/AuthProvider.tsx';
+import { resources } from 'app/routes/resources';
 import { LineChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
+import type { EChartsCoreOption } from 'echarts/core';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import type { EChartsCoreOption } from 'echarts/core';
-import { useAuth } from 'app/providers/AuthProvider.tsx';
 import ReactEchart from 'shared/components/base/ReactEchart.tsx';
+import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
+import PageHeader from 'shared/components/sections/common/PageHeader';
+import { responsivePagePaddingSx } from 'shared/lib/styles';
 import {
   useChallengeRatingChanges,
   useChallengeUserRating,
@@ -24,10 +20,6 @@ import {
 } from '../../application/queries.ts';
 import ChallengeCard from '../components/ChallengeCard.tsx';
 import ChallengeUserChip from '../components/ChallengeUserChip.tsx';
-import ChallengesRatingChip from 'shared/components/rating/ChallengesRatingChip.tsx';
-import { responsivePagePaddingSx } from 'shared/lib/styles';
-import PageHeader from 'shared/components/sections/common/PageHeader';
-import { resources } from 'app/routes/resources';
 
 echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
@@ -48,11 +40,6 @@ const UserStatisticsPage = () => {
     page,
     pageSize,
   });
-
-  const totalRatingChange = useMemo(
-    () => (ratingChanges ?? []).reduce((acc, item) => acc + (item.value ?? 0), 0),
-    [ratingChanges],
-  );
 
   const ratingChangesOptions: EChartsCoreOption = useMemo(
     () => ({
@@ -120,15 +107,9 @@ const UserStatisticsPage = () => {
                           <ChallengesRatingChip title={userRating.rankTitle} size="small" />
                         </Stack>
                         <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                          <Typography color="success">
-                            {`W ${userRating.wins}`}
-                          </Typography>
-                          <Typography color="textSecondary">
-                            {`D ${userRating.draws}`}
-                          </Typography>
-                          <Typography color="error">
-                            {`L ${userRating.losses}`}
-                          </Typography>
+                          <Typography color="success">{`W ${userRating.wins}`}</Typography>
+                          <Typography color="textSecondary">{`D ${userRating.draws}`}</Typography>
+                          <Typography color="error">{`L ${userRating.losses}`}</Typography>
                         </Stack>
                       </>
                     ) : (

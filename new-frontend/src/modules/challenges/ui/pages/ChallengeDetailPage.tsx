@@ -63,6 +63,7 @@ const ChallengeDetailPage = () => {
   const [timerRunning, setTimerRunning] = useState(false);
   const [startDialogOpen, setStartDialogOpen] = useState(false);
   const [finishDialogOpen, setFinishDialogOpen] = useState(false);
+  const [blurDialogOpen, setBlurDialogOpen] = useState(false);
 
   const question = useMemo(
     () => challenge?.nextQuestion?.question,
@@ -108,6 +109,18 @@ const ChallengeDetailPage = () => {
     });
   }, [timerRunning, secondsLeft, challenge?.questionTimeType]);
 
+  useEffect(() => {
+    const handleBlur = () => {
+      if (!challenge?.nextQuestion?.question || challenge.status === ChallengeStatus.Finished) {
+        return;
+      }
+      setBlurDialogOpen(true);
+    };
+
+    window.addEventListener('blur', handleBlur);
+    return () => window.removeEventListener('blur', handleBlur);
+  }, [challenge]);
+
   const handleStart = async () => {
     if (!challenge) return;
     await startChallenge(challenge.id);
@@ -142,6 +155,11 @@ const ChallengeDetailPage = () => {
   };
 
   const handleStayOnPage = () => setFinishDialogOpen(false);
+
+  const handleBlurDialogClose = async () => {
+    setBlurDialogOpen(false);
+    await mutate();
+  };
 
   if (isLoading) {
     return (
@@ -296,6 +314,25 @@ const ChallengeDetailPage = () => {
           <Button onClick={handleStayOnPage}>{t('common.close')}</Button>
           <Button variant="contained" onClick={handleFinishClose}>
             {t('challenges.backToList')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={blurDialogOpen} onClose={handleBlurDialogClose} fullWidth maxWidth="sm">
+        <DialogTitle>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <KepIcon name="challenge" fontSize={20} color="error.main" />
+            <Typography variant="h6">{t('challenges.blurError')}</Typography>
+          </Stack>
+        </DialogTitle>
+        <DialogContent dividers>
+          <Typography variant="body2" color="text.secondary">
+            {t('challenges.blurError')}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={handleBlurDialogClose}>
+            {t('common.close')}
           </Button>
         </DialogActions>
       </Dialog>

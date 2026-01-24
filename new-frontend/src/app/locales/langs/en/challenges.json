@@ -48,6 +48,7 @@
     "backToList": "Back to list",
     "finishedDescription": "The challenge has finished. Check the final results above.",
     "waitingForStart": "The challenge will start as soon as both players are ready.",
+    "blurError": "During a challenge, it is forbidden to change the browser focus to something else.",
     "questionNumber": "Question #{{number}}",
     "activeQuestion": "Question #{{number}} is active",
     "yourAnswer": "Your answer",
